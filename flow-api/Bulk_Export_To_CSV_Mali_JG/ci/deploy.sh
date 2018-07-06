@@ -41,6 +41,6 @@ fi
 log Pushing images
 gcloud docker -- push eu.gcr.io/${PROJECT_NAME}/tech-consultancy-export-csv-mali
 
-sed -e "s/\${BUILD_HASH}/$TRAVIS_COMMIT/" ci/k8s/cronjob.yaml.template > cronjob.mali.yaml.donotcommit
+sed -e "s/\${TRAVIS_COMMIT}/$TRAVIS_COMMIT/" ci/k8s/cronjob.yaml.template > cronjob.mali.yaml.donotcommit
 
 kubectl apply -f cronjob.mali.yaml.donotcommit
