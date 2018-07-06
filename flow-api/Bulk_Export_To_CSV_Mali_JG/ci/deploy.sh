@@ -6,7 +6,7 @@ function log {
    echo "$(date +"%T") - INFO - $*"
 }
 
-export PROJECT_NAME=akvo-tech-consultancy
+export PROJECT_NAME=akvo-lumen
 
 if [[ "${TRAVIS_BRANCH}" != "develop" ]] && [[ "${TRAVIS_BRANCH}" != "master" ]]; then
     exit 0

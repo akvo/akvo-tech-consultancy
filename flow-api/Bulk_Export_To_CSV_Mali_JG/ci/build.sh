@@ -5,7 +5,7 @@ function log {
    echo "$(date +"%T") - INFO - $*"
 }
 
-export PROJECT_NAME=akvo-tech-consultancy
+export PROJECT_NAME=akvo-lumen
 
 if [ -z "$TRAVIS_COMMIT" ]; then
     export TRAVIS_COMMIT=local
