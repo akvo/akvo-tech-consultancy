@@ -11,7 +11,8 @@ if [ -z "$TRAVIS_COMMIT" ]; then
     export TRAVIS_COMMIT=local
 fi
 
-cd "Flow API/Bulk_Export_To_CSV_Mali_JG"
+cd "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd ..
 
 log Creating Production image
 
