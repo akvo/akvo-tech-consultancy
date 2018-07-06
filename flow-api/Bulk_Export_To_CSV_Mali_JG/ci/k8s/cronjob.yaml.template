@@ -5,7 +5,7 @@ metadata:
 spec:
   schedule: "*/1 * * * *"
   startingDeadlineSeconds: 600 # it is ok to start the job 10 minutes late
-  concurrencyPolicy: Forbid
+  concurrencyPolicy: Allow
   failedJobsHistoryLimit: 5
   successfulJobsHistoryLimit: 10
   jobTemplate:
@@ -14,7 +14,7 @@ spec:
         cronjob: export-csv-mali # <-- for monitoring
     spec:
       backoffLimit: 6 # default
-      activeDeadlineSeconds: 90
+      activeDeadlineSeconds: 300
       template:
         metadata:
           labels:
