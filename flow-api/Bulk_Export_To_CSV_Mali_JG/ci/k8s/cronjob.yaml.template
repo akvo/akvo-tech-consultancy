@@ -1,0 +1,26 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: export-csv-mali
+spec:
+  schedule: "*/1 * * * *"
+  startingDeadlineSeconds: 600 # it is ok to start the job 10 minutes late
+  concurrencyPolicy: Forbid
+  failedJobsHistoryLimit: 5
+  successfulJobsHistoryLimit: 10
+  jobTemplate:
+    metadata:
+      labels:
+        cronjob: export-csv-mali # <-- for monitoring
+    spec:
+      backoffLimit: 6 # default
+      template:
+        metadata:
+          labels:
+            cronjob: export-csv-mali
+        spec:
+          activeDeadlineSeconds: 900
+          containers:
+          - name: exporter
+            image: akvo/tech-consultancy-export-csv-mali:${TRAVIS_COMMIT}
+          restartPolicy: Never
