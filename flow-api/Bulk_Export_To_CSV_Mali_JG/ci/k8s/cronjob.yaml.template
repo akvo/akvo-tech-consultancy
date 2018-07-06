@@ -22,5 +22,5 @@ spec:
           activeDeadlineSeconds: 900
           containers:
           - name: exporter
-            image: akvo/tech-consultancy-export-csv-mali:${TRAVIS_COMMIT}
+            image: eu.gcr.io/avko-lumen/tech-consultancy-export-csv-mali:${TRAVIS_COMMIT}
           restartPolicy: Never
