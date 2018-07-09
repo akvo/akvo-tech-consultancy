@@ -22,5 +22,5 @@ spec:
         spec:
           containers:
           - name: exporter
-            image: eu.gcr.io/avko-lumen/tc-export-csv-mali:${TRAVIS_COMMIT}
+            image: eu.gcr.io/avko-lumen/tech-consultancy-export-csv-mali:${TRAVIS_COMMIT}
           restartPolicy: Never

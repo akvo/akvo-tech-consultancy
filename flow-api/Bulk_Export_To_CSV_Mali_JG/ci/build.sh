@@ -13,7 +13,6 @@ fi
 
 log Creating Production image
 
-docker build --rm=false -t eu.gcr.io/${PROJECT_NAME}/tc-export-csv-mali:${TRAVIS_COMMIT} .
-docker tag eu.gcr.io/${PROJECT_NAME}/tc-export-csv-mali:${TRAVIS_COMMIT} eu.gcr.io/${PROJECT_NAME}/tc-export-csv-mali:develop
+docker build --rm=false -t eu.gcr.io/${PROJECT_NAME}/tech-consultancy-export-csv-mali:${TRAVIS_COMMIT} .
 
 log Done
