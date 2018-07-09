@@ -39,7 +39,8 @@ else
 fi
 
 log Pushing images
-gcloud docker -- push eu.gcr.io/${PROJECT_NAME}/tech-consultancy-export-csv-mali
+gcloud auth configure-docker
+docker push eu.gcr.io/${PROJECT_NAME}/tech-consultancy-export-csv-mali
 
 sed -e "s/\${TRAVIS_COMMIT}/$TRAVIS_COMMIT/" ci/k8s/cronjob.yaml.template > cronjob.mali.yaml.donotcommit
 
