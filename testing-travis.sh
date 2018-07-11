@@ -5,6 +5,7 @@ set -eu
 if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
     COMMIT_RANGE="FETCH_HEAD..$TRAVIS_BRANCH"
     echo "travis PR #$TRAVIS_PULL_REQUEST build, looking at files in $COMMIT_RANGE"
+    COMMIT_CONTENT=`git diff --name-only $COMMIT_RANGE`
 else
     COMMIT_RANGE=${TRAVIS_COMMIT_RANGE/.../..}
     echo "travis push build, looking at files in $COMMIT_RANGE"
