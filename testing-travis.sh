@@ -1,15 +1,10 @@
 #!/bin/bash
 
-set -ev
+set -eu
 
 if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
     COMMIT_RANGE="FETCH_HEAD..$TRAVIS_BRANCH"
     echo "travis PR #$TRAVIS_PULL_REQUEST build, looking at files in $COMMIT_RANGE"
-    COMMIT_CONTENT=`git diff --name-only $COMMIT_RANGE` || {
-      echo "travis PR range diff failed, probably on maintenance branch, falling back to full tests"
-      COMMIT_CONTENT="FULL TEST PLEASE!"
-    }
-    echo "PR content: $COMMIT_CONTENT"
 else
     COMMIT_RANGE=${TRAVIS_COMMIT_RANGE/.../..}
     echo "travis push build, looking at files in $COMMIT_RANGE"
@@ -22,5 +17,22 @@ else
         COMMIT_CONTENT=`git diff-tree --no-commit-id --name-only -r $TRAVIS_COMMIT`
       }
     fi
-    echo "commits content: $COMMIT_CONTENT"
 fi
+
+echo "commits content: $COMMIT_CONTENT"
+
+# Directories two level deep
+DIRS=$(echo "$COMMIT_CONTENT" | grep ".*/.*/.*" | cut -f -2 -d/ | sort -u)
+
+while read -r line; do
+    if [ -f "$line/ci/build.sh" ]; then
+        echo "Building $line"
+        pushd "$line"
+        ./ci/build.sh
+        if [ -f "ci/deploy.sh" ]; then
+            echo "Deploying $line"
+            ./ci/deploy.sh
+        fi
+        popd
+    fi
+done <<< "$DIRS"
