@@ -7,4 +7,3 @@ KEYCLOAK_PWD
 set as env variables
 
 Note: All questions of the form must have unique Variable Names
-
