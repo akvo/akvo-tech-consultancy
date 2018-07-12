@@ -32,6 +32,9 @@ spec:
                preStop:
                    exec:
                       command: ["wget", "http://localhost:1500/"]
+               postStart:
+                   exec:
+                      command: ["echo", "'hi'"]
           - name: copy-to-gs
             image: gophernet/netcat
             command: ["/bin/sh", "-c"]
