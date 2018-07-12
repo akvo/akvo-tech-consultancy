@@ -104,7 +104,11 @@ def getData(survey_id, form_id):
             else:
                 url = postURI + '/add_price_return_newid'
                 r = requests.post(url, data = payload(resp), headers = headers)
-                log = r.text
+                try:
+                    log = xmltodict.parse(r.text)
+                    log = log['string']['#text']
+                except xmltodict.expat.ExpatError:
+                    log = r.text
             collections.append({
                 'id': answer['id'],
                 'submitter':answer['submitter'],
