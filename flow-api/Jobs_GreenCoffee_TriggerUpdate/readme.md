@@ -26,6 +26,11 @@ $ sh kill.sh
 * Stopping the program
 ```
 
+## Docker Container 
+```
+$ docker-compose up 
+```
+
 ## List of Endpoint
 ```
 // Show folders
