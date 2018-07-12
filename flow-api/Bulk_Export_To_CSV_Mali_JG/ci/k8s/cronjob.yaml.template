@@ -23,11 +23,17 @@ spec:
           containers:
           - name: exporter
             image: eu.gcr.io/akvo-lumen/tech-consultancy-export-csv-mali:${TRAVIS_COMMIT}
+            resources:
+              requests:
+                cpu: "5m"
+              limits:
+                cpu: "1000m"
             lifecycle:
                preStop:
                  httpGet:
                    path: "/abort"
                    port: 1500
+                   host: 127.0.0.1
                postStart:
                    exec:
                       command: ["/bin/sh", "-c", "echo Hello from the postStart handler"]
@@ -40,4 +46,9 @@ spec:
             args:
               - |
                 nc -l -p 1500 -v -e 'echo -e "HTTP/1.1 200 OK\n\n $(date)"'; echo "Broken!!!!"
+            resources:
+              requests:
+                cpu: "5m"
+              limits:
+                cpu: "1000m"
           restartPolicy: Never
