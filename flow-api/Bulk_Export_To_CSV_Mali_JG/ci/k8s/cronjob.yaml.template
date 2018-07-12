@@ -30,13 +30,8 @@ spec:
                 cpu: "1000m"
             lifecycle:
                preStop:
-                 httpGet:
-                   path: "/abort"
-                   port: 1500
-                   host: 127.0.0.1
-               postStart:
                    exec:
-                      command: ["/bin/sh", "-c", "echo Hello from the postStart handler"]
+                      command: ["wget", "http://localhost:1500/"]
           - name: copy-to-gs
             image: gophernet/netcat
             command: ["/bin/sh", "-c"]
