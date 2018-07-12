@@ -33,7 +33,7 @@ spec:
             ports:
             - containerPort: 1500
               protocol: TCP
-            command: ["/bin/bash", "-c"]
+            command: ["/bin/sh", "-c"]
             args:
               - |
                 nc -l -p 1500 -c 'echo -e "HTTP/1.1 200 OK\n\n $(date)"'; echo "Broken!!!!"
