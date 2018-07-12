@@ -26,8 +26,9 @@ $ sh kill.sh
 * Stopping the program
 ```
 
-## Docker Container 
+## Alternative Installation 
 ```
+// using docker
 $ docker-compose up 
 ```
 
