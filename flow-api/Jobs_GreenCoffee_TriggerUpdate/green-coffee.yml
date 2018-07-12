@@ -35,5 +35,6 @@ dependencies:
   - wheel=0.31.0=py36_0
   - xz=5.2.3=h727817e_4
   - zlib=1.2.11=hf3cbc9b_2
+  - xmltodict==0.11.0=py36_0
   - pip:
     - powerline-status==2.6
