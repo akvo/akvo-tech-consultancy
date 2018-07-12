@@ -23,4 +23,18 @@ spec:
           containers:
           - name: exporter
             image: eu.gcr.io/akvo-lumen/tech-consultancy-export-csv-mali:${TRAVIS_COMMIT}
+            lifecycle:
+               preStop:
+                 httpGet:
+                   path: "/abort"
+                   port: 1500
+          - name: copy-to-gs
+            image: gophernet/netcat
+            ports:
+            - containerPort: 1500
+              protocol: TCP
+            command: ["/bin/bash", "-c"]
+            args:
+              - |
+                nc -l -p 1500 -c 'echo -e "HTTP/1.1 200 OK\n\n $(date)"'; echo "Broken!!!!"
           restartPolicy: Never
