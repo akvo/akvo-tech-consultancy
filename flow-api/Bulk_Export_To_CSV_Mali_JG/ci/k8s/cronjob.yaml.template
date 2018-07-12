@@ -28,6 +28,9 @@ spec:
                  httpGet:
                    path: "/abort"
                    port: 1500
+               postStart:
+                   exec:
+                      command: ["/bin/sh", "-c", "echo Hello from the postStart handler"]
           - name: copy-to-gs
             image: gophernet/netcat
             ports:
