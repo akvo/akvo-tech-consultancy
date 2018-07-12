@@ -39,9 +39,6 @@ spec:
                       command: ["/bin/sh", "-c", "echo Hello from the postStart handler"]
           - name: copy-to-gs
             image: gophernet/netcat
-            ports:
-            - containerPort: 1500
-              protocol: TCP
             command: ["/bin/sh", "-c"]
             args:
               - |
