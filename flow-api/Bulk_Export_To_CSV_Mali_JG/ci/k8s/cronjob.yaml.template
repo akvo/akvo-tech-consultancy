@@ -28,22 +28,14 @@ spec:
                 cpu: "5m"
               limits:
                 cpu: "1000m"
-            lifecycle:
-               preStop:
-                   exec:
-                      command: ["wget", "http://localhost:1500/"]
-               postStart:
-                   exec:
-                      command: ["echo", "'hi'"]
-          - name: copy-to-gs
-            image: gophernet/netcat
-            command: ["/bin/sh", "-c"]
-            args:
-              - |
-                nc -l 0.0.0.0 -p 1500 -v -e 'echo -e "HTTP/1.1 200 OK\n\n $(date)"'; echo "Broken!!!!"
-            resources:
-              requests:
-                cpu: "5m"
-              limits:
-                cpu: "1000m"
+            volumeMounts:
+                - name: "service-account"
+                  mountPath: "/var/run/secret/cloud.google.com"
+          volumes:
+          - name: "service-account"
+            secret:
+              secretName: "tech-consultancy"
+              items:
+                 - key: service-account
+                   path: service-account.json
           restartPolicy: Never
