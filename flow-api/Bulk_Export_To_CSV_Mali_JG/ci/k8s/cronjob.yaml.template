@@ -38,12 +38,12 @@ spec:
                 valueFrom:
                   secretKeyRef:
                     name: tech-consultancy
-                    key: keycloak_user
+                    key: keycloak-user
               - name: KEYCLOAK_PWD
                 valueFrom:
                   secretKeyRef:
                     name: tech-consultancy
-                    key: keycloak_pwd
+                    key: keycloak-pwd
           volumes:
           - name: "service-account"
             secret:
