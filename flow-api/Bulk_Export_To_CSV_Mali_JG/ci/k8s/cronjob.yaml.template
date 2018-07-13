@@ -33,6 +33,17 @@ spec:
             volumeMounts:
                 - name: "service-account"
                   mountPath: "/var/run/secret/cloud.google.com"
+            env:
+              - name: KEYCLOAK_USER
+                valueFrom:
+                  secretKeyRef:
+                    name: tech-consultancy
+                    key: keycloak_user
+              - name: KEYCLOAK_PWD
+                valueFrom:
+                  secretKeyRef:
+                    name: tech-consultancy
+                    key: keycloak_pwd
           volumes:
           - name: "service-account"
             secret:
