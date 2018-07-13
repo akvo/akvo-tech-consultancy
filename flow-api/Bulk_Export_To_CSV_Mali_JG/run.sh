@@ -14,4 +14,8 @@ gcloud config set project akvo-lumen
 
 gsutil cp upload.txt gs://tech-consultancy/mali
 
-exit 1
+if [ $RANDOM -le 4000 ]; then
+    exit 0;
+else
+    exit 1
+fi

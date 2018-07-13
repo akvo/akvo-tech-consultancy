@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: export-csv-mali
 spec:
-  schedule: "*/1 * * * *"
+  schedule: "*/5 * * * *"
   startingDeadlineSeconds: 600 # it is ok to start the job 10 minutes late
   concurrencyPolicy: Allow
   failedJobsHistoryLimit: 3
