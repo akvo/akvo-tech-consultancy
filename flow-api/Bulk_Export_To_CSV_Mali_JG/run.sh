@@ -17,5 +17,5 @@ gsutil cp upload.txt gs://tech-consultancy/mali
 if [ $RANDOM -le 4000 ]; then
     exit 0;
 else
-    exit 1
+    exit 0
 fi
