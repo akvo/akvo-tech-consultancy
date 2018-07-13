@@ -14,7 +14,7 @@ spec:
         cronjob: export-csv-mali # <-- for monitoring
     spec:
       backoffLimit: 6 # default
-      activeDeadlineSeconds: 3
+      activeDeadlineSeconds: 300
       template:
         metadata:
           labels:
