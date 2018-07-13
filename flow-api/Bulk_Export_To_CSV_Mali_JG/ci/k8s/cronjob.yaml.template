@@ -6,15 +6,15 @@ spec:
   schedule: "*/1 * * * *"
   startingDeadlineSeconds: 600 # it is ok to start the job 10 minutes late
   concurrencyPolicy: Allow
-  failedJobsHistoryLimit: 5
-  successfulJobsHistoryLimit: 10
+  failedJobsHistoryLimit: 3
+  successfulJobsHistoryLimit: 3
   jobTemplate:
     metadata:
       labels:
         cronjob: export-csv-mali # <-- for monitoring
     spec:
       backoffLimit: 6 # default
-      activeDeadlineSeconds: 300
+      activeDeadlineSeconds: 300 # Fail job if it takes more than 5 mins
       template:
         metadata:
           labels:
@@ -25,9 +25,11 @@ spec:
             image: eu.gcr.io/akvo-lumen/tech-consultancy-export-csv-mali:${TRAVIS_COMMIT}
             resources:
               requests:
-                cpu: "5m"
+                cpu: "50m"
+                memory: "256Mi"
               limits:
                 cpu: "1000m"
+                memory: "256Mi"
             volumeMounts:
                 - name: "service-account"
                   mountPath: "/var/run/secret/cloud.google.com"
