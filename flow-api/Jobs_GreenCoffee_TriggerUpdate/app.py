@@ -18,7 +18,10 @@ def filterAnswerbyDate(dt):
         return True
     return False
 
+latest_input = []
+
 def filterData(answer, par_id, meta, submitter_id):
+    correction = ''
     resp = [
         {'key':'keymd5', 'value':keymd5},
         {'key':'ACC_ID', 'value': submitter_id},
@@ -29,6 +32,7 @@ def filterData(answer, par_id, meta, submitter_id):
             if mt['type'] == 'CASCADE':
                 resp.append({'key':'ID_Commodity', 'value':values[2]['code']})
                 resp.append({'key':'ID_Agency', 'value':values[1]['code']})
+                correction = submitter_id + '|' + values[1]['code'] +'|'+ values[2]['code']
             elif mt['type'] == 'DATE':
                 date_val = datetime.strptime(values, '%Y-%m-%dT%H:%M:%S.%fZ')
                 date_here = utc.localize(date_val).astimezone(timezone('Asia/Singapore'))
@@ -42,6 +46,10 @@ def filterData(answer, par_id, meta, submitter_id):
                 resp.append({'key':mt['variableName'],'value':str(values)})
         except:
             resp.append({'key':mt['variableName'],'value':'0'})
+    if correction in latest_input:
+        logging.warn('PASS: DUPLICATED VALUE')
+        return False
+    latest_input.append(correction)
     return resp
 
 def getRawData(survey_id, form_id):
