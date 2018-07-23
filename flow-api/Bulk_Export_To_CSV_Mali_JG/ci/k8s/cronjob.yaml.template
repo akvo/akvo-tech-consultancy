@@ -21,7 +21,7 @@ spec:
             cronjob: export-csv-mali
         spec:
           containers:
-          - name: exporter
+          - name: export-csv-mali
             image: eu.gcr.io/akvo-lumen/tech-consultancy-export-csv-mali:${TRAVIS_COMMIT}
             resources:
               requests:
