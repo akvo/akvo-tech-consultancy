@@ -19,9 +19,13 @@ def filterAnswerbyDate(dt):
     return False
 
 latest_input = []
+current_data = []
+
+def filterDuplicate(answer):
+    return True
 
 def filterData(answer, par_id, meta, submitter_id):
-    correction = ''
+    correction = []
     resp = [
         {'key':'keymd5', 'value':keymd5},
         {'key':'ACC_ID', 'value': submitter_id},
@@ -32,7 +36,8 @@ def filterData(answer, par_id, meta, submitter_id):
             if mt['type'] == 'CASCADE':
                 resp.append({'key':'ID_Commodity', 'value':values[2]['code']})
                 resp.append({'key':'ID_Agency', 'value':values[1]['code']})
-                correction = submitter_id + '|' + values[1]['code'] +'|'+ values[2]['code']
+                correction.append(values[2]['code'])
+                correction.append(values[1]['code'])
             elif mt['type'] == 'DATE':
                 date_val = datetime.strptime(values, '%Y-%m-%dT%H:%M:%S.%fZ')
                 date_here = utc.localize(date_val).astimezone(timezone('Asia/Singapore'))
@@ -40,16 +45,19 @@ def filterData(answer, par_id, meta, submitter_id):
                 if check_date:
                     new_date = datetime.strftime(date_here,'%Y/%m/%d')
                     resp.append({'key':'Date_var', 'value':new_date})
+                    correction.append(new_date)
                 else:
                     return False
             else:
                 resp.append({'key':mt['variableName'],'value':str(values)})
         except:
             resp.append({'key':mt['variableName'],'value':'0'})
-    if correction in latest_input:
+    corr = " ".join(str(x) for x in correction)
+    if corr in latest_input:
         logging.warn('PASS: DUPLICATED VALUE')
+        latest_input.append(corr)
         return False
-    latest_input.append(correction)
+    latest_input.append(corr)
     return resp
 
 def getRawData(survey_id, form_id):
@@ -65,14 +73,15 @@ def getRawData(survey_id, form_id):
     for form in data['forms']:
         par_id = form['questionGroups'][0]['id']
         answers = getResponse(requestURI + '/form_instances?survey_id=' + survey_id + '&form_id=' + form_id)
+        filteredDate = False
         for answer in answers['formInstances']:
             filteredDate = filterData(answer,par_id, meta, submitter_id)
+            login = payload([
+                {'key':'keymd5', 'value':keymd5},
+                {'key':'acc_name', 'value':acc_detail['name']},
+                {'key':'acc_pass', 'value':acc_detail['pass']}
+            ])
             if filteredDate:
-                login = payload([
-                    {'key':'keymd5', 'value':keymd5},
-                    {'key':'acc_name', 'value':acc_detail['name']},
-                    {'key':'acc_pass', 'value':acc_detail['pass']}
-                ])
                 url = postURI + '/login_return_ACC_ID'
                 u = requests.post(url, data = login, headers = headers)
                 uid = xmltodict.parse(u.text)
@@ -111,7 +120,7 @@ def updateAll():
         if responses is not None:
             for resp in responses:
                 lists.append(resp)
-    return jsonify(lists)
+    return jsonify(resp)
 
 
 ### Pragmatic / Manual Trigger
