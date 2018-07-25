@@ -13,10 +13,10 @@ app = Flask(__name__)
 
 ### Logging
 
-log_file = './error-log.log'
+#log_file = './error-log.log'
 urllib3_logger = logging.getLogger('urllib3')
 urllib3_logger.setLevel(logging.ERROR)
-logging.basicConfig(filename=log_file,level=logging.DEBUG)
+#logging.basicConfig(filename=log_file,level=logging.DEBUG)
 
 ### Daily Job
 
@@ -285,4 +285,5 @@ def test_post():
 
 
 if __name__=='__main__':
+    app.config.update(DEBUG=True, TEMPLATES_AUTO_RELOAD=True)
     app.run()
