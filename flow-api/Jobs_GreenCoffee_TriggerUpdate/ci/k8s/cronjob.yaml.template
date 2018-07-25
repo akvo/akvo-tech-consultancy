@@ -22,7 +22,7 @@ spec:
         spec:
           containers:
           - name: pricing-integration-greencoffee
-            image: eu.gcr.io/akvo-lumen/-pricing-integration-greencoffee:${TRAVIS_COMMIT}
+            image: eu.gcr.io/akvo-lumen/pricing-integration-greencoffee:${TRAVIS_COMMIT}
             resources:
               requests:
                 cpu: "50m"
@@ -30,25 +30,15 @@ spec:
               limits:
                 cpu: "1000m"
                 memory: "256Mi"
-            volumeMounts:
-                - name: "service-account"
-                  mountPath: "/var/run/secret/cloud.google.com"
             env:
               - name: KEYCLOAK_USER
                 valueFrom:
                   secretKeyRef:
-                    name: 
+                    name: tech-consultancy 
                     key: keycloak-user
               - name: KEYCLOAK_PWD
                 valueFrom:
                   secretKeyRef:
-                    name: 
+                    name: tech-consultancy 
                     key: keycloak-pwd
-          volumes:
-          - name: "service-account"
-            secret:
-              secretName: ""
-              items:
-                 - key: service-account
-                   path: service-account.json
           restartPolicy: Never
