@@ -1,26 +1,54 @@
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: pricing-integration-greencoffee 
+  name: pricing-integration-greencoffee
 spec:
-  schedule: "*/1 * * * *"
+  schedule: "*/5 * * * *"
   startingDeadlineSeconds: 600 # it is ok to start the job 10 minutes late
   concurrencyPolicy: Allow
-  failedJobsHistoryLimit: 5
-  successfulJobsHistoryLimit: 10
+  failedJobsHistoryLimit: 3
+  successfulJobsHistoryLimit: 3
   jobTemplate:
     metadata:
       labels:
         cronjob: pricing-integration-greencoffee # <-- for monitoring
     spec:
       backoffLimit: 6 # default
-      activeDeadlineSeconds: 300
+      activeDeadlineSeconds: 300 # Fail job if it takes more than 5 mins
       template:
         metadata:
           labels:
             cronjob: pricing-integration-greencoffee
         spec:
           containers:
-          - name: exporter
-            image: eu.gcr.io/akvo-lumen/pricing-integration-greencoffee:${TRAVIS_COMMIT}
+          - name: pricing-integration-greencoffee
+            image: eu.gcr.io/akvo-lumen/-pricing-integration-greencoffee:${TRAVIS_COMMIT}
+            resources:
+              requests:
+                cpu: "50m"
+                memory: "256Mi"
+              limits:
+                cpu: "1000m"
+                memory: "256Mi"
+            volumeMounts:
+                - name: "service-account"
+                  mountPath: "/var/run/secret/cloud.google.com"
+            env:
+              - name: KEYCLOAK_USER
+                valueFrom:
+                  secretKeyRef:
+                    name: 
+                    key: keycloak-user
+              - name: KEYCLOAK_PWD
+                valueFrom:
+                  secretKeyRef:
+                    name: 
+                    key: keycloak-pwd
+          volumes:
+          - name: "service-account"
+            secret:
+              secretName: ""
+              items:
+                 - key: service-account
+                   path: service-account.json
           restartPolicy: Never
