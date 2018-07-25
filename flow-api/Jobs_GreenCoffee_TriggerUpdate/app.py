@@ -10,8 +10,15 @@ import pandas as pd
 import logging
 from collections import OrderedDict
 app = Flask(__name__)
+
+### Logging
+
 log_file = './error-log.log'
+urllib3_logger = logging.getLogger('urllib3')
+urllib3_logger.setLevel(logging.ERROR)
 logging.basicConfig(filename=log_file,level=logging.DEBUG)
+
+### Daily Job
 
 def filterAnswerbyDate(dt):
     if dt.date() == datetime.today().date():
@@ -20,8 +27,25 @@ def filterAnswerbyDate(dt):
 
 latest_input = []
 current_data = []
+latest_value = []
+filtered_data = []
 
-def filterDuplicate(answer):
+def postData(login, filteredData):
+    url = postURI + '/add_price_return_newid'
+    r = requests.post(url, data = filteredData, headers = headers)
+    try:
+        now = datetime.now()
+        now = now.strftime('%d/%b/%Y %H:%M:%S')
+        log = xmltodict.parse(r.text)
+        log = ' SUCCESS [' + now + '] - INPUT ID:' + log['string']['#text']
+        logging.info(log)
+    except xmltodict.expat.ExpatError:
+        log = r.text
+        logging.error(log)
+    filtered_data.append({
+        'login':login,
+        'payload': filteredData,
+    })
     return True
 
 def filterData(answer, par_id, meta, submitter_id):
@@ -30,6 +54,16 @@ def filterData(answer, par_id, meta, submitter_id):
         {'key':'keymd5', 'value':keymd5},
         {'key':'ACC_ID', 'value': submitter_id},
     ]
+    subDate = answer['submissionDate']
+    date_val = datetime.strptime(subDate, '%Y-%m-%dT%H:%M:%SZ')
+    date_here = utc.localize(date_val).astimezone(timezone('Asia/Singapore'))
+    check_date = filterAnswerbyDate(date_here)
+    if check_date:
+        new_date = datetime.strftime(date_here,'%Y/%m/%d')
+        resp.append({'key':'Date_var', 'value':new_date})
+        correction.append(new_date)
+    else:
+        return False
     for mt in meta:
         try:
             values = answer['responses'][par_id][0][mt['id']]
@@ -38,16 +72,6 @@ def filterData(answer, par_id, meta, submitter_id):
                 resp.append({'key':'ID_Agency', 'value':values[1]['code']})
                 correction.append(values[2]['code'])
                 correction.append(values[1]['code'])
-            elif mt['type'] == 'DATE':
-                date_val = datetime.strptime(values, '%Y-%m-%dT%H:%M:%S.%fZ')
-                date_here = utc.localize(date_val).astimezone(timezone('Asia/Singapore'))
-                check_date = filterAnswerbyDate(date_here)
-                if check_date:
-                    new_date = datetime.strftime(date_here,'%Y/%m/%d')
-                    resp.append({'key':'Date_var', 'value':new_date})
-                    correction.append(new_date)
-                else:
-                    return False
             else:
                 resp.append({'key':mt['variableName'],'value':str(values)})
         except:
@@ -55,13 +79,15 @@ def filterData(answer, par_id, meta, submitter_id):
     corr = " ".join(str(x) for x in correction)
     if corr in latest_input:
         logging.warn('PASS: DUPLICATED VALUE')
+        #latest_value[corr]['payload'] = resp
+        #latest_value[corr]['payload'] = new_date
+        latest_value.append({corr:[{'payload':payload(resp), 'date':date_here}]})
+    else:
         latest_input.append(corr)
-        return False
-    latest_input.append(corr)
-    return resp
+        latest_value.append({corr:[{'payload':payload(resp), 'date':date_here}]})
+    return corr
 
 def getRawData(survey_id, form_id):
-    collections = []
     data = getResponse(requestURI + '/surveys/' + survey_id)
     # submitter ID
     submitter_id = data['name'].split('_')[1]
@@ -70,60 +96,40 @@ def getRawData(survey_id, form_id):
         if account['id'] == submitter_id:
             acc_detail = account
     meta = data['forms'][0]['questionGroups'][0]['questions']
+    login = payload([
+        {'key':'keymd5', 'value':keymd5},
+        {'key':'acc_name', 'value':acc_detail['name']},
+        {'key':'acc_pass', 'value':acc_detail['pass']}
+    ])
+    corr = False
     for form in data['forms']:
         par_id = form['questionGroups'][0]['id']
+        print(par_id)
         answers = getResponse(requestURI + '/form_instances?survey_id=' + survey_id + '&form_id=' + form_id)
-        filteredDate = False
         for answer in answers['formInstances']:
-            filteredDate = filterData(answer,par_id, meta, submitter_id)
-            login = payload([
-                {'key':'keymd5', 'value':keymd5},
-                {'key':'acc_name', 'value':acc_detail['name']},
-                {'key':'acc_pass', 'value':acc_detail['pass']}
-            ])
-            if filteredDate:
-                url = postURI + '/login_return_ACC_ID'
-                u = requests.post(url, data = login, headers = headers)
-                uid = xmltodict.parse(u.text)
-                ids = uid['short']['#text']
-                if ids == '0':
-                    log = 'error login'
-                    logging.warn(log)
-                else:
-                    url = postURI + '/add_price_return_newid'
-                    r = requests.post(url, data = payload(filteredDate), headers = headers)
-                    try:
-                        log = xmltodict.parse(r.text)
-                        log = 'Success! ' + log['string']['#text']
-                        logging.info(log)
-                    except xmltodict.expat.ExpatError:
-                        log = r.text
-                        logging.error(log)
-                collections.append({
-                    'id': answer['id'],
-                    'submitter':answer['submitter'],
-                    'identifier':answer['identifier'],
-                    'device':answer['deviceIdentifier'],
-                    'submited_at':answer['submissionDate'],
-                    'login':acc_detail,
-                    'payload':payload(filteredDate),
-                })
-    return collections
+            try:
+                corr = filterData(answer, par_id, meta, submitter_id)
+            except:
+                pass
+    blo = False
+    if blo:
+        postData(login, latest_value[corr])
+    return
 
 @app.route('/greencoffee')
 def updateAll():
     data = getResponse(requestURI + '/surveys?folder_id=38000001')
-    lists = []
     for dt in data['surveys']:
         sid = getResponse(requestURI + '/surveys/' + dt['id'])
-        responses = getRawData(dt['id'], sid['forms'][0]['id'])
-        if responses is not None:
-            for resp in responses:
-                lists.append(resp)
-    return jsonify(resp)
+        getRawData(dt['id'], sid['forms'][0]['id'])
+    if latest_input:
+        return jsonify(latest_value)
+    now = datetime.now()
+    now = now.strftime('%d/%b/%Y %H:%M:%S')
+    logging.warn(" ["+ now + "] DATA NOT FOUND")
+    return "DATA NOT FOUND"
 
-
-### Pragmatic / Manual Trigger
+### Pragmatic / Manual Trigger (Case Error)
 
 @app.route('/folders')
 def getFolder():
@@ -249,8 +255,8 @@ def downloadData(id):
         else:
             'No surveys found'
 
-@app.route('/addprice')
-def login():
+@app.route('/test_addprice')
+def test_post():
     url = postURI + '/login_return_ACC_ID'
     data = payload([
         {'key':'keymd5', 'value':keymd5},
@@ -279,5 +285,4 @@ def login():
 
 
 if __name__=='__main__':
-    app.config.update(DEBUG=True)
     app.run()

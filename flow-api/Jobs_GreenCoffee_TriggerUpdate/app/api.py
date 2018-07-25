@@ -1,6 +1,7 @@
 import requests
 from app.config import tokenURI, rtData
 from app.handler import getValue, handleGeolocation
+import logging
 
 def refreshData():
     tokens = requests.post(tokenURI, rtData).json();
@@ -12,7 +13,11 @@ def getAccessToken():
         'refresh_token': refreshData(),
         'grant_type':'refresh_token'
     }
-    account = requests.post(tokenURI, account).json();
+    try:
+        account = requests.post(tokenURI, account).json();
+    except:
+        logging.error('FAILED: TOKEN ACCESS UNKNOWN')
+        return False
     return account['access_token']
 
 def getResponse(url):
