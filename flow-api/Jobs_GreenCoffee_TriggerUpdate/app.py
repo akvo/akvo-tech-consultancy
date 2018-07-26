@@ -80,8 +80,7 @@ def filterData(answer, par_id, meta, submitter_id):
         if date_val > odate:
             latest_value[corr] = {'payload':payload(resp), 'date':str(date_val)}
             return corr
-        else:
-            return corr
+        return False
     latest_input.append(corr)
     latest_value.update({corr:{'payload':payload(resp), 'date':str(date_val)}})
     return corr

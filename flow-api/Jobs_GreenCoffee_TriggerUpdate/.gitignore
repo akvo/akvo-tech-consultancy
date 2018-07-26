@@ -1,5 +1,6 @@
 nohup.out
 error-log.log
+app/config.py
 kill.sh
 test
 app/__pycache__
