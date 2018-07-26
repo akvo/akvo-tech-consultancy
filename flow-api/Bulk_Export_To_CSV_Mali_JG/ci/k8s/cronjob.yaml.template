@@ -37,17 +37,17 @@ spec:
               - name: KEYCLOAK_USER
                 valueFrom:
                   secretKeyRef:
-                    name: tech-consultancy
+                    name: bulk-export-to-csv-mali-jg
                     key: keycloak-user
               - name: KEYCLOAK_PWD
                 valueFrom:
                   secretKeyRef:
-                    name: tech-consultancy
+                    name: bulk-export-to-csv-mali-jg
                     key: keycloak-pwd
           volumes:
           - name: "service-account"
             secret:
-              secretName: "tech-consultancy"
+              secretName: "bulk-export-to-csv-mali-jg"
               items:
                  - key: service-account
                    path: service-account.json
