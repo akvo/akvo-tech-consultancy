@@ -1,3 +1,5 @@
+![Agro Info](https://raw.githubusercontent.com/akvo/akvo-tech-consultancy/develop/flow-api/Jobs_GreenCoffee_TriggerUpdate/app/logo.png)
+
 ## Description 
 
 This services has responsibility to:
@@ -40,9 +42,5 @@ $ docker run greencoffee
 
 ## CI Config 
 
-Deploy when merge develop branch to master.
-Running the Job Daily at 03:00 UTC.
-
-Partner:
-
-![Agro Info](https://raw.githubusercontent.com/akvo/akvo-tech-consultancy/develop/flow-api/Jobs_GreenCoffee_TriggerUpdate/app/logo.png)
+- Deploy when merge develop branch to master.
+- Running the Job Daily at 03:00 UTC.
