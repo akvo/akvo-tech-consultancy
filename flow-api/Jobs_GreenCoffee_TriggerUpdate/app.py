@@ -1,11 +1,10 @@
 from datetime import datetime
-from app.config import requestURI, postURI, keymd5, payload, headers
+from app.config import requestURI, postURI, keymd5, headers
 from app.api import getResponse
 from pytz import utc, timezone
 import xmltodict
 import requests
 import logging
-# import json
 
 ### Logging
 
@@ -17,6 +16,19 @@ def filterAnswerbyDate(dt):
     if dt.date() == datetime.today().date():
         return True
     return False
+
+def payload(keyval):
+    strres = ''
+    for i, dt in enumerate(keyval):
+        if i == 0:
+            strres = dt['key'] + '=' + dt['value']
+        else:
+            if dt['key'] == 'Date_var':
+                date_conv = dt['value'].replace('/','%2F')
+                strres = strres + '&' + dt['key'] + '=' + date_conv
+            else:
+                strres = strres + '&' + dt['key'] + '=' + dt['value']
+    return strres
 
 latest_input = []
 current_data = []
@@ -113,10 +125,6 @@ def updateAll():
         logging.warn(" ["+ now + "] DATA NOT FOUND")
     else:
         print('\n--- DATA SENT ---\n')
-        # file = now.strftime('%Y%d%b%H%M%S')
-        # with open('./data-'+ file +'.json', 'w') as outfile:
-        #    json.dump(filtered_data, outfile)
-        # print(filtered_data)
     print('\n--- CRON JOB FINISHED ---')
 
 
