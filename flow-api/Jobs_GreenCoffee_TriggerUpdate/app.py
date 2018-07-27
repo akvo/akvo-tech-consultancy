@@ -1,11 +1,11 @@
 from datetime import datetime
-from app.config import requestURI, postURI, keymd5, payload, accounts, headers
+from app.config import requestURI, postURI, keymd5, payload, headers
 from app.api import getResponse
 from pytz import utc, timezone
 import xmltodict
 import requests
 import logging
-import json
+# import json
 
 ### Logging
 
@@ -23,7 +23,7 @@ current_data = []
 latest_value = {}
 filtered_data = []
 
-def postData(login, filteredData):
+def postData(filteredData):
     url = postURI + '/add_price_return_newid'
     r = requests.post(url, data = filteredData, headers = headers)
     try:
@@ -37,7 +37,6 @@ def postData(login, filteredData):
         log = r.text
         logging.error(log)
     filtered_data.append({
-        'login':login,
         'payload': filteredData.split('&'),
         'return_id': return_id
     })
@@ -78,33 +77,27 @@ def filterData(answer, par_id, meta, submitter_id):
         logging.warn('PASS: DUPLICATED VALUE')
         odate = datetime.strptime(latest_value[corr]['date'],'%Y-%m-%d %H:%M:%S')
         if date_val > odate:
+            print('GETTING THE LATEST VALUE')
             latest_value[corr] = {'payload':payload(resp), 'date':str(date_val)}
-            return corr
+            return True
         return False
     latest_input.append(corr)
     latest_value.update({corr:{'payload':payload(resp), 'date':str(date_val)}})
-    return corr
+    return True
 
 def getRawData(survey_id, form_id):
     data = getResponse(requestURI + '/surveys/' + survey_id)
     # submitter ID
     submitter_id = data['name'].split('_')[1]
-    acc_detail = None
-    for account in accounts:
-        if account['id'] == submitter_id:
-            acc_detail = account
     meta = data['forms'][0]['questionGroups'][0]['questions']
-    corr = False
     for form in data['forms']:
         par_id = form['questionGroups'][0]['id']
         answers = getResponse(requestURI + '/form_instances?survey_id=' + survey_id + '&form_id=' + form_id)
         for answer in answers['formInstances']:
             try:
-                corr = filterData(answer, par_id, meta, submitter_id)
+                filterData(answer, par_id, meta, submitter_id)
             except:
                 pass
-    if corr:
-        postData(acc_detail, latest_value[corr]['payload'])
     return
 
 def updateAll():
@@ -112,18 +105,20 @@ def updateAll():
     for dt in data['surveys']:
         sid = getResponse(requestURI + '/surveys/' + dt['id'])
         getRawData(dt['id'], sid['forms'][0]['id'])
+    for corr in latest_input:
+        postData(latest_value[corr]['payload'])
     now = datetime.now()
-    file = now.strftime('%Y%d%b%H%M%S')
     now = now.strftime('%d/%b/%Y %H:%M:%S')
     if not latest_input:
         logging.warn(" ["+ now + "] DATA NOT FOUND")
     else:
         print('\n--- DATA SENT ---\n')
-        with open('./data-'+ file +'.json', 'w') as outfile:
-            json.dump(filtered_data, outfile)
-        print(filtered_data)
+        # file = now.strftime('%Y%d%b%H%M%S')
+        # with open('./data-'+ file +'.json', 'w') as outfile:
+        #    json.dump(filtered_data, outfile)
+        # print(filtered_data)
     print('\n--- CRON JOB FINISHED ---')
 
 
-print('\n--- CRON JOB STARTED ---\n')
+print('\n--- CRON JOB IS STARTED ---\n')
 updateAll()
