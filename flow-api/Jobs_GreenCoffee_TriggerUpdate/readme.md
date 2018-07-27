@@ -45,4 +45,4 @@ Running the Job Daily at 03:00 UTC.
 
 Partner:
 
-![Agro Info](https://raw.githubusercontent.com/akvo/akvo-tech-consultancy/develop/api/logo.png)
+![Agro Info](https://raw.githubusercontent.com/akvo/akvo-tech-consultancy/develop/flow-api/Jobs_GreenCoffee_TriggerUpdate/app/logo.png)
