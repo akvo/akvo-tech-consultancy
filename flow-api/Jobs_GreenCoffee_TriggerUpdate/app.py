@@ -2,131 +2,132 @@ from datetime import datetime
 from app.config import requestURI, postURI, keymd5, headers
 from app.api import getResponse
 from pytz import utc, timezone
+import pandas as pd
 import xmltodict
 import requests
 import logging
 
-### Logging
-
 logging.basicConfig(level=logging.WARN)
+results = {}
+date_mark = []
+payload = []
+posts = []
 
-def logTime():
+def logTime(error_code):
     now = datetime.now()
-    now = now.strftime('%d/%b/%Y %H:%M:%S')
+    now = '[' + now.strftime('%d/%b/%Y %H:%M:%S')  + '] ' + error_code + ':'
     return now
 
-### Daily Job
-
-def filterAnswerbyDate(dt):
-    if dt.date() == datetime.today().date():
-        return True
-    return False
-
-def payload(keyval):
-    strres = ''
-    for i, dt in enumerate(keyval):
-        if i == 0:
-            strres = dt['key'] + '=' + dt['value']
-        else:
-            if dt['key'] == 'Date_var':
-                date_conv = dt['value'].replace('/','%2F')
-                strres = strres + '&' + dt['key'] + '=' + date_conv
-            else:
-                strres = strres + '&' + dt['key'] + '=' + dt['value']
-    return strres
-
-latest_input = []
-current_data = []
-latest_value = {}
-
-def postData(filteredData):
+def post_data(keyval):
     url = postURI + '/add_price_return_newid'
-    r = requests.post(url, data = filteredData, headers = headers)
+    date = datetime.strptime(keyval['date'], '%Y-%m-%d %H:%M:%S')
+    date = datetime.strftime(date, '%Y/%m/%d')
+    uid = '&ACC_ID=' + keyval['uid']
+    date = '&Date_var=' + date.replace('/','%2F') + uid
+    agency = '&ID_Agency=' + keyval['agency'] + date
+    comm = '&ID_Commodity=' + keyval['commodity'] + agency
+    mval = '&MIN_PRICE=' + str(int(keyval['value'])) + comm + '&MAX_PRICE=0'
+    post = 'keymd5=' + keymd5 + mval
+    r = requests.post(url, data = post, headers = headers)
     try:
         log = xmltodict.parse(r.text)
         return_id = log['string']['#text']
-        log = '[' + logTime() + '] SUCCESS - INPUT ID:' + return_id
+        log = logTime('SUCCESS') + 'INPUT ID:' + return_id
         print(log)
     except xmltodict.expat.ExpatError:
-        log = r.text
-        logging.error(log)
+        log = logTime('ERROR') + r.text
+        print(log)
+    return keyval
+
+def get_data(survey_url):
+    mt = getResponse(survey_url)
+    meta = pd.DataFrame(mt['forms'][0]['questionGroups'][0]['questions'])
+    name = mt['forms'][0]['questionGroups']
+    form = mt['forms'][0]['formInstancesUrl']
+    submitter_id = mt['name'].split('_')[1]
+    submitter_name = mt['name'].split('_')[0]
+    meta_id = name[0]['id']
+    sources = getResponse(form).get('formInstances')
+    data = [d['responses'] for d in sources if 'responses' in d]
+    data = [d[meta_id][0] for d in data if meta_id in d]
+    submit_date = [d['submissionDate'] for d in sources if 'submissionDate' in d]
+    print(logTime('INFO') + submitter_name.upper() + ' HAS ADDED NEW PRICE!')
+    appending(meta,data,submitter_id,submit_date)
     return True
 
-def filterData(answer, par_id, meta, submitter_id, agency):
-    correction = []
-    resp = [
-        {'key':'keymd5', 'value':keymd5},
-        {'key':'ACC_ID', 'value': submitter_id},
-    ]
-    subDate = answer['submissionDate']
-    date_val = datetime.strptime(subDate, '%Y-%m-%dT%H:%M:%SZ')
-    date_here = utc.localize(date_val).astimezone(timezone('Asia/Singapore'))
-    check_date = filterAnswerbyDate(date_here)
-    if check_date:
-        new_date = datetime.strftime(date_here,'%Y/%m/%d')
-        resp.append({'key':'Date_var', 'value':str(new_date)})
-        correction.append(str(new_date))
-    else:
-        return False
-    for mt in meta:
-        try:
-            values = answer['responses'][par_id][0][mt['id']]
-            if mt['type'] == 'CASCADE':
-                resp.append({'key':'ID_Commodity', 'value':values[2]['code']})
-                resp.append({'key':'ID_Agency', 'value':values[1]['code']})
-                correction.append(values[2]['code'])
-                correction.append(values[1]['code'])
-            elif mt['type'] == 'DATE':
-                pass
-            else:
-                resp.append({'key':mt['variableName'],'value':str(values)})
-        except:
-            resp.append({'key':mt['variableName'],'value':'0'})
-    corr = " ".join(str(x) for x in correction)
-    if corr in latest_input:
-        print("["+ logTime() + "] AGENCY " + agency + " HAS DUPLICATED VALUE")
-        odate = datetime.strptime(latest_value[corr]['date'],'%Y-%m-%d %H:%M:%S')
-        if date_val > odate:
-            latest_value[corr] = {'payload':payload(resp), 'date':str(date_val)}
-            print("["+ logTime() + "] LATEST VALUE MERGED")
-            return True
-        print("["+ logTime() + "] PASS DUPICATED VALUE")
-        return False
-    latest_input.append(corr)
-    latest_value.update({corr:{'payload':payload(resp), 'date':str(date_val)}})
-    print("["+ logTime() + "] ADDED NEW VALUE")
-    return True
-
-def getRawData(survey_id, form_id):
-    data = getResponse(requestURI + '/surveys/' + survey_id)
-    # submitter ID
-    submitter_id = data['name'].split('_')[1]
-    agency = data['name'].split('_')[0]
-    meta = data['forms'][0]['questionGroups'][0]['questions']
-    for form in data['forms']:
-        par_id = form['questionGroups'][0]['id']
-        answers = getResponse(requestURI + '/form_instances?survey_id=' + survey_id + '&form_id=' + form_id)
-        for answer in answers['formInstances']:
+def appending(meta,data,submitter_id,submit_date):
+    for idt, dt in enumerate(data):
+        d_ori = datetime.strptime(submit_date[idt], '%Y-%m-%dT%H:%M:%SZ')
+        d_here = utc.localize(d_ori).astimezone(timezone('Asia/Singapore'))
+        if d_here.date() == datetime.today().date():
+            unique = datetime.strftime(d_ori, '%Y-%m-%d')
+            d_val = datetime.strftime(d_here, '%Y-%m-%d %H:%M:%S')
+            values = {'date':d_val}
+            values.update({'sid':submitter_id})
+            for idx, row in meta.iterrows():
+                if row['variableName'] == 'detail':
+                    code = dt[row['id']][0]['code'] + '_' + dt[row['id']][1]['code']
+                    values.update({'code':code})
+                    unique = unique + 'U' + submitter_id + 'A_' + code
+                else:
+                    values.update({row['variableName']:dt[row['id']]})
+            code = values['code'].split('_')
             try:
-                filterData(answer, par_id, meta, submitter_id, agency.upper())
+                latest = datetime.strptime(results[unique][0]['date'],'%Y-%m-%d %H:%M:%S')
+                newest = datetime.strptime(d_val,'%Y-%m-%d %H:%M:%S')
+                print(logTime('WARNING') + 'DUPLICATED VALUE!')
+                if latest < newest:
+                    add_results(unique,values,code, False)
+                    print(logTime('INFO') + 'REPLACED WITH NEW VALUE!')
+                else:
+                    print(logTime('INFO') + 'PASS VALUE!')
+                    pass
             except:
-                pass
-    return
+                add_results(unique,values,code, True)
+                print(logTime('INFO') + 'ADDED NEW VALUE!')
+        else:
+            pass
+    return True
 
-def updateAll():
-    data = getResponse(requestURI + '/surveys?folder_id=38000001')
-    for dt in data['surveys']:
-        sid = getResponse(requestURI + '/surveys/' + dt['id'])
-        getRawData(dt['id'], sid['forms'][0]['id'])
-    if latest_input:
-        print('\n--- BULK POST STARTING ---\n')
-    for corr in latest_input:
-        postData(latest_value[corr]['payload'])
-    if not latest_input:
-        print("["+ logTime() + "] DATA NOT FOUND")
-    else:
-        print("["+ logTime() + "] ALL DATA IS SENT")
-    print('\n--- CRON JOB FINISHED ---')
+def add_results(unique, values, code, mark):
+    agency = code[0]
+    comm = code[1].split('-')
+    results.update({unique:[
+        {'uid':values['sid'],'date':values['date'],'agency':agency,'commodity':comm[0],'value':values['ap']},
+        {'uid':values['sid'],'date':values['date'],'agency':agency,'commodity':comm[1],'value':values['cp']}
+    ]})
+    if mark == True:
+        date_mark.append(unique)
+    return True
 
-print('\n--- CRON JOB IS STARTED ---\n')
-updateAll()
+
+def execute(folder_id):
+    urls = getResponse(requestURI + '/surveys?folder_id=' + folder_id).get('surveys')
+    urls = [a['surveyUrl'] for a in urls if 'surveyUrl' in a]
+    for url in urls:
+        try:
+            get_data(url)
+        except:
+            pass
+    return True
+
+print('\n--- CRON JOB IS START ---\n')
+
+execute('30240002')
+print('\n--- BULK POST STARTING ---\n')
+for dm in date_mark:
+    for res in results[dm]:
+        payload.append(res)
+for pld in payload:
+        posts.append(post_data(pld))
+
+from tabulate import tabulate
+tb = pd.DataFrame(payload)
+tb = tb[['date','uid','agency','commodity','value']]
+tb = tb.to_dict(orient='list')
+
+print('\n--- DONE UPDATING ---\n')
+
+print(tabulate(tb, headers='keys', tablefmt='fancy_grid'))
+
+print('\n--- CRON JOB FINISHED ---\n')
