@@ -14,7 +14,7 @@ spec:
         cronjob: pricing-integration-greencoffee # <-- for monitoring
     spec:
       backoffLimit: 6 # default
-      activeDeadlineSeconds: 300 # Fail job if it takes more than 5 mins
+      activeDeadlineSeconds: 900 # Fail job if it takes more than 15 mins
       template:
         metadata:
           labels:
@@ -30,6 +30,9 @@ spec:
               limits:
                 cpu: "1000m"
                 memory: "256Mi"
+            volumeMounts:
+                - name: "service-account"
+                  mountPath: "/var/run/secret/cloud.google.com"
             env:
               - name: KEYCLOAK_USER
                 valueFrom:
@@ -41,4 +44,11 @@ spec:
                   secretKeyRef:
                     name: tech-consultancy 
                     key: keycloak-pwd
+          volumes:
+          - name: "service-account"
+            secret:
+              secretName: "pricing-integration-greencoffee"
+              items:
+                 - key: service-account
+                   path: app/config.py
           restartPolicy: Never

@@ -1,5 +1,5 @@
 from datetime import datetime
-from app.config import requestURI, postURI, keymd5, headers
+from app.config import requestURI, postURI, keymd5, checkSecret, headers
 from app.api import getResponse
 from pytz import utc, timezone
 import pandas as pd
@@ -111,6 +111,8 @@ def execute(folder_id):
             pass
     return True
 
+print('\n---' + checkSecret +' ---\n')
+
 print('\n--- CRON JOB IS START ---\n')
 
 execute('30240002')
@@ -125,6 +127,7 @@ from tabulate import tabulate
 tb = pd.DataFrame(payload)
 tb = tb[['date','uid','agency','commodity','value']]
 tb = tb.to_dict(orient='list')
+
 
 print('\n--- DONE UPDATING ---\n')
 
