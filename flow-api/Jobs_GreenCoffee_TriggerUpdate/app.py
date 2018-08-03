@@ -51,11 +51,10 @@ def get_data(survey_url):
     data = [d['responses'] for d in sources if 'responses' in d]
     data = [d[meta_id][0] for d in data if meta_id in d]
     submit_date = [d['submissionDate'] for d in sources if 'submissionDate' in d]
-    print(logTime('INFO') + submitter_name.upper() + ' HAS ADDED NEW PRICE!')
-    appending(meta,data,submitter_id,submit_date)
+    appending(meta,data,submitter_id,submit_date,submitter_name)
     return True
 
-def appending(meta,data,submitter_id,submit_date):
+def appending(meta,data,submitter_id,submit_date,submitter_name):
     for idt, dt in enumerate(data):
         d_ori = datetime.strptime(submit_date[idt], '%Y-%m-%dT%H:%M:%SZ')
         d_here = utc.localize(d_ori).astimezone(timezone('Asia/Singapore'))
@@ -75,7 +74,7 @@ def appending(meta,data,submitter_id,submit_date):
             try:
                 latest = datetime.strptime(results[unique][0]['date'],'%Y-%m-%d %H:%M:%S')
                 newest = datetime.strptime(d_val,'%Y-%m-%d %H:%M:%S')
-                print(logTime('WARNING') + 'DUPLICATED VALUE!')
+                print(logTime('WARNING') + submitter_name.upper() + ' HAS DUPLICATED VALUE!')
                 if latest < newest:
                     add_results(unique,values,code, False)
                     print(logTime('INFO') + 'REPLACED WITH NEW VALUE!')
@@ -84,6 +83,7 @@ def appending(meta,data,submitter_id,submit_date):
                     pass
             except:
                 add_results(unique,values,code, True)
+                print(logTime('INFO') + submitter_name.upper() + ' HAS ADDED NEW PRICE!')
                 print(logTime('INFO') + 'ADDED NEW VALUE!')
         else:
             pass
