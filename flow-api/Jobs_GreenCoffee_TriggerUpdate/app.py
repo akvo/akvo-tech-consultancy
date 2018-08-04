@@ -1,6 +1,5 @@
+import os
 from datetime import datetime
-from app.config import requestURI, postURI, keymd5, checkSecret, headers
-from app.api import getResponse
 from pytz import utc, timezone
 import pandas as pd
 import xmltodict
@@ -12,6 +11,50 @@ results = {}
 date_mark = []
 payload = []
 posts = []
+
+tokenURI = 'https://login.akvo.org/auth/realms/akvo/protocol/openid-connect/token'
+instanceURI = 'greencoffee'
+requestURI = 'https://api.akvo.org/flow/orgs/' + instanceURI
+
+keymd5 = 'c946415addc376cc50c91956a51823f1'
+postURI = 'http://118.70.171.49:64977/WebService.asmx'
+
+rtData = {
+    'client_id':'curl',
+    "username":os.environ["KEYCLOAK_USER"],
+    "password":os.environ["KEYCLOAK_PWD"],
+    'grant_type':'password',
+    'scope':'openid offline_access'
+}
+
+headers = {'Content-Type': 'application/x-www-form-urlencoded'}
+
+
+def refreshData():
+    tokens = requests.post(tokenURI, rtData).json();
+    return tokens['refresh_token']
+
+def getAccessToken():
+    account = {
+        'client_id':'curl',
+        'refresh_token': refreshData(),
+        'grant_type':'refresh_token'
+    }
+    try:
+        account = requests.post(tokenURI, account).json();
+    except:
+        logging.error('FAILED: TOKEN ACCESS UNKNOWN')
+        return False
+    return account['access_token']
+
+def getResponse(url):
+    header = {
+        'Authorization':'Bearer ' + getAccessToken(),
+        'Accept': 'application/vnd.akvo.flow.v2+json',
+        'User-Agent':'python-requests/2.14.2'
+    }
+    response = requests.get(url, headers=header).json()
+    return response
 
 def logTime(error_code):
     now = datetime.now()
@@ -110,8 +153,6 @@ def execute(folder_id):
         except:
             pass
     return True
-
-print('\n---' + checkSecret +' ---\n')
 
 print('\n--- CRON JOB IS START ---\n')
 

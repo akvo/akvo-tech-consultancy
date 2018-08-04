@@ -1,3 +1,4 @@
+
 ![Agro Info](https://raw.githubusercontent.com/akvo/akvo-tech-consultancy/develop/flow-api/Jobs_GreenCoffee_TriggerUpdate/app/logo.png)
 
 ## Description 
@@ -12,33 +13,10 @@ Survey setup:
 - Create Assignment for all the Device to access specific surveys based on Admin username.
 - Start Survey before Cron Job running.
 
-## Pre-Installation
-- Conda or Miniconda, see [Conda Docs](https://conda.io/docs/)
-
-## Configuration File
-mail to [deden@akvo.org](mailto:deden@akvo.org) to get the configuration file.
-
-## Installation
-```
-// clone source
-$ git clone https://github.com/dedenbangkit/greencoflow
-
-// install environment
-$ conda env create -f green-coffee.yml
-
-```
-
-## Usage 
-```
-// start the app 
-$ sh run.sh 
-```
-
-## Alternative Installation 
-```
-// using docker
-$ docker run greencoffee 
-```
+Script expects 
+KEYCLOAK_USER
+KEYCLOAK_PWD
+set as env variables
 
 ## CI Config 
 
