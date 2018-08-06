@@ -14,9 +14,7 @@ Survey setup:
 - Start Survey before Cron Job running.
 
 Script expects 
-KEYCLOAK_USER
-KEYCLOAK_PWD
-set as env variables
+*KEYCLOAK_USER* and *KEYCLOAK_PWD* set as env variables
 
 ## CI Config 
 

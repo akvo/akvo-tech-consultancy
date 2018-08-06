@@ -21,8 +21,8 @@ postURI = 'http://118.70.171.49:64977/WebService.asmx'
 
 rtData = {
     'client_id':'curl',
-    "username":os.environ["KEYCLOAK_USER"],
-    "password":os.environ["KEYCLOAK_PWD"],
+    "username": os.environ["KEYCLOAK_USER"],
+    "password": os.environ["KEYCLOAK_PWD"],
     'grant_type':'password',
     'scope':'openid offline_access'
 }

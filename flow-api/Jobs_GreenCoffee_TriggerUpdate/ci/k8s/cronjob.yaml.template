@@ -30,9 +30,6 @@ spec:
               limits:
                 cpu: "1000m"
                 memory: "256Mi"
-            volumeMounts:
-                - name: "service-account"
-                  mountPath: "/var/run/secret/cloud.google.com"
             env:
               - name: KEYCLOAK_USER
                 valueFrom:
