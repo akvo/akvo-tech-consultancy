@@ -21,8 +21,8 @@ postURI = 'http://118.70.171.49:64977/WebService.asmx'
 
 rtData = {
     'client_id':'curl',
-    "username": os.environ["KEYCLOAK_USER"],
-    "password": os.environ["KEYCLOAK_PWD"],
+    'username': os.environ['KEYCLOAK_USER'],
+    'password': os.environ['KEYCLOAK_PWD'],
     'grant_type':'password',
     'scope':'openid offline_access'
 }
@@ -155,23 +155,22 @@ def execute(folder_id):
     return True
 
 print('\n--- CRON JOB IS START ---\n')
-
 execute('30240002')
-print('\n--- BULK POST STARTING ---\n')
-for dm in date_mark:
-    for res in results[dm]:
-        payload.append(res)
-for pld in payload:
-        posts.append(post_data(pld))
 
-from tabulate import tabulate
-tb = pd.DataFrame(payload)
-tb = tb[['date','uid','agency','commodity','value']]
-tb = tb.to_dict(orient='list')
-
-
-print('\n--- DONE UPDATING ---\n')
-
-print(tabulate(tb, headers='keys', tablefmt='fancy_grid'))
+try:
+    print('\n--- BULK POST STARTING ---\n')
+    for dm in date_mark:
+        for res in results[dm]:
+            payload.append(res)
+    for pld in payload:
+            posts.append(post_data(pld))
+    from tabulate import tabulate
+    tb = pd.DataFrame(payload)
+    tb = tb[['date','uid','agency','commodity','value']]
+    tb = tb.to_dict(orient='list')
+    print('\n--- DONE UPDATING ---\n')
+    print(tabulate(tb, headers='keys', tablefmt='fancy_grid'))
+except:
+    print('\n--- DATA NOT FOUND ---\n')
 
 print('\n--- CRON JOB FINISHED ---\n')
