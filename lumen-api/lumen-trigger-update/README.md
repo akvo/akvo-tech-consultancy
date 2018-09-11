@@ -7,17 +7,19 @@ Add your instance and dataset id to `datasets.csv`
 ```
 // Clone repository
 $ git clone -b develop https://github.com/akvo/akvo-tech-consultancy
+
 // Checkout to your local branch 
 $ cd akvo-tech-consultancy
 $ git checkout -b feature/<your_branch>
+
 // Edit Datasets
 $ vim lumen-api/lumen-trigger-update/datasets.csv
+
 // Push and set upstream
 $ git add lumen-api/lumen-trigger-update/datasets.csv
 $ git push --set-upstream origin feature/<your_branch>
 ```
 At this point, you are ready to make a pull request to the original repository.
-
 
 ## Usage Limits 
 Since Flow API also will also involved during updating process in the background, then we must aware of the usage limits in Lumen's side. Current limit is 5 updates per-instance.
