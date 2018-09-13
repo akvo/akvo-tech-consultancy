@@ -1,5 +1,5 @@
 # SIG MAP
-Built with Laravel 5.6, LeafletJS & Jquery
+Built with Laravel 5.6, LeafletJS, D3JS, Echart & Jquery
 
 ## Requirements
 - PHP >= 7.1.3
@@ -10,7 +10,7 @@ Built with Laravel 5.6, LeafletJS & Jquery
 = XML PHP Extension
 - Ctype PHP Extension
 - JSON PHP Extension
-- NodeJS
+- NodeJS v8.12.0 (Latest & LTS)
 
 ## Installation
 
