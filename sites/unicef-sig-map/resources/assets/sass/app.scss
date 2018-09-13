@@ -1,0 +1,390 @@
+
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+//@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+body,html {
+  height:100%;
+}
+
+body {
+  padding-top: 55px;
+  font-size:unset;
+}
+main.container{
+    margin-top:40px;
+    margin-bottom:40px;
+}
+tbody tr{
+    cursor:pointer;
+}
+tbody tr:hover{
+    background: #efefef;
+    color: #a26969;
+}
+.starter-template {
+  padding: 3rem 1.5rem;
+  text-align: center;
+}
+.navbar-brand {
+  padding-top:0px;
+}
+
+.navbar-laravel {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+#mapid {
+    height: 100%;
+    padding-top: 55px;
+}
+
+#school_desc {
+    margin-top: 10px;
+    max-height: 400px;
+    overflow-y: scroll;
+    border-top: 1px solid #ddd;
+}
+
+#detail_modal .modal-body {
+	padding: 1rem 1rem 0rem;
+}
+
+#stack_search a:first-child,
+#stack_search a:nth-child(1),
+#stack_search a:nth-child(2),
+#stack_search a:nth-child(3){
+    display:none;
+}
+
+/* Bootstrap modified */
+
+.badge{
+    font-size: 100%;
+    border-radius: 0px;
+}
+
+.btn{
+    border-radius: 0px;
+}
+
+.form-control{
+    border-radius: 0px;
+    background-clip: unset;
+}
+.card{
+    border-radius:0px;
+}
+.card-custom{
+	border-radius: 0px;
+    margin: 10px 0px;
+}
+.card-custom .card-body{
+    padding: 10px;
+}
+.modal-content{
+	border-radius: 0px;
+}
+
+/* Bootstrap modified */
+
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+    width: 200px;
+}
+.leaflet-popup-content-wrapper{
+	border-radius:0px!important;
+}
+
+.leaflet-cluster-anim .leaflet-marker-icon, .leaflet-cluster-anim .leaflet-marker-shadow {
+	-webkit-transition: -webkit-transform 0.3s ease-out, opacity 0.3s ease-in;
+	-moz-transition: -moz-transform 0.3s ease-out, opacity 0.3s ease-in;
+	-o-transition: -o-transform 0.3s ease-out, opacity 0.3s ease-in;
+	transition: transform 0.3s ease-out, opacity 0.3s ease-in;
+}
+
+.leaflet-cluster-spider-leg {
+	/* stroke-dashoffset (duration and function) should match with leaflet-marker-icon transform in order to track it exactly */
+	-webkit-transition: -webkit-stroke-dashoffset 0.3s ease-out, -webkit-stroke-opacity 0.3s ease-in;
+	-moz-transition: -moz-stroke-dashoffset 0.3s ease-out, -moz-stroke-opacity 0.3s ease-in;
+	-o-transition: -o-stroke-dashoffset 0.3s ease-out, -o-stroke-opacity 0.3s ease-in;
+	transition: stroke-dashoffset 0.3s ease-out, stroke-opacity 0.3s ease-in;
+}
+
+.marker-cluster-small {
+    background-color: rgba(181, 226, 140, 0.6);
+}
+
+.marker-cluster-small div {
+    background-color: rgba(110, 204, 57, 0.6);
+}
+
+.marker-cluster-medium {
+    background-color: rgba(241, 211, 87, 0.6);
+}
+
+.marker-cluster-medium div {
+    background-color: rgba(240, 194, 12, 0.6);
+}
+
+.marker-cluster-large {
+    background-color: rgba(253, 156, 115, 0.6);
+}
+
+.marker-cluster-large div {
+    background-color: rgba(241, 128, 23, 0.6);
+}
+
+/* IE 6-8 fallback colors */
+
+.leaflet-oldie .marker-cluster-small {
+    background-color: rgb(181, 226, 140);
+}
+
+.leaflet-oldie .marker-cluster-small div {
+    background-color: rgb(110, 204, 57);
+}
+
+.leaflet-oldie .marker-cluster-medium {
+    background-color: rgb(241, 211, 87);
+}
+
+.leaflet-oldie .marker-cluster-medium div {
+    background-color: rgb(240, 194, 12);
+}
+
+.leaflet-oldie .marker-cluster-large {
+    background-color: rgb(253, 156, 115);
+}
+
+.leaflet-oldie .marker-cluster-large div {
+    background-color: rgb(241, 128, 23);
+}
+
+.marker-cluster {
+    background-clip: padding-box;
+    border-radius: 20px;
+}
+
+.marker-cluster div {
+    width: 30px;
+    height: 30px;
+    margin-left: 5px;
+    margin-top: 5px;
+    text-align: center;
+    border-radius: 15px;
+    font: 12px "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+
+.marker-cluster span {
+    line-height: 30px;
+}
+.leaflet-popup-content-wrapper, .leaflet-popup-tip{
+    box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.4)!important;
+}
+
+/* Jquery Autocomplete */
+
+.ui-autocomplete {
+	position: absolute;
+	top: 0;
+	left: 0;
+	cursor: default;
+    z-index: 500;
+    cursor: default;
+    z-index: 1030;
+    list-style: none;
+    background: #FFF;
+    padding:0px;
+}
+.ui-menu-item {
+    border-bottom: 1px solid #ddd;
+}
+.ui-menu-item-wrapper{
+    padding: 0.375rem 0.75rem;
+}
+.ui-menu-item-wrapper small{
+    font-size:10px;
+}
+.ui-state-active {
+    background:#3490dc;
+    color:#FFF;
+}
+.badge-small {
+    font-size:0.6rem;
+    display:table-caption;
+}
+
+/* datatable */
+.dt-buttons.btn-group{
+    display:none;
+}
+.dt-button.dropdown-item.buttons-columnVisibility.active{
+    color: inherit;
+    text-decoration: none;
+    background-color: inherit;
+}
+.buttons-columnVisibility:before{
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    padding-right: 10px;
+    content: "\f00c";
+    color:$white;
+}
+.buttons-columnVisibility.active:before{
+    color:inherit;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    padding-right: 10px;
+    content: "\f00c";
+}
+.dataTables_processing.card{
+    position: absolute;
+    width: 100px;
+    z-index: 15;
+    top: 50%;
+    left: 50%;
+    margin: -50px 0 0 -50px;
+    background: #f8fafc;
+    padding: 5px;
+    text-align: center;
+}
+
+/* maps */
+#legend {
+    position: absolute;
+    top: 60px;
+    right: 0px;
+    margin: 10px;
+    padding: 5px;
+    font-size: 12px;
+    font-family: inherit;
+    width: 120px;
+    background: rgb(255, 255, 255);
+    z-index: 1000;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.17);
+}
+.legendheading {
+    position: relative;
+    font-size: 0.9rem;
+    text-align: center;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+
+.legenditem {
+    padding: 5px;
+    margin-bottom: 0px;
+    color: white;
+}
+
+/*Marker clusters*/
+.marker-cluster-pie g.arc{
+  fill-opacity: 0.5;
+}
+.marker-cluster-pie-label {
+    font-family: inherit;
+    font-size: x-small;
+    font-weight: inherit;
+}
+
+/*Markers*/
+.marker {
+  width: 18px;
+  height: 18px;
+  border-width: 2px;
+  border-radius:10px;
+  margin-top: -10px;
+  margin-left: -10px;
+  border-style: solid;
+  fill: #CCC;
+  stroke: #444;
+  background: #CCC;
+  border-color: #444;
+}
+.marker div{
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  font-family: sans-serif;
+}
+
+/*marker categories*/
+.category-1{
+  fill: #dc3545;
+  stroke: #800;
+  background: #dc3545;
+  border-color: #800;
+}
+.category-2{
+  fill: #FA0;
+  stroke: #B60;
+  background: #FA0;
+  border-color: #B60;
+}
+.category-3{
+  fill: #ffc107;
+  stroke: #D80;
+  background: #ffc107;
+  border-color: #D80;
+}
+.category-4{
+  fill: #28a745;
+  stroke: #070;
+  background: #28a745;
+  border-color: #070;
+}
+.category-5{
+  fill: #007bff;
+  stroke: #054e9c;
+  background: #007bff;
+  border-color: #054e9c;
+}
+.category-6{
+  fill: #6c757d;
+  stroke: #444;
+  background: #6c757d;
+  border-color: #444;
+}
+
+/*marker icons*/
+.icon-1{
+  background-repeat: no-repeat;
+  background-position: 0px 1px;
+}
+.icon-2{
+  background-repeat: no-repeat;
+  background-position: 1px 0px;
+}
+.icon-3{
+  background-repeat: no-repeat;
+  background-position: 1px 0px;
+}
+.icon-4{
+  background-repeat: no-repeat;
+  background-position: 1px 0px;
+}
+.leaflet-marker-icon.marker-cluster svg{
+	border-radius:100%;
+	background:rgba(255, 255, 255, 0.68);
+}
+
+/*Popup*/
+.map-popup span.heading {
+  display: block;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+.map-popup span.attribute {
+  display: block;
+}
+.map-popup span.label {
+  font-weight: bold;
+}
