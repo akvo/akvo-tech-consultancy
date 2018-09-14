@@ -17,7 +17,8 @@
         "fzaninotto/faker": "^1.4",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^2.0",
-        "phpunit/phpunit": "^7.0"
+        "phpunit/phpunit": "^7.0",
+        "phpmd/phpmd" : "@stable"
     },
     "autoload": {
         "classmap": [
@@ -49,7 +50,9 @@
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover"
-        ]
+        ],
+        "unit-test": "phpmd app/Http/Controllers text controversial"
+
     },
     "config": {
         "preferred-install": "dist",
