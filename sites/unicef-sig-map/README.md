@@ -7,17 +7,23 @@ Built with Laravel 5.6, LeafletJS, D3JS, Echart & Jquery
 - PDO PHP Extension
 - Mbstring PHP Extension
 - Tokenizer PHP Extension
-= XML PHP Extension
+- XML PHP Extension
 - Ctype PHP Extension
 - JSON PHP Extension
+- Composer
 - NodeJS v8.12.0 (Latest & LTS)
 
 ## Installation
 
 ```
+// Installing Package Dependencies
 $ composer install
 $ npm install
+
+// Compiling Assets
 $ npm run production
+
+// Generate Key
 $ php artisan key:generate
 ```
 
