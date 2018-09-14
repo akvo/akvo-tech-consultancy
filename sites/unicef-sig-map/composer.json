@@ -51,7 +51,7 @@
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover"
         ],
-        "unit-test": "phpmd app/Http/Controllers text controversial"
+        "unicef-test": "phpmd app/Http/Controllers text controversial"
 
     },
     "config": {
