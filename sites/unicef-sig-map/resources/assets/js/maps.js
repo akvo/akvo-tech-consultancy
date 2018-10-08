@@ -10,16 +10,16 @@ var tileServer = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 var geojson,
     metadata,
     geojsonPath = '/api/geojson/',
-    categoryField = 'toilets',
-    iconField = 'toilets',
-    popupFields = ['school_name', 'school_id', 'has_toilet'],
+    categoryField = 'water-source',
+    iconField = categoryField,
+    popupFields = ['school_name', 'school_id'],
     rmax = 30, //Maximum radius for cluster pies
+    selects = ["1","2","3","4","5"],
     markerclusters = L.markerClusterGroup({
         maxClusterRadius: 2 * rmax,
         iconCreateFunction: defineClusterIcon //this is where the magic happens
     }),
     map = L.map('mapid').setView([-8.19, 158.55], 7);
-
 
 //Add basemap
 L.tileLayer(tileServer, {
@@ -45,23 +45,27 @@ d3.json(geojsonPath, function(error, data) {
         markerclusters.addLayer(markers);
         map.fitBounds(markers.getBounds());
         map.attributionControl.addAttribution(metadata.attribution);
-        renderLegend();
+        console.log(metadata.attribution);
+        renderLegend(data);
     } else {
         console.log('Could not load data...');
     }
 });
 
 function defineFeature(feature, latlng) {
-    var categoryVal = feature.properties[categoryField],
-        iconVal = feature.properties[iconField];
-    var myClass = 'marker category-' + categoryVal + ' icon-' + iconVal;
-    var myIcon = L.divIcon({
-        className: myClass,
-        iconSize: null
-    });
-    return L.marker(latlng, {
-        icon: myIcon
-    });
+    if (feature.properties.status === 'active'){
+        var categoryVal = feature.properties[categoryField],
+            iconVal = feature.properties[iconField];
+        var myClass = 'marker category-' + categoryVal + ' icon-' + iconVal;
+        var myIcon = L.divIcon({
+            className: myClass,
+            iconSize: null
+        });
+        return L.marker(latlng, {
+            icon: myIcon
+        });
+    };
+    return;
 }
 
 function defineFeaturePopup(feature, layer) {
@@ -84,8 +88,16 @@ function defineFeaturePopup(feature, layer) {
     });
 }
 
+
 function defineClusterIcon(cluster) {
-    var children = cluster.getAllChildMarkers(),
+    var dbs = cluster.getAllChildMarkers();
+    dbs = $.map(dbs, function(x){
+        if (x.feature.properties.status === 'active') {
+            return x;
+        }
+        return;
+    });
+    var children = dbs,
         n = children.length, //Get number of markers in cluster
         strokeWidth = 1, //Set clusterpie stroke width
         r = rmax - 2 * strokeWidth - (n < 10 ? 12 : n < 100 ? 8 : n < 1000 ? 4 : 0), //Calculate clusterpie radius...
@@ -95,7 +107,6 @@ function defineClusterIcon(cluster) {
             return d.feature.properties[categoryField];
         })
         .entries(children, d3.map),
-
         //bake some svg markup
         html = bakeThePie({
             data: data,
@@ -184,15 +195,38 @@ function bakeThePie(options) {
     //Return the svg-markup rather than the actual element
     return serializeXmlNode(svg);
 }
+/*Function for generating indicators options
 
 /*Function for generating a legend with the same categories as in the clusterPie*/
-function renderLegend() {
+function renderLegend(database) {
     var data = d3.entries(metadata.fields[categoryField].lookup),
         legenddiv = d3.select('body').append('div')
         .attr('id', 'legend');
+    var indicators = d3.entries(metadata.attributes);
+    $('#legend').append('<select class="custom-select" id="indicators"></select>');
+    indicators.forEach(function(x){
+        var selected = '';
+        if (x.value.id == metadata.attribution.id){
+            selected = 'selected';
+        }
+        $('#indicators').append('<option value="'+x.value.id+'" '+ selected +'>'+x.value.name+'</options>');
+    });
+    $('#legend').append('<hr>');
+    var dropdown = d3.select('#indicators');
+    dropdown
+        .on('change', function(a) {
+            legenddiv.remove();
+            var selectedInd = this.value.split('-');
+            database.properties.attribution.id = this.value;
+            database.properties.attribution.name = selectedInd.join(' ');
+            categoryField = this.value,
+            iconField = categoryField,
+            changeValue(database,[]);
+            renderLegend(database);
+        })
     var heading = legenddiv.append('div')
         .classed('legendheading', true)
-        .text(metadata.fields[categoryField].name);
+        .text(metadata.attribution.name);
     var legenditems = legenddiv.selectAll('.legenditem')
         .data(data);
     legenditems
@@ -203,53 +237,29 @@ function renderLegend() {
         })
         .on('click', function(d) {
             $('.leaflet-marker-icon').remove();
+            var selects = ["1","2","3","4","5"];
+            var deletes = [];
             if ($(this).hasClass('inactive-legend')) {
                 $(this).removeClass('inactive-legend');
                 var gpath = '/api/geojson/';
-                if ($('.inactive-legend').length >= 1) {
+                if ($('.inactive-legend').length > 1) {
                     var inactive = $('.inactive-legend').attr('class').split(' ')[0];
-                    gpath = '/api/geojsonfiltered/' + inactive;
                 }
             } else {
                 $(this).addClass('inactive-legend');
-                var gpath = '/api/geojsonfiltered/category-' + d.key;
             };
-            if ($('.inactive-legend').length > 1) {
-                var multi = [];
-                $('.inactive-legend').each(function(a, d) {
-                    var inactive = $(this).attr('class').split(' ')[0];
-                    inactive = inactive.split('-')[1];
-                    multi.push(inactive);
-                });
-                multi = multi.join('-');
-                gpath = '/api/geojsonmulti/' + multi;
-            }
-            map.removeLayer(markerclusters);
-            /* markerclusters.eachLayer(function (ld) {
-                if (d.key === ld.feature.properties.toilets){
-                    map.removeLayer(ld);
+            $('.inactive-legend').each(function(){
+                var inactive = $(this).attr('class').split(' ')[0];
+                deletes.push(inactive.split('-')[1]);
+            });
+            var filterData = $.map(selects, function(x){
+                if (deletes.indexOf(x) >= 0) {
+                    return;
                 }
+                return x;
             });
-            */
-            markerclusters = L.markerClusterGroup({
-                maxClusterRadius: 2 * rmax,
-                iconCreateFunction: defineClusterIcon
-            });
-            map.addLayer(markerclusters);
-            d3.json(gpath, function(error, dt) {
-                if (!error) {
-                    geojson = dt;
-                    metadata = dt.properties;
-                    var markers = L.geoJson(geojson, {
-                        pointToLayer: defineFeature,
-                        onEachFeature: defineFeaturePopup
-                    });
-                    markerclusters.addLayer(markers);
-                    map.attributionControl.addAttribution(metadata.attribution);
-                } else {
-                    console.log('Could not load data...');
-                }
-            });
+            selects = filterData;
+            changeValue(database, deletes);
         })
         .classed({
             'legenditem': true
@@ -257,6 +267,33 @@ function renderLegend() {
         .text(function(d) {
             return d.value;
         });
+}
+
+function changeValue(database, deletes) {
+        map.removeLayer(markerclusters);
+        markerclusters = L.markerClusterGroup({
+            maxClusterRadius: 2 * rmax,
+            iconCreateFunction: defineClusterIcon
+        });
+        map.addLayer(markerclusters);
+        var dbs = database;
+        dbs["features"] = $.map(database.features, function(x){
+            x = x;
+            x.properties.status = "active";
+            if (deletes.indexOf(x.properties[iconField]) >=0) {
+                x.properties.status = "inactive";
+            }
+            return x;
+        });
+        console.log(dbs);
+        geojson = dbs;
+        metadata = dbs.properties;
+        var markers = L.geoJson(dbs, {
+            pointToLayer: defineFeature,
+            onEachFeature: defineFeaturePopup
+        });
+        markerclusters.addLayer(markers);
+        map.attributionControl.addAttribution(metadata.attribution);
 }
 
 /*Helper function*/
