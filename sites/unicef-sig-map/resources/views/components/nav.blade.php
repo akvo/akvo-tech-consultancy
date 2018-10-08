@@ -26,6 +26,7 @@
         </ul>
 		<div class="form-inline my-2 my-lg-0">
 				<form onsubmit="focusTo()" id="stack_search">
+					<a href="#" id="change-cluster" class="mp-btn btn btn-light my-2 my-sm-0" data-cluster="yes"><i class="fa fa-chart-pie"></i></a>
 					<a href="#" onclick="focusNormal()" class="mp-btn btn btn-light my-2 my-sm-0"><i class="fa fa-expand"></i></a>
 					<a href="#" onclick="maps.zoomOut()" class="mp-btn btn btn-light my-2 my-sm-0"><i class="fa fa-search-minus"></i></a>
 					<a href="#" onclick="maps.zoomIn()" class="mp-btn btn btn-light my-2 my-sm-0"><i class="fa fa-search-plus"></i></a>

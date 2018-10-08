@@ -4,11 +4,28 @@ $('#stack_search a:nth-child(1)').css('display', 'inline-block');
 $('#stack_search a:nth-child(2)').css('display', 'inline-block');
 $('#stack_search a:nth-child(3)').css('display', 'inline-block');
 
+let mkr = [];
+
+$('#change-cluster').on('click', function(){
+    var dataCache = JSON.parse(localStorage.getItem('data'));
+    if (clustered === true){
+        map.removeLayer(markerclusters);
+        clustered = false;
+        changeValue(dataCache, getFilterData());
+    }else{
+        map.removeLayer(mkr);
+        mkr = [];
+        clustered = true;
+        changeValue(dataCache, getFilterData());
+    }
+});
+
 var tileServer = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     tileAttribution = 'Map data: <a href="http://openstreetmap.org">OSM</a>'
 
 var geojson,
     metadata,
+    clustered = true,
     geojsonPath = '/api/geojson/',
     categoryField = 'water-source',
     iconField = categoryField,
@@ -57,9 +74,13 @@ function defineFeature(feature, latlng) {
         var categoryVal = feature.properties[categoryField],
             iconVal = feature.properties[iconField];
         var myClass = 'marker category-' + categoryVal + ' icon-' + iconVal;
+        var iconSize = null;
+        if (!clustered) {
+            iconSize = 10;
+        }
         var myIcon = L.divIcon({
             className: myClass,
-            iconSize: null
+            iconSize: iconSize
         });
         return L.marker(latlng, {
             icon: myIcon
@@ -237,8 +258,6 @@ function renderLegend(database) {
         })
         .on('click', function(d) {
             $('.leaflet-marker-icon').remove();
-            var selects = ["1","2","3","4","5"];
-            var deletes = [];
             if ($(this).hasClass('inactive-legend')) {
                 $(this).removeClass('inactive-legend');
                 var gpath = '/api/geojson/';
@@ -248,18 +267,7 @@ function renderLegend(database) {
             } else {
                 $(this).addClass('inactive-legend');
             };
-            $('.inactive-legend').each(function(){
-                var inactive = $(this).attr('class').split(' ')[0];
-                deletes.push(inactive.split('-')[1]);
-            });
-            var filterData = $.map(selects, function(x){
-                if (deletes.indexOf(x) >= 0) {
-                    return;
-                }
-                return x;
-            });
-            selects = filterData;
-            changeValue(database, deletes);
+            changeValue(database, getFilterData());
         })
         .classed({
             'legenditem': true
@@ -269,13 +277,23 @@ function renderLegend(database) {
         });
 }
 
-function changeValue(database, deletes) {
-        map.removeLayer(markerclusters);
-        markerclusters = L.markerClusterGroup({
-            maxClusterRadius: 2 * rmax,
-            iconCreateFunction: defineClusterIcon
+function getFilterData() {
+        var selects = ["1","2","3","4","5"];
+        var deletes = [];
+        $('.inactive-legend').each(function(){
+            var inactive = $(this).attr('class').split(' ')[0];
+            deletes.push(inactive.split('-')[1]);
         });
-        map.addLayer(markerclusters);
+        var filterData = $.map(selects, function(x){
+            if (deletes.indexOf(x) >= 0) {
+                return;
+            }
+            return x;
+        });
+        return deletes;
+}
+
+function changeValue(database, deletes) {
         var dbs = database;
         dbs["features"] = $.map(database.features, function(x){
             x = x;
@@ -285,15 +303,30 @@ function changeValue(database, deletes) {
             }
             return x;
         });
-        console.log(dbs);
+        localStorage.setItem('data', JSON.stringify(dbs));
         geojson = dbs;
         metadata = dbs.properties;
-        var markers = L.geoJson(dbs, {
-            pointToLayer: defineFeature,
-            onEachFeature: defineFeaturePopup
-        });
-        markerclusters.addLayer(markers);
-        map.attributionControl.addAttribution(metadata.attribution);
+        if (clustered) {
+            map.removeLayer(markerclusters);
+            markerclusters = L.markerClusterGroup({
+                maxClusterRadius: 2 * rmax,
+                iconCreateFunction: defineClusterIcon
+            });
+            map.addLayer(markerclusters);
+            var markers = L.geoJson(dbs, {
+                pointToLayer: defineFeature,
+                onEachFeature: defineFeaturePopup
+            });
+            markerclusters.addLayer(markers);
+            map.attributionControl.addAttribution(metadata.attribution);
+        } else {
+            mkr = L.geoJson(database, {
+                pointToLayer: defineFeature,
+                onEachFeature: defineFeaturePopup
+            });
+            map.addLayer(mkr);
+            map.attributionControl.addAttribution(metadata.attribution);
+        }
 }
 
 /*Helper function*/

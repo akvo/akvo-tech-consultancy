@@ -11,5 +11,4 @@
     <link href="{{asset(mix('css/app.css'))}}" rel="stylesheet">
     <link href="{{asset('vendor/leaflet/leaflet.css')}}" rel="stylesheet">
     <link href="{{asset('vendor/fontawesome/css/all.min.css')}}" rel="stylesheet">
-    <script src="{{asset('vendor/cache-js/cache.js')}}"></script>
 </head>
