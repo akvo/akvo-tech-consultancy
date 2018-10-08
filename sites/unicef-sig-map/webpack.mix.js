@@ -33,6 +33,7 @@ mix.js([
     .copy('node_modules/leaflet/dist/', 'public/vendor/leaflet/')
     .copy('node_modules/@fortawesome/fontawesome-free/css/all.min.css', 'public/vendor/fontawesome/css/all.min.css')
     .copy('node_modules/@fortawesome/fontawesome-free/webfonts/', 'public/vendor/fontawesome/webfonts/')
+    .copy('node_modules/js-cache/bundle/cache.js', 'public/vendor/cache-js/cache.js')
     .sass('resources/assets/sass/app.scss', 'public/css')
     .version();
 

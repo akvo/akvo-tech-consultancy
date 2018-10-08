@@ -14,8 +14,8 @@
                 <a class="nav-link" href="{{route('database')}}">Database</a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">Stats</a>
+                <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">Visualization</a>
                 <div class="dropdown-menu" aria-labelledby="dropdown01">
                     <?php $pages = ['management', 'hygiene','water_supply', 'sanitation']; ?> 
                     @foreach ($pages as $page)

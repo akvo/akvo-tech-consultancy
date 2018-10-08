@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Cache;
 use App\Database as DB;
 use DataTables;
 
@@ -69,7 +70,48 @@ class ApiController extends Controller
 
     public function getGeoJson(Request $request, DB $db)
     {
-        $features = $db->maps(); 
+        if (Cache::has('all-geojson')) {
+            $data = Cache::get('all-geojson');
+            return $data;
+        }
+        $features = $db->maps([0]); 
+        $data = $this->getFeatures($features);
+        Cache::add('all-geojson', $data, 60);
+        return $data;
+    }
+
+    public function getGeoJsonFiltered(Request $request, DB $db)
+    {
+        if (Cache::has('filter-geojson-'.$request->id)) {
+            $data = Cache::get('filter-geojson-'.$request->id);
+            return $data;
+        }
+        list($filter, $ids) = explode('-',$request->id);
+        $features = $db->maps([$ids]); 
+        $data = $this->getFeatures($features);
+        Cache::add('filter-geojson-'.$request->id, $data, 60);
+        return $data;
+    }
+
+    public function getGeoJsonMultiple(Request $request, DB $db)
+    {
+        if (Cache::has('filter-multiple-geojson-'.$request->ids)) {
+            $data = Cache::get('filter-multiple-geojson-'.$request->ids);
+            return $data;
+        }
+        $ids = explode('-',$request->ids);
+        $features = $db->maps($ids); 
+        $data = $this->getFeatures($features);
+        Cache::add('filter-multiple-geojson-'.$request->ids, $data, 60);
+        return $data;
+    }
+
+    public function getCache(Request $request)
+    {
+    }
+
+    private function getFeatures($features)
+    {
         $properties = array(
 			'school_name' => array(
 				'name'=>"School Name"
@@ -93,15 +135,15 @@ class ApiController extends Controller
 				'name' => 'Toilets'
 			)
         );
-        return array(
+        $data = array(
             'type' => 'FeatureCollection',
             'features' => $features,
             'properties' => array(
                 'fields' => $properties,
-                'attribution' => 'Traffic Accidents',
-                'description' => 'Traffic Accidents Description'
+                'attribution' => 'Toilet Type',
+                'description' => 'Toilet Description'
             )
         );
+        return $data;
     }
-
 }

@@ -1,4 +1,3 @@
-
 /*
  *
  * Global Map Functions
@@ -168,10 +167,14 @@ function toggleLegend(it, state) {
     $('.marker.'+rem_class).hide();
 }
 
+function restartCluster(el, key) {
+    var filter = $(el).attr('class').split(' ')[0];
+    $('.marker .' + filter).remove();
+}
+
 
 /*
  *
  * Global Database Function
  *
  */
-

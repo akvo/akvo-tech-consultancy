@@ -7,14 +7,12 @@
         "watch-poll": "npm run watch -- --watch-poll",
         "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
         "prod": "npm run production",
-        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "unicef-test": "eslint resources/assets/js"
+        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
     },
     "devDependencies": {
         "axios": "^0.18",
         "bootstrap": "^4.0.0",
         "cross-env": "^5.1",
-        "eslint-config-jquery": "^1.0.1",
         "jquery": "^3.3.1",
         "laravel-mix": "^2.0",
         "lodash": "^4.17.5",
@@ -37,8 +35,8 @@
         "datatables.net-scroller-bs4": "^1.5.1",
         "datatables.net-select-bs4": "^1.2.7",
         "echarts": "^4.1.0",
-        "eslint": "^5.5.0",
         "jquery-ui": "^1.12.1",
+        "js-cache": "^1.0.3",
         "leaflet": "^1.3.4"
     }
 }

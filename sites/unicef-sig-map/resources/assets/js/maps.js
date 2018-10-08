@@ -7,45 +7,49 @@ $('#stack_search a:nth-child(3)').css('display', 'inline-block');
 var tileServer = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     tileAttribution = 'Map data: <a href="http://openstreetmap.org">OSM</a>'
 
-    var geojson,
-        metadata,
-        geojsonPath = '/api/geojson',
-        categoryField = 'toilets',
-        iconField = 'toilets',
-        popupFields = ['school_name', 'school_id', 'has_toilet'],
-        rmax = 30, //Maximum radius for cluster pies
-        markerclusters = L.markerClusterGroup({
-            maxClusterRadius: 2 * rmax,
-            iconCreateFunction: defineClusterIcon //this is where the magic happens
-        }),
-        map = L.map('mapid').setView([-8.19, 158.55], 7);
+var geojson,
+    metadata,
+    geojsonPath = '/api/geojson/',
+    categoryField = 'toilets',
+    iconField = 'toilets',
+    popupFields = ['school_name', 'school_id', 'has_toilet'],
+    rmax = 30, //Maximum radius for cluster pies
+    markerclusters = L.markerClusterGroup({
+        maxClusterRadius: 2 * rmax,
+        iconCreateFunction: defineClusterIcon //this is where the magic happens
+    }),
+    map = L.map('mapid').setView([-8.19, 158.55], 7);
 
-    //Add basemap
-    L.tileLayer(tileServer, {
-        attribution: tileAttribution,
-        maxZoom: 15
-    }).addTo(map);
 
-    //and the empty markercluster layer
-    map.addLayer(markerclusters);
+//Add basemap
+L.tileLayer(tileServer, {
+    attribution: tileAttribution,
+    maxZoom: 15
+}).addTo(map);
 
-    //Ready to go, load the geojson
-    d3.json(geojsonPath, function(error, data) {
-        if (!error) {
-            geojson = data;
-            metadata = data.properties;
-            var markers = L.geoJson(geojson, {
-                pointToLayer: defineFeature,
-                onEachFeature: defineFeaturePopup
-            });
-            markerclusters.addLayer(markers);
-            map.fitBounds(markers.getBounds());
-            map.attributionControl.addAttribution(metadata.attribution);
-            renderLegend();
-        } else {
-            console.log('Could not load data...');
-        }
-    });
+//and the empty markercluster layer
+map.addLayer(markerclusters);
+
+//Ready to go, load the geojson
+d3.json(geojsonPath, function(error, data) {
+    localStorage.setItem('data', JSON.stringify(data));
+    var retrievedObject = localStorage.getItem('data');
+    data = JSON.parse(retrievedObject);
+    if (!error) {
+        geojson = data;
+        metadata = data.properties;
+        var markers = L.geoJson(geojson, {
+            pointToLayer: defineFeature,
+            onEachFeature: defineFeaturePopup
+        });
+        markerclusters.addLayer(markers);
+        map.fitBounds(markers.getBounds());
+        map.attributionControl.addAttribution(metadata.attribution);
+        renderLegend();
+    } else {
+        console.log('Could not load data...');
+    }
+});
 
 function defineFeature(feature, latlng) {
     var categoryVal = feature.properties[categoryField],
@@ -74,7 +78,7 @@ function defineFeaturePopup(feature, layer) {
             popupContent += '<span class="attribute"><span class="label">' + label + ':</span> ' + val + '</span>';
         }
     });
-    popupContent = '<div class="map-popup">' + popupContent + '<hr><button href="#" class="btn btn-primary btn-block" onclick="getDetails(this,0)" data="'+props.school_id+'"><i class=""></i> View Details</button></div>';
+    popupContent = '<div class="map-popup">' + popupContent + '<hr><button href="#" class="btn btn-primary btn-block" onclick="getDetails(this,0)" data="' + props.school_id + '"><i class=""></i> View Details</button></div>';
     layer.bindPopup(popupContent, {
         offset: L.point(1, -2)
     });
@@ -197,8 +201,55 @@ function renderLegend() {
         .attr('class', function(d) {
             return 'category-' + d.key;
         })
-        .attr('onclick', function(d){
-            return 'restartCluster(this,'+d.key+')';
+        .on('click', function(d) {
+            $('.leaflet-marker-icon').remove();
+            if ($(this).hasClass('inactive-legend')) {
+                $(this).removeClass('inactive-legend');
+                var gpath = '/api/geojson/';
+                if ($('.inactive-legend').length >= 1) {
+                    var inactive = $('.inactive-legend').attr('class').split(' ')[0];
+                    gpath = '/api/geojsonfiltered/' + inactive;
+                }
+            } else {
+                $(this).addClass('inactive-legend');
+                var gpath = '/api/geojsonfiltered/category-' + d.key;
+            };
+            if ($('.inactive-legend').length > 1) {
+                var multi = [];
+                $('.inactive-legend').each(function(a, d) {
+                    var inactive = $(this).attr('class').split(' ')[0];
+                    inactive = inactive.split('-')[1];
+                    multi.push(inactive);
+                });
+                multi = multi.join('-');
+                gpath = '/api/geojsonmulti/' + multi;
+            }
+            map.removeLayer(markerclusters);
+            /* markerclusters.eachLayer(function (ld) {
+                if (d.key === ld.feature.properties.toilets){
+                    map.removeLayer(ld);
+                }
+            });
+            */
+            markerclusters = L.markerClusterGroup({
+                maxClusterRadius: 2 * rmax,
+                iconCreateFunction: defineClusterIcon
+            });
+            map.addLayer(markerclusters);
+            d3.json(gpath, function(error, dt) {
+                if (!error) {
+                    geojson = dt;
+                    metadata = dt.properties;
+                    var markers = L.geoJson(geojson, {
+                        pointToLayer: defineFeature,
+                        onEachFeature: defineFeaturePopup
+                    });
+                    markerclusters.addLayer(markers);
+                    map.attributionControl.addAttribution(metadata.attribution);
+                } else {
+                    console.log('Could not load data...');
+                }
+            });
         })
         .classed({
             'legenditem': true
@@ -216,21 +267,6 @@ function serializeXmlNode(xmlNode) {
         return xmlNode.xml;
     }
     return "";
-}
-
-
-function restartCluster() {
-    maps.removeLayer(markerclusters);
-    geojsonPath = '/api/geojson';
-    categoryField = 'toilets';
-    iconField = 'toilets';
-    popupFields = ['school_name', 'school_id', 'has_toilet'];
-    rmax = 30, //Maximum radius for cluster pies
-    markerclusters = L.markerClusterGroup({
-        maxClusterRadius: 2 * rmax,
-        iconCreateFunction: defineClusterIcon //this is where the magic happens
-    }),
-    maps.addLayer(markerclusters);
 }
 
 maps = map;

@@ -283,6 +283,13 @@ tbody tr:hover{
     padding: 5px;
     margin-bottom: 0px;
     color: white;
+    cursor: pointer;
+}
+.legenditem:before{
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    padding-right: 10px;
+    content: "\f00c";
 }
 
 /*Marker clusters*/
@@ -352,6 +359,15 @@ tbody tr:hover{
   stroke: #444;
   background: #6c757d;
   border-color: #444;
+}
+.inactive-legend {
+    background: #222;
+}
+.inactive-legend:before{
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    padding-right: 10px;
+    content: "\f057";
 }
 
 /*marker icons*/

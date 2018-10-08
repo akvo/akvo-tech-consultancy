@@ -20,7 +20,7 @@ class Database extends Model
         return (int) $this->attributes['22480946'];
     }
 
-    public function maps()
+    public function maps($excepts)
     {
         $db = collect($this->all(
             'longitude',
@@ -29,7 +29,7 @@ class Database extends Model
             '28390923 as school_name', 
             '20510942 as separated', 
             '22490945 as has_toilets' 
-		))->map(function($data) {
+		))->map(function($data) use ($excepts) {
 			$toilet = '1';
 			if ($data->has_toilets === 'Yes')
 			{
@@ -39,6 +39,9 @@ class Database extends Model
 			{
 				$toilet = '4';
 			}
+            if (in_array($toilet, $excepts)){
+                return;
+            }
 			$results = array(
                 'geometry' => array(
                     'type' => 'Point',
@@ -54,7 +57,7 @@ class Database extends Model
 			);
 			return $results;
 		});
-		return $db;
+		return $db->filter()->values();
     }
 
     public function locations()
