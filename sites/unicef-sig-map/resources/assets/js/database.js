@@ -27,10 +27,10 @@ var data_table = $('#school_table').DataTable({
 		method: 'POST'
 	},
 	columns: [
-        col('identifier', true, true),
-        col('22480946', true, true),
-        col('28390923', true, true),
-        col('26390924', true, true),
+        col('A', true, true),
+        col('P', true, true),
+        col('L', true, true),
+        col('R', true, true),
         col('total_students', true, false),
         col('t_toilets', true, false),
         col('bg_toilet', false, false),

@@ -134,7 +134,7 @@ function focusTo() {
 }
 
 function focusNormal() {
-    maps.setView(new L.LatLng(-8.19,158.55), 7);
+    maps.setView(new L.LatLng(-8.3626894,160.3288342), 7);
 }
 
 function jqUI(){

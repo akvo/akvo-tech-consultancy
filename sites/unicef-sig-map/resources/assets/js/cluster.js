@@ -12,10 +12,10 @@ import 'leaflet';
             disableClusteringAtZoom: null,
             removeOutsideVisibleBounds: true,
             animate: true,
-            animateAddingMarkers: false,
+            animateAddingMarkers: true,
             spiderfyDistanceMultiplier: 1,
             spiderLegPolylineOptions: {
-                weight: 1.5,
+                weight: 0.2,
                 color: '#222',
                 opacity: 0.5
             },

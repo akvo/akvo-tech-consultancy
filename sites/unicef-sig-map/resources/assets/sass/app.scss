@@ -60,7 +60,8 @@ tbody tr:hover{
 #stack_search a:first-child,
 #stack_search a:nth-child(1),
 #stack_search a:nth-child(2),
-#stack_search a:nth-child(3){
+#stack_search a:nth-child(3),
+#stack_search a:nth-child(4){
     display:none;
 }
 
@@ -73,6 +74,12 @@ tbody tr:hover{
 
 .btn{
     border-radius: 0px;
+}
+
+.btn-active{
+    background: #0091e2;
+    border: #31aef5 1px solid;
+    color: white;
 }
 
 .form-control{
@@ -266,7 +273,7 @@ tbody tr:hover{
     padding: 5px;
     font-size: 12px;
     font-family: inherit;
-    width: 120px;
+    width: 230px;
     background: rgb(255, 255, 255);
     z-index: 1000;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.17);
@@ -275,7 +282,7 @@ tbody tr:hover{
     position: relative;
     font-size: 0.9rem;
     text-align: center;
-    margin-bottom: 5px;
+    padding-top: 15px;
     text-transform: uppercase;
 }
 
@@ -290,6 +297,46 @@ tbody tr:hover{
     font-weight: 900;
     padding-right: 10px;
     content: "\f00c";
+}
+/*Province List*/
+
+#province-list{
+    display:none;
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    margin: 10px;
+    padding: 5px;
+    font-size: 12px;
+    font-family: inherit;
+    width: 230px;
+    background: rgb(255, 255, 255);
+    z-index: 1001;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.17);
+}
+#province-list>a{
+    padding: 10px;
+    display: block;
+    cursor: pointer;
+}
+#province-list>a:before{
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    padding-right: 10px;
+    content: "\f00c";
+}
+#province-list>a.inactive{
+    color:#FFF;
+    background:#dc3545;
+}
+#province-list>a.inactive:before{
+    content: "\f057";
+}
+#province-list>a:hover{
+    padding: 10px;
+    background:#007bff;
+    color: #FFF;
+    display: block;
 }
 
 /*Marker clusters*/
@@ -360,6 +407,12 @@ tbody tr:hover{
   background: #6c757d;
   border-color: #444;
 }
+.category-undefined{
+  fill: #28a745;
+  stroke: #070;
+  background: #28a745;
+  border-color: #070;
+}
 .inactive-legend {
     background: #222;
 }
@@ -371,19 +424,13 @@ tbody tr:hover{
 }
 
 /*marker icons*/
-.icon-1{
-  background-repeat: no-repeat;
-  background-position: 0px 1px;
-}
-.icon-2{
-  background-repeat: no-repeat;
-  background-position: 1px 0px;
-}
-.icon-3{
-  background-repeat: no-repeat;
-  background-position: 1px 0px;
-}
-.icon-4{
+.icon-1,
+.icon-2,
+.icon-3,
+.icon-4,
+.icon-5,
+.icon-6
+{
   background-repeat: no-repeat;
   background-position: 1px 0px;
 }
@@ -403,4 +450,20 @@ tbody tr:hover{
 }
 .map-popup span.label {
   font-weight: bold;
+}
+
+/*BarLegend*/
+#bar-legend {
+    position: absolute;
+    top: 70px;
+    right: 10px;
+	height: 300px;
+    padding: 10px;
+	margin:0px;
+    font-size: 9px;
+    font-family: inherit;
+    width: 600px;
+    background: rgb(255, 255, 255);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.17);
+    z-index: 999;
 }
