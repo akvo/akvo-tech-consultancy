@@ -15,7 +15,7 @@ mix.js([
     'resources/assets/js/bootstrap.js',
     ], 'public/js/app.js')
     .js([
-    'resources/assets/js/cluster.js',
+    'resources/assets/js/MarkerCluster.js',
     'resources/assets/js/test.js',
     ], 'public/js/test.js')
     .js([
