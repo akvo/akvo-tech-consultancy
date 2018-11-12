@@ -17,6 +17,9 @@ body {
   padding-top: 55px;
   font-size:unset;
 }
+h5{
+    font-weight:bold;
+}
 main.container{
     margin-top:40px;
     margin-bottom:40px;
@@ -48,9 +51,22 @@ tbody tr:hover{
 
 #school_desc {
     margin-top: 10px;
-    max-height: 400px;
-    overflow-y: scroll;
-    border-top: 1px solid #ddd;
+    // max-height: 400px;
+    // overflow-y: scroll;
+    // border-top: 1px solid #ddd;
+}
+#school_desc .alert{
+    margin-bottom:0px;
+    padding: 5px;
+    border-radius:0px;
+    border:none;
+    color:#FFF;
+}
+#school_desc .alert-success{
+    background:#28a745;
+}
+#school_desc .alert-danger{
+    background:#dc3545;
 }
 
 #detail_modal .modal-body {
@@ -92,9 +108,6 @@ tbody tr:hover{
 .card-custom{
 	border-radius: 0px;
     margin: 10px 0px;
-}
-.card-custom .card-body{
-    padding: 10px;
 }
 .modal-content{
 	border-radius: 0px;
@@ -278,12 +291,48 @@ tbody tr:hover{
     z-index: 1000;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.17);
 }
-.legendheading {
+#legend.sliding{
+    right: 250px;
+}
+.legendheading, .legendprovince, .legendschooltype {
     position: relative;
     font-size: 0.9rem;
     text-align: center;
     padding-top: 15px;
     text-transform: uppercase;
+}
+
+.legendprovince,
+.legendschooltype{
+    text-align:left;
+    padding: 15px;
+    min-width: 230px;
+    cursor:pointer;
+    transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+    border-bottom: 1px solid #eee;
+    margin-block-end: 0px;
+}
+.legendprovince:hover,
+.legendschooltype:hover{
+    background-color:#3490dc;
+    color:#fff;
+}
+.legendprovince:before,
+.legendschooltype:before{
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    padding-right: 10px;
+    content: "\f0a9";
+}
+.legendprovince.active,
+.legendschooltype.active{
+    background-color:#343a40;
+    color:#fff;
+}
+.legendprovince.active:before,
+.legendschooltype.active:before{
+    content: "\f0ab";
 }
 
 .legenditem {
@@ -300,43 +349,63 @@ tbody tr:hover{
 }
 /*Province List*/
 
-#province-list{
-    display:none;
+#main-filter-list{
+    background: rgb(255, 255, 255);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.17);
     position: absolute;
-    bottom: 0px;
     right: 0px;
+    bottom:0px;
+    z-index: 1002;
     margin: 10px;
+}
+
+#province-list,
+#school-type-list{
+    display:none;
     padding: 5px;
     font-size: 12px;
     font-family: inherit;
     width: 230px;
-    background: rgb(255, 255, 255);
-    z-index: 1001;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.17);
 }
-#province-list>a{
+#province-list>a,
+#school-type-list>a{
     padding: 10px;
     display: block;
     cursor: pointer;
 }
-#province-list>a:before{
+#province-list>a:before,
+#school-type-list>a:before {
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     padding-right: 10px;
     content: "\f00c";
 }
-#province-list>a.inactive{
+#province-list>a.inactive,
+#school-type-list>a.inactive{
     color:#FFF;
     background:#dc3545;
 }
-#province-list>a.inactive:before{
+#province-list>a.inactive:before,
+#school-type-list>a.inactive:before {
     content: "\f057";
 }
-#province-list>a:hover{
+#province-list>a:hover,
+#school-type-list>a:hover{
     padding: 10px;
     background:#007bff;
     color: #FFF;
     display: block;
+}
+#province-all,
+#school-type-all{
+    display: block;
+    width: 100%;
+    background: #d63943;
+    color: #FFF;
+}
+#province-all.enable-all,
+#school-type-all.enable-all{
+    background: #3490dc;
 }
 
 /*Marker clusters*/
@@ -462,8 +531,29 @@ tbody tr:hover{
 	margin:0px;
     font-size: 9px;
     font-family: inherit;
-    width: 600px;
+    width: 525px;
     background: rgb(255, 255, 255);
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.17);
     z-index: 999;
+}
+#bar-legend.sliding {
+    right: 250px;
+}
+
+.modal-dialog{
+    max-width:800px;
+}
+.tab-content > .active{
+    max-height:500px;
+    height:500px;
+    overflow-x:auto;
+    padding:15px;
+}
+.charts-container {
+    width: 50%;
+    display: inline-block;
+}
+.chart-detail{
+	height:400px;
+	width:360px;
 }

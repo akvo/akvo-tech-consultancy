@@ -20,6 +20,7 @@ Route::get('/params','ApiController@getParams');
 Route::get('/locations','ApiController@getLocation');
 Route::get('/geojson/','ApiController@getGeoJson');
 Route::get('/province/','ApiController@getProvinces');
+Route::get('/school-type/','ApiController@getSchoolType');
 Route::get('/details/{id}','ApiController@getDetail');
 Route::get('/search/{q}','ApiController@searchData');
 Route::get('/indicator','ApiController@getIndicators');

@@ -39,6 +39,11 @@ class Database extends Model
             'V as tt_female',
             'Y as water_source',
             'CU as wash_club',
+            'CF as washing_facilities',
+            'DU as annual_grant', 
+            'DY as community_support', 
+            'DD as cleaning_schedule', 
+            'DD as training', 
             'BH as toilet_together',
             'BJ as toilet_girl',
             'BL as toilet_boy',
@@ -49,9 +54,6 @@ class Database extends Model
         )->whereNotIn(
             'identifier', ['d3es-mqgt-9mmg', 'tf33-p848-vwrk', 'fnd5-549n-tp75']
         ))->map(function($data) {
-            if($data->school_type === null){
-                $data->school_type = 'Other';
-            }
 			$toilet = '1';
 			if ($data->has_toilets === 'Yes')
 			{
@@ -71,8 +73,15 @@ class Database extends Model
 				$water= '5';
 			}
             $data->wash_club = ($data->wash_club === "Yes" ? "1":"4");
-            $data->toilet_location = ($data->toilet_location === null ? "No Toilet" : explode(" ",$data->toilet_location)[0]);
-            $data->school_type = ($data->school_type === null ? "Other": $data->school_type_other);
+            $data->washing_facilities = ($data->washing_facilities === "Yes" ? "1":"4");
+            $data->community_support = ($data->community_support === "Yes" ? "1":"4");
+            $data->annual_grant = ($data->annual_grant === "Yes" ? "1":"4");
+            $data->training = ($data->training === "Yes" ? "1":"4");
+            $data->cleaning_schedule = ($data->cleaning_schedule === "Yes" ? "1":"4");
+            $data->toilet_location = ($data->toilet_location = null ? "No Toilet" : explode(" ",$data->toilet_location)[0]);
+            if ($data->school_type === null){
+                $data->school_type = "Other";
+            }
             $data->total_teacher = $data->tt_female + $data->tt_male;
             $data->total_students = 0;
             $data->total_students = $data->ts_girl + $data->ts_boy;
@@ -100,11 +109,9 @@ class Database extends Model
                 ),
                 'type' => 'Feature',
                 'properties' => array(
-                    'school_type' => $data->school_type,
-                    'school_type_other' => $data->school_type_other,
+                    'school-type' => $data->school_type,
                     'province' => $data->province,
                     'school_name' => $data->school_name,
-                    'school-type' => $data->school_type,
                     'students_total' => $data->total_students, 
                     'students_boy' => (int) $data->ts_boy,
                     'students_girl' => (int) $data->ts_girl,
@@ -123,8 +130,14 @@ class Database extends Model
                     'toilet-type' => $toilet,
                     'water-source' => $water,
                     'wash-club' => $data->wash_club,
+                    'washing-facilities' => $data->washing_facilities,
+                    'annual-grant' => $data->annual_grant,
+                    'community-support' => $data->community_support,
+                    'cleaning-schedule' => $data->cleaning_schedule,
+                    'teacher-training-or-workshop' => $data->training,
                     'status' => 'active',
-                    'master' => 'active'
+                    'province-master' => 'active',
+                    'school-type-master' => 'active'
                 )
 			);
 			return $results;
@@ -156,9 +169,9 @@ class Database extends Model
 
     public function indicators()
     {
-        $db = $this->select('BU')
-            ->groupby('Bu')
-            ->get('BU');
+        $db = $this->select('N')
+            ->groupby('N')
+            ->get('N');
         return $db;
     }
 

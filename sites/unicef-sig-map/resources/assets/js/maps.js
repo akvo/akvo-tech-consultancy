@@ -1,4 +1,3 @@
-const echarts = require('echarts');
 import 'leaflet';
 
 $('#stack_search a:nth-child(1)').css('display', 'inline-block');
@@ -24,51 +23,125 @@ $('#change-cluster').on('click', function() {
     }
 });
 
-var tileServer = 'https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}{r}.png',
-    tileAttribution = 'Tiles © Wikimedia — Source: Wikimedia, Data: Unicef Pacific WASH, <a href="https://akvo.org">Akvo SEAP</a>';
+var tileServer = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    tileAttribution = 'Tiles © Wikimedia — Source: OpenStreetMap, Data: Unicef Pacific WASH, <a href="https://akvo.org">Akvo SEAP</a>';
 
+d3.select('body').append('div').attr('id', 'main-filter-list');
 var provinceList;
 d3.json('/api/province', function(error, data) {
     provinceList = data;
-    $('#stack_search').prepend('<a id="province-filter" class="btn btn-light mp-btn my-2 my-sm-0">Show Province</a>');
-    $('#province-filter').css('display','inline-block');
-    d3.select('body').append('div').attr('id', 'province-list');
-    d3.select('#province-list').append('div').attr('class','legendheading').text('Province');
-    d3.select('#province-list').append('hr');
+    $('#province-filter').css('display', 'inline-block');
+    d3.select('#main-filter-list').append('div').attr('class', 'legendprovince').text('Province');
+    d3.select('#main-filter-list').append('div').attr('id', 'province-list');
     provinceList.forEach(function(x) {
         var provinceId = x.split(' ');
         provinceId = provinceId.join('_');
-        console.log(provinceId);
         d3.select('#province-list')
             .append('a')
-            .attr('id','province-'+provinceId)
+            .attr('id', 'province-' + provinceId)
             .text(x)
-            .on('click',function(a){
-                filterProvince(x, provinceId);
+            .on('click', function(a) {
+                filterProvSchool(x, provinceId, 'province');
             });
     });
-    $('#province-filter').click(function(e){
-        $('#province-list').toggle();
-        if($(this).text() === 'Show Province'){
-            $(this).text('Hide Province');
-        }else{
-            $(this).text('Show Province');
+    d3.select('#province-list').append('button')
+        .attr('class', 'btn')
+        .attr('id', 'province-all')
+        .attr('data-select', 'remove')
+        .text('Disable All')
+        .on('click', function(a) {
+            filterProvSchool('options', 'all', 'province');
+        });
+    $('.legendprovince').click(function(e) {
+        $('#province-list').slideToggle();
+        if ($(this).hasClass('active')) {
+            $(this).removeClass('active');
+        } else {
+            $(this).addClass('active');
+            if($('.legendschooltype').hasClass('active')){
+                $('.legendschooltype').click();
+            };
         }
 
     });
 });
 
-function filterProvince(provinceName, provinceId) {
+var schoolTypeList;
+d3.json('/api/school-type', function(error, data) {
+    schoolTypeList = data;
+    $('#school-type-filter').css('display', 'inline-block');
+    d3.select('#main-filter-list').append('h3').attr('class', 'legendschooltype').text('School Type');
+    d3.select('#main-filter-list').append('div').attr('id', 'school-type-list');
+    schoolTypeList.forEach(function(x) {
+        var schoolTypeId = x.split(' ');
+        schoolTypeId = schoolTypeId.join('_');
+        d3.select('#school-type-list')
+            .append('a')
+            .attr('id', 'school-type-' + schoolTypeId)
+            .text(x)
+            .on('click', function(a) {
+                filterProvSchool(x, schoolTypeId, 'school-type');
+            });
+    });
+    d3.select('#school-type-list').append('button')
+        .attr('class', 'btn')
+        .attr('id', 'school-type-all')
+        .attr('data-select', 'remove')
+        .text('Disable All')
+        .on('click', function(a) {
+            filterProvSchool('options', 'all', 'school-type');
+        });
+    $('.legendschooltype').click(function(e) {
+        $('#school-type-list').slideToggle();
+        if ($(this).hasClass('active')) {
+            $(this).removeClass('active');
+        } else {
+            $(this).addClass('active');
+            if($('.legendprovince').hasClass('active')){
+                $('.legendprovince').click();
+            };
+        }
+
+    });
+});
+
+function filterProvSchool(dataName, dataId, type) {
     var dbs = JSON.parse(localStorage.getItem('data'));
+    if (dataName === 'options') {
+        var dataSelection = $('#'+type+'-all').attr('data-select');
+        if (dataSelection === 'add') {
+            $('#'+type+'-list > a').removeClass('inactive');
+            $('#'+type+'-all').removeClass('enable-all');
+            $('#'+type+'-all').text('Disable All');
+            $('#'+type+'-all').attr('data-select', 'remove');
+        } else {
+            $('#'+type+'-list > a').addClass('inactive');
+            $('#'+type+'-all').addClass('enable-all');
+            $('#'+type+'-all').text('Enable All');
+            $('#'+type+'-all').attr('data-select', 'add');
+        }
+    } else {
+        $('#'+type+'-all').addClass('enable-all');
+        $('#'+type+'-all').text('Enable All');
+        $('#'+type+'-all').attr('data-select', 'add');
+    }
     dbs["features"] = $.map(dbs.features, function(x) {
         x = x;
-        if (x.properties.province === provinceName){
-            if (x.properties.master === "active") {
-                x.properties.master = "inactive";
-                $('#province-'+provinceId).addClass('inactive');
-            }else{
-                x.properties.master = "active";
-                $('#province-'+provinceId).removeClass('inactive');
+        if (dataName === 'options') {
+            if (dataSelection === 'add') {
+                x.properties[type + '-master'] = 'active';
+            } else {
+                x.properties[type + '-master'] = 'inactive';
+            }
+        } else {
+            if (x.properties[type] === dataName) {
+                if (x.properties[type + '-master']=== "active") {
+                    x.properties[type + '-master']= "inactive";
+                    $('#' + type + '-' + dataId).addClass('inactive');
+                } else {
+                    x.properties[type + '-master'] = "active";
+                    $('#' + type + '-' + dataId).removeClass('inactive');
+                }
             }
         }
         return x;
@@ -76,21 +149,16 @@ function filterProvince(provinceName, provinceId) {
     localStorage.setItem('data', JSON.stringify(dbs));
     dbs = JSON.parse(localStorage.getItem('data'));
     metadata = dbs.properties;
-    if (clustered) {
+    if (clustered === true) {
         map.removeLayer(markerclusters);
-        markerclusters = L.markerClusterGroup({
-            maxClusterRadius: 2 * rmax,
-            iconCreateFunction: defineClusterIcon
-        });
-        map.addLayer(markerclusters);
-        var markers = L.geoJson(dbs, {
-            pointToLayer: defineFeature,
-            onEachFeature: defineFeaturePopup
-        });
-        markerclusters.addLayer(markers);
-        map.attributionControl.addAttribution(metadata.attribution);
+        if (metadata.attribution.type === 'num') {
+            $('#bar-legend').remove();
+            createHistogram();
+        } else {
+            changeValue(dbs, getFilterData());
+        };
     } else {
-        map.removeLayer(markerclusters);
+        map.removeLayer(mkr);
         mkr = L.geoJson(dbs, {
             pointToLayer: defineFeature,
             onEachFeature: defineFeaturePopup
@@ -98,7 +166,6 @@ function filterProvince(provinceName, provinceId) {
         map.addLayer(mkr);
         map.attributionControl.addAttribution(metadata.attribution);
     }
-    console.log(dbs);
 };
 
 var geojson,
@@ -114,7 +181,7 @@ var geojson,
         maxClusterRadius: 2 * rmax,
         iconCreateFunction: defineClusterIcon //this is where the magic happens
     }),
-    map = L.map('mapid').setView([0, 0], 7);
+    map = L.map('mapid').setView([-8.3626894, 160.3288342], 7);
 
 //Add basemap
 L.tileLayer(tileServer, {
@@ -147,7 +214,7 @@ d3.json(geojsonPath, function(error, data) {
 });
 
 function defineFeature(feature, latlng) {
-    if (feature.properties.status === 'active' && feature.properties.master === 'active') {
+    if (feature.properties.status === 'active' && feature.properties['province-master'] === 'active' && feature.properties['school-type-master'] === 'active') {
         var categoryVal = feature.properties[categoryField],
             iconVal = feature.properties[iconField];
         var myClass = 'marker category-' + categoryVal + ' icon-' + iconVal;
@@ -170,16 +237,9 @@ function defineFeaturePopup(feature, layer) {
     var props = feature.properties,
         fields = metadata.fields,
         popupContent = '';
-    popupFields.map(function(key) {
-        if (props[key]) {
-            var val = props[key],
-                label = fields[key].name;
-            if (fields[key].lookup) {
-                val = fields[key].lookup[val];
-            }
-            popupContent += '<span class="attribute"><span class="label">' + label + ':</span> ' + val + '</span>';
-        }
-    });
+    popupContent = '<span class="attribute"><span class="label">School Name:</span> ' + props.school_name + '</span>';
+    popupContent += '<span class="attribute"><span class="label">School Type:</span> ' + props.school_type + '</span>';
+    popupContent += '<span class="attribute"><span class="label">Province:</span> ' + props.province + '</span>';
     popupContent = '<div class="map-popup">' + popupContent + '<hr><button href="#" class="btn btn-primary btn-block" onclick="getDetails(this,0)" data="' + props.school_id + '"><i class=""></i> View Details</button></div>';
     layer.bindPopup(popupContent, {
         offset: L.point(1, -2)
@@ -302,23 +362,28 @@ function renderLegend(database) {
     var indicators = d3.entries(metadata.attributes);
     $('#legend').append('<select class="custom-select" id="indicators"></select>');
     indicators.forEach(function(x) {
-        var selected = '';
-        if (x.value.id == metadata.attribution.id) {
-            selected = 'selected';
-        }
-        $('#indicators').append('<option value="' + x.value.id + '$' + x.value.type + '"' + selected + '>' + x.value.name + '</options>');
+        $('#indicators').append('<optgroup id="' + x.value.id + '" label="' + x.value.name + '"></optgroup>');
+        x.value.collection.forEach(function(s) {
+            var selected = '';
+            if (s.id == metadata.attribution.id) {
+                selected = 'selected';
+            }
+            $('#' + x.value.id).append('<option value="' + s.id + '$' + s.type + '"' + selected + '>' + s.name + '</options>');
+        });
     });
     var dropdown = d3.select('#indicators');
     dropdown
         .on('change', function(a) {
             var selectedVal = this.value.split('$')[0],
                 selectedInd = selectedVal.split('-');
-            database.properties.attribution.id = selectedInd.join('-');
-            database.properties.attribution.name = selectedInd.join(' ');
-            database.properties.attribution.type = this.value.split('$')[1];
-            localStorage.setItem('data', JSON.stringify(database));
             var dbs = JSON.parse(localStorage.getItem('data'));
+            dbs.properties.attribution.id = selectedInd.join('-');
+            dbs.properties.attribution.name = selectedInd.join(' ');
+            dbs.properties.attribution.type = this.value.split('$')[1];
+            localStorage.setItem('data', JSON.stringify(dbs));
             $('#bar-legend').remove();
+            localStorage.removeItem('chartPos');
+            localStorage.removeItem('filterPos');
             if (dbs.properties.attribution.type === 'str') {
                 legenddiv.remove();
                 categoryField = selectedVal,
@@ -326,12 +391,11 @@ function renderLegend(database) {
                     changeValue(dbs, []);
                 renderLegend(dbs);
             } else {
-                createBarChart(dbs);
+                createHistogram();
                 categoryField = "neutral",
                     iconField = categoryField,
                     changeValue(dbs, []);
             }
-            console.log(dbs);
         })
     var heading = legenddiv.append('div')
         .classed('legendheading', true)
@@ -408,6 +472,7 @@ function changeValue(database, deletes) {
         markerclusters.addLayer(markers);
         map.attributionControl.addAttribution(metadata.attribution);
     } else {
+        map.removeLayer(mkr);
         mkr = L.geoJson(dbs, {
             pointToLayer: defineFeature,
             onEachFeature: defineFeaturePopup
@@ -417,20 +482,23 @@ function changeValue(database, deletes) {
     }
 }
 
-function filterMaps(minVal, maxVal, database, attributeName) {
+function filterMaps(minVal, maxVal, attributeName) {
     var dbs = JSON.parse(localStorage.getItem('data'));
     dbs["features"] = $.map(dbs.features, function(x) {
         x = x;
         x.properties.status = "inactive";
-        if (x.properties[attributeName] > minVal && x.properties[attributeName] < maxVal) {
+        if (x.properties[attributeName] >= minVal && x.properties[attributeName] <= maxVal || x.properties[attributeName] === maxVal) {
             x.properties.status = "active";
+        }
+        if (x.properties[attributeName] === 0) {
+            x.properties.status = "inactive";
         }
         return x;
     });
     localStorage.setItem('data', JSON.stringify(dbs));
-    geojson = dbs;
+    var geojson = dbs;
     metadata = dbs.properties;
-    if (clustered) {
+    if (clustered === true) {
         map.removeLayer(markerclusters);
         markerclusters = L.markerClusterGroup({
             maxClusterRadius: 2 * rmax,
@@ -444,8 +512,8 @@ function filterMaps(minVal, maxVal, database, attributeName) {
         markerclusters.addLayer(markers);
         map.attributionControl.addAttribution(metadata.attribution);
     } else {
-        map.removeLayer(markerclusters);
-        mkr = L.geoJson(database, {
+        map.removeLayer(mkr);
+        mkr = L.geoJson(dbs, {
             pointToLayer: defineFeature,
             onEachFeature: defineFeaturePopup
         });
@@ -454,23 +522,31 @@ function filterMaps(minVal, maxVal, database, attributeName) {
     }
 }
 
-function createBarChart(database) {
-    var attr_name = database.properties.attribution.name;
-    var barData = database.features.map(function(x) {
+function createHistogram() {
+    var dbs = JSON.parse(localStorage.getItem('data'));
+    var attr_name = dbs.properties.attribution.name;
+    var barData = dbs.features.map(function(x) {
         var obj = {};
         return {
             'school_name': x.properties['school_name'],
             'indicator': attr_name,
-            'value': x.properties[attr_name]
+            'value': x.properties[attr_name],
+            'master': x.properties['school-type-master']+ '_' + x.properties['province-master']
         };
     });
-    let dataGroup =_.groupBy(barData,'value');
-    let histogram = _.map(dataGroup, function(v, i){
-        return {'len':v.length,'val':v[0].value};
+    barData = _.remove(barData, function(n) {
+        return n['master'] === "active_active";
+    });
+    let dataGroup = _.groupBy(barData, 'value');
+    let histogram = _.map(dataGroup, function(v, i) {
+        return {
+            'len': v.length,
+            'val': v[0].value
+        };
     });
     histogram = _.orderBy(histogram, ['val', 'len'], ['asc', 'desc']);
     histogram = _.remove(histogram, function(n) {
-      return n.val !== 0;
+        return n.val !== 0;
     });
     var barlegenddiv = d3.select('body').append('div')
         .attr('id', 'bar-legend');
@@ -480,43 +556,63 @@ function createBarChart(database) {
     $('.legenditem').remove();
     $('.legendheading').remove();
     $('#legend > hr').remove();
-	$('#legend').css('box-shadow','None');
-	$('#legend').css('-webkit-box-shadow','None');
+    $('#legend').css('box-shadow', 'None');
+    $('#legend').css('-webkit-box-shadow', 'None');
     var dom = document.getElementById("bar-legend");
     var myChart = echarts.init(dom);
     var app = {};
+    var chartPos = JSON.parse(localStorage.getItem('chartPos'));
+    if (chartPos === null) {
+        chartPos = [0, 100];
+        filterMaps(0, 100, attr_name);
+    } else {
+        let filterPos = JSON.parse(localStorage.getItem('filterPos'));
+        filterMaps(filterPos[0], filterPos[1], attr_name);
+    }
     var barOption = {
         title: {
-            align: 'left',
-			textStyle: {
-				fontFamily:'Roboto',
-			},
-            text: database.properties.attribution.name.replace('_',' ').toUpperCase(),
+            center: 'left',
+            top: 10,
+            textStyle: {
+                fontFamily: 'Roboto',
+            },
+            text: dbs.properties.attribution.name.replace(/_/g, ' ').toUpperCase(),
         },
-		tooltip: {
+        tooltip: {
             trigger: 'axis',
             position: function(pt) {
                 return [pt[0], '100%'];
+            },
+            axisPointer : {
+                type: 'shadow'
+            },
+            formatter: function(param) {
+                console.log(param);
+                return param[0]['value'] + ' Schools</br>' + param[0]['axisValue'] + ' ' + dbs.properties.attribution.name.replace(/_/g, ' ');
             }
         },
         xAxis: {
+            offset: 0.1,
+            name: attr_name.replace(/_/g, " ").toUpperCase(),
             type: 'category',
+            nameGap: 30,
+            nameLocation: 'middle',
             data: histogram.map(function(x) {
                 return x.val;
             }),
             boundaryGap: false,
         },
         yAxis: {
+            name: 'TOTAL OF SCHOOL',
+            nameLocation: 'middle',
+            nameGap: 25,
             type: 'value',
             boundaryGap: [0, '100%']
         },
         dataZoom: [{
-            type: 'inside',
-            start: 0,
-            end: 100
-        }, {
-            start: 0,
-            end: 100,
+            type: 'slider',
+            start: chartPos[0],
+            end: chartPos[1],
             handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
             handleSize: '100%',
             handleStyle: {
@@ -524,12 +620,12 @@ function createBarChart(database) {
                 shadowBlur: 3,
                 shadowColor: 'rgba(0, 0, 0, 0.6)',
                 shadowOffsetX: 2,
-                shadowOffsetY: 2
+                shadowOffsetY: 2,
             }
         }],
         series: [{
-            name: attr_name,
-            type: 'line',
+            name: attr_name.replace(/_/g, " ").toUpperCase(),
+            type: 'bar',
             smooth: true,
             symbol: 'none',
             sampling: 'average',
@@ -544,12 +640,21 @@ function createBarChart(database) {
     if (barOption && typeof barOption === "object") {
         myChart.setOption(barOption, true);
     }
-    myChart.on('dataZoom', function(a){
+    myChart.on('dataZoom', function(a) {
         var axis = myChart.getModel().option.xAxis[0];
         var minVal = axis.data[axis.rangeStart];
         var maxVal = axis.data[axis.rangeEnd];
-        filterMaps(minVal,maxVal, database, attr_name);
+        var newPos = [a.start, a.end];
+        localStorage.setItem('chartPos', JSON.stringify(newPos));
+        if (typeof minVal === 'undefined') {
+            console.log(axis);
+        }
+        localStorage.setItem('filterPos', JSON.stringify([minVal, maxVal]))
+        filterMaps(minVal, maxVal, attr_name);
     });
+
+    $('#bar-legend').append("<button class='btn btn-danger'>Disable Zero</button>");
+
 }
 
 /*Helper function*/
@@ -561,5 +666,6 @@ function serializeXmlNode(xmlNode) {
     }
     return "";
 }
+
 
 maps = map;

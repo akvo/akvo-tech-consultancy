@@ -30,6 +30,7 @@ mix.js([
     ], 'public/js/charts.js')
     .copy('resources/assets/images/', 'public/images/')
     .copy('resources/assets/js/global.js', 'public/js/global.js')
+    .copy('resources/assets/js/vendors/echarts.min.js', 'public/js/vendors/echarts.min.js')
     .copy('node_modules/leaflet/dist/', 'public/vendor/leaflet/')
     .copy('node_modules/@fortawesome/fontawesome-free/css/all.min.css', 'public/vendor/fontawesome/css/all.min.css')
     .copy('node_modules/@fortawesome/fontawesome-free/webfonts/', 'public/vendor/fontawesome/webfonts/')
