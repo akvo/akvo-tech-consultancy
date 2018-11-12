@@ -194,6 +194,7 @@ class ApiController extends Controller
                         array('id'=>'wash-club', 'name'=>'Wash Club', 'type'=>'str'),
                         array('id'=>'cleaning-schedule', 'name'=>'Cleaning Schedule', 'type'=>'str'),
                         array('id'=>'annual-grant', 'name'=>'Annual Grant', 'type'=>'str'),
+                        array('id'=>'government_funds', 'name'=>'Government Funds', 'type'=>'num'),
                         array('id'=>'community-support', 'name'=>'Community Support', 'type'=>'str'),
                         array('id'=>'teacher-training-or-workshop', 'name'=>'Teacher Training or Workshop', 'type'=>'str'),
                     ]),

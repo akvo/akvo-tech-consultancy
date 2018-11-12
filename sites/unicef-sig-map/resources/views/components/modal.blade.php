@@ -8,10 +8,6 @@
         </button>
             </div>
             <div class="modal-body">
-                <div class="modal-input">
-                <input type="text" id="myInput" style="margin-bottom: 10px;" class="form-control" onkeyup="autoQuestion()" placeholder="Search Question..">
-                <input type="text" id="myOutput" class="form-control" onkeyup="autoAnswer()" placeholder="Search Answer..">
-                </div>
                 <div id="school_desc">
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                       <li class="nav-item">

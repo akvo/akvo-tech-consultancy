@@ -50,7 +50,8 @@ class Database extends Model
             'BG as separated', 
             'BU as toilet_location', 
             'AV as has_toilets',
-            'AJ as safe_to_drink'
+            'AJ as safe_to_drink',
+            'DW as government_funds'
         )->whereNotIn(
             'identifier', ['d3es-mqgt-9mmg', 'tf33-p848-vwrk', 'fnd5-549n-tp75']
         ))->map(function($data) {
@@ -127,6 +128,7 @@ class Database extends Model
                     'toilet_boy_ratio' => $data->toilet_boy_ratio, 
                     'toilet_toilet_location' => $data->toilet_location, 
                     'school_id' => $data->identifier,
+                    'government_funds' => (int) $data->government_funds,
                     'toilet-type' => $toilet,
                     'water-source' => $water,
                     'wash-club' => $data->wash_club,

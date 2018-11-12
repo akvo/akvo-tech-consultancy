@@ -68,6 +68,9 @@ tbody tr:hover{
 #school_desc .alert-danger{
     background:#dc3545;
 }
+#school_desc .alert-warning{
+    background:#FA0;
+}
 
 #detail_modal .modal-body {
 	padding: 1rem 1rem 0rem;
@@ -556,4 +559,17 @@ tbody tr:hover{
 .chart-detail{
 	height:400px;
 	width:360px;
+}
+.string-answer{
+    background: #f8fafc;
+    color: #4a4a4a;
+    padding: 5px;
+    border-top: solid #e8e8e8 1px;
+    border-left: solid #e8e8e8 1px;
+    border-right: solid #e8e8e8 1px;
+    text-transform: capitalize;
+}
+.chart-detail-long{
+	height:400px;
+	width:720px;
 }

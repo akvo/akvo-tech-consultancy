@@ -184,75 +184,41 @@ var paramGroups = {
     ]
 };
 
-function getDetailsOld(a, atype) {
-    let id;
-    if (atype === 'id') {
-        id = a;
-    } else {
-        id = $(a).attr('data');
-    }
-    $.get('/api/details/' + id).done(function(data) {
-        $('#school_name').text(data['name of school?']);
-        $('#school_desc').children().remove();
-        $('#school_feature').children().remove();
-        Object.keys(data).forEach(function(key) {
-            var features = nainclude.includes(key);
-            if (!features) {
-                if (data[key]) {
-                    let body;
-                    var str = data[key];
-                    if (!isNaN(str)) {
-                        if (str < 1) {
-                            key = "<i class='fas fa-exclamation circle'></i> " + key;
-                            body = "<div class='badge badge-secondary'>Not Answering</div>";
-                        } else {
-                            key = "<i class='fas fa-hashtag'></i> " + key;
-                            body = "<div class='badge badge-warning'>" + str + "</div>";
-                        }
-                    } else if (str.startsWith("https://")) {
-                        body = "<img src='" + data[key] + "' class='img-fluid img-thumbnail rounded'>";
-                        key = "<i class='fas fa-camera'></i> " + key;
-                    } else if (str.startsWith("Yes")) {
-                        key = "<i class='fas fa-list-ul'></i> " + key;
-                        body = "<div class='badge badge-success'>" + str + "</div>";
-                    } else if (str.startsWith("No")) {
-                        key = "<i class='fas fa-list-ul'></i> " + key;
-                        body = "<div class='badge badge-danger'>" + str + "</div>";
-                    } else {
-                        key = "<i class='fas fa-align-justify'></i> " + key;
-                        body = "<div class='badge badge-primary'>" + str + "</div>";
-                    }
-                    $('#school_desc').append(
-                        "<div class='card card-custom'><div class='card-body'><div class='card-title'>" +
-                        key + "</div><div class='card-text'>" + body + "</div></div></div>"
-                    );
-                };
-            }
-        });
-        $('#detail_modal').modal('show');
-    });
-}
 
 function getDetails(a, atype) {
     let id;
+    var meanData,
+        meanProvinces;
+    if (localStorage.getItem('mean') === null) {
+        console.log('recording');
+        getAverage();
+    }
+    meanData = JSON.parse(localStorage.getItem('mean'));
+    meanProvinces = JSON.parse(localStorage.getItem('mean-province'));
     if (atype === 'id') {
         id = a;
     } else {
         id = $(a).attr('data');
     }
     $.get('/api/details/' + id).done(function(data) {
+
+        let provinceStats = _.reject(meanProvinces, function(o) {
+            return o.province !== data['unnamed: 153'];
+        });
+        let schoolInProvince = provinceStats[0]['total_school'];
+        let toiletProvinceMean = provinceStats[0]['toilet_total'] / schoolInProvince;
+        let teacherProvinceMean = provinceStats[0]['teacher_total'] / schoolInProvince;
+        let studentsProvinceMean = provinceStats[0]['students_total'] / schoolInProvince;
+        let fundsProvinceMean = provinceStats[0]['government_funds'] / schoolInProvince;
+
         $('#school_name').text(data['name of school?']);
         // $('#school_desc').children().remove();
+        $('#profile-tab').children().remove();
         $('#school_feature').children().remove();
         $('#hygiene-tab').children().remove();
-        $('#hygiene-tab').prepend('<hr><h5>Indicators</h5>');
         $('#management-tab').children().remove();
-        $('#management-tab').prepend('<hr><h5>Indicators</h5>');
         $('#sanitation-tab').children().remove();
-        $('#sanitation-tab').prepend('<hr><h5>Indicators</h5>');
         $('#water_supply-tab').children().remove();
-        $('#water_supply-tab').prepend('<hr><h5>Indicators</h5>');
-        $('.modal-input').remove();
         $('.carousel-item').remove();
         Object.keys(data).forEach(function(key) {
             var features = nainclude.includes(key);
@@ -261,9 +227,9 @@ function getDetails(a, atype) {
                     let body;
                     var str = data[key];
                     if (!isNaN(str)) {
-                        if (str < 1) {
-                            console.log(key);
-                        } else {}
+                        if (str > 1) {
+                            body = "<div class='alert alert-success'>" + str + "</div>";
+                        }
                     } else if (str.startsWith("Yes")) {
                         body = "<div class='alert alert-success'>" + key + "</div>";
                         if (paramGroups['hygiene'].includes(key)) {
@@ -298,13 +264,42 @@ function getDetails(a, atype) {
                             "<div class='carousel-item'><img src='" + data[key] + "' class='d-block w-100'>" +
                             "<div class='carousel-caption d-none d-md-block'><p>" + question + "</p></div></div>";
                         $('.carousel-inner').append(body)
-                    } else {}
+                    } else {
+                        var qs = key.replace('if yes, ','');
+                        if (str.includes("|")) {
+                            let ans = str.split("|");
+                            let opts = "";
+                            ans.forEach(function(x){
+                                opts = opts + '</br>--&nbsp;&nbsp;' + x;
+                            });
+                            body = "<div class='string-answer'>" + qs + opts + "</div>";
+                        }else{
+                            body = "<div class='string-answer'>" + qs +'</br>--&nbsp;&nbsp;'+ str + "</div>";
+                        }
+                        if (paramGroups['hygiene'].includes(key)) {
+                            $('#hygiene-tab').prepend(body);
+                        }
+                        if (paramGroups['school-management'].includes(key)) {
+                            $('#management-tab').prepend(body);
+                        }
+                        if (paramGroups['sanitation'].includes(key)) {
+                            $('#sanitation-tab').prepend(body);
+                        }
+                        if (paramGroups['water-supply'].includes(key)) {
+                            $('#water_supply-tab').prepend(body);
+                        }
+                    }
                     $('.carousel-item').first().addClass('active');
                 };
             }
         });
-        $('#profile-tab').children().remove();
-        if (data['type of school?'] === null){
+        $('#hygiene-tab').prepend('<hr><h5>Indicators</h5>');
+        $('#management-tab').prepend('<hr><h5>Indicators</h5>');
+        $('#sanitation-tab').prepend('<hr><h5>Indicators</h5>');
+        $('#water_supply-tab').prepend('<hr><h5>Indicators</h5>');
+
+        $('#profile-tab').append("<div> <b>Province</b> : " + data['unnamed: 153'] + "</div><hr>");
+        if (data['type of school?'] === null) {
             $('#profile-tab').append("<div> <b>Type of School</b> : " + data['type of school? other'] + "</div>");
         } else {
             $('#profile-tab').append("<div> <b>Type of School</b> : " + data['type of school?'] + "</div>");
@@ -316,34 +311,56 @@ function getDetails(a, atype) {
             return item['properties']['school_id'] === data.identifier;
         });
         ldata = lfeature.properties;
+        var nameOfSchool = data['name of school?'].split(' ')[0];
 
         var students_value = [ldata.students_boy, ldata.students_girl, ldata.students_total];
         var app = {};
         $('#profile-tab').append("<div class='charts-container'><div id='students-chart' class='chart-detail'></div></div>");
         var studentChart = echarts.init(document.getElementById('students-chart'));
-        studentChart.setOption(setOptionChart('Students Attendance',['Boys','Girls','All'],students_value), true);
+        studentChart.setOption(setOptionChart('Students Attendance', ['Boys', 'Girls', 'All'], students_value), true);
 
-        var teacher_value = [ldata.teacher_male,ldata.teacher_female,ldata.teacher_total];
+        var students_mean = [ldata.students_total, studentsProvinceMean, meanData.students_total];
+        $('#profile-tab').append("<div class='charts-container'><div id='students-mean-chart' class='chart-detail'></div></div>");
+        var studentsMeanChart = echarts.init(document.getElementById('students-mean-chart'));
+        studentsMeanChart.setOption(setOptionChart('Students Mean Comparisons', [nameOfSchool, 'Province', 'National'], students_mean), true);
+
+        var teacher_value = [ldata.teacher_male, ldata.teacher_female, ldata.teacher_total];
         $('#profile-tab').append("<div class='charts-container'><div id='teachers-chart' class='chart-detail'></div></div>");
         var teacherChart = echarts.init(document.getElementById('teachers-chart'));
-        teacherChart.setOption(setOptionChart('Teachers', ['Male','Female','All'], teacher_value), true);
+        teacherChart.setOption(setOptionChart('Teachers', ['Male', 'Female', 'All'], teacher_value), true);
+
+        var teacher_mean = [ldata.teacher_total, teacherProvinceMean, meanData.teacher_total];
+        $('#profile-tab').append("<div class='charts-container'><div id='teachers-mean-chart' class='chart-detail'></div></div>");
+        var teacherMeanChart = echarts.init(document.getElementById('teachers-mean-chart'));
+        teacherMeanChart.setOption(setOptionChart('Teachers Mean Comparisons', [nameOfSchool, 'Province', 'National'], teacher_mean), true);
 
         $('#profile-tab').append('<hr><h5>School Strength</h5>');
         $('#profile-tab').append("<div> <b>Teacher Ratio</b> : " + ldata.teacher_ratio + "</div>");
 
-        if (ldata.toilet_total !== 0){
-            var toilet_value = [ldata.toilet_boy,ldata.toilet_girl,ldata.toilet_total];
-            $('#sanitation-tab').prepend("<div class='charts-container'><div id='toilet-chart' class='chart-detail'></div></div>");
-            var teacherChart = echarts.init(document.getElementById('toilet-chart'));
-            teacherChart.setOption(setOptionChart('Toilets', ['Boys','Girls','Total'], toilet_value), true);
+        if (ldata.government_funds !== 0) {
+            var funds_avg = [ldata.government_funds, fundsProvinceMean, meanData.government_funds];
+            $('#management-tab').prepend("<div class='charts-container'><div id='government-mean-chart' class='chart-detail-long'></div></div>");
+            var fundsMean = echarts.init(document.getElementById('government-mean-chart'));
+            fundsMean.setOption(setOptionChart('Government Funds', [nameOfSchool, 'Province', 'National'], funds_avg), true);
         }
-        console.log(lfeature);
+
+        if (ldata.toilet_total !== 0) {
+            var toilet_value_avg = [ldata.toilet_total, toiletProvinceMean, meanData.toilet_total];
+            $('#sanitation-tab').prepend("<div class='charts-container'><div id='toilet-mean-chart' class='chart-detail'></div></div>");
+            var toiletMean = echarts.init(document.getElementById('toilet-mean-chart'));
+            toiletMean.setOption(setOptionChart('Toilets Comparison', [nameOfSchool, 'Province', 'National'], toilet_value_avg), true);
+
+            var toilet_value = [ldata.toilet_boy, ldata.toilet_girl, ldata.toilet_total];
+            $('#sanitation-tab').prepend("<div class='charts-container'><div id='toilet-chart' class='chart-detail'></div></div>");
+            var toiletChart = echarts.init(document.getElementById('toilet-chart'));
+            toiletChart.setOption(setOptionChart('Toilets', ['Boys', 'Girls', 'Total'], toilet_value), true);
+        }
+        $('#profile-menu').click();
+        $('#detail_modal').modal('show');
     });
-    $('#profile-menu').click();
-    $('#detail_modal').modal('show');
 }
 
-function setOptionChart(title,categories, data) {
+function setOptionChart(title, categories, data) {
     return {
         title: {
             text: title
@@ -360,48 +377,6 @@ function setOptionChart(title,categories, data) {
             type: 'bar'
         }]
     };
-}
-
-function getGroup(x, y) {}
-
-function autoQuestion() {
-    // Declare variables
-    var input, filter, ul, li, a, i;
-    input = document.getElementById('myInput');
-    filter = input.value.toUpperCase();
-    ul = $('#school_detail');
-    card = $('div.card');
-    li = $('div.card-body');
-
-    for (i = 0; i < li.length; i++) {
-        a = li[i].getElementsByTagName("div")[0];
-        if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
-            card[i].style.display = "";
-        } else {
-            card[i].style.display = "none";
-        }
-    }
-}
-
-function autoAnswer() {
-    // Declare variables
-    var input, filter, ul, li, a, i;
-    input = document.getElementById('myOutput');
-    filter = input.value.toUpperCase();
-    ul = $('#school_detail');
-    card = $('div.card');
-    li = $('div.card-text');
-
-    for (i = 0; i < li.length; i++) {
-        a = li[i].getElementsByTagName("div")[0];
-        if (a) {
-            if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
-                card[i].style.display = "";
-            } else {
-                card[i].style.display = "none";
-            }
-        }
-    }
 }
 
 function focusTo() {
@@ -452,9 +427,58 @@ function restartCluster(el, key) {
     $('.marker .' + filter).remove();
 }
 
-
-/*
- *
- * Global Database Function
- *
- */
+function getAverage() {
+    var mdata = JSON.parse(localStorage.getItem('data'));
+    let items = {
+        'students_boy': 0,
+        'students_girl': 0,
+        'students_total': 0,
+        'teacher_female': 0,
+        'teacher_male': 0,
+        'teacher_ratio': 0,
+        'teacher_total': 0,
+        'toilet_boy': 0,
+        'toilet_girl': 0,
+        'toilet_total': 0,
+        'toilet_boy_ratio': 0,
+        'toilet_girl_ratio': 0,
+        'toilet_ratio': 0,
+        'government_funds': 0,
+    };
+    let mean = items;
+    let rawData = [];
+    mdata.features.forEach(function(item) {
+        rawData.push(item.properties);
+        Object.keys(item.properties).forEach(function(key) {
+            if (Number.isInteger(item.properties[key])) {
+                items[key] += item.properties[key];
+            }
+        });
+    });
+    let lenData = mdata.features.length;
+    Object.keys(items).forEach(function(key) {
+        mean[key] = items[key] / lenData;
+    });
+    localStorage.setItem('mean', JSON.stringify(mean));
+    var meanProvinces = _(rawData).groupBy('province')
+        .map(function(items, province) {
+            return {
+                province: province,
+                students_boy: _.sum(_.map(items, 'students_boy')),
+                students_girl: _.sum(_.map(items, 'students_girl')),
+                students_total: _.sum(_.map(items, 'students_total')),
+                teacher_female: _.sum(_.map(items, 'teacher_female')),
+                teacher_male: _.sum(_.map(items, 'teacher_male')),
+                teacher_total: _.sum(_.map(items, 'teacher_total')),
+                teacher_ratio: _.sum(_.map(items, 'teacher_ratio')),
+                toilet_boy: _.sum(_.map(items, 'toilet_boy')),
+                toilet_girl: _.sum(_.map(items, 'toilet_girl')),
+                toilet_total: _.sum(_.map(items, 'toilet_total')),
+                toilet_ratio: _.sum(_.map(items, 'toilet_ratio')),
+                government_funds: _.sum(_.map(items, 'government_funds')),
+                total_school: items.length
+            };
+        }).value();
+    localStorage.setItem('mean-province', JSON.stringify(meanProvinces));
+    return meanProvinces;
+}

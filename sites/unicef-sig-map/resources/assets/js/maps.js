@@ -238,7 +238,7 @@ function defineFeaturePopup(feature, layer) {
         fields = metadata.fields,
         popupContent = '';
     popupContent = '<span class="attribute"><span class="label">School Name:</span> ' + props.school_name + '</span>';
-    popupContent += '<span class="attribute"><span class="label">School Type:</span> ' + props.school_type + '</span>';
+    popupContent += '<span class="attribute"><span class="label">School Type:</span> ' + props['school-type'] + '</span>';
     popupContent += '<span class="attribute"><span class="label">Province:</span> ' + props.province + '</span>';
     popupContent = '<div class="map-popup">' + popupContent + '<hr><button href="#" class="btn btn-primary btn-block" onclick="getDetails(this,0)" data="' + props.school_id + '"><i class=""></i> View Details</button></div>';
     layer.bindPopup(popupContent, {
@@ -496,7 +496,7 @@ function filterMaps(minVal, maxVal, attributeName) {
         return x;
     });
     localStorage.setItem('data', JSON.stringify(dbs));
-    var geojson = dbs;
+    geojson = dbs;
     metadata = dbs.properties;
     if (clustered === true) {
         map.removeLayer(markerclusters);
@@ -587,7 +587,6 @@ function createHistogram() {
                 type: 'shadow'
             },
             formatter: function(param) {
-                console.log(param);
                 return param[0]['value'] + ' Schools</br>' + param[0]['axisValue'] + ' ' + dbs.properties.attribution.name.replace(/_/g, ' ');
             }
         },
@@ -652,9 +651,6 @@ function createHistogram() {
         localStorage.setItem('filterPos', JSON.stringify([minVal, maxVal]))
         filterMaps(minVal, maxVal, attr_name);
     });
-
-    $('#bar-legend').append("<button class='btn btn-danger'>Disable Zero</button>");
-
 }
 
 /*Helper function*/
