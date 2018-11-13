@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -eux
+set -eu
 
 if [[ "${TRAVIS_PULL_REQUEST:=false}" != "false" ]]; then
     COMMIT_RANGE="FETCH_HEAD..${TRAVIS_BRANCH}"
