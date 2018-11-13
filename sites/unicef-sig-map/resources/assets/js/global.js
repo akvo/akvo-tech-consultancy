@@ -268,13 +268,13 @@ function getDetails(a, atype) {
                         var qs = key.replace('if yes, ','');
                         if (str.includes("|")) {
                             let ans = str.split("|");
-                            let opts = "";
+                            let opts = "</hr>";
                             ans.forEach(function(x){
                                 opts = opts + '</br>--&nbsp;&nbsp;' + x;
                             });
                             body = "<div class='string-answer'>" + qs + opts + "</div>";
                         }else{
-                            body = "<div class='string-answer'>" + qs +'</br>--&nbsp;&nbsp;'+ str + "</div>";
+                            body = "<div class='string-answer'>" + qs +'</hr>--&nbsp;&nbsp;'+ str + "</div>";
                         }
                         if (paramGroups['hygiene'].includes(key)) {
                             $('#hygiene-tab').prepend(body);
@@ -365,6 +365,11 @@ function setOptionChart(title, categories, data) {
         title: {
             text: title
         },
+        tooltip: {
+            axisPointer : {
+                type: 'shadow'
+            },
+        },
         xAxis: {
             type: 'category',
             data: categories
@@ -374,7 +379,11 @@ function setOptionChart(title, categories, data) {
         },
         series: [{
             data: data,
-            type: 'bar'
+            type: 'bar',
+            smooth: true,
+            itemStyle: {
+                color: '#dc3545'
+            }
         }]
     };
 }

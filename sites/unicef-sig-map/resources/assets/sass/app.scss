@@ -563,11 +563,11 @@ tbody tr:hover{
 .string-answer{
     background: #f8fafc;
     color: #4a4a4a;
-    padding: 5px;
-    border-top: solid #e8e8e8 1px;
-    border-left: solid #e8e8e8 1px;
-    border-right: solid #e8e8e8 1px;
+    padding: 10px;
+    border: solid #e8e8e8 1px;
     text-transform: capitalize;
+    margin-bottom: 10px;
+    border-radius: 5px;
 }
 .chart-detail-long{
 	height:400px;

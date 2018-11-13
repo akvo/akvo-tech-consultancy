@@ -8,14 +8,6 @@ use DB;
 
 class Database extends Model
 {
-    /*
-    public function getTotalStudentsAttribute()
-    {
-        $total = $this->attributes['28390924'] + $this->attributes['23430922'];
-        return $total;
-    }
-     */
-
     protected $hidden = ['index'];
 
     public function getRegistrationAttribute()
@@ -211,11 +203,16 @@ class Database extends Model
 
     public function toilets()
     {
-        return $this->select(
-            DB::raw('(`20490967` + `22530927` + `27360922`) as t_toilets'),
-            '22530927 as t_girls',
-            '27360922 as t_boys'
-        )->get();
+        $data = collect($this->all(
+            'BL as shared'),
+            'BH as t_girls',
+            'BJ as t_boys'
+        )->map(function($data){
+            $data->t_toilets = (int) $data->shared + $data->t_girls + $data->t_boys;
+            return $data;
+        });
+        return $data;
+        
     }
 
 }

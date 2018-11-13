@@ -16,10 +16,10 @@ class ChartsController extends Controller
         $boys = $data->sum('t_boys');
         $shared = $total - ($girls + $boys);
         $schools = $db->count();
-        $has_separated = $db->where('20510942', 'Yes')->count();
-        $has_shared = $db->where('20510942', 'No')->count();
-        $has_toilets = $db->where('22490945', 'No')->count();
-        $no_toilets = $db->where('22490945', 'Yes')->count();
+        $has_separated = $db->where('BG', 'Yes')->count();
+        $has_shared = $db->where('BG', 'No')->count();
+        $has_toilets = $db->where('AV', 'Yes')->count();
+        $no_toilets = $db->where('AV', 'No')->count();
         $data = array(
             array( 
                 'name' => 'Toilets',
