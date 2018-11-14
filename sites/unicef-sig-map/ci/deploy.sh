@@ -13,7 +13,8 @@ rm -rf node_modules
 echo "Deploying using with $(rsync --version | head -n1)"
 
 rsync --archive \
-      --quiet \
+      --verbose \
+      --perms \
       --times \
       --compress \
       --progress \
