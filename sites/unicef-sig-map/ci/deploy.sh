@@ -2,7 +2,12 @@
 
 set -eu
 
+# Change owner as docker generated files
+# are usually owned by root
 sudo chown "${USER}:" . -R
+
+# Make sure public folder is not writable by others
+chmod 755 public
 
 rm -rf node_modules
 
