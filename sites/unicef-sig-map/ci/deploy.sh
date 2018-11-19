@@ -2,9 +2,6 @@
 
 set -eu
 
-RSYNC_IMAGE="instrumentisto/rsync-ssh"
-SSH_KEY_PATH="$(dirname ${SITES_SSH_KEY})"
-
 # Change owner as docker generated files
 # are usually owned by root
 sudo chown "${USER}:" . -R
@@ -13,20 +10,27 @@ docker run --rm --tty "${RSYNC_IMAGE}" rsync --version
 
 echo "Deploying site..."
 
-docker run \
-    --rm \
-    --tty \
-    --volume="$(pwd):/app" \
-    --volume="${SSH_KEY_PATH}:/ssh-key" \
-    --workdir /app \
-    "${RSYNC_IMAGE}" rsync \
+rsync \
     --archive \
     --verbose \
     --compress \
     --progress \
     --exclude=ci \
     --exclude=node_modules \
-    --rsh="ssh -i /ssh-key/id_rsa -p 18765 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" \
+    --rsh="ssh -i ${SSH_KEY_PATH} -p 18765 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" \
     . tcakvo@109.73.232.40:/home/tcakvo/public_html/unicef-sig-map/
+
+# Fix permissions
+ssh -i "${SSH_KEY_PATH}" \
+    -p 18765 \
+    -o UserKnownHostsFile=/dev/null \
+    -o StrictHostKeyChecking=no \
+    tcakvo@109.73.232.40 'find  ~/public_html/unicef-sig-map/ -type f -print0 | xargs -0 -n1 chmod 644'
+
+ssh -i "${SSH_KEY_PATH}" \
+    -p 18765 \
+    -o UserKnownHostsFile=/dev/null \
+    -o StrictHostKeyChecking=no \
+    tcakvo@109.73.232.40 'find ~/public_html/unicef-sig-map/ -type d -print0 | xargs -0 -n1 chmod 755'
 
 echo "Done"
