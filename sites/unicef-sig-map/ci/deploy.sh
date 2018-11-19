@@ -12,7 +12,6 @@ echo "Deploying site..."
 
 rsync \
     --archive \
-    --verbose \
     --compress \
     --progress \
     --exclude=ci \
@@ -20,7 +19,8 @@ rsync \
     --rsh="ssh -i ${SITES_SSH_KEY} -p 18765 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" \
     . tcakvo@109.73.232.40:/home/tcakvo/public_html/unicef-sig-map/
 
-# Fix permissions
+echo "Fixing permissions..."
+
 ssh -i "${SITES_SSH_KEY}" \
     -p 18765 \
     -o UserKnownHostsFile=/dev/null \
@@ -32,5 +32,13 @@ ssh -i "${SITES_SSH_KEY}" \
     -o UserKnownHostsFile=/dev/null \
     -o StrictHostKeyChecking=no \
     tcakvo@109.73.232.40 'find ~/public_html/unicef-sig-map/ -type d -print0 | xargs -0 -n1 chmod 755'
+
+echo "Clearing cache..."
+
+ssh -i "${SITES_SSH_KEY}" \
+    -p 18765 \
+    -o UserKnownHostsFile=/dev/null \
+    -o StrictHostKeyChecking=no \
+    tcakvo@109.73.232.40 'find ~/public_html/unicef-sig-map/storage/framework/cache/data | xargs rm -rf'
 
 echo "Done"
