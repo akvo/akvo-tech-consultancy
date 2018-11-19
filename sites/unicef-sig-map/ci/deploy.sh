@@ -2,24 +2,31 @@
 
 set -eu
 
-rsync --version
+RSYNC_IMAGE="instrumentisto/rsync-ssh"
+SSH_KEY_PATH="$(dirname ${SITES_SSH_KEY})"
 
 # Change owner as docker generated files
 # are usually owned by root
 sudo chown "${USER}:" . -R
 
-rm -rf node_modules
+docker run --rm --tty "${RSYNC_IMAGE}" rsync --version
 
-echo "Deploying using with $(rsync --version | head -n1)"
+echo "Deploying site..."
 
-rsync --archive \
-      --verbose \
-      --perms \
-      --times \
-      --compress \
-      --progress \
-      --exclude=ci \
-      --rsh="ssh -i ${SITES_SSH_KEY} -p 18765 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" \
-      . tcakvo@109.73.232.40:/home/tcakvo/public_html/unicef-sig-map/
+docker run \
+    --rm \
+    --tty \
+    --volume="$(pwd):/app" \
+    --volume="${SSH_KEY_PATH}:/ssh-key" \
+    --workdir /app \
+    "${RSYNC_IMAGE}" rsync \
+    --archive \
+    --verbose \
+    --compress \
+    --progress \
+    --exclude=ci \
+    --exclude=node_modules \
+    --rsh="ssh -i /ssh-key/id_rsa -p 18765 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" \
+    . tcakvo@109.73.232.40:/home/tcakvo/public_html/unicef-sig-map/
 
 echo "Done"
