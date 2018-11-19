@@ -2,11 +2,11 @@
 
 set -eu
 
+rsync --version
+
 # Change owner as docker generated files
 # are usually owned by root
 sudo chown "${USER}:" . -R
-
-docker run --rm --tty "${RSYNC_IMAGE}" rsync --version
 
 echo "Deploying site..."
 
