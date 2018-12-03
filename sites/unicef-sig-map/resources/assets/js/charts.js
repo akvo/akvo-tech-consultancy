@@ -1,14 +1,19 @@
-const echarts = require('echarts');
-
 var toilet_in_schools = echarts.init(document.getElementById('toilet-in-schools'));
 var school_toilets = echarts.init(document.getElementById('school-toilets'));
 
 $.get('/api/toilets').done(function(dt) {
     let toilets = [];
+    var national = JSON.parse(localStorage.getItem('mean-province'));
+    var toilet_province = [];
+    national.forEach(function(x){
+        var tval= x['toilet_total'];
+        var province_name = x['province'];
+        var percentage = x[''];
+    });
+    var t_total = _.sumBy(national, 'toilet_total');
     dt.forEach(createOption);
 
     function createOption(x, i) {
-        console.log(x);
         var options = {
             dataset: {
                 source: x.data
@@ -17,7 +22,18 @@ $.get('/api/toilets').done(function(dt) {
                 data: x.data[0],
                 align: 'left'
             },
-            tooltip: {},
+            tooltip: {
+                trigger: 'axis',
+                position: function(pt) {
+                    return [pt[0], '100%'];
+                },
+                axisPointer: {
+                    type: 'shadow'
+                },
+                formatter: function(param) {
+                    return "<b>"+param[0]['value'][2]+" ("+param[0]['value'][1]+', '+  param[0]['value'][0].toFixed(2)+"%)</b>";
+                }
+            },
             grid: {
                 containLabel: true
             },
@@ -29,7 +45,7 @@ $.get('/api/toilets').done(function(dt) {
                 text: ['100%', '0%'],
                 dimension: 0,
                 inRange: {
-                    color: ['#E15457','#ffff00','#3490dc']
+                    color: ['#E15457', '#ffff00', '#3490dc']
                 }
             },
             xAxis: {

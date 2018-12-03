@@ -57,16 +57,21 @@ tbody tr:hover{
 }
 #school_desc .alert{
     margin-bottom:0px;
-    padding: 5px;
+    padding: 10px;
     border-radius:0px;
     border:none;
     color:#FFF;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    text-transform: capitalize;
 }
 #school_desc .alert-success{
     background:#28a745;
+    border:solid 1px #0e6722;
 }
 #school_desc .alert-danger{
     background:#dc3545;
+    border:solid 1px #800;
 }
 #school_desc .alert-warning{
     background:#FA0;
@@ -80,7 +85,8 @@ tbody tr:hover{
 #stack_search a:nth-child(1),
 #stack_search a:nth-child(2),
 #stack_search a:nth-child(3),
-#stack_search a:nth-child(4){
+#stack_search a:nth-child(4),
+#stack_search a:nth-child(5){
     display:none;
 }
 
@@ -107,6 +113,9 @@ tbody tr:hover{
 }
 .card{
     border-radius:0px;
+}
+.card-header{
+    font-size:12px;
 }
 .card-custom{
 	border-radius: 0px;
@@ -255,7 +264,7 @@ tbody tr:hover{
     background-color: inherit;
 }
 .buttons-columnVisibility:before{
-    font-family: "Font Awesome 5 Free";
+    font-family: "FontAwesome";
     font-weight: 900;
     padding-right: 10px;
     content: "\f00c";
@@ -263,7 +272,7 @@ tbody tr:hover{
 }
 .buttons-columnVisibility.active:before{
     color:inherit;
-    font-family: "Font Awesome 5 Free";
+    font-family: "FontAwesome";
     font-weight: 900;
     padding-right: 10px;
     content: "\f00c";
@@ -297,6 +306,10 @@ tbody tr:hover{
 #legend.sliding{
     right: 250px;
 }
+.legendheading{
+    display:none;
+}
+
 .legendheading, .legendprovince, .legendschooltype {
     position: relative;
     font-size: 0.9rem;
@@ -304,7 +317,6 @@ tbody tr:hover{
     padding-top: 15px;
     text-transform: uppercase;
 }
-
 .legendprovince,
 .legendschooltype{
     text-align:left;
@@ -323,7 +335,7 @@ tbody tr:hover{
 }
 .legendprovince:before,
 .legendschooltype:before{
-    font-family: "Font Awesome 5 Free";
+    font-family: "FontAwesome";
     font-weight: 900;
     padding-right: 10px;
     content: "\f0a9";
@@ -345,10 +357,16 @@ tbody tr:hover{
     cursor: pointer;
 }
 .legenditem:before{
-    font-family: "Font Awesome 5 Free";
+    font-family: "FontAwesome";
     font-weight: 900;
     padding-right: 10px;
     content: "\f00c";
+}
+.legend-red{
+    color:#dc3545;
+}
+.legend-green{
+    color:#28a745;
 }
 /*Province List*/
 
@@ -378,7 +396,7 @@ tbody tr:hover{
 }
 #province-list>a:before,
 #school-type-list>a:before {
-    font-family: "Font Awesome 5 Free";
+    font-family: "FontAwesome";
     font-weight: 900;
     padding-right: 10px;
     content: "\f00c";
@@ -489,7 +507,7 @@ tbody tr:hover{
     background: #222;
 }
 .inactive-legend:before{
-    font-family: "Font Awesome 5 Free";
+    font-family: "FontAwesome";
     font-weight: 900;
     padding-right: 10px;
     content: "\f057";
@@ -547,14 +565,10 @@ tbody tr:hover{
     max-width:800px;
 }
 .tab-content > .active{
-    max-height:500px;
-    height:500px;
+    max-height:450px;
+    height:450px;
     overflow-x:auto;
     padding:15px;
-}
-.charts-container {
-    width: 50%;
-    display: inline-block;
 }
 .chart-detail{
 	height:400px;
@@ -569,7 +583,137 @@ tbody tr:hover{
     margin-bottom: 10px;
     border-radius: 5px;
 }
+.charts-container{
+    width:50%;
+    display:inline-block;
+}
 .chart-detail-long{
 	height:400px;
 	width:720px;
 }
+.dataTables_processing.card{
+    margin: -50px 0 0 -75px;
+    background: #4c8edf;
+    color: #FFF;
+    width:150px;
+}
+div.dataTables_wrapper {
+    width: 100%;
+    margin: 0 auto;
+}
+.carousel-caption{
+    bottom:0px;
+    background:rgba(26,29,32,.5);
+    padding-bottom:10px;
+    left:0px;
+    right:0px;
+}
+
+.navbar-toggler:not(:disabled):not(.disabled){
+    cursor: pointer;
+    border-radius: 0px;
+    padding: 10px 20px;
+}
+.visualization{
+    background-color:#f7fafc;
+    border:1px solid rgba(0, 0, 0, 0.125);
+    min-height:600px;
+    margin-bottom:50px;
+}
+.chart-box{
+    margin-top:20px;
+}
+.sig-logo{
+    position: absolute;
+    bottom: 60px;
+    left: 30px;
+    height: 100px;
+    width: 85px;
+    background: url(/images/logo/solomon-island-logo.png);
+    background-color: transparent;
+    z-index: 2000;
+    background-size: contain;
+    opacity: .8;
+}
+.unicef-logo{
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    height: 25px;
+    width: 120px;
+    background: url(/images/logo/unicef-logo.png);
+    background-color: transparent;
+    z-index: 2000;
+    background-size: contain;
+    opacity: .8;
+}
+.login-logo{
+    margin:auto;
+    margin-bottom:10px;
+    height: 100px;
+    width: 85px;
+    background: url(/images/logo/solomon-island-logo.png);
+    background-size: contain;
+}
+
+@media screen and (max-width: 769px) {
+    /* STYLES HERE */
+    #navbarsExampleDefault .form-inline{
+        display:none;
+    } 
+    #main-filter-list {
+        width: 95%;
+        margin: 2.5%;
+    }
+    #province-list, #school-type-list{
+        width:auto;
+        font-size:15px;
+    }
+    #school_desc{
+        margin-top:0px;
+    }
+    .modal-dialog{
+        margin:0px;
+    }
+    .charts-container{
+        width:100%;
+        display:block;
+    }
+    .chart-detail-long{
+        max-width:320px;
+        width:320px;
+    }
+    .modal-dialog-centered{
+        min-height:100%;
+        align-items:inherit;
+    }
+    #detail_modal .modal-body{
+        padding:0px;
+    }
+    .nav-tabs{
+        border-bottom: 1px solid #dee2e6;
+        display: -webkit-inline-box;
+        overflow-y: scroll;
+        width: 100%;
+    }
+    .nav-tabs .nav-link.active,
+    .nav-tabs .nav-item.show .nav-link{
+        border-radius:0px;
+    }
+    .nav-tabs .nav-link.active{
+        color:#FFF;
+        background-color:#0091e2;
+    }
+    .legendheading{
+        display:none;
+    }
+    .tab-content > .active{
+        max-height: 100%;
+        height:550px;
+    }
+    .sig-logo, 
+    .unicef-logo{
+        display:none;
+    }
+}
+

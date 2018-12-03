@@ -11,7 +11,16 @@
 |
 */
 
-Route::get('/', 'PageController@index')->name('landing');
-Route::get('/test', 'PageController@test')->name('test');
-Route::get('/database', 'PageController@database')->name('database');
-Route::get('/stats/{page}', 'PageController@stats')->name('stats');
+Route::middleware('auth')->group(function() {
+    Route::get('/', 'PageController@index')->name('landing');
+    Route::get('/test', 'PageController@test')->name('test');
+    Route::get('/database', 'PageController@database')->name('database');
+    Route::get('/stats/{page}', 'PageController@stats')->name('stats');
+    Route::get('/visualization', 'PageController@visualization')->name('visualization');
+    Route::get('/demo', 'PageController@demo')->name('demo');
+    Route::get('/timeline', 'PageController@timeline')->name('timeline');
+    Route::post('/download', 'PageController@download')->name('download');
+});
+
+Auth::routes();
+Route::get('/home', 'HomeController@index')->name('home');

@@ -39,8 +39,8 @@ class ChartsController extends Controller
                     array(100,$schools,'Total'),
                     array(($has_separated/$schools) * 100,$has_separated,'Private'),
                     array(($has_shared/$schools) * 100,$shared,'Shared'),
-                    array(($has_toilets/$total) * 100,$has_toilets,'Has Toilets'),
-                    array(($no_toilets/$total) * 100,$no_toilets,'No Toilets'),
+                    array(($has_toilets/$schools) * 100,$has_toilets,'Has Toilets'),
+                    array(($no_toilets/$schools) * 100,$no_toilets,'No Toilets'),
                 )
             ),
 

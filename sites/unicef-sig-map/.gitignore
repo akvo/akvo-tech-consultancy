@@ -1,4 +1,6 @@
 /node_modules
+/database/seeds
+/database/factories
 /public/hot
 /public/images
 /public/js

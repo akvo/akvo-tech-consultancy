@@ -10,6 +10,11 @@ class Database extends Model
 {
     protected $hidden = ['index'];
 
+    public function downloadExcel($arr)
+    {
+        return $this->whereIn('A', $arr)->get();
+    } 
+
     public function getRegistrationAttribute()
     {
         return (int) $this->attributes['A'];
@@ -21,17 +26,20 @@ class Database extends Model
             'EU as latitude',
             'EV as longitude',
 			'A as identifier',
+			'AK as water_treat',
             'EX as province',
             'L as school_name', 
             'N as school_type',
             'O as school_type_other',
             'S as ts_girl',
             'T as ts_boy',
+            DB::raw('(S + T) as students_total'),
             'U as tt_male',
             'V as tt_female',
+            DB::raw('(U + V) as teacher_total'),
             'Y as water_source',
             'CU as wash_club',
-            'CF as washing_facilities',
+            'CF as handwashing_facilities',
             'DU as annual_grant', 
             'DY as community_support', 
             'DD as cleaning_schedule', 
@@ -42,56 +50,103 @@ class Database extends Model
             'BG as separated', 
             'BU as toilet_location', 
             'AV as has_toilets',
+            'AN as water_inspection',
+            'AR as water_w_mob',
             'AJ as safe_to_drink',
-            'DW as government_funds'
-        )->whereNotIn(
-            'identifier', ['d3es-mqgt-9mmg', 'tf33-p848-vwrk', 'fnd5-549n-tp75']
+            'DW as government_funds',
+            'EY as drink_water',
+            'EZ as primary_water_source',
+            'FA as funct_toilet',
+            'FB as single_sex_san',
+            'FC as sanitation_impr',
+            'FD as sanitation_acc',
+            'FE as handwashing_prop',
+            'CL as wash_soap',
+            'CR as wash_girl'
         ))->map(function($data) {
 			$toilet = '1';
-			if ($data->has_toilets === 'Yes')
-			{
+			if ($data->has_toilets === 'Yes') {
 				$toilet = '2';
 			}
-			if ($data->separated === 'Yes')
-			{
+			if ($data->separated === 'Yes') {
 				$toilet = '4';
 			}
             $water = '1';
-			if ($data->water_source === 'Yes')
-			{
+			if ($data->water_source === 'Yes') {
 				$water= '4';
 			}
-			if ($data->safe_to_drink === 'Yes')
-			{
+			if ($data->safe_to_drink === 'Yes') {
 				$water= '5';
 			}
-            $data->wash_club = ($data->wash_club === "Yes" ? "1":"4");
-            $data->washing_facilities = ($data->washing_facilities === "Yes" ? "1":"4");
-            $data->community_support = ($data->community_support === "Yes" ? "1":"4");
-            $data->annual_grant = ($data->annual_grant === "Yes" ? "1":"4");
-            $data->training = ($data->training === "Yes" ? "1":"4");
-            $data->cleaning_schedule = ($data->cleaning_schedule === "Yes" ? "1":"4");
+            $handwashing_prop = '1';
+			if ($data->handwashing_prop === 'Limited') {
+				$handwashing_prop = '2';
+			}
+			if ($data->handwashing_prop === 'Basic') {
+				$handwashing_prop = '5';
+			}
+            $sanitation_improved = '1';
+			if ($data->sanitation_impr === 'Unimproved') {
+				$sanitation_improved = '2';
+			}
+			if ($data->sanitation_impr === 'Improved') {
+				$sanitation_improved = '4';
+			}
+            $primary_water_source = '1';
+			if ($data->primary_water_source === 'Unimproved') {
+				$primary_water_source = '2';
+			}
+			if ($data->primary_water_source === 'Improved') {
+				$primary_water_source = '5';
+			}
+            $single_sex_sanitation = '4';
+			if ($data->single_sex_san === 'No Services') {
+				$single_sex_sanitation = '2';
+			}
+			if ($data->single_sex_san === 'Limited') {
+				$single_sex_sanitation = '1';
+			}
+            $water_treat = '1';
+			if ($data->water_treat === 'Unknown') {
+				$water_treat = '2';
+			}
+			if ($data->water_treat === 'Chlorine') {
+				$water_treat = '4';
+			}
+            $drink_water = '1';
+			if ($data->drink_water === 'Limited') {
+				$drink_water = '2';
+			}
+			if ($data->drink_water === 'Basic') {
+				$drink_water = '5';
+			}
+            $data->wash_soap = ($data->wash_soap !== null ? "4":"1");
+            $data->wash_club = ($data->wash_club === "Yes" ? "4":"1");
+            $data->funct_toilet = ($data->funct_toilet <= 0 ? "4":"1");
+            $data->water_inspection = ($data->water_inspection === "Yes" ? "4":"1");
+            $data->handwashing_facilities = ($data->handwashing_facilities === "Yes" ? "4":"1");
+            $data->water_w_mob = ($data->water_w_mob === "Yes" ? "4":"1");
+            $data->sanitation_acc = ($data->sanitation_acc === "Accesible" ? "4":"1");
+            $data->community_support = ($data->community_support === "Yes" ? "4":"1");
+            $data->annual_grant = ($data->annual_grant === "Yes" ? "4":"1");
+            $data->training = ($data->training === "Yes" ? "4":"1");
+            $data->cleaning_schedule = ($data->cleaning_schedule === "Yes" ? "4":"1");
+            $data->wash_girl = ($data->wash_girl === "Yes" ? "4":"1");
             $data->toilet_location = ($data->toilet_location = null ? "No Toilet" : explode(" ",$data->toilet_location)[0]);
             if ($data->school_type === null){
                 $data->school_type = "Other";
             }
-            $data->total_teacher = $data->tt_female + $data->tt_male;
-            $data->total_students = 0;
-            $data->total_students = $data->ts_girl + $data->ts_boy;
-            $data->teacher_ratio = 0;
-            if ($data->total_teacher != null && $data->total_students != null){
-                $data->teacher_ratio = round($data->total_students / $data->total_teacher, 2); 
-            }
-            $data->toilet_total = $data->toilet_girl + $data->toilet_boy + $data->toilet_together;
+            $data->teacher_ratio = round($data->students_total / $data->teacher_total, 2); 
+            $data->toilet_total = (int) $data->toilet_together + (int) + $data->toilet_girl + (int) $data->toilet_boy;
             $data->toilet_ratio = 0; 
             $data->toilet_girl_ratio = 0;
             $data->toilet_boy_ratio = 0;
-            if ($data->toilet_total != null && $data->total_students != null){
-                $data->toilet_ratio = round($data->total_students / $data->toilet_total, 2);
-                if($data->toilet_girl != null && $data->ts_girl !=null){
+            if ($data->toilet_total != 0){
+                $data->toilet_ratio = round((int) $data->students_total / (int) $data->toilet_total, 2);
+                if($data->toilet_girl !=0 && $data->ts_girl !=0){
                     $data->toilet_girl_ratio = round($data->ts_girl / $data->toilet_girl, 2);
                 }
-                if($data->toilet_boy != 0 && $data->ts_boy !=null){
+                if($data->toilet_boy != 0 && $data->ts_boy !=0){
                     $data->toilet_boy_ratio = round($data->ts_boy / $data->toilet_boy, 2);
                 }
             }
@@ -105,33 +160,42 @@ class Database extends Model
                     'school-type' => $data->school_type,
                     'province' => $data->province,
                     'school_name' => $data->school_name,
-                    'students_total' => $data->total_students, 
+                    'students_total' => (int) $data->students_total, 
                     'students_boy' => (int) $data->ts_boy,
                     'students_girl' => (int) $data->ts_girl,
-                    'teacher_total' => $data->total_teacher,
+                    'teacher_total' => (int) $data->teacher_total,
                     'teacher_male' => (int) $data->tt_male,
                     'teacher_female' => (int) $data->tt_female,
-                    'teacher_ratio' => $data->teacher_ratio, 
+                    'teacher_ratio' => (int) $data->teacher_ratio, 
                     'toilet_girl' => (int) $data->toilet_girl, 
                     'toilet_boy' => (int) $data->toilet_boy, 
-                    'toilet_total' => $data->toilet_total, 
-                    'toilet_ratio' => $data->toilet_ratio, 
-                    'toilet_girl_ratio' => $data->toilet_girl_ratio, 
-                    'toilet_boy_ratio' => $data->toilet_boy_ratio, 
+                    'toilet_total' => (int) $data->toilet_total, 
+                    'toilet_ratio' => (int) $data->toilet_ratio, 
+                    'toilet_girl_ratio' => (int) $data->toilet_girl_ratio, 
+                    'toilet_boy_ratio' => (int) $data->toilet_boy_ratio, 
                     'toilet_toilet_location' => $data->toilet_location, 
                     'school_id' => $data->identifier,
                     'government_funds' => (int) $data->government_funds,
                     'toilet-type' => $toilet,
+                    'limited-mobility-water-access' => $data->water_w_mob,
+                    'water-inspection' => $data->water_inspection,
                     'water-source' => $water,
+                    'water-treatment' => $water_treat,
+                    'drinking-water-source' => $drink_water,
+                    'primary-water-source' => $primary_water_source,
                     'wash-club' => $data->wash_club,
-                    'washing-facilities' => $data->washing_facilities,
+                    'handwashing-facilities-are-available' => $data->handwashing_facilities,
                     'annual-grant' => $data->annual_grant,
                     'community-support' => $data->community_support,
                     'cleaning-schedule' => $data->cleaning_schedule,
                     'teacher-training-or-workshop' => $data->training,
-                    'status' => 'active',
-                    'province-master' => 'active',
-                    'school-type-master' => 'active'
+                    'hand-washing-property' => $handwashing_prop,
+                    'private-washing-facilities-for-girl' => $data->wash_girl,
+                    'soap-or-water-availability' => $data->wash_soap,
+                    'accesssibility-with-limited-mobility' => $data->sanitation_acc,
+                    'functional-toilet' => $data->funct_toilet,
+                    'single-sex-sanitation' => $single_sex_sanitation,
+                    'sanitation-improved' => $sanitation_improved,
                 )
 			);
 			return $results;
@@ -155,25 +219,17 @@ class Database extends Model
     public function provinces()
     {
         $db = $this->select('EX')
-            ->whereNotNull('EX')
             ->groupby('EX')
             ->get();
         return $db;
     }
 
-    public function indicators()
-    {
-        $db = $this->select('N')
-            ->groupby('N')
-            ->get('N');
-        return $db;
-    }
 
     public function search($q)
     {
-        $db = $this->select('L as school', 'A as identifier', 'EU as latitude', 'EV as longitude')
-            ->where('school', 'LIKE', '%'.$q.'%')
-            ->orWhere('identifier', 'LIKE', '%'.$q.'%')
+        $db = $this->select('L as school','N as school_type', 'O as school_type_other' , 'A as identifier', 'EU as latitude', 'EV as longitude')
+            ->where('L', 'LIKE', '%'.$q.'%')
+            ->orWhere('A', 'LIKE', '%'.$q.'%')
             ->take(5)->get();
         return $db;
     }
@@ -187,11 +243,25 @@ class Database extends Model
     public function datatable()
     {
         return $this->select(
+            'EX as province',
+            'N as school_type',
+            'O as school_type_other',
+            DB::raw('(U + V) as total_teacher'),
+            'Y as water_source',
+            'CU as wash_club',
+            'CF as washing_facilities',
+            'DY as community_support', 
+            'DD as cleaning_schedule', 
+            'DD as training', 
+            'AV as has_toilets',
+            'AJ as safe_to_drink',
+            'DW as annual_grant',
             'P', 
             'R', 
             'L', 
             'A',
             DB::raw('(S + T) as total_students'),
+            DB::raw('(BG + BJ + BL) as total_toilet'),
             'S as s_girls',
             'T as s_boys',
             'BH as t_sap',
@@ -204,15 +274,36 @@ class Database extends Model
     public function toilets()
     {
         $data = collect($this->all(
-            'BL as shared'),
-            'BH as t_girls',
-            'BJ as t_boys'
-        )->map(function($data){
-            $data->t_toilets = (int) $data->shared + $data->t_girls + $data->t_boys;
+            'BH as shared',
+            'BJ as t_girls',
+            'BL as t_boys'
+        ))->map(function($data){
+            $data->t_toilets = (int) $data->shared + (int) $data->t_girls + (int) $data->t_boys;
             return $data;
         });
         return $data;
         
     }
 
+    public function countGroup($name)
+    {
+        $data = $this->select(
+            $name, 
+            'EX as PV',
+            DB::raw('count('.$name.') as TT')
+        )
+        ->groupBy($name, 'PV')
+        ->get();
+        return $data;
+    }
+
+    public function indicators($name)
+    {
+        $db = $this->select($name)
+            ->groupby($name)
+            ->get();
+        return collect($db)->map(function($a) use ($name) {
+            return $a[$name];
+        });
+    }
 }

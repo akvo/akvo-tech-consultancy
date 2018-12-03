@@ -10,7 +10,12 @@
     <link rel="icon" href="{{asset('images/solomon-island-ico.ico')}}">
     <link href="{{asset(mix('css/app.css'))}}" rel="stylesheet">
     <link href="{{asset('vendor/leaflet/leaflet.css')}}" rel="stylesheet">
+    <!--
     <link href="{{asset('vendor/fontawesome/css/all.min.css')}}" rel="stylesheet">
-    <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-    <script scr="https://cdn.jsdelivr.net/npm/lodash@4.17.4/lodash.min.js"></script>
+    <script src="{{asset('js/vendors/d3.v3.min.js')}}" charset="utf-8"></script>
+    <script src="{{asset('js/vendors/lodash.min.js')}}" charset="utf-8"></script>
+    -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js" charset="utf-8"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 </head>

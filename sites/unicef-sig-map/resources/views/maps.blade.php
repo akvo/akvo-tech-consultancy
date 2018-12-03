@@ -14,13 +14,15 @@
 
 @extends('layouts.default')
 @section('content')
-<div id="mapid"></div>
+<div id="mapid">
+<div class="sig-logo"></div> 
+<div class="unicef-logo"></div> 
+</div>
 
 @endsection
 
 @push('scripts')
-<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
-  integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="
-  crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIv2SUL6gt0gOgr8M9XLGpGIpEVwaR4A0"> </script>
 <script src="{{asset(mix('js/maps.js'))}}"></script>
 @endpush
