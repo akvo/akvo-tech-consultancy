@@ -267,10 +267,10 @@ function getDetails(a, atype) {
                 };
             }
         });
-        $('#hygiene-tab').prepend('<h5>Indicators</br><small><i class="fa fa-square legend-red"></i> Yes&nbsp;<i class="fa fa-square legend-green"></i> No</small></h5><hr>');
-        $('#management-tab').prepend('<h5>Indicators</br><small><i class="fa fa-square legend-red"></i> Yes&nbsp;<i class="fa fa-square legend-green"></i> No</small></h5><hr>');
-        $('#sanitation-tab').prepend('<h5>Indicators</br><small><i class="fa fa-square legend-red"></i> Yes&nbsp;<i class="fa fa-square legend-green"></i> No</small></h5><hr>');
-        $('#water_supply-tab').prepend('<h5>Indicators</br><small><i class="fa fa-square legend-red"></i> Yes&nbsp;<i class="fa fa-square legend-green"></i> No</small></h5><hr>');
+        $('#hygiene-tab').prepend('<h5>Indicators</br><small><i class="fa fa-square legend-green"></i> Yes&nbsp;<i class="fa fa-square legend-red"></i> No</small></h5><hr>');
+        $('#management-tab').prepend('<h5>Indicators</br><small><i class="fa fa-square legend-green"></i> Yes&nbsp;<i class="fa fa-square legend-red"></i> No</small></h5><hr>');
+        $('#sanitation-tab').prepend('<h5>Indicators</br><small><i class="fa fa-square legend-green"></i> Yes&nbsp;<i class="fa fa-square legend-red"></i> No</small></h5><hr>');
+        $('#water_supply-tab').prepend('<h5>Indicators</br><small><i class="fa fa-square legend-green"></i> Yes&nbsp;<i class="fa fa-square legend-red"></i> No</small></h5><hr>');
 
         $('#profile-tab').append("<div> <b>Province</b> : " + data['province'] + "</div><hr>");
         if (data['type of school?'] === null) {
