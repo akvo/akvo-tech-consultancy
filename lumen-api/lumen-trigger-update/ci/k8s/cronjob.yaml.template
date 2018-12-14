@@ -1,0 +1,44 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: lumen-trigger-update
+spec:
+  schedule: "0 3 * * *"
+  startingDeadlineSeconds: 600 # it is ok to start the job 10 minutes late
+  concurrencyPolicy: Allow
+  failedJobsHistoryLimit: 3
+  successfulJobsHistoryLimit: 3
+  jobTemplate:
+    metadata:
+      labels:
+        cronjob: lumen-trigger-update # <-- for monitoring
+    spec:
+      backoffLimit: 6 # default
+      activeDeadlineSeconds: 900 # Fail job if it takes more than 15 mins
+      template:
+        metadata:
+          labels:
+            cronjob: lumen-trigger-update
+        spec:
+          containers:
+          - name: lumen-trigger-update
+            image: eu.gcr.io/akvo-lumen/lumen-trigger-update:${TRAVIS_COMMIT}
+            resources:
+              requests:
+                cpu: "50m"
+                memory: "256Mi"
+              limits:
+                cpu: "1000m"
+                memory: "256Mi"
+            env:
+              - name: KEYCLOAK_USER
+                valueFrom:
+                  secretKeyRef:
+                    name: lumen-trigger-update 
+                    key: keycloak-user
+              - name: KEYCLOAK_PWD
+                valueFrom:
+                  secretKeyRef:
+                    name: lumen-trigger-update 
+                    key: keycloak-pwd
+          restartPolicy: Never
