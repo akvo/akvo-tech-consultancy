@@ -42,11 +42,12 @@ def getResponse(url,rtype):
     return response
 
 def checkUpdate(url):
+    print('INFO: ' + url)
     job = getResponse(url, "get")
     if job['status'] == 'OK':
         print('SUCCESS: DATASET IS UPDATED')
         return job['status']
-    elif job['status'] == 'ERROR':
+    elif job['status'] == 'FAILED':
         print('ERROR: '+ url +' FAILED TO LOAD')
         return False
     else:
