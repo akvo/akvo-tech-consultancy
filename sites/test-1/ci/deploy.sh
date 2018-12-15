@@ -38,6 +38,6 @@ ssh -i "${SITES_SSH_KEY}" \
     -p 18765 \
     -o UserKnownHostsFile=/dev/null \
     -o StrictHostKeyChecking=no \
-    tcakvo@109.73.232.40 'find ~/public_html/test-1/storage/framework/cache/data | xargs rm -rf'
+    tcakvo@109.73.232.40 'cd ~/public_html/test-1/ && /usr/local/bin/php72 artisan cache:clear'
 
 echo "Done"
