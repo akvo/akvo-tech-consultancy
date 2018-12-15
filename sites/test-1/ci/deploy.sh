@@ -14,6 +14,7 @@ rsync \
     --progress \
     --exclude=ci \
     --exclude=node_modules \
+    --exclude=.env \
     --rsh="ssh -i ${SITES_SSH_KEY} -p 18765 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" \
     . tcakvo@109.73.232.40:/home/tcakvo/public_html/test-1/
 
