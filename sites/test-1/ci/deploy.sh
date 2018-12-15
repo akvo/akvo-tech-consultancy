@@ -11,7 +11,6 @@ echo "Deploying site..."
 rsync \
     --archive \
     --compress \
-    --progress \
     --exclude=ci \
     --exclude=node_modules \
     --exclude=.env \
@@ -38,6 +37,6 @@ ssh -i "${SITES_SSH_KEY}" \
     -p 18765 \
     -o UserKnownHostsFile=/dev/null \
     -o StrictHostKeyChecking=no \
-    tcakvo@109.73.232.40 'cd ~/public_html/test-1/ && /usr/local/bin/php72 artisan cache:clear && /usr/local/bin/php72 artisan migrate'
+    tcakvo@109.73.232.40 'cd ~/public_html/test-1/ && /usr/local/bin/php72 artisan cache:clear && /usr/local/bin/php72 artisan migrate --no-interaction -vv'
 
 echo "Done"
