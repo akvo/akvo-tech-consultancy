@@ -32,12 +32,12 @@ ssh -i "${SITES_SSH_KEY}" \
     -o StrictHostKeyChecking=no \
     tcakvo@109.73.232.40 'find ~/public_html/test-1/ -type d -print0 | xargs -0 -n1 chmod 755'
 
-echo "Clearing cache..."
+echo "Clearing cache, Running migrations..."
 
 ssh -i "${SITES_SSH_KEY}" \
     -p 18765 \
     -o UserKnownHostsFile=/dev/null \
     -o StrictHostKeyChecking=no \
-    tcakvo@109.73.232.40 'cd ~/public_html/test-1/ && /usr/local/bin/php72 artisan cache:clear'
+    tcakvo@109.73.232.40 'cd ~/public_html/test-1/ && /usr/local/bin/php72 artisan cache:clear && /usr/local/bin/php72 artisan migrate'
 
 echo "Done"
