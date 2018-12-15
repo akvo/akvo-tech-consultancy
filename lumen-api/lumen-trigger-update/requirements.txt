@@ -1,0 +1,2 @@
+python-dateutil==2.7.2
+requests==2.18.4

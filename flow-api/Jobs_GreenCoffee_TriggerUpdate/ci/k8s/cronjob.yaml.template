@@ -14,7 +14,7 @@ spec:
         cronjob: pricing-integration-greencoffee # <-- for monitoring
     spec:
       backoffLimit: 6 # default
-      activeDeadlineSeconds: 300 # Fail job if it takes more than 5 mins
+      activeDeadlineSeconds: 900 # Fail job if it takes more than 15 mins
       template:
         metadata:
           labels:
@@ -34,11 +34,11 @@ spec:
               - name: KEYCLOAK_USER
                 valueFrom:
                   secretKeyRef:
-                    name: tech-consultancy 
+                    name: pricing-integration-greencoffee 
                     key: keycloak-user
               - name: KEYCLOAK_PWD
                 valueFrom:
                   secretKeyRef:
-                    name: tech-consultancy 
+                    name: pricing-integration-greencoffee 
                     key: keycloak-pwd
           restartPolicy: Never

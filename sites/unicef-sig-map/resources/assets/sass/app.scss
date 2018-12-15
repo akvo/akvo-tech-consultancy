@@ -1,0 +1,719 @@
+
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+//@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+body,html {
+  height:100%;
+}
+
+body {
+  padding-top: 55px;
+  font-size:unset;
+}
+h5{
+    font-weight:bold;
+}
+main.container{
+    margin-top:40px;
+    margin-bottom:40px;
+}
+tbody tr{
+    cursor:pointer;
+}
+tbody tr:hover{
+    background: #efefef;
+    color: #a26969;
+}
+.starter-template {
+  padding: 3rem 1.5rem;
+  text-align: center;
+}
+.navbar-brand {
+  padding-top:0px;
+}
+
+.navbar-laravel {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+#mapid {
+    height: 100%;
+    padding-top: 55px;
+}
+
+#school_desc {
+    margin-top: 10px;
+    // max-height: 400px;
+    // overflow-y: scroll;
+    // border-top: 1px solid #ddd;
+}
+#school_desc .alert{
+    margin-bottom:0px;
+    padding: 10px;
+    border-radius:0px;
+    border:none;
+    color:#FFF;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    text-transform: capitalize;
+}
+#school_desc .alert-success{
+    background:#28a745;
+    border:solid 1px #0e6722;
+}
+#school_desc .alert-danger{
+    background:#dc3545;
+    border:solid 1px #800;
+}
+#school_desc .alert-warning{
+    background:#FA0;
+}
+
+#detail_modal .modal-body {
+	padding: 1rem 1rem 0rem;
+}
+
+#stack_search a:first-child,
+#stack_search a:nth-child(1),
+#stack_search a:nth-child(2),
+#stack_search a:nth-child(3),
+#stack_search a:nth-child(4),
+#stack_search a:nth-child(5){
+    display:none;
+}
+
+/* Bootstrap modified */
+
+.badge{
+    font-size: 100%;
+    border-radius: 0px;
+}
+
+.btn{
+    border-radius: 0px;
+}
+
+.btn-active{
+    background: #0091e2;
+    border: #31aef5 1px solid;
+    color: white;
+}
+
+.form-control{
+    border-radius: 0px;
+    background-clip: unset;
+}
+.card{
+    border-radius:0px;
+}
+.card-header{
+    font-size:12px;
+}
+.card-custom{
+	border-radius: 0px;
+    margin: 10px 0px;
+}
+.modal-content{
+	border-radius: 0px;
+}
+
+/* Bootstrap modified */
+
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+    width: 200px;
+}
+.leaflet-popup-content-wrapper{
+	border-radius:0px!important;
+}
+
+.leaflet-cluster-anim .leaflet-marker-icon, .leaflet-cluster-anim .leaflet-marker-shadow {
+	-webkit-transition: -webkit-transform 0.3s ease-out, opacity 0.3s ease-in;
+	-moz-transition: -moz-transform 0.3s ease-out, opacity 0.3s ease-in;
+	-o-transition: -o-transform 0.3s ease-out, opacity 0.3s ease-in;
+	transition: transform 0.3s ease-out, opacity 0.3s ease-in;
+}
+
+.leaflet-cluster-spider-leg {
+	/* stroke-dashoffset (duration and function) should match with leaflet-marker-icon transform in order to track it exactly */
+	-webkit-transition: -webkit-stroke-dashoffset 0.3s ease-out, -webkit-stroke-opacity 0.3s ease-in;
+	-moz-transition: -moz-stroke-dashoffset 0.3s ease-out, -moz-stroke-opacity 0.3s ease-in;
+	-o-transition: -o-stroke-dashoffset 0.3s ease-out, -o-stroke-opacity 0.3s ease-in;
+	transition: stroke-dashoffset 0.3s ease-out, stroke-opacity 0.3s ease-in;
+}
+
+.marker-cluster-small {
+    background-color: rgba(181, 226, 140, 0.6);
+}
+
+.marker-cluster-small div {
+    background-color: rgba(110, 204, 57, 0.6);
+}
+
+.marker-cluster-medium {
+    background-color: rgba(241, 211, 87, 0.6);
+}
+
+.marker-cluster-medium div {
+    background-color: rgba(240, 194, 12, 0.6);
+}
+
+.marker-cluster-large {
+    background-color: rgba(253, 156, 115, 0.6);
+}
+
+.marker-cluster-large div {
+    background-color: rgba(241, 128, 23, 0.6);
+}
+
+/* IE 6-8 fallback colors */
+
+.leaflet-oldie .marker-cluster-small {
+    background-color: rgb(181, 226, 140);
+}
+
+.leaflet-oldie .marker-cluster-small div {
+    background-color: rgb(110, 204, 57);
+}
+
+.leaflet-oldie .marker-cluster-medium {
+    background-color: rgb(241, 211, 87);
+}
+
+.leaflet-oldie .marker-cluster-medium div {
+    background-color: rgb(240, 194, 12);
+}
+
+.leaflet-oldie .marker-cluster-large {
+    background-color: rgb(253, 156, 115);
+}
+
+.leaflet-oldie .marker-cluster-large div {
+    background-color: rgb(241, 128, 23);
+}
+
+.marker-cluster {
+    background-clip: padding-box;
+    border-radius: 20px;
+}
+
+.marker-cluster div {
+    width: 30px;
+    height: 30px;
+    margin-left: 5px;
+    margin-top: 5px;
+    text-align: center;
+    border-radius: 15px;
+    font: 12px "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+
+.marker-cluster span {
+    line-height: 30px;
+}
+.leaflet-popup-content-wrapper, .leaflet-popup-tip{
+    box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.4)!important;
+}
+
+/* Jquery Autocomplete */
+
+.ui-autocomplete {
+	position: absolute;
+	top: 0;
+	left: 0;
+	cursor: default;
+    z-index: 500;
+    cursor: default;
+    z-index: 1030;
+    list-style: none;
+    background: #FFF;
+    padding:0px;
+}
+.ui-menu-item {
+    border-bottom: 1px solid #ddd;
+}
+.ui-menu-item-wrapper{
+    padding: 0.375rem 0.75rem;
+}
+.ui-menu-item-wrapper small{
+    font-size:10px;
+}
+.ui-state-active {
+    background:#3490dc;
+    color:#FFF;
+}
+.badge-small {
+    font-size:0.6rem;
+    display:table-caption;
+}
+
+/* datatable */
+.dt-buttons.btn-group{
+    display:none;
+}
+.dt-button.dropdown-item.buttons-columnVisibility.active{
+    color: inherit;
+    text-decoration: none;
+    background-color: inherit;
+}
+.buttons-columnVisibility:before{
+    font-family: "FontAwesome";
+    font-weight: 900;
+    padding-right: 10px;
+    content: "\f00c";
+    color:$white;
+}
+.buttons-columnVisibility.active:before{
+    color:inherit;
+    font-family: "FontAwesome";
+    font-weight: 900;
+    padding-right: 10px;
+    content: "\f00c";
+}
+.dataTables_processing.card{
+    position: absolute;
+    width: 100px;
+    z-index: 15;
+    top: 50%;
+    left: 50%;
+    margin: -50px 0 0 -50px;
+    background: #f8fafc;
+    padding: 5px;
+    text-align: center;
+}
+
+/* maps */
+#legend {
+    position: absolute;
+    top: 60px;
+    right: 0px;
+    margin: 10px;
+    padding: 5px;
+    font-size: 12px;
+    font-family: inherit;
+    width: 230px;
+    background: rgb(255, 255, 255);
+    z-index: 1000;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.17);
+}
+#legend.sliding{
+    right: 250px;
+}
+.legendheading{
+    display:none;
+}
+
+.legendheading, .legendprovince, .legendschooltype {
+    position: relative;
+    font-size: 0.9rem;
+    text-align: center;
+    padding-top: 15px;
+    text-transform: uppercase;
+}
+.legendprovince,
+.legendschooltype{
+    text-align:left;
+    padding: 15px;
+    min-width: 230px;
+    cursor:pointer;
+    transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+    border-bottom: 1px solid #eee;
+    margin-block-end: 0px;
+}
+.legendprovince:hover,
+.legendschooltype:hover{
+    background-color:#3490dc;
+    color:#fff;
+}
+.legendprovince:before,
+.legendschooltype:before{
+    font-family: "FontAwesome";
+    font-weight: 900;
+    padding-right: 10px;
+    content: "\f0a9";
+}
+.legendprovince.active,
+.legendschooltype.active{
+    background-color:#343a40;
+    color:#fff;
+}
+.legendprovince.active:before,
+.legendschooltype.active:before{
+    content: "\f0ab";
+}
+
+.legenditem {
+    padding: 5px;
+    margin-bottom: 0px;
+    color: white;
+    cursor: pointer;
+}
+.legenditem:before{
+    font-family: "FontAwesome";
+    font-weight: 900;
+    padding-right: 10px;
+    content: "\f00c";
+}
+.legend-red{
+    color:#dc3545;
+}
+.legend-green{
+    color:#28a745;
+}
+/*Province List*/
+
+#main-filter-list{
+    background: rgb(255, 255, 255);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.17);
+    position: absolute;
+    right: 0px;
+    bottom:0px;
+    z-index: 1002;
+    margin: 10px;
+}
+
+#province-list,
+#school-type-list{
+    display:none;
+    padding: 5px;
+    font-size: 12px;
+    font-family: inherit;
+    width: 230px;
+}
+#province-list>a,
+#school-type-list>a{
+    padding: 10px;
+    display: block;
+    cursor: pointer;
+}
+#province-list>a:before,
+#school-type-list>a:before {
+    font-family: "FontAwesome";
+    font-weight: 900;
+    padding-right: 10px;
+    content: "\f00c";
+}
+#province-list>a.inactive,
+#school-type-list>a.inactive{
+    color:#FFF;
+    background:#dc3545;
+}
+#province-list>a.inactive:before,
+#school-type-list>a.inactive:before {
+    content: "\f057";
+}
+#province-list>a:hover,
+#school-type-list>a:hover{
+    padding: 10px;
+    background:#007bff;
+    color: #FFF;
+    display: block;
+}
+#province-all,
+#school-type-all{
+    display: block;
+    width: 100%;
+    background: #d63943;
+    color: #FFF;
+}
+#province-all.enable-all,
+#school-type-all.enable-all{
+    background: #3490dc;
+}
+
+/*Marker clusters*/
+.marker-cluster-pie g.arc{
+  fill-opacity: 0.5;
+}
+.marker-cluster-pie-label {
+    font-family: inherit;
+    font-size: x-small;
+    font-weight: inherit;
+}
+
+/*Markers*/
+.marker {
+  width: 18px;
+  height: 18px;
+  border-width: 2px;
+  border-radius:10px;
+  margin-top: -10px;
+  margin-left: -10px;
+  border-style: solid;
+  fill: #CCC;
+  stroke: #444;
+  background: #CCC;
+  border-color: #444;
+}
+.marker div{
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  font-family: sans-serif;
+}
+
+/*marker categories*/
+.category-1{
+  fill: #dc3545;
+  stroke: #800;
+  background: #dc3545;
+  border-color: #800;
+}
+.category-2{
+  fill: #FA0;
+  stroke: #B60;
+  background: #FA0;
+  border-color: #B60;
+}
+.category-3{
+  fill: #ffc107;
+  stroke: #D80;
+  background: #ffc107;
+  border-color: #D80;
+}
+.category-4{
+  fill: #28a745;
+  stroke: #070;
+  background: #28a745;
+  border-color: #070;
+}
+.category-5{
+  fill: #007bff;
+  stroke: #054e9c;
+  background: #007bff;
+  border-color: #054e9c;
+}
+.category-6{
+  fill: #6c757d;
+  stroke: #444;
+  background: #6c757d;
+  border-color: #444;
+}
+.category-undefined{
+  fill: #28a745;
+  stroke: #070;
+  background: #28a745;
+  border-color: #070;
+}
+.inactive-legend {
+    background: #222;
+}
+.inactive-legend:before{
+    font-family: "FontAwesome";
+    font-weight: 900;
+    padding-right: 10px;
+    content: "\f057";
+}
+
+/*marker icons*/
+.icon-1,
+.icon-2,
+.icon-3,
+.icon-4,
+.icon-5,
+.icon-6
+{
+  background-repeat: no-repeat;
+  background-position: 1px 0px;
+}
+.leaflet-marker-icon.marker-cluster svg{
+	border-radius:100%;
+	background:rgba(255, 255, 255, 0.68);
+}
+
+/*Popup*/
+.map-popup span.heading {
+  display: block;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+.map-popup span.attribute {
+  display: block;
+}
+.map-popup span.label {
+  font-weight: bold;
+}
+
+/*BarLegend*/
+#bar-legend {
+    position: absolute;
+    top: 70px;
+    right: 10px;
+	height: 300px;
+    padding: 10px;
+	margin:0px;
+    font-size: 9px;
+    font-family: inherit;
+    width: 525px;
+    background: rgb(255, 255, 255);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.17);
+    z-index: 999;
+}
+#bar-legend.sliding {
+    right: 250px;
+}
+
+.modal-dialog{
+    max-width:800px;
+}
+.tab-content > .active{
+    max-height:450px;
+    height:450px;
+    overflow-x:auto;
+    padding:15px;
+}
+.chart-detail{
+	height:400px;
+	width:360px;
+}
+.string-answer{
+    background: #f8fafc;
+    color: #4a4a4a;
+    padding: 10px;
+    border: solid #e8e8e8 1px;
+    text-transform: capitalize;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+.charts-container{
+    width:50%;
+    display:inline-block;
+}
+.chart-detail-long{
+	height:400px;
+	width:720px;
+}
+.dataTables_processing.card{
+    margin: -50px 0 0 -75px;
+    background: #4c8edf;
+    color: #FFF;
+    width:150px;
+}
+div.dataTables_wrapper {
+    width: 100%;
+    margin: 0 auto;
+}
+.carousel-caption{
+    bottom:0px;
+    background:rgba(26,29,32,.5);
+    padding-bottom:10px;
+    left:0px;
+    right:0px;
+}
+
+.navbar-toggler:not(:disabled):not(.disabled){
+    cursor: pointer;
+    border-radius: 0px;
+    padding: 10px 20px;
+}
+.visualization{
+    background-color:#f7fafc;
+    border:1px solid rgba(0, 0, 0, 0.125);
+    min-height:600px;
+    margin-bottom:50px;
+}
+.chart-box{
+    margin-top:20px;
+}
+.sig-logo{
+    position: absolute;
+    bottom: 60px;
+    left: 30px;
+    height: 100px;
+    width: 85px;
+    background: url(/images/logo/solomon-island-logo.png);
+    background-color: transparent;
+    z-index: 2000;
+    background-size: contain;
+    opacity: .8;
+}
+.unicef-logo{
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    height: 25px;
+    width: 120px;
+    background: url(/images/logo/unicef-logo.png);
+    background-color: transparent;
+    z-index: 2000;
+    background-size: contain;
+    opacity: .8;
+}
+.login-logo{
+    margin:auto;
+    margin-bottom:10px;
+    height: 100px;
+    width: 85px;
+    background: url(/images/logo/solomon-island-logo.png);
+    background-size: contain;
+}
+
+@media screen and (max-width: 769px) {
+    /* STYLES HERE */
+    #navbarsExampleDefault .form-inline{
+        display:none;
+    } 
+    #main-filter-list {
+        width: 95%;
+        margin: 2.5%;
+    }
+    #province-list, #school-type-list{
+        width:auto;
+        font-size:15px;
+    }
+    #school_desc{
+        margin-top:0px;
+    }
+    .modal-dialog{
+        margin:0px;
+    }
+    .charts-container{
+        width:100%;
+        display:block;
+    }
+    .chart-detail-long{
+        max-width:320px;
+        width:320px;
+    }
+    .modal-dialog-centered{
+        min-height:100%;
+        align-items:inherit;
+    }
+    #detail_modal .modal-body{
+        padding:0px;
+    }
+    .nav-tabs{
+        border-bottom: 1px solid #dee2e6;
+        display: -webkit-inline-box;
+        overflow-y: scroll;
+        width: 100%;
+    }
+    .nav-tabs .nav-link.active,
+    .nav-tabs .nav-item.show .nav-link{
+        border-radius:0px;
+    }
+    .nav-tabs .nav-link.active{
+        color:#FFF;
+        background-color:#0091e2;
+    }
+    .legendheading{
+        display:none;
+    }
+    .tab-content > .active{
+        max-height: 100%;
+        height:550px;
+    }
+    .sig-logo, 
+    .unicef-logo{
+        display:none;
+    }
+}
+
