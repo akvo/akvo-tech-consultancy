@@ -25,7 +25,7 @@ ssh -i "${SITES_SSH_KEY}" \
     -p 18765 \
     -o UserKnownHostsFile=/dev/null \
     -o StrictHostKeyChecking=no \
-    tcakvo@109.73.232.40 'find  ~/public_html/unicef-sig-map/ -type f -print0 | xargs -0 -n1 chmod 644'
+    tcakvo@109.73.232.40 'find ~/public_html/unicef-sig-map/ -not -path "*.well-known*" -type f -print0 | xargs -0 -n1 chmod 644'
 
 ssh -i "${SITES_SSH_KEY}" \
     -p 18765 \
@@ -39,6 +39,6 @@ ssh -i "${SITES_SSH_KEY}" \
     -p 18765 \
     -o UserKnownHostsFile=/dev/null \
     -o StrictHostKeyChecking=no \
-    tcakvo@109.73.232.40 'find ~/public_html/unicef-sig-map/storage/framework/cache/data | xargs rm -rf'
+    tcakvo@109.73.232.40 'cd ~/public_html/unicef-sig-map/ && /usr/local/bin/php72 artisan cache:clear'
 
 echo "Done"
