@@ -25,7 +25,7 @@ def getAccessToken():
     try:
         account = requests.post(tokenURI, account).json();
     except:
-        print('ERROR: TOKEN ACCESS DENIED')
+        print('ERROR  : TOKEN ACCESS DENIED')
         return False
     return account['access_token']
 
@@ -36,31 +36,37 @@ def getResponse(url,rtype):
         'User-Agent':'python-requests/2.14.2'
     }
     if rtype == "post":
-        response = requests.post(url, headers=header).json()
+        try:
+            response = requests.post(url, headers=header).json()
+        except:
+            print('ERROR  : TOKEN ACCESS DENIED')
+            return False
     else:
         response = requests.get(url, headers=header).json()
     return response
 
 def checkUpdate(url):
-    print('INFO: ' + url)
+    print('INFO   : TRIGGER ' + url)
     job = getResponse(url, "get")
     if job['status'] == 'OK':
         print('SUCCESS: DATASET IS UPDATED')
         return job['status']
     elif job['status'] == 'FAILED':
-        print('ERROR: '+ url +' FAILED TO LOAD')
+        print('ERROR  : '+ url +' FAILED TO LOAD')
         return False
     else:
-        print('INFO:PENDING...')
-        print('INFO:WAITING NEXT RESPONSE IN 10 SECONDS')
+        print('INFO   : PENDING...WAITING NEXT RESPONSE IN 10 SECONDS')
         sleep(10)
         checkUpdate(url)
 
 def updateDataset(instance, dataset):
     api = 'https://' + instance + '.akvolumen.org/api/'
-    data = getResponse(api+ 'datasets/' + dataset + '/update', "post")
-    check = api + "job_executions/" + data['updateId']
-    checkUpdate(check)
+    try:
+        data = getResponse(api+ 'datasets/' + dataset + '/update', "post")
+        check = api + "job_executions/" + data['updateId']
+        checkUpdate(check)
+    except:
+        return
 
 with open('datasets.csv', newline='') as csvfile:
     reader = csv.DictReader(csvfile)
@@ -68,7 +74,7 @@ with open('datasets.csv', newline='') as csvfile:
     for idx, row in enumerate(reader):
         instance = row['instance']
         dataset = row['dataset']
-        print('INFO: UPDATING INSTANCE https://' + instance + '.akvolumen.org' + ' DATASET ID[' + dataset + ']')
+        print('INFO   : UPDATING INSTANCE https://' + instance + '.akvolumen.org' + ' DATASET ID[' + dataset + ']')
         if idx <= 5:
             updateDataset(instance, dataset)
         else:
