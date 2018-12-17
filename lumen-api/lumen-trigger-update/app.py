@@ -1,48 +1,15 @@
-import requests
 import csv
-import os
 from time import sleep
+from Akvo import Flow
 
-tokenURI = 'https://login.akvo.org/auth/realms/akvo/protocol/openid-connect/token'
-rtData = {
-    'client_id':'curl',
-    'username': os.environ['KEYCLOAK_USER'],
-    'password': os.environ['KEYCLOAK_PWD'],
-    'grant_type':'password',
-    'scope':'openid offline_access'
-}
-
-def refreshData():
-    tokens = requests.post(tokenURI, rtData).json();
-    return tokens['refresh_token']
-
-def getAccessToken():
-    account = {
-        'client_id':'curl',
-        'refresh_token': refreshData(),
-        'grant_type':'refresh_token'
-    }
-    try:
-        account = requests.post(tokenURI, account).json();
-    except:
-        print('ERROR  : TOKEN ACCESS DENIED')
-        return False
-    return account['access_token']
+token = Flow.getToken()
+print(token)
 
 def getResponse(url,rtype):
-    header = {
-        'Authorization':'Bearer ' + getAccessToken(),
-        'Accept': '*/*',
-        'User-Agent':'python-requests/2.14.2'
-    }
     if rtype == "post":
-        try:
-            response = requests.post(url, headers=header).json()
-        except:
-            print('ERROR  : TOKEN ACCESS DENIED')
-            return False
+        response = Flow.postData(url, token)
     else:
-        response = requests.get(url, headers=header).json()
+        response = Flow.getData(url, token)
     return response
 
 def checkUpdate(url):
@@ -63,7 +30,9 @@ def updateDataset(instance, dataset):
     api = 'https://' + instance + '.akvolumen.org/api/'
     try:
         data = getResponse(api+ 'datasets/' + dataset + '/update', "post")
+        print(data)
         check = api + "job_executions/" + data['updateId']
+        sleep(10)
         checkUpdate(check)
     except:
         return
