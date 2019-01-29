@@ -1,0 +1,127 @@
+[{
+    "ID_Commodity": 1,
+    "Group_code": "SP01",
+    "Commodity_code": "dABA",
+    "Group_name": "Arabica",
+    "Commodity": "Arabica,Cà Phê Nhân Xô, Giá đại lý",
+    "UNIT": "kg"
+}, {
+    "ID_Commodity": 2,
+    "Group_code": "SP01",
+    "Commodity_code": "dABC",
+    "Group_name": "Arabica",
+    "Commodity": "Arabica,Cà Phê Nhân Xô, Giá Công Ty",
+    "UNIT": "kg"
+}, {
+    "ID_Commodity": 3,
+    "Group_code": "SP01",
+    "Commodity_code": "dABE",
+    "Group_name": "Arabica",
+    "Commodity": "Arabica,Cà Phê Nhân Xô, Giá Xuất Khẩu",
+    "UNIT": "kg"
+}, {
+    "ID_Commodity": 4,
+    "Group_code": "SP01",
+    "Commodity_code": "dABF",
+    "Group_name": "Arabica",
+    "Commodity": "Arabica,Bean,Farmgate Price",
+    "UNIT": "kg"
+}, {
+    "ID_Commodity": 5,
+    "Group_code": "SP01",
+    "Commodity_code": "dACA",
+    "Group_name": "Arabica",
+    "Commodity": "Arabica,Quả Tươi, Giá đại lý",
+    "UNIT": "kg"
+}, {
+    "ID_Commodity": 6,
+    "Group_code": "SP01",
+    "Commodity_code": "dACC",
+    "Group_name": "Arabica",
+    "Commodity": "Arabica,Quả Tươi, Giá công ty",
+    "UNIT": "kg"
+}, {
+    "ID_Commodity": 7,
+    "Group_code": "SP01",
+    "Commodity_code": "dACE",
+    "Group_name": "Arabica",
+    "Commodity": "Arabica,Quả Tươi, Giá Xuất Khẩu",
+    "UNIT": "kg"
+}, {
+    "ID_Commodity": 8,
+    "Group_code": "SP01",
+    "Commodity_code": "dACF",
+    "Group_name": "Arabica",
+    "Commodity": "Arabica,Cherry,Farmgate Price",
+    "UNIT": "kg"
+}, {
+    "ID_Commodity": 9,
+    "Group_code": "SP02",
+    "Commodity_code": "dRBA",
+    "Group_name": "Robusta",
+    "Commodity": "Robusta,Cà Phê Nhân Xô, Giá đại lý",
+    "UNIT": "kg"
+}, {
+    "ID_Commodity": 10,
+    "Group_code": "SP02",
+    "Commodity_code": "dRBC",
+    "Group_name": "Robusta",
+    "Commodity": "Robusta,Cà Phê Nhân Xô, Giá Công Ty",
+    "UNIT": "kg"
+}, {
+    "ID_Commodity": 11,
+    "Group_code": "SP02",
+    "Commodity_code": "dRBE",
+    "Group_name": "Robusta",
+    "Commodity": "Robusta,Cà Phê Nhân Xô, Giá Xuất Khẩu",
+    "UNIT": "kg"
+}, {
+    "ID_Commodity": 12,
+    "Group_code": "SP02",
+    "Commodity_code": "dRBF",
+    "Group_name": "Robusta",
+    "Commodity": "Robusta,Bean,Farmgate Price",
+    "UNIT": "kg"
+}, {
+    "ID_Commodity": 13,
+    "Group_code": "SP02",
+    "Commodity_code": "dRCA",
+    "Group_name": "Robusta",
+    "Commodity": "Robusta,Quả Tươi, Giá đại lý",
+    "UNIT": "kg"
+}, {
+    "ID_Commodity": 14,
+    "Group_code": "SP02",
+    "Commodity_code": "dRCC",
+    "Group_name": "Robusta",
+    "Commodity": "Robusta,Quả Tươi, Giá công ty",
+    "UNIT": "kg"
+}, {
+    "ID_Commodity": 15,
+    "Group_code": "SP02",
+    "Commodity_code": "dRCE",
+    "Group_name": "Robusta",
+    "Commodity": "Robusta,Quả Tươi, Giá Xuất Khẩu",
+    "UNIT": "kg"
+}, {
+    "ID_Commodity": 16,
+    "Group_code": "SP02",
+    "Commodity_code": "dRCF",
+    "Group_name": "Robusta",
+    "Commodity": "Robusta,Cherry,Farmgate Price",
+    "UNIT": "kg"
+}, {
+    "ID_Commodity": 19,
+    "Group_code": "SP02",
+    "Commodity_code": "dRCL",
+    "Group_name": "Robusta",
+    "Commodity": "Đóng cửa London Robusta",
+    "UNIT": "Tấn"
+}, {
+    "ID_Commodity": 21,
+    "Group_code": "SP01",
+    "Commodity_code": "dACN",
+    "Group_name": "Arabica",
+    "Commodity": "Đóng cửa NY Arabica",
+    "UNIT": "Lbs"
+}]

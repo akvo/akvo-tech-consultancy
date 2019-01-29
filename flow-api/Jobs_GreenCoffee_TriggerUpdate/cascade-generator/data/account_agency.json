@@ -1,0 +1,91 @@
+[{
+    "ID_Account_of_Agency": 256,
+    "Account_of_Agency": "Chị Thúy Hằng",
+    "Province": "Di Linh",
+    "ID_Commodity": "9, 10, 13, 14",
+    "ID_Agency": "11, 12, 13"
+}, {
+    "ID_Account_of_Agency": 258,
+    "Account_of_Agency": "Chị Hiếu",
+    "Province": "Bảo Lâm",
+    "ID_Commodity": "9, 10, 13, 14",
+    "ID_Agency": "16, 17, 18"
+}, {
+    "ID_Account_of_Agency": 261,
+    "Account_of_Agency": "Anh Thành",
+    "Province": "Đắk Mil",
+    "ID_Commodity": "9, 10, 13, 14",
+    "ID_Agency": "22, 23, 24"
+}, {
+    "ID_Account_of_Agency": 262,
+    "Account_of_Agency": "Trang - C. Lương",
+    "Province": "Lâm Hà/ Lâm Đồng",
+    "ID_Commodity": "9, 10, 13, 14",
+    "ID_Agency": "19, 20, 21"
+}, {
+    "ID_Account_of_Agency": 264,
+    "Account_of_Agency": "Hải Đăk Nông",
+    "Province": "Đăk Song",
+    "ID_Commodity": "9, 10, 13, 14",
+    "ID_Agency": "29, 30, 31"
+}, {
+    "ID_Account_of_Agency": 265,
+    "Account_of_Agency": "Phúc Đăk Nông",
+    "Province": "Đắk R’lấp",
+    "ID_Commodity": "9, 10, 13, 14",
+    "ID_Agency": "32, 33, 34"
+}, {
+    "ID_Account_of_Agency": 266,
+    "Account_of_Agency": "Mỹ Hòa (Hoàn)",
+    "Province": "BMT",
+    "ID_Commodity": "9, 10, 13, 14",
+    "ID_Agency": "35,36,37"
+}, {
+    "ID_Account_of_Agency": 267,
+    "Account_of_Agency": "Đức Gia Lai",
+    "Province": "Chư Pưh",
+    "ID_Commodity": "9, 10, 13, 14",
+    "ID_Agency": "38,39,40"
+}, {
+    "ID_Account_of_Agency": 269,
+    "Account_of_Agency": "Trung - C.Hằng",
+    "Province": "Đà Lạt",
+    "ID_Commodity": "1, 2, 5, 6",
+    "ID_Agency": "41, 42, 43"
+}, {
+    "ID_Account_of_Agency": 270,
+    "Account_of_Agency": "adminxk",
+    "Province": "XK",
+    "ID_Commodity": "11, 18, 19, 20, 21",
+    "ID_Agency": "44, 51, 52"
+}, {
+    "ID_Account_of_Agency": 271,
+    "Account_of_Agency": "Linh Cư Jut",
+    "Province": "Cư Jut",
+    "ID_Commodity": "9, 10, 13, 14",
+    "ID_Agency": "45,46,47"
+}, {
+    "ID_Account_of_Agency": 272,
+    "Account_of_Agency": "Xuân Pleiku",
+    "Province": "Pleiku",
+    "ID_Commodity": "9, 10, 13, 14",
+    "ID_Agency": "48,49,50"
+}, {
+    "ID_Account_of_Agency": 243,
+    "Account_of_Agency": "Anh Hoàn",
+    "Province": "KrôngNăng",
+    "ID_Commodity": "9, 10, 13, 14",
+    "ID_Agency": "7, 8, 9"
+}, {
+    "ID_Account_of_Agency": 244,
+    "Account_of_Agency": "Anh Nguyên",
+    "Province": "EaH\u0027leo",
+    "ID_Commodity": "9, 10, 13, 14",
+    "ID_Agency": "4, 5, 6"
+}, {
+    "ID_Account_of_Agency": 245,
+    "Account_of_Agency": "Chị Thủy",
+    "Province": "Cư M\u0027gar",
+    "ID_Commodity": "9, 10, 13, 14",
+    "ID_Agency": "1, 2, 3"
+}]

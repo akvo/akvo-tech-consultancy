@@ -17,7 +17,8 @@ instanceURI = 'greencoffee'
 requestURI = 'https://api.akvo.org/flow/orgs/' + instanceURI
 
 keymd5 = 'c946415addc376cc50c91956a51823f1'
-postURI = 'http://118.70.171.49:64977/WebService.asmx'
+postURI = 'http://giacaphe.ipsard.gov.vn/WebService.asmx'
+#postURI = 'http://118.70.171.49:64977/WebService.asmx'
 
 rtData = {
     'client_id':'curl',

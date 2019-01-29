@@ -1,0 +1,1701 @@
+[{
+    "ACC_ID": 9,
+    "ACC_NAME": "camau",
+    "acc_fname": "camau",
+    "ID_Account_of_Agency": ",245,",
+    "Agent_Details": [{
+        "ID_Account_of_Agency": 245,
+        "Account_of_Agency": "Chị Thủy",
+        "Province": "Cư M'gar",
+        "Sub_Agents": [{
+            "ID_Agency": 1,
+            "Name_of_Agency": "Thanh Toàn",
+            "Commune": "66_648_24280",
+            "District": "Cư M'gar",
+            "Province": "Đắk Lắk"
+        }, {
+            "ID_Agency": 2,
+            "Name_of_Agency": "Hào Liên",
+            "Commune": "66_648_24271",
+            "District": "Cư M'gar",
+            "Province": "Đắk Lắk"
+        }, {
+            "ID_Agency": 3,
+            "Name_of_Agency": "Công Bằng EA Kiết",
+            "Commune": "66_648_24265",
+            "District": "Cư M'gar",
+            "Province": "Đắk Lắk"
+        }],
+        "Commodity_list": [{
+            "ID_Commodity": 9,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 10,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá Công Ty",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 13,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 14,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá công ty",
+            "UNIT": "kg"
+        }]
+    }]
+}, {
+    "ACC_ID": 10,
+    "ACC_NAME": "admin",
+    "acc_fname": "Vũ Xuân Thành",
+    "ID_Account_of_Agency": ",270,",
+    "Agent_Details": [{
+        "ID_Account_of_Agency": 270,
+        "Account_of_Agency": "adminxk",
+        "Province": "XK",
+        "Sub_Agents": [{
+            "ID_Agency": 44,
+            "Name_of_Agency": "Xuất khẩu",
+            "Commune": "66_643_24127",
+            "District": "Xuất Khẩu",
+            "Province": "Xuất Khẩu"
+        }, {
+            "ID_Agency": 51,
+            "Name_of_Agency": "Newyork",
+            "Commune": "10_100_10000",
+            "District": "Sàn New York",
+            "Province": "Hoa Kỳ"
+        }, {
+            "ID_Agency": 52,
+            "Name_of_Agency": "London",
+            "Commune": "11_110_11000",
+            "District": "Sàn London",
+            "Province": "Sàn London"
+        }],
+        "Commodity_list": [{
+            "ID_Commodity": 11,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBE",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá Xuất Khẩu",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 19,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCL",
+            "Group_name": "Robusta",
+            "Commodity": "Đóng cửa London Robusta",
+            "UNIT": "Tấn"
+        }, {
+            "ID_Commodity": 21,
+            "Group_code": "SP01",
+            "Commodity_code": "dACN",
+            "Group_name": "Arabica",
+            "Commodity": "Đóng cửa NY Arabica",
+            "UNIT": "Lbs"
+        }]
+    }]
+}, {
+    "ACC_ID": 11,
+    "ACC_NAME": "thuy",
+    "acc_fname": "dongthap",
+    "ID_Account_of_Agency": ",245,",
+    "Agent_Details": [{
+        "ID_Account_of_Agency": 245,
+        "Account_of_Agency": "Chị Thủy",
+        "Province": "Cư M'gar",
+        "Sub_Agents": [{
+            "ID_Agency": 1,
+            "Name_of_Agency": "Thanh Toàn",
+            "Commune": "66_648_24280",
+            "District": "Cư M'gar",
+            "Province": "Đắk Lắk"
+        }, {
+            "ID_Agency": 2,
+            "Name_of_Agency": "Hào Liên",
+            "Commune": "66_648_24271",
+            "District": "Cư M'gar",
+            "Province": "Đắk Lắk"
+        }, {
+            "ID_Agency": 3,
+            "Name_of_Agency": "Công Bằng EA Kiết",
+            "Commune": "66_648_24265",
+            "District": "Cư M'gar",
+            "Province": "Đắk Lắk"
+        }],
+        "Commodity_list": [{
+            "ID_Commodity": 9,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 10,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá Công Ty",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 13,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 14,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá công ty",
+            "UNIT": "kg"
+        }]
+    }]
+}, {
+    "ACC_ID": 226,
+    "ACC_NAME": "thuyhangdili",
+    "acc_fname": "Thúy Hằng",
+    "ID_Account_of_Agency": ",256,",
+    "Agent_Details": [{
+        "ID_Account_of_Agency": 256,
+        "Account_of_Agency": "Chị Thúy Hằng",
+        "Province": "Di Linh",
+        "Sub_Agents": [{
+            "ID_Agency": 11,
+            "Name_of_Agency": "Bé Đạo",
+            "Commune": "68_679_25033",
+            "District": "Di Linh",
+            "Province": "Lâm Đồng"
+        }, {
+            "ID_Agency": 12,
+            "Name_of_Agency": "Tân Trúc",
+            "Commune": "68_679_25012",
+            "District": "Di Linh",
+            "Province": "Lâm Đồng"
+        }, {
+            "ID_Agency": 13,
+            "Name_of_Agency": "Bích Liên",
+            "Commune": "68_679_25000",
+            "District": "Di Linh",
+            "Province": "Lâm Đồng"
+        }],
+        "Commodity_list": [{
+            "ID_Commodity": 9,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 10,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá Công Ty",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 13,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 14,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá công ty",
+            "UNIT": "kg"
+        }]
+    }]
+}, {
+    "ACC_ID": 238,
+    "ACC_NAME": "Linh123",
+    "acc_fname": "Đặng Thị Linh",
+    "ID_Account_of_Agency": ",271,",
+    "Agent_Details": [{
+        "ID_Account_of_Agency": 271,
+        "Account_of_Agency": "Linh Cư Jut",
+        "Province": "Cư Jut",
+        "Sub_Agents": [{
+            "ID_Agency": 45,
+            "Name_of_Agency": "Vương Phượng",
+            "Commune": "67_662_24655",
+            "District": "Cư Jút",
+            "Province": "Đăk Nông"
+        }, {
+            "ID_Agency": 46,
+            "Name_of_Agency": "Việt Phương",
+            "Commune": "67_662_24643",
+            "District": "Cư Jút",
+            "Province": "Đăk Nông"
+        }, {
+            "ID_Agency": 47,
+            "Name_of_Agency": "Tây Hà",
+            "Commune": "67_662_24640",
+            "District": "Cư Jút",
+            "Province": "Đăk Nông"
+        }],
+        "Commodity_list": [{
+            "ID_Commodity": 9,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 10,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá Công Ty",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 13,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 14,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá công ty",
+            "UNIT": "kg"
+        }]
+    }]
+}, {
+    "ACC_ID": 239,
+    "ACC_NAME": "xuan123",
+    "acc_fname": "Võ Thị Thanh Xuân",
+    "ID_Account_of_Agency": ",272,",
+    "Agent_Details": [{
+        "ID_Account_of_Agency": 272,
+        "Account_of_Agency": "Xuân Pleiku",
+        "Province": "Pleiku",
+        "Sub_Agents": [{
+            "ID_Agency": 48,
+            "Name_of_Agency": "Phiên Phương",
+            "Commune": "64_622_23557",
+            "District": "Pleiku",
+            "Province": "Gia Lai"
+        }, {
+            "ID_Agency": 49,
+            "Name_of_Agency": "Thanh Thủy",
+            "Commune": "64_622_23569",
+            "District": "Pleiku",
+            "Province": "Gia Lai"
+        }, {
+            "ID_Agency": 50,
+            "Name_of_Agency": "Phi Long",
+            "Commune": "64_622_23587",
+            "District": "Pleiku",
+            "Province": "Gia Lai"
+        }],
+        "Commodity_list": [{
+            "ID_Commodity": 9,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 10,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá Công Ty",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 13,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 14,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá công ty",
+            "UNIT": "kg"
+        }]
+    }]
+}, {
+    "ACC_ID": 240,
+    "ACC_NAME": "adminxk",
+    "acc_fname": "Admin xử lý báo cáo",
+    "ID_Account_of_Agency": ",258,266,267,271,245,269,261,265,264,256,244,243,262,272,270,",
+    "Agent_Details": [{
+        "ID_Account_of_Agency": 258,
+        "Account_of_Agency": "Chị Hiếu",
+        "Province": "Bảo Lâm",
+        "Sub_Agents": [{
+            "ID_Agency": 16,
+            "Name_of_Agency": "Huỳnh Tố Loan",
+            "Commune": "68_680_25084",
+            "District": "Bảo Lâm",
+            "Province": "Lâm Đồng"
+        }, {
+            "ID_Agency": 17,
+            "Name_of_Agency": "Yến Anh",
+            "Commune": "68_680_25054",
+            "District": "Bảo Lâm",
+            "Province": "Lâm Đồng"
+        }, {
+            "ID_Agency": 18,
+            "Name_of_Agency": "Hoa Chung",
+            "Commune": "68_680_25072",
+            "District": "Bảo Lâm",
+            "Province": "Lâm Đồng"
+        }],
+        "Commodity_list": [{
+            "ID_Commodity": 9,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 10,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá Công Ty",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 13,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 14,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá công ty",
+            "UNIT": "kg"
+        }]
+    }, {
+        "ID_Account_of_Agency": 266,
+        "Account_of_Agency": "Mỹ Hòa (Hoàn)",
+        "Province": "BMT",
+        "Sub_Agents": [{
+            "ID_Agency": 35,
+            "Name_of_Agency": "HTX EaTu",
+            "Commune": "66_643_24163",
+            "District": "Buôn Ma Thuột",
+            "Province": "Đắk Lắk"
+        }, {
+            "ID_Agency": 36,
+            "Name_of_Agency": "Châu Hòa",
+            "Commune": "66_643_24166",
+            "District": "Buôn Ma Thuột",
+            "Province": "Đắk Lắk"
+        }, {
+            "ID_Agency": 37,
+            "Name_of_Agency": "Ea Kmat Hòa Đông",
+            "Commune": "66_654_24517",
+            "District": " Krông Pắc",
+            "Province": "Đắk Lắk"
+        }],
+        "Commodity_list": [{
+            "ID_Commodity": 9,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 10,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá Công Ty",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 13,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 14,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá công ty",
+            "UNIT": "kg"
+        }]
+    }, {
+        "ID_Account_of_Agency": 267,
+        "Account_of_Agency": "Đức Gia Lai",
+        "Province": "Chư Pưh",
+        "Sub_Agents": [{
+            "ID_Agency": 38,
+            "Name_of_Agency": "Phát Việt",
+            "Commune": "64_633_23986",
+            "District": "Chư Pưh",
+            "Province": "Gia Lai"
+        }, {
+            "ID_Agency": 39,
+            "Name_of_Agency": "Lang Huệ",
+            "Commune": "64_633_23971",
+            "District": "Chư Pưh",
+            "Province": "Gia Lai"
+        }, {
+            "ID_Agency": 40,
+            "Name_of_Agency": "Đức Sim",
+            "Commune": "64_633_23983",
+            "District": "Chư Pưh",
+            "Province": "Gia Lai"
+        }],
+        "Commodity_list": [{
+            "ID_Commodity": 9,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 10,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá Công Ty",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 13,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 14,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá công ty",
+            "UNIT": "kg"
+        }]
+    }, {
+        "ID_Account_of_Agency": 271,
+        "Account_of_Agency": "Linh Cư Jut",
+        "Province": "Cư Jut",
+        "Sub_Agents": [{
+            "ID_Agency": 45,
+            "Name_of_Agency": "Vương Phượng",
+            "Commune": "67_662_24655",
+            "District": "Cư Jút",
+            "Province": "Đăk Nông"
+        }, {
+            "ID_Agency": 46,
+            "Name_of_Agency": "Việt Phương",
+            "Commune": "67_662_24643",
+            "District": "Cư Jút",
+            "Province": "Đăk Nông"
+        }, {
+            "ID_Agency": 47,
+            "Name_of_Agency": "Tây Hà",
+            "Commune": "67_662_24640",
+            "District": "Cư Jút",
+            "Province": "Đăk Nông"
+        }],
+        "Commodity_list": [{
+            "ID_Commodity": 9,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 10,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá Công Ty",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 13,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 14,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá công ty",
+            "UNIT": "kg"
+        }]
+    }, {
+        "ID_Account_of_Agency": 245,
+        "Account_of_Agency": "Chị Thủy",
+        "Province": "Cư M'gar",
+        "Sub_Agents": [{
+            "ID_Agency": 1,
+            "Name_of_Agency": "Thanh Toàn",
+            "Commune": "66_648_24280",
+            "District": "Cư M'gar",
+            "Province": "Đắk Lắk"
+        }, {
+            "ID_Agency": 2,
+            "Name_of_Agency": "Hào Liên",
+            "Commune": "66_648_24271",
+            "District": "Cư M'gar",
+            "Province": "Đắk Lắk"
+        }, {
+            "ID_Agency": 3,
+            "Name_of_Agency": "Công Bằng EA Kiết",
+            "Commune": "66_648_24265",
+            "District": "Cư M'gar",
+            "Province": "Đắk Lắk"
+        }],
+        "Commodity_list": [{
+            "ID_Commodity": 9,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 10,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá Công Ty",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 13,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 14,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá công ty",
+            "UNIT": "kg"
+        }]
+    }, {
+        "ID_Account_of_Agency": 269,
+        "Account_of_Agency": "Trung - C.Hằng",
+        "Province": "Đà Lạt",
+        "Sub_Agents": [{
+            "ID_Agency": 41,
+            "Name_of_Agency": "Huệ Quý",
+            "Commune": "68_672_24811",
+            "District": "Đà Lạt",
+            "Province": "Lâm Đồng"
+        }, {
+            "ID_Agency": 42,
+            "Name_of_Agency": "Thúy Thuận",
+            "Commune": "68_672_24808",
+            "District": "Đà Lạt",
+            "Province": "Lâm Đồng"
+        }, {
+            "ID_Agency": 43,
+            "Name_of_Agency": " An lâm Viên",
+            "Commune": "68_672_24793",
+            "District": "Đà Lạt",
+            "Province": "Lâm Đồng"
+        }],
+        "Commodity_list": [{
+            "ID_Commodity": 1,
+            "Group_code": "SP01",
+            "Commodity_code": "dABA",
+            "Group_name": "Arabica",
+            "Commodity": "Arabica,Cà Phê Nhân Xô, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 2,
+            "Group_code": "SP01",
+            "Commodity_code": "dABC",
+            "Group_name": "Arabica",
+            "Commodity": "Arabica,Cà Phê Nhân Xô, Giá Công Ty",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 5,
+            "Group_code": "SP01",
+            "Commodity_code": "dACA",
+            "Group_name": "Arabica",
+            "Commodity": "Arabica,Quả Tươi, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 6,
+            "Group_code": "SP01",
+            "Commodity_code": "dACC",
+            "Group_name": "Arabica",
+            "Commodity": "Arabica,Quả Tươi, Giá công ty",
+            "UNIT": "kg"
+        }]
+    }, {
+        "ID_Account_of_Agency": 261,
+        "Account_of_Agency": "Anh Thành",
+        "Province": "Đắk Mil",
+        "Sub_Agents": [{
+            "ID_Agency": 22,
+            "Name_of_Agency": "Mai Thành",
+            "Commune": "67_663_24667",
+            "District": "Đăk Mil",
+            "Province": "Đăk Nông"
+        }, {
+            "ID_Agency": 23,
+            "Name_of_Agency": "Thiệp Hiền",
+            "Commune": "67_663_24685",
+            "District": "\tĐăk Mil",
+            "Province": "Đăk Nông"
+        }, {
+            "ID_Agency": 24,
+            "Name_of_Agency": "Quang Hiến",
+            "Commune": "67_663_24664",
+            "District": "Đăk Mil",
+            "Province": "Đăk Nông"
+        }],
+        "Commodity_list": [{
+            "ID_Commodity": 9,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 10,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá Công Ty",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 13,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 14,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá công ty",
+            "UNIT": "kg"
+        }]
+    }, {
+        "ID_Account_of_Agency": 265,
+        "Account_of_Agency": "Phúc Đăk Nông",
+        "Province": "Đắk R’lấp",
+        "Sub_Agents": [{
+            "ID_Agency": 32,
+            "Name_of_Agency": "Kiên Hoàng",
+            "Commune": "67_666_24760",
+            "District": "Đắk R’lấp",
+            "Province": "Đăk Nông"
+        }, {
+            "ID_Agency": 33,
+            "Name_of_Agency": "Linh Tú",
+            "Commune": "67_666_24750",
+            "District": "Đắk R’lấp",
+            "Province": "Đăk Nông"
+        }, {
+            "ID_Agency": 34,
+            "Name_of_Agency": "Minh Tâm",
+            "Commune": "67_666_24733",
+            "District": "Đắk R’lấp",
+            "Province": "Đăk Nông"
+        }],
+        "Commodity_list": [{
+            "ID_Commodity": 9,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 10,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá Công Ty",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 13,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 14,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá công ty",
+            "UNIT": "kg"
+        }]
+    }, {
+        "ID_Account_of_Agency": 264,
+        "Account_of_Agency": "Hải Đăk Nông",
+        "Province": "Đăk Song",
+        "Sub_Agents": [{
+            "ID_Agency": 29,
+            "Name_of_Agency": "Anh Tài",
+            "Commune": "67_665_24728",
+            "District": "Đắk Song",
+            "Province": "Đăk Nông"
+        }, {
+            "ID_Agency": 30,
+            "Name_of_Agency": "Bình An",
+            "Commune": "67_665_24727",
+            "District": "Đăk Song",
+            "Province": "Đăk Nông"
+        }, {
+            "ID_Agency": 31,
+            "Name_of_Agency": "Chính Liên",
+            "Commune": "67_665_24730",
+            "District": "Đăk Song",
+            "Province": "Đăk Nông"
+        }],
+        "Commodity_list": [{
+            "ID_Commodity": 9,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 10,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá Công Ty",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 13,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 14,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá công ty",
+            "UNIT": "kg"
+        }]
+    }, {
+        "ID_Account_of_Agency": 256,
+        "Account_of_Agency": "Chị Thúy Hằng",
+        "Province": "Di Linh",
+        "Sub_Agents": [{
+            "ID_Agency": 11,
+            "Name_of_Agency": "Bé Đạo",
+            "Commune": "68_679_25033",
+            "District": "Di Linh",
+            "Province": "Lâm Đồng"
+        }, {
+            "ID_Agency": 12,
+            "Name_of_Agency": "Tân Trúc",
+            "Commune": "68_679_25012",
+            "District": "Di Linh",
+            "Province": "Lâm Đồng"
+        }, {
+            "ID_Agency": 13,
+            "Name_of_Agency": "Bích Liên",
+            "Commune": "68_679_25000",
+            "District": "Di Linh",
+            "Province": "Lâm Đồng"
+        }],
+        "Commodity_list": [{
+            "ID_Commodity": 9,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 10,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá Công Ty",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 13,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 14,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá công ty",
+            "UNIT": "kg"
+        }]
+    }, {
+        "ID_Account_of_Agency": 244,
+        "Account_of_Agency": "Anh Nguyên",
+        "Province": "EaH'leo",
+        "Sub_Agents": [{
+            "ID_Agency": 4,
+            "Name_of_Agency": "Minh Phương",
+            "Commune": "66_645_24181",
+            "District": "EaH'leo",
+            "Province": "Đắk Lắk"
+        }, {
+            "ID_Agency": 5,
+            "Name_of_Agency": "Khảm Diệu",
+            "Commune": "66_645_24199",
+            "District": "EaH'leo",
+            "Province": "Đắk Lắk"
+        }, {
+            "ID_Agency": 6,
+            "Name_of_Agency": "Tuấn Dung",
+            "Commune": "66_645_24205",
+            "District": "EaH'leo",
+            "Province": "Đắk Lắk"
+        }],
+        "Commodity_list": [{
+            "ID_Commodity": 9,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 10,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá Công Ty",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 13,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 14,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá công ty",
+            "UNIT": "kg"
+        }]
+    }, {
+        "ID_Account_of_Agency": 243,
+        "Account_of_Agency": "Anh Hoàn",
+        "Province": "KrôngNăng",
+        "Sub_Agents": [{
+            "ID_Agency": 7,
+            "Name_of_Agency": "Kim Hậu",
+            "Commune": "66_650_24359",
+            "District": "KrôngNăng",
+            "Province": "Đắk Lắk"
+        }, {
+            "ID_Agency": 8,
+            "Name_of_Agency": "Ngọ Tấm",
+            "Commune": "66_650_24352",
+            "District": "KrôngNăng",
+            "Province": "Đắk Lắk"
+        }, {
+            "ID_Agency": 9,
+            "Name_of_Agency": "Ánh Nguyệt",
+            "Commune": "66_650_24358",
+            "District": "KrôngNăng",
+            "Province": "Đắk Lắk"
+        }],
+        "Commodity_list": [{
+            "ID_Commodity": 9,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 10,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá Công Ty",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 13,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 14,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá công ty",
+            "UNIT": "kg"
+        }]
+    }, {
+        "ID_Account_of_Agency": 262,
+        "Account_of_Agency": "Trang - C. Lương",
+        "Province": "Lâm Hà/ Lâm Đồng",
+        "Sub_Agents": [{
+            "ID_Agency": 19,
+            "Name_of_Agency": "Hải Lương Lâm Hà",
+            "Commune": "68_676_24895",
+            "District": "Lâm Hà",
+            "Province": "Lâm Đồng"
+        }, {
+            "ID_Agency": 20,
+            "Name_of_Agency": "Luận Tuyết",
+            "Commune": "68_676_24916",
+            "District": "Lâm Hà",
+            "Province": "Lâm Đồng"
+        }, {
+            "ID_Agency": 21,
+            "Name_of_Agency": "Đức Hân",
+            "Commune": "68_676_24883 ",
+            "District": "Lâm Hà",
+            "Province": "Lâm Đồng"
+        }],
+        "Commodity_list": [{
+            "ID_Commodity": 9,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 10,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá Công Ty",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 13,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 14,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá công ty",
+            "UNIT": "kg"
+        }]
+    }, {
+        "ID_Account_of_Agency": 272,
+        "Account_of_Agency": "Xuân Pleiku",
+        "Province": "Pleiku",
+        "Sub_Agents": [{
+            "ID_Agency": 48,
+            "Name_of_Agency": "Phiên Phương",
+            "Commune": "64_622_23557",
+            "District": "Pleiku",
+            "Province": "Gia Lai"
+        }, {
+            "ID_Agency": 49,
+            "Name_of_Agency": "Thanh Thủy",
+            "Commune": "64_622_23569",
+            "District": "Pleiku",
+            "Province": "Gia Lai"
+        }, {
+            "ID_Agency": 50,
+            "Name_of_Agency": "Phi Long",
+            "Commune": "64_622_23587",
+            "District": "Pleiku",
+            "Province": "Gia Lai"
+        }],
+        "Commodity_list": [{
+            "ID_Commodity": 9,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 10,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá Công Ty",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 13,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 14,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá công ty",
+            "UNIT": "kg"
+        }]
+    }, {
+        "ID_Account_of_Agency": 270,
+        "Account_of_Agency": "adminxk",
+        "Province": "XK",
+        "Sub_Agents": [{
+            "ID_Agency": 44,
+            "Name_of_Agency": "Xuất khẩu",
+            "Commune": "66_643_24127",
+            "District": "Xuất Khẩu",
+            "Province": "Xuất Khẩu"
+        }, {
+            "ID_Agency": 51,
+            "Name_of_Agency": "Newyork",
+            "Commune": "10_100_10000",
+            "District": "Sàn New York",
+            "Province": "Hoa Kỳ"
+        }, {
+            "ID_Agency": 52,
+            "Name_of_Agency": "London",
+            "Commune": "11_110_11000",
+            "District": "Sàn London",
+            "Province": "Sàn London"
+        }],
+        "Commodity_list": [{
+            "ID_Commodity": 11,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBE",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá Xuất Khẩu",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 19,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCL",
+            "Group_name": "Robusta",
+            "Commodity": "Đóng cửa London Robusta",
+            "UNIT": "Tấn"
+        }, {
+            "ID_Commodity": 21,
+            "Group_code": "SP01",
+            "Commodity_code": "dACN",
+            "Group_name": "Arabica",
+            "Commodity": "Đóng cửa NY Arabica",
+            "UNIT": "Lbs"
+        }]
+    }]
+}, {
+    "ACC_ID": 217,
+    "ACC_NAME": "nguyen",
+    "acc_fname": "soctrang",
+    "ID_Account_of_Agency": ",244,",
+    "Agent_Details": [{
+        "ID_Account_of_Agency": 244,
+        "Account_of_Agency": "Anh Nguyên",
+        "Province": "EaH'leo",
+        "Sub_Agents": [{
+            "ID_Agency": 4,
+            "Name_of_Agency": "Minh Phương",
+            "Commune": "66_645_24181",
+            "District": "EaH'leo",
+            "Province": "Đắk Lắk"
+        }, {
+            "ID_Agency": 5,
+            "Name_of_Agency": "Khảm Diệu",
+            "Commune": "66_645_24199",
+            "District": "EaH'leo",
+            "Province": "Đắk Lắk"
+        }, {
+            "ID_Agency": 6,
+            "Name_of_Agency": "Tuấn Dung",
+            "Commune": "66_645_24205",
+            "District": "EaH'leo",
+            "Province": "Đắk Lắk"
+        }],
+        "Commodity_list": [{
+            "ID_Commodity": 9,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 10,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá Công Ty",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 13,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 14,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá công ty",
+            "UNIT": "kg"
+        }]
+    }]
+}, {
+    "ACC_ID": 222,
+    "ACC_NAME": "hoan",
+    "acc_fname": "\tCư M'gar",
+    "ID_Account_of_Agency": ",243,",
+    "Agent_Details": [{
+        "ID_Account_of_Agency": 243,
+        "Account_of_Agency": "Anh Hoàn",
+        "Province": "KrôngNăng",
+        "Sub_Agents": [{
+            "ID_Agency": 7,
+            "Name_of_Agency": "Kim Hậu",
+            "Commune": "66_650_24359",
+            "District": "KrôngNăng",
+            "Province": "Đắk Lắk"
+        }, {
+            "ID_Agency": 8,
+            "Name_of_Agency": "Ngọ Tấm",
+            "Commune": "66_650_24352",
+            "District": "KrôngNăng",
+            "Province": "Đắk Lắk"
+        }, {
+            "ID_Agency": 9,
+            "Name_of_Agency": "Ánh Nguyệt",
+            "Commune": "66_650_24358",
+            "District": "KrôngNăng",
+            "Province": "Đắk Lắk"
+        }],
+        "Commodity_list": [{
+            "ID_Commodity": 9,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 10,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá Công Ty",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 13,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 14,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá công ty",
+            "UNIT": "kg"
+        }]
+    }]
+}, {
+    "ACC_ID": 228,
+    "ACC_NAME": "myhieu25021988",
+    "acc_fname": "Đặng thị mỹ hiếu",
+    "ID_Account_of_Agency": ",258,",
+    "Agent_Details": [{
+        "ID_Account_of_Agency": 258,
+        "Account_of_Agency": "Chị Hiếu",
+        "Province": "Bảo Lâm",
+        "Sub_Agents": [{
+            "ID_Agency": 16,
+            "Name_of_Agency": "Huỳnh Tố Loan",
+            "Commune": "68_680_25084",
+            "District": "Bảo Lâm",
+            "Province": "Lâm Đồng"
+        }, {
+            "ID_Agency": 17,
+            "Name_of_Agency": "Yến Anh",
+            "Commune": "68_680_25054",
+            "District": "Bảo Lâm",
+            "Province": "Lâm Đồng"
+        }, {
+            "ID_Agency": 18,
+            "Name_of_Agency": "Hoa Chung",
+            "Commune": "68_680_25072",
+            "District": "Bảo Lâm",
+            "Province": "Lâm Đồng"
+        }],
+        "Commodity_list": [{
+            "ID_Commodity": 9,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 10,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá Công Ty",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 13,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 14,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá công ty",
+            "UNIT": "kg"
+        }]
+    }]
+}, {
+    "ACC_ID": 230,
+    "ACC_NAME": "caoduongthanhhnd",
+    "acc_fname": "Cao Dương Thành",
+    "ID_Account_of_Agency": ",261,",
+    "Agent_Details": [{
+        "ID_Account_of_Agency": 261,
+        "Account_of_Agency": "Anh Thành",
+        "Province": "Đắk Mil",
+        "Sub_Agents": [{
+            "ID_Agency": 22,
+            "Name_of_Agency": "Mai Thành",
+            "Commune": "67_663_24667",
+            "District": "Đăk Mil",
+            "Province": "Đăk Nông"
+        }, {
+            "ID_Agency": 23,
+            "Name_of_Agency": "Thiệp Hiền",
+            "Commune": "67_663_24685",
+            "District": "\tĐăk Mil",
+            "Province": "Đăk Nông"
+        }, {
+            "ID_Agency": 24,
+            "Name_of_Agency": "Quang Hiến",
+            "Commune": "67_663_24664",
+            "District": "Đăk Mil",
+            "Province": "Đăk Nông"
+        }],
+        "Commodity_list": [{
+            "ID_Commodity": 9,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 10,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá Công Ty",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 13,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 14,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá công ty",
+            "UNIT": "kg"
+        }]
+    }]
+}, {
+    "ACC_ID": 231,
+    "ACC_NAME": "trang123",
+    "acc_fname": "Nguyễn Thị Lương",
+    "ID_Account_of_Agency": ",262,",
+    "Agent_Details": [{
+        "ID_Account_of_Agency": 262,
+        "Account_of_Agency": "Trang - C. Lương",
+        "Province": "Lâm Hà/ Lâm Đồng",
+        "Sub_Agents": [{
+            "ID_Agency": 19,
+            "Name_of_Agency": "Hải Lương Lâm Hà",
+            "Commune": "68_676_24895",
+            "District": "Lâm Hà",
+            "Province": "Lâm Đồng"
+        }, {
+            "ID_Agency": 20,
+            "Name_of_Agency": "Luận Tuyết",
+            "Commune": "68_676_24916",
+            "District": "Lâm Hà",
+            "Province": "Lâm Đồng"
+        }, {
+            "ID_Agency": 21,
+            "Name_of_Agency": "Đức Hân",
+            "Commune": "68_676_24883 ",
+            "District": "Lâm Hà",
+            "Province": "Lâm Đồng"
+        }],
+        "Commodity_list": [{
+            "ID_Commodity": 9,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 10,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá Công Ty",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 13,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 14,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá công ty",
+            "UNIT": "kg"
+        }]
+    }]
+}, {
+    "ACC_ID": 233,
+    "ACC_NAME": "hai123",
+    "acc_fname": "Nguyễn hữu Mến",
+    "ID_Account_of_Agency": ",264,",
+    "Agent_Details": [{
+        "ID_Account_of_Agency": 264,
+        "Account_of_Agency": "Hải Đăk Nông",
+        "Province": "Đăk Song",
+        "Sub_Agents": [{
+            "ID_Agency": 29,
+            "Name_of_Agency": "Anh Tài",
+            "Commune": "67_665_24728",
+            "District": "Đắk Song",
+            "Province": "Đăk Nông"
+        }, {
+            "ID_Agency": 30,
+            "Name_of_Agency": "Bình An",
+            "Commune": "67_665_24727",
+            "District": "Đăk Song",
+            "Province": "Đăk Nông"
+        }, {
+            "ID_Agency": 31,
+            "Name_of_Agency": "Chính Liên",
+            "Commune": "67_665_24730",
+            "District": "Đăk Song",
+            "Province": "Đăk Nông"
+        }],
+        "Commodity_list": [{
+            "ID_Commodity": 9,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 10,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá Công Ty",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 13,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 14,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá công ty",
+            "UNIT": "kg"
+        }]
+    }]
+}, {
+    "ACC_ID": 234,
+    "ACC_NAME": "phuc123",
+    "acc_fname": "Trần Thị Liên",
+    "ID_Account_of_Agency": ",265,",
+    "Agent_Details": [{
+        "ID_Account_of_Agency": 265,
+        "Account_of_Agency": "Phúc Đăk Nông",
+        "Province": "Đắk R’lấp",
+        "Sub_Agents": [{
+            "ID_Agency": 32,
+            "Name_of_Agency": "Kiên Hoàng",
+            "Commune": "67_666_24760",
+            "District": "Đắk R’lấp",
+            "Province": "Đăk Nông"
+        }, {
+            "ID_Agency": 33,
+            "Name_of_Agency": "Linh Tú",
+            "Commune": "67_666_24750",
+            "District": "Đắk R’lấp",
+            "Province": "Đăk Nông"
+        }, {
+            "ID_Agency": 34,
+            "Name_of_Agency": "Minh Tâm",
+            "Commune": "67_666_24733",
+            "District": "Đắk R’lấp",
+            "Province": "Đăk Nông"
+        }],
+        "Commodity_list": [{
+            "ID_Commodity": 9,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 10,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá Công Ty",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 13,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 14,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá công ty",
+            "UNIT": "kg"
+        }]
+    }]
+}, {
+    "ACC_ID": 235,
+    "ACC_NAME": "myhoa",
+    "acc_fname": "Nguyễn Thị Mỹ Hòa",
+    "ID_Account_of_Agency": ",266,",
+    "Agent_Details": [{
+        "ID_Account_of_Agency": 266,
+        "Account_of_Agency": "Mỹ Hòa (Hoàn)",
+        "Province": "BMT",
+        "Sub_Agents": [{
+            "ID_Agency": 35,
+            "Name_of_Agency": "HTX EaTu",
+            "Commune": "66_643_24163",
+            "District": "Buôn Ma Thuột",
+            "Province": "Đắk Lắk"
+        }, {
+            "ID_Agency": 36,
+            "Name_of_Agency": "Châu Hòa",
+            "Commune": "66_643_24166",
+            "District": "Buôn Ma Thuột",
+            "Province": "Đắk Lắk"
+        }, {
+            "ID_Agency": 37,
+            "Name_of_Agency": "Ea Kmat Hòa Đông",
+            "Commune": "66_654_24517",
+            "District": " Krông Pắc",
+            "Province": "Đắk Lắk"
+        }],
+        "Commodity_list": [{
+            "ID_Commodity": 9,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 10,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá Công Ty",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 13,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 14,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá công ty",
+            "UNIT": "kg"
+        }]
+    }]
+}, {
+    "ACC_ID": 236,
+    "ACC_NAME": "duc123",
+    "acc_fname": "Phan Quang Đức",
+    "ID_Account_of_Agency": ",267,",
+    "Agent_Details": [{
+        "ID_Account_of_Agency": 267,
+        "Account_of_Agency": "Đức Gia Lai",
+        "Province": "Chư Pưh",
+        "Sub_Agents": [{
+            "ID_Agency": 38,
+            "Name_of_Agency": "Phát Việt",
+            "Commune": "64_633_23986",
+            "District": "Chư Pưh",
+            "Province": "Gia Lai"
+        }, {
+            "ID_Agency": 39,
+            "Name_of_Agency": "Lang Huệ",
+            "Commune": "64_633_23971",
+            "District": "Chư Pưh",
+            "Province": "Gia Lai"
+        }, {
+            "ID_Agency": 40,
+            "Name_of_Agency": "Đức Sim",
+            "Commune": "64_633_23983",
+            "District": "Chư Pưh",
+            "Province": "Gia Lai"
+        }],
+        "Commodity_list": [{
+            "ID_Commodity": 9,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 10,
+            "Group_code": "SP02",
+            "Commodity_code": "dRBC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Cà Phê Nhân Xô, Giá Công Ty",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 13,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCA",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 14,
+            "Group_code": "SP02",
+            "Commodity_code": "dRCC",
+            "Group_name": "Robusta",
+            "Commodity": "Robusta,Quả Tươi, Giá công ty",
+            "UNIT": "kg"
+        }]
+    }]
+}, {
+    "ACC_ID": 237,
+    "ACC_NAME": "Trung123",
+    "acc_fname": "Nguyễn Tấn Trung",
+    "ID_Account_of_Agency": ",269,",
+    "Agent_Details": [{
+        "ID_Account_of_Agency": 269,
+        "Account_of_Agency": "Trung - C.Hằng",
+        "Province": "Đà Lạt",
+        "Sub_Agents": [{
+            "ID_Agency": 41,
+            "Name_of_Agency": "Huệ Quý",
+            "Commune": "68_672_24811",
+            "District": "Đà Lạt",
+            "Province": "Lâm Đồng"
+        }, {
+            "ID_Agency": 42,
+            "Name_of_Agency": "Thúy Thuận",
+            "Commune": "68_672_24808",
+            "District": "Đà Lạt",
+            "Province": "Lâm Đồng"
+        }, {
+            "ID_Agency": 43,
+            "Name_of_Agency": " An lâm Viên",
+            "Commune": "68_672_24793",
+            "District": "Đà Lạt",
+            "Province": "Lâm Đồng"
+        }],
+        "Commodity_list": [{
+            "ID_Commodity": 1,
+            "Group_code": "SP01",
+            "Commodity_code": "dABA",
+            "Group_name": "Arabica",
+            "Commodity": "Arabica,Cà Phê Nhân Xô, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 2,
+            "Group_code": "SP01",
+            "Commodity_code": "dABC",
+            "Group_name": "Arabica",
+            "Commodity": "Arabica,Cà Phê Nhân Xô, Giá Công Ty",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 5,
+            "Group_code": "SP01",
+            "Commodity_code": "dACA",
+            "Group_name": "Arabica",
+            "Commodity": "Arabica,Quả Tươi, Giá đại lý",
+            "UNIT": "kg"
+        }, {
+            "ID_Commodity": 6,
+            "Group_code": "SP01",
+            "Commodity_code": "dACC",
+            "Group_name": "Arabica",
+            "Commodity": "Arabica,Quả Tươi, Giá công ty",
+            "UNIT": "kg"
+        }]
+    }]
+}]
