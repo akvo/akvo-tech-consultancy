@@ -2,9 +2,6 @@ import csv
 from time import sleep
 from Akvo import Flow
 
-token = Flow.getToken()
-print(token)
-
 def getResponse(url,rtype):
     if rtype == "post":
         response = Flow.postData(url, token)
@@ -37,15 +34,20 @@ def updateDataset(instance, dataset):
     except:
         return
 
-with open('datasets.csv', newline='') as csvfile:
-    reader = csv.DictReader(csvfile)
-    print('--- STARTING TO UPDATE ---')
-    for idx, row in enumerate(reader):
-        instance = row['instance']
-        dataset = row['dataset']
-        print('INFO   : UPDATING INSTANCE https://' + instance + '.akvolumen.org' + ' DATASET ID[' + dataset + ']')
-        if idx <= 5:
-            updateDataset(instance, dataset)
-        else:
-            print('WARNING:USAGE LIMIT EXCEEDED')
-    print('--- JOB IS DONE ---')
+try:
+    token = Flow.getToken()
+    print(token)
+    with open('datasets.csv', newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        print('--- STARTING TO UPDATE ---')
+        for idx, row in enumerate(reader):
+            instance = row['instance']
+            dataset = row['dataset']
+            print('INFO   : UPDATING INSTANCE https://' + instance + '.akvolumen.org' + ' DATASET ID[' + dataset + ']')
+            if idx <= 5:
+                updateDataset(instance, dataset)
+            else:
+                print('WARNING:USAGE LIMIT EXCEEDED')
+        print('--- JOB IS DONE ---')
+except:
+    print('---TOKEN IS INVALID----')
