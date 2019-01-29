@@ -1,5 +1,5 @@
 import requests as r
-import os
+import os, sys
 
 class Flow:
     def getToken():
@@ -11,8 +11,11 @@ class Flow:
         }
         tokenURI = 'https://login.akvo.org/auth/realms/akvo/protocol/openid-connect/token'
         tokens = r.post(tokenURI, authentification).json()
-        print(tokens)
-        return tokens['access_token']
+        try:
+            return tokens['refresh_token']
+        except:
+            print(tokens['error_description'])
+            sys.exit(1)
 
     def getData(self, accessToken):
         response = r.get(self, headers={

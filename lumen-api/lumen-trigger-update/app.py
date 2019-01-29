@@ -1,4 +1,4 @@
-import csv
+import csv,sys
 from time import sleep
 from Akvo import Flow
 
@@ -17,19 +17,18 @@ def checkUpdate(url):
         return job['status']
     elif job['status'] == 'FAILED':
         print('ERROR  : '+ url +' FAILED TO LOAD')
-        return False
+        sys.exit(1)
     else:
         print('INFO   : PENDING...WAITING NEXT RESPONSE IN 10 SECONDS')
-        sleep(10)
+        sleep(5)
         checkUpdate(url)
 
 def updateDataset(instance, dataset):
     api = 'https://' + instance + '.akvolumen.org/api/'
     try:
         data = getResponse(api+ 'datasets/' + dataset + '/update', "post")
-        print(data)
         check = api + "job_executions/" + data['updateId']
-        sleep(10)
+        sleep(5)
         checkUpdate(check)
     except:
         return
