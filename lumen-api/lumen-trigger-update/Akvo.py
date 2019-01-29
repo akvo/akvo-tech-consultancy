@@ -11,6 +11,7 @@ class Flow:
         }
         tokenURI = 'https://login.akvo.org/auth/realms/akvo/protocol/openid-connect/token'
         tokens = r.post(tokenURI, authentification).json()
+        print(tokens)
         return tokens['access_token']
 
     def getData(self, accessToken):

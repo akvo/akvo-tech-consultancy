@@ -36,7 +36,6 @@ def updateDataset(instance, dataset):
 
 try:
     token = Flow.getToken()
-    print(token)
     with open('datasets.csv', newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         print('--- STARTING TO UPDATE ---')
