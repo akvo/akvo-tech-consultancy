@@ -552,12 +552,14 @@ function exportExcel(filter) {
         });
         CsvString += "\r\n";
     });
-    CsvString = "data:application/csv," + encodeURIComponent(CsvString);
+    CsvString = "data:application/csv;charset=utf-8," + encodeURIComponent(CsvString);
     var x = document.createElement("A");
     x.setAttribute("href", CsvString);
-    x.setAttribute("download", "somedata.csv");
+    var d = new Date();
+    x.setAttribute("download", "wins-"+ d.toISOString() +".csv");
     document.body.appendChild(x);
     x.click();
+    $(x).remove();
 }
 
 function showSecurityForm() {
@@ -572,9 +574,17 @@ function sendRequest() {
         data: {
             "security_code": input_security,
         },
-        dataType: "text",
-        success: function(data) {
-			console.log(data);
+        dataType: "json",
+        success: function() {
+            downloadData();
+        },
+        error: function() {
+            $('#error-download').slideDown("fast");
+            $('#secure-pwd').addClass("is-invalid");
+            setTimeout(function() {
+                $('#error-download').slideUp("fast");
+                $('#secure-pwd').removeClass("is-invalid");
+            }, 3000);
         }
     });
 }

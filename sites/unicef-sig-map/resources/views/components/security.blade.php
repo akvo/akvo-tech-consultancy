@@ -26,6 +26,9 @@
             </div>
             <div class="modal-footer"> 
 				<div class="col-md-12" style="text-align:center;">
+                    <div id='error-download' style="text-align:center;color:red; display:none">
+                        Wrong Code Verification
+                    </div>
 					I don't have verification code. <a href="http://www.mehrd.gov.sb/our-contacts" target="_blank">Contact Us </a>
 				</div>
             </div>
