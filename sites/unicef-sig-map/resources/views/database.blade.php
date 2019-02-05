@@ -22,6 +22,8 @@
         </thead>
     </table>
 </main>
+
+<div class="data-source">{!!Config::get('app.data-sources')!!}</div>
 @endsection
 
 @push('scripts')

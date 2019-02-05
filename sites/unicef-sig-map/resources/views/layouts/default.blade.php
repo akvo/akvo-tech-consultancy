@@ -3,6 +3,7 @@
     @include('components.nav')
     @yield('content')
     @include('components.modal')
+    @include('components.security')
     @include('components.footer')
     @include('components.scripts')
 </body>

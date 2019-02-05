@@ -279,6 +279,8 @@ function getDetails(a, atype) {
             $('#profile-tab').append("<div> <b>Type of School</b> : " + data['type of school?'] + "</div>");
         }
         $('#profile-tab').append("<div> <b>Head Teacher</b> : " + data['what is the name of the head teacher of this school?'] + "</div><hr>");
+        $('#profile-tab').append("<div> <b>GPS Coordinates</b> : " + data['latitude'].substring(0, 7) + "," + data['longitude'].substring(0, 8) +
+            "<a href='https://www.google.com/maps/?q=" + data['latitude'] + ',' + data['longitude'] + "' target='_blank' class='btn btn-sm btn-primary' style='margin-left:5px;'>View on Google Maps</a></div><hr>");
 
         var ldata = JSON.parse(localStorage.getItem('data'));
         var lfeature = _.find(ldata.features, function(item) {
@@ -396,7 +398,7 @@ function jqUI() {
                 schoolType = item.school_type_other;
             }
             return $("<li>")
-                .append("<div>" + item.school + "<span class='badge badge-small badge-primary'>" + schoolType + "</span></div>")
+                .append("<div><span class='search-province'>" + item.school + " - " + item.province + "</span><span class='badge badge-small badge-primary'>" + schoolType + "</span></div>")
                 .appendTo(ul);
         };
 }
@@ -558,3 +560,21 @@ function exportExcel(filter) {
     x.click();
 }
 
+function showSecurityForm() {
+    $('#security_modal').modal('show');
+};
+
+function sendRequest() {
+    var input_security = $('#secure-pwd').val();
+    $.ajax({
+        type: "POST",
+        url: "/api/verify",
+        data: {
+            "security_code": input_security,
+        },
+        dataType: "text",
+        success: function(data) {
+			console.log(data);
+        }
+    });
+}

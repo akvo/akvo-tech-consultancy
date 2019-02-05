@@ -506,6 +506,10 @@ function renderLegend(database) {
         .attr('class', function(d) {
             return 'category-' + d.key;
         })
+		.attr('data-include', function(d){
+			console.log(d);
+			return d.key;
+		})
         .on('click', function(d) {
             $('.leaflet-marker-icon').remove();
             if ($(this).hasClass('inactive-legend')) {

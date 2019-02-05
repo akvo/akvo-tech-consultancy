@@ -421,4 +421,22 @@ class ApiController extends Controller
         }); 
         return $data;
     }
+
+
+	/*
+		Verify Download Function (NOT LOGIN)
+	*/
+	public function getVerification(Request $request)
+	{
+        $code = 401;
+        $message = 'Wrong Code'; 
+		if ($request->security_code === 'wins12345'){
+            $code = 200;
+            $message = 'Granted';
+		}
+        return response(array(
+            'code'=>$code,
+            'message'=>$message), $code);
+	}
+
 };

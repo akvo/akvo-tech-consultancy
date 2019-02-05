@@ -11,12 +11,6 @@ function col(id, order, searchable){
     return {data:id,name:id,orderable:order,searchable:searchable};
 }
 
-$.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-
 $.fn.dataTable.Buttons.defaults.dom.button.className = 'btn btn-light my-2 my-sm-0';
 
 var data_table = $('#school_table').DataTable({

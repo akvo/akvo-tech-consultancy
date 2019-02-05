@@ -161,6 +161,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
     ],
 
@@ -213,7 +214,10 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+		'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
     ],
+
+    'data-sources' => 'Data collected from WASH in School survey results by <a href="https://akvo.org/products/akvoflow/#overview">Akvo Flow</a>.',
 
 ];

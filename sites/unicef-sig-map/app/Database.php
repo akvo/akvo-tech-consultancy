@@ -227,7 +227,7 @@ class Database extends Model
 
     public function search($q)
     {
-        $db = $this->select('L as school','N as school_type', 'O as school_type_other' , 'A as identifier', 'EU as latitude', 'EV as longitude')
+        $db = $this->select('L as school','N as school_type', 'O as school_type_other' , 'A as identifier', 'EU as latitude', 'EV as longitude', 'EX as province')
             ->where('L', 'LIKE', '%'.$q.'%')
             ->orWhere('A', 'LIKE', '%'.$q.'%')
             ->take(5)->get();

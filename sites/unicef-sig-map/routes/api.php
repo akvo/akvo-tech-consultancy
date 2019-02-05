@@ -31,5 +31,6 @@ Route::get('/details/{id}','ApiController@getDetail');
 Route::get('/search/{q}','ApiController@searchData');
 Route::post('/database','ApiController@getDataTables');
 Route::get('/toilets','ChartsController@getTotalToilet');
+Route::post('/verify','ApiController@getVerification');
 
 // Route::get('/rgeojson/','ApiController@getGeoRson');
