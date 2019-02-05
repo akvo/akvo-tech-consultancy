@@ -11,7 +11,7 @@
                 <a class="nav-link" href="{{route('landing')}}">Home</a>
             </li>
             <li class="nav-item {{ Request::is('database') ? "active" : "" }}">
-                <a class="nav-link" href="{{route('database')}}">Database</a>
+                <a class="nav-link" href="{{route('db')}}">Database</a>
             </li>
             <li class="nav-item {{ Request::is('visualization') ? "active" : "" }}">
                 <a class="nav-link" href="{{route('visualization')}}">Visualization</a>
