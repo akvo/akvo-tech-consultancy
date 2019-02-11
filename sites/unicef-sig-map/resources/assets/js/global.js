@@ -3,6 +3,12 @@
  * Global Map Functions
  *
  */
+var appVersion = 'v2019.02.12';
+if (localStorage.getItem('app-version') !== appVersion) {
+    window.localStorage.clear();
+    localStorage.setItem('app-version', appVersion);
+}
+
 var maps;
 
 var nainclude = [
