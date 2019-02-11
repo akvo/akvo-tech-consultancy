@@ -587,5 +587,4 @@ function sendRequest() {
             }, 3000);
         }
     });
-    console.log('pass build');
 }

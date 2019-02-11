@@ -362,6 +362,14 @@ tbody tr:hover{
     padding-right: 10px;
     content: "\f00c";
 }
+.legenditem:after{
+    font-family: "FontAwesome";
+    content: "\F05A";
+    color: #fff;
+    font-size: larger;
+    position: absolute;
+    right: 10px;
+}
 .legend-red{
     color:#dc3545;
 }
@@ -511,6 +519,27 @@ tbody tr:hover{
     font-weight: 900;
     padding-right: 10px;
     content: "\f057";
+}
+.description-box-hover {
+    background: white;
+    -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.17);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.17);
+    position: absolute;
+    right: 0px;
+    z-index: 1002;
+    min-width: 230px;
+    width:230px;
+}
+.description-box-hover span{
+    padding:5px;
+    display: inline-block;
+    font-size:12px;
+}
+.description-box-hover span:before{
+    font-family: "FontAwesome";
+    font-weight: 900;
+    padding-right: 10px;
+    content: "\f05A";
 }
 
 /*marker icons*/

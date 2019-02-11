@@ -243,87 +243,116 @@ class ApiController extends Controller
 			),
 			'toilet-type' => array(
 				'lookup'=> array(
-					'4'=>'Saperated Toilet for Boys and Girls',
-					'2'=>'Shared',
-					'1'=>'No Toilet',
+                    '4'=> array(
+                        'option' => 'Saperated Toilet for Boys and Girls',
+                        'description' => 'As part of acknowledging the vulenrability of girls, segregated toilets form part of the definition for Basic Sanitation',
+                    ),
+                    '2'=> array(
+                        'option' => 'Shared',
+                        'description' => 'As part of acknowledging the vulenrability of girls, segregated toilets form part of the definition for Basic Sanitation',
+                    ),
+                    '1'=> array(
+                        'option' => 'No Toilet',
+                        'description' => 'As part of acknowledging the vulenrability of girls, segregated toilets form part of the definition for Basic Sanitation',
+                    )
 				),
 				'name' => 'Saperated Toilet',
 			),
-			'water-source' => array(
-				'lookup'=> array(
-					'5'=>'Safe to Drink',
-					'4'=>'Limited',
-					'1'=>'No Service',
-				),
-				'name' => 'Water Source',
-			),
-			'water-treatment' => array(
-				'lookup'=> array(
-					'4'=>'Chlorine',
-					'2'=>'Unknown',
-					'1'=>'No Services',
-				),
-				'name' => 'Water Treatment',
-			),
-			'drinking-water-source' => array(
-				'lookup'=> array(
-					'5'=>'Basic',
-					'2'=>'Limited',
-					'1'=>'No Service',
-				),
-				'name' => 'Schools with Drinking Water Source',
-			),
-			'limited-mobility-water-access' => array(
-				'lookup'=> array(
-					'5'=>'Basic',
-					'2'=>'Limited',
-					'1'=>'No Service',
-				),
-				'name' => 'Water Access with Limited Mobility',
-			),
 			'primary-water-source' => array(
 				'lookup'=> array(
-					'5'=>'Improved',
-					'2'=>'Unimproved',
-					'1'=>'No Water',
+                    '5'=> array(
+                        'option' => 'Improved',
+                        'description' => 'Improved drinking water sources are those that have the potential to deliver safe water by nature of their design and construction, and include: piped water, boreholes or tubewells, protected dug wells, protected springs, rainwater, and packaged or delivered water.'
+                    ),
+                    '2'=> array(
+                        'option' => 'Limited',
+                        'description' => 'Improved drinking water sources are those that have the potential to deliver safe water by nature of their design and construction, and include: piped water, boreholes or tubewells, protected dug wells, protected springs, rainwater, and packaged or delivered water.'
+                    ),
+                    '1'=> array(
+                        'option' => 'No Services',
+                        'description' => 'Improved drinking water sources are those that have the potential to deliver safe water by nature of their design and construction, and include: piped water, boreholes or tubewells, protected dug wells, protected springs, rainwater, and packaged or delivered water.'
+                    )
 				),
 				'name' => 'Primary Drinking Water Source',
 			),
-			'accesssibility-with-limited-mobility' => array(
+			'drinking-water-source' => array(
 				'lookup'=> array(
-					'4'=>'Accesible',
-					'1'=>'Inaccessible',
+                    '5'=> array(
+                        'option' => 'Basic',
+                        'description' => 'Drinking water from an improved source is available at the school',
+                    ),
+                    '2'=> array(
+                        'option' => 'Limited',
+                        'description' => 'There is an improved source (piped, protected well/spring, rainwater, packaged/delivered water), but water not available at time of survey',
+                    ),
+                    '1'=> array(
+                        'option' => 'No Services',
+                        'description' => 'No water source or unimproved source (unprotected well/spring, surface water)'
+                    )
 				),
-				'name' => 'Accessibility with Limited Mobility',
+				'name' => 'Schools with Drinking Basic Water Source',
 			),
 			'hand-washing-property' => array(
 				'lookup'=> array(
-					'5'=>'Basic',
-					'2'=>'Limited',
-					'1'=>'No Services',
+                    '5'=> array(
+                        'option' => 'Basic',
+                        'description' => 'Handwashing facilities, which have water and soap available',
+                    ),
+                    '2'=> array(
+                        'option' => 'Limited',
+                        'description' => 'Handwashing facilities with water, but no soap',
+                    ),
+                    '1'=> array(
+                        'option' => 'No Services',
+                        'description' => 'No handwashing facilities at the school or handwashing facilities with no water',
+                    )
 				),
 				'name' => 'Schools with Basic Handwashing',
 			),
 			'single-sex-sanitation' => array(
 				'lookup'=> array(
-					'4'=>'Basic',
-					'2'=>'Limited',
-					'1'=>'No Service',
+                    '5'=> array(
+                        'option' => 'Basic',
+                        'description' => 'Improved facilities, which are single-sex and usable at the school',
+                    ),
+                    '2'=> array(
+                        'option' => 'Limited',
+                        'description' => 'There are improved facilities (flush/pour-flush toilets, pit latrine with slab, composting toilet), but not single-sex or not usable at time of survey',
+                    ),
+                    '1'=> array(
+                        'option' => 'No Services',
+                        'description' => 'No toilets or latrines, or unimproved facilities (pit latrines without a slab or platform, hanging latrines, bucket latrines)',
+                    )
 				),
 				'name' => 'Schools with improved sanitation facilities',
 			),
 			'functional-toilet' => array(
 				'lookup'=> array(
-					'4'=>'Available',
-					'1'=>'Not Available',
+                    '4'=> array(
+                        'option' => 'Functional',
+                        'description' => 'On the day of the survey the toilet was available and functioning'
+                    ),
+                    '1'=> array(
+                        'option' => 'Non-Functional',
+                        'description' => 'On the day of the survey the toilet was unavailable and functioning'
+                    )
 				),
-				'name' => 'Schools with Functional Toilets',
+				'name' => 'Schools with Basic Functional Toilets',
 			),
 			'sanitation-improved' => array(
 				'lookup'=> array(
-					'4'=>'Improved',
-					'2'=>'Unimproved',
-					'1'=>'No Toilet',
+                    '4'=> array(
+                        'option' => 'Improved',
+                        'description' => 'Improved sanitation facilities are those designed to hygienically separate excreta from human contact, and include: flush/pour flush to piped sewer system, septic tanks or pit latrines; ventilated improved pit latrines, composting toilets or pit latrines with slabs.'
+                    ),
+                    '2'=> array(
+                        'option' => 'Unimproved',
+                        'description' => 'Improved sanitation facilities are those designed to hygienically separate excreta from human contact, and include: flush/pour flush to piped sewer system, septic tanks or pit latrines; ventilated improved pit latrines, composting toilets or pit latrines with slabs.'
+                    ),
+                    '1'=> array(
+                        'option' => 'No Service',
+                        'description' => 'Improved sanitation facilities are those designed to hygienically separate excreta from human contact, and include: flush/pour flush to piped sewer system, septic tanks or pit latrines; ventilated improved pit latrines, composting toilets or pit latrines with slabs.'
+                    )
 				),
 				'name' => 'Primary Sanitation Type',
 			),
@@ -350,7 +379,7 @@ class ApiController extends Controller
             'type' => 'FeatureCollection',
             'properties' => array(
                 'fields' => $properties,
-                'attribution' => array('id' => 'water-source','name' => 'Water Source','type'=>'str'),
+                'attribution' => array('id' => 'primary-water-source','name' => 'Primary Drinking Water Source','type'=>'str'),
                 'attributes' => [array('id'=>'school-info-group','name' => 'School Information', 'collection' => [ 
                         array('id'=>'students_total', 'name'=>'Number of Students', 'type'=>'num'),
                         array('id'=>'students_boy', 'name'=>'Number of Boy Students', 'type'=>'num'),
@@ -361,11 +390,8 @@ class ApiController extends Controller
                         array('id'=>'teacher_ratio', 'name'=>'Teacher/Students Ratio', 'type'=>'num')
                     ]),
                     array('id'=>'water-supply-group','name' => 'Water Supply', 'collection' => [
-                        array('id'=>'water-source', 'name'=>'Water Source', 'type'=>'str'),
-                        array('id'=>'water-treatment', 'name'=>'Water Treatment', 'type'=>'str'),
                         array('id'=>'primary-water-source', 'name'=>'Primary Drinking Water Source', 'type'=>'str'),
                         array('id'=>'drinking-water-source', 'name'=>'School with Basic Drinking Source', 'type'=>'str'),
-                        array('id'=>'limited-mobility-water-access', 'name'=>'Water Access with Limited Mobility', 'type'=>'str'),
                         array('id'=>'water-inspection', 'name'=>'Availability of water at time of Inspection', 'type'=>'str'),
                     ]),
                     array('id'=>'hygiene-group','name' => 'Hygiene', 'collection' => [
@@ -383,8 +409,7 @@ class ApiController extends Controller
                         array('id'=>'toilet_ratio', 'name'=>'Toilet Ratio', 'type'=>'num'),
                         array('id'=>'toilet_girl_ratio', 'name'=>'Toilet Girl Ratio', 'type'=>'num'),
                         array('id'=>'toilet_boy_ratio', 'name'=>'Toilet Boy Ratio', 'type'=>'num'),
-                        array('id'=>'functional-toilet', 'name'=>'Schools with Functional Toilets', 'type'=>'str'),
-                        array('id'=>'accesssibility-with-limited-mobility', 'name'=>'Accessibity with Limited Mobility', 'type'=>'str'),
+                        array('id'=>'functional-toilet', 'name'=>'Schools with Basic Functional Toilets', 'type'=>'str'),
                         array('id'=>'single-sex-sanitation', 'name'=>'Schools with improved sanitation facilities', 'type'=>'str'),
                         array('id'=>'sanitation-improved', 'name'=>'Primary Sanitation Type', 'type'=>'str'),
                     ]),
@@ -413,8 +438,14 @@ class ApiController extends Controller
             $key = str_replace(' ','-',$key);
             return $data[$key] = array(
 				'lookup'=> array(
-					'1'=>'No',
-					'4'=>'Yes',
+                    '1'=> array(
+                        'option'=>'No',
+                        'description'=>'Not Available',
+                    ),
+                    '4'=> array(
+                        'option'=>'Yes',
+                        'description'=>'Available',
+                    ),
 				),
 				'name' => $val
             );
@@ -434,9 +465,11 @@ class ApiController extends Controller
             $code = 200;
             $message = 'Granted';
 		}
-        return response(array(
+        $resp = array(
             'code'=>$code,
-            'message'=>$message), $code);
+            'message'=>$message
+        );
+        return response()->json($resp, $code);
 	}
 
 };
