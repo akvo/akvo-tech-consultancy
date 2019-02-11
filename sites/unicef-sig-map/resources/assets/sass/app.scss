@@ -475,7 +475,7 @@ tbody tr:hover{
   background: #dc3545;
   border-color: #800;
 }
-.category-2{
+.category-2, .category-8{
   fill: #FA0;
   stroke: #B60;
   background: #FA0;
@@ -494,16 +494,22 @@ tbody tr:hover{
   border-color: #070;
 }
 .category-5{
-  fill: #007bff;
-  stroke: #054e9c;
-  background: #007bff;
-  border-color: #054e9c;
+  fill: #40b1e6;
+  stroke: #2d99cc;
+  background: #40b1e6;
+  border-color: #2d99cc;
 }
 .category-6{
-  fill: #6c757d;
-  stroke: #444;
-  background: #6c757d;
-  border-color: #444;
+  fill: #ffca29;
+  stroke: #efbd28;
+  background: #ffca29;
+  border-color: #efbd28;
+}
+.category-7{
+  fill: #ab47bc;
+  stroke: #621f6d;
+  background: #ab47bc;
+  border-color: #621f6d;
 }
 .category-undefined{
   fill: #28a745;

@@ -26,7 +26,6 @@ class Database extends Model
             'EU as latitude',
             'EV as longitude',
 			'A as identifier',
-			'AK as water_treat',
             'EX as province',
             'L as school_name', 
             'N as school_type',
@@ -37,7 +36,6 @@ class Database extends Model
             'U as tt_male',
             'V as tt_female',
             DB::raw('(U + V) as teacher_total'),
-            'Y as water_source',
             'CU as wash_club',
             'CF as handwashing_facilities',
             'DU as annual_grant', 
@@ -51,7 +49,6 @@ class Database extends Model
             'BU as toilet_location', 
             'AV as has_toilets',
             'AN as water_inspection',
-            'AR as water_w_mob',
             'AJ as safe_to_drink',
             'DW as government_funds',
             'EY as drink_water',
@@ -59,7 +56,6 @@ class Database extends Model
             'FA as funct_toilet',
             'FB as single_sex_san',
             'FC as sanitation_impr',
-            'FD as sanitation_acc',
             'FE as handwashing_prop',
             'CL as wash_soap',
             'CR as wash_girl'
@@ -71,33 +67,26 @@ class Database extends Model
 			if ($data->separated === 'Yes') {
 				$toilet = '4';
 			}
-            $water = '1';
-			if ($data->water_source === 'Yes') {
-				$water= '4';
-			}
-			if ($data->safe_to_drink === 'Yes') {
-				$water= '5';
-			}
-            $handwashing_prop = '1';
+            $handwashing_prop = '2';
 			if ($data->handwashing_prop === 'Limited') {
-				$handwashing_prop = '2';
+				$handwashing_prop = '6';
 			}
 			if ($data->handwashing_prop === 'Basic') {
-				$handwashing_prop = '5';
+				$handwashing_prop = '7';
 			}
             $sanitation_improved = '1';
 			if ($data->sanitation_impr === 'Unimproved') {
 				$sanitation_improved = '2';
 			}
 			if ($data->sanitation_impr === 'Improved') {
-				$sanitation_improved = '4';
+				$sanitation_improved = '6';
 			}
             $primary_water_source = '1';
 			if ($data->primary_water_source === 'Unimproved') {
-				$primary_water_source = '2';
+				$primary_water_source = '6';
 			}
 			if ($data->primary_water_source === 'Improved') {
-				$primary_water_source = '5';
+				$primary_water_source = '8';
 			}
             $single_sex_sanitation = '4';
 			if ($data->single_sex_san === 'No Services') {
@@ -105,13 +94,6 @@ class Database extends Model
 			}
 			if ($data->single_sex_san === 'Limited') {
 				$single_sex_sanitation = '1';
-			}
-            $water_treat = '1';
-			if ($data->water_treat === 'Unknown') {
-				$water_treat = '2';
-			}
-			if ($data->water_treat === 'Chlorine') {
-				$water_treat = '4';
 			}
             $drink_water = '1';
 			if ($data->drink_water === 'Limited') {
@@ -125,8 +107,6 @@ class Database extends Model
             $data->funct_toilet = ($data->funct_toilet <= 0 ? "4":"1");
             $data->water_inspection = ($data->water_inspection === "Yes" ? "4":"1");
             $data->handwashing_facilities = ($data->handwashing_facilities === "Yes" ? "4":"1");
-            $data->water_w_mob = ($data->water_w_mob === "Yes" ? "4":"1");
-            $data->sanitation_acc = ($data->sanitation_acc === "Accesible" ? "4":"1");
             $data->community_support = ($data->community_support === "Yes" ? "4":"1");
             $data->annual_grant = ($data->annual_grant === "Yes" ? "4":"1");
             $data->training = ($data->training === "Yes" ? "4":"1");
@@ -177,10 +157,7 @@ class Database extends Model
                     'school_id' => $data->identifier,
                     'government_funds' => (int) $data->government_funds,
                     'toilet-type' => $toilet,
-                    'limited-mobility-water-access' => $data->water_w_mob,
                     'water-inspection' => $data->water_inspection,
-                    'water-source' => $water,
-                    'water-treatment' => $water_treat,
                     'drinking-water-source' => $drink_water,
                     'primary-water-source' => $primary_water_source,
                     'wash-club' => $data->wash_club,
@@ -192,7 +169,6 @@ class Database extends Model
                     'hand-washing-property' => $handwashing_prop,
                     'private-washing-facilities-for-girl' => $data->wash_girl,
                     'soap-or-water-availability' => $data->wash_soap,
-                    'accesssibility-with-limited-mobility' => $data->sanitation_acc,
                     'functional-toilet' => $data->funct_toilet,
                     'single-sex-sanitation' => $single_sex_sanitation,
                     'sanitation-improved' => $sanitation_improved,

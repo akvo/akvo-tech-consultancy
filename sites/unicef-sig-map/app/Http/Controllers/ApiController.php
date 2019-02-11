@@ -260,12 +260,12 @@ class ApiController extends Controller
 			),
 			'primary-water-source' => array(
 				'lookup'=> array(
-                    '5'=> array(
+                    '8'=> array(
                         'option' => 'Improved',
                         'description' => 'Improved drinking water sources are those that have the potential to deliver safe water by nature of their design and construction, and include: piped water, boreholes or tubewells, protected dug wells, protected springs, rainwater, and packaged or delivered water.'
                     ),
-                    '2'=> array(
-                        'option' => 'Limited',
+                    '6'=> array(
+                        'option' => 'Unimproved',
                         'description' => 'Improved drinking water sources are those that have the potential to deliver safe water by nature of their design and construction, and include: piped water, boreholes or tubewells, protected dug wells, protected springs, rainwater, and packaged or delivered water.'
                     ),
                     '1'=> array(
@@ -294,15 +294,15 @@ class ApiController extends Controller
 			),
 			'hand-washing-property' => array(
 				'lookup'=> array(
-                    '5'=> array(
+                    '7'=> array(
                         'option' => 'Basic',
                         'description' => 'Handwashing facilities, which have water and soap available',
                     ),
-                    '2'=> array(
+                    '6'=> array(
                         'option' => 'Limited',
                         'description' => 'Handwashing facilities with water, but no soap',
                     ),
-                    '1'=> array(
+                    '2'=> array(
                         'option' => 'No Services',
                         'description' => 'No handwashing facilities at the school or handwashing facilities with no water',
                     )
@@ -311,7 +311,7 @@ class ApiController extends Controller
 			),
 			'single-sex-sanitation' => array(
 				'lookup'=> array(
-                    '5'=> array(
+                    '4'=> array(
                         'option' => 'Basic',
                         'description' => 'Improved facilities, which are single-sex and usable at the school',
                     ),
@@ -341,7 +341,7 @@ class ApiController extends Controller
 			),
 			'sanitation-improved' => array(
 				'lookup'=> array(
-                    '4'=> array(
+                    '6'=> array(
                         'option' => 'Improved',
                         'description' => 'Improved sanitation facilities are those designed to hygienically separate excreta from human contact, and include: flush/pour flush to piped sewer system, septic tanks or pit latrines; ventilated improved pit latrines, composting toilets or pit latrines with slabs.'
                     ),
