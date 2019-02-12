@@ -1,9 +1,18 @@
+# User Submit Data before 9.30 sync fresh date no duplicate
+# User Submit Date 9.35 -> will be available after 9.45 : second sync
+# User Submit Data twice before 9.30 latest data is available in IPSARD
+# User Submit Data at 9.20 data is available in IPSARD at 9.30
+# User Submit New Data at 9.40, at 9.45 data is replaced by this new data
+# User Submit Data at 9.20, data is available in IPSARD at 9.30, and Submit same data at 9.40.
+# Data is Submitted at 1 PM today, not sent tomorrow
+
 import os
 from datetime import datetime
 from pytz import utc, timezone
+from lxml import etree as et
 import pandas as pd
 import xmltodict
-import requests
+import requests as r
 import logging
 
 logging.basicConfig(level=logging.WARN)
@@ -11,13 +20,22 @@ results = {}
 date_mark = []
 payload = []
 posts = []
+data_update = []
+
+user_ids = ['230','236','233','222','238','288','235','217','234','11','226','231','237','239']
+cdate = datetime.strftime(datetime.today().date(), '%Y-%m-%d')
 
 tokenURI = 'https://login.akvo.org/auth/realms/akvo/protocol/openid-connect/token'
 instanceURI = 'greencoffee'
 requestURI = 'https://api.akvo.org/flow/orgs/' + instanceURI
+folderID = '30240002'
 
-keymd5 = 'c946415addc376cc50c91956a51823f1'
-postURI = 'http://118.70.171.49:64977/WebService.asmx'
+# PRODUCTION
+website = 'http://giacaphe.ipsard.gov.vn/WebService.asmx'
+# website = 'http://118.70.171.49:64977/WebService.asmx'
+keymd5 = '?keymd5=c946415addc376cc50c91956a51823f1&'
+dateFormat = '%Y-%m-%dT%H:%M:%S'
+checkURI = website +'/select_price_by_date_and_ACC_ID'  + keymd5
 
 rtData = {
     'client_id':'curl',
@@ -29,9 +47,8 @@ rtData = {
 
 headers = {'Content-Type': 'application/x-www-form-urlencoded'}
 
-
 def refreshData():
-    tokens = requests.post(tokenURI, rtData).json();
+    tokens = r.post(tokenURI, rtData).json();
     return tokens['refresh_token']
 
 def getAccessToken():
@@ -41,7 +58,7 @@ def getAccessToken():
         'grant_type':'refresh_token'
     }
     try:
-        account = requests.post(tokenURI, account).json();
+        account = r.post(tokenURI, account).json();
     except:
         logging.error('FAILED: TOKEN ACCESS UNKNOWN')
         return False
@@ -53,7 +70,7 @@ def getResponse(url):
         'Accept': 'application/vnd.akvo.flow.v2+json',
         'User-Agent':'python-requests/2.14.2'
     }
-    response = requests.get(url, headers=header).json()
+    response = r.get(url, headers=header).json()
     return response
 
 def logTime(error_code):
@@ -62,7 +79,6 @@ def logTime(error_code):
     return now
 
 def post_data(keyval):
-    url = postURI + '/add_price_return_newid'
     date = datetime.strptime(keyval['date'], '%Y-%m-%d %H:%M:%S')
     date = datetime.strftime(date, '%Y/%m/%d')
     uid = '&ACC_ID=' + keyval['uid']
@@ -70,15 +86,25 @@ def post_data(keyval):
     agency = '&ID_Agency=' + keyval['agency'] + date
     comm = '&ID_Commodity=' + keyval['commodity'] + agency
     mval = '&MIN_PRICE=' + str(int(keyval['value'])) + comm + '&MAX_PRICE=0'
-    post = 'keymd5=' + keymd5 + mval
-    r = requests.post(url, data = post, headers = headers)
+    post_new_price = False
     try:
-        log = xmltodict.parse(r.text)
+        mval = mval + '&ID_PRICE=' + keyval['price_id']
+        url = website + '/update_price'
+        post_new_price = True
+    except:
+        url = website + '/add_price_return_newid'
+    post = keymd5.replace('?','') + mval
+    req = r.post(url, data = post, headers = headers)
+    try:
+        log = xmltodict.parse(req.text)
         return_id = log['string']['#text']
-        log = logTime('SUCCESS') + 'INPUT ID:' + return_id
+        if post_new_price == True:
+            log = logTime('SUCCESS') + 'INPUT ID:' + keyval['price_id'] + ' - ' + return_id.upper()
+        else:
+            log = logTime('SUCCESS') + 'INPUT ID:' + return_id + ' - NEW RECORD'
         print(log)
     except xmltodict.expat.ExpatError:
-        log = logTime('ERROR') + r.text
+        log = logTime('ERROR') + req.text
         print(log)
     return keyval
 
@@ -100,8 +126,11 @@ def get_data(survey_url):
 def appending(meta,data,submitter_id,submit_date,submitter_name):
     for idt, dt in enumerate(data):
         d_ori = datetime.strptime(submit_date[idt], '%Y-%m-%dT%H:%M:%SZ')
+        #d_ori = datetime.strptime(submit_date[idt], '%Y-%m-%dT%H:%M:%SZ') - timedelta(days=1)
         d_here = utc.localize(d_ori).astimezone(timezone('Asia/Singapore'))
-        if d_here.date() == datetime.today().date():
+        today_date = datetime.today().date()
+        #yesterday = (datetime.now() - timedelta(days=1)).date()
+        if d_here.date() == today_date:
             unique = datetime.strftime(d_ori, '%Y-%m-%d')
             d_val = datetime.strftime(d_here, '%Y-%m-%d %H:%M:%S')
             values = {'date':d_val}
@@ -117,7 +146,7 @@ def appending(meta,data,submitter_id,submit_date,submitter_name):
             try:
                 latest = datetime.strptime(results[unique][0]['date'],'%Y-%m-%d %H:%M:%S')
                 newest = datetime.strptime(d_val,'%Y-%m-%d %H:%M:%S')
-                print(logTime('WARNING') + submitter_name.upper() + ' HAS DUPLICATED VALUE!')
+                print(logTime('WARNING') + submitter_name.upper() + ' REPLACED PRICE!')
                 if latest < newest:
                     add_results(unique,values,code, False)
                     print(logTime('INFO') + 'REPLACED WITH NEW VALUE!')
@@ -126,7 +155,7 @@ def appending(meta,data,submitter_id,submit_date,submitter_name):
                     pass
             except:
                 add_results(unique,values,code, True)
-                print(logTime('INFO') + submitter_name.upper() + ' HAS ADDED NEW PRICE!')
+                print(logTime('INFO') + submitter_name.upper() + ' SENT NEW PRICE!')
                 print(logTime('INFO') + 'ADDED NEW VALUE!')
         else:
             pass
@@ -154,7 +183,58 @@ def execute(folder_id):
             pass
     return True
 
-print('\n--- CRON JOB IS START ---\n')
+def getOldData(user_id):
+    personalURI = checkURI+'date_var='+cdate+'&ACC_ID='+user_id
+    data = et.parse(personalURI)
+    root = data.getroot()
+    a = et.fromstring(root.text.replace('\n',''))
+    b = a.xpath('/NewDataSet/PRICE')
+    if len(b)>0:
+        for g in b:
+            existing = {'price_id':g[0].text,
+                        'value':g[4].text,
+                        'commodity':g[1].text,
+                        'agency':g[2].text,
+                        'date':g[3].text.replace('+07:00','').replace('T',' ')}
+            data_update.append(existing)
+    else:
+        pass
+    return True
+
+def fillFloat(batch):
+    if type(batch['date']) is float:
+            batch['date'] = cdate
+            del batch['price_id']
+    else:
+        pass
+    return batch
+
+def checkAvailable(payload):
+    new_input = pd.DataFrame(payload)
+    old_input = pd.DataFrame(data_update)
+    new_input['agent_commodity'] = new_input[['agency','commodity']].apply(lambda x:x[0]+'_'+x[1], axis=1)
+    old_input['agent_commodity'] = old_input[['agency','commodity']].apply(lambda x:x[0]+'_'+x[1], axis=1)
+    merged_input = pd.merge(old_input, new_input, how='right', on=['agent_commodity', 'agent_commodity'])
+    merged_input = merged_input.drop(['agency_x','commodity_x','value_x','date_x','agent_commodity'],axis=1)
+    merged_input = merged_input.dropna(subset=['value_y','agency_y','commodity_y'])
+    merged_input = merged_input.rename(columns={
+        'agency_y':'agency',
+        'commodity_y':'commodity',
+        'date_y':'date',
+        'value_y':'value'
+    })
+    print(logTime('INFO') + ' ' + str(len(payload)) + ' AKVO FLOW RECORDS')
+    print(logTime('INFO') + ' ' + str(len(old_input)) + ' IPSARD RECORDS')
+    print(logTime('INFO') + ' ' + str(len(merged_input.to_dict('records'))) + ' MERGED RECORDS')
+    new_batch = merged_input.to_dict('records')
+    for batch in new_batch:
+        fillFloat(batch)
+    return new_batch
+
+print('\n--- CRON JOB IS STARTED ---\n')
+for user_id in user_ids:
+    getOldData(user_id)
+
 execute('30240002')
 
 try:
@@ -162,8 +242,13 @@ try:
     for dm in date_mark:
         for res in results[dm]:
             payload.append(res)
+    if len(data_update) > 0:
+        print(logTime('INFO') + ' COLLECTING LATEST PRICE!')
+        payload = checkAvailable(payload)
+    else:
+        print(logTime('INFO') + ' COLLECTING FIRST PRICE!')
     for pld in payload:
-            posts.append(post_data(pld))
+        posts.append(post_data(pld))
     from tabulate import tabulate
     tb = pd.DataFrame(payload)
     tb = tb[['date','uid','agency','commodity','value']]
@@ -174,3 +259,4 @@ except:
     print('\n--- DATA NOT FOUND ---\n')
 
 print('\n--- CRON JOB FINISHED ---\n')
+

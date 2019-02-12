@@ -1,0 +1,86 @@
+[{
+    "ACC_ID": 9,
+    "ACC_NAME": "camau",
+    "acc_fname": "camau",
+    "ID_Account_of_Agency": ",245,"
+}, {
+    "ACC_ID": 10,
+    "ACC_NAME": "admin",
+    "acc_fname": "Vũ Xuân Thành",
+    "ID_Account_of_Agency": ",270,"
+}, {
+    "ACC_ID": 11,
+    "ACC_NAME": "thuy",
+    "acc_fname": "dongthap",
+    "ID_Account_of_Agency": ",245,"
+}, {
+    "ACC_ID": 226,
+    "ACC_NAME": "thuyhangdili",
+    "acc_fname": "Thúy Hằng",
+    "ID_Account_of_Agency": ",256,"
+}, {
+    "ACC_ID": 238,
+    "ACC_NAME": "Linh123",
+    "acc_fname": "Đặng Thị Linh",
+    "ID_Account_of_Agency": ",271,"
+}, {
+    "ACC_ID": 239,
+    "ACC_NAME": "xuan123",
+    "acc_fname": "Võ Thị Thanh Xuân",
+    "ID_Account_of_Agency": ",272,"
+}, {
+    "ACC_ID": 240,
+    "ACC_NAME": "adminxk",
+    "acc_fname": "Admin xử lý báo cáo",
+    "ID_Account_of_Agency": ",258,266,267,271,245,269,261,265,264,256,244,243,262,272,270,"
+}, {
+    "ACC_ID": 217,
+    "ACC_NAME": "nguyen",
+    "acc_fname": "soctrang",
+    "ID_Account_of_Agency": ",244,"
+}, {
+    "ACC_ID": 222,
+    "ACC_NAME": "hoan",
+    "acc_fname": "\tCư M\u0027gar",
+    "ID_Account_of_Agency": ",243,"
+}, {
+    "ACC_ID": 228,
+    "ACC_NAME": "myhieu25021988",
+    "acc_fname": "Đặng thị mỹ hiếu",
+    "ID_Account_of_Agency": ",258,"
+}, {
+    "ACC_ID": 230,
+    "ACC_NAME": "caoduongthanhhnd",
+    "acc_fname": "Cao Dương Thành",
+    "ID_Account_of_Agency": ",261,"
+}, {
+    "ACC_ID": 231,
+    "ACC_NAME": "trang123",
+    "acc_fname": "Nguyễn Thị Lương",
+    "ID_Account_of_Agency": ",262,"
+}, {
+    "ACC_ID": 233,
+    "ACC_NAME": "hai123",
+    "acc_fname": "Nguyễn hữu Mến",
+    "ID_Account_of_Agency": ",264,"
+}, {
+    "ACC_ID": 234,
+    "ACC_NAME": "phuc123",
+    "acc_fname": "Trần Thị Liên",
+    "ID_Account_of_Agency": ",265,"
+}, {
+    "ACC_ID": 235,
+    "ACC_NAME": "myhoa",
+    "acc_fname": "Nguyễn Thị Mỹ Hòa",
+    "ID_Account_of_Agency": ",266,"
+}, {
+    "ACC_ID": 236,
+    "ACC_NAME": "duc123",
+    "acc_fname": "Phan Quang Đức",
+    "ID_Account_of_Agency": ",267,"
+}, {
+    "ACC_ID": 237,
+    "ACC_NAME": "Trung123",
+    "acc_fname": "Nguyễn Tấn Trung",
+    "ID_Account_of_Agency": ",269,"
+}]

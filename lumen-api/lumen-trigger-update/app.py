@@ -1,9 +1,6 @@
-import csv
+import csv,sys
 from time import sleep
 from Akvo import Flow
-
-token = Flow.getToken()
-print(token)
 
 def getResponse(url,rtype):
     if rtype == "post":
@@ -20,32 +17,35 @@ def checkUpdate(url):
         return job['status']
     elif job['status'] == 'FAILED':
         print('ERROR  : '+ url +' FAILED TO LOAD')
-        return False
+        sys.exit(1)
     else:
         print('INFO   : PENDING...WAITING NEXT RESPONSE IN 10 SECONDS')
-        sleep(10)
+        sleep(5)
         checkUpdate(url)
 
 def updateDataset(instance, dataset):
     api = 'https://' + instance + '.akvolumen.org/api/'
     try:
         data = getResponse(api+ 'datasets/' + dataset + '/update', "post")
-        print(data)
         check = api + "job_executions/" + data['updateId']
-        sleep(10)
+        sleep(5)
         checkUpdate(check)
     except:
         return
 
-with open('datasets.csv', newline='') as csvfile:
-    reader = csv.DictReader(csvfile)
-    print('--- STARTING TO UPDATE ---')
-    for idx, row in enumerate(reader):
-        instance = row['instance']
-        dataset = row['dataset']
-        print('INFO   : UPDATING INSTANCE https://' + instance + '.akvolumen.org' + ' DATASET ID[' + dataset + ']')
-        if idx <= 5:
-            updateDataset(instance, dataset)
-        else:
-            print('WARNING:USAGE LIMIT EXCEEDED')
-    print('--- JOB IS DONE ---')
+try:
+    token = Flow.getToken()
+    with open('datasets.csv', newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        print('--- STARTING TO UPDATE ---')
+        for idx, row in enumerate(reader):
+            instance = row['instance']
+            dataset = row['dataset']
+            print('INFO   : UPDATING INSTANCE https://' + instance + '.akvolumen.org' + ' DATASET ID[' + dataset + ']')
+            if idx <= 5:
+                updateDataset(instance, dataset)
+            else:
+                print('WARNING:USAGE LIMIT EXCEEDED')
+        print('--- JOB IS DONE ---')
+except:
+    print('---TOKEN IS INVALID----')

@@ -1,0 +1,1393 @@
+[{
+    "ID_Commodity": 10,
+    "ID_Agency": 8,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33300,
+    "MAX_price": 0,
+    "ACC_ID": 222,
+    "ID_account_agency_add_update_data": 243
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 31,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33300,
+    "MAX_price": 0,
+    "ACC_ID": 233,
+    "ID_account_agency_add_update_data": 264
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 32,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33000,
+    "MAX_price": 0,
+    "ACC_ID": 234,
+    "ID_account_agency_add_update_data": 265
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 33,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 32950,
+    "MAX_price": 0,
+    "ACC_ID": 234,
+    "ID_account_agency_add_update_data": 265
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 34,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33000,
+    "MAX_price": 0,
+    "ACC_ID": 234,
+    "ID_account_agency_add_update_data": 265
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 32,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33300,
+    "MAX_price": 0,
+    "ACC_ID": 234,
+    "ID_account_agency_add_update_data": 265
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 33,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33250,
+    "MAX_price": 0,
+    "ACC_ID": 234,
+    "ID_account_agency_add_update_data": 265
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 34,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33300,
+    "MAX_price": 0,
+    "ACC_ID": 234,
+    "ID_account_agency_add_update_data": 265
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 7,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33200,
+    "MAX_price": 0,
+    "ACC_ID": 222,
+    "ID_account_agency_add_update_data": 243
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 16,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 32400,
+    "MAX_price": 0,
+    "ACC_ID": 228,
+    "ID_account_agency_add_update_data": 258
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 8,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33100,
+    "MAX_price": 0,
+    "ACC_ID": 222,
+    "ID_account_agency_add_update_data": 243
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 29,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33000,
+    "MAX_price": 0,
+    "ACC_ID": 233,
+    "ID_account_agency_add_update_data": 264
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 9,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33200,
+    "MAX_price": 0,
+    "ACC_ID": 222,
+    "ID_account_agency_add_update_data": 243
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 9,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33300,
+    "MAX_price": 0,
+    "ACC_ID": 222,
+    "ID_account_agency_add_update_data": 243
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 35,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33200,
+    "MAX_price": 0,
+    "ACC_ID": 235,
+    "ID_account_agency_add_update_data": 266
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 35,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33300,
+    "MAX_price": 0,
+    "ACC_ID": 235,
+    "ID_account_agency_add_update_data": 266
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 36,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33100,
+    "MAX_price": 0,
+    "ACC_ID": 235,
+    "ID_account_agency_add_update_data": 266
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 36,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33300,
+    "MAX_price": 0,
+    "ACC_ID": 235,
+    "ID_account_agency_add_update_data": 266
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 37,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33200,
+    "MAX_price": 0,
+    "ACC_ID": 235,
+    "ID_account_agency_add_update_data": 266
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 37,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33300,
+    "MAX_price": 0,
+    "ACC_ID": 235,
+    "ID_account_agency_add_update_data": 266
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 7,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33300,
+    "MAX_price": 0,
+    "ACC_ID": 222,
+    "ID_account_agency_add_update_data": 243
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 39,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33500,
+    "MAX_price": 0,
+    "ACC_ID": 236,
+    "ID_account_agency_add_update_data": 267
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 13,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 32800,
+    "MAX_price": 0,
+    "ACC_ID": 226,
+    "ID_account_agency_add_update_data": 256
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 48,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33100,
+    "MAX_price": 0,
+    "ACC_ID": 239,
+    "ID_account_agency_add_update_data": 272
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 48,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33500,
+    "MAX_price": 0,
+    "ACC_ID": 239,
+    "ID_account_agency_add_update_data": 272
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 49,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 32900,
+    "MAX_price": 0,
+    "ACC_ID": 239,
+    "ID_account_agency_add_update_data": 272
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 49,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33400,
+    "MAX_price": 0,
+    "ACC_ID": 239,
+    "ID_account_agency_add_update_data": 272
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 50,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33000,
+    "MAX_price": 0,
+    "ACC_ID": 239,
+    "ID_account_agency_add_update_data": 272
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 50,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33600,
+    "MAX_price": 0,
+    "ACC_ID": 239,
+    "ID_account_agency_add_update_data": 272
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 38,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 32900,
+    "MAX_price": 0,
+    "ACC_ID": 236,
+    "ID_account_agency_add_update_data": 267
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 29,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33300,
+    "MAX_price": 0,
+    "ACC_ID": 233,
+    "ID_account_agency_add_update_data": 264
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 39,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33000,
+    "MAX_price": 0,
+    "ACC_ID": 236,
+    "ID_account_agency_add_update_data": 267
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 30,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33100,
+    "MAX_price": 0,
+    "ACC_ID": 233,
+    "ID_account_agency_add_update_data": 264
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 40,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 32800,
+    "MAX_price": 0,
+    "ACC_ID": 236,
+    "ID_account_agency_add_update_data": 267
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 40,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33400,
+    "MAX_price": 0,
+    "ACC_ID": 236,
+    "ID_account_agency_add_update_data": 267
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 19,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 32400,
+    "MAX_price": 0,
+    "ACC_ID": 231,
+    "ID_account_agency_add_update_data": 262
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 20,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 32500,
+    "MAX_price": 0,
+    "ACC_ID": 231,
+    "ID_account_agency_add_update_data": 262
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 21,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 32600,
+    "MAX_price": 0,
+    "ACC_ID": 231,
+    "ID_account_agency_add_update_data": 262
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 19,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 32700,
+    "MAX_price": 0,
+    "ACC_ID": 231,
+    "ID_account_agency_add_update_data": 262
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 20,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 32800,
+    "MAX_price": 0,
+    "ACC_ID": 231,
+    "ID_account_agency_add_update_data": 262
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 21,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 32900,
+    "MAX_price": 0,
+    "ACC_ID": 231,
+    "ID_account_agency_add_update_data": 262
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 30,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33400,
+    "MAX_price": 0,
+    "ACC_ID": 233,
+    "ID_account_agency_add_update_data": 264
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 38,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33300,
+    "MAX_price": 0,
+    "ACC_ID": 236,
+    "ID_account_agency_add_update_data": 267
+}, {
+    "ID_Commodity": 2,
+    "ID_Agency": 43,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 43000,
+    "MAX_price": 0,
+    "ACC_ID": 237,
+    "ID_account_agency_add_update_data": 269
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 1,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33100,
+    "MAX_price": 0,
+    "ACC_ID": 11,
+    "ID_account_agency_add_update_data": 245
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 1,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33400,
+    "MAX_price": 0,
+    "ACC_ID": 11,
+    "ID_account_agency_add_update_data": 245
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 2,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33000,
+    "MAX_price": 0,
+    "ACC_ID": 11,
+    "ID_account_agency_add_update_data": 245
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 2,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33400,
+    "MAX_price": 0,
+    "ACC_ID": 11,
+    "ID_account_agency_add_update_data": 245
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 3,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33100,
+    "MAX_price": 0,
+    "ACC_ID": 11,
+    "ID_account_agency_add_update_data": 245
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 3,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33400,
+    "MAX_price": 0,
+    "ACC_ID": 11,
+    "ID_account_agency_add_update_data": 245
+}, {
+    "ID_Commodity": 11,
+    "ID_Agency": 44,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33900,
+    "MAX_price": 0,
+    "ACC_ID": 10,
+    "ID_account_agency_add_update_data": 270
+}, {
+    "ID_Commodity": 19,
+    "ID_Agency": 52,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 1508,
+    "MAX_price": 0,
+    "ACC_ID": 10,
+    "ID_account_agency_add_update_data": 270
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 47,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33300,
+    "MAX_price": 0,
+    "ACC_ID": 238,
+    "ID_account_agency_add_update_data": 271
+}, {
+    "ID_Commodity": 1,
+    "ID_Agency": 43,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 41000,
+    "MAX_price": 0,
+    "ACC_ID": 237,
+    "ID_account_agency_add_update_data": 269
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 12,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 32500,
+    "MAX_price": 0,
+    "ACC_ID": 226,
+    "ID_account_agency_add_update_data": 256
+}, {
+    "ID_Commodity": 1,
+    "ID_Agency": 42,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 41000,
+    "MAX_price": 0,
+    "ACC_ID": 237,
+    "ID_account_agency_add_update_data": 269
+}, {
+    "ID_Commodity": 2,
+    "ID_Agency": 42,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 43000,
+    "MAX_price": 0,
+    "ACC_ID": 237,
+    "ID_account_agency_add_update_data": 269
+}, {
+    "ID_Commodity": 1,
+    "ID_Agency": 41,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 41000,
+    "MAX_price": 0,
+    "ACC_ID": 237,
+    "ID_account_agency_add_update_data": 269
+}, {
+    "ID_Commodity": 2,
+    "ID_Agency": 41,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 43000,
+    "MAX_price": 0,
+    "ACC_ID": 237,
+    "ID_account_agency_add_update_data": 269
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 11,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 32500,
+    "MAX_price": 0,
+    "ACC_ID": 226,
+    "ID_account_agency_add_update_data": 256
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 11,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 32800,
+    "MAX_price": 0,
+    "ACC_ID": 226,
+    "ID_account_agency_add_update_data": 256
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 16,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 32900,
+    "MAX_price": 0,
+    "ACC_ID": 228,
+    "ID_account_agency_add_update_data": 258
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 12,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 32800,
+    "MAX_price": 0,
+    "ACC_ID": 226,
+    "ID_account_agency_add_update_data": 256
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 31,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33000,
+    "MAX_price": 0,
+    "ACC_ID": 233,
+    "ID_account_agency_add_update_data": 264
+}, {
+    "ID_Commodity": 21,
+    "ID_Agency": 51,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 102.65,
+    "MAX_price": 0,
+    "ACC_ID": 10,
+    "ID_account_agency_add_update_data": 270
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 18,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 32400,
+    "MAX_price": 0,
+    "ACC_ID": 228,
+    "ID_account_agency_add_update_data": 258
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 13,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 32500,
+    "MAX_price": 0,
+    "ACC_ID": 226,
+    "ID_account_agency_add_update_data": 256
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 47,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33000,
+    "MAX_price": 0,
+    "ACC_ID": 238,
+    "ID_account_agency_add_update_data": 271
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 17,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 32900,
+    "MAX_price": 0,
+    "ACC_ID": 228,
+    "ID_account_agency_add_update_data": 258
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 18,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 32900,
+    "MAX_price": 0,
+    "ACC_ID": 228,
+    "ID_account_agency_add_update_data": 258
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 4,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33100,
+    "MAX_price": 0,
+    "ACC_ID": 217,
+    "ID_account_agency_add_update_data": 244
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 4,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33300,
+    "MAX_price": 0,
+    "ACC_ID": 217,
+    "ID_account_agency_add_update_data": 244
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 5,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33100,
+    "MAX_price": 0,
+    "ACC_ID": 217,
+    "ID_account_agency_add_update_data": 244
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 5,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33300,
+    "MAX_price": 0,
+    "ACC_ID": 217,
+    "ID_account_agency_add_update_data": 244
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 6,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33100,
+    "MAX_price": 0,
+    "ACC_ID": 217,
+    "ID_account_agency_add_update_data": 244
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 6,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33300,
+    "MAX_price": 0,
+    "ACC_ID": 217,
+    "ID_account_agency_add_update_data": 244
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 22,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33000,
+    "MAX_price": 0,
+    "ACC_ID": 230,
+    "ID_account_agency_add_update_data": 261
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 46,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33300,
+    "MAX_price": 0,
+    "ACC_ID": 238,
+    "ID_account_agency_add_update_data": 271
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 23,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33000,
+    "MAX_price": 0,
+    "ACC_ID": 230,
+    "ID_account_agency_add_update_data": 261
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 23,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33300,
+    "MAX_price": 0,
+    "ACC_ID": 230,
+    "ID_account_agency_add_update_data": 261
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 24,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33000,
+    "MAX_price": 0,
+    "ACC_ID": 230,
+    "ID_account_agency_add_update_data": 261
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 24,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33300,
+    "MAX_price": 0,
+    "ACC_ID": 230,
+    "ID_account_agency_add_update_data": 261
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 45,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33000,
+    "MAX_price": 0,
+    "ACC_ID": 238,
+    "ID_account_agency_add_update_data": 271
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 45,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33300,
+    "MAX_price": 0,
+    "ACC_ID": 238,
+    "ID_account_agency_add_update_data": 271
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 46,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33000,
+    "MAX_price": 0,
+    "ACC_ID": 238,
+    "ID_account_agency_add_update_data": 271
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 17,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 32400,
+    "MAX_price": 0,
+    "ACC_ID": 228,
+    "ID_account_agency_add_update_data": 258
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 22,
+    "Date": "\/Date(1548694800000)\/",
+    "MIN_PRICE": 33300,
+    "MAX_price": 0,
+    "ACC_ID": 230,
+    "ID_account_agency_add_update_data": 261
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 35,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33600,
+    "MAX_price": 0,
+    "ACC_ID": 235,
+    "ID_account_agency_add_update_data": 266
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 35,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33400,
+    "MAX_price": 0,
+    "ACC_ID": 235,
+    "ID_account_agency_add_update_data": 266
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 34,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33800,
+    "MAX_price": 0,
+    "ACC_ID": 234,
+    "ID_account_agency_add_update_data": 265
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 33,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33750,
+    "MAX_price": 0,
+    "ACC_ID": 234,
+    "ID_account_agency_add_update_data": 265
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 32,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33800,
+    "MAX_price": 0,
+    "ACC_ID": 234,
+    "ID_account_agency_add_update_data": 265
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 4,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33600,
+    "MAX_price": 0,
+    "ACC_ID": 217,
+    "ID_account_agency_add_update_data": 244
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 34,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33500,
+    "MAX_price": 0,
+    "ACC_ID": 234,
+    "ID_account_agency_add_update_data": 265
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 7,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33600,
+    "MAX_price": 0,
+    "ACC_ID": 222,
+    "ID_account_agency_add_update_data": 243
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 32,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33500,
+    "MAX_price": 0,
+    "ACC_ID": 234,
+    "ID_account_agency_add_update_data": 265
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 33,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33450,
+    "MAX_price": 0,
+    "ACC_ID": 234,
+    "ID_account_agency_add_update_data": 265
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 36,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33400,
+    "MAX_price": 0,
+    "ACC_ID": 235,
+    "ID_account_agency_add_update_data": 266
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 9,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33600,
+    "MAX_price": 0,
+    "ACC_ID": 222,
+    "ID_account_agency_add_update_data": 243
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 36,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33600,
+    "MAX_price": 0,
+    "ACC_ID": 235,
+    "ID_account_agency_add_update_data": 266
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 37,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33500,
+    "MAX_price": 0,
+    "ACC_ID": 235,
+    "ID_account_agency_add_update_data": 266
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 7,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33300,
+    "MAX_price": 0,
+    "ACC_ID": 222,
+    "ID_account_agency_add_update_data": 243
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 8,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33300,
+    "MAX_price": 0,
+    "ACC_ID": 222,
+    "ID_account_agency_add_update_data": 243
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 8,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33600,
+    "MAX_price": 0,
+    "ACC_ID": 222,
+    "ID_account_agency_add_update_data": 243
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 9,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33400,
+    "MAX_price": 0,
+    "ACC_ID": 222,
+    "ID_account_agency_add_update_data": 243
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 31,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33800,
+    "MAX_price": 0,
+    "ACC_ID": 233,
+    "ID_account_agency_add_update_data": 264
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 50,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33500,
+    "MAX_price": 0,
+    "ACC_ID": 239,
+    "ID_account_agency_add_update_data": 272
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 37,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33600,
+    "MAX_price": 0,
+    "ACC_ID": 235,
+    "ID_account_agency_add_update_data": 266
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 50,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 34000,
+    "MAX_price": 0,
+    "ACC_ID": 239,
+    "ID_account_agency_add_update_data": 272
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 4,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33800,
+    "MAX_price": 0,
+    "ACC_ID": 217,
+    "ID_account_agency_add_update_data": 244
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 39,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33600,
+    "MAX_price": 0,
+    "ACC_ID": 236,
+    "ID_account_agency_add_update_data": 267
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 38,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 34000,
+    "MAX_price": 0,
+    "ACC_ID": 236,
+    "ID_account_agency_add_update_data": 267
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 39,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 34000,
+    "MAX_price": 0,
+    "ACC_ID": 236,
+    "ID_account_agency_add_update_data": 267
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 40,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33400,
+    "MAX_price": 0,
+    "ACC_ID": 236,
+    "ID_account_agency_add_update_data": 267
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 40,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33900,
+    "MAX_price": 0,
+    "ACC_ID": 236,
+    "ID_account_agency_add_update_data": 267
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 48,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33700,
+    "MAX_price": 0,
+    "ACC_ID": 239,
+    "ID_account_agency_add_update_data": 272
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 48,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 34100,
+    "MAX_price": 0,
+    "ACC_ID": 239,
+    "ID_account_agency_add_update_data": 272
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 19,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 32700,
+    "MAX_price": 0,
+    "ACC_ID": 231,
+    "ID_account_agency_add_update_data": 262
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 49,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33800,
+    "MAX_price": 0,
+    "ACC_ID": 239,
+    "ID_account_agency_add_update_data": 272
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 30,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33900,
+    "MAX_price": 0,
+    "ACC_ID": 233,
+    "ID_account_agency_add_update_data": 264
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 20,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 32800,
+    "MAX_price": 0,
+    "ACC_ID": 231,
+    "ID_account_agency_add_update_data": 262
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 21,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 32900,
+    "MAX_price": 0,
+    "ACC_ID": 231,
+    "ID_account_agency_add_update_data": 262
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 19,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33000,
+    "MAX_price": 0,
+    "ACC_ID": 231,
+    "ID_account_agency_add_update_data": 262
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 20,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33200,
+    "MAX_price": 0,
+    "ACC_ID": 231,
+    "ID_account_agency_add_update_data": 262
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 21,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33200,
+    "MAX_price": 0,
+    "ACC_ID": 231,
+    "ID_account_agency_add_update_data": 262
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 29,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33500,
+    "MAX_price": 0,
+    "ACC_ID": 233,
+    "ID_account_agency_add_update_data": 264
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 30,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33600,
+    "MAX_price": 0,
+    "ACC_ID": 233,
+    "ID_account_agency_add_update_data": 264
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 31,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33500,
+    "MAX_price": 0,
+    "ACC_ID": 233,
+    "ID_account_agency_add_update_data": 264
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 29,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33800,
+    "MAX_price": 0,
+    "ACC_ID": 233,
+    "ID_account_agency_add_update_data": 264
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 49,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33400,
+    "MAX_price": 0,
+    "ACC_ID": 239,
+    "ID_account_agency_add_update_data": 272
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 23,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33500,
+    "MAX_price": 0,
+    "ACC_ID": 230,
+    "ID_account_agency_add_update_data": 261
+}, {
+    "ID_Commodity": 1,
+    "ID_Agency": 42,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 45000,
+    "MAX_price": 0,
+    "ACC_ID": 237,
+    "ID_account_agency_add_update_data": 269
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 2,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33500,
+    "MAX_price": 0,
+    "ACC_ID": 11,
+    "ID_account_agency_add_update_data": 245
+}, {
+    "ID_Commodity": 2,
+    "ID_Agency": 42,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 46000,
+    "MAX_price": 0,
+    "ACC_ID": 237,
+    "ID_account_agency_add_update_data": 269
+}, {
+    "ID_Commodity": 1,
+    "ID_Agency": 43,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 45000,
+    "MAX_price": 0,
+    "ACC_ID": 237,
+    "ID_account_agency_add_update_data": 269
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 2,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33900,
+    "MAX_price": 0,
+    "ACC_ID": 11,
+    "ID_account_agency_add_update_data": 245
+}, {
+    "ID_Commodity": 2,
+    "ID_Agency": 43,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 46000,
+    "MAX_price": 0,
+    "ACC_ID": 237,
+    "ID_account_agency_add_update_data": 269
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 3,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33600,
+    "MAX_price": 0,
+    "ACC_ID": 11,
+    "ID_account_agency_add_update_data": 245
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 3,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33900,
+    "MAX_price": 0,
+    "ACC_ID": 11,
+    "ID_account_agency_add_update_data": 245
+}, {
+    "ID_Commodity": 2,
+    "ID_Agency": 41,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 46000,
+    "MAX_price": 0,
+    "ACC_ID": 237,
+    "ID_account_agency_add_update_data": 269
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 22,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33900,
+    "MAX_price": 0,
+    "ACC_ID": 230,
+    "ID_account_agency_add_update_data": 261
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 24,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33600,
+    "MAX_price": 0,
+    "ACC_ID": 230,
+    "ID_account_agency_add_update_data": 261
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 23,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33800,
+    "MAX_price": 0,
+    "ACC_ID": 230,
+    "ID_account_agency_add_update_data": 261
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 24,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33900,
+    "MAX_price": 0,
+    "ACC_ID": 230,
+    "ID_account_agency_add_update_data": 261
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 45,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33800,
+    "MAX_price": 0,
+    "ACC_ID": 238,
+    "ID_account_agency_add_update_data": 271
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 46,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33600,
+    "MAX_price": 0,
+    "ACC_ID": 238,
+    "ID_account_agency_add_update_data": 271
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 46,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33900,
+    "MAX_price": 0,
+    "ACC_ID": 238,
+    "ID_account_agency_add_update_data": 271
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 47,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33400,
+    "MAX_price": 0,
+    "ACC_ID": 238,
+    "ID_account_agency_add_update_data": 271
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 47,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33700,
+    "MAX_price": 0,
+    "ACC_ID": 238,
+    "ID_account_agency_add_update_data": 271
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 5,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33500,
+    "MAX_price": 0,
+    "ACC_ID": 217,
+    "ID_account_agency_add_update_data": 244
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 38,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33500,
+    "MAX_price": 0,
+    "ACC_ID": 236,
+    "ID_account_agency_add_update_data": 267
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 22,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33600,
+    "MAX_price": 0,
+    "ACC_ID": 230,
+    "ID_account_agency_add_update_data": 261
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 17,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33400,
+    "MAX_price": 0,
+    "ACC_ID": 228,
+    "ID_account_agency_add_update_data": 258
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 45,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33500,
+    "MAX_price": 0,
+    "ACC_ID": 238,
+    "ID_account_agency_add_update_data": 271
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 1,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33900,
+    "MAX_price": 0,
+    "ACC_ID": 11,
+    "ID_account_agency_add_update_data": 245
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 6,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33600,
+    "MAX_price": 0,
+    "ACC_ID": 217,
+    "ID_account_agency_add_update_data": 244
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 6,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33800,
+    "MAX_price": 0,
+    "ACC_ID": 217,
+    "ID_account_agency_add_update_data": 244
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 16,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 32900,
+    "MAX_price": 0,
+    "ACC_ID": 228,
+    "ID_account_agency_add_update_data": 258
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 17,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 32900,
+    "MAX_price": 0,
+    "ACC_ID": 228,
+    "ID_account_agency_add_update_data": 258
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 5,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33800,
+    "MAX_price": 0,
+    "ACC_ID": 217,
+    "ID_account_agency_add_update_data": 244
+}, {
+    "ID_Commodity": 11,
+    "ID_Agency": 44,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 34300,
+    "MAX_price": 0,
+    "ACC_ID": 10,
+    "ID_account_agency_add_update_data": 270
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 18,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 32900,
+    "MAX_price": 0,
+    "ACC_ID": 228,
+    "ID_account_agency_add_update_data": 258
+}, {
+    "ID_Commodity": 19,
+    "ID_Agency": 52,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 1534,
+    "MAX_price": 0,
+    "ACC_ID": 10,
+    "ID_account_agency_add_update_data": 270
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 13,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33200,
+    "MAX_price": 0,
+    "ACC_ID": 226,
+    "ID_account_agency_add_update_data": 256
+}, {
+    "ID_Commodity": 1,
+    "ID_Agency": 41,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 45000,
+    "MAX_price": 0,
+    "ACC_ID": 237,
+    "ID_account_agency_add_update_data": 269
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 16,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33400,
+    "MAX_price": 0,
+    "ACC_ID": 228,
+    "ID_account_agency_add_update_data": 258
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 1,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33600,
+    "MAX_price": 0,
+    "ACC_ID": 11,
+    "ID_account_agency_add_update_data": 245
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 18,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33400,
+    "MAX_price": 0,
+    "ACC_ID": 228,
+    "ID_account_agency_add_update_data": 258
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 13,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 32900,
+    "MAX_price": 0,
+    "ACC_ID": 226,
+    "ID_account_agency_add_update_data": 256
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 12,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33200,
+    "MAX_price": 0,
+    "ACC_ID": 226,
+    "ID_account_agency_add_update_data": 256
+}, {
+    "ID_Commodity": 21,
+    "ID_Agency": 51,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 106.8,
+    "MAX_price": 0,
+    "ACC_ID": 10,
+    "ID_account_agency_add_update_data": 270
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 12,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 32900,
+    "MAX_price": 0,
+    "ACC_ID": 226,
+    "ID_account_agency_add_update_data": 256
+}, {
+    "ID_Commodity": 10,
+    "ID_Agency": 11,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 33200,
+    "MAX_price": 0,
+    "ACC_ID": 226,
+    "ID_account_agency_add_update_data": 256
+}, {
+    "ID_Commodity": 9,
+    "ID_Agency": 11,
+    "Date": "\/Date(1548608400000)\/",
+    "MIN_PRICE": 32900,
+    "MAX_price": 0,
+    "ACC_ID": 226,
+    "ID_account_agency_add_update_data": 256
+}]
