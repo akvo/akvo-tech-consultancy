@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: pricing-integration-greencoffee
 spec:
-  schedule: "30 3 * * *"
+  schedule: "45,30,15 1,2 * * *"
   startingDeadlineSeconds: 600 # it is ok to start the job 10 minutes late
   concurrencyPolicy: Allow
   failedJobsHistoryLimit: 3
