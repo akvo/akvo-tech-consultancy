@@ -2,5 +2,7 @@ nohup.out
 error-log.log
 app/config.py
 kill.sh
+testing.ipynb
+.ipynb_checkpoints/
 test
 app/__pycache__
