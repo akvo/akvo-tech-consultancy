@@ -22,7 +22,7 @@ payload = []
 posts = []
 data_update = []
 
-user_ids = ['9','230','236','233','222','238','288','235','217','234','11','226','231','237','239']
+user_ids = ['230','236','233','222','238','288','235','217','234','11','226','231','237','239']
 cdate = datetime.strftime(datetime.today().date(), '%Y-%m-%d')
 
 tokenURI = 'https://login.akvo.org/auth/realms/akvo/protocol/openid-connect/token'
@@ -31,8 +31,8 @@ requestURI = 'https://api.akvo.org/flow/orgs/' + instanceURI
 folderID = '30240002'
 
 # PRODUCTION
-# website = 'http://giacaphe.ipsard.gov.vn/WebService.asmx'
-website = 'http://118.70.171.49:64977/WebService.asmx'
+website = 'http://giacaphe.ipsard.gov.vn/WebService.asmx'
+# website = 'http://118.70.171.49:64977/WebService.asmx'
 keymd5 = '?keymd5=c946415addc376cc50c91956a51823f1&'
 dateFormat = '%Y-%m-%dT%H:%M:%S'
 checkURI = website +'/select_price_by_date_and_ACC_ID'  + keymd5
