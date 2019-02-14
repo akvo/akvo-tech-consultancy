@@ -1,5 +1,5 @@
 # SIG MAP
-Built with Laravel 5.6, LeafletJS & Jquery
+Built with Laravel 5.6, LeafletJS, Jquery & D3js
 
 ## Requirements
 - PHP >= 7.1.3
