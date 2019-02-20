@@ -5,12 +5,12 @@ class Flow:
     tokenURI = 'https://login.akvo.org/auth/realms/akvo/protocol/openid-connect/token'
     rtData = {
         'client_id':'curl',
-        'username': 'deden@akvo.org', 
-        'password': 'Jalanremaja1208', 
+        'username': os.environ['KEYCLOAK_USER'],
+        'password': os.environ['KEYCLOAK_PWD'],
         'grant_type':'password',
         'scope':'openid offline_access'
     }
-    
+
     def refreshData():
         tokens = r.post(Flow.tokenURI, Flow.rtData).json();
         return tokens['refresh_token']
