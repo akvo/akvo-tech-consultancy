@@ -1,73 +1,35 @@
-
-# coding: utf-8
-
-# In[55]:
-
-
-from datetime import datetime,timedelta
+import sys
+import os
+from datetime import datetime
 from pytz import utc, timezone
 import time
 from Akvo import Flow
 from FlowHandler import FlowHandler
 import pandas as pd
-import json
-
-
-# In[ ]:
-
 
 import smtplib
-import sys
-from email import encoders
-from email.message import EmailMessage
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-
-
-# In[2]:
-
 
 instanceURI = 'spiceup'
 requestURI = 'https://api.akvo.org/flow/orgs/' + instanceURI
 EMAIL_RECEPIENTS = ['deden@akvo.org']
 EMAIL_SENDER = 'dedenbangkit@gmail.com'
 
-
-# In[3]:
-
-
 apiData = Flow.getResponse(requestURI + '/surveys/227030237')
-#apiData = Flow.getResponse(requestURI + '/surveys/24210001')
 forms = apiData.get('forms')
 RegistrationForm = apiData['registrationFormId']
 start_time = time.time()
 date_format = '%Y-%m-%dT%H:%M:%SZ'
-
-
-# In[4]:
-
 
 def checkTime(x):
     total_time = x - start_time
     spent = time.strftime("%H:%M:%S", time.gmtime(total_time))
     return spent
 
-
-# In[5]:
-
-
 questions = lambda x : [{'id':a['id'],'name':a['name'],'questions':details(a['questions'])} for a in x]
 details = lambda x : [{'id':a['id'],'name':a['name'].replace(' ','_'),'type':a['type']} for a in x]
-
-
-# In[6]:
-
-
 registrationFormId = apiData.get('registrationFormId')
-
-
-# In[7]:
-
 
 def getAll(url):
     data = Flow.getResponse(url)
@@ -81,10 +43,6 @@ def getAll(url):
     except:
         print(checkTime(time.time()) + ':: DOWNLOAD COMPLETE')
         return "done"
-
-
-# In[21]:
-
 
 allResponses = {}
 for form in forms:
@@ -119,9 +77,6 @@ for form in forms:
     allResponses.update({form['name']:allGroups})
 
 
-# In[197]:
-
-
 fout = "./testing-real.html"
 fo = open(fout, "w")
 EMAIL_SENDER = 'dedenbangkit@gmail.com'
@@ -136,10 +91,8 @@ for k, v in allResponses.items():
             fo.write('<div style="padding:10px;border:1px solid #ddd;"><h4 style="color:grey;text-align:center;">Data Not Available</h4></div>')
         for idx, value in enumerate(values):
             subDate = datetime.strptime(value['submissionDate'], date_format)
-            # subDate = datetime.strptime(value['submissionDate'], date_format) - timedelta(days=10)
             dateWib = utc.localize(subDate).astimezone(timezone('Asia/Jakarta'))
             today_date = datetime.today().date()
-            # yesterday = (datetime.now() - timedelta(days=11)).date()
             idx = idx + 1
             if idx < 10:
                 index = '0' + str(idx)
@@ -188,9 +141,6 @@ for k, v in allResponses.items():
                 pass
 fo.write('</div>')
 fo.close()
-
-
-# In[ ]:
 
 
 msg = MIMEMultipart('alternative')
