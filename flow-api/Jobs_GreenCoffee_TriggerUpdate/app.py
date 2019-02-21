@@ -6,10 +6,10 @@
 # User Submit Data at 9.20, data is available in IPSARD at 9.30, and Submit same data at 9.40.
 # Data is Submitted at 1 PM today, not sent tomorrow
 
-import os
 from datetime import datetime
 from pytz import utc, timezone
 from lxml import etree as et
+from Akvo import Flow
 import pandas as pd
 import xmltodict
 import requests as r
@@ -36,42 +36,7 @@ website = 'http://giacaphe.ipsard.gov.vn/WebService.asmx'
 keymd5 = '?keymd5=c946415addc376cc50c91956a51823f1&'
 dateFormat = '%Y-%m-%dT%H:%M:%S'
 checkURI = website +'/select_price_by_date_and_ACC_ID'  + keymd5
-
-rtData = {
-    'client_id':'curl',
-    'username': os.environ['KEYCLOAK_USER'],
-    'password': os.environ['KEYCLOAK_PWD'],
-    'grant_type':'password',
-    'scope':'openid offline_access'
-}
-
 headers = {'Content-Type': 'application/x-www-form-urlencoded'}
-
-def refreshData():
-    tokens = r.post(tokenURI, rtData).json();
-    return tokens['refresh_token']
-
-def getAccessToken():
-    account = {
-        'client_id':'curl',
-        'refresh_token': refreshData(),
-        'grant_type':'refresh_token'
-    }
-    try:
-        account = r.post(tokenURI, account).json();
-    except:
-        logging.error('FAILED: TOKEN ACCESS UNKNOWN')
-        return False
-    return account['access_token']
-
-def getResponse(url):
-    header = {
-        'Authorization':'Bearer ' + getAccessToken(),
-        'Accept': 'application/vnd.akvo.flow.v2+json',
-        'User-Agent':'python-requests/2.14.2'
-    }
-    response = r.get(url, headers=header).json()
-    return response
 
 def logTime(error_code):
     now = datetime.now()
@@ -108,19 +73,33 @@ def post_data(keyval):
         print(log)
     return keyval
 
+def push_data(datapoints_url, submitter_id, submitter_name, meta, meta_id):
+    src = Flow.getResponse(datapoints_url)
+    sources = src.get('formInstances')
+    if len(sources) > 0:
+        data = [d['responses'] for d in sources if 'responses' in d]
+        data = [d[meta_id][0] for d in data if meta_id in d]
+        submit_date = [d['submissionDate'] for d in sources if 'submissionDate' in d]
+        appending(meta,data,submitter_id,submit_date,submitter_name)
+        try:
+            next_page = src.get('nextPageUrl')
+            push_data(next_page, submitter_id, submitter_name, meta, meta_id)
+        except:
+            pass
+    return True
+
 def get_data(survey_url):
-    mt = getResponse(survey_url)
+    mt = Flow.getResponse(survey_url)
     meta = pd.DataFrame(mt['forms'][0]['questionGroups'][0]['questions'])
     name = mt['forms'][0]['questionGroups']
     form = mt['forms'][0]['formInstancesUrl']
     submitter_id = mt['name'].split('_')[1]
     submitter_name = mt['name'].split('_')[0]
     meta_id = name[0]['id']
-    sources = getResponse(form).get('formInstances')
-    data = [d['responses'] for d in sources if 'responses' in d]
-    data = [d[meta_id][0] for d in data if meta_id in d]
-    submit_date = [d['submissionDate'] for d in sources if 'submissionDate' in d]
-    appending(meta,data,submitter_id,submit_date,submitter_name)
+    try:
+        push_data(form, submitter_id, submitter_name, meta, meta_id)
+    except:
+        pass
     return True
 
 def appending(meta,data,submitter_id,submit_date,submitter_name):
@@ -174,7 +153,7 @@ def add_results(unique, values, code, mark):
 
 
 def execute(folder_id):
-    urls = getResponse(requestURI + '/surveys?folder_id=' + folder_id).get('surveys')
+    urls = Flow.getResponse(requestURI + '/surveys?folder_id=' + folder_id).get('surveys')
     urls = [a['surveyUrl'] for a in urls if 'surveyUrl' in a]
     for url in urls:
         try:
