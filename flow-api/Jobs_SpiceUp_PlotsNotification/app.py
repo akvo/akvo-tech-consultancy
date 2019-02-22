@@ -13,7 +13,7 @@ from email.mime.text import MIMEText
 
 instanceURI = 'spiceup'
 requestURI = 'https://api.akvo.org/flow/orgs/' + instanceURI
-EMAIL_RECEPIENTS = ['deden@akvo.org']
+EMAIL_RECEPIENTS = ['deden@akvo.org', 'mail@dedenbangkit.com']
 EMAIL_SENDER = 'dedenbangkit@gmail.com'
 
 apiData = Flow.getResponse(requestURI + '/surveys/227030237')
@@ -82,7 +82,10 @@ fo = open(fout, "w")
 EMAIL_SENDER = 'dedenbangkit@gmail.com'
 EMAIL_PASSWORD = 'Jalanremaja1208'
 
-fo.write('<div style="padding:10px;">')
+buttonStyle = 'style="display: inline-block; padding: 5px; margin: 5px; background-color: #008bff; color: white; text-decoration: none; border: 1px solid #0075d6; font-size: 10px;"'
+
+fo.write('<link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">')
+fo.write('''<div style="padding:10px;padding:10px;font-family:'Open Sans',Arial,sans-serif; font-size:small;">''')
 for k, v in allResponses.items():
     fo.write('<h3 style="padding:10px;background-color: green;color: white;margin-bottom:0px;">'+ k.upper() + '</h3>')
     for key, values in v.items():
@@ -99,7 +102,8 @@ for k, v in allResponses.items():
             else:
                 index = str(idx)
             metaText =  '<li>ID: ' + str(value['identifier']) + ' - ' + str(value['dataPointId']) + '</li>'
-            metaText += '<li>Submitter: ' + str(value['submitter']) + ' (' + str(value['deviceIdentifier']) + ')</li>'
+            metaText += '<li>Submitter: ' + str(value['submitter']) + '</li>'
+            metaText += '<li>Device: ' + str(value['deviceIdentifier']) + '</li>'
             metaText += '<li>Submission Date: ' + str(dateWib) + '</li>'
             metaText += '<li>Survey Time: ' + str(value['surveyalTime']) + ' Minutes</li>'
             notDisplayed = ['id',
@@ -113,7 +117,7 @@ for k, v in allResponses.items():
                             'dataPointId',
                             'createdAt',
                             'surveyalTime',
-                            'Plot Location_long']
+                            'Plot Geopoint_long']
             if dateWib.date() == today_date:
                 print(checkTime(time.time()) + ':: NEW DATA FOUND')
                 metatext = '<ul>' + metaText + '</ul><hr style="border:dashed 1px #ddd;"><ul>'
@@ -121,9 +125,28 @@ for k, v in allResponses.items():
                 for kval, ans in value.items():
                     if kval in notDisplayed:
                         pass
-                    elif kval == 'Plot Location_lat':
-                        ploc = str(ans) + ',' + str(value['Plot Location_long'])
-                        fo.write('<li> Plot Locations: <a href="https://www.google.com/maps/?q='+str(ploc)+'" target="_blank"> Click to View</a></li>')
+                    elif kval == 'Plot Location':
+                        fo.write('<li> Plot Location :<ul>')
+                        for ilevel,level in enumerate(str(ans).split('|')):
+                            if ilevel == 0:
+                                fo.write('<li> Province: '+level.split(':')[0]+'</li>')
+                            elif ilevel == 1:
+                                fo.write('<li> District: '+level.split(':')[0]+'</li>')
+                            elif ilevel == 2:
+                                fo.write('<li> Subdistrict: '+level.split(':')[0]+'</li>')
+                            else:
+                                fo.write('<li> Village: '+level.split(':')[0]+'</li>')
+                        fo.write('</ul></li>')
+                    elif "|" in str(ans):
+                        fo.write('<li>'+kval+' :<ul>')
+                        for multi in str(ans).split('|'):
+                             fo.write('<li>'+multi+'</li>')
+                        fo.write('</ul></li>')
+                    elif kval == 'Plot Geopoint_lat':
+                        ploc = str(ans) + ',' + str(value['Plot Geopoint_long'])
+                        fo.write('<li> Plot Locations: <a '+buttonStyle+' href="https://www.google.com/maps/?q='+str(ploc)+'" target="_blank">CLICK TO VIEW</a></li>')
+                    elif "Photo" in kval:
+                        fo.write('<li>'+kval+': <a '+buttonStyle+' href="'+str(ans)+'" target="_blank">CLICK TO VIEW</a></li>')
                     elif kval == 'Plot Shape':
                         if len(ans['features']) < 1:
                             fo.write(kval + ': ' + 'No Shape Captured</br>')
@@ -144,7 +167,7 @@ fo.close()
 
 
 msg = MIMEMultipart('alternative')
-msg['Subject'] = 'Notification Proof of Concept - Using Real Survey - Testing Only'
+msg['Subject'] = 'DO NOT REPLY: Testin for Demo Plot Email Notification'
 msg['To'] = ', '.join(EMAIL_RECEPIENTS)
 msg['From'] = EMAIL_SENDER
 
