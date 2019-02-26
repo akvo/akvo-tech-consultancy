@@ -470,42 +470,49 @@ tbody tr:hover{
 
 /*marker categories*/
 .category-1{
+  /* Red */
   fill: #dc3545;
   stroke: #800;
   background: #dc3545;
   border-color: #800;
 }
 .category-2, .category-8{
+  /* Orange */
   fill: #FA0;
   stroke: #B60;
   background: #FA0;
   border-color: #B60;
 }
 .category-3{
-  fill: #ffc107;
-  stroke: #D80;
-  background: #ffc107;
-  border-color: #D80;
+  /* Navy Blue */
+  fill: #0288d1;
+  stroke: #005382;
+  background-color: #0288d1;
+  border-color: #005382;
 }
 .category-4{
+  /* Green */
   fill: #28a745;
   stroke: #070;
   background: #28a745;
   border-color: #070;
 }
 .category-5{
+  /* Blue */
   fill: #40b1e6;
   stroke: #2d99cc;
   background: #40b1e6;
   border-color: #2d99cc;
 }
 .category-6{
+  /* Yellow */
   fill: #ffca29;
-  stroke: #efbd28;
+  stroke: #9a7a1c;
   background: #ffca29;
-  border-color: #efbd28;
+  border-color: #9a7a1c;
 }
 .category-7{
+  /* Purple */
   fill: #ab47bc;
   stroke: #621f6d;
   background: #ab47bc;

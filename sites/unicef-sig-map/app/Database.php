@@ -279,7 +279,9 @@ class Database extends Model
             ->groupby($name)
             ->get();
         return collect($db)->map(function($a) use ($name) {
-            return $a[$name];
-        });
+                return $a[$name];
+        })->reject(function($a){
+            return $a == null;
+        })->flatten();
     }
 }

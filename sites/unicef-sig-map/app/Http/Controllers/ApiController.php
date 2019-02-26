@@ -190,20 +190,30 @@ class ApiController extends Controller
         ]);
         $collection = $db->countGroup($name);
         $answer = $db->indicators($name);
+        $total = $collection->mapToGroups(function ($item, $key) use ($name) {
+            return [$item['PV'] => (int) $item['TT']];
+        });
+        $total = $total->map(function ($item, $key){
+            return $item->sum();
+        });
         $collection = $collection->mapToGroups(function ($item, $key) use ($name) {
             return [$item['PV'] => array($item[$name] => (int) $item['TT'])];
         });
-		$sum_province = collect();
         $res = collect();
-        $answer->each(function($a, $i) use ($province, $res, $collection) {
+        $answer->each(function($a, $i) use ($province, $res, $collection, $total) {
                 $b = collect();
-                collect($province)->each(function($p, $g) use ($i,$a,$b,$collection) {
-                $x = $collection[$p];
+                $province->each(function($p, $g) use ($i,$a,$b,$collection, $total) {
+                    $g = 0;
+                    $ttl = $total[$p];
+                    $x = $collection[$p];
                     if(isset($x[$i][$a])){
-                        $b->push($x[$i][$a]);
-                    }else{
-                        $b->push(0);
+                        if ($x[$i][$a] == 0){
+                            $g = 0;
+                        }else{
+                            $g = round((int) $x[$i][$a] / (int) $ttl * 100, 2);
+                        }
                     }
+                    $b->push($g);
                 });
 				$res->push([
 					'name'=>$a,
@@ -215,7 +225,7 @@ class ApiController extends Controller
 		$db = $res->transform(function($r){
 			$med = collect();
 			$med->push($r['data']);
-			$med->push(collect($r['data'])->avg());
+			$med->push(round(collect($r['data'])->avg()), 2);
 			$r['data'] = $med->flatten(1);
 			return $r;
 		});

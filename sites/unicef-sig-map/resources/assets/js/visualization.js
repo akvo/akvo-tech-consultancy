@@ -8,17 +8,17 @@ if (cacheRem !== null) {
 }
 
 var provinceList = [
-    "National",
-    "Western",
-    "Temotu",
-    "Rennell and Bellona",
-    "Malaita",
-    "Makira",
-    "Isabel",
-    "Honiara",
-    "Guadalcanal",
-    "Choiseul",
     "Central",
+    "Choiseul",
+    "Guadalcanal",
+    "Honiara",
+    "Isabel",
+    "Makira",
+    "Malaita",
+    "Rennell and Bellona",
+    "Temotu",
+    "Western",
+    "National"
 ];
 
 localStorage.setItem('x-province', JSON.stringify([]));
@@ -210,7 +210,8 @@ function vizOptions(answer, province, result, colors) {
             containLabel: true
         },
         xAxis: {
-            type: 'value'
+            type: 'value',
+            max: 100
         },
         yAxis: {
             type: 'category',
