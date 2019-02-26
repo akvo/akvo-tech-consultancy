@@ -4,7 +4,7 @@
  *
  */
 
-var appVersion = 'v2019.02.12B';
+var appVersion = 'v2019.02.27A';
 if (localStorage.getItem('app-version') !== appVersion) {
     window.localStorage.clear();
     localStorage.setItem('app-version', appVersion);
