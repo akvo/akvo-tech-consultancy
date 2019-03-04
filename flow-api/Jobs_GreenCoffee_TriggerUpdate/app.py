@@ -22,7 +22,7 @@ payload = []
 posts = []
 data_update = []
 
-user_ids = ['230','236','233','222','238','288','235','217','234','11','226','231','237','239']
+user_ids = ['10','230','236','233','222','238','288','235','217','234','11','226','231','237','239']
 cdate = datetime.strftime(datetime.today().date(), '%Y-%m-%d')
 
 tokenURI = 'https://login.akvo.org/auth/realms/akvo/protocol/openid-connect/token'
@@ -31,8 +31,8 @@ requestURI = 'https://api.akvo.org/flow/orgs/' + instanceURI
 folderID = '30240002'
 
 # PRODUCTION
-website = 'http://giacaphe.ipsard.gov.vn/WebService.asmx'
-# website = 'http://118.70.171.49:64977/WebService.asmx'
+#website = 'http://giacaphe.ipsard.gov.vn/WebService.asmx'
+website = 'http://118.70.171.49:64977/WebService.asmx'
 keymd5 = '?keymd5=c946415addc376cc50c91956a51823f1&'
 dateFormat = '%Y-%m-%dT%H:%M:%S'
 checkURI = website +'/select_price_by_date_and_ACC_ID'  + keymd5
@@ -127,26 +127,31 @@ def appending(meta,data,submitter_id,submit_date,submitter_name):
                 newest = datetime.strptime(d_val,'%Y-%m-%d %H:%M:%S')
                 print(logTime('WARNING') + submitter_name.upper() + ' REPLACED PRICE!')
                 if latest < newest:
-                    add_results(unique,values,code, False)
+                    add_results(unique,values,code, submitter_id, False)
                     print(logTime('INFO') + 'REPLACED WITH NEW VALUE!')
                 else:
                     print(logTime('INFO') + 'PASS VALUE!')
                     pass
             except:
-                add_results(unique,values,code, True)
+                add_results(unique,values,code, submitter_id, True)
                 print(logTime('INFO') + submitter_name.upper() + ' SENT NEW PRICE!')
                 print(logTime('INFO') + 'ADDED NEW VALUE!')
         else:
             pass
     return True
 
-def add_results(unique, values, code, mark):
+def add_results(unique, values, code, submitter_id, mark):
     agency = code[0]
-    comm = code[1].split('-')
-    results.update({unique:[
-        {'uid':values['sid'],'date':values['date'],'agency':agency,'commodity':comm[0],'value':values['ap']},
-        {'uid':values['sid'],'date':values['date'],'agency':agency,'commodity':comm[1],'value':values['cp']}
-    ]})
+    if int(submitter_id) == 10:
+        results.update({unique:[
+            {'uid':values['sid'],'date':values['date'],'agency':agency,'commodity':code[1],'value':values['pc']},
+        ]})
+    else:
+        comm = code[1].split('-')
+        results.update({unique:[
+            {'uid':values['sid'],'date':values['date'],'agency':agency,'commodity':comm[0],'value':values['ap']},
+            {'uid':values['sid'],'date':values['date'],'agency':agency,'commodity':comm[1],'value':values['cp']}
+        ]})
     if mark == True:
         date_mark.append(unique)
     return True
