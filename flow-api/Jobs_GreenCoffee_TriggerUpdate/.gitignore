@@ -6,6 +6,5 @@ testing.ipynb
 .ipynb_checkpoints/
 test
 app/__pycache__
-testing.ipynb
-testing-admin.ipynb
+*.ipynb
 .ipynb_checkpoints/

@@ -22,7 +22,7 @@ payload = []
 posts = []
 data_update = []
 
-user_ids = ['10','230','236','233','222','238','288','235','217','234','11','226','231','237','239']
+user_ids = ['230','236','233','222','238','228','235','217','234','11','226','231','237','239','10']
 cdate = datetime.strftime(datetime.today().date(), '%Y-%m-%d')
 
 tokenURI = 'https://login.akvo.org/auth/realms/akvo/protocol/openid-connect/token'
