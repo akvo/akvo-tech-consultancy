@@ -37,7 +37,7 @@ spec:
              secretKeyRef:
                name: ckan
                key: db.url
-         - name: $DATASTORE_WRITE_DB
+         - name: DATASTORE_WRITE_DB
            valueFrom:
              secretKeyRef:
                name: ckan
