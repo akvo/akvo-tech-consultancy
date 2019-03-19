@@ -37,6 +37,16 @@ spec:
              secretKeyRef:
                name: ckan
                key: db.url
+         - name: $DATASTORE_WRITE_DB
+           valueFrom:
+             secretKeyRef:
+               name: ckan
+               key: db.datastore.write.url
+         - name: DATASTORE_READ_DB
+           valueFrom:
+             secretKeyRef:
+               name: ckan
+               key: db.datastore.read.url
 #        volumeMounts:
 #          - name: akvo-ckan-solr
 #            mountPath: /var/lib/solr/data/
