@@ -17,10 +17,10 @@ spec:
         app: akvo-ckan
         environment: ${ENVIRONMENT}
     spec:
-#      volumes:
-#        - name: akvo-ckan-solr
-#          persistentVolumeClaim:
-#             claimName: akvo-ckan-solr
+      volumes:
+        - name: akvo-ckan
+          persistentVolumeClaim:
+             claimName: akvo-ckan-solr
       containers:
       - name: akvo-ckan
         image: eu.gcr.io/akvo-lumen/akvo-ckan:$TRAVIS_COMMIT
@@ -47,9 +47,11 @@ spec:
              secretKeyRef:
                name: ckan
                key: db.datastore.read.url
-#        volumeMounts:
-#          - name: akvo-ckan-solr
-#            mountPath: /var/lib/solr/data/
+        volumeMounts:
+          - name: akvo-ckan
+            mountPath: /var/lib/solr/
+          - name: akvo-ckan
+            mountPath: /var/lib/ckan
         livenessProbe:
           httpGet:
             path: /
