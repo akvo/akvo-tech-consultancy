@@ -10,6 +10,9 @@ RUN wget -q http://packaging.ckan.org/python-ckan_2.8-xenial_amd64.deb && \
     dpkg -i python-ckan_2.8-xenial_amd64.deb && \
     rm python-ckan_2.8-xenial_amd64.deb
 
+# See https://github.com/ckan/datapusher/issues/166
+RUN sed -i /usr/lib/ckan/datapusher/lib/python2.7/site-packages/ckanserviceprovider/web.py -e 's/import flask.ext.login as flogin/import flask_login as flogin/'
+
 RUN mv /etc/solr/conf/schema.xml /etc/solr/conf/schema.xml.bak
 RUN ln -s /usr/lib/ckan/default/src/ckan/ckan/config/solr/schema.xml /etc/solr/conf/schema.xml
 RUN chown www-data:www-data /usr/lib/ckan/default/src/ckan/ckan/public/base/i18n/
