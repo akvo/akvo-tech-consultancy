@@ -12,7 +12,7 @@ def FlowHandler(val,qId,qType):
         elif(qType=='VIDEO'):
             return handleVideoQuestion(data)
         elif(qType=='GEOSHAPE'):
-            return handleGeoshape(data)
+            return val 
         elif(qType=='GEO'):
             return handleGeolocation(data)
         elif(qType=='FREE_TEXT'):

@@ -1,0 +1,28 @@
+{
+    "Farmer Registration ID": "dw0d-j5vu-ar28",
+    "Farm Location": "kJfbD8gv5I:KEPULAUAN BANGKA BELITUNG|jRGwhFHxjg:BELITUNG|weIP2T54xK:SELAT NASIK|WzpMYkOR7O:SELAT NASIK",
+    "Farmer Registration ID": "dw0d-j5vu-ar28",
+    "Commodity": "4lCdYFqfxx:Black Pepper",
+    "Coordinates": [115.2363296, -8.6763953],
+    "Area": 21.91,
+    "Timeseries": {
+        "Purchase": [{
+            "Purchase Number": 563348.0,
+            "Purchase Date": "2019-09-30T03:17:08.523Z",
+            "Quantity (Kilograms)": 90.0,
+            "Price": 40000.0
+        }, {
+            "Purchase Number": 563348.0,
+            "Purchase Date": "2019-09-30T03:17:08.523Z",
+            "Quantity (Kilograms)": 90.0,
+            "Price": 40000.0
+        }],
+        "Harvest": [{
+            "Harvest Date": "2019-09-30T03:16:36.689Z",
+            "Yield (Kg)": 100.0
+        }, {
+            "Harvest Date": "2019-10-31T03:19:09.923Z",
+            "Yield (Kg)": 150.0
+        }]
+    }
+}
