@@ -1,4 +1,6 @@
 nohup.out
+.ipynb_checkpoints/
+testing.ipynb
 error-log.log
 app/config.py
 kill.sh

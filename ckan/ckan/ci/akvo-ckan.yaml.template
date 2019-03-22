@@ -1,0 +1,93 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: akvo-ckan
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: akvo-ckan
+  template:
+    metadata:
+      labels:
+        run: akvo-ckan
+        akvo-ckan-version: $TRAVIS_COMMIT
+        app: akvo-ckan
+        environment: ${ENVIRONMENT}
+    spec:
+      volumes:
+        - name: akvo-ckan
+          persistentVolumeClaim:
+             claimName: akvo-ckan-solr
+      containers:
+      - name: akvo-ckan
+        image: eu.gcr.io/akvo-lumen/akvo-ckan:$TRAVIS_COMMIT
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: "100m"
+          limits:
+            cpu: "2"
+        env:
+         - name: DB_URL
+           valueFrom:
+             secretKeyRef:
+               name: ckan
+               key: db.url
+         - name: DATASTORE_WRITE_DB
+           valueFrom:
+             secretKeyRef:
+               name: ckan
+               key: db.datastore.write.url
+         - name: DATASTORE_READ_DB
+           valueFrom:
+             secretKeyRef:
+               name: ckan
+               key: db.datastore.read.url
+        volumeMounts:
+          - name: akvo-ckan
+            mountPath: /var/lib/solr/
+          - name: akvo-ckan
+            mountPath: /var/lib/ckan
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 180
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 180
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: akvo-ckan
+  namespace: default
+  labels:
+    run: akvo-ckan
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    targetPort: 80
+  selector:
+    run: akvo-ckan
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: akvo-ckan-solr
+  labels:
+    app: akvo-ckan
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
