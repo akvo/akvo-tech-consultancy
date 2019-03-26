@@ -7,4 +7,4 @@ docker run \
        --volume "$(pwd):/home/tcakvo/public_html/anu" \
        --workdir /home/tcakvo/public_html/anu\
        --entrypoint /bin/sh \
-       node:8-alpine -c 'npm i && webpack'
+       node:8-alpine -c 'npm i && node ./node_modules/webpack/bin/webpack.js'
