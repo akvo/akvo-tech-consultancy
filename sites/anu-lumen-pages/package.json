@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "node test.js",
-    "watch": "webpack --mode development --watch",
-    "server": "cd dist && python -m http.server 4000"
+    "watch": "webpack --mode development --watch"
   },
   "repository": {
     "type": "git",
