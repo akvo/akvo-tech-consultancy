@@ -25,7 +25,7 @@ module.exports = [
     plugins: [
         new CopyWebpackPlugin([{
             from: './src/images/',
-            to:'./dist/images/'
+            to:'./../images/'
         }])
     ]
 }];

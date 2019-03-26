@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "node test.js",
-    "watch": "webpack --mode development --watch"
+    "watch": "node ./node_modules/webpack/bin/webpack.js --mode development --watch",
+    "build": "node ./node_modules/webpack/bin/webpack.js"
   },
   "repository": {
     "type": "git",
