@@ -11,9 +11,11 @@ $(document).ready(function() {
 
 let loadHash=window.location.hash;
 if (loadHash === ''){
-    $('iframe#registration_and_awarness').fadeIn();
+    $('iframe#data_monitoring').fadeIn();
+    $('#data_monitoring_btn').addClass('active');
 }else{
     $('iframe'+loadHash).fadeIn();
+    $(loadHash+'_btn').addClass('active');
 }
 
 
@@ -22,6 +24,10 @@ function getLocationHash() {
     $('iframe').hide();
     $('iframe'+hash).fadeIn();
     $('html, body').stop().animate({ 'scrollTop': 0 }, 1000)
+    $('a.text-muted').each(function(){
+        $(this).removeClass('active');
+    });
+    $(hash+'_btn').addClass('active');
 }
 window.onhashchange = function(e) {
   switch(getLocationHash()) {

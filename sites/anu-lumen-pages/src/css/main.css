@@ -15,6 +15,11 @@ a.text-muted:hover{
     text-decoration:none!important;
 }
 
+a.text-muted.active{
+    color:#007bff!important;
+    text-decoration:none!important;
+}
+
 .bd-placeholder-img {
     font-size: 1.125rem;
     text-anchor: middle;
