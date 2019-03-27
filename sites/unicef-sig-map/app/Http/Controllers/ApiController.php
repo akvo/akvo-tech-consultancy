@@ -254,7 +254,7 @@ class ApiController extends Controller
 			'toilet-type' => array(
 				'lookup'=> array(
                     '4'=> array(
-                        'option' => 'Saperated Toilet for Boys and Girls',
+                        'option' => 'Separated Toilet for Boys and Girls',
                         'description' => 'As part of acknowledging the vulenrability of girls, segregated toilets form part of the definition for Basic Sanitation',
                     ),
                     '2'=> array(
@@ -266,7 +266,7 @@ class ApiController extends Controller
                         'description' => 'As part of acknowledging the vulenrability of girls, segregated toilets form part of the definition for Basic Sanitation',
                     )
 				),
-				'name' => 'Saperated Toilet',
+				'name' => 'Separated Toilet',
 			),
 			'primary-water-source' => array(
 				'lookup'=> array(
