@@ -10,6 +10,7 @@ sudo chown "${USER}:" . -R
 
 echo "Deploying site..."
 
+cp .htaccess ./dist
 cd dist
 
 rsync \
