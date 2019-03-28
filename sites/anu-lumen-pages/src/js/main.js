@@ -11,8 +11,8 @@ $(document).ready(function() {
 
 let loadHash=window.location.hash;
 if (loadHash === ''){
-    $('iframe#data_monitoring').fadeIn();
-    $('#data_monitoring_btn').addClass('active');
+    $('iframe.default-location').fadeIn();
+    $('.default-location-btn').addClass('active');
 }else{
     $('iframe'+loadHash).fadeIn();
     $(loadHash+'_btn').addClass('active');

@@ -198,3 +198,7 @@ iframe{
         font-size: 3.5rem;
     }
 }
+
+a.btn.btn-sm.btn-outline-secondary {
+    margin-left: 15px;
+}
