@@ -166,12 +166,12 @@ with open('./results/example.geojson', 'w') as geopoints:
     geojson.dump(points, geopoints)
 
 
-# GENERATE FILE
+# GENERATE SHAPEFILE
 
 shp = sf.Writer('./results/example')
 ini = open("./results/example.ini","w")
 data = open("./results/example.csv","w")
-params = ['Code','Farmer ID','Province','District','Subdistrict','Village']
+params = ['Code','name','category','region']
 subparams = ['Number of Plants','Pole Type','Variety','Commodity']
 
 ini.write('[general]\n')
@@ -181,10 +181,10 @@ ini.write('\n\n')
 ini.write('[columns]\n')
 
 for param in params:
-    if param == 'Farmer ID':
+    if param == 'name':
         shp.field(param,'N')
     else:
-        shp.field(param, 'C','40')
+        shp.field(param, 'C','100')
     ini.write(param.lower() + ' = ' + param + '\n')
 
 ini.write('\n\n')
@@ -198,6 +198,7 @@ for idx, fp in enumerate(farm_dict):
     district = 'unknown'
     subdistrict = 'unknown'
     village = 'unknown'
+    commodity = 'unknown'
     if fp['Registration Number'] is not None:
         reg_no = int(fp['Registration Number'])
     if fp['Province'] is not None:
@@ -208,8 +209,12 @@ for idx, fp in enumerate(farm_dict):
         subdistrict = fp['Subdistrict']
     if fp['Village'] is not None:
         village = fp['Village']
+    if fp['Commodity'] is not None:
+        commodity = fp['Commodity']
+        if fp['Variety'] is not None:
+            commodity += '|' + fp['Variety']
     shp.point(fp['Plot Area'][0],fp['Plot Area'][1])
-    shp.record(fp['Code'],reg_no, province, district, subdistrict, village)
+    shp.record(fp['Code'],reg_no, commodity , province+'|'+district+'|'+subdistrict+'|'+village)
     for subparam in subparams:
         if type(fp[subparam]) == float:
             fp[subparam] = int(fp[subparam])
