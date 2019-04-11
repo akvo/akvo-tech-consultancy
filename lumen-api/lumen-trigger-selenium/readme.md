@@ -8,8 +8,15 @@ Trigger update dataset on Akvo Lumen using headless browser.
 
 ## Usage 
 ```
-pip install -r requirements
+# Export Credential
 export KEYCLOAK_USER="YOUR_KEYCLOAK_USER"
 export KEYCLOAK_PWD="YOUR_KEYCLOAK_PWD"
+
+# Install Dependencies 
+pip install -r requirements
+
+# Run the app 
 python app.py
 ```
+
+Using Docker..soon
