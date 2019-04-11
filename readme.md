@@ -17,6 +17,7 @@ This repository contains Akvo Tools custom integration pack development.
 | UTZ | Automated Plots download. | Data Scripts |
 | Mali GOV | Bulk download forms data from a Flow instance. | Data Scripts |
 | ANU | Pooling Lumen Pages. | Website |
+| ANU | Lumen Trigger Updates. | Jobs |
 
 -------
 
