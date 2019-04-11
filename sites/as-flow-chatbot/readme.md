@@ -3,16 +3,20 @@ Webhook that return responses on interactive whatsapp chatbots.
 Akvo Flow data with Twillio Service (Sandbox). 
 This services requires Twillio account credential.
 
-# Running the Application 
+## Usage 
 
 ```
+# Edit the creadentials in run.sh
 # Install Requirements
 $ pip install -r requirements.txt
 
 # Serve the app 
+$ sh run.sh 
 
-$ python app.py
+# Check the logs
+$ tail -f nohup
 
-# Optional: Setup via NGINX / Apache
+# Stop the app
+$ sh kill.sh
 
 ```
