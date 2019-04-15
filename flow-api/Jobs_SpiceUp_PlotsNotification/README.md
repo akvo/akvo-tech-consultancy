@@ -4,7 +4,7 @@ Blast email from flow data transformed into html template.
 
 ## Usage
 
-```
+```bash
 $ export $KEYCLOAK_USER="YOUR_KEYCLOAK_USER"
 $ export $KEYCLOAK_PWD="YOUR_KEYCLOAK_PWD"
 
@@ -14,4 +14,4 @@ $ python app.py
 
 ## Example Output
 
-![jpg]['./images/example-output.jpg']
+![jpg][./images/example-output.jpg]
