@@ -1,6 +1,6 @@
 import sys
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 from pytz import utc, timezone
 import time
 from Akvo import Flow
@@ -37,11 +37,11 @@ def getAll(url):
     for dataPoint in formInstances:
         dataPoints.append(dataPoint)
     try:
-        print(checkTime(time.time()) + ':: GET DATA FROM[' + url + ']')
+        print(checkTime(time.time()) + ' GET DATA FROM[' + url + ']')
         url = data.get('nextPageUrl')
         getAll(url)
     except:
-        print(checkTime(time.time()) + ':: DOWNLOAD COMPLETE')
+        print(checkTime(time.time()) + ' DOWNLOAD COMPLETE')
         return "done"
 
 allResponses = {}
@@ -56,7 +56,7 @@ for form in forms:
         metadata = metas['questions'][index]
         getAll(formURI)
         output = pd.DataFrame(dataPoints)
-        print(checkTime(time.time()) + ':: TRANSFORMING')
+        print(checkTime(time.time()) + ' TRANSFORMING')
         for qst in metadata:
             qName = qst['name'].replace('_',' ')
             qId = str(qst['id'])
@@ -77,7 +77,7 @@ for form in forms:
     allResponses.update({form['name']:allGroups})
 
 
-fout = "./testing-real.html"
+fout = "./email.html"
 fo = open(fout, "w")
 EMAIL_SENDER = 'dedenbangkit@gmail.com'
 EMAIL_PASSWORD = 'Jalanremaja1208'
@@ -118,8 +118,9 @@ for k, v in allResponses.items():
                             'createdAt',
                             'surveyalTime',
                             'Plot Geopoint_long']
-            if dateWib.date() == today_date:
-                print(checkTime(time.time()) + ':: NEW DATA FOUND')
+            week_ago = today_date - timedelta(days=30)
+            if week_ago < dateWib.date() < today_date:
+                print(checkTime(time.time()) + ' NEW DATA FOUND')
                 metatext = '<ul>' + metaText + '</ul><hr style="border:dashed 1px #ddd;"><ul>'
                 fo.write('<div style="margin-bottom:10px;padding:10px;border:1px solid #ddd;"><h4 style="margin-left: 20px;"> + DATA '+ str(index) + '</h4>' + metatext)
                 for kval, ans in value.items():
@@ -171,7 +172,7 @@ msg['Subject'] = 'DO NOT REPLY: Testin for Demo Plot Email Notification'
 msg['To'] = ', '.join(EMAIL_RECEPIENTS)
 msg['From'] = EMAIL_SENDER
 
-print(checkTime(time.time()) + ':: SENDING EMAIL')
+print(checkTime(time.time()) + ' SENDING EMAIL')
 with open(fout) as fp:
     msg.attach(MIMEText(fp.read(), 'html'))
 
@@ -183,8 +184,8 @@ try:
             s.login(EMAIL_SENDER, os.environ['KEYCLOAK_PWD'])
             s.send_message(msg)
             s.quit()
-    print(checkTime(time.time()) + ':: EMAIL SENT')
+    print(checkTime(time.time()) + ' EMAIL SENT')
 except:
-    print(checkTime(time.time()) + ':: UNABLE TO SEND THE EMAIL. ERROR:',sys.exc_info()[0])
+    print(checkTime(time.time()) + ' UNABLE TO SEND THE EMAIL. ERROR:',sys.exc_info()[0])
     raise
 
