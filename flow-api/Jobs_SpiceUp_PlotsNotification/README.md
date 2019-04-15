@@ -14,4 +14,4 @@ $ python app.py
 
 ## Example Output
 
-![jpg][./images/example-output.jpg]
+![png](./images/example-output.png)
