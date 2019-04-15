@@ -1,34 +1,39 @@
 import requests as r
-import os, sys
+import os
+import logging
 
 class Flow:
-    def getToken():
-        authentification = {
+    tokenURI = 'https://login.akvo.org/auth/realms/akvo/protocol/openid-connect/token'
+    rtData = {
+        'client_id':'curl',
+        'username': os.environ['KEYCLOAK_USER'],
+        'password': os.environ['KEYCLOAK_PWD'],
+        'grant_type':'password',
+        'scope':'openid offline_access'
+    }
+
+    def refreshData():
+        tokens = r.post(Flow.tokenURI, Flow.rtData).json();
+        return tokens['refresh_token']
+
+    def getAccessToken():
+        account = {
             'client_id':'curl',
-            'username': os.environ['KEYCLOAK_USER'],
-            'password': os.environ['KEYCLOAK_PWD'],
-            'grant_type':'password',
+            'refresh_token': Flow.refreshData(),
+            'grant_type':'refresh_token'
         }
-        tokenURI = 'https://login.akvo.org/auth/realms/akvo/protocol/openid-connect/token'
-        tokens = r.post(tokenURI, authentification).json()
         try:
-            return tokens['refresh_token']
+            account = r.post(Flow.tokenURI, account).json();
         except:
-            print(tokens['error_description'])
-            sys.exit(1)
+            logging.error('FAILED: TOKEN ACCESS UNKNOWN')
+            return False
+        return account['access_token']
 
-    def getData(self, accessToken):
-        response = r.get(self, headers={
-            'Authorization':'Bearer ' + accessToken,
+    def getResponse(self):
+        header = {
+            'Authorization':'Bearer ' + Flow.getAccessToken(),
             'Accept': 'application/vnd.akvo.flow.v2+json',
             'User-Agent':'python-requests/2.14.2'
-        })
-        return response.json()
-
-    def postData(self, accessToken):
-        response = r.post(self, headers={
-            'Authorization':'Bearer ' + accessToken,
-            'Accept': 'application/vnd.akvo.flow.v2+json',
-            'User-Agent':'python-requests/2.14.2'
-        })
-        return response.json()
+        }
+        response = r.get(self, headers=header).json()
+        return response
