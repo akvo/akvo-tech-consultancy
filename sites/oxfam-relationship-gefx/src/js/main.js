@@ -10,7 +10,13 @@ var myChart = echarts.init(document.getElementById('mychart'));
 $.getJSON('output-table.json', function(json) {
         myChart.setOption({
             title: {
-                text: 'Goal and Attendance'
+                text: 'Oxfam Goals',
+                subtext: 'Data Source: Akvo Flow',
+                left: 'center',
+                top: 'top',
+                textStyle: {
+                    color: '#000'
+                }
             },
             animationDurationUpdate: 1500,
             animationEasingUpdate: 'quinticInOut',
@@ -49,8 +55,8 @@ $.getJSON('output-table.json', function(json) {
                 lineStyle: {
                     normal: {
                         width: .5,
-                        curveness: 0,
-                        opacity:.7
+                        curveness: .1,
+                        opacity:.3
                     }
                 }
             }]
