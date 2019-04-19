@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 set -eu
 
-log Done
+## Nothing to do. We are using a vanilla image from docker hub
