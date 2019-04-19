@@ -91,3 +91,17 @@ data:
 kind: ConfigMap
 metadata:
   name: tech-consultancy-gateway-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tech-consultancy-gateway
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+      name: http
+  selector:
+    run: tech-consultancy-gateway
