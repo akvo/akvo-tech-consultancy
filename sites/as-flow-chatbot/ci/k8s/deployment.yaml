@@ -1,0 +1,63 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: tech-consultancy-as-flow-chatbot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: tech-consultancy-as-flow-chatbot
+  template:
+    metadata:
+      labels:
+        run: tech-consultancy-as-flow-chatbot
+        code-version: $TRAVIS_COMMIT
+    spec:
+      containers:
+      - name: tech-consultancy-as-flow-chatbot
+        image: eu.gcr.io/akvo-lumen/tech-consultancy-as-flow-chatbot:${TRAVIS_COMMIT}
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+        resources:
+          requests:
+            cpu: 100m
+            memory: 200Mi
+          limits:
+            cpu: 1
+            memory: 200Mi
+        env:
+        - name: TWILLIO_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: tech-consultancy-as-flow-chatbot
+              key: twillio-token
+        - name: TWILLIO_SID
+          valueFrom:
+            secretKeyRef:
+              name: tech-consultancy-as-flow-chatbot
+              key: twillio-token
+        - name: KEYCLOAK_PWD
+          valueFrom:
+            secretKeyRef:
+              name: tech-consultancy-as-flow-chatbot
+              key: keycloak-pwd
+        - name: KEYCLOAK_USER
+          valueFrom:
+            secretKeyRef:
+              name: tech-consultancy-as-flow-chatbot
+              key: keycloak-user
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tech-consultancy-as-flow-chatbot
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      targetPort: 3000
+      protocol: TCP
+      name: http
+  selector:
+    run: tech-consultancy-as-flow-chatbot
