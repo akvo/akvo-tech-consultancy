@@ -70,14 +70,18 @@ data:
         text/plain
         text/html;
 
-    log_format upstream_time '$remote_addr - $remote_user [$time_local] "$request_method"'
-                                 ' $status $body_bytes_sent '
-                                 '"$http_referer" "$http_user_agent"'
+    log_format upstream_time '$remote_addr - $remote_user [$time_local] '
+                                 '"$request" $status $body_bytes_sent '
+                                 '"$http_referer" "$http_user_agent" '
                                  'rt=$request_time urt="$upstream_response_time"';
     server {
         listen       80 default_server;
 
         access_log  /var/log/nginx/access.log  upstream_time;
+
+        location / {
+          return 200 'ok';
+        }
 
         location ~ ^/(.*)/(.*)$ {
             proxy_set_header    Host $host;
