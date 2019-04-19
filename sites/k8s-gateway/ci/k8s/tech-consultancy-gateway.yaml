@@ -84,11 +84,14 @@ data:
         }
 
         location ~ ^/(.*)/(.*)$ {
+            proxy_pass          http://tech-consultancy-$1.default.svc.cluster.local/$2;
             proxy_set_header    Host $host;
             proxy_set_header    X-Real-IP $remote_addr;
             proxy_set_header    X-Forwarded-Host $host;
             proxy_set_header    X-Forwarded-Proto $http_x_forwarded_proto;
-            proxy_pass          http://tech-consultancy-$1/$2;
+
+            resolver kube-dns.kube-system.svc.cluster.local;
+
         }
 
     }
