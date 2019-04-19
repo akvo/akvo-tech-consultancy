@@ -11,7 +11,7 @@ spec:
     metadata:
       labels:
         run: tech-consultancy-as-flow-chatbot
-        code-version: $TRAVIS_COMMIT
+        code-version: ${TRAVIS_COMMIT}
     spec:
       containers:
       - name: tech-consultancy-as-flow-chatbot
