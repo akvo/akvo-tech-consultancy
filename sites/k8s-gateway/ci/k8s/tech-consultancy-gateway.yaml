@@ -83,8 +83,9 @@ data:
           return 200 'ok';
         }
 
-        location ~ ^/(.*)/(.*)$ {
-            proxy_pass          http://tech-consultancy-$1.default.svc.cluster.local/$2;
+
+        location ~ ^/([^/]*)/?(.*)$ {
+            proxy_pass          http://tech-consultancy-$1.default.svc.cluster.local/$2$is_args$args;
             proxy_set_header    Host $host;
             proxy_set_header    X-Real-IP $remote_addr;
             proxy_set_header    X-Forwarded-Host $host;
