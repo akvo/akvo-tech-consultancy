@@ -36,7 +36,7 @@ spec:
           valueFrom:
             secretKeyRef:
               name: tech-consultancy-as-flow-chatbot
-              key: twillio-token
+              key: twillio-sid
         - name: KEYCLOAK_PWD
           valueFrom:
             secretKeyRef:

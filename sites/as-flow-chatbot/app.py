@@ -227,7 +227,6 @@ def api():
     message = ""
     contents = request.get_data().decode('utf-8').split('&')
     response = transformSenderMessage(contents)
-    print(response)
     body = urllib.parse.unquote(urllib.parse.unquote(response['Body']))
     sender = urllib.parse.unquote(urllib.parse.unquote(response['From']))
     welcome = ['hi','hello','excuse me','hai']
