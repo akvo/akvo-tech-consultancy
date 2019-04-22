@@ -9,7 +9,7 @@ This directory contains the k8s deployment for this gateway.
 
 The setup:
 
-![setup](http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/akvo/akvo-tech-consultancy/sites/k8s-gateway/architecture.puml)
+![setup](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/akvo/akvo-tech-consultancy/master/sites/k8s-gateway/architecture.puml)
 
 So:
 
