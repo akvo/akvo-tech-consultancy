@@ -1,0 +1,12 @@
+nohup.out
+.ipynb_checkpoints/
+testing.ipynb
+error-log.log
+app/config.py
+kill.sh
+testing.ipynb
+.ipynb_checkpoints/
+test
+app/__pycache__
+*.ipynb
+.ipynb_checkpoints/
