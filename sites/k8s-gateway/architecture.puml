@@ -1,0 +1,26 @@
+@startuml
+actor browser
+node ingress as "Avko ingress"
+node gateway as "tech-consultancy-gateway"
+note right: owned by platforms
+
+artifact owned_by_tech_consultancy as "services" {
+
+node service as "tech-consultancy-chatbot"
+node service2 as "tech-consultancy-webhook"
+
+note "k8s service must start with 'tech-consultancy'" as service_name_restriction
+
+service .. service_name_restriction
+service2 .. service_name_restriction
+
+}
+note "Owned by tech consultancy" as tech_owned
+owned_by_tech_consultancy .. tech_owned
+
+browser --> ingress : https://tech-consultancy.akvotest.org/....
+ingress --> gateway
+gateway --> service : /chatbot/...
+gateway --> service2 :/webhook/...
+
+@enduml
