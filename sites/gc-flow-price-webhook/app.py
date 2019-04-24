@@ -10,7 +10,7 @@ from flask import Flask, jsonify, render_template
 from flask_socketio import SocketIO, emit
 
 app = Flask(__name__)
-socketio = SocketIO(app, async_mode='threading', path='/gc-flow-price-webhook')
+socketio = SocketIO(app, async_mode='threading')
 global runjob
 runjob = "inactive"
 

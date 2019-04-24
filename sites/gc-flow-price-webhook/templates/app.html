@@ -61,7 +61,7 @@ $("#trigger" ).click(function() {
     updateData();
 });
 
-var socket = io.connect(window.location.pathname + '/status');
+var socket = io.connect(window.location.pathname + 'status', {path:window.location.pathname});
 socket.on('response', function(response) {
     console.log(response);
     if (response.data === null) {
@@ -81,7 +81,7 @@ socket.on('response', function(response) {
 function updateData() {
     $.ajax({
         type: "GET",
-        url: window.location.pathname + "/update",
+        url: "update",
         success: function(data) {
            $('.status').text("No Update running, press update to update data");
            console.log(data)
