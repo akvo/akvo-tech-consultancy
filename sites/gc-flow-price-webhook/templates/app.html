@@ -61,7 +61,7 @@ $("#trigger" ).click(function() {
     updateData();
 });
 
-var socket = io.connect('/status');
+var socket = io.connect('/gc-flow-price-webhook/status');
 socket.on('response', function(response) {
     console.log(response);
     if (response.data === null) {
@@ -81,7 +81,7 @@ socket.on('response', function(response) {
 function updateData() {
     $.ajax({
         type: "GET",
-        url: "/update",
+        url: "/gc-flow-price-webhook/update",
         success: function(data) {
            $('.status').text("No Update running, press update to update data");
            console.log(data)
