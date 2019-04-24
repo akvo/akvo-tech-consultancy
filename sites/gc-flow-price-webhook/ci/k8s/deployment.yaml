@@ -30,12 +30,12 @@ spec:
         - name: KEYCLOAK_PWD
           valueFrom:
             secretKeyRef:
-              name: pricing-integration-greencoffee 
+              name: tech-consultancy-gc-flow-price-webhook
               key: keycloak-pwd
         - name: KEYCLOAK_USER
           valueFrom:
             secretKeyRef:
-              name: pricing-integration-greencoffee 
+              name: tech-consultancy-gc-flow-price-webhook
               key: keycloak-user
 ---
 apiVersion: v1
