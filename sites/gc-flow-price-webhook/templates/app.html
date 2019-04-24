@@ -50,7 +50,8 @@
 
 <script type="text/javascript">
     
-var socket = io.connect('/status', {path:window.location.pathname + 'socket.io/'});
+var pathname = window.location.pathname
+var socket = io.connect(pathname, {path:pathname + 'socket.io/'});
 socket.on('response', function(response) {
     console.log(response.data);
     if (response.data === null) {
@@ -67,7 +68,7 @@ socket.on('response', function(response) {
 $("#trigger" ).on('click', function() {
     $.ajax({
         type: "GET",
-        url: "update",
+        url: pathname + "update",
         success: function(data) {
            console.log(data.response)
         }
