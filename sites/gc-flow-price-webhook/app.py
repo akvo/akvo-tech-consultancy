@@ -11,7 +11,6 @@ from flask_socketio import SocketIO, emit
 
 app = Flask(__name__)
 socketio = SocketIO(app, async_mode='threading')
-
 global runjob
 runjob = "inactive"
 
@@ -36,6 +35,11 @@ headers = {'Content-Type': 'application/x-www-form-urlencoded'}
 
 def bthread(data):
     emit('response', {'data':data}, namespace='/status', broadcast=True)
+    socketio.sleep(0)
+
+@socketio.on('connect', namespace='/status')
+def connect():
+    emit('response', {'data':runjob}, namespace='/status', broadcast=True)
     socketio.sleep(0)
 
 ### UPDATER
@@ -232,6 +236,8 @@ def startUpdate():
     global payload
     global posts
     global data_update
+    global runjob
+    runjob = "active"
     results = {}
     date_mark = []
     payload = []
@@ -268,7 +274,9 @@ def startUpdate():
         print('\n--- DATA NOT FOUND ---\n')
         bthread('\n--- DATA NOT FOUND ---\n')
     print('\n--- CRON JOB FINISHED ---\n')
+    runjob = "inactive"
     bthread('\n--- CRON JOB FINISHED ---\n')
+    bthread(runjob)
 
 @app.route('/')
 def main():
@@ -276,15 +284,8 @@ def main():
 
 @app.route('/update')
 def update():
-    global runjob
-    runjob = "active"
     startUpdate()
-    runjob = "inactive"
     return jsonify('Success')
-
-@socketio.on('disconnect', namespace='/status')
-def discon():
-    socketio.disconnect()
 
 if __name__ == '__main__':
     app.jinja_env.auto_reload = True
