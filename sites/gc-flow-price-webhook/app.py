@@ -34,12 +34,12 @@ headers = {'Content-Type': 'application/x-www-form-urlencoded'}
 ### SocketIO
 
 def bthread(data):
-    emit('response', {'data':data}, namespace='/status', broadcast=True)
+    emit('response', {'data':data}, namespace='/gc-flow-price-webhook/status', broadcast=True)
     socketio.sleep(0)
 
-@socketio.on('connect', namespace='/status')
+@socketio.on('connect', namespace='/gc-flow-price-webhook/status')
 def connect():
-    emit('response', {'data':runjob}, namespace='/status', broadcast=True)
+    emit('response', {'data':runjob}, namespace='/gc-flow-price-webhook/status', broadcast=True)
     socketio.sleep(0)
 
 ### UPDATER
@@ -261,13 +261,8 @@ def startUpdate():
             bthread(logTime('INFO') + ' COLLECTING FIRST PRICE!')
         for pld in payload:
             posts.append(post_data(pld))
-        from tabulate import tabulate
-        tb = pd.DataFrame(payload)
-        tb = tb[['date','uid','agency','commodity','value']]
-        tb = tb.to_dict(orient='list')
         print('\n--- DONE UPDATING ---\n')
         bthread('\n--- DONE UPDATING ---\n')
-        print(tabulate(tb, headers='keys', tablefmt='fancy_grid'))
     except:
         print('\n--- DATA NOT FOUND ---\n')
         bthread('\n--- DATA NOT FOUND ---\n')
@@ -275,6 +270,7 @@ def startUpdate():
     runjob = "inactive"
     bthread('\n--- CRON JOB FINISHED ---\n')
     bthread(runjob)
+    return True
 
 @app.route('/')
 def main():

@@ -50,7 +50,7 @@
 
 <script type="text/javascript">
     
-var socket = io.connect('https://tech-consultancy.akvotest.org/gc-flow-price-webhook/status');
+    var socket = io.connect('/gc-flow-price-webhook/status');
 socket.on('response', function(response) {
     console.log(response.data);
     if (response.data === null) {
