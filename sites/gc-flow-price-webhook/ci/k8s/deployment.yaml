@@ -1,0 +1,53 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: tech-consultancy-gc-flow-price-webhook
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: tech-consultancy-gc-flow-price-webhook
+  template:
+    metadata:
+      labels:
+        run: tech-consultancy-gc-flow-price-webhook
+        code-version: ${TRAVIS_COMMIT}
+    spec:
+      containers:
+      - name: tech-consultancy-gc-flow-price-webhook
+        image: eu.gcr.io/akvo-lumen/tech-consultancy-gc-flow-price-webhook:${TRAVIS_COMMIT}
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+        resources:
+          requests:
+            cpu: 100m
+            memory: 200Mi
+          limits:
+            cpu: 1
+            memory: 200Mi
+        env:
+        - name: KEYCLOAK_PWD
+          valueFrom:
+            secretKeyRef:
+              name: pricing-integration-greencoffee 
+              key: keycloak-pwd
+        - name: KEYCLOAK_USER
+          valueFrom:
+            secretKeyRef:
+              name: pricing-integration-greencoffee 
+              key: keycloak-user
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tech-consultancy-gc-flow-price-webhook
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      targetPort: 3000
+      protocol: TCP
+      name: http
+  selector:
+    run: tech-consultancy-gc-flow-price-webhook

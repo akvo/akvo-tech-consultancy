@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.slim.js"></script>
+<style>
+    body{
+        margin:0px;
+    }
+    button{
+        min-width: 100%;
+        padding: 6px 5px 5px 0;
+        color: #484848;
+        font-size: 12px;
+        font-weight: bold;
+        display: block;
+        background-image: linear-gradient(#ffffff, #969696);
+        cursor: pointer;
+    }
+    button:hover{
+        color: #FFF;
+        background-image: linear-gradient(#bb2929, #760100);
+    }
+    span.status{
+        font-size: small;
+        text-transform: uppercase;
+        display: block;
+        min-width: 100%;
+        width: 100%;
+        text-align: center;
+        padding: 5px;
+        background: #000;
+        color: #45de0a;
+        font-family: monospace;
+    }
+</style>
+</head>
+<body>
+    {% if data.job == "active" %}
+    <button id="disabled" href="#">UPDATE</button>
+    {% else %}
+    <button id="trigger" href="#">UPDATE</button>
+    {% endif %}
+    <div><span class="status">
+        {% if data.job == "active" %}
+            Update is running, please wait until it's done
+        {% else %}
+            No Update running, press update to update data 
+        {% endif %}
+        </span></div>
+    <script type="text/javascript">
+        $("#trigger" ).click(function() {
+            updateData();
+        });
+
+function connectIO() {
+    var socket = io.connect('/status');
+    socket.on('response', function(response) {
+        if (response.data === null) {
+            $('.fa-refresh').removeClass('fa-spin');
+            $('.status').text('test');
+            socket.emit('disconnect');
+            $('button').prop('disabled', false);
+            console.log(response);
+        } else {
+            $('.status').text(response.data);
+            console.log(response);
+        }
+    });
+}
+
+function updateData() {
+    var socket = io.connect('/status');
+    $('#trigger').attr('disabled', true);
+    socket.on('response', function(response) {
+        if (response.data === null) {
+            $('.fa-refresh').removeClass('fa-spin');
+            $('.status').text('test');
+            socket.emit('disconnect');
+            $('button').prop('disabled', false);
+            console.log(response);
+        } else {
+            $('.status').text(response.data);
+            console.log(response);
+        }
+    });
+    $.ajax({
+        type: "GET",
+        url: "/update",
+        success: function(data) {
+           socket.disconnect();
+           $('.status').text("No Update running, press update to update data");
+           console.log(data)
+        }
+    });
+    return false;
+};
+
+{% if data.job == "active" %}
+    connectIO()
+{% endif %}
+
+    </script>
+</body>
+</html>
