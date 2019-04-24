@@ -61,7 +61,7 @@ $("#trigger" ).click(function() {
     updateData();
 });
 
-var socket = io.connect(window.location.pathname + 'status', {path:window.location.pathname});
+var socket = io.connect(window.location.pathname + 'status', {path:window.location.pathname + 'socket.io/'});
 socket.on('response', function(response) {
     console.log(response);
     if (response.data === null) {
