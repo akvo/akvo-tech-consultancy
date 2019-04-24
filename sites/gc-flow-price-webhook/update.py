@@ -1,3 +1,12 @@
+# User Submit Data before 9.30 sync fresh date no duplicate
+# User Submit Date 9.35 -> will be available after 9.45 : second sync
+# User Submit Data twice before 9.30 latest data is available in IPSARD
+# User Submit Data at 9.20 data is available in IPSARD at 9.30
+# User Submit New Data at 9.40, at 9.45 data is replaced by this new data
+# User Submit Data at 9.20, data is available in IPSARD at 9.30, and Submit same data at 9.40.
+# Data is Submitted at 1 PM today, not sent tomorrow
+
+
 from datetime import datetime
 from pytz import utc, timezone
 from lxml import etree as et
@@ -6,17 +15,14 @@ import pandas as pd
 import xmltodict
 import requests as r
 import logging
-from flask import Flask, jsonify, render_template
-from flask_socketio import SocketIO, emit
-
-app = Flask(__name__)
-socketio = SocketIO(app, async_mode='threading')
-
-global runjob
-runjob = "inactive"
-
 
 logging.basicConfig(level=logging.WARN)
+results = {}
+date_mark = []
+payload = []
+posts = []
+data_update = []
+
 user_ids = ['230','236','233','222','238','228','235','217','234','11','226','231','237','239','10']
 cdate = datetime.strftime(datetime.today().date(), '%Y-%m-%d')
 
@@ -25,20 +31,13 @@ instanceURI = 'greencoffee'
 requestURI = 'https://api.akvo.org/flow/orgs/' + instanceURI
 folderID = '30240002'
 
-### PARAMS PRODUCTION
+# PRODUCTION
 website = 'http://giacaphe.ipsard.gov.vn/WebService.asmx'
+#website = 'http://118.70.171.49:64977/WebService.asmx'
 keymd5 = '?keymd5=c946415addc376cc50c91956a51823f1&'
 dateFormat = '%Y-%m-%dT%H:%M:%S'
 checkURI = website +'/select_price_by_date_and_ACC_ID'  + keymd5
 headers = {'Content-Type': 'application/x-www-form-urlencoded'}
-
-### SocketIO
-
-def bthread(data):
-    emit('response', {'data':data}, namespace='/status', broadcast=True)
-    socketio.sleep(0)
-
-### UPDATER
 
 def logTime(error_code):
     now = datetime.now()
@@ -70,11 +69,9 @@ def post_data(keyval):
         else:
             log = logTime('SUCCESS') + 'INPUT ID:' + return_id + ' - NEW RECORD'
         print(log)
-        bthread(log)
     except xmltodict.expat.ExpatError:
         log = logTime('ERROR') + req.text
         print(log)
-        bthread(log)
     return keyval
 
 def push_data(datapoints_url, submitter_id, submitter_name, meta, meta_id):
@@ -130,19 +127,15 @@ def appending(meta,data,submitter_id,submit_date,submitter_name):
                 latest = datetime.strptime(results[unique][0]['date'],'%Y-%m-%d %H:%M:%S')
                 newest = datetime.strptime(d_val,'%Y-%m-%d %H:%M:%S')
                 print(logTime('WARNING') + submitter_name.upper() + ' REPLACED PRICE!')
-                bthread(logTime('WARNING') + submitter_name.upper() + ' REPLACED PRICE!')
                 if latest < newest:
                     add_results(unique,values,code, submitter_id, False)
                     print(logTime('INFO') + 'REPLACED WITH NEW VALUE!')
-                    bthread(logTime('INFO') + 'REPLACED WITH NEW VALUE!')
                 else:
                     print(logTime('INFO') + 'PASS VALUE!')
-                    bthread(logTime('INFO') + 'PASS VALUE!')
                     pass
             except:
                 add_results(unique,values,code, submitter_id, True)
                 print(logTime('INFO') + submitter_name.upper() + ' SENT NEW PRICE!')
-                bthread(logTime('INFO') + submitter_name.upper() + ' SENT NEW PRICE!')
                 print(logTime('INFO') + 'ADDED NEW VALUE!')
         else:
             pass
@@ -216,81 +209,38 @@ def checkAvailable(payload):
         'value_y':'value'
     })
     print(logTime('INFO') + ' ' + str(len(payload)) + ' AKVO FLOW RECORDS')
-    bthread(logTime('INFO') + ' ' + str(len(payload)) + ' AKVO FLOW RECORDS')
     print(logTime('INFO') + ' ' + str(len(old_input)) + ' IPSARD RECORDS')
-    bthread(logTime('INFO') + ' ' + str(len(old_input)) + ' IPSARD RECORDS')
     print(logTime('INFO') + ' ' + str(len(merged_input.to_dict('records'))) + ' MERGED RECORDS')
-    bthread(logTime('INFO') + ' ' + str(len(merged_input.to_dict('records'))) + ' MERGED RECORDS')
     new_batch = merged_input.to_dict('records')
     for batch in new_batch:
         fillFloat(batch)
     return new_batch
 
-def startUpdate():
-    global results
-    global date_mark
-    global payload
-    global posts
-    global data_update
-    results = {}
-    date_mark = []
-    payload = []
-    posts = []
-    data_update = []
-    print('\n--- CRON JOB IS STARTED ---\n')
-    bthread('--- CRON JOB IS STARTED ---')
-    for user_id in user_ids:
-        getOldData(user_id)
-    execute('30240002')
-    try:
-        print('\n--- BULK POST STARTING ---\n')
-        bthread('\n--- BULK POST STARTING ---\n')
-        for dm in date_mark:
-            for res in results[dm]:
-                payload.append(res)
-        if len(data_update) > 0:
-            print(logTime('INFO') + ' COLLECTING LATEST PRICE!')
-            bthread(logTime('INFO') + ' COLLECTING LATEST PRICE!')
-            payload = checkAvailable(payload)
-        else:
-            print(logTime('INFO') + ' COLLECTING FIRST PRICE!')
-            bthread(logTime('INFO') + ' COLLECTING FIRST PRICE!')
-        for pld in payload:
-            posts.append(post_data(pld))
-        from tabulate import tabulate
-        tb = pd.DataFrame(payload)
-        tb = tb[['date','uid','agency','commodity','value']]
-        tb = tb.to_dict(orient='list')
-        print('\n--- DONE UPDATING ---\n')
-        bthread('\n--- DONE UPDATING ---\n')
-        print(tabulate(tb, headers='keys', tablefmt='fancy_grid'))
-    except:
-        print('\n--- DATA NOT FOUND ---\n')
-        bthread('\n--- DATA NOT FOUND ---\n')
-    print('\n--- CRON JOB FINISHED ---\n')
-    bthread('\n--- CRON JOB FINISHED ---\n')
+print('\n--- CRON JOB IS STARTED ---\n')
+for user_id in user_ids:
+    getOldData(user_id)
 
-@app.route('/')
-def main():
-    return render_template('app.html',data = {"job":runjob}, sync_mode=socketio.async_mode)
+execute('30240002')
 
-@app.route('/update')
-def update():
-    global runjob
-    runjob = "active"
-    startUpdate()
-    runjob = "inactive"
-    return jsonify('Success')
+try:
+    print('\n--- BULK POST STARTING ---\n')
+    for dm in date_mark:
+        for res in results[dm]:
+            payload.append(res)
+    if len(data_update) > 0:
+        print(logTime('INFO') + ' COLLECTING LATEST PRICE!')
+        payload = checkAvailable(payload)
+    else:
+        print(logTime('INFO') + ' COLLECTING FIRST PRICE!')
+    for pld in payload:
+        posts.append(post_data(pld))
+    from tabulate import tabulate
+    tb = pd.DataFrame(payload)
+    tb = tb[['date','uid','agency','commodity','value']]
+    tb = tb.to_dict(orient='list')
+    print('\n--- DONE UPDATING ---\n')
+    print(tabulate(tb, headers='keys', tablefmt='fancy_grid'))
+except:
+    print('\n--- DATA NOT FOUND ---\n')
 
-@socketio.on('disconnect', namespace='/status')
-def discon():
-    socketio.disconnect()
-
-if __name__ == '__main__':
-    app.jinja_env.auto_reload = True
-    app.config.update(
-        DEBUG=True,
-        TEMPLATES_AUTO_RELOAD=True
-    )
-    #app.run(host='0.0.0.0', port=8080)
-    socketio.run(app, host='0.0.0.0', port=3000, debug=True)
+print('\n--- CRON JOB FINISHED ---\n')
