@@ -34,12 +34,12 @@ headers = {'Content-Type': 'application/x-www-form-urlencoded'}
 ### SocketIO
 
 def bthread(data):
-    emit('response', {'data':data}, namespace='/gc-flow-price-webhook', broadcast=True)
+    emit('response', {'data':data}, namespace='/status', broadcast=True)
     socketio.sleep(0)
 
-@socketio.on('connect', namespace='/gc-flow-price-webhook')
+@socketio.on('connect', namespace='/status')
 def connect():
-    emit('response', {'data':runjob}, namespace='/gc-flow-price-webhook', broadcast=True)
+    emit('response', {'data':runjob}, namespace='/status', broadcast=True)
     socketio.sleep(0)
 
 ### UPDATER

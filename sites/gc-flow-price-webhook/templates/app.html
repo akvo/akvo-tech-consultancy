@@ -50,8 +50,7 @@
 
 <script type="text/javascript">
     
-var pathname = window.location.pathname
-var socket = io.connect(pathname, {path:pathname + 'socket.io/'});
+var socket = io.connect('https://tech-consultancy.akvotest.org/gc-flow-price-webhook/status');
 socket.on('response', function(response) {
     console.log(response.data);
     if (response.data === null) {
@@ -68,7 +67,7 @@ socket.on('response', function(response) {
 $("#trigger" ).on('click', function() {
     $.ajax({
         type: "GET",
-        url: pathname + "update",
+        url: "/gc-flow-price-webhook/update",
         success: function(data) {
            console.log(data.response)
         }
