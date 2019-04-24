@@ -35,9 +35,6 @@
         color: #45de0a;
         font-family: monospace;
     }
-    .hidden{
-        display:None;
-    }
 </style>
 </head>
 <body>
@@ -53,10 +50,9 @@
 
 <script type="text/javascript">
     
-
 var socket = io.connect('/status', {path:window.location.pathname + 'socket.io/'});
 socket.on('response', function(response) {
-    console.log(response);
+    console.log(response.data);
     if (response.data === null) {
         $('.status').text('ERROR');
     } else if (response.data === 'inactive'){
@@ -73,8 +69,7 @@ $("#trigger" ).on('click', function() {
         type: "GET",
         url: "update",
         success: function(data) {
-           $('.status').text("No Update running, press update to update data");
-           console.log(data)
+           console.log(data.response)
         }
     });
 });

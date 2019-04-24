@@ -10,7 +10,7 @@ from flask import Flask, jsonify, render_template
 from flask_socketio import SocketIO, emit
 
 app = Flask(__name__)
-socketio = SocketIO(app, async_mode='threading')
+socketio = SocketIO(app, async_mode='threading', path='/gc-flow-price-webhook/socket_io')
 global runjob
 runjob = "inactive"
 
@@ -34,12 +34,12 @@ headers = {'Content-Type': 'application/x-www-form-urlencoded'}
 ### SocketIO
 
 def bthread(data):
-    emit('response', {'data':data}, namespace='/status', broadcast=True)
+    emit('response', {'data':data}, namespace='status', broadcast=True)
     socketio.sleep(0)
 
-@socketio.on('connect', namespace='/gc-flow-price-webhook/status')
+@socketio.on('connect', namespace='status')
 def connect():
-    emit('response', {'data':runjob}, namespace='/status', broadcast=True)
+    emit('response', {'data':runjob}, namespace='status', broadcast=True)
     socketio.sleep(0)
 
 ### UPDATER
@@ -283,7 +283,7 @@ def main():
 @app.route('/update')
 def update():
     startUpdate()
-    return jsonify('Success')
+    return jsonify({'response':'success'})
 
 if __name__ == '__main__':
     app.config.update(DEBUG=True)
