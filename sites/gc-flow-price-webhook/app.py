@@ -14,6 +14,7 @@ socketio = SocketIO(app, async_mode='threading')
 global runjob
 runjob = "inactive"
 
+
 logging.basicConfig(level=logging.WARN)
 user_ids = ['230','236','233','222','238','228','235','217','234','11','226','231','237','239','10']
 cdate = datetime.strftime(datetime.today().date(), '%Y-%m-%d')
@@ -33,12 +34,12 @@ headers = {'Content-Type': 'application/x-www-form-urlencoded'}
 ### SocketIO
 
 def bthread(data):
-    emit('response', {'data':data}, namespace='/gc-flow-price-webhook/status', broadcast=True)
+    emit('response', {'data':data}, namespace='/status', broadcast=True)
     socketio.sleep(0)
 
 @socketio.on('connect', namespace='/gc-flow-price-webhook/status')
 def connect():
-    emit('response', {'data':runjob}, namespace='/gc-flow-price-webhook/status', broadcast=True)
+    emit('response', {'data':runjob}, namespace='/status', broadcast=True)
     socketio.sleep(0)
 
 ### UPDATER
@@ -112,10 +113,8 @@ def get_data(survey_url):
 def appending(meta,data,submitter_id,submit_date,submitter_name):
     for idt, dt in enumerate(data):
         d_ori = datetime.strptime(submit_date[idt], '%Y-%m-%dT%H:%M:%SZ')
-        #d_ori = datetime.strptime(submit_date[idt], '%Y-%m-%dT%H:%M:%SZ') - timedelta(days=1)
         d_here = utc.localize(d_ori).astimezone(timezone('Asia/Singapore'))
         today_date = datetime.today().date()
-        #yesterday = (datetime.now() - timedelta(days=1)).date()
         if d_here.date() == today_date:
             unique = datetime.strftime(d_ori, '%Y-%m-%d')
             d_val = datetime.strftime(d_here, '%Y-%m-%d %H:%M:%S')
@@ -287,9 +286,5 @@ def update():
     return jsonify('Success')
 
 if __name__ == '__main__':
-    app.jinja_env.auto_reload = True
-    app.config.update(
-        DEBUG=True,
-        TEMPLATES_AUTO_RELOAD=True
-    )
+    app.config.update(DEBUG=True)
     socketio.run(app, host='0.0.0.0', port=3000, debug=True)
