@@ -10,10 +10,9 @@ from flask import Flask, jsonify, render_template
 from flask_socketio import SocketIO, emit
 
 app = Flask(__name__)
-socketio = SocketIO(app, async_mode='threading')
+socketio = SocketIO(app, async_mode='threading', path='/gc-flow-price-webhook')
 global runjob
 runjob = "inactive"
-
 
 logging.basicConfig(level=logging.WARN)
 user_ids = ['230','236','233','222','238','228','235','217','234','11','226','231','237','239','10']
@@ -293,5 +292,4 @@ if __name__ == '__main__':
         DEBUG=True,
         TEMPLATES_AUTO_RELOAD=True
     )
-    #app.run(host='0.0.0.0', port=8080)
     socketio.run(app, host='0.0.0.0', port=3000, debug=True)
