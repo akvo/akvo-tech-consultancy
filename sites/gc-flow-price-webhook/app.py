@@ -291,7 +291,7 @@ def main():
 @app.route('/update')
 def update():
     update_thread = threading.Thread(target=startUpdate)
-    update_thread.start()
+    update_thread.run()
     return jsonify({'response':runjob})
 
 
