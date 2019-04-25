@@ -22,7 +22,7 @@ $.getJSON('output-table.json', function(json) {
             animationEasingUpdate: 'quinticInOut',
             series: [{
                 type: 'graph',
-                layout: 'none',
+                layout: 'circular',
                 // progressiveThreshold: 700,
                 data: json.nodes.map(function(node) {
                     return {
@@ -54,9 +54,9 @@ $.getJSON('output-table.json', function(json) {
                 focusNodeAdjacency: true,
                 lineStyle: {
                     normal: {
-                        width: .5,
-                        curveness: .1,
-                        opacity:.3
+                        width: 1,
+                        curveness: .4,
+                        opacity:.4
                     }
                 }
             }]

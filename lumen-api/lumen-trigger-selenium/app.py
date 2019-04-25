@@ -18,7 +18,7 @@ password = os.environ['KEYCLOAK_PWD']
 f = open('log','a')
 
 options = Options()
-options.add_argument('--headless')
+#options.add_argument('--headless')
 options.add_argument('--no-sandbox')
 options.add_argument('--disable-dev-shm-usage')
 driver = webdriver.Chrome(options=options)

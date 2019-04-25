@@ -226,6 +226,7 @@ def transformSenderMessage(contents):
 def api():
     message = ""
     contents = request.get_data().decode('utf-8').split('&')
+    print(contents)
     response = transformSenderMessage(contents)
     body = urllib.parse.unquote(urllib.parse.unquote(response['Body']))
     sender = urllib.parse.unquote(urllib.parse.unquote(response['From']))
