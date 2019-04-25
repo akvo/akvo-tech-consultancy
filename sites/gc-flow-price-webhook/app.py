@@ -10,7 +10,7 @@ from flask import Flask, jsonify, render_template
 from flask_socketio import SocketIO, emit
 
 app = Flask(__name__)
-socketio = SocketIO(app, async_mode='threading', path='/gc-flow-price-webhook')
+socketio = SocketIO(app, async_mode='threading', path='/gc-flow-price-webhook/socket_io')
 global runjob
 runjob = "inactive"
 
@@ -25,7 +25,8 @@ requestURI = 'https://api.akvo.org/flow/orgs/' + instanceURI
 folderID = '30240002'
 
 ### PARAMS PRODUCTION
-website = 'http://giacaphe.ipsard.gov.vn/WebService.asmx'
+#website = 'http://giacaphe.ipsard.gov.vn/WebService.asmx'
+website = 'http://118.70.171.49:64977/WebService.asmx'
 keymd5 = '?keymd5=c946415addc376cc50c91956a51823f1&'
 dateFormat = '%Y-%m-%dT%H:%M:%S'
 checkURI = website +'/select_price_by_date_and_ACC_ID'  + keymd5

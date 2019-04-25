@@ -67,7 +67,7 @@ socket.on('response', function(response) {
 $("#trigger" ).on('click', function() {
     $.ajax({
         type: "GET",
-        url: "update",
+        url: window.location.pathname + "update",
         success: function(data) {
            console.log(data.response)
         }
