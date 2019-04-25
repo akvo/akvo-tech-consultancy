@@ -282,6 +282,7 @@ def update():
     startUpdate()
     return jsonify({'response':'success'})
 
+
 if __name__ == '__main__':
     app.config.update(DEBUG=True)
     socketio.run(app, host='0.0.0.0', port=3000, debug=True)
