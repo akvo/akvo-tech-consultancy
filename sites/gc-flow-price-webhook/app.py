@@ -6,6 +6,7 @@ import pandas as pd
 import xmltodict
 import requests as r
 import logging
+import threading
 from flask import Flask, jsonify, render_template
 from flask_socketio import SocketIO, emit
 
@@ -83,7 +84,6 @@ def post_data(keyval):
     return keyval
 
 def push_data(datapoints_url, submitter_id, submitter_name, meta, meta_id):
-    print(datapoints_url)
     src = Flow.getResponse(datapoints_url)
     sources = src.get('formInstances')
     if len(sources) > 0:
@@ -130,7 +130,6 @@ def appending(meta,data,submitter_id,submit_date,submitter_name):
                 else:
                     values.update({row['variableName']:dt[row['id']]})
             code = values['code'].split('_')
-            print(str(code) + "---->" + str(d_here.date()) + "---->" + str(today_date))
             try:
                 latest = datetime.strptime(results[unique][0]['date'],'%Y-%m-%d %H:%M:%S')
                 newest = datetime.strptime(d_val,'%Y-%m-%d %H:%M:%S')
@@ -262,8 +261,8 @@ def startUpdate():
         else:
             print(logTime('INFO') + ' COLLECTING FIRST PRICE!')
             bthread(logTime('INFO') + ' COLLECTING FIRST PRICE!')
-        # for pld in payload:
-            # posts.append(post_data(pld))
+        for pld in payload:
+            posts.append(post_data(pld))
         print('\n--- DONE UPDATING ---\n')
         bthread('\n--- DONE UPDATING ---\n')
     except:
@@ -281,7 +280,11 @@ def main():
 
 @app.route('/update')
 def update():
-    startUpdate()
+    if runjob == "inactive":
+        update_thread = threading.Thread(target=startUpdate)
+        update_thread.start()
+    else:
+        pass
     return jsonify({'response':'success'})
 
 
