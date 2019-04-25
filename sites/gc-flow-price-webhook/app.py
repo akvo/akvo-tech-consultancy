@@ -15,6 +15,8 @@ socketio = SocketIO(app, async_mode='threading')
 global runjob
 runjob = "inactive"
 
+global workInProgressLock
+workInProgressLock = threading.Lock()
 
 logging.basicConfig(level=logging.WARN)
 user_ids = ['230','236','233','222','238','228','235','217','234','11','226','231','237','239','10']
@@ -231,47 +233,55 @@ def checkAvailable(payload):
     return new_batch
 
 def startUpdate():
+
+    if not workInProgressLock.acquire(False):
+        return False
+
     global results
     global date_mark
     global payload
     global posts
     global data_update
     global runjob
-    runjob = "active"
-    results = {}
-    date_mark = []
-    payload = []
-    posts = []
-    data_update = []
-    print('\n--- CRON JOB IS STARTED ---\n')
-    bthread('--- CRON JOB IS STARTED ---')
-    for user_id in user_ids:
-        getOldData(user_id)
-    execute('30240002')
+
     try:
-        print('\n--- BULK POST STARTING ---\n')
-        bthread('\n--- BULK POST STARTING ---\n')
-        for dm in date_mark:
-            for res in results[dm]:
-                payload.append(res)
-        if len(data_update) > 0:
-            print(logTime('INFO') + ' COLLECTING LATEST PRICE!')
-            bthread(logTime('INFO') + ' COLLECTING LATEST PRICE!')
-            payload = checkAvailable(payload)
-        else:
-            print(logTime('INFO') + ' COLLECTING FIRST PRICE!')
-            bthread(logTime('INFO') + ' COLLECTING FIRST PRICE!')
-        for pld in payload:
-            posts.append(post_data(pld))
-        print('\n--- DONE UPDATING ---\n')
-        bthread('\n--- DONE UPDATING ---\n')
-    except:
-        print('\n--- DATA NOT FOUND ---\n')
-        bthread('\n--- DATA NOT FOUND ---\n')
-    print('\n--- CRON JOB FINISHED ---\n')
-    runjob = "inactive"
-    bthread('\n--- CRON JOB FINISHED ---\n')
-    bthread(runjob)
+        runjob = "active"
+        results = {}
+        date_mark = []
+        payload = []
+        posts = []
+        data_update = []
+        print('\n--- CRON JOB IS STARTED ---\n')
+        bthread('--- CRON JOB IS STARTED ---')
+        for user_id in user_ids:
+            getOldData(user_id)
+        execute('30240002')
+        try:
+            print('\n--- BULK POST STARTING ---\n')
+            bthread('\n--- BULK POST STARTING ---\n')
+            for dm in date_mark:
+                for res in results[dm]:
+                    payload.append(res)
+            if len(data_update) > 0:
+                print(logTime('INFO') + ' COLLECTING LATEST PRICE!')
+                bthread(logTime('INFO') + ' COLLECTING LATEST PRICE!')
+                payload = checkAvailable(payload)
+            else:
+                print(logTime('INFO') + ' COLLECTING FIRST PRICE!')
+                bthread(logTime('INFO') + ' COLLECTING FIRST PRICE!')
+            for pld in payload:
+                posts.append(post_data(pld))
+            print('\n--- DONE UPDATING ---\n')
+            bthread('\n--- DONE UPDATING ---\n')
+        except:
+            print('\n--- DATA NOT FOUND ---\n')
+            bthread('\n--- DATA NOT FOUND ---\n')
+    finally:
+        runjob = "inactive"
+        workInProgressLock.release()
+        print('\n--- CRON JOB FINISHED ---\n')
+        bthread('\n--- CRON JOB FINISHED ---\n')
+        bthread(runjob)
     return True
 
 @app.route('/')
@@ -280,11 +290,8 @@ def main():
 
 @app.route('/update')
 def update():
-    if runjob == "inactive":
-        update_thread = threading.Thread(target=startUpdate)
-        update_thread.start()
-    else:
-        pass
+    update_thread = threading.Thread(target=startUpdate)
+    update_thread.start()
     return jsonify({'response':runjob})
 
 
