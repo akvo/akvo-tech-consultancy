@@ -49,7 +49,7 @@
         </span></div>
 
 <script type="text/javascript">
-    var socket = io.connect(window.location.pathname + 'status', {path:window.location.pathname + 'socket.io/'});
+    var socket = io.connect('/status', {path:window.location.pathname + 'socket.io/'});
 socket.on('response', function(response) {
     console.log(response.data);
     if (response.data === null) {
