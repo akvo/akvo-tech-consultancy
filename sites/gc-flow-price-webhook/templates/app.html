@@ -68,7 +68,14 @@ $("#trigger" ).on('click', function() {
         type: "GET",
         url: window.location.pathname + "update",
         success: function(data) {
-           console.log(data.response)
+            } else if (data.response === "inactive"){
+                $("#disabled").hide();
+                $('#trigger').show();
+            } else {
+                $("#disabled").show();
+                $('#trigger').hide();
+            }
+            console.log(data.response)
         }
     });
 });

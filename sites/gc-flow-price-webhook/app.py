@@ -285,7 +285,7 @@ def update():
         update_thread.start()
     else:
         pass
-    return jsonify({'response':'success'})
+    return jsonify({'response':runjob})
 
 
 if __name__ == '__main__':
