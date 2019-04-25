@@ -18,6 +18,9 @@ runjob = "inactive"
 global workInProgressLock
 workInProgressLock = threading.Lock()
 
+global update_thread
+update_thread = None
+
 logging.basicConfig(level=logging.WARN)
 user_ids = ['230','236','233','222','238','228','235','217','234','11','226','231','237','239','10']
 cdate = datetime.strftime(datetime.today().date(), '%Y-%m-%d')
@@ -43,7 +46,10 @@ def bthread(data):
 
 @socketio.on('connect', namespace='/status')
 def connect():
-    emit('response', {'data':runjob}, namespace='/status', broadcast=True)
+    if update_thread is None:
+        emit('response', {'data':runjob}, namespace='/status', broadcast=True)
+    else:
+        emit('response', {'data':update_thread}, namespace='/status', broadcast=True)
     socketio.sleep(0)
 
 ### UPDATER
@@ -290,8 +296,9 @@ def main():
 
 @app.route('/update')
 def update():
+    global update_thread
     update_thread = threading.Thread(target=startUpdate)
-    update_thread.run()
+    update_thread.start()
     return jsonify({'response':runjob})
 
 
