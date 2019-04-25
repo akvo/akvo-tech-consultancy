@@ -68,7 +68,7 @@ $("#trigger" ).on('click', function() {
         type: "GET",
         url: window.location.pathname + "update",
         success: function(data) {
-            } else if (data.response === "inactive"){
+            if (data.response === "inactive"){
                 $("#disabled").hide();
                 $('#trigger').show();
             } else {
