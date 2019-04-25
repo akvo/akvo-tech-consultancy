@@ -283,8 +283,6 @@ def update():
     if runjob == "inactive":
         update_thread = threading.Thread(target=startUpdate)
         update_thread.start()
-    else:
-        pass
     return jsonify({'response':runjob})
 
 
