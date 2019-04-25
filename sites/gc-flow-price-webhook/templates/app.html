@@ -69,7 +69,7 @@ $("#trigger" ).on('click', function() {
         url: window.location.pathname + "update",
         success: function(data) {
             if (data.response === "inactive"){
-                io.connect('/startjob', {path:window.location.pathname, + 'socket.io/'});
+                io.connect('/startjob', {path:window.location.pathname + 'socket.io/'});
                 $("#disabled").hide();
                 $('#trigger').show();
             } else {
