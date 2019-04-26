@@ -90,9 +90,11 @@ def post_data(keyval):
         else:
             log = logTime('SUCCESS') + 'INPUT ID:' + return_id + ' - NEW RECORD'
         print(log)
+        bthread(log)
     except xmltodict.expat.ExpatError:
         log = logTime('ERROR') + req.text
         print(log)
+        bthread(log)
     return keyval
 
 def push_data(datapoints_url, submitter_id, submitter_name, meta, meta_id):
@@ -147,16 +149,20 @@ def appending(meta,data,submitter_id,submit_date,submitter_name):
                 latest = datetime.strptime(results[unique][0]['date'],'%Y-%m-%d %H:%M:%S')
                 newest = datetime.strptime(d_val,'%Y-%m-%d %H:%M:%S')
                 print(logTime('WARNING') + submitter_name.upper() + ' REPLACED PRICE!')
+                bthread(logTime('WARNING') + submitter_name.upper() + ' REPLACED PRICE!')
                 if latest < newest:
                     add_results(unique,values,code, submitter_id, False)
                     print(logTime('INFO') + 'REPLACED WITH NEW VALUE!')
+                    bthread(logTime('INFO') + 'REPLACED WITH NEW VALUE!')
                 else:
                     print(logTime('INFO') + 'PASS VALUE!')
+                    bthread(logTime('INFO') + 'PASS VALUE!')
                     pass
             except:
                 add_results(unique,values,code, submitter_id, True)
                 print(logTime('INFO') + submitter_name.upper() + ' SENT NEW PRICE!')
                 print(logTime('INFO') + 'ADDED NEW VALUE!')
+                bthread(logTime('INFO') + 'ADDED NEW VALUE!')
         else:
             pass
     return True
@@ -214,8 +220,8 @@ def fillFloat(batch):
         pass
     return batch
 
-def checkAvailable(payload):
-    new_input = pd.DataFrame(payload)
+def checkAvailable(pld):
+    new_input = pd.DataFrame(pld)
     old_input = pd.DataFrame(data_update)
     new_input['agent_commodity'] = new_input[['agency','commodity']].apply(lambda x:x[0]+'_'+x[1], axis=1)
     old_input['agent_commodity'] = old_input[['agency','commodity']].apply(lambda x:x[0]+'_'+x[1], axis=1)
@@ -228,9 +234,12 @@ def checkAvailable(payload):
         'date_y':'date',
         'value_y':'value'
     })
-    print(logTime('INFO') + ' ' + str(len(payload)) + ' AKVO FLOW RECORDS')
+    print(logTime('INFO') + ' ' + str(len(pld)) + ' AKVO FLOW RECORDS')
     print(logTime('INFO') + ' ' + str(len(old_input)) + ' IPSARD RECORDS')
     print(logTime('INFO') + ' ' + str(len(merged_input.to_dict('records'))) + ' MERGED RECORDS')
+    bthread(logTime('INFO') + ' ' + str(len(pld)) + ' AKVO FLOW RECORDS')
+    bthread(logTime('INFO') + ' ' + str(len(old_input)) + ' IPSARD RECORDS')
+    bthread(logTime('INFO') + ' ' + str(len(merged_input.to_dict('records'))) + ' MERGED RECORDS')
     new_batch = merged_input.to_dict('records')
     for batch in new_batch:
         fillFloat(batch)
@@ -266,6 +275,8 @@ def startUpdate():
             for dm in date_mark:
                 for res in results[dm]:
                     payload.append(res)
+            print(logTime('INFO') + 'TOTAL DATA: ' + str(len(data_update)))
+            bthread(logTime('INFO') + 'TOTAL DATA: ' + str(len(data_update)))
             if len(data_update) > 0:
                 print(logTime('INFO') + ' COLLECTING LATEST PRICE!')
                 bthread(logTime('INFO') + ' COLLECTING LATEST PRICE!')
@@ -294,8 +305,9 @@ def main():
 
 @app.route('/update')
 def update():
-    update_thread = threading.Thread(target=startUpdate)
-    update_thread.run()
+    if runjob == "inactive":
+        update_thread = threading.Thread(target=startUpdate)
+        update_thread.run()
     return jsonify({'response':runjob})
 
 if __name__ == '__main__':
