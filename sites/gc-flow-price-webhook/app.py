@@ -129,6 +129,7 @@ def appending(meta,data,submitter_id,submit_date,submitter_name):
         d_ori = datetime.strptime(submit_date[idt], '%Y-%m-%dT%H:%M:%SZ')
         d_here = utc.localize(d_ori).astimezone(timezone('Asia/Singapore'))
         today_date = datetime.today().date()
+        print(str(d_here.date()) + ' ---- ' + str(today_date))
         if d_here.date() == today_date:
             unique = datetime.strftime(d_ori, '%Y-%m-%d')
             d_val = datetime.strftime(d_here, '%Y-%m-%d %H:%M:%S')
