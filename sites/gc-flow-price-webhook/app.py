@@ -162,7 +162,7 @@ def appending(meta,data,submitter_id,submit_date,submitter_name):
                 add_results(unique,values,code, submitter_id, True)
                 print(logTime('INFO') + submitter_name.upper() + ' SENT NEW PRICE!')
                 print(logTime('INFO') + 'ADDED NEW VALUE!')
-                bthread(logTime('INFO') + 'ADDED NEW VALUE!')
+                bthread(logTime('INFO') + submitter_name.upper() + ' SENT NEW PRICE!')
         else:
             pass
     return True

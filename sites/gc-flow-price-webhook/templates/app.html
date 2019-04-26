@@ -26,7 +26,7 @@
     span.status{
         font-size: small;
         text-transform: uppercase;
-        display: None;
+        display: block;
         min-width: 100%;
         width: 100%;
         text-align: center;
@@ -42,9 +42,9 @@
     <button id="trigger" href="#">UPDATE</button>
     <div><span class="status">
         {% if data.job == "active" %}
-            Update is running, please wait until it's done
+            UPDATE IS RUNNING - GETTING THE STATUS 
         {% else %}
-            No Update running, press update to update data 
+            NO UPDATE RUNNING 
         {% endif %}
         </span></div>
 
@@ -55,9 +55,11 @@ socket.on('response', function(response) {
     if (response.data === null) {
         $('.status').text('ERROR');
     } else if (response.data === 'inactive'){
+        $('.status').text('NO UPDATE RUNNING');
         $("#disabled").hide();
         $('#trigger').show();
     } else {
+        $('.status').text(response.data);
         $("#disabled").show();
         $('#trigger').hide();
     }
@@ -71,9 +73,11 @@ $("#trigger" ).on('click', function() {
             if (data.response === "inactive"){
                 $("#disabled").hide();
                 $('#trigger').show();
+                $('.status').text('NO UPDATE RUNNING');
             } else {
                 $("#disabled").show();
                 $('#trigger').hide();
+                $('.status').text('RUNNING THE UPDATE');
             }
             console.log(data.response)
         }
