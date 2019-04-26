@@ -2,6 +2,7 @@ import time
 import os
 import pandas as pd
 import urllib
+import threading
 from datetime import datetime
 from Akvo import Flow
 from FlowHandler import FlowHandler
@@ -15,6 +16,9 @@ start_time = time.time()
 date_format = '%Y-%m-%dT%H:%M:%SZ'
 TWILLIO_SID = os.environ['TWILLIO_SID']
 TWILLIO_TOKEN = os.environ['TWILLIO_TOKEN']
+
+global workInProgressLock
+workInProgressLock = threading.Lock()
 
 def checkTime(x):
     total_time = x - start_time
@@ -222,58 +226,68 @@ def transformSenderMessage(contents):
         response.update({pv[0]:pv[1]})
     return response
 
+def processMessage(body, sender):
+    if not workInProgressLock.acquire(False):
+        return False
+
+    try:
+        message = ""
+        welcome = ['hi','hello','excuse me','hai']
+        if body.lower().strip() in welcome:
+            message = generateWelcome(sender)
+        elif body == '1':
+            generateTrasaction('submission date', datetime.today().strftime('%Y-%m-%d'), sender)
+        elif body == '2':
+            sendMessage("Search available contacts with this format:\n_contacts, province or district or sub-district_", sender)
+        elif body == '3':
+            message = "Search available transaction with this format:\n_parameters, key_\n\n"
+            message += "Example:\n_submission date, 2019-03-28_\n"
+            message += "List of Available Parameters:\n"
+            message += "- name, *Keywords*\n"
+            message += "- crop, *Keywords*\n"
+            message += "- collector address, *Keywords*\n"
+            message += "- collecton communes, *Keywords*\n"
+            message += "- transportations, *Truck/Motorcycle/Car/Tuk*\n"
+            message += "- selling place, *Village/Province/Phnom Penh)*\n"
+            sendMessage(message, sender)
+        elif body == '4':
+            message = '*ABOUT ANGKOR SALAD*\n'
+            message += "-----------------------------"
+            message += "--------------------------------\n"
+            message += 'The Angkor Salad project is funded by the Netherlands Space Office (NSO) and is focused on incorporating satellite-derived data to inform and improve agricultural production in selected developing countries.\n'
+            message += "-----------------------------"
+            message += "--------------------------------\n"
+            message += 'Partners: Akvo, Angkor Green, General Directorate of Agriculture (GDA), Nelen & Schuurmans, SMART Axiata, VanderSat, World Vegetable Center.\n\n'
+            message += 'https://youtu.be/05ovSkVvS4g'
+            sendMessage(message, sender)
+        elif body.lower().strip() == 'update-flow':
+            getUpdatedData()
+            sendMessage("Hi! The data has been updated \n\n Download(.csv): http://test.dedenbangkit.online/download", sender)
+        else:
+            if ',' in body:
+                body = body.split(',')
+                param = body[0].replace('+',' ').lower().strip()
+                keys = body[1].replace('+',' ').strip()
+                if param == 'contacts':
+                    sendContacts(keys.title(), sender)
+                else:
+                    generateTrasaction(param, keys, sender)
+            else:
+                sendMessage("We are sorry, the command " + body + " is not available", sender)
+    finally:
+        workInProgressLock.release()
+    return True
+
+
 @app.route('/api', methods=['GET', 'POST'])
 def api():
-    message = ""
     contents = request.get_data().decode('utf-8').split('&')
     print(contents)
     response = transformSenderMessage(contents)
     body = urllib.parse.unquote(urllib.parse.unquote(response['Body']))
     sender = urllib.parse.unquote(urllib.parse.unquote(response['From']))
-    welcome = ['hi','hello','excuse me','hai']
-    if body.lower().strip() in welcome:
-        message = generateWelcome(sender)
-    elif body == '1':
-        generateTrasaction('submission date', datetime.today().strftime('%Y-%m-%d'), sender)
-    elif body == '2':
-        sendMessage("Search available contacts with this format:\n_contacts, province or district or sub-district_", sender)
-    elif body == '3':
-        message = "Search available transaction with this format:\n_parameters, key_\n\n"
-        message += "Example:\n_submission date, 2019-03-28_\n"
-        message += "List of Available Parameters:\n"
-        message += "- name, *Keywords*\n"
-        message += "- crop, *Keywords*\n"
-        message += "- collector address, *Keywords*\n"
-        message += "- collecton communes, *Keywords*\n"
-        message += "- transportations, *Truck/Motorcycle/Car/Tuk*\n"
-        message += "- selling place, *Village/Province/Phnom Penh)*\n"
-        sendMessage(message, sender)
-    elif body == '4':
-        message = '*ABOUT ANGKOR SALAD*\n'
-        message += "-----------------------------"
-        message += "--------------------------------\n"
-        message += 'The Angkor Salad project is funded by the Netherlands Space Office (NSO) and is focused on incorporating satellite-derived data to inform and improve agricultural production in selected developing countries.\n'
-        message += "-----------------------------"
-        message += "--------------------------------\n"
-        message += 'Partners: Akvo, Angkor Green, General Directorate of Agriculture (GDA), Nelen & Schuurmans, SMART Axiata, VanderSat, World Vegetable Center.\n\n'
-        message += 'https://youtu.be/05ovSkVvS4g'
-        sendMessage(message, sender)
-    elif body == '5':
-        sendMessage('lagi di KH nih', sender)
-    elif body.lower().strip() == 'update-flow':
-        getUpdatedData()
-        sendMessage("Hi! The data has been updated \n\n Download(.csv): http://test.dedenbangkit.online/download", sender)
-    else:
-        if ',' in body:
-            body = body.split(',')
-            param = body[0].replace('+',' ').lower().strip()
-            keys = body[1].replace('+',' ').strip()
-            if param == 'contacts':
-                sendContacts(keys.title(), sender)
-            else:
-                generateTrasaction(param, keys, sender)
-        else:
-            sendMessage("We are sorry, the command " + body + " is not available", sender)
+    update_thread = threading.Thread(target=processMessage, args=(body, sender))
+    update_thread.run()
     return sender
 
 @app.route('/download', methods=['GET', 'POST'])
@@ -282,8 +296,6 @@ def download():
     with open(csv_output) as fp:
         csv = fp.read()
     return Response(csv,mimetype="text/csv",headers={"Content-disposition":"attachment; filename=" + csv_output})
-
-download()
 
 if __name__ == '__main__':
     app.run(host= '0.0.0.0',debug=True, port=3000)
