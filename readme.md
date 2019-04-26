@@ -7,17 +7,18 @@ This repository contains Akvo Tools custom integration pack development.
 | Project | Description | Type |
 | ------ | ------ | ------ |
 | CKAN | Ckan Docker Pilot Project. | Website |
-| G4AW | Green Coffe, coffee price integration. | Jobs |
-| G4AW | Angkor Salad, data pusher for [Lizard.net][liZ]. | Jobs |
-| G4AW | Spice Up, custom email notification for demo plots. | Jobs |
-| G4AW | Spice Up, Lizard data transformer & pusher. | Jobs |
-| G4AW | Spice Up, Happy Farmer data sync. | Jobs |
-| Unicef Pacific | Wash in Schools custom map development. | Website |
+| G4AW | Green Coffe, Coffee Price Integration. | Jobs & Webhooks |
+| G4AW | Angkor Salad, Data Pusher for [Lizard.net][liZ]. | Jobs |
+| G4AW | Spice Up, Custom Email Notification for Demo Plots. | Jobs |
+| G4AW | Spice Up, Lizard Data Transformer & pusher. | Jobs |
+| G4AW | Spice Up, Happy Farmer Data Sync. | Jobs |
+| Unicef Pacific | Wash in Schools Custom Map Development. | Website |
 | Oxfam | Oxfam advanced visualisation. | Data Scripts |
 | UTZ | Automated Plots download. | Data Scripts |
 | Mali GOV | Bulk download forms data from a Flow instance. | Data Scripts |
 | ANU | Pooling Lumen Pages. | Website |
 | ANU | Lumen Trigger Updates. | Jobs |
+| General | Lumen Data Downloader. | Tools |
 
 -------
 
