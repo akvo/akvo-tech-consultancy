@@ -12,8 +12,20 @@ from flask_socketio import SocketIO, emit
 
 app = Flask(__name__)
 socketio = SocketIO(app, async_mode='threading')
+
+### GLOBAL VARIABLE
+global results
+global date_mark
+global payload
+global posts
+global data_update
 global runjob
 runjob = "inactive"
+results = {}
+date_mark = []
+payload = []
+posts = []
+data_update = []
 
 global workInProgressLock
 workInProgressLock = threading.Lock()
@@ -78,11 +90,9 @@ def post_data(keyval):
         else:
             log = logTime('SUCCESS') + 'INPUT ID:' + return_id + ' - NEW RECORD'
         print(log)
-        bthread(log)
     except xmltodict.expat.ExpatError:
         log = logTime('ERROR') + req.text
         print(log)
-        bthread(log)
     return keyval
 
 def push_data(datapoints_url, submitter_id, submitter_name, meta, meta_id):
@@ -136,19 +146,15 @@ def appending(meta,data,submitter_id,submit_date,submitter_name):
                 latest = datetime.strptime(results[unique][0]['date'],'%Y-%m-%d %H:%M:%S')
                 newest = datetime.strptime(d_val,'%Y-%m-%d %H:%M:%S')
                 print(logTime('WARNING') + submitter_name.upper() + ' REPLACED PRICE!')
-                bthread(logTime('WARNING') + submitter_name.upper() + ' REPLACED PRICE!')
                 if latest < newest:
                     add_results(unique,values,code, submitter_id, False)
                     print(logTime('INFO') + 'REPLACED WITH NEW VALUE!')
-                    bthread(logTime('INFO') + 'REPLACED WITH NEW VALUE!')
                 else:
                     print(logTime('INFO') + 'PASS VALUE!')
-                    bthread(logTime('INFO') + 'PASS VALUE!')
                     pass
             except:
                 add_results(unique,values,code, submitter_id, True)
                 print(logTime('INFO') + submitter_name.upper() + ' SENT NEW PRICE!')
-                bthread(logTime('INFO') + submitter_name.upper() + ' SENT NEW PRICE!')
                 print(logTime('INFO') + 'ADDED NEW VALUE!')
         else:
             pass
@@ -222,11 +228,8 @@ def checkAvailable(payload):
         'value_y':'value'
     })
     print(logTime('INFO') + ' ' + str(len(payload)) + ' AKVO FLOW RECORDS')
-    bthread(logTime('INFO') + ' ' + str(len(payload)) + ' AKVO FLOW RECORDS')
     print(logTime('INFO') + ' ' + str(len(old_input)) + ' IPSARD RECORDS')
-    bthread(logTime('INFO') + ' ' + str(len(old_input)) + ' IPSARD RECORDS')
     print(logTime('INFO') + ' ' + str(len(merged_input.to_dict('records'))) + ' MERGED RECORDS')
-    bthread(logTime('INFO') + ' ' + str(len(merged_input.to_dict('records'))) + ' MERGED RECORDS')
     new_batch = merged_input.to_dict('records')
     for batch in new_batch:
         fillFloat(batch)
