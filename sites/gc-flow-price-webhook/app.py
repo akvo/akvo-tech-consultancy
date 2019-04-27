@@ -307,7 +307,7 @@ def main():
 def update():
     if runjob == "inactive":
         update_thread = threading.Thread(target=startUpdate)
-        update_thread.start()
+        update_thread.run()
     return jsonify({'response':runjob})
 
 if __name__ == '__main__':
