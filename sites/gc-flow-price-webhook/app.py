@@ -14,18 +14,8 @@ app = Flask(__name__)
 socketio = SocketIO(app, async_mode='threading')
 
 ### GLOBAL VARIABLE
-global results
-global date_mark
-global payload
-global posts
-global data_update
 global runjob
 runjob = "inactive"
-results = {}
-date_mark = []
-payload = []
-posts = []
-data_update = []
 
 global workInProgressLock
 workInProgressLock = threading.Lock()
@@ -195,6 +185,7 @@ def execute(folder_id):
     return True
 
 def getOldData(user_id):
+    global data_update
     personalURI = checkURI+'date_var='+cdate+'&ACC_ID='+user_id
     data = et.parse(personalURI)
     root = data.getroot()
@@ -275,8 +266,6 @@ def startUpdate():
             for dm in date_mark:
                 for res in results[dm]:
                     payload.append(res)
-            print(logTime('INFO') + 'TOTAL DATA: ' + str(len(data_update)))
-            bthread(logTime('INFO') + 'TOTAL DATA: ' + str(len(data_update)))
             if len(data_update) > 0:
                 print(logTime('INFO') + ' COLLECTING LATEST PRICE!')
                 bthread(logTime('INFO') + ' COLLECTING LATEST PRICE!')
