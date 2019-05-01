@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8"/>
+		<title>SIG Map Data Cleaning</title>
+
+		<!-- Google web fonts -->
+		<link href="http://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700" rel='stylesheet' />
+
+		<!-- The main CSS file -->
+		<link href="assets/css/style.css" rel="stylesheet" />
+	</head>
+
+	<body>
+
+		<form id="upload" method="post" action="/" enctype="multipart/form-data">
+			<div id="drop">
+				Drop Here
+
+				<a>Browse</a>
+				<input type="file" name="upl" multiple />
+			</div>
+
+			<ul>
+				<!-- The file uploads will be here -->
+			</ul>
+
+		</form>
+
+		<footer>
+            <h2>Tutorial: <a href="/">How to upload data cleaning</a></h2>
+            <div id="tzine-actions">Data Cleaning
+	            <a id="tzine-download" href="data/data-cleaning-template.csv" title="Download This Example!">Data Cleaning Download</a>
+            </div>
+        </footer>
+        
+		<!-- JavaScript Includes -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script src="dist/js/jquery.knob.js"></script>
+		<script src="dist/js/jquery.ui.widget.js"></script>
+		<script src="dist/js/jquery.iframe-transport.js"></script>
+		<script src="dist/js/jquery.fileupload.js"></script>
+		<script src="dist/js/script.js"></script>
+	</body>
+</html>

@@ -1,0 +1,48 @@
+{
+  "name": "bjm-deploy",
+  "version": "1.0.0",
+  "description": "continous integration with git and eb-cli",
+  "main": "index.js",
+  "dependencies": {
+    "bootstrap": "^4.1.0",
+    "datatables.net": "^1.10.16",
+    "datatables.net-bs4": "^1.10.16",
+    "datatables.net-buttons": "^1.5.1",
+    "datatables.net-buttons-bs4": "^1.5.1",
+    "file-loader": "^1.1.11",
+    "jquery": "^3.3.1",
+    "moment": "^2.22.1",
+    "popper.js": "^1.14.3",
+    "webpack-cli": "^2.0.15"
+  },
+  "devDependencies": {
+    "copy-webpack-plugin": "^4.5.1",
+    "css-loader": "^0.28.11",
+    "eslint": "^4.18.2",
+    "eslint-config-jquery": "^1.0.1",
+    "exports-loader": "^0.7.0",
+    "node-sass": "^4.8.3",
+    "postcss-loader": "^2.1.4",
+    "sass-loader": "^7.0.1",
+    "style-loader": "^0.21.0",
+    "url-loader": "^1.0.1",
+    "webpack": "^4.6.0"
+  },
+  "scripts": {
+    "qc": "eslint src/js",
+    "build": "webpack",
+    "develop": "webpack --mode development --watch",
+    "start": "sh run.sh",
+    "stop": "sh kill.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "null"
+  },
+  "keywords": [
+    "eb-cli",
+    "git"
+  ],
+  "author": "dedenbangkit",
+  "license": "ISC"
+}
