@@ -42,18 +42,45 @@
 
         <div class="nav-scroller py-1 mb-2">
             <nav class="nav d-flex justify-content-around">
-                <a class="p-2 text-muted default-location-btn" id="assesments_post_polling_btn" href="#assesments_post_polling">Assesments of The Post Polling</a>
-                <a class="p-2 text-muted" id="counting_period_btn" href="#counting_period">Counting Period</a>
+                <div class="p-2">
+                <button type="button" class="p-2 text-muted dropdown-toggle" data-toggle="dropdown">Assesments of The Post Polling</button>
+                    <div class="dropdown-menu submenu">
+                        <a class="dropdown-item text-muted" href="#app_ballot_papers" id="app_ballot_papers_tn">Transporting Ballot Papers</a>
+                        <a class="dropdown-item text-muted" href="#app_key_personnel" id="app_key_personnel_btn">Assesment of Key Personnel</a>
+                        <a class="dropdown-item text-muted" href="#app_inclusion" id="app_inclusion_btn">Assesment of Inclusion (Disabilities)</a>
+                        <a class="dropdown-item text-muted" href="#app_security" id="app_security_btn">Assesment of Security</a>
+                    </div>
+                </div>
+        <!-- end Assesment of The Post Polling -->
+                <div class="p-2">
+                <button type="button" class="p-2 text-muted dropdown-toggle" data-toggle="dropdown">Counting Period</button>
+                    <div class="dropdown-menu submenu">
+                        <a class="dropdown-item text-muted" href="#cp_counting_process" id="cp_counting_process_btn">Counting Processes</a>
+                        <a class="dropdown-item text-muted" href="#cp_end_counting" id="cp_end_counting_btn">End of Counting</a>
+                        <a class="dropdown-item text-muted" href="#cp_assesment" id="cp_assesment_btn">Counting Assesment</a>
+                    </div>
+                </div>
+        <!-- Pending 
                 <a class="p-2 text-muted" id="disputes_btn" href="#disputes">Disputes</a>
+        -->
             </nav>
         </div>
 
 <main role="main" class="container">
 <div class="row"><div class="col-md-12 blog-main">
-        <iframe width="100%" id="assesments_post_polling" height="1000px" class="default-location" src="#" frameborder="0" allow="encrypted-media"></iframe>
+        <iframe width="100%" id="app_ballot_papers" height="1000px" class="default-location" src="https://anu.akvolumen.org/s/xmSsk_Vl2Ak" frameborder="0" allow="encrypted-media"></iframe>
+        <iframe width="100%" id="app_key_personnel" height="1000px" class="default-location" src="https://anu.akvolumen.org/s/JUQUK4j16Jg" frameborder="0" allow="encrypted-media"></iframe>
+        <iframe width="100%" id="app_inclusion" height="1000px" class="default-location" src="https://anu.akvolumen.org/s/i3B332jeykQ" frameborder="0" allow="encrypted-media"></iframe>
+        <iframe width="100%" id="app_security" height="1000px" class="default-location" src="https://anu.akvolumen.org/s/72BrKXiYGbQ" frameborder="0" allow="encrypted-media"></iframe>
+        <!-- end Assesment of The Post Polling -->
+        <iframe width="100%" id="cp_counting_process" height="1000px" class="default-location" src="https://anu.akvolumen.org/s/6XwPfjoSb1w" frameborder="0" allow="encrypted-media"></iframe>
+        <iframe width="100%" id="cp_end_counting" height="1000px" class="default-location" src="https://anu.akvolumen.org/s/NcSmxmvVGkM" frameborder="0" allow="encrypted-media"></iframe>
+        <iframe width="100%" id="cp_assesment" height="1000px" class="default-location" src="https://anu.akvolumen.org/s/vA7mO4R5Zqw" frameborder="0" allow="encrypted-media"></iframe>
+        <!-- end Assesment of Counting Period-->
+        <!-- Pending 
+        <iframe width="100%" id="disputes" height="1000px" class="default-location" src="#" frameborder="0" allow="encrypted-media"></iframe>
+        -->
 </div></div>
-        <iframe width="100%" id="counting_period" height="1000px" src="#" frameborder="0" allow="encrypted-media"></iframe>
-        <iframe width="100%" id="disputes" height="1000px" src="#" frameborder="0" allow="encrypted-media"></iframe>
 </main>
 
     <footer class="blog-footer">

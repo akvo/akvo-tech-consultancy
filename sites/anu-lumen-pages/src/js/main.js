@@ -24,10 +24,17 @@ function getLocationHash() {
     $('iframe').hide();
     $('iframe'+hash).fadeIn();
     $('html, body').stop().animate({ 'scrollTop': 0 }, 1000)
-    $('a.text-muted').each(function(){
+    $('.text-muted').each(function(){
         $(this).removeClass('active');
     });
     $(hash+'_btn').addClass('active');
+    var par = $(hash+'_btn').parent();
+    var parClass = $(par).attr('class').includes("dropdown");
+    if (parClass === true) {
+        var prevPar = $(par).prev();
+        console.log(prevPar);
+        $(par).prev().addClass('active');
+    };
 }
 window.onhashchange = function(e) {
   switch(getLocationHash()) {

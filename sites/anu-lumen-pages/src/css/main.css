@@ -109,7 +109,6 @@ h6 {
     position: relative;
     z-index: 2;
     height: 2.75rem;
-    overflow-y: hidden;
 }
 
 .nav-scroller .nav {
@@ -251,4 +250,34 @@ a.btn.btn-sm {
 .dropdown-item {
     padding: 12.5px;
     text-align:center;
+}
+
+/*
+ * Submenu Dropdown
+ */
+
+.p-2.text-muted.dropdown-toggle {
+    border: none;
+    background: none;
+    padding: 0px!important;
+    min-width:unset;
+}
+
+.submenu.show {
+    position: relative!important;
+    will-change: transform;
+    top: 0px;
+    left: 0px;
+    transform: translate3d(0px, 20px, 0px)!important;
+}
+
+button:focus{
+    outline:none;
+}
+
+a.dropdown-item.text-muted.active {
+    background-color: #FFF;
+}
+button.p-2.text-muted.dropdown-toggle.active {
+    color: #007bff!important;
 }
