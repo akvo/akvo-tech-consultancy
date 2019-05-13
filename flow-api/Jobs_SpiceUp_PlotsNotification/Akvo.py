@@ -1,5 +1,6 @@
 import requests as r
 import os, sys
+import logging
 
 class Flow:
     tokenURI = 'https://login.akvo.org/auth/realms/akvo/protocol/openid-connect/token'

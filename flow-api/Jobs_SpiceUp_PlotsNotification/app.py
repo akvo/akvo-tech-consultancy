@@ -13,7 +13,8 @@ from email.mime.text import MIMEText
 
 instanceURI = 'spiceup'
 requestURI = 'https://api.akvo.org/flow/orgs/' + instanceURI
-EMAIL_RECEPIENTS = ['deden@akvo.org', 'mail@dedenbangkit.com']
+#EMAIL_RECEPIENTS = ['deden@akvo.org', 'mail@dedenbangkit.com']
+EMAIL_RECEPIENTS = ['hatami.nugraha@gmail.com','everschuren@verstegen.nl','joy@akvo.org','f.razi@icco.nl','hatami@cinquer.co.id','dymanohara@gmail.com','aharton2002@yahoo.com','akhmadfa@apps.ipb.ac.id','otihrostiana@gmail.com','ima@akvo.org','deden@akvo.org']
 EMAIL_SENDER = 'dedenbangkit@gmail.com'
 
 apiData = Flow.getResponse(requestURI + '/surveys/227030237')
@@ -77,6 +78,28 @@ for form in forms:
     allResponses.update({form['name']:allGroups})
 
 
+## Ordering
+qGroup = list(allResponses.keys())
+qGroup.sort()
+
+newResponses = {}
+newSort = sorted(allResponses.keys())
+for ns in newSort:
+    newResponses.update({ns:allResponses[ns]})
+
+for g in qGroup:
+    forms = [k for k in newResponses[g]]
+    for form in forms:
+        unordered = pd.DataFrame(newResponses[g][form])
+        try:
+            ordered = unordered.sort_values(by='submissionDate',ascending=False).to_dict('records')
+            newResponses[g][form] = ordered
+        except:
+            pass
+allResponses = newResponses
+
+## Generate HTML
+
 fout = "./email.html"
 fo = open(fout, "w")
 EMAIL_SENDER = 'dedenbangkit@gmail.com'
@@ -105,7 +128,7 @@ for k, v in allResponses.items():
             metaText += '<li>Submitter: ' + str(value['submitter']) + '</li>'
             metaText += '<li>Device: ' + str(value['deviceIdentifier']) + '</li>'
             metaText += '<li>Submission Date: ' + str(dateWib) + '</li>'
-            metaText += '<li>Survey Time: ' + str(value['surveyalTime']) + ' Minutes</li>'
+            # metaText += '<li>Survey Time: ' + str(value['surveyalTime']) + ' Minutes</li>'
             notDisplayed = ['id',
                             'identifier',
                             'displayName',
@@ -166,9 +189,11 @@ for k, v in allResponses.items():
 fo.write('</div>')
 fo.close()
 
+def formatDate(dt):
+    return dt.strftime("%d/%m/%Y")
 
 msg = MIMEMultipart('alternative')
-msg['Subject'] = 'DO NOT REPLY: Testin for Demo Plot Email Notification'
+msg['Subject'] = 'DO NOT REPLY: Demo Plot Notification from ' + formatDate(week_ago) + ' to ' + formatDate(today_date)
 msg['To'] = ', '.join(EMAIL_RECEPIENTS)
 msg['From'] = EMAIL_SENDER
 
