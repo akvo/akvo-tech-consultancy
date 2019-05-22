@@ -1,0 +1,74 @@
+Fid,Fname,source
+2.1,Constituencies sampled across Solomon Islands,Custom
+2.1,Voters checked name at Voter Registration Centre (All constituencies sampled),5ccfb6cb-00c5-44f7-90e5-597d71789640
+2.2,Voters checked name at Voter Registration Centre (By constituency),5ccfb75d-da71-43a8-b022-cb302e96d72b
+2.3,Citizens asked to register in another constituency (All constituencies sampled),5cd41572-242c-4a06-8f4f-c283376d8689
+2.4,Citizens asked to register in another constituency (By constituency),5cd41506-bf3d-4c6f-a2d0-77a5fc77c145
+2.5,Citizens who sought to change their registration to another constituency (By constituency),5ccfba60-85ab-4308-9ff7-f518ab25ff63
+2.6,Citizens changed registration to another constituency (By constituency surveyed post-election),5ccfbb2d-b044-47bc-b980-709d07d72cb6
+2.7,Citizens know of voters registered in their constituency but who live somewhere else (All constituencies sampled),5cd414ac-66b1-4ed8-b27c-b91894c9ef21
+2.8,Citizens know of voters registered in their constituency but who live somewhere else (By constituency),5cd414ca-882e-4ef0-9530-6a306e4c9649
+2.9,Accuracy of the electoral role (All constituencies sampled),5ca2d490-9fdc-4b93-a836-d4d08ad57f77
+2.10,Accuracy of the electoral role (By constituency),5c9c374a-8d58-4838-9ca5-c8f404015f12
+2.11,Have you seen ANY SIEC media or awareness? (All constituencies sampled),5c9c7b97-9865-4923-8d2b-5826ed02ce31
+2.12,Have you seen ANY SIEC media/awareness (By constituency),5c99bbe4-d49a-47ef-a143-4e40994adc40
+2.13.A,Did you attend any face-to-face voter education awareness sessions before the election? (All constituencies sampled and By constituency),5cd0d15a-e363-4c8f-b5b5-0992021c19dc
+2.13.B,Did you attend any face-to-face voter education awareness sessions before the election? (All constituencies sampled and By constituency),5cd0d191-4ca6-4c3b-848d-ecd9a13d3e3c
+2.14.A,Have you received SIEC awareness via text messages? (All constituencies sampled and By constituency),5cd0d191-4ca6-4c3b-848d-ecd9a13d3e3c
+2.14.B,Have you received SIEC awareness via text messages? (All constituencies sampled and By constituency),5c9c106c-2646-4b69-9a68-d57bea0a4586
+2.15.A,Have you received SIEC awareness via radio? (All constituencies sampled and By constituency),5c9c7cfc-458e-4dfc-adcb-05acb8280f4e
+2.15.B,Have you received SIEC awareness via radio? (All constituencies sampled and By constituency),5c9c11ef-166d-4484-bb3a-c924bd9d45aa
+2.16.A,Have you received SIEC awareness via newspapers? (All constituencies sampled and By constituency),5c9c7c47-67a3-4765-97dd-1c7cf15854f5
+2.16.B,Have you received SIEC awareness via newspapers? (All constituencies sampled and By constituency),5c9c1129-9ae9-4563-b008-e65aed26152f
+2.17.A,Have you shared or received information about the election on social media? (All constituencies sampled and By constituency),5c9c7df5-6b93-4379-b440-7e8ed8af97fb
+2.17.B,Have you shared or received information about the election on social media? (All constituencies sampled and By constituency),5c997757-a7c9-4b9b-aab1-f3a6cc9463fc
+2.18.A,Has any candidate/agent contacted you by phone during the election? (All constituencies sampled and By constituency),5cd0cccf-8e10-46ac-90b7-2dd83dc2d718
+2.18.B,Has any candidate/agent contacted you by phone during the election? (All constituencies sampled and By constituency),5cd0cd67-68d0-41be-9d29-508a053a11dc
+2.19,How would you describe the law and order situation during the campaign period? (All constituencies sampled),5ccfbc29-6c1f-41b8-822b-5ea661d84db8
+2.20,Did you observe any election related tension or violence during the campaign period? (By constituency),5ccfc09c-f946-4cb2-b611-d3aee2d17d92
+2.21,Did you hear about any election-related tension or violence during the campaign period? (All constituencies sampled),5ccfc050-41a3-43b9-9a5b-21f15c74a17e
+2.22,In which election was intimidation greatest? (All constituencies sampled),5ca2d89e-3394-4cbb-92ab-5ad4e5b40b36
+2.23.A,Do you think there should be more women MPs? (All constituencies sampled and By constituency),5cd0d9a8-cbed-490a-986e-6cdd3debff4b
+2.23.B,Do you think there should be more women MPs? (All constituencies sampled and By constituency),5cad9570-ac92-468c-bc60-3bfccc0eb7a7
+2.24,Do you think there should be more women MPs? (All constituencies sampled and by gender),5cdcfe02-8aa8-4531-a113-d510fdeb132a
+2.25.A,Would you vote for a woman candidate? (All constituencies sampled and By constituency),5c9c808a-15d5-41e0-b57b-bc8a86ed22c8
+2.25.B,Would you vote for a woman candidate? (All constituencies sampled and By constituency),5c998616-f56f-40b5-b806-2eb3a3e12801
+2.26,Would you vote for a woman candidate? (All constituencies sampledand by gender),5cdcfeba-af85-4001-9d3d-0be08f18a915
+2.27.A,Did candidates make promises about providing support to you or your family in future? (All constituencies sampled and By constituency),5cd1080a-9e97-4d5d-b156-5719d993beb6
+2.27.B,Did candidates make promises about providing support to you or your family in future? (All constituencies sampled and By constituency),5cad8dcc-93ee-49ab-ac2c-5a98ddcc7ac0
+2.28.A,Did you hear reports of any candidates or candidate agents handing over cash to obtain the support of voters? (All constituencies sampled and By constituency),5cd0e165-946a-4e26-ab8e-9ab66f7f1e42
+2.28.B,Did you hear reports of any candidates or candidate agents handing over cash to obtain the support of voters? (All constituencies sampled and By constituency),5cd0e216-68ee-4dfc-a91d-751377d9410e
+2.29.A,Did you hear about any candidates moving around on the night before the election soliciting votes? (All constituencies sampled and By constituency),5cd0effc-7aa5-4699-b00d-7c7f694afb5e
+2.29.B,Did you hear about any candidates moving around on the night before the election soliciting votes? (All constituencies sampled and By constituency),5cd0ef8b-920f-4eb3-8d5e-a8c15e29263f
+4.1,Citizen voting expectations (All constituencies),Custom
+4.2,Citizen voting realities (All constituencies),Custom
+4.3,Winning candidate will find out who citizens voted for (All constituencies),5c9c803c-099b-4013-8d6c-1149551dffd0
+4.4,Winning candidate will find out who citizens voted for (By constituency),5c997c2d-d4fa-4492-9b6c-348d590c3472
+4.5,Voter ID card is required to vote (All),5ccfd7b4-29bd-472c-9920-3adc88d9e61c
+4.6,Voter ID card is required to vote (All constituencies),5ccfd76a-2f5e-4ee5-afd9-190a9e6e8173
+4.7,Most influence in deciding on how to vote (All constituencies),5cd2850c-ce84-4faa-a274-1107ee0beef0
+4.7,Most influence in deciding on how to vote (By constituency),5cd284be-87d4-42b4-b5f1-94f8fc5d4210
+4.8,Most important factors that influenced voting (All constituencies),custom
+4.9,Most important factors that influenced voting – Character of candidate (By constituency),5cda8f34-156b-4537-93be-0a2869876915
+4.9,Most important factors that influenced voting – Policies and promises of candidates (By constituency),5cda8fb3-831c-45ed-bc2b-b698ae40df92
+4.10,Most important qualities voters want in candidate (All constituencies),custom
+4.11,Most important qualities voters want in candidate – Accessible to the community,5cda86a3-5d01-4549-a20e-b6598f213fa8
+4.12,Most important qualities voters want in candidate – Good policies,5cda87f9-2b81-4c15-b93e-f5a58601320d
+4.7,Polling station opened on time (All constituencies),5cd4066f-8093-4e8e-a91a-a102b8f5e902
+4.14,Polling station opened on time (By constituency),5cd29988-4e5f-40b2-8554-bd3cb20200a4
+4.15,Polling station accommodates needs of those with disabilities,5c9c1ea6-11c9-4644-a29d-6257debcf075
+4.16,Compartments positioned to screen voters from observation,5cd29a39-a410-47b9-99ba-fe514d83d128
+4.17,Polling assistants had difficulty locating names on register,5cd8ea5c-80a4-420a-bb4e-934ddd288863
+4.18,Women turned away because names could not be found on register,5cd8ea88-078b-44b2-90b5-30db4383b771
+4.19,Men turned away because names could not be found on register,5cd8eaeb-03cd-40db-8e17-a410d8abb6ee
+4.20,Observed instances of underage voting,5cd8f49d-1d1f-4a7d-a3d8-5556b95abd30
+4.21,Overall assessment of voter conduct at polling stations,5cd8f90c-68e5-42e8-a88a-c34621108176
+5.1,Transportation of ballot boxes to counting centres (all constituencies),5cd92486-5146-440a-88ff-b0d98665243f
+5.2,Was the PO unbiased and impartial (by constituency),5cd92f8e-a652-4268-9615-69eb02f191e8
+5.3,Incidents of minor post-election violence (all constituencies),5cd93b1f-b2c9-4311-8100-2c7d006ac95e
+5.4,Was the count completed in one day (all constituencies),5cd93fe2-a9c2-4543-9182-a78a81c3d949
+5.5,Accounting of ballots by RO (by constituencies),5cd93fa5-2871-4444-9177-a356a7cc65ee
+5.7,Sealing of counted and rejected ballot papers (by constituencies),5cd9433b-2def-492f-8a44-c342fee2a670
+5.8,Transparency of count (all constituencies),5cd9455f-7e83-4e83-b1f2-7abecffe251e
+5.9,Candidates/Counting agents influencing the count (all constituencies),5cd9467e-825a-482a-8318-36550ae98244
+5.10,Formal court challenge by candidate (by constituencies),5cadb56c-3ae1-4bcd-9fd6-fae8fe35cbf8

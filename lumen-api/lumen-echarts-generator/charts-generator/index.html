@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECharts</title>
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/echarts.min.js"></script>
+</head>
+<style>
+html, 
+body,
+div#main {
+    padding: 0;
+    margin:0;
+    width: 100%;
+    height: 100%;
+}
+</style>
+<body>
+    <div id="main"></div>
+    <script type="text/javascript">
+        var hash = location.hash.substr(1);
+        var myChart = echarts.init(document.getElementById('main'));
+        $.ajax({
+          url: '/json/'+hash+'.json',
+          success: function(data){ 
+              myChart.setOption(data);
+          }
+        });
+    </script>
+</body>
+</html>
+
