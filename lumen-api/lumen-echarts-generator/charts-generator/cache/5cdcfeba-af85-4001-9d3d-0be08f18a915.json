@@ -1,1 +1,0 @@
-{"series": [{"key": "Not Sure", "label": "Not Sure", "data": [{"value": 287}, {"value": 214}]}, {"key": "Yes", "label": "Yes", "data": [{"value": 613}, {"value": 631}]}, {"key": "No", "label": "No", "data": [{"value": 325}, {"value": 379}]}], "common": {"metadata": {"type": "text"}, "data": [{"label": "Female", "key": "Female"}, {"label": "Male", "key": "Male"}]}}
