@@ -185,6 +185,7 @@ def execute(folder_id):
     return True
 
 def getOldData(user_id):
+    global data_update
     personalURI = checkURI+'date_var='+cdate+'&ACC_ID='+user_id
     data = et.parse(personalURI)
     root = data.getroot()
