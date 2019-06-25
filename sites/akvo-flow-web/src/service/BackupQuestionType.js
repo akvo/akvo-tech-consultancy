@@ -8,8 +8,9 @@ class QuestionType extends Component {
         this.state = { value: this.value ? this.value : '' }
         this.setDpStorage = this.setDpStorage.bind(this)
         this.getQuestionType = this.getQuestionType.bind(this)
-        this.getRadio = this.getRadio.bind(this)
-        this.getRadioSelected = this.getRadio.bind(this)
+        this.getOption = this.getOption.bind(this)
+        this.renderOption = this.renderOption.bind(this)
+        this.radioOption = this.getRadio.bind(this)
         this.renderRadio = this.renderRadio.bind(this)
         this.handleChange = this.handleChange.bind(this)
     }
@@ -65,53 +66,52 @@ class QuestionType extends Component {
     }
 
 
-    getRadio (opts) {
-        let radioType = (opts.allowMultiple ? "checkbox" : "radio")
+    getOption (opts) {
         return (
-            opts.option.length > 1 ? (opts.option.map((opt, i) => this.renderRadio(
-                opt, i, this.props.data.id, radioType)
-            )) : (this.renderRadio(opts.option, 0, this.props.data.id, radioType))
+            <select
+                className="form-control"
+                value={this.state.value} type="select"
+                name={this.props.data.id} key={this.props.data.id}
+                onChange={this.handleChange}>
+            {opts.length > 1 ? (opts.map((opt, i) => this.renderOption(opt, i))) : (this.renderOption(opts, 0))}
+            </select>
         )
     }
 
-    getRadioSelected (value,id) {
-        if (localStorage.getItem(id)) {
-            if (localStorage.getItem(id) === value) {
-            return true
-            }
-            return false
-        }
-        return false
+    renderOption (opt, i) {
+        return (<option value={opt.value} key={i}>{opt.text}</option>)
     }
 
-    renderRadio (opt, i, id, radioType) {
+    getRadio (opts) {
         return (
-            <div className="form-check"
-                 key={id+i}
-            >
-                <input
-                    className="form-check-input"
-                    type={radioType}
-                    name={id}
-                    value={opt.value}
-                    id={id+i}
-                    onChange={this.handleChange}
-                    checked={localStorage.getItem(id) === opt.value}
-                />
-                <label
-                    className="form-check-label"
-                    htmlFor={id+i}>
-                    {opt.text}
-                </label>
+            <div>
+            {
+                opts.length > 1 ? (opts.map((opt, i) => this.renderOption(opt, i, this.props.data.id))) :
+                (this.renderOption(opts, 0, this.props.data.id))
+            }
             </div>
         )
+    }
+
+    renderRadio (opt, i, id) {
+            <div className="form-group radio">
+                <input type="radio"
+                    name={id}
+                    value={opt}
+                    key={id+i}
+                    id={id+i}
+                checked />
+                <label for={id+i}>
+                    {opt}
+                </label>
+            </div>
     }
 
     render() {
         if (this.props.data.localeNameFlag) {
             this.setDpStorage()
         }
-        return this.props.data.type === "option" ? this.getRadio(this.props.data.options) :
+        return this.props.data.type === "option" ? this.getRadio(this.props.data.options.option) :
             (<input
                 className="form-control"
                 value={this.state.value}

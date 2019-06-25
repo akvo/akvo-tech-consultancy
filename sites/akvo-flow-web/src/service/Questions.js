@@ -3,15 +3,8 @@ import {
     Card,
     CardText,
     CardBody,
-    CardTitle,
-    CardSubtitle,
-    Button,
-    Label,
-    FormGroup,
-    Input,
-    FormText
+    CardTitle
 } from 'reactstrap'
-import PropTypes from 'prop-types'
 import QuestionType from './QuestionType'
 
 
@@ -32,9 +25,9 @@ class Questions extends Component {
                 <CardTitle>
                     {this.props.data.text}
                 </CardTitle>
-                <CardText>
-                    <QuestionType data={this.props.data}/>
-                </CardText>
+                <div>
+                    <QuestionType data={this.props.data} dataPoint={this.props.dataPoint} />
+                </div>
             </CardBody>
             </Card>
         )

@@ -7,10 +7,16 @@ class QuestionGroup extends Component {
         this.showQuestion = this.showQuestion.bind(this)
         this.getQuestionList = this.getQuestionList.bind(this)
         this.listClass = "list-group-item list-group-item-action "
+        this.getUrl = this.getUrl.bind(this)
         this.state = {
           _showQuestion: ''
         };
     }
+
+    getUrl = ((group) => (
+        "#" + group.replace(/ /g,"-").toLowerCase()
+    ))
+
 
     showQuestion(val) {
         this.props.onSelectGroup(val)
@@ -23,6 +29,7 @@ class QuestionGroup extends Component {
         return this.props.data.map((group, index) => (
                 <div className="list-group list-group-flush" key={'group-list-' + index}>
                 <a onClick={() => {this.showQuestion(index)}}
+                href={this.getUrl(group.heading)}
                 className={(this.props.currentActive === index ?
                         this.listClass + " bg-current" : this.listClass + " bg-light"
                 )}
