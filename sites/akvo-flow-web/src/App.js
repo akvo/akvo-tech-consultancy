@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import { Form } from 'reactstrap'
 import styles from './App.css'
 import axios from 'axios';
 import Header from './component/Header'
@@ -80,14 +82,17 @@ class App extends Component {
             <div className={this.state._fullscreen ? "wrapper d-flex toggled": "wrapper d-flex"}>
                 <div className="sidebar-wrapper bg-light border-right">
                     <Header data={this.state}></Header>
-                    <div className="list-group list-group-flush">
-                    <QuestionGroup onSelectGroup={this.selectGroup} data={this.state.questionGroup}/>
-                    </div>
+                    <QuestionGroup
+                        onSelectGroup={this.selectGroup}
+                        header={this.state}
+                        data={this.state.questionGroup}
+                        currentActive={this.state._currentGroup}
+                    />
                 </div>
                 <div className="page-content-wrapper">
                     <nav className="navbar navbar-expand-lg navbar-light bg-light border-bottom">
                         <button className="btn btn-primary" onClick={this.setFullscreen}>
-                           Full Screen
+                        {this.state._fullscreen ? <FaArrowRight /> : <FaArrowLeft />}
                         </button>
                         <Pagination onSelectGroup={this.selectGroup} data={
                             {
@@ -97,10 +102,12 @@ class App extends Component {
                             }
                         }/>
                     </nav>
-                    <div className="container-fluid">
+                    <div className="container-fluid fixed-container">
                         <h2 className="mt-2">{this.state.activeGroup}</h2>
                         <p>{this.state.activeGroup}</p>
+                        <Form>
                         <QuestionList data={this.state.activeQuestions}/>
+                        </Form>
                     </div>
                 </div>
             </div>

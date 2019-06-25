@@ -7,9 +7,9 @@ export class QuestionList extends Component {
         super(props);
     }
 
-    render () {
+    render() {
         return this.props.data.map((questions, index) => (
-            <Questions key={'question_list-' + index} data={questions} index={index}/>
+            <Questions key={'question_group-' + index} data={questions} index={index}/>
         ))
     }
 }

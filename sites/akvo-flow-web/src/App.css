@@ -2,6 +2,11 @@ body {
   overflow-x: hidden;
 }
 
+.wrapper {
+    height: 100%;
+    overflow:hidden;
+}
+
 .sidebar-wrapper {
   min-height: 100vh;
   margin-left: -285px;
@@ -18,14 +23,26 @@ body {
 
 .sidebar-wrapper .list-group {
   width: 18rem;
+  cursor: pointer;
 }
 
 .page-content-wrapper {
+  height: 100%;
   min-width: 100vw;
+}
+
+.fixed-container {
+  height: 100%;
+  overflow:scroll;
+  padding-bottom: 50px;
 }
 
 .wrapper.toggled .sidebar-wrapper {
   margin-left: 0;
+}
+
+.bg-current {
+    background-color:#dae0e5!important;
 }
 
 @media (min-width: 768px) {
