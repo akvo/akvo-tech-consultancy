@@ -18,6 +18,7 @@ class Home extends Component {
         this.updateData = this.updateData.bind(this)
         this.setFullscreen = this.setFullscreen.bind(this)
         this.dataPoint = this.dataPoint.bind(this)
+        this.submitForm = this.submitForm.bind(this)
         this.state = {
             questionGroup:[],
             questionIndex: 0,
@@ -33,7 +34,6 @@ class Home extends Component {
             _nextGroup: ''
         }
     }
-
 
     dataPoint = ((a) => (this.setState({ _dataPointName: a })))
 
@@ -52,6 +52,18 @@ class Home extends Component {
     }
 
     updateData = (data) => {
+        localStorage.setItem("_version",data.version)
+        localStorage.setItem("_instanceId",data.app)
+        let questionId = []
+        let answerType = []
+        data.questionGroup.forEach((g) => {
+            g.question.forEach((q,i) => {
+                questionId.push(q.id)
+                answerType.push(q.type.toUpperCase())
+            })
+        })
+        localStorage.setItem("questionId",questionId)
+        localStorage.setItem("answerType",answerType)
         this.setState(data)
         this.setState({
             activeGroup:data.questionGroup[0].heading,
@@ -83,6 +95,8 @@ class Home extends Component {
     //example http://localhost:5000/angkorsalad/22420001/en
 
     componentDidMount() {
+        localStorage.setItem("_formId",this.surveyId)
+        localStorage.setItem("_instanceId",this.instance)
         axios.get('http://localhost:5000/'+this.instance+'/'+this.surveyId+'/en')
             .then(res => this.updateData(res.data))
     }
@@ -91,6 +105,12 @@ class Home extends Component {
     setFullscreen() {
         const currentState = this.state._fullscreen
         this.setState({_fullscreen: !currentState})
+    }
+
+    submitForm() {
+        localStorage.setItem("_submissionStop", Date.now())
+        axios.post('http://localhost:5000/submit-form', localStorage)
+            .then(res => console.log(res.data))
     }
 
     // Rendered Components
@@ -108,7 +128,7 @@ class Home extends Component {
                         currentActive={this.state._currentGroup}
                     />
                     <div className="submit-block">
-                    <button onClick={this.state.submitForm} className="btn btn-block btn-primary">
+                    <button onClick={this.submitForm} className="btn btn-block btn-primary">
                         Submit
                     </button>
                     </div>
