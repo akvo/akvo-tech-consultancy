@@ -78,10 +78,6 @@ class QuestionType extends Component {
         )
     }
 
-    renderOption (opt, i) {
-        return (<option value={opt.value} key={i}>{opt.text}</option>)
-    }
-
     getRadio (opts) {
         return (
             <div>

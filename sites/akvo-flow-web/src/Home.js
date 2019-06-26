@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
-import { Form } from 'reactstrap'
+import uuid from 'uuid/v4'
 import './App.css'
 import axios from 'axios';
 import Header from './component/Header'
@@ -24,13 +24,16 @@ class Home extends Component {
             activeQuestions: [],
             activeGroup: '',
             _fullScreen: false,
-            _dataPointName: localStorage.getItem('dataPointName'),
+            _dataPointName: localStorage.getItem('_dataPointName'),
+            _dataPointId: localStorage.getItem('_dataPointId'),
+            _canSubmit: false,
             _currentGroup: '',
             _prevGroup: '',
             _totalGroup: '',
             _nextGroup: ''
         }
     }
+
 
     dataPoint = ((a) => (this.setState({ _dataPointName: a })))
 
@@ -59,6 +62,16 @@ class Home extends Component {
             _totalGroup:data.questionGroup.length
         })
         this.selectGroup (this.state.questionIndex)
+
+        localStorage.setItem('_uuid', uuid())
+        let dataPointId  = [
+            Math.random().toString(36).slice(2).substring(1,5),
+            Math.random().toString(36).slice(2).substring(1,5),
+            Math.random().toString(36).slice(2).substring(1,5)
+        ]
+        localStorage.setItem("_dataPointId", dataPointId.join("-"))
+        localStorage.setItem("_submissionStart", Date.now())
+        localStorage.setItem("_deviceId", "Flow Web")
     }
 
     updateQuestions = (index) => {
@@ -71,9 +84,7 @@ class Home extends Component {
 
     componentDidMount() {
         axios.get('http://localhost:5000/'+this.instance+'/'+this.surveyId+'/en')
-            .then(res =>
-                this.updateData(res.data)
-            )
+            .then(res => this.updateData(res.data))
     }
 
     // Animations
@@ -96,13 +107,21 @@ class Home extends Component {
                         surveyId={this.surveyId}
                         currentActive={this.state._currentGroup}
                     />
+                    <div className="submit-block">
+                    <button onClick={this.state.submitForm} className="btn btn-block btn-primary">
+                        Submit
+                    </button>
+                    </div>
                 </div>
                 <div className="page-content-wrapper">
                     <nav className="navbar navbar-expand-lg navbar-light bg-light border-bottom">
                         <button className="btn btn-primary" onClick={this.setFullscreen}>
                         {this.state._fullscreen ? <FaArrowRight /> : <FaArrowLeft />}
                         </button>
-                        <h3>{this.state._dataPointName}</h3>
+                        <div className="data-point">
+                        <h3 className="data-point-name">{this.state._dataPointName}</h3>
+                        <span className="text-center data-point-id">{this.state._dataPointId}</span>
+                        </div>
                         <Pagination onSelectGroup={this.selectGroup} data={
                             {
                              'prev':this.state._prevGroup,
@@ -111,12 +130,10 @@ class Home extends Component {
                             }
                         }/>
                     </nav>
-                    <div className="container-fluid fixed-container">
+                    <div className="container-fluid fixed-container" >
                         <h2 className="mt-2">{this.state.activeGroup}</h2>
                         <p>{this.state.activeGroup}</p>
-                        <Form>
                         <QuestionList data={this.state.activeQuestions} dataPoint={this.dataPoint}/>
-                        </Form>
                     </div>
                 </div>
             </div>

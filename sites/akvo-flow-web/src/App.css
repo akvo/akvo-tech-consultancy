@@ -26,6 +26,25 @@ body {
   cursor: pointer;
 }
 
+.submit-block {
+    text-align:center;
+    padding:40px;
+}
+
+.data-point{
+    margin-left: auto;
+}
+
+.data-point-name{
+    font-size: 16px;
+    margin-bottom: auto;
+}
+
+.data-point-id{
+    display:block;
+    font-size: 14px;
+}
+
 .page-content-wrapper {
   height: 100%;
   min-width: 100vw;
@@ -43,6 +62,13 @@ body {
 
 .bg-current {
     background-color:#dae0e5!important;
+}
+.card-body {
+    background: #f8f9fa;
+}
+.card-title {
+    border-bottom: 1px solid #dfdfdf;
+    padding: 0px 0px 20px;
 }
 
 @media (min-width: 768px) {
