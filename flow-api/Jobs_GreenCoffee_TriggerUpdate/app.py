@@ -31,8 +31,8 @@ requestURI = 'https://api.akvo.org/flow/orgs/' + instanceURI
 folderID = '30240002'
 
 # PRODUCTION
-website = 'http://giacaphe.ipsard.gov.vn/WebService.asmx'
-# website = 'http://118.70.171.49:64977/WebService.asmx'
+# website = 'http://giacaphe.ipsard.gov.vn/WebService.asmx'
+website = 'http://118.70.171.49:64977/WebService.asmx'
 keymd5 = '?keymd5=c946415addc376cc50c91956a51823f1&'
 dateFormat = '%Y-%m-%dT%H:%M:%S'
 checkURI = website +'/select_price_by_date_and_ACC_ID'  + keymd5
@@ -50,7 +50,7 @@ def post_data(keyval):
     date = '&Date_var=' + date.replace('/','%2F') + uid
     agency = '&ID_Agency=' + keyval['agency'] + date
     comm = '&ID_Commodity=' + keyval['commodity'] + agency
-    mval = '&MIN_PRICE=' + str(int(keyval['value'])) + comm + '&MAX_PRICE=0'
+    mval = '&MIN_PRICE=' + str(float(keyval['value'])) + comm + '&MAX_PRICE=0'
     post_new_price = False
     try:
         mval = mval + '&ID_PRICE=' + keyval['price_id']
