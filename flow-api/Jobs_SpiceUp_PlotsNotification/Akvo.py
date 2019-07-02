@@ -1,5 +1,5 @@
 import requests as r
-import os, sys
+import os
 import logging
 
 class Flow:

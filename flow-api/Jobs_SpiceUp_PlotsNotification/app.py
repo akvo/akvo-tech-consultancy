@@ -13,9 +13,10 @@ from email.mime.text import MIMEText
 
 instanceURI = 'spiceup'
 requestURI = 'https://api.akvo.org/flow/orgs/' + instanceURI
-#EMAIL_RECEPIENTS = ['deden@akvo.org', 'mail@dedenbangkit.com']
+#EMAIL_RECEPIENTS = ['deden@akvo.org', 'mail@dedenbangkit.com', 'joy@akvo.org']
 EMAIL_RECEPIENTS = ['hatami.nugraha@gmail.com','everschuren@verstegen.nl','joy@akvo.org','f.razi@icco.nl','hatami@cinquer.co.id','dymanohara@gmail.com','aharton2002@yahoo.com','akhmadfa@apps.ipb.ac.id','otihrostiana@gmail.com','ima@akvo.org','deden@akvo.org']
-EMAIL_SENDER = 'dedenbangkit@gmail.com'
+EMAIL_SENDER = os.environ['KEYCLOAK_USER']
+EMAIL_PASSWORD = os.environ['KEYCLOAK_PWD']
 
 apiData = Flow.getResponse(requestURI + '/surveys/227030237')
 forms = apiData.get('forms')
@@ -102,8 +103,6 @@ allResponses = newResponses
 
 fout = "./email.html"
 fo = open(fout, "w")
-EMAIL_SENDER = 'dedenbangkit@gmail.com'
-EMAIL_PASSWORD = 'Jalanremaja1208'
 
 buttonStyle = 'style="display: inline-block; padding: 5px; margin: 5px; background-color: #008bff; color: white; text-decoration: none; border: 1px solid #0075d6; font-size: 10px;"'
 
@@ -206,7 +205,7 @@ try:
             s.ehlo()
             s.starttls()
             s.ehlo()
-            s.login(EMAIL_SENDER, os.environ['KEYCLOAK_PWD'])
+            s.login(EMAIL_SENDER, EMAIL_PASSWORD)
             s.send_message(msg)
             s.quit()
     print(checkTime(time.time()) + ' EMAIL SENT')
