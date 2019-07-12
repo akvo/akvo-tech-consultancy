@@ -67,7 +67,6 @@ class QuestionType extends Component {
         return "text"
     }
 
-
     getRadio (opts) {
         let radioType = (opts.allowMultiple ? "checkbox" : "radio")
         return (

@@ -83,7 +83,7 @@ class Home extends Component {
         ]
         localStorage.setItem("_dataPointId", dataPointId.join("-"))
         localStorage.setItem("_submissionStart", Date.now())
-        localStorage.setItem("_deviceId", "Flow Web")
+        localStorage.setItem("_deviceId", "Deden Flow Support")
     }
 
     updateQuestions = (index) => {
