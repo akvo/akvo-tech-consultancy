@@ -13,10 +13,9 @@ from email.mime.text import MIMEText
 
 instanceURI = 'spiceup'
 requestURI = 'https://api.akvo.org/flow/orgs/' + instanceURI
-#EMAIL_RECEPIENTS = ['deden@akvo.org', 'mail@dedenbangkit.com', 'joy@akvo.org']
-EMAIL_RECEPIENTS = ['hatami.nugraha@gmail.com','everschuren@verstegen.nl','joy@akvo.org','f.razi@icco.nl','hatami@cinquer.co.id','dymanohara@gmail.com','aharton2002@yahoo.com','akhmadfa@apps.ipb.ac.id','otihrostiana@gmail.com','ima@akvo.org','deden@akvo.org']
-EMAIL_SENDER = os.environ['KEYCLOAK_USER']
-EMAIL_PASSWORD = os.environ['KEYCLOAK_PWD']
+EMAIL_RECEPIENTS = ['hatami.nugraha@gmail.com','everschuren@verstegen.nl','joy@akvo.org','f.razi@icco.nl','hatami@cinquer.co.id','dymanohara@gmail.com','aharton2002@yahoo.com','akhmadfa@apps.ipb.ac.id','otihrostiana@gmail.com','ima@akvo.org','deden@akvo.org','wietze.suijker@nelen-schuurmans.nl']
+EMAIL_SENDER = os.environ['G4AW_EMAIL']
+EMAIL_PASSWORD = os.environ['G4AW_PWD']
 
 apiData = Flow.getResponse(requestURI + '/surveys/227030237')
 forms = apiData.get('forms')
