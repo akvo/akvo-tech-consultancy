@@ -5,7 +5,7 @@ class QuestionType extends Component {
     constructor(props) {
         super(props)
         this.value = localStorage.getItem(this.props.data.id)
-        this.state = { value: this.value ? this.value : ""}
+        this.state = { value: this.value ? this.value : "" }
         this.setDpStorage = this.setDpStorage.bind(this)
         this.getQuestionType = this.getQuestionType.bind(this)
         this.getRadio = this.getRadio.bind(this)
@@ -17,8 +17,33 @@ class QuestionType extends Component {
     }
 
     handleChange(event) {
-        this.setState({value: event.target.value})
-        localStorage.setItem(this.props.data.id, event.target.value)
+        let id = this.props.data.id
+        let value = event.target.value
+        if (this.props.data.options.allowMultiple) {
+            let multiple = true
+        }
+        this.props.checkDependency(id, value)
+        if (this.props.data.options.allowMultiple) {
+            let multipleValue = []
+            if (localStorage.getItem(id)) {
+                multipleValue = JSON.parse(localStorage.getItem(id))
+            }
+            if (multipleValue.indexOf(value) === -1) {
+                multipleValue.push(value)
+            } else {
+				multipleValue.splice(multipleValue.indexOf(value), 1)
+            }
+			if (multipleValue.length > 0) {
+            	localStorage.setItem(id, JSON.stringify(multipleValue))
+            	this.setState({value: multipleValue})
+			} else {
+				localStorage.removeItem(id)
+            	this.setState({value: ""})
+			}
+        } else {
+            localStorage.setItem(id, value)
+            this.setState({value: value})
+        }
         if (this.props.data.localeNameFlag) {
             let a = JSON.parse(localStorage.getItem('_dpOrder'));
             let names = []
@@ -29,7 +54,7 @@ class QuestionType extends Component {
                 }
                 return true
             })
-            let edited = names.join("-")
+            let edited = names.join(" - ")
             localStorage.setItem("_dataPointName", edited)
             this.props.dataPoint(edited)
         }
@@ -87,6 +112,10 @@ class QuestionType extends Component {
     }
 
     renderRadio (opt, i, id, radioType) {
+        let checked = () => (localStorage.getItem(id) === opt.value)
+		if (radioType === "checkbox" && this.state.value.indexOf(opt.value) >= 0) {
+			checked = () => (true)
+		}
         return (
             <div className="form-check"
                  key={id+i}
@@ -97,9 +126,10 @@ class QuestionType extends Component {
                     name={id}
                     value={opt.value}
                     id={id+i}
+                    key={"input" + id+i}
                     onChange={this.handleChange}
-                    checked={localStorage.getItem(id) === opt.value}
-                />
+                    checked={checked()}
+            />
                 <label
                     className="form-check-label"
                     htmlFor={id+i}>
@@ -136,10 +166,11 @@ class QuestionType extends Component {
         if (this.props.data.localeNameFlag) {
             this.setDpStorage()
         }
+        let answered = localStorage.getItem(this.props.data.id)
         return this.props.data.type === "option" ? this.getRadio(this.props.data.options) : (
             this.props.data.type === "cascade" ? this.getCascade(this.props.data): (<input
                 className="form-control"
-                value={localStorage.getItem(this.props.data.id)}
+                value={answered ? answered : ""}
                 key={this.props.data.id}
                 type={this.getQuestionType(this.props.data)}
                 name={this.props.data.id}

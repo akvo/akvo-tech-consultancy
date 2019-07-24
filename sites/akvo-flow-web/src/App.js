@@ -5,7 +5,7 @@ import Home from './Home'
 class App extends Component {
     render () {
         return (
-            <BrowserRouter>
+            <BrowserRouter key="main-route">
                 <Route path="/:instance/:surveyid" render={ props => <Home {...props} />} />
             </BrowserRouter>
         )
