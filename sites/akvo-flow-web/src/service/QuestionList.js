@@ -8,6 +8,7 @@ export class QuestionList extends Component {
         this.reloadData = this.reloadData.bind(this)
         this.updateDependencies = this.updateDependencies.bind(this)
         this.getDependencies = this.getDependencies.bind(this)
+        this.questionClasses = {}
         this.dependencies = []
         this.solvedDependency = []
     }
@@ -16,12 +17,15 @@ export class QuestionList extends Component {
         let question = this.dependencies.filter((a) => (
             a['question'] === x
         ))
-        if (question) {
+        if (question[0]) {
+            let resolve = question[0]['answers']
+            if (resolve.indexOf(y) >= 0) {
+                this.solvedDependency.push(question[0])
+            } else {
+                this.solvedDependency.splice(resolve.indexOf(y), 1)
+            }
         }
-    }
-
-    solveDependency(x) {
-
+        this.updateDependencies()
     }
 
     getDependencies(question) {
@@ -34,13 +38,30 @@ export class QuestionList extends Component {
         this.dependencies = questions.map((x,y) => {
             let answers = x['dependency']['answer-value'].split('|')
             let question = x['dependency']['question']
-            let answered = localStorage.getItem(question)
-            let data = {'answers': answers, 'question': question}
+            let dependentId = this.props.data.filter((a)=>(a.id === question))[0].id
+            let data = {'id':dependentId,'answers': answers, 'question': x.id}
             return data
+        })
+        this.dependencies.map((x,y) => {
+            let answered = localStorage.getItem(x.id)
+            if (answered !== null && answered.indexOf(x.answers) >= 0) {
+                if(this.solvedDependency.indexOf(x.question) === -1) {
+                    this.solvedDependency.push(x.question)
+                }
+                this.questionClasses[x.question] = 'my-4'
+            } else {
+                this.questionClasses[x.question] = 'my-4 d-none'
+            }
+            console.log(this.solvedDependency)
+            return true
         })
     }
 
     render() {
+        this.props.data.every((q, i) => {
+            this.questionClasses[q.id] = 'my-4'
+            return true
+        })
         this.updateDependencies()
         return this.props.data.map((questions, index) => (
             <Questions
@@ -48,6 +69,8 @@ export class QuestionList extends Component {
             data={questions} index={index}
             dataPoint={this.props.dataPoint}
             reloadData={this.reloadData}
+            solvedDependency={this.solvedDependency}
+            questionClasses={this.questionClasses}
             />
         ))
     }
