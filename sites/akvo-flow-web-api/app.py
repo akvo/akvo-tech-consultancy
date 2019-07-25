@@ -146,8 +146,5 @@ def submit():
     return jsonify(results)
 
 if __name__=='__main__':
-    app.config.update(
-            DEBUG=True,
-            TEMPLATES_AUTO_RELOAD=True
-    )
+    app.config.update(host='0.0.0.0', debug=True, TEMPLATES_AUTO_RELOAD=True, port=3000)
     app.run()
