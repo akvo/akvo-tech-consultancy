@@ -146,6 +146,7 @@ def submit():
     #    os.rmdir(foldername)
     return jsonify(results)
 
-if __name__=='__main__':
-    app.config.update(host='0.0.0.0', debug=True, TEMPLATES_AUTO_RELOAD=True, port=5000)
-    app.run()
+if __name__ == '__main__':
+    app.jinja_env.auto_reload = True
+    app.config['TEMPLATES_AUTO_RELOAD'] = True
+    app.run(host='0.0.0.0', debug=True, port=5000)
