@@ -6,7 +6,7 @@ class App extends Component {
     render () {
         return (
             <BrowserRouter key="main-route">
-                <Route path="/:instance/:surveyid" render={ props => <Home {...props} />} />
+                <Route key="default" path="/:instance/:surveyid" render={ props => <Home key="home" {...props} />} />
             </BrowserRouter>
         )
     }

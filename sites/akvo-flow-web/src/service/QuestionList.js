@@ -8,6 +8,7 @@ export class QuestionList extends Component {
         this.reloadData = this.reloadData.bind(this)
         this.updateDependencies = this.updateDependencies.bind(this)
         this.getDependencies = this.getDependencies.bind(this)
+        this.hideContent = this.hideContent.bind(this)
         this.state = {}
         this.dependencies = []
         this.solvedDependency = []
@@ -32,7 +33,6 @@ export class QuestionList extends Component {
         return question.dependency
     }
 
-
     updateDependencies() {
         let allClasses = {}
         this.props.data.map((y) => {
@@ -55,10 +55,15 @@ export class QuestionList extends Component {
                 }
                 this.setState({[x.question] :'my-4 d-none'})
             } else {
+                this.solvedDependency.splice(this.solvedDependency.indexOf(x.question), 1)
                 this.setState({[x.question] :'my-4'})
             }
             return true
         })
+    }
+
+    hideContent(x) {
+        this.setState({[x] :'my-4 d-none'})
     }
 
     render() {
@@ -70,6 +75,7 @@ export class QuestionList extends Component {
             reloadData={this.reloadData}
             solvedDependency={this.solvedDependency}
             parentState={this.state}
+            hideContent={this.hideContent}
             />
         ))
     }

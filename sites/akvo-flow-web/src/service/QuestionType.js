@@ -6,7 +6,7 @@ class QuestionType extends Component {
     constructor(props) {
         super(props)
         this.value = localStorage.getItem(this.props.data.id)
-        this.state = { value: this.value ? this.value : "" }
+        this.state = { value: this.value ? this.value : '' }
         this.setDpStorage = this.setDpStorage.bind(this)
         this.getQuestionType = this.getQuestionType.bind(this)
         this.getRadio = this.getRadio.bind(this)
@@ -119,10 +119,18 @@ class QuestionType extends Component {
     }
 
     renderRadio (opt, i, id, radioType) {
+        let answer = localStorage.getItem(this.props.data.id)
         let checked = () => (localStorage.getItem(id) === opt.value)
 		if (radioType === "checkbox" && this.state.value.indexOf(opt.value) >= 0) {
 			checked = () => (true)
 		}
+        if(this.props.isJsonString(answer)) {
+            answer = JSON.parse(answer)
+            if (answer !== null && answer.indexOf(opt.value) >=0) {
+			    checked = () => (true)
+            }
+        }
+        console.log(checked(), opt.value)
         return (
             <div className="form-check"
                  key={id+i}
@@ -176,6 +184,9 @@ class QuestionType extends Component {
             </>
         )
         cascades.push(cascade)
+        if (this.limitCascade <= i) {
+            this.handleChange()
+        }
         return cascades.map((x, i) => x)
     }
 
@@ -196,9 +207,9 @@ class QuestionType extends Component {
             let cascade = "cascade_" + ix
             axios.get(url).then((res) =>
                 this.setState({
-                    [options]:res.data,
+                    [options]: res.data,
                     [cascade]: [options],
-                    value:res.data[0]['id']
+                    value: res.data[0]['id']
                 })
             )
         }

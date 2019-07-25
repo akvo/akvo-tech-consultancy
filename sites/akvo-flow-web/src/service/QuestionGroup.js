@@ -17,7 +17,6 @@ class QuestionGroup extends Component {
         "#" + group.replace(/ /g,"-").toLowerCase()
     ))
 
-
     showQuestion(val) {
         this.props.onSelectGroup(val)
         this.setState(

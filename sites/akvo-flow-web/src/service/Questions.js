@@ -17,6 +17,8 @@ class Questions extends Component {
         }
         this.checkDependency = this.checkDependency.bind(this)
         this.solveDependent = this.solveDependent.bind(this)
+        this.isJsonString = this.isJsonString.bind(this)
+        this.classes = 'my-4 d-none'
     }
 
     checkDependency (x,y) {
@@ -40,14 +42,42 @@ class Questions extends Component {
         this.checkDependency('','')
     }
 
+    isJsonString(str) {
+        try {
+            JSON.parse(str);
+        } catch (e) {
+            return false;
+        }
+        return true;
+    }
+
+
     render() {
+        this.classes = this.props.parentState[this.props.data.id]
+        if (this.props.data.dependency) {
+            let answerValue = this.props.data.dependency['answer-value']
+            let currentAnswer = localStorage.getItem(this.props.data.dependency.question)
+            if (this.isJsonString(currentAnswer)) {
+                if (currentAnswer !== null && currentAnswer.indexOf(answerValue) >= 0) {
+                    this.classes = 'my-4'
+                } else {
+                    this.classes = 'my-4 d-none'
+                }
+            } else {
+                if (answerValue !== currentAnswer) {
+                    this.classes = 'my-4 d-none'
+                } else {
+                    this.classes = 'my-4'
+                }
+            }
+        }
         return (
-            <Card key={"card-" + this.props.index} className= {this.props.parentState[this.props.data.id]} >
+            <Card key={"card-" + this.props.index} className= {this.classes} >
             <CardBody key={"card-body-" + this.props.index}>
                 <CardTitle key={"card-title-" + this.props.index}>
                     { (this.props.index + 1) + '. ' + this.props.data.text}
                 </CardTitle>
-                <QuestionType key={this.props.index} data={this.props.data} dataPoint={this.props.dataPoint} checkDependency={this.checkDependency}/>
+                <QuestionType key={this.props.index} data={this.props.data} dataPoint={this.props.dataPoint} checkDependency={this.checkDependency} isJsonString={this.isJsonString}/>
             </CardBody>
             </Card>
         )

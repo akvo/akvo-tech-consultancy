@@ -38,7 +38,6 @@ class Home extends Component {
     dataPoint = ((a) => (this.setState({ _dataPointName: a })))
 
     // Fetching the API Update
-
     selectGroup = (index) => {
         let ng = (index === this.state._totalgroup ? 0 : (index + 1))
         let pg = (index <= 0 ? index : (index - 1))
@@ -64,8 +63,8 @@ class Home extends Component {
         })
         localStorage.setItem("questionId",questionId)
         localStorage.setItem("answerType",answerType)
-        this.setState(data)
         this.setState({
+            ...data,
             activeGroup:data.questionGroup[0].heading,
             activeQuestions:data.questionGroup[0].question,
             _nextGroup:(data.questionGroup.length >= 1 ? 0 : 1),
@@ -93,7 +92,6 @@ class Home extends Component {
     }
 
     //example http://localhost:5000/angkorsalad/22420001/en
-
     componentDidMount() {
         localStorage.setItem("_formId",this.surveyId)
         localStorage.setItem("_instanceId",this.instance)
@@ -114,7 +112,6 @@ class Home extends Component {
     }
 
     // Rendered Components
-
     render (){
         return (
             <div className={this.state._fullscreen ? "wrapper d-flex toggled": "wrapper d-flex"}>
@@ -153,7 +150,7 @@ class Home extends Component {
                     <div className="container-fluid fixed-container" >
                         <h2 className="mt-2">{this.state.activeGroup}</h2>
                         <p>{this.state.activeGroup}</p>
-                        <QuestionList data={this.state.activeQuestions} dataPoint={this.dataPoint} classes={this.state._allClasses}/>
+                        <QuestionList data={this.state.activeQuestions} dataPoint={this.dataPoint} classes={this.state._allClasses} key={"key-1"}/>
                     </div>
                 </div>
             </div>
