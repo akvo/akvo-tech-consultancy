@@ -1,0 +1,17 @@
+<nav class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-dark">
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item dropup">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Instances</a>
+        <div class="dropdown-menu" aria-labelledby="dropdown10">
+          {% for instance in instances%}
+          <a class="dropdown-item showing-modal" href="#" data-id="{{instance["instances"]}}">{{instance["instances"]}}</a>
+          {% endfor %}
+        </div>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link" href="#">Datapoints</a> 
+      </li>
+    </ul>
+  </div>
+</nav>

@@ -1,0 +1,114 @@
+{% extends 'template/main.html' %}
+{% block body %}
+<div class="col-md-12" style="padding-top:20px;">
+<div class="jumbotron">
+    <h2 class="text-center">{{ data["name"] }}</h2>
+    <div class="text-center">App: {{ data["app"]}} | Survey ID: {{ data["surveyId"]}} | Version: {{ data["version"]}} {% if data['questionGroup'][0]['question'][0]['altText'] %} | Language: <a href="{{url}}">EN</a> | <a href="{{url|replace('en',data['questionGroup'][0]['question'][0]['altText']['language'])}}">{{data['questionGroup'][0]['question'][0]['altText']['language'] | upper()}}</a>  {%endif%}
+
+    </div>
+    <hr>
+<nav>
+  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+      {% for g in data["questionGroup"]%}
+      <a class="nav-item nav-link {% if loop.index == 1  %}active{% endif %}" id="nav-g{{loop.index}}-tab" data-toggle="tab" href="#nav-g{{loop.index}}" role="tab" aria-controls="nav-g{{g['heading']}}" aria-selected="true">{{g['heading']}}</a>
+      {% endfor %}
+  </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+      {% for g in data["questionGroup"] %}
+      <div class="tab-pane fade {% if loop.index == 1  %}show active{% endif %}" id="nav-g{{loop.index}}" role="tabpanel" aria-labelledby="nav-g{{loop.index}}">
+        <form>
+        {% for q in g["question"] %}
+        {% if q["dependency"] %}
+        <div class="form-group" id="hidden-{{q["id"]}}" style="display:none;">
+        <script type="text/javascript">
+            var d{{q["id"]}} = document.getElementsByName('{{q["dependency"]["question"]}}');
+            for (var i = 0; i < d{{q["id"]}}.length; i++) {
+                d{{q["id"]}}[i].onclick = function(x) {
+                    var form{{q["id"]}} = document.getElementById('hidden-{{q["id"]}}');
+                    if ("{{q["dependency"]["answer-value"]}}".includes(x.target.value)) {
+                        form{{q["id"]}}.style.display = "block";
+                    } else {
+                        form{{q["id"]}}.style.display = "none";
+                    }
+                }
+            }
+        </script>
+        {% else %}
+        <div class="form-group">
+        {%endif%}
+             <label for="q-{{q["id"]}}">{{loop.index}}. {%if lang == 'en' %}{{q["text"]}}{% else %}{{q["altText"]["text"]}}{% endif %}</label>
+             {% if q['type'] == "free" %}
+                {%if q['validationRule'] %}
+                <input type="number" class="form-control" name="{{q['id']}}" id="q-{{q["id"]}}" min="0" {%if q['validationRule']['maxVal']%}max={{q['validationRule']['maxVal']}}{% endif %} placeholder="0">
+                {% else %}
+                <input type="text" class="form-control" name="{{q['id']}}" id="q-{{q["id"]}}" placeholder="Lorem">
+                {%endif%}
+             {% elif q['type'] == "option" %}
+                {% if q['options']['option']['value'] %}
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="{{q['id']}}" id="r-{{q['id']}}" value="{{q["options"]["option"]["value"]}}">
+                    <label class="form-check-label" for="r-{{q['id']}}-{{loop.index}}">
+                    {% if lang == "en" %}
+                    {{q["options"]["option"]["text"]}} 
+                    {% else %}
+                    {{q["options"]["option"]["altText"]["text"]}} 
+                    {% endif %}
+                  </label>
+                </div>
+                {% else %}
+                {% for o in q['options']['option'] %}
+                <div class="form-check">
+                    <input class="form-check-input" type="{%if q['options']['allowMultiple'] %}checkbox{%else%}radio{%endif%}" name="{{q['id']}}" id="r-{{q['id']}}-{{loop.index}}" value="{{o['value']}}">
+                    <label class="form-check-label" for="r-{{q['id']}}-{{loop.index}}">
+                    {% if lang == "en" %}
+                    {{o["text"]}} 
+                    {% else %}
+                        {% if o["altText"] %} 
+                            {{o["altText"]["text"]}} 
+                        {% else %}
+                            {{o["text"]}} 
+                        {% endif %}
+                    {% endif %}
+                  </label>
+                </div>
+                {% endfor %}
+                {% endif %}
+             {% elif q['type'] == "photo"%}
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="{{q['id']}}" required>
+                    <label class="custom-file-label" name="{{q['id']}}"  for="{{q['id']}}">Choose file...</label>
+                    <div class="invalid-feedback">Example invalid custom file feedback</div>
+                </div>
+             {% elif q['type'] == "geo"%}
+             <div id="{{q['id']}}" class="google-map"></div>
+                <script>
+
+                  function initMap() {
+                    var myLatLng = {lat: -25.363, lng: 131.044};
+
+                      var map = new google.maps.Map(document.getElementById('{{q["id"]}}'), {
+                      zoom: 4,
+                      center: myLatLng
+                    });
+
+                    var marker = new google.maps.Marker({
+                      position: myLatLng,
+                      map: map,
+                      title: 'Hello World!'
+                    });
+                  }
+                </script>
+             {% else %}
+             {% endif %}
+         </div>
+        <hr>
+        </form>
+        {% endfor %}
+      
+      </div>
+      {% endfor %}
+</div>
+</div>
+</div>
+{% endblock %}

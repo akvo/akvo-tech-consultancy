@@ -1,0 +1,18 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Flow Web</title>
+</head>
+<body>
+    <div class="container">
+    {% block body %}{% endblock %}
+    </div>
+    {% include 'include/_navbar.html' %}
+    {% include 'include/_modal.html' %}
+    <script src="/static/js/main.js" type="text/javascript" type="text/javascript"></script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIv2SUL6gt0gOgr8M9XLGpGIpEVwaR4A0&callback=initMap">
+    </script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+pandas==0.24.2
+Flask==1.0
+Flask-Cors==3.0.8
+xmltodict==0.11.0
+lxml==4.3.0

@@ -1,0 +1,44 @@
+{
+  "name": "flow-web-app",
+  "version": "1.0.0",
+  "description": "Flow Web App",
+  "main": "index.js",
+  "scripts": {
+    "test": "eslint /src",
+    "build": "webpack",
+    "start": "sh run.sh",
+    "stop": "sh kill.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akvo/akvo-tech-consultancy.git"
+  },
+  "keywords": [
+    "flow",
+    "akvo",
+    "web"
+  ],
+  "author": "Deden Bangkit",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/akvo/akvo-tech-consultancy/issues"
+  },
+  "homepage": "https://github.com/akvo/akvo-tech-consultancy/#readme",
+  "dependencies": {
+    "bootstrap": "^4.1.0",
+    "popper.js": "^1.14.3",
+    "postcss-loader": "^2.1.4",
+    "webpack": "^4.6.0"
+  },
+  "devDependencies": {
+    "css-loader": "^0.28.11",
+    "eslint": "^4.19.1",
+    "jquery": "^3.3.1",
+    "node-sass": "^4.9.0",
+    "resolve-url-loader": "^2.3.0",
+    "sass-loader": "^7.0.1",
+    "style-loader": "^0.21.0",
+    "url-loader": "^1.0.1",
+    "webpack-cli": "^3.1.1"
+  }
+}
