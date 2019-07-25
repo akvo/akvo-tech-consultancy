@@ -18,7 +18,7 @@ spec:
         image: eu.gcr.io/akvo-lumen/tech-consultancy-akvo-flow-web-api:${TRAVIS_COMMIT}
         imagePullPolicy: Always
         ports:
-        - containerPort: 3000
+        - containerPort: 5000
         resources:
           requests:
             cpu: 100m
@@ -35,7 +35,7 @@ spec:
   type: NodePort
   ports:
     - port: 80
-      targetPort: 3000
+      targetPort: 5000
       protocol: TCP
       name: http
   selector:

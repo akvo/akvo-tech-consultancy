@@ -42,6 +42,7 @@ def survey(instance,surveyId,lang):
         z = ZipFile(BytesIO(zipurl.content))
         z.extractall(ziploc)
     response = readxml(ziploc + '/' +surveyId + '.xml')
+    print(response)
     if not os.path.exists(ziploc):
         cascadeList = []
         for groups in response["questionGroup"]:
@@ -146,5 +147,5 @@ def submit():
     return jsonify(results)
 
 if __name__=='__main__':
-    app.config.update(host='0.0.0.0', debug=True, TEMPLATES_AUTO_RELOAD=True, port=3000)
+    app.config.update(host='0.0.0.0', debug=True, TEMPLATES_AUTO_RELOAD=True, port=5000)
     app.run()
