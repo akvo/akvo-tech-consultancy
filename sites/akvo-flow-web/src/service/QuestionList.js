@@ -8,7 +8,7 @@ export class QuestionList extends Component {
         this.reloadData = this.reloadData.bind(this)
         this.updateDependencies = this.updateDependencies.bind(this)
         this.getDependencies = this.getDependencies.bind(this)
-        this.questionClasses = {}
+        this.state = {}
         this.dependencies = []
         this.solvedDependency = []
     }
@@ -34,6 +34,11 @@ export class QuestionList extends Component {
 
 
     updateDependencies() {
+        let allClasses = {}
+        this.props.data.map((y) => {
+            allClasses[y.id] = 'my-4'
+        })
+        this.setState(allClasses)
         let questions = this.props.data.filter(this.getDependencies)
         this.dependencies = questions.map((x,y) => {
             let answers = x['dependency']['answer-value'].split('|')
@@ -48,21 +53,15 @@ export class QuestionList extends Component {
                 if(this.solvedDependency.indexOf(x.question) === -1) {
                     this.solvedDependency.push(x.question)
                 }
-                this.questionClasses[x.question] = 'my-4'
+                this.setState({[x.question] :'my-4 d-none'})
             } else {
-                this.questionClasses[x.question] = 'my-4 d-none'
+                this.setState({[x.question] :'my-4'})
             }
-            console.log(this.solvedDependency)
             return true
         })
     }
 
     render() {
-        this.props.data.every((q, i) => {
-            this.questionClasses[q.id] = 'my-4'
-            return true
-        })
-        this.updateDependencies()
         return this.props.data.map((questions, index) => (
             <Questions
             key={'question_group-' + index}
@@ -70,7 +69,7 @@ export class QuestionList extends Component {
             dataPoint={this.props.dataPoint}
             reloadData={this.reloadData}
             solvedDependency={this.solvedDependency}
-            questionClasses={this.questionClasses}
+            parentState={this.state}
             />
         ))
     }

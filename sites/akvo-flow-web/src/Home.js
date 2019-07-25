@@ -153,7 +153,7 @@ class Home extends Component {
                     <div className="container-fluid fixed-container" >
                         <h2 className="mt-2">{this.state.activeGroup}</h2>
                         <p>{this.state.activeGroup}</p>
-                        <QuestionList data={this.state.activeQuestions} dataPoint={this.dataPoint}/>
+                        <QuestionList data={this.state.activeQuestions} dataPoint={this.dataPoint} classes={this.state._allClasses}/>
                     </div>
                 </div>
             </div>

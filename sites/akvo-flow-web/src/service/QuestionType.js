@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import axios from 'axios';
 
 class QuestionType extends Component {
 
@@ -12,18 +13,24 @@ class QuestionType extends Component {
         this.getRadioSelected = this.getRadio.bind(this)
         this.renderRadio = this.renderRadio.bind(this)
         this.getCascade = this.getCascade.bind(this)
+        this.getCascadeDropdown = this.getCascadeDropdown.bind(this)
         this.renderCascade = this.renderCascade.bind(this)
+        this.renderCascadeOption = this.renderCascadeOption.bind(this)
+        this.limitCascade = 0
         this.handleChange = this.handleChange.bind(this)
     }
 
     handleChange(event) {
         let id = this.props.data.id
         let value = event.target.value
-        if (this.props.data.options.allowMultiple) {
-            let multiple = true
-        }
         this.props.checkDependency(id, value)
-        if (this.props.data.options.allowMultiple) {
+        if (this.props.data.type === "cascade") {
+            let targetLevel = parseInt(event.target.name.split('-')[1]) + 1
+            if (this.limitCascade > targetLevel) {
+                this.getCascadeDropdown(value, targetLevel)
+            }
+        }
+        if (this.props.data.options && this.props.data.options.allowMultiple)  {
             let multipleValue = []
             if (localStorage.getItem(id)) {
                 multipleValue = JSON.parse(localStorage.getItem(id))
@@ -139,27 +146,66 @@ class QuestionType extends Component {
         )
     }
 
-    getCascade (opts) {
+    getCascade (opts, lv) {
         let url = window.location.pathname.split('/')[1]
-        url = 'http://localhost:5000/cascade/' + url + '/' + opts.cascadeResource + '/'
-        return opts.levels.level.map((opt, i) => (
-            this.renderCascade(opt, i, url)
-        ))
+        url = 'http://localhost:5000/cascade/' + url + '/' + opts.cascadeResource + '/2'
+        return opts.levels.level.map((opt, i) => {
+            this.limitCascade = i + 1
+            return this.renderCascade(opt, i)
+        })
     }
 
-    renderCascade (opt, i, url) {
-        return (
+    renderCascade (opt, i) {
+        let levels = "cascade_" + i
+        let cascades = []
+        let options = "options_" + i
+        let choose_options = "cascade_" + i
+        let dropdown = this.state[this.state[choose_options]]
+        let cascade = (
             <>
-            <div>{opt.text}</div>
+            <div key={i}>{opt.text}</div>
             <select
                 className="form-control"
-                value={this.state.value} type="select"
+                value={this.state.selected} type="select"
                 name={this.props.data.id + '-' + i}
                 key={this.props.data.id + '-' + i}
-                onChange={this.handleChange}>
+                onChange={this.handleChange}
+            >
+                {this.renderCascadeOption(dropdown)}
             </select>
             </>
         )
+        cascades.push(cascade)
+        return cascades.map((x, i) => x)
+    }
+
+    renderCascadeOption (data) {
+        if(data) {
+            return data.map((x, i) => {
+                let options = (<option key={i} value={x.id} >{x.name}</option>)
+                return options
+            })
+        }
+    }
+
+    getCascadeDropdown(lv, ix) {
+        if (this.props.data.type === "cascade") {
+            let url = window.location.pathname.split('/')[1]
+            url = 'http://localhost:5000/cascade/' + url + '/' + this.props.data.cascadeResource + '/' + lv
+            let options = "options_" + lv
+            let cascade = "cascade_" + ix
+            axios.get(url).then((res) =>
+                this.setState({
+                    [options]:res.data,
+                    [cascade]: [options],
+                    value:res.data[0]['id']
+                })
+            )
+        }
+    }
+
+    componentDidMount () {
+        this.getCascadeDropdown(0, 0)
     }
 
     render() {
@@ -168,7 +214,7 @@ class QuestionType extends Component {
         }
         let answered = localStorage.getItem(this.props.data.id)
         return this.props.data.type === "option" ? this.getRadio(this.props.data.options) : (
-            this.props.data.type === "cascade" ? this.getCascade(this.props.data): (<input
+            this.props.data.type === "cascade" ? this.getCascade(this.props.data, 0): (<input
                 className="form-control"
                 value={answered ? answered : ""}
                 key={this.props.data.id}

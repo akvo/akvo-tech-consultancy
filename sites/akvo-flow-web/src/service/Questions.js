@@ -42,7 +42,7 @@ class Questions extends Component {
 
     render() {
         return (
-            <Card key={"card-" + this.props.index} className= {this.props.questionClasses[this.props.data.id]} >
+            <Card key={"card-" + this.props.index} className= {this.props.parentState[this.props.data.id]} >
             <CardBody key={"card-body-" + this.props.index}>
                 <CardTitle key={"card-title-" + this.props.index}>
                     { (this.props.index + 1) + '. ' + this.props.data.text}
