@@ -1,5 +1,6 @@
 {
   "name": "flow-web",
+  "homepage": "https://tech-consultancy.akvotest.org/akvo-flow-web",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
