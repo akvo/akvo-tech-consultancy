@@ -7,4 +7,4 @@ RUN yarn run build
 FROM mhart/alpine-node:12
 RUN yarn global add serve
 WORKDIR /app
-CMD ["serve", "-p", "80", "-s", "build"]
+CMD ["serve", "-p", "8080", "-s", "build"]
