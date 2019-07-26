@@ -137,7 +137,10 @@ class QuestionType extends Component {
     }
 
     getCascade (opts, lv) {
-        let url = window.location.pathname.split('/')[1]
+        // Develop
+        // let url = window.location.pathname.split('/')[1]
+        // Prod
+        let url = window.location.pathname.split('/')[2]
         url = this.api + 'cascade/' + url + '/' + opts.cascadeResource + '/2'
         return opts.levels.level.map((opt, i) => {
             this.limitCascade = i + 1
@@ -183,7 +186,10 @@ class QuestionType extends Component {
 
     getCascadeDropdown(lv, ix) {
         if (this.props.data.type === "cascade") {
-            let url = window.location.pathname.split('/')[1]
+            // Develop
+            // let url = window.location.pathname.split('/')[1]
+            // Prod
+            let url = window.location.pathname.split('/')[2]
             url = this.api + 'cascade/' + url + '/' + this.props.data.cascadeResource + '/' + lv
             let options = "options_" + lv
             let cascade = "cascade_" + ix
