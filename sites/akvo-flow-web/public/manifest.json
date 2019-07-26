@@ -8,7 +8,8 @@
       "type": "image/x-icon"
     }
   ],
-  "start_url": "./akvo-flow-web/",
+  "start_url": ".",
+  "homepage": "https://tech-consultancy.akvotest.org/akvo-flow-web",
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff"
