@@ -6,7 +6,7 @@ class App extends Component {
     render () {
         return (
             <BrowserRouter key="main-route">
-                <Route key="default-route" path="/:instance/:surveyid" render={ props => <Home key="home" {...props} />} />
+                <Route key="default-route" path="/akvo-flow-web/:instance/:surveyid" render={ props => <Home key="home" {...props} />} />
             </BrowserRouter>
         )
     }
