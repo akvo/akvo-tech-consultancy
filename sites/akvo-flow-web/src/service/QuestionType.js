@@ -6,7 +6,7 @@ class QuestionType extends Component {
 
     constructor(props) {
         super(props)
-        this.api = 'https://http://tech-consultancy.akvotest.org/akvo-flow-web-api/'
+        this.api = 'https://tech-consultancy.akvotest.org/akvo-flow-web-api/'
         this.handler = new QuestionHandler()
         this.value = localStorage.getItem(this.props.data.id)
         this.state = { value: this.value ? this.value : '' }

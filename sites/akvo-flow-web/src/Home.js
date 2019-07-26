@@ -12,7 +12,7 @@ class Home extends Component {
 
     constructor(props) {
         super(props);
-        this.api = 'https://http://tech-consultancy.akvotest.org/akvo-flow-web-api/'
+        this.api = 'https://tech-consultancy.akvotest.org/akvo-flow-web-api/'
         this.instance = this.props.match.params.instance
         this.surveyId = this.props.match.params.surveyid
         this.selectGroup = this.selectGroup.bind(this)
