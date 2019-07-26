@@ -18,7 +18,7 @@ class Questions extends Component {
         this.checkDependency = this.checkDependency.bind(this)
         this.solveDependent = this.solveDependent.bind(this)
         this.isJsonString = this.isJsonString.bind(this)
-        this.classes = 'my-4 d-none'
+        this.classes = 'd-none'
     }
 
     checkDependency (x,y) {
@@ -32,7 +32,7 @@ class Questions extends Component {
         let dependentId = this.props.data.dependency.question
         let isResolved  = (this.props.solvedDependency.indexOf(dependentId) >= 0 ? true : false)
         if (isResolved) {
-           this.cardClass ="my-4"
+           this.cardClass =""
         }
         let dependencyAnswer = localStorage.getItem(this.props.data.dependency.question)
         return dependencyAnswer
@@ -51,7 +51,6 @@ class Questions extends Component {
         return true;
     }
 
-
     render() {
         this.classes = this.props.parentState[this.props.data.id]
         if (this.props.data.dependency) {
@@ -59,15 +58,15 @@ class Questions extends Component {
             let currentAnswer = localStorage.getItem(this.props.data.dependency.question)
             if (this.isJsonString(currentAnswer)) {
                 if (currentAnswer !== null && currentAnswer.indexOf(answerValue) >= 0) {
-                    this.classes = 'my-4'
+                    this.classes = ''
                 } else {
-                    this.classes = 'my-4 d-none'
+                    this.classes = 'd-none'
                 }
             } else {
                 if (answerValue !== currentAnswer) {
-                    this.classes = 'my-4 d-none'
+                    this.classes = 'd-none'
                 } else {
-                    this.classes = 'my-4'
+                    this.classes = ''
                 }
             }
         }

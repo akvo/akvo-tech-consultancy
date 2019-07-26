@@ -1,0 +1,42 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: tech-consultancy-akvo-flow-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: tech-consultancy-akvo-flow-web
+  template:
+    metadata:
+      labels:
+        run: tech-consultancy-akvo-flow-web
+        code-version: ${TRAVIS_COMMIT}
+    spec:
+      containers:
+      - name: tech-consultancy-akvo-flow-web
+        image: eu.gcr.io/akvo-lumen/tech-consultancy-akvo-flow-web:${TRAVIS_COMMIT}
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080 
+        resources:
+          requests:
+            cpu: 100m
+            memory: 200Mi
+          limits:
+            cpu: 1
+            memory: 200Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tech-consultancy-akvo-flow-web
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      targetPort: 8080 
+      protocol: TCP
+      name: http
+  selector:
+    run: tech-consultancy-akvo-flow-web

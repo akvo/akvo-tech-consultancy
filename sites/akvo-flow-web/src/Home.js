@@ -12,6 +12,7 @@ class Home extends Component {
 
     constructor(props) {
         super(props);
+        this.api = 'https://http://tech-consultancy.akvotest.org/akvo-flow-web-api/'
         this.instance = this.props.match.params.instance
         this.surveyId = this.props.match.params.surveyid
         this.selectGroup = this.selectGroup.bind(this)
@@ -95,7 +96,7 @@ class Home extends Component {
     componentDidMount() {
         localStorage.setItem("_formId",this.surveyId)
         localStorage.setItem("_instanceId",this.instance)
-        axios.get('http://localhost:5000/'+this.instance+'/'+this.surveyId+'/en')
+        axios.get(this.api +this.instance+'/'+this.surveyId+'/en')
             .then(res => this.updateData(res.data))
     }
 
@@ -107,7 +108,7 @@ class Home extends Component {
 
     submitForm() {
         localStorage.setItem("_submissionStop", Date.now())
-        axios.post('http://localhost:5000/submit-form', localStorage)
+        axios.post(this.api + 'submit-form', localStorage)
             .then(res => console.log(res.data))
     }
 

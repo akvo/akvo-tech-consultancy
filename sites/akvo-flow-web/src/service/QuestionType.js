@@ -1,14 +1,16 @@
 import React, { Component } from 'react'
 import axios from 'axios';
+import QuestionHandler from '../util/QuestionHandler'
 
 class QuestionType extends Component {
 
     constructor(props) {
         super(props)
+        this.api = 'https://http://tech-consultancy.akvotest.org/akvo-flow-web-api/'
+        this.handler = new QuestionHandler()
         this.value = localStorage.getItem(this.props.data.id)
         this.state = { value: this.value ? this.value : '' }
         this.setDpStorage = this.setDpStorage.bind(this)
-        this.getQuestionType = this.getQuestionType.bind(this)
         this.getRadio = this.getRadio.bind(this)
         this.getRadioSelected = this.getRadio.bind(this)
         this.renderRadio = this.renderRadio.bind(this)
@@ -80,25 +82,6 @@ class QuestionType extends Component {
 
     }
 
-    getQuestionType (props) {
-        if (props.type === "free") {
-            if (props.validationRule) {
-                if (props.validationRule.validationType === "numeric") {
-                    return "number"
-                }
-                return "text"
-            }
-            return "text"
-        }
-        if (props.type === "cascade") {
-            return "select"
-        }
-        if (props === "geo") {
-            return "text"
-        }
-        return "text"
-    }
-
     getRadio (opts) {
         let radioType = (opts.allowMultiple ? "checkbox" : "radio")
         return (
@@ -130,7 +113,6 @@ class QuestionType extends Component {
 			    checked = () => (true)
             }
         }
-        console.log(checked(), opt.value)
         return (
             <div className="form-check"
                  key={id+i}
@@ -156,7 +138,7 @@ class QuestionType extends Component {
 
     getCascade (opts, lv) {
         let url = window.location.pathname.split('/')[1]
-        url = 'http://localhost:5000/cascade/' + url + '/' + opts.cascadeResource + '/2'
+        url = this.api + 'cascade/' + url + '/' + opts.cascadeResource + '/2'
         return opts.levels.level.map((opt, i) => {
             this.limitCascade = i + 1
             return this.renderCascade(opt, i)
@@ -202,7 +184,7 @@ class QuestionType extends Component {
     getCascadeDropdown(lv, ix) {
         if (this.props.data.type === "cascade") {
             let url = window.location.pathname.split('/')[1]
-            url = 'http://localhost:5000/cascade/' + url + '/' + this.props.data.cascadeResource + '/' + lv
+            url = this.api + 'cascade/' + url + '/' + this.props.data.cascadeResource + '/' + lv
             let options = "options_" + lv
             let cascade = "cascade_" + ix
             axios.get(url).then((res) =>
@@ -226,10 +208,10 @@ class QuestionType extends Component {
         let answered = localStorage.getItem(this.props.data.id)
         return this.props.data.type === "option" ? this.getRadio(this.props.data.options) : (
             this.props.data.type === "cascade" ? this.getCascade(this.props.data, 0): (<input
-                className="form-control"
+                className={this.props.data.type === "photo" ? "form-control-file" : "form-control"}
                 value={answered ? answered : ""}
                 key={this.props.data.id}
-                type={this.getQuestionType(this.props.data)}
+                type={this.handler.getQuestionType(this.props.data)}
                 name={this.props.data.id}
                 onChange={this.handleChange} />
             )

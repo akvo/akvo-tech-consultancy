@@ -35,15 +35,13 @@ export class QuestionList extends Component {
 
     updateDependencies() {
         let allClasses = {}
-        this.props.data.map((y) => {
-            allClasses[y.id] = 'my-4'
-        })
         this.setState(allClasses)
         let questions = this.props.data.filter(this.getDependencies)
         this.dependencies = questions.map((x,y) => {
             let answers = x['dependency']['answer-value'].split('|')
             let question = x['dependency']['question']
-            let dependentId = this.props.data.filter((a)=>(a.id === question))[0].id
+            let dependentId = this.props.data.filter((a)=>(a.id === question))
+                dependentId = dependentId[0].id
             let data = {'id':dependentId,'answers': answers, 'question': x.id}
             return data
         })
@@ -53,17 +51,16 @@ export class QuestionList extends Component {
                 if(this.solvedDependency.indexOf(x.question) === -1) {
                     this.solvedDependency.push(x.question)
                 }
-                this.setState({[x.question] :'my-4 d-none'})
+                this.setState({[x.question] :'d-none'})
             } else {
                 this.solvedDependency.splice(this.solvedDependency.indexOf(x.question), 1)
-                this.setState({[x.question] :'my-4'})
             }
             return true
         })
     }
 
     hideContent(x) {
-        this.setState({[x] :'my-4 d-none'})
+        this.setState({[x] :'d-none'})
     }
 
     render() {

@@ -63,6 +63,9 @@ body {
 .bg-current {
     background-color:#dae0e5!important;
 }
+.card {
+    margin-bottom: 1.5rem!important;
+}
 .card-body {
     background: #f8f9fa;
 }
