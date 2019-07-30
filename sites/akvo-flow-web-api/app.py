@@ -46,18 +46,20 @@ def survey(instance,surveyId,lang):
     response = readxml(ziploc + '/' +surveyId + '.xml')
     cascadeList = []
     for groups in response["questionGroup"]:
-        for q in groups["question"]:
-            if q["type"] == "cascade":
-                cascadeList.append(endpoint + q["cascadeResource"] + ".zip")
-    for cascade in cascadeList:
-        print(cascade)
-        cascadefile = ziploc + '/' + cascade.split('/surveys/')[1].replace('.zip','')
-        print(cascadefile)
-        if not os.path.exists(cascadefile):
-            print("downloading... " + cascade)
-            zipurl = r.get(cascade, allow_redirects=True)
-            z = ZipFile(BytesIO(zipurl.content))
-            z.extractall(ziploc)
+        try:
+            for q in groups["question"]:
+                if q["type"] == "cascade":
+                    cascadeList.append(endpoint + q["cascadeResource"] + ".zip")
+        except:
+            pass
+    if len(cascadeList) > 0:
+        for cascade in cascadeList:
+            cascadefile = ziploc + '/' + cascade.split('/surveys/')[1].replace('.zip','')
+            if not os.path.exists(cascadefile):
+                print("downloading... " + cascade)
+                zipurl = r.get(cascade, allow_redirects=True)
+                z = ZipFile(BytesIO(zipurl.content))
+                z.extractall(ziploc)
     return jsonify(response)
 
 @app.route('/cascade/<instance>/<sqlite>/<lv>')
