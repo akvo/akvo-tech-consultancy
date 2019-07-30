@@ -34,31 +34,30 @@ def index():
 @app.route('/<instance>/<surveyId>/<lang>')
 def survey(instance,surveyId,lang):
     ziploc = './static/xml/'+ instance
-    if os.path.exists(ziploc):
-        instances = pd.read_csv(instance_list)
-        endpoint = list(instances[instances['instances'] == instance]['names'])[0]
+    if not os.path.exists(ziploc):
+        os.mkdir(ziploc)
+    xmlpath = ziploc + '/' + surveyId + '.xml'
+    instances = pd.read_csv(instance_list)
+    endpoint = list(instances[instances['instances'] == instance]['names'])[0]
+    if not os.path.exists(xmlpath):
         zipurl = r.get(endpoint+surveyId+'.zip', allow_redirects=True)
-        print(zipurl)
         z = ZipFile(BytesIO(zipurl.content))
         z.extractall(ziploc)
     response = readxml(ziploc + '/' +surveyId + '.xml')
-    print(response)
-    if not os.path.exists(ziploc):
-        cascadeList = []
-        for groups in response["questionGroup"]:
-            for q in groups["question"]:
-                if q["type"] == "cascade":
-                    cascadeList.append(endpoint + q["cascadeResource"] + ".zip")
-        for cascade in cascadeList:
+    cascadeList = []
+    for groups in response["questionGroup"]:
+        for q in groups["question"]:
+            if q["type"] == "cascade":
+                cascadeList.append(endpoint + q["cascadeResource"] + ".zip")
+    for cascade in cascadeList:
+        print(cascade)
+        cascadefile = ziploc + '/' + cascade.split('/surveys/')[1].replace('.zip','')
+        print(cascadefile)
+        if not os.path.exists(cascadefile):
+            print("downloading... " + cascade)
             zipurl = r.get(cascade, allow_redirects=True)
             z = ZipFile(BytesIO(zipurl.content))
             z.extractall(ziploc)
-    ### Dropdown
-    #instances = pd.read_csv(instance_list)
-    #instances = instances.to_dict("records")
-    ## Current Endpoint
-    ## url = '/'+instance+'/'+surveyId+'/'+lang
-    ## return render_template('survey.html', data=response, instances=instances, url=url, lang=lang)
     return jsonify(response)
 
 @app.route('/cascade/<instance>/<sqlite>/<lv>')
@@ -131,19 +130,6 @@ def submit():
     if not os.path.exists('./tmp'):
         os.mkdir('./tmp')
     os.rename(zip_name, './tmp/' + zip_name)
-    #foldername = './tmp/' + rec['_uuid']
-    #filename = foldername + '/data.json'
-    #if not os.path.exists(foldername):
-    #    os.mkdir(foldername)
-    #with open(foldername + '/data.json','w') as f:
-    #    json.dump(results, f)
-    #zip_file = ZipFile(foldername + '.zip', 'w')
-    #zip_file.write(foldername + '/data.json', compress_type=ZIP_DEFLATED)
-    #zip_file.close()
-    #if os.path.isfile(filename):
-    #    os.remove(filename)
-    #if os.path.exists(foldername):
-    #    os.rmdir(foldername)
     return jsonify(results)
 
 if __name__ == '__main__':
