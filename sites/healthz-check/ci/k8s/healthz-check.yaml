@@ -1,0 +1,44 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: tech-consultancy-healthz-k8s-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: tech-consultancy-healthz-k8s-gateway
+  template:
+    metadata:
+      labels:
+        run: tech-consultancy-healthz-k8s-gateway
+    spec:
+      containers:
+      - name: tech-consultancy-healthz-k8s-gateway
+        image: busybox
+        imagePullPolicy: Always
+        command: [sh, -c]
+        args: ["while true; do { echo -e 'HTTP/1.1 200 OK\r\n'; } | nc -l -p  8080; done"]
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            cpu: 10m
+            memory: 50Mi
+          limits:
+            cpu: 1
+            memory: 50Mi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tech-consultancy-healthz-k8s-gateway
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      targetPort: 8080
+      protocol: TCP
+      name: http
+  selector:
+    run: tech-consultancy-healthz-k8s-gateway
