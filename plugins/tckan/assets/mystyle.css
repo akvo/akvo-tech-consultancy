@@ -1,0 +1,47 @@
+#wpcontent {
+	background-color:white;
+}
+#author {
+    width: 20%;
+}
+ol {
+    list-style-type: decimal;
+    margin-left: 1em;
+}
+td.comment.column-comment.has-row-actions.column-primary {
+    padding: 0px 10px;
+}
+#wpfooter {
+    position: fixed;
+    background: #24292e;
+}
+
+span#footer-thankyou,
+#wpfooter p
+{
+    font-style: normal;
+    color: #fff;
+}
+#wpfooter a {
+    color: #0073aa;
+    text-decoration:none;
+}
+
+.fixed .column-author, 
+.fixed .column-date, 
+.fixed .column-format, 
+.fixed .column-links, 
+.fixed .column-parent, 
+.fixed .column-posts {
+	width: 15%;
+}
+
+a.button-dash {
+	left: 10px;
+	position: relative;
+}
+
+iframe {
+	padding-top: 50px;
+	background-color: #fff;
+}

@@ -1,0 +1,19 @@
+{
+    "name": "tckan/tckan-plugin",
+    "description": "Connect Wordpress to CKAN",
+    "type": "project",
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "Deden Bangkit",
+            "email": "deden@akvo.org"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "guzzlehttp/guzzle": "^6.3@dev"
+    },
+    "autoload": {
+        "psr-4": {"Inc\\": "./inc"}
+    }
+}
