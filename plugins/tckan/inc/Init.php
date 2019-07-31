@@ -34,6 +34,18 @@ final class Init
 		}
 	}
 
+	public static function register_posts() 
+	{
+        $posts = new Pages\Post();
+        $posts->register();
+	}
+
+    public static function register_metabox()
+    {
+        $metabox = new Pages\Metabox();
+        $metabox->register();
+    }
+
 	/**
 	 * Initialize the class
 	 * @param  class $class    class from the services array

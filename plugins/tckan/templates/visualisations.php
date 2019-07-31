@@ -1,6 +1,9 @@
 <div class="wrap">
-<h1>Visualisation List</h1>
-<hr>
+<div class="row-actions visible">
+    <span>
+        <a href="#" class="button button-secondary button-small">Back</a>
+    </span>
+</div>
 		<h2><?php echo($results[0]['title']);?></h2>
-		<iframe src="<?php echo($results[0]['embedd']);?>" width="100%" height="660"></iframe>
+		<iframe src="<?php echo($results[0]['embedd']);?>" width="100%" height="680"></iframe>
 </div>

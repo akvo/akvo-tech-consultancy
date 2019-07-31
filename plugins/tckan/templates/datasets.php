@@ -1,21 +1,62 @@
 <?php 
     $datasets = $ckan->result->results;
     $total_data = $ckan->result->count;
+    $last_page = round($total_data / 10);
     $url = esc_attr( get_option( 'ckan_url' ) );
+    $paged = 1;
+    if (isset($_GET['paged'])) {
+        $paged = $_GET['paged'];
+    } 
     wp_enqueue_script( 'datatable', $this->plugin_url . 'assets/datatable.js' ); 
 ?>
 <div class="wrap">
 <h1>Datasets Views</h1>
 <hr>
-<ul class="subsubsub">
-    <li class="all">
-    Total Data: <a class="current"><?php echo($total_data);?></a> 
-	<strong> | </strong>
-    </li>
-    <li class="all">
-    Instance Name: <strong><a href="<?php echo($url);?>"class="future"> <?php echo($url);?></a></strong>
-    </li>
-</ul>
+<div class="tablenav bottom">
+    <ul class="subsubsub">
+        <li class="all">
+        Total Data: <a class="current"><?php echo($total_data);?></a> 
+        <strong> | </strong>
+        </li>
+        <li class="all">
+        Instance Name: <strong><a href="<?php echo($url);?>"class="future"> <?php echo($url);?></a></strong>
+        </li>
+    </ul>
+    <div class="alignright actions">
+		<div class="tablenav-pages"><span class="displaying-num"><?php echo($total_data);?> Datasets</span>
+            <span class="pagination-links">
+
+                    <?php if($paged > 1){ ?>
+                        <a class="prev-page button" href="/wp-admin/admin.php?page=tckan_datasets&paged=1"><span>«</span></a>
+                    <?php }else{ ?>
+                        <span class="tablenav-pages-navspan button disabled" aria-hidden="true" >«</span>
+                    <?php } ?>
+
+                    <?php if($paged > 1){ ?>
+                        <a class="prev-page button" href="/wp-admin/admin.php?page=tckan_datasets&paged=<?php echo ($paged - 1);?>"><span>‹</span></a>
+                    <?php }else{ ?>
+                        <span class="tablenav-pages-navspan button disabled" aria-hidden="true" >‹</span>
+                    <?php } ?>
+
+                        <span class="tablenav-paging-text"> <?php echo($paged);?> of <span class="total-pages"><?php echo($last_page);?> </span> </span>
+
+                    <?php if($paged < $last_page){ ?>
+                        <a class="next-page button" href="/wp-admin/admin.php?page=tckan_datasets&paged=<?php echo($paged + 1);?>"> <span>›</span> </a>
+                    <?php } else {;?>
+                        <span class="tablenav-pages-navspan button disabled" aria-hidden="true">›</span>
+                    <?php };?>
+
+                    <?php if($paged === ($last_page - 1)){ ?>
+                        <span class="tablenav-pages-navspan button disabled" aria-hidden="true">»</span>
+                    <?php } else {;?>
+                        <a class="next-page button" href="/wp-admin/admin.php?page=tckan_datasets&paged=<?php echo($last_page - 1);?>"> <span>»</span> </a>
+                    <?php };?>
+
+            </span>
+        </div>
+		<br class="clear">
+	</div>
+</div>
 <table class="wp-list-table widefat fixed striped comments">
     <thead>
         <tr>
@@ -65,7 +106,7 @@
 								<?php echo($filetype);?>
 							</strong>
 							</a>
-							<a href="admin.php?page=tckan_visualisation&id=<?php echo($resource->id);?>&name=<?php echo($dataset->name);?>" class="button-dash">
+							<a target="_blank" href="admin.php?page=tckan_visualisation&id=<?php echo($resource->id);?>&name=<?php echo($dataset->name);?>" class="button-dash">
 								<kbd>►</kbd>
 							</a>
                         </li>
@@ -98,5 +139,41 @@
         </tr>
     </tfoot>
 </table>
+<div class="tablenav bottom">
+    <div class="alignright actions">
+		<div class="tablenav-pages"><span class="displaying-num"><?php echo($total_data);?> Datasets</span>
+            <span class="pagination-links">
+
+                    <?php if($paged > 1){ ?>
+                        <a class="prev-page button" href="/wp-admin/admin.php?page=tckan_datasets&paged=1"><span>«</span></a>
+                    <?php }else{ ?>
+                        <span class="tablenav-pages-navspan button disabled" aria-hidden="true" >«</span>
+                    <?php } ?>
+
+                    <?php if($paged > 1){ ?>
+                        <a class="prev-page button" href="/wp-admin/admin.php?page=tckan_datasets&paged=<?php echo ($paged - 1);?>"><span>‹</span></a>
+                    <?php }else{ ?>
+                        <span class="tablenav-pages-navspan button disabled" aria-hidden="true" >‹</span>
+                    <?php } ?>
+
+                        <span class="tablenav-paging-text"> <?php echo($paged);?> of <span class="total-pages"><?php echo($last_page);?> </span> </span>
+
+                    <?php if($paged < $last_page){ ?>
+                        <a class="next-page button" href="/wp-admin/admin.php?page=tckan_datasets&paged=<?php echo($paged + 1);?>"> <span>›</span> </a>
+                    <?php } else {;?>
+                        <span class="tablenav-pages-navspan button disabled" aria-hidden="true">›</span>
+                    <?php };?>
+
+                    <?php if($paged === ($last_page - 1)){ ?>
+                        <span class="tablenav-pages-navspan button disabled" aria-hidden="true">»</span>
+                    <?php } else {;?>
+                        <a class="next-page button" href="/wp-admin/admin.php?page=tckan_datasets&paged=<?php echo($last_page - 1);?>"> <span>»</span> </a>
+                    <?php };?>
+
+            </span>
+        </div>
+		<br class="clear">
+	</div>
+</div>
 </div>
 </div>

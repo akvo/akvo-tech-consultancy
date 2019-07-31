@@ -16,8 +16,14 @@ class CkanApi extends BaseController
 
     public function getData() {
         $client = new \GuzzleHttp\Client();
+        $start = 1;
+        $paged = 1;
+        if (isset($_GET['paged'])) {
+            $start = $_GET['paged'] * 10 + 1;
+            $paged = $_GET['paged'];
+        } 
         $request = $client->request("GET", 
-			$this->url . $this->version . "package_search?q=", [
+			$this->url . $this->version . "package_search?rows=10&start=".$start."&q=", [
             'headers' => [
 				'Authorization' => $this->key,
 				'Accept' => 'application/json']
@@ -60,4 +66,34 @@ class CkanApi extends BaseController
 		}, $records);
         return $records;
 	}
+
+    public function searchData( ) {
+        $records = [];
+        if (isset($_GET['q'])) {
+            $q = $_GET['q'];
+            $search_url = $this->url . $this->version . "package_search?rows=5&q=" . $q; 
+            $client = new \GuzzleHttp\Client();
+            $request = $client->request("GET", $search_url, [
+                'headers' => [
+                    'Authorization' => $this->key,
+                    'Accept' => 'application/json']
+                ]
+            );
+            $records = json_decode($request->getBody())->result->results;
+        }
+        if (isset($_GET['id'])) {
+            $q = $_GET['id'];
+            $search_url = $this->url . $this->version . "package_show?id=" . $q; 
+            $client = new \GuzzleHttp\Client();
+            $request = $client->request("GET", $search_url, [
+                'headers' => [
+                    'Authorization' => $this->key,
+                    'Accept' => 'application/json']
+                ]
+            );
+            $records = json_decode($request->getBody())->result;
+        }
+        return $records;
+    }
+
 }

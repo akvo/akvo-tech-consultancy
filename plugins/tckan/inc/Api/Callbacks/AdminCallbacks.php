@@ -29,11 +29,17 @@ class AdminCallbacks extends BaseController
 
 	public function adminVisualisations( )
 	{
-		$id = $_GET['id'];
-		$name = $_GET['name'];
         $ckan = new CkanApi();
-        $results = $ckan->getResourceView($id, $name);
-		return require_once( "$this->plugin_path/templates/visualisations.php" );
+        if (isset($_GET['id'])) {
+            $id = $_GET['id'];
+            $name = $_GET['name'];
+            $results = $ckan->getResourceView($id, $name);
+            if (empty($results)){
+                return require_once( "$this->plugin_path/templates/error.php" );
+            };
+		    return require_once( "$this->plugin_path/templates/visualisations.php" );
+        }
+        return require_once( "$this->plugin_path/templates/error.php" );
 	}
 
 	public function tckanOptionsGroup( $input )

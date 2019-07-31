@@ -24,17 +24,12 @@ class Admin extends BaseController
 	public function register() 
 	{
 		$this->settings = new SettingsApi();
-
 		$this->callbacks = new AdminCallbacks();
-
 		$this->setPages();
-
 		$this->setSubpages();
-
 		$this->setSettings();
 		$this->setSections();
 		$this->setFields();
-
 		$this->settings->addPages( $this->pages )->withSubPage( 'Settings' )->addSubPages( $this->subpages )->register();
 	}
 
@@ -49,7 +44,7 @@ class Admin extends BaseController
 				'callback' => array( $this->callbacks, 'adminSettings' ), 
 				'icon_url' => 'dashicons-admin-network', 
 				'position' => 110
-			)
+            ),
 		);
 	}
 
