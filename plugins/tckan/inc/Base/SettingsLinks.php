@@ -14,13 +14,16 @@ class SettingsLinks extends BaseController
         add_filter( "admin_footer_text", array($this, "remove_footer_admin") );
 	}
 
+
 	public function settings_link( $links ) 
 	{
 		$settings_link = '<a href="admin.php?page=tckan_plugin">Settings</a>';
 		array_push( $links, $settings_link );
 		return $links;
 	}
+
     public function remove_footer_admin () {
             echo '<span id="footer-thankyou" class="footer-bg">Developed by <a href="https://www.akvo.org" target="_blank">Akvo Tech Consultancy</a></span>';
     } 
+
 }

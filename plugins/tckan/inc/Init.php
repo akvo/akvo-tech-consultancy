@@ -34,11 +34,17 @@ final class Init
 		}
 	}
 
-	public static function register_posts() 
-	{
-        $posts = new Pages\Post();
-        $posts->register();
-	}
+    public static function register_post_type()
+    {
+        $post_type = new Pages\Dataset();
+        $post_type->register();
+    }
+
+    public static function register_custom_api()
+    {
+        $custom_api = new Pages\Api();
+        $custom_api->register();
+    }
 
     public static function register_metabox()
     {

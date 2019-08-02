@@ -1,0 +1,242 @@
+#wpcontent {
+    background-color: white;
+}
+
+#author {
+    width: 20%;
+}
+
+ol {
+    list-style-type: decimal;
+    margin-left: 1em;
+}
+
+td.comment.column-comment.has-row-actions.column-primary {
+    padding: 0px 10px;
+}
+
+#wpfooter {
+    position: fixed;
+    background: #24292e;
+}
+
+span#footer-thankyou,
+#wpfooter p {
+    font-style: normal;
+    color: #fff;
+}
+
+#wpfooter a {
+    color: #0073aa;
+    text-decoration: none;
+}
+
+.fixed .column-author,
+.fixed .column-date,
+.fixed .column-format,
+.fixed .column-links,
+.fixed .column-parent,
+.fixed .column-posts {
+    width: 15%;
+}
+
+a.button-dash {
+    left: 10px;
+    position: relative;
+}
+
+iframe {
+    padding-top: 50px;
+    background-color: #fff;
+}
+
+/* Ckan */
+
+td.ckan-datasets {
+    padding: 0px;
+}
+
+ul.ckan-resources {
+    padding: 0px;
+    display: block;
+    margin: 0px;
+}
+
+ul.ckan-resources .data-listing {
+    padding: 10px;
+    display: inherit;
+    border-bottom: 1px solid #eee;
+}
+
+kbd {
+    text-align: center;
+    margin-right: 20px;
+    /* 
+     * position: absolute;
+     * right: 30px;
+     * background: #527f70;
+     * padding: 0px 20px;
+     */
+}
+
+.lds-loading {
+    text-align: center;
+    height: 200px;
+}
+
+.lds-ellipsis {
+    display: inline-block;
+    position: relative;
+    width: 64px;
+    height: 64px;
+}
+
+.lds-ellipsis div {
+    position: absolute;
+    top: 27px;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: #527f70;
+    animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+
+.lds-ellipsis div:nth-child(1) {
+    left: 6px;
+    animation: lds-ellipsis1 0.6s infinite;
+}
+
+.lds-ellipsis div:nth-child(2) {
+    left: 6px;
+    animation: lds-ellipsis2 0.6s infinite;
+}
+
+.lds-ellipsis div:nth-child(3) {
+    left: 26px;
+    animation: lds-ellipsis2 0.6s infinite;
+}
+
+.lds-ellipsis div:nth-child(4) {
+    left: 45px;
+    animation: lds-ellipsis3 0.6s infinite;
+}
+
+@keyframes lds-ellipsis1 {
+    0% {
+        transform: scale(0);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes lds-ellipsis3 {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(0);
+    }
+}
+
+@keyframes lds-ellipsis2 {
+    0% {
+        transform: translate(0, 0);
+    }
+    100% {
+        transform: translate(19px, 0);
+    }
+}
+
+/* version 3.8 fix */
+
+input#suggest_tckan_cmb_ckan_dataset {
+    margin: 0px;
+    padding: 10px;
+    border: none;
+    box-shadow: none;
+    border-bottom: 1px solid #ddd;
+    padding-left: 30px;
+}
+
+.tckan-row i {
+    position: absolute;
+    top: 42px;
+    left: 20px;
+    color: #9ea3a9;
+}
+
+.ckan-list {
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.ckan-list td {
+    vertical-align: baseline;
+    padding: 5px;
+}
+
+.ckan-list tr.title {
+    font-weight: bold;
+    font-size: 14px;
+    background: #eee;
+}
+
+.ckan-list td.name {
+    width: 20%;
+    font-weight: bold;
+}
+
+.form-table th {
+    padding: 20px 10px;
+}
+
+.tckan-row {
+    border-bottom: 1px solid #ebebeb;
+    padding: 8px 4px;
+}
+
+.tckan-row:last-child {
+    border-bottom: 0px;
+}
+
+.tckan-row .tckan-label {
+    display: inline-block;
+    vertical-align: top;
+    width: 200px;
+    font-size: 15px;
+    line-height: 24px;
+}
+
+.tckan-row .tckan-browse {
+    width: 96px;
+}
+
+.tckan-row .tckan-file {
+    width: calc( 100% - 110px);
+    margin-right: 4px;
+    line-height: 20px;
+}
+
+#postbox-container-1 .tckan-meta-field,
+#postbox-container-1 .tckan-meta-field-text {
+    width: 100%;
+}
+
+#postbox-container-2 .tckan-meta-field,
+#postbox-container-2 .tckan-meta-field-text {
+    width: 100%;
+}
+
+#postbox-container-1 .tckan-meta-field-text.tckan-file {
+    width: calc(100% - 101px)
+}
+
+#postbox-container-2 .tckan-meta-field-text.tckan-file {
+    width: calc(100% - 306px)
+}
+
+#wpbody-content .metabox-holder {
+    padding-top: 5px;
+}

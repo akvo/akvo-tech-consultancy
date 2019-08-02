@@ -52,8 +52,9 @@ class TckanMetabox {
 		$this->priority 		= $args['priority'] ? : 'high';
 		$this->hook_priority 	= $args['hook_priority'] ? : 10;
 		$this->fields 			= $args['fields'] ? : array();
-
-		self::hooks();
+        if ( $args !== null) {
+		    self::hooks();
+        }
 	}
 
 	function enqueue_scripts() {
@@ -68,18 +69,7 @@ class TckanMetabox {
 		add_action( 'save_post', array( $this, 'save_meta_fields' ), 1, 2 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'admin_head', array( $this, 'scripts' ) );
-        add_action( 'rest_api_init', function () { 
-            register_rest_route( 'tckan', '/v1', array(
-                'methods' => 'GET',
-                'callback' => array($this,'get_ckan_data'),
-            ));
-        } );
 	}
-
-    public function get_ckan_data() {
-        $ckan = new CkanApi();
-        return $ckan->searchData();
-    }
 
 	public function add_meta_box() {
 		if( is_array( $this->post_type ) ){
@@ -191,7 +181,7 @@ class TckanMetabox {
         $html .= sprintf( '<i class="dashicons dashicons-search"></i>');
 		$html	.= sprintf( '<label class="tckan-label" for="tckan_cmb_%1$s">%2$s</label>', $field['name'], $field['label']);
 
-		$html  .= sprintf( '<input placeholder="type then enter to search suggestion" type="text" class="%2$s" id="suggest_tckan_cmb_%3$s" />', $field['type'], $class, $field['name'], $field['name'], $value, $readonly, $disabled );
+		$html  .= sprintf( '<input placeholder="type keywords here to search" type="text" class="%2$s" id="suggest_tckan_cmb_%3$s" />', $field['type'], $class, $field['name'], $field['name'], $value, $readonly, $disabled );
 		$html  .= sprintf( '<input type="hidden" id="tckan_cmb_%3$s" name="%3$s" value="%5$s" %6$s %7$s/>', $field['type'], $class, $field['name'], $field['name'], $value, $readonly, $disabled );
 
 		$html	.= $this->field_description( $field );
@@ -384,11 +374,21 @@ class TckanMetabox {
         ?>
         <script>
             jQuery(document).ready(function($) {
-                $("#suggest_tckan_cmb_ckan_dataset").change(function(){
+                $("#suggest_tckan_cmb_ckan_dataset").on('input', function(){
+                    let elem = $(this);
+                    let keyword = $(this).val();
+                    if (keyword.length > 3) {
+                        lookapi(elem);
+                    } else {
+                        $("#ckan-suggest-box").children().remove();
+                    }
+                });
+
+                function lookapi(el){
                     $("#ckan-suggest-box").children().remove();
                     $("#ckan-suggest-box").show();
                     $(".lds-ellipsis").show();
-                    $.get("/wp-json/tckan/v1?q=" + $(this).val(), function(results){
+                    $.get("/wp-json/tckan/v1?q=" + $(el).val(), function(results){
                         $(".lds-ellipsis").hide();
                         results.forEach(function(data, index){
                         var html = "<table class='ckan-list' id='"+ data.id +"'>"
@@ -402,7 +402,10 @@ class TckanMetabox {
                                 html += "<ul>";
                                 data.resources.forEach(function(a, x){
                                     if (x < 5){
-                                        html += "<li><a href='"+ a.url +"' target='_blank'>" + a.name +"</a> <kbd>" + a.format + "</kbd></li>";
+                                        html += "<li>";
+                                        html += "<kbd>" + a.format + "</kbd>";
+                                        html += "<a href='"+ a.url +"' target='_blank'>" + a.name +"</a>";
+                                        html += "</li>";
                                     } else if (x === 5) {
                                         html += "</br></br>... and " + data.resources.length + " more datasets</br>";
                                     } else {
@@ -417,13 +420,13 @@ class TckanMetabox {
                             $("#ckan-suggest-box").append(html);
                             $('#button_' + data.id).click(function(){
                                 $('#' + data.id).siblings().remove();
-                                $(this).removeClass('button-secondary').addClass('button-primary');
-                                $(this).text('Attached');
+                                $(el).removeClass('button-secondary').addClass('button-primary');
+                                $(el).text('Attached');
                                 $("#tckan_cmb_ckan_dataset").val(data.id);
                             });
                         });
                     });
-                });
+                }
 
                 function attachData(data) {
                     $("#suggest_tckan_cmb_ckan_dataset").value(data); 
@@ -457,94 +460,6 @@ class TckanMetabox {
                 });
         });
         </script>
-
-        <style type="text/css">
-            /* version 3.8 fix */
-            input#suggest_tckan_cmb_ckan_dataset {
-                margin: 0px;
-                padding: 10px;
-                border: none;
-                box-shadow: none;
-                border-bottom: 1px solid #ddd;
-                padding-left: 30px;
-            }
-            .tckan-row i { 
-                position: absolute;
-                top: 35px;
-                left: 20px;
-                color: #9ea3a9;
-            }
-            .ckan-list { border: 1px solid #ddd; margin-bottom: 20px; width: 100%; }
-            .ckan-list td { vertical-align: baseline; padding: 5px; }
-            .ckan-list tr.title { font-weight: bold; font-size: 14px; background:#eee;}
-            .ckan-list td.name { width:20%; font-weight: bold; }
-            .form-table th { padding: 20px 10px; }
-            .tckan-row { border-bottom: 1px solid #ebebeb; padding: 8px 4px; }
-            .tckan-row:last-child { border-bottom: 0px;}
-            .tckan-row .tckan-label {display: inline-block; vertical-align: top; width: 200px; font-size: 15px; line-height: 24px;}
-            .tckan-row .tckan-browse { width: 96px;}
-            .tckan-row .tckan-file { width: calc( 100% - 110px ); margin-right: 4px; line-height: 20px;}
-            .lds-ellipsis {
-              display: inline-block;
-              position: relative;
-              width: 64px;
-              height: 64px;
-            }
-            .lds-ellipsis div {
-              background: #2d84bb;
-              position: absolute;
-              top: 27px;
-              width: 11px;
-              height: 11px;
-              border-radius: 50%;
-              animation-timing-function: cubic-bezier(0, 1, 1, 0);
-            }
-            .lds-ellipsis div:nth-child(1) {
-              left: 6px;
-              animation: lds-ellipsis1 0.6s infinite;
-            }
-            .lds-ellipsis div:nth-child(2) {
-              left: 6px;
-              animation: lds-ellipsis2 0.6s infinite;
-            }
-            .lds-ellipsis div:nth-child(3) {
-              left: 26px;
-              animation: lds-ellipsis2 0.6s infinite;
-            }
-            .lds-ellipsis div:nth-child(4) {
-              left: 45px;
-              animation: lds-ellipsis3 0.6s infinite;
-            }
-            @keyframes lds-ellipsis1 {
-              0% {
-                transform: scale(0);
-              }
-              100% {
-                transform: scale(1);
-              }
-            }
-            @keyframes lds-ellipsis3 {
-              0% {
-                transform: scale(1);
-              }
-              100% {
-                transform: scale(0);
-              }
-            }
-            @keyframes lds-ellipsis2 {
-              0% {
-                transform: translate(0, 0);
-              }
-              100% {
-                transform: translate(19px, 0);
-              }
-            }
-            #postbox-container-1 .tckan-meta-field, #postbox-container-1 .tckan-meta-field-text {width: 100%;}
-            #postbox-container-2 .tckan-meta-field, #postbox-container-2 .tckan-meta-field-text {width: 100%;}
-            #postbox-container-1 .tckan-meta-field-text.tckan-file { width: calc(100% - 101px) }
-            #postbox-container-2 .tckan-meta-field-text.tckan-file { width: calc(100% - 306px) }
-            #wpbody-content .metabox-holder { padding-top: 5px; }
-        </style>
         <?php
     }
 }

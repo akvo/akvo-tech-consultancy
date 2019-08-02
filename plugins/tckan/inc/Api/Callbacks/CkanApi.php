@@ -64,15 +64,16 @@ class CkanApi extends BaseController
 				"embedd" => $link
 			); 
 		}, $records);
+        var_dump($records);
         return $records;
 	}
 
     public function searchData( ) {
         $records = [];
+        $client = new \GuzzleHttp\Client();
         if (isset($_GET['q'])) {
             $q = $_GET['q'];
             $search_url = $this->url . $this->version . "package_search?rows=5&q=" . $q; 
-            $client = new \GuzzleHttp\Client();
             $request = $client->request("GET", $search_url, [
                 'headers' => [
                     'Authorization' => $this->key,
@@ -84,7 +85,6 @@ class CkanApi extends BaseController
         if (isset($_GET['id'])) {
             $q = $_GET['id'];
             $search_url = $this->url . $this->version . "package_show?id=" . $q; 
-            $client = new \GuzzleHttp\Client();
             $request = $client->request("GET", $search_url, [
                 'headers' => [
                     'Authorization' => $this->key,
@@ -92,6 +92,26 @@ class CkanApi extends BaseController
                 ]
             );
             $records = json_decode($request->getBody())->result;
+        }
+        if (isset($_GET['visual'])) {
+            $name = $_GET['name'];
+            $search_url = $this->url . $this->version . "resource_view_list?id=" . $_GET['visual']; 
+            $request = $client->request("GET", 
+                $search_url, [
+                'headers' => [
+                    'Authorization' => $this->key,
+                    'Accept' => 'application/json']
+                ]
+            );
+            $records = json_decode($request->getBody());
+            $records = $records->result;
+            $records = array_map(function($rec) use ($name){
+                $link = $this->url . "/dataset/" . $name . "/resource/" . $rec->resource_id. "/view/" . $rec->id; 
+                return array( 
+                    "title" => $rec->title,
+                    "embedd" => $link
+                ); 
+            }, $records);
         }
         return $records;
     }

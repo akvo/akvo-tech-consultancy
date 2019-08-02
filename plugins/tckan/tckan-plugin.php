@@ -54,6 +54,7 @@ register_deactivation_hook( __FILE__, 'deactivate_tckan_plugin' );
  */
 if ( class_exists( 'Inc\\Init' ) ) {
 	Inc\Init::register_services();
-    Inc\Init::register_posts();
     Inc\Init::register_metabox();
+    Inc\Init::register_post_type();
+    Inc\Init::register_custom_api();
 }
