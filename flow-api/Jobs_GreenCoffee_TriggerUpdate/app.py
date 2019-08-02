@@ -22,6 +22,8 @@ payload = []
 posts = []
 data_update = []
 
+token = Flow.getAccessToken()
+
 user_ids = ['230','236','233','222','238','228','235','217','234','11','226','231','237','239','10']
 cdate = datetime.strftime(datetime.today().date(), '%Y-%m-%d')
 
@@ -74,7 +76,7 @@ def post_data(keyval):
     return keyval
 
 def push_data(datapoints_url, submitter_id, submitter_name, meta, meta_id):
-    src = Flow.getResponse(datapoints_url)
+    src = Flow.getResponse(datapoints_url, token)
     sources = src.get('formInstances')
     if len(sources) > 0:
         data = [d['responses'] for d in sources if 'responses' in d]
@@ -89,10 +91,11 @@ def push_data(datapoints_url, submitter_id, submitter_name, meta, meta_id):
     return True
 
 def get_data(survey_url):
-    mt = Flow.getResponse(survey_url)
+    mt = Flow.getResponse(survey_url, token)
     meta = pd.DataFrame(mt['forms'][0]['questionGroups'][0]['questions'])
     name = mt['forms'][0]['questionGroups']
     form = mt['forms'][0]['formInstancesUrl']
+    print(form)
     submitter_id = mt['name'].split('_')[1]
     submitter_name = mt['name'].split('_')[0]
     meta_id = name[0]['id']
@@ -158,7 +161,7 @@ def add_results(unique, values, code, submitter_id, mark):
 
 
 def execute(folder_id):
-    urls = Flow.getResponse(requestURI + '/surveys?folder_id=' + folder_id).get('surveys')
+    urls = Flow.getResponse(requestURI + '/surveys?folder_id=' + folder_id, token).get('surveys')
     urls = [a['surveyUrl'] for a in urls if 'surveyUrl' in a]
     for url in urls:
         try:

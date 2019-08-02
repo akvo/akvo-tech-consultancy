@@ -1,5 +1,5 @@
 import requests as r
-import os, sys
+import os
 
 class Flow:
     tokenURI = 'https://login.akvo.org/auth/realms/akvo/protocol/openid-connect/token'
@@ -24,13 +24,12 @@ class Flow:
         try:
             account = r.post(Flow.tokenURI, account).json();
         except:
-            logging.error('FAILED: TOKEN ACCESS UNKNOWN')
             return False
         return account['access_token']
 
-    def getResponse(self):
+    def getResponse(self, token):
         header = {
-            'Authorization':'Bearer ' + Flow.getAccessToken(),
+            'Authorization':'Bearer ' + token,
             'Accept': 'application/vnd.akvo.flow.v2+json',
             'User-Agent':'python-requests/2.14.2'
         }
