@@ -7,7 +7,7 @@ from flask import Flask, jsonify
 app = Flask(__name__)
 
 URL = 'https://rsr.akvo.org/rest/v1/'
-PROJECT_ID = '2602'
+PROJECT_ID = '7283'
 RSR_TOKEN = os.environ['RSR_TOKEN']
 FMT = '/?format=json&limit=1'
 FMT100 = '/?format=json&limit=100'
@@ -60,8 +60,8 @@ def api():
     indicator_periods = pd.DataFrame(indicator_periods)
     indicator_periods[['period_end_year','period_end_month','period_end_date']] = indicator_periods['period_end'].str.split('-', expand=True)
     indicator_periods[['period_start_year','period_start_month','period_start_date']] = indicator_periods['period_start'].str.split('-', expand=True)
-    period_start = indicator_periods.groupby('period_start_year').size().to_frame('size').reset_index()
-    period_end = indicator_periods.groupby('period_end_year').size().to_frame('size').reset_index()
+    period_start = indicator_periods.groupby('period_start').size().to_frame('size').reset_index()
+    period_end = indicator_periods.groupby('period_end').size().to_frame('size').reset_index()
     period_start.rename(columns={'period_start_year':'start_year'})
     period_end.rename(columns={'period_end_year':'end_year'})
     period_start = period_start.to_dict('records')
