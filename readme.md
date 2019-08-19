@@ -4,21 +4,24 @@
 
 This repository contains Akvo Tools custom integration pack development.
 
-| Project | Description | Type |
-| ------ | ------ | ------ |
-| CKAN | Ckan Docker Pilot Project. | Website |
-| G4AW | Green Coffe, Coffee Price Integration. | Jobs & Webhooks |
-| G4AW | Angkor Salad, Data Pusher for [Lizard.net][liZ]. | Jobs |
-| G4AW | Spice Up, Custom Email Notification for Demo Plots. | Jobs |
-| G4AW | Spice Up, Lizard Data Transformer & pusher. | Jobs |
-| G4AW | Spice Up, Happy Farmer Data Sync. | Jobs |
-| Unicef Pacific | Wash in Schools Custom Map Development. | Website |
-| Oxfam | Oxfam advanced visualisation. | Data Scripts |
-| UTZ | Automated Plots download. | Data Scripts |
-| Mali GOV | Bulk download forms data from a Flow instance. | Data Scripts |
-| ANU | Pooling Lumen Pages. | Website |
-| ANU | Lumen Trigger Updates. | Jobs |
-| General | Lumen Data Downloader. | Tools |
+| Project | Description | Type | Lang / FW / Lib |
+| ------ | ------ | ------ | ------ |
+| CKAN | Ckan Docker Pilot Project. | Website | Java, Python, SOLR, CKAN | 
+| G4AW | Green Coffe, Coffee Price Integration. | Jobs & Webhooks | Python, Flask, Pandas, SocketIO |
+| G4AW | Angkor Salad, Data Pusher for [Lizard.net][liZ]. | Jobs | Python, Pandas |
+| G4AW | Spice Up, Custom Email Notification for Demo Plots. | Jobs | Python, Pandas |
+| G4AW | Spice Up, Lizard Data Transformer & pusher. | Jobs | Python, Pandas |
+| G4AW | Spice Up, Happy Farmer Data Sync. | Jobs | Python, Flask, Pandas |
+| Unicef Pacific | Wash in Schools Custom Map Development. | Website | PHP, Laravel, Javascripts, Leaflet, Echarts, D3, Webpack |
+| Oxfam | Oxfam advanced visualisation. | Data Scripts | Python, Jupyter Notebook |
+| UTZ | Automated Plots download. | Data Scripts | Python |
+| Mali GOV | Bulk download forms data from a Flow instance. | Data Scripts | Python |
+| ANU | Pooling Lumen Pages. | Website | Python, Javascripts, Selenium, Echarts |
+| ANU | Lumen Trigger Updates. | Jobs | Python, Selenium |
+| General | Lumen Data Downloader. | Tools | Python, Pandas |
+| General | Akvo Flow Web. | Website & API | Python, Flask, Javascripts, ReactJS |
+| APPSA | Generate Custom Report from Akvo RSR. | Website & API | Python, Flask, Javascripts, ReactJS, Redux |
+| Akvo Ckan | Plugins for AkvoSite. | Wordpress Plugins | PHP, Javascripts |
 
 -------
 
