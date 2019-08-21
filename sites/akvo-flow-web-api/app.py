@@ -39,6 +39,10 @@ def survey(instance,surveyId,lang):
     xmlpath = ziploc + '/' + surveyId + '.xml'
     instances = pd.read_csv(instance_list)
     endpoint = list(instances[instances['instances'] == instance]['names'])[0]
+    if lang == 'update':
+        zipurl = r.get(endpoint+surveyId+'.zip', allow_redirects=True)
+        z = ZipFile(BytesIO(zipurl.content))
+        z.extractall(ziploc)
     if not os.path.exists(xmlpath):
         zipurl = r.get(endpoint+surveyId+'.zip', allow_redirects=True)
         z = ZipFile(BytesIO(zipurl.content))
