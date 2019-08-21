@@ -39,11 +39,15 @@ def survey(instance,surveyId,lang):
     xmlpath = ziploc + '/' + surveyId + '.xml'
     instances = pd.read_csv(instance_list)
     endpoint = list(instances[instances['instances'] == instance]['names'])[0]
+    download = False
     if lang == 'update':
+        download = True
+    if not os.path.exists(xmlpath):
+        download = True
+    if download:
         zipurl = r.get(endpoint+surveyId+'.zip', allow_redirects=True)
         z = ZipFile(BytesIO(zipurl.content))
         z.extractall(ziploc)
-    if not os.path.exists(xmlpath):
         zipurl = r.get(endpoint+surveyId+'.zip', allow_redirects=True)
         z = ZipFile(BytesIO(zipurl.content))
         z.extractall(ziploc)
@@ -59,7 +63,12 @@ def survey(instance,surveyId,lang):
     if len(cascadeList) > 0:
         for cascade in cascadeList:
             cascadefile = ziploc + '/' + cascade.split('/surveys/')[1].replace('.zip','')
+            download = False
+            if lang == 'update':
+                download = True
             if not os.path.exists(cascadefile):
+                download = True
+            if download:
                 print("downloading... " + cascade)
                 zipurl = r.get(cascade, allow_redirects=True)
                 z = ZipFile(BytesIO(zipurl.content))
