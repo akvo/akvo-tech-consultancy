@@ -58,8 +58,8 @@ class PageController extends Controller
         return $filter;
     }
 
-    public function documentation(Request $request)
+    public function docs(Request $request)
     {
-        return view('documentation');
+        return view('userdocs');
     } 
 }

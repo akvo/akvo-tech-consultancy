@@ -40,6 +40,7 @@ mix.js([
     .copy('node_modules/@fortawesome/fontawesome-free/webfonts/', 'public/vendor/fontawesome/webfonts/')
     .copy('resources/assets/excel/databases_clean.csv', 'public/excel/databases_clean.csv')
     .copy('resources/assets/images/', 'public/images/')
+    .copy('resources/assets/files/', 'public/files/')
     .copy('node_modules/leaflet/dist/', 'public/vendor/leaflet/')
     .copy('resources/assets/json/config.json', 'public/config.json')
     .copy('resources/assets/json/geojson.json', 'public/geojson.json')

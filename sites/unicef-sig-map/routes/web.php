@@ -18,8 +18,8 @@ Route::get('/stats/{page}', 'PageController@stats')->name('stats');
 Route::get('/visualization', 'PageController@visualization')->name('visualization');
 Route::get('/demo', 'PageController@demo')->name('demo');
 Route::get('/timeline', 'PageController@timeline')->name('timeline');
+Route::get('/userdocs', 'PageController@docs')->name('docs');
 Route::post('/download', 'PageController@download')->name('download');
-Route::post('/documentation', 'PageController@documentation')->name('documentation');
 //Route::middleware('auth')->group(function() {
 //});
 
