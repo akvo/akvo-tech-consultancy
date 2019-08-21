@@ -1,6 +1,6 @@
 # Online Website
 
-The Site folder is a special space used to deploy online app / website which has accesibility within URL.
+The sites folder is a special space use to deploy online app / website which has accesibility within URL.
 
 ## Deploying Static HTML or PHP
 
