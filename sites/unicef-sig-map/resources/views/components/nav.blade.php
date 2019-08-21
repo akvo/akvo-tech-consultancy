@@ -16,8 +16,8 @@
             <li class="nav-item {{ Request::is('visualization') ? "active" : "" }}">
                 <a class="nav-link" href="{{route('visualization')}}">Visualization</a>
             </li>
-            <li class="nav-item {{ Request::is('documentation') ? "active" : "" }}">
-                <a class="nav-link" href="{{route('documentation')}}">Documentation</a>
+            <li class="nav-item {{ Request::is('docs') ? "active" : "" }}">
+                <a class="nav-link" href="{{route('docs')}}">Documentation</a>
             </li>
             @if ($user = Auth::user())
             <li class="nav-item">
