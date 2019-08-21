@@ -1,3 +1,7 @@
+# Online Website
+
+The Site folder is a special space used to deploy online app / website which has accesibility within URL.
+
 ## Deploying Static HTML or PHP
 
 We use SiteGround to deploy simple sites that just require either static html or php.
@@ -35,3 +39,19 @@ For example, the request to ```https://tech-consultancy.akvotest.org/chatbot/api
 ```tech-consultancy-chatbot``` with url ```/api/v2```.
 
 _Note: https://tech-consultancy.akvotest.org/chatbot will not work but https://tech-consultancy.akvotest.org/chatbot/ will._
+
+-------------------------
+
+## List of Deployed App
+
+
+|Application/Services|Project|Location|
+|---------|-----|------|
+|akvo-flow-web-api|Akvo|k8s|
+|akvo-flow-web|Akvo|k8s|
+|anu-lumen-pages|ANU|SG|
+|as-flow-chatbot|Angkor Salad|k8s|
+|as-flow-chatbot|Angkor Salad|k8s|
+|gc-flow-price-webhook|Green Coffee|k8s|
+|unicef-sig-map|Unicef Pacific|SG|
+
