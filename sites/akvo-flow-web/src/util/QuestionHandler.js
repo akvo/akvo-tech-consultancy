@@ -15,6 +15,7 @@ class QuestionHandler {
             case "cascade":
                 return "select"
             case "geo": return "text"
+            case "date": return "date"
             default:
                 return "text"
         }

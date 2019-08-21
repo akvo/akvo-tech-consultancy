@@ -19,6 +19,7 @@ Route::get('/visualization', 'PageController@visualization')->name('visualizatio
 Route::get('/demo', 'PageController@demo')->name('demo');
 Route::get('/timeline', 'PageController@timeline')->name('timeline');
 Route::post('/download', 'PageController@download')->name('download');
+Route::post('/documentation', 'PageController@documentation')->name('documentation');
 //Route::middleware('auth')->group(function() {
 //});
 

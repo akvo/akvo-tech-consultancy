@@ -7,6 +7,7 @@ class QuestionType extends Component {
     constructor(props) {
         super(props)
         this.api = 'https://tech-consultancy.akvotest.org/akvo-flow-web-api/'
+        this.instanceUrl = window.location.pathname.split('/')[2]
         this.handler = new QuestionHandler()
         this.value = localStorage.getItem(this.props.data.id)
         this.state = { value: this.value ? this.value : '' }
@@ -137,10 +138,7 @@ class QuestionType extends Component {
     }
 
     getCascade (opts, lv) {
-        // Develop
-        // let url = window.location.pathname.split('/')[1]
-        // Prod
-        let url = window.location.pathname.split('/')[2]
+        let url = this.instanceUrl
         url = this.api + 'cascade/' + url + '/' + opts.cascadeResource + '/2'
         return opts.levels.level.map((opt, i) => {
             this.limitCascade = i + 1
@@ -186,10 +184,7 @@ class QuestionType extends Component {
 
     getCascadeDropdown(lv, ix) {
         if (this.props.data.type === "cascade") {
-            // Develop
-            // let url = window.location.pathname.split('/')[1]
-            // Prod
-            let url = window.location.pathname.split('/')[2]
+            let url = this.instanceUrl
             url = this.api + 'cascade/' + url + '/' + this.props.data.cascadeResource + '/' + lv
             let options = "options_" + lv
             let cascade = "cascade_" + ix

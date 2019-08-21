@@ -56,6 +56,10 @@ class Home extends Component {
         localStorage.setItem("_instanceId",data.app)
         let questionId = []
         let answerType = []
+        let questionGroupArray = Array.isArray(data.questionGroup)
+        if (!questionGroupArray) {
+            data.questionGroup = [data.questionGroup];
+        }
         data.questionGroup.forEach((g) => {
             g.question.forEach((q,i) => {
                 questionId.push(q.id)

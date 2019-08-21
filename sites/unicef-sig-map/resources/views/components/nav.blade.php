@@ -16,6 +16,9 @@
             <li class="nav-item {{ Request::is('visualization') ? "active" : "" }}">
                 <a class="nav-link" href="{{route('visualization')}}">Visualization</a>
             </li>
+            <li class="nav-item {{ Request::is('documentation') ? "active" : "" }}">
+                <a class="nav-link" href="{{route('documentation')}}">Documentation</a>
+            </li>
             @if ($user = Auth::user())
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-sign-out"></i>&nbsp;Logout</a>

@@ -57,4 +57,9 @@ class PageController extends Controller
         $filter= collect($db->downloadExcel($request->lists));
         return $filter;
     }
+
+    public function documentation(Request $request)
+    {
+        return view('documentation');
+    } 
 }
