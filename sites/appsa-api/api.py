@@ -21,6 +21,7 @@ pd.options.display.max_columns = 999
 URL = 'http://192.168.1.134/rest/v1/'
 PROJECT_ID = '7283'
 RSR_TOKEN = os.environ['RSR_TOKEN']
+RSR_TOKEN = RSR_TOKEN.replace('\n','')
 FMT = '/?format=json&limit=1'
 FMT100 = '/?format=json&limit=100'
 ENDPOINTS= ['results_framework']
