@@ -191,14 +191,19 @@ def results_framwork_api():
 
 endpoints = ['results_framework']
 
-@app.route('/api/<endpoint>', methods=['GET'])
-def api(endpoint):
+@app.route('/api/<trigger>/<endpoint>', methods=['GET'])
+def api(trigger, endpoint):
     print(get_time() + ' :: ACCESS - ' + endpoint)
     if not endpoint in endpoints:
         return Response("{'message':'enpoint has no contents'}",
                 status=204,
                 mimetype='application/json')
+    update = False
+    if trigger == 'update':
+        update = True
     if not os.path.exists('./cache/' + endpoint + '.json'):
+        update = True
+    if update:
         results_framwork_api()
     response = readcache(endpoint)
     return jsonify(response)

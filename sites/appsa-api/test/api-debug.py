@@ -6,8 +6,8 @@ from flask import Flask, jsonify
 
 app = Flask(__name__)
 
-# URL = 'https://rsr.akvo.org/rest/v1/'
-URL = 'http://192.168.1.134/rest/v1/'
+URL = 'https://rsr.test.akvo.org/rest/v1/'
+# URL = 'http://192.168.1.134/rest/v1/'
 PROJECT_ID = '7283'
 RSR_TOKEN = os.environ['RSR_TOKEN']
 FMT = '/?format=json&limit=1'

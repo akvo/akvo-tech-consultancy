@@ -1,0 +1,2 @@
+python api.py > /dev/null 2>&1 & echo kill $! '\n' rm kill.sh > kill.sh
+echo '* Running on port 5000'
