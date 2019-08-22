@@ -26,6 +26,13 @@ spec:
           limits:
             cpu: 1
             memory: 200Mi
+        env:
+        - name: RSR_TOKEN 
+          valueFrom:
+            secretKeyRef:
+              name: tech-consultancy-rsr-token
+              key: rsr-token
+---
 ---
 apiVersion: v1
 kind: Service
