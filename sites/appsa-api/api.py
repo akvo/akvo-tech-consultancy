@@ -6,8 +6,10 @@ import pandas as pd
 import json
 from datetime import datetime
 from flask import Flask, jsonify, Response
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 ### Workspace Setup
 
@@ -21,6 +23,7 @@ PROJECT_ID = '7283'
 RSR_TOKEN = os.environ['RSR_TOKEN']
 FMT = '/?format=json&limit=1'
 FMT100 = '/?format=json&limit=100'
+ENDPOINTS= ['results_framework']
 
 ## Set Authentication
 
@@ -90,8 +93,9 @@ def readcache(filename):
         data = json.load(f)
     return data
 
+## WEBAPP
 
-## Begin Transformations
+## API I: Result Framework
 
 def results_framwork_api():
     results_framework = get_response('results_framework','project',PROJECT_ID)['results']
@@ -189,12 +193,10 @@ def results_framwork_api():
         json.dump(response, outfile)
     return response;
 
-endpoints = ['results_framework']
-
 @app.route('/api/<trigger>/<endpoint>', methods=['GET'])
 def api(trigger, endpoint):
     print(get_time() + ' :: ACCESS - ' + endpoint)
-    if not endpoint in endpoints:
+    if not endpoint in ENDPOINTS:
         return Response("{'message':'enpoint has no contents'}",
                 status=204,
                 mimetype='application/json')
