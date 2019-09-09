@@ -1,0 +1,99 @@
+{
+"id": 20521,
+"period": 230081,
+"user": 44604,
+"comments": [
+    {
+    "id": 9156,
+    "user_details": {
+        "id": 44604,
+        "email": "p_simfukwe@yahoo.com",
+        "first_name": "Paul",
+        "last_name": "Simfukwe",
+        "approved_organisations": [
+            {
+            "id": 4130,
+            "name": "ZARI",
+            "long_name": "Zambia Agriculture Research Institute",
+            "logo": "/media/db/org/4130/Organisation_4130_logo_2017-06-13_12.57.25.png",
+            "absolute_url": "/en/organisation/4130/"
+            }
+        ]
+    },
+    "created_at": "2019-07-11T14:09:15.101042",
+    "last_modified_at": "2019-07-11T14:09:15.101110",
+    "comment": "Developed two Technologies- biochar kiln + the application of the biochar for soil fertility improvement",
+    "data": 20521,
+    "user": 44604
+    }
+],
+"disaggregations": [
+    {
+    "id": 2890,
+    "dimension_name": 383,
+    "created_at": "2019-07-11T14:09:20.847848",
+    "last_modified_at": "2019-07-11T14:09:20.847875",
+    "value": "2.00",
+    "numerator": null,
+    "denominator": null,
+    "narrative": "",
+    "incomplete_data": false,
+    "dimension_value": 879,
+    "update": 20521
+    }
+],
+"user_details": {
+    "id": 44604,
+    "email": "p_simfukwe@yahoo.com",
+    "first_name": "Paul",
+    "last_name": "Simfukwe",
+    "approved_organisations": [
+        {
+        "id": 4130,
+        "name": "ZARI",
+        "long_name": "Zambia Agriculture Research Institute",
+        "logo": "/media/db/org/4130/Organisation_4130_logo_2017-06-13_12.57.25.png",
+        "absolute_url": "/en/organisation/4130/"
+        }
+    ]
+},
+"approver_details": {
+    "id": 36221,
+    "email": "chombafredrick@gmail.com",
+    "first_name": "Fredrick",
+    "last_name": "Chomba",
+    "approved_organisations": [
+        {
+        "id": 5016,
+        "name": "APPSA Zambia",
+        "long_name": "Agricultural Productivity Programme for Southern Africa in Zambia",
+        "logo": "/media/undefined",
+        "absolute_url": "/en/organisation/5016/"
+        },
+        {
+        "id": 4130,
+        "name": "ZARI",
+        "long_name": "Zambia Agriculture Research Institute",
+        "logo": "/media/db/org/4130/Organisation_4130_logo_2017-06-13_12.57.25.png",
+        "absolute_url": "/en/organisation/4130/"
+        }
+    ]
+},
+"status_display": "Approved",
+"photo_url": "",
+"file_url": "",
+"period_can_add_update": true,
+"created_at": "2019-07-11T14:09:09.614587",
+"last_modified_at": "2019-07-11T14:09:09.647056",
+"value": "2.00",
+"numerator": null,
+"denominator": null,
+"narrative": "",
+"period_actual_value": "2.00",
+"status": "A",
+"text": "Developed two Technologies- biochar kiln + the application of the biochar for soil fertility improvement",
+"photo": null,
+"file": null,
+"update_method": "W",
+"approved_by": 36221
+}
