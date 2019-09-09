@@ -5,7 +5,7 @@ import os
 import pandas as pd
 import json
 from datetime import datetime
-from flask import Flask, jsonify, Response
+from flask import Flask, jsonify, Response, render_template
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -18,7 +18,8 @@ pd.options.display.max_columns = 999
 
 ## Set Static Variables
 
-URL = 'http://192.168.1.134/rest/v1/'
+TEST_URL = 'https://rsr.test.akvo.org/rest/v1/'
+PROD_URL  = 'https://rsr.akvo.org/rest/v1/'
 PROJECT_ID = '7283'
 RSR_TOKEN = os.environ['RSR_TOKEN']
 RSR_TOKEN = RSR_TOKEN.replace('\n','')
@@ -35,7 +36,10 @@ headers = {
 
 ## Helper Functions
 
-def get_response(endpoint, param, value):
+def get_response(env, endpoint, param, value):
+    URL = PROD_URL
+    if env == 'devel':
+        URL = TEST_URL
     uri = '{}{}{}&{}={}'.format(URL, endpoint, FMT100, param, value)
     print(get_time() + ' :: FETCH RSR - ' + uri)
     data = requests.get(uri, headers=headers)
@@ -98,8 +102,8 @@ def readcache(filename):
 
 ## API I: Result Framework
 
-def results_framwork_api():
-    results_framework = get_response('results_framework','project',PROJECT_ID)['results']
+def results_framwork_api(env):
+    results_framework = get_response(env,'results_framework','project',PROJECT_ID)['results']
 
     indicators = []
     periods = []
@@ -194,8 +198,8 @@ def results_framwork_api():
         json.dump(response, outfile)
     return response;
 
-@app.route('/api/<trigger>/<endpoint>', methods=['GET'])
-def api(trigger, endpoint):
+@app.route('/api/<env>/<trigger>/<endpoint>', methods=['GET'])
+def api(env,trigger, endpoint):
     print(get_time() + ' :: ACCESS - ' + endpoint)
     if not endpoint in ENDPOINTS:
         return Response("{'message':'enpoint has no contents'}",
@@ -207,9 +211,13 @@ def api(trigger, endpoint):
     if not os.path.exists('./cache/' + endpoint + '.json'):
         update = True
     if update:
-        results_framwork_api()
+        results_framwork_api(env)
     response = readcache(endpoint)
     return jsonify(response)
+
+@app.route('/')
+def index():
+    return render_template('index.html', endpoints=ENDPOINTS)
 
 if __name__ == '__main__':
     app.config['TEMPLATES_AUTO_RELOAD'] = True
