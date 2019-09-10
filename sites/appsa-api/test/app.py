@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 # URL = 'https://rsr.akvo.org/rest/v1/'
 URL = 'http://192.168.1.134/rest/v1/'
-PROJECT_ID = '7283'
+#PROJECT_ID = '7283'
 RSR_TOKEN = os.environ['RSR_TOKEN']
 FMT = '/?format=json&limit=1'
 FMT100 = '/?format=json&limit=100'
@@ -37,9 +37,9 @@ def get_children_title(x):
     for k,v in x.items():
         return v
 
-@app.route('/api', methods=['GET'])
-def api():
-    results_indicator = get_response('results_framework','project',PROJECT_ID)['results']
+@app.route('/api/<project_id>', methods=['GET'])
+def api(project_id):
+    results_indicator = get_response('results_framework','project',project_id)['results']
     indicators = [{'id':x['id'],'title':x['title']} for x in results_indicator]
     results_indicator_df = pd.DataFrame(results_indicator)
     results_indicator_df['child_id'] = results_indicator_df['child_projects'].apply(get_children_id)

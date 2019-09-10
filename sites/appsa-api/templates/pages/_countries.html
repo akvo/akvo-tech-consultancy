@@ -1,0 +1,20 @@
+    <section class="resume-section p-3 p-lg-5 d-flex justify-content-center" id="countries">
+      <div class="w-100">
+        <h2 class="mb-5">Select <span class="text-primary">Countries</span></h2>
+
+        {% for country in countries %}
+        <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
+          <div class="resume-content">
+              <h3 class="mb-0"><i class="fa fa-check-circle"></i> {{country}}</h3>
+            <hr class="m-0">
+          </div>
+          <div class="resume-date text-md-right">
+              <a class="btn btn-success btn-lg" href="#">Enable</a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+    </section>
+    <hr class="m-0">
+

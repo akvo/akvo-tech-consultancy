@@ -1,0 +1,24 @@
+    <section class="resume-section p-3 p-lg-5 d-flex justify-content-center" id="projects">
+      <div class="w-100">
+        <h2 class="mb-5">Select <span class="text-primary">Projects</span></h2>
+
+        {% for project in projects %}
+        <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
+          <div class="resume-content">
+              <h3 class="mb-0"><i class="fa fa-check-circle"></i> {{project.title}}</h3>
+            <div class="subheading mb-3">{{project.subtitle}}</div>
+            <p>{{project.goals_overview}}</p>
+            <hr class="m-0">
+            <p>Project Plan: {{project.date_start_planned}} - {{project.date_end_planned}}</p>
+              <a class="btn btn-secondary btn-sm" href="{{project.absolute_url}}">Project ID: {{project.id}}</a>
+          </div>
+          <div class="resume-date text-md-right">
+              <a class="btn btn-success btn-lg" href="{{project.absolute_url}}">Enable</a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+    </section>
+    <hr class="m-0">
+
