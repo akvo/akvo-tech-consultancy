@@ -10,10 +10,13 @@
             <p>{{project.goals_overview}}</p>
             <hr class="m-0">
             <p>Project Plan: {{project.date_start_planned}} - {{project.date_end_planned}}</p>
-              <a class="btn btn-secondary btn-sm" href="{{project.absolute_url}}">Project ID: {{project.id}}</a>
+              <a class="btn btn-secondary btn-sm" target="_blank" href="https://rsr.akvo.org{{project.absolute_url}}">Project ID: {{project.id}}</a>
           </div>
           <div class="resume-date text-md-right">
-              <a class="btn btn-success btn-lg" href="{{project.absolute_url}}">Enable</a>
+              <div class="ios-toggle-container">
+              <input type="checkbox" name="project-option" id="project-{{project.id}}" class="ios-toggle" />
+              <label for="project-{{project.id}}" class="checkbox-label" data-off="enable" data-on="disable"></label>
+              </div>
           </div>
         </div>
         {% endfor %}

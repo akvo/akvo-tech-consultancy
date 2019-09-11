@@ -1,0 +1,22 @@
+{
+  "name": "appsa-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/akvo/akvo-tech-consultany",
+  "author": "Akvo",
+  "license": "MIT",
+  "dependencies": {
+    "webpack": "^4.39.3",
+    "webpack-cli": "^3.3.8"
+  },
+  "scripts": {
+    "qc": "esling src/js",
+    "build": "webpack",
+    "develop": "webpack --mode development --watch"
+  },
+  "devDependencies": {
+    "css-loader": "^3.2.0",
+    "file-loader": "^4.2.0",
+    "style-loader": "^1.0.0"
+  }
+}

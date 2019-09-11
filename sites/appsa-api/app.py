@@ -51,7 +51,7 @@ def index():
         project = rsr.api('prod', 'project', 'id', p)['results'][0]
         projects.append(project)
     return render_template('index.html',
-            environment = '/appsa-api',
+            environment = '',
             project_parent = project_parent,
             projects = projects,
             countries = countries)
