@@ -11,7 +11,7 @@
   },
   "scripts": {
     "qc": "esling src/js",
-    "build": "webpack",
+    "build": "./node_modules/.bin/webpack",
     "develop": "webpack --mode development --watch"
   },
   "devDependencies": {
