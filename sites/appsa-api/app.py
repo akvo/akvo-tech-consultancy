@@ -16,10 +16,6 @@ printer = Printer()
 rsr = Rsr()
 get_data = Api()
 
-## Helper Functions
-
-## API I: Result Framework
-
 @app.route('/api/<env>/<trigger>/<endpoint>', methods=['GET'])
 def api(env,trigger, endpoint):
     print(printer.get_time() + ' :: ACCESS - ' + endpoint)

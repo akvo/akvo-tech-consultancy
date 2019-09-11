@@ -9,7 +9,10 @@
             <hr class="m-0">
           </div>
           <div class="resume-date text-md-right">
-              <a class="btn btn-success btn-lg" href="#">Enable</a>
+              <div class="ios-toggle-container">
+              <input type="checkbox" name="project-option" id="country-{{country}}" class="ios-toggle" />
+              <label for="country-{{country}}" class="checkbox-label" data-off="enable" data-on="disable"></label>
+              </div>
           </div>
         </div>
         {% endfor %}

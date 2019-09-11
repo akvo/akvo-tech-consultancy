@@ -5,12 +5,12 @@
         {% for project in projects %}
         <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
           <div class="resume-content">
-              <h3 class="mb-0"><i class="fa fa-check-circle"></i> {{project.title}}</h3>
+              <h3 class="mb-0"> {{project.title}}</h3>
             <div class="subheading mb-3">{{project.subtitle}}</div>
             <p>{{project.goals_overview}}</p>
             <hr class="m-0">
             <p>Project Plan: {{project.date_start_planned}} - {{project.date_end_planned}}</p>
-              <a class="btn btn-secondary btn-sm" target="_blank" href="https://rsr.akvo.org{{project.absolute_url}}">Project ID: {{project.id}}</a>
+              <a class="btn btn-secondary btn-sm" target="_blank" href="https://rsr.akvo.org{{project.absolute_url}}"><i class="fa fa-check-circle"></i> {{project.id}}</a>
           </div>
           <div class="resume-date text-md-right">
               <div class="ios-toggle-container">
