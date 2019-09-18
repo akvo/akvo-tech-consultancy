@@ -60,11 +60,6 @@ let destroy_table = () => {
 }
 
 function generate_table(data) {
-    try {
-        destroy_table();
-    } catch (error) {
-        console.log(error);
-    }
     data.map(function(x, i) {
         let html = "<tr>";
         html += "<td>" + x['project_title'] + "</td>";
