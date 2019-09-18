@@ -201,6 +201,7 @@ class Api:
         self.filter_country = filter_country
         related_project = rsr.api('related_project','related_project',project_id)
         project_list = list(pd.DataFrame(related_project['results'])['project'])
+        # project_list.append(project_id)
         if project_type == 'child':
             results_framework = no_trace(project_id)
         if project_type == 'parent':
@@ -347,12 +348,26 @@ class Api:
         order_columns = ['id','indicator_id','dimension_name','project_title','indicator','commodity','period','country','type','value']
         targets = targets[order_columns]
         disaggregations_merged = disaggregations_merged[order_columns]
-        ajax = pd.concat([disaggregations_merged,targets],sort=False)
-        ajax = ajax.sort_values(by=['indicator_id','dimension_name','id'])
         periods = pd.DataFrame(periods)
         periods = periods[['id','is_yearly','period_start','period_end']]
         periods['period_date'] = periods['period_start'] + ' - ' + periods['period_end']
-        ajax = ajax.merge(periods, how='inner', left_on='period', right_on='id', suffixes=('_data','_period'))
+        ajax = pd.concat([disaggregations_merged,targets],sort=False)
+        ajax = ajax.sort_values(by=['indicator_id','dimension_name','id'])
+        ajax = ajax.merge(periods,
+                how='inner',
+                left_on='period',
+                right_on='id',
+                suffixes=('_data','_period')).sort_values(['id_data','indicator_id','dimension_name'])
+        remove_columns = [
+            'period_end',
+            'period_start',
+            'id_period',
+            'period',
+            'is_yearly'
+        ]
+        ajax = pd.concat([disaggregations_merged,targets],sort=False)
+        ajax = ajax.sort_values(by=['indicator_id','dimension_name','id'])
+        ajax = ajax.merge(periods,how='inner',left_on='period',right_on='id',suffixes=('_data','_period')).sort_values(['id_data','indicator_id','dimension_name'])
         remove_columns = [
             'period_end',
             'period_start',
@@ -361,11 +376,14 @@ class Api:
             'is_yearly'
         ]
         ajax = ajax.drop(columns=remove_columns)
-        order_columns = ['project_title','indicator_id','indicator','dimension_name','commodity','type','country','period_date','value','id_data']
-        ajax = ajax[order_columns]
         ajax = ajax[ajax['period_date'] == filter_date].drop(columns=['period_date'])
-        ajax = ajax.groupby([x for x in order_columns if x not in['value','period_date']]).first().sort_index()
-        ajax = ajax.unstack('type').unstack('country').fillna(0).astype(int)
+        order_columns = ['project_title','indicator_id','indicator','dimension_name','commodity','type','country','value','id_data']
+        ajax = ajax[order_columns]
+        ajax_group = ['project_title','indicator_id','indicator','id_data','commodity','country','type','dimension_name']
+        ajax_sort = ['indicator_id','id_data','dimension_name']
+        ajax = ajax.groupby(ajax_group).sum()
+        ajax = ajax.unstack('type').unstack('country').sort_values(ajax_sort)
+        ajax = ajax.groupby(level=[0,2,4],sort=False).sum().astype(int)
         ajax = pd.DataFrame(ajax['value'].to_records())
         ajax = ajax.rename(columns={
             "('Cumulative Actual Values', 'Malawi')": "CA-MW",
@@ -374,5 +392,6 @@ class Api:
             "('Y4 RCoLs Targets', 'Malawi')":"TG-MW",
             "('Y4 RCoLs Targets', 'Mozambique')":"TG-MZ",
             "('Y4 RCoLs Targets', 'Zambia')":"TG-ZA"
-        }).to_dict('records')
+        })
+        ajax = ajax.to_dict('records')
         return ajax

@@ -1,5 +1,7 @@
 import './../css/custom.css';
 const axios = require('axios');
+// const baseurl = '/appsa-api';
+const baseurl = '';
 
 let post_data = {};
 let project_option = () => {
@@ -50,18 +52,30 @@ $("#generate-report").on('click', () => {
     generate_report(post_data);
 });
 
+let destroy_table = () => {
+    let table = $("#rsr_table").Datatable();
+    table.destroy();
+    table.empty();
+    $("#rsr_table tbody").children().remove();
+}
+
 function generate_table(data) {
+    try {
+        destroy_table();
+    } catch (error) {
+        console.log(error);
+    }
     data.map(function(x, i) {
         let html = "<tr>";
         html += "<td>" + x['project_title'] + "</td>";
-        html += "<td data-indicator=" + x['indicator_id'] + ">" + x['indicator'] + "</td>";
-        html += "<td data-dimension=" + x['dimension_name'] + ">" + x['commodity'] + "</td>";
-        html += "<td>" + x['CA-MW'] + "</td>";
-        html += "<td>" + x['CA-MZ'] + "</td>";
-        html += "<td>" + x['CA-ZA'] + "</td>";
-        html += "<td>" + x['TG-MW'] + "</td>";
-        html += "<td>" + x['TG-MZ'] + "</td>";
-        html += "<td>" + x['TG-ZA'] + "</td>";
+        html += "<td>" + x['indicator'] + "</td>";
+        html += "<td style='padding-left:50px;' data-dimension=" + x['dimension_name'] + ">" + x['commodity'] + "</td>";
+        html += "<td class='text-right'>" + x['CA-MW'] + "</td>";
+        html += "<td class='text-right'>" + x['CA-MZ'] + "</td>";
+        html += "<td class='text-right'>" + x['CA-ZA'] + "</td>";
+        html += "<td class='text-right'>" + x['TG-MW'] + "</td>";
+        html += "<td class='text-right'>" + x['TG-MZ'] + "</td>";
+        html += "<td class='text-right'>" + x['TG-ZA'] + "</td>";
         html += "</tr>";
         $("#rsr_table tbody").append(html);
         return html;
@@ -97,7 +111,7 @@ function generate_table(data) {
 
 function generate_report(pd) {
 	$("#generate-report i").show();
-    axios.post('/api/datatables/' + pd.project_id, pd)
+    axios.post(baseurl + '/api/datatables/' + pd.project_id, pd)
         .then(function(response) {
             generate_table(response.data);
         })
