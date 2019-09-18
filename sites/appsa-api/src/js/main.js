@@ -1,7 +1,7 @@
 import './../css/custom.css';
 const axios = require('axios');
 const baseurl = '/appsa-api';
-//const baseurl = '';
+// const baseurl = '';
 
 let post_data = {};
 let project_option = () => {
@@ -65,12 +65,14 @@ function generate_table(data) {
         html += "<td>" + x['project_title'] + "</td>";
         html += "<td>" + x['indicator'] + "</td>";
         html += "<td style='padding-left:50px;'>" + x['commodity'] + "</td>";
+        html += "<td class='text-right'>" + x['CA-TTL'] + "</td>";
         html += "<td class='text-right'>" + x['CA-MW'] + "</td>";
         html += "<td class='text-right'>" + x['CA-MZ'] + "</td>";
         html += "<td class='text-right'>" + x['CA-ZA'] + "</td>";
         html += "<td class='text-right'>" + x['TG-MW'] + "</td>";
         html += "<td class='text-right'>" + x['TG-MZ'] + "</td>";
         html += "<td class='text-right'>" + x['TG-ZA'] + "</td>";
+        html += "<td class='text-right'>" + x['TG-TTL'] + "</td>";
         html += "</tr>";
         $("#rsr_table tbody").append(html);
         return html;
@@ -90,6 +92,28 @@ function generate_table(data) {
             }
         }],
         rowGroup: {
+            startRender: function(rows, group) {
+                let getvalue = (x) => {
+                    var camw = rows
+                        .data()
+                        .pluck(x)
+                        .reduce(function(a, b) {
+                            return a + b * 1;
+                        }, 0);
+                    return camw;
+                }
+                return $('<tr/>')
+                    .append('<td>' + group + '</td>')
+                    .append('<td class="text-right">' + getvalue(3) + '</td>')
+                    .append('<td class="text-right">' + getvalue(4) + '</td>')
+                    .append('<td class="text-right">' + getvalue(5) + '</td>')
+                    .append('<td class="text-right">' + getvalue(6) + '</td>')
+                    .append('<td class="text-right">' + getvalue(7) + '</td>')
+                    .append('<td class="text-right">' + getvalue(8) + '</td>')
+                    .append('<td class="text-right">' + getvalue(9) + '</td>')
+                    .append('<td class="text-right">' + getvalue(10) + '</td>')
+            },
+            endRender: null,
             dataSrc: [0, 1]
         },
         columnDefs: [{

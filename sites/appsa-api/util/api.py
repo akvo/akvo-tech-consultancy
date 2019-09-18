@@ -393,5 +393,7 @@ class Api:
             "('Y4 RCoLs Targets', 'Mozambique')":"TG-MZ",
             "('Y4 RCoLs Targets', 'Zambia')":"TG-ZA"
         })
+        ajax['TG-TTL'] = ajax['TG-MW'] + ajax['TG-MZ'] + ajax['TG-ZA']
+        ajax['CA-TTL'] = ajax['CA-MW'] + ajax['CA-MZ'] + ajax['CA-ZA']
         ajax = ajax.to_dict('records')
         return ajax
