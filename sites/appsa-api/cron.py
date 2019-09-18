@@ -317,21 +317,27 @@ project = pd.concat([dimension,project]).sort_index(axis=1).sort_index()
 project = project.astype(float).fillna(0)
 project.to_html(html_cache)
 
+print("INIT EDIT TABLE")
 with open(html_cache) as htm:
     html = htm.read()
     soup = bs4.BeautifulSoup(html, "html.parser")
+
+head = soup.new_tag("head")
+soup.html.append(head)
 
 soup.find('table')['border'] = 0
 soup.find('table')['class'] = "table"
 
 def remove_all_attrs_except(soup):
-    whitelist = ['border','table']
+    whitelist = ['border','table','html','head']
     blacklist = ['title','disaggregation_type','dimension']
     header = ['actual_value','aggr_value','target_value']
     country = ['Malawi','Zambia','Mozambique']
     for tag in soup.find_all(True):
         if tag.name not in whitelist:
             tag.attrs = {}
+            if tag.text in blacklist:
+                tag.decompose()
         if tag.name == 'th':
             if '•' in tag.text:
                 tag['style']='padding-left:50'
@@ -342,8 +348,6 @@ def remove_all_attrs_except(soup):
         if tag.text == 'country':
             new_head = soup.new_tag("th")
             tag = new_head
-        if tag.text in blacklist:
-            tag.decompose()
         if tag.text in header:
             tag['colspan'] = 3
             tag['class'] = 'text-center'
@@ -359,16 +363,20 @@ def remove_all_attrs_except(soup):
     return soup
 
 remove_all_attrs_except(soup)
-new_head = soup.new_tag("head")
-soup.html.append(new_head)
+jquery = soup.new_tag("script",
+                   src="https://code.jquery.com/jquery-3.3.1.js",
+                   )
+datatables = soup.new_tag("script",
+                   src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js",
+                   )
 css = soup.new_tag("link",
                    rel="stylesheet",
                    href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css",
                    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm",
                    crossorigin="anonymous")
-soup.head.append(css)
-
-
+soup.html.append(css)
+soup.html.append(jquery)
+soup.html.append(datatables)
 
 with open(html_template, "w") as outf:
     outf.write(str(soup))

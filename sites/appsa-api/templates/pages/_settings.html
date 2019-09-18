@@ -1,0 +1,66 @@
+    <section class="resume-section p-3 p-lg-5 d-flex justify-content-center" id="settings">
+      <div class="w-50">
+        <h2 class="mb-5">Select <span class="text-primary">Countries</span></h2>
+
+        {% for country in countries %}
+        <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
+          <div class="resume-content">
+              <h3 class="mb-0">{{country}}</h3>
+          </div>
+          <div class="resume-date text-md-right">
+              <div class="ios-toggle-container">
+              <input type="checkbox" name="project-option" id="country-{{country}}" class="ios-toggle" value="{{country}}" />
+              <label for="country-{{country}}" class="checkbox-label" data-off="enable" data-on="disable"></label>
+              </div>
+          </div>
+        </div>
+        {% endfor %}
+    	<button id="generate-report" class="btn btn-primary btn-large">
+			Generate Report <i class="fa fa-circle-notch fa-spin" style="display:none;"></i>
+		</button>
+      </div>
+      <div class="w-100">
+        <h2 class="mb-5">Select <span class="text-primary">Periods</span></h2>
+
+        <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
+          <div class="resume-content">
+              <h3 class="mb-0">Yearly Report</h3>
+              <hr class="m-0"></br>
+                <div class="form-group">
+                <select class="form-control" id="period-yearly-select" name='period-select-yearly'>
+                    {% for pd in period_list.Yearly %}
+                    <option value={{pd}}>{{pd}}</option>
+                    {% endfor %}
+                </select>
+                </div>
+          </div>
+          <div class="resume-date text-md-right">
+              <div class="ios-toggle-container">
+              <input type="checkbox" name="period-type" id="period-yearly" class="ios-toggle" value="yearly"/>
+              <label for="period-yearly" class="checkbox-label" data-off="enable" data-on="disable"></label>
+              </div>
+          </div>
+      </div>
+
+        <div class="resume-item d-flex flex-column flex-md-row justify-content-between mb-5">
+          <div class="resume-content">
+              <h3 class="mb-0">Semester Report</h3>
+              <hr class="m-0"></br>
+                <div class="form-group">
+                <select class="form-control" id="period-semester-select" name='period-select-semester'>
+                    {% for pd in period_list.Semester %}
+                    <option value={{pd}}>{{pd}}</option>
+                    {% endfor %}
+                </select>
+                </div>
+          </div>
+          <div class="resume-date text-md-right">
+              <div class="ios-toggle-container">
+              <input type="checkbox" name="period-type" id="period-semester" class="ios-toggle" value="semester"/>
+              <label for="period-semester" class="checkbox-label" data-off="enable" data-on="disable"></label>
+              </div>
+          </div>
+        </div>
+    </section>
+    <hr class="m-0">
+

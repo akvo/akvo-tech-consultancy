@@ -25,14 +25,11 @@ class Rsr:
         self.project_id = '7950' # '7283'
         self.result_framework = ['results_framework']
 
-    def api(self, env, endpoint, param, value):
-        self.env = env
+    def api(self, endpoint, param, value):
         self.endpoint = endpoint
         self.param = param
         self.value = value
         URL = PROD_URL
-        if env == 'devel':
-            URL = TEST_URL
         uri = '{}{}{}&{}={}'.format(URL, endpoint, FMT100, param, value)
         print(printer.get_time() + ' :: FETCH RSR - ' + uri)
         data = requests.get(uri, headers=headers)
@@ -40,9 +37,7 @@ class Rsr:
         return data
 
     def readcache(self, filename):
-        self.filename = filename
         print(printer.get_time() + ' :: READING CACHE - ' + filename)
-        filename = './cache/' + filename + '.json'
         with open(filename, 'r') as f:
             data = json.load(f)
         return data

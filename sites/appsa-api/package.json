@@ -6,6 +6,7 @@
   "author": "Akvo",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.19.0",
     "webpack": "^4.39.3",
     "webpack-cli": "^3.3.8"
   },
