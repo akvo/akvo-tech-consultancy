@@ -64,7 +64,7 @@ function generate_table(data) {
         let html = "<tr>";
         html += "<td>" + x['project_title'] + "</td>";
         html += "<td>" + x['indicator'] + "</td>";
-        html += "<td style='padding-left:50px;' data-dimension=" + x['dimension_name'] + ">" + x['commodity'] + "</td>";
+        html += "<td style='padding-left:50px;'>" + x['commodity'] + "</td>";
         html += "<td class='text-right'>" + x['CA-MW'] + "</td>";
         html += "<td class='text-right'>" + x['CA-MZ'] + "</td>";
         html += "<td class='text-right'>" + x['CA-ZA'] + "</td>";
