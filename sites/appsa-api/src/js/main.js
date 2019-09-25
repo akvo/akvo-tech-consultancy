@@ -1,7 +1,7 @@
 import './../css/custom.css';
 const axios = require("axios");
-//const baseurl = '/appsa-api';
-const baseurl = '';
+const baseurl = '/appsa-api';
+//const baseurl = '';
 
 
 let post_data = {};
