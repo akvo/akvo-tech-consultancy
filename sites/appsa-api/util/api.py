@@ -288,21 +288,26 @@ class Api:
                 #del indicator['dimension_names']
                 indicators.append(indicator)
         dimension_values = pd.DataFrame(dimension_values).groupby(['id']).first().reset_index()
+        dimension_names = pd.DataFrame(dimension_names).groupby(['id']).first()
+        dimension_names = dimension_names.drop(columns=['values','project','parent_dimension_name','result','indicator']).reset_index()
+        dimension_names = dimension_names.rename(columns={'id':'dimension_id','name':'dimension_name'})
+        dimension_values = dimension_values.merge(dimension_names,left_on='name',right_on='dimension_id',how='outer')
         remove_columns = [
             'created_at',
             'last_modified_at',
             'numerator',
             'denominator',
-            'dimension_name',
             'narrative',
             'dimension_value',
             'incomplete_data',
-            'update'
+            'update',
+            'dimension_name_disaggregation',
+            'dimension_id'
         ]
         rename_columns = {
-            'name': 'dimension_name',
             'value_dimension_values': 'disaggregation_name',
             'value_disaggregation': 'disaggregation_value',
+            'dimension_name_dimension_values':'dimension_name'
         }
         fill_values = {
             'disaggregation_value':0,
@@ -311,6 +316,8 @@ class Api:
         column_order = ['parent_dimension_value',
                         'parent_period',
                         'result',
+                        'country',
+                        'dimension_'
                         'dimension_name',
                         'disaggregation_name',
                         'id',
@@ -357,43 +364,40 @@ class Api:
         targets  = targets.fillna(value=fill_values)
         targets['value'] =  targets['value_target'].apply(lambda x:int(float(x)))
         targets = targets.drop(columns=['value_target'])
-        integer_list = ['id','name','parent_dimension_value','result','parent_period','dimension_value','period']
+        integer_list = ['id','name','parent_dimension_value','result','parent_period','dimension_value','dimension_id','period']
         targets[integer_list] = targets[integer_list].astype(int)
-        rename_columns = {
-            'name': 'dimension_name',
-            'value_dimension_values': 'disaggregation_name'
-        }
-        column_order = [x for x in column_order if x not in ['disaggregation_value', 'incomplete_data','dimension_value']]
-        column_order.append('value')
+        rename_columns = {'value_dimension_values': 'disaggregation_name'}
+        unavailable_columns = ['disaggregation_value', 'incomplete_data','dimension_value','dimension_dimension_name']
+        column_order = [x for x in column_order if x not in unavailable_columns]
+        column_order = column_order + ['value','dimension_name','dimension_id']
         targets = targets.rename(columns=rename_columns)[column_order]
         targets['indicator_id'] = targets['indicator_id'].apply(lambda x: int(float(x)))
         targets['type'] = 'Y4 RCoLs Targets'
         targets['country'] = ''
         targets['country'] = targets.apply(fill_country, axis = 1)
-        order_columns = ['id','result','indicator_id','dimension_name','project_title','indicator','commodity','period','country','type','value']
+        disaggregations_merged = disaggregations_merged.rename(columns={'name':'dimension_id'})
+        order_columns = [
+                'id',
+                'result',
+                'indicator_id',
+                'dimension_id',
+                'project_title',
+                'indicator',
+                'dimension_name',
+                'commodity',
+                'period',
+                'country',
+                'type',
+                'value'
+        ]
         targets = targets[order_columns]
         disaggregations_merged = disaggregations_merged[order_columns]
         periods_short = pd.DataFrame(periods)
         periods_short = periods_short[['id','is_yearly','period_start','period_end']]
         periods_short['period_date'] = periods_short['period_start'] + ' - ' + periods_short['period_end']
         tbl = pd.concat([disaggregations_merged,targets],sort=False)
-        tbl = tbl.sort_values(by=['indicator_id','dimension_name','id'])
-        tbl = tbl.merge(periods_short,
-                how='inner',
-                left_on='period',
-                right_on='id',
-                suffixes=('_data','_period')).sort_values(['id_data','indicator_id','dimension_name'])
-        remove_columns = [
-            'period_end',
-            'period_start',
-            'id_period',
-            'period',
-            'is_yearly'
-        ]
-        tbl = pd.concat([disaggregations_merged,targets],sort=False)
-        tbl = tbl.sort_values(by=['result','indicator_id','dimension_name','id'])
+        tbl = tbl.sort_values(by=['result','indicator_id','dimension_id','id'])
         tbl = tbl.merge(periods_short,how='inner',left_on='period',right_on='id',suffixes=('_data','_period')).sort_values(['id_data','indicator_id','dimension_name'])
-        attr = tbl
         remove_columns = [
             'period_end',
             'period_start',
@@ -403,13 +407,23 @@ class Api:
         ]
         tbl = tbl.drop(columns=remove_columns)
         tbl = tbl[tbl['period_date'] == filter_date].drop(columns=['period_date'])
-        order_columns = ['result','project_title','indicator_id','indicator','dimension_name','commodity','type','country','value','id_data']
+        order_columns = ['result','project_title','indicator_id','indicator','dimension_id','dimension_name','commodity','type','country','value','id_data']
         tbl = tbl[order_columns]
-        tbl_group = ['result','project_title','indicator_id','indicator','id_data','commodity','country','type','dimension_name']
-        tbl_sort = ['result','indicator_id','id_data','dimension_name']
+        tbl_group = [
+                'result',
+                'project_title',
+                'indicator_id',
+                'indicator',
+                'dimension_id',
+                'dimension_name',
+                'id_data',
+                'commodity',
+                'country',
+                'type']
+        tbl_sort = ['result','indicator_id','dimension_id','id_data']
         tbl = tbl.groupby(tbl_group).sum()
         tbl = tbl.unstack('type').unstack('country').sort_values(tbl_sort)
-        tbl = tbl.groupby(level=[1,3,5],sort=False).sum().astype(int)
+        tbl = tbl.groupby(level=[1,3,5,7],sort=False).sum().astype(int)
         tbl = pd.DataFrame(tbl['value'].to_records())
         tbl = tbl.rename(columns={
             "('Cumulative Actual Values', 'Malawi')": "CA-MW",
@@ -421,26 +435,29 @@ class Api:
         })
         tbl['TG-TTL'] = tbl['TG-MW'] + tbl['TG-MZ'] + tbl['TG-ZA']
         tbl['CA-TTL'] = tbl['CA-MW'] + tbl['CA-MZ'] + tbl['CA-ZA']
+        attr = pd.concat([disaggregations_merged,targets],sort=False)
+        attr = attr.sort_values(by=['result','indicator_id','dimension_id','id'])
+        sort_values = ['id_data','indicator_id','dimension_name']
+        attr = attr.merge(periods_short,how='inner',left_on='period',right_on='id',suffixes=('_data','_period')).sort_values(sort_values)
         attr['variable'] = attr.apply(lambda x: {
-            "id":x['id_data'],
-            "result":x['result'],
-            "country":x['country'],
-            "type":x['type'],
-            "period":x['period'],
-            "date":x['period_date'],
-            "indicator_id":x['indicator_id'],
-            "indicator_name":x['indicator'],
-            "dimension":x['dimension_name'],
-            "commodity":x['commodity'],
-            "value": x['value'],
+            'id':x['id_data'],
+            'result':x['result'],
+            'country':x['country'],
+            'type':x['type'],
+            'period':x['period'],
+            'date':x['period_date'],
+            'indicator_id':x['indicator_id'],
+            'indicator_name':x['indicator'],
+            'dimension':x['dimension_id'],
+            'dimension_name':x['dimension_name'],
+            'commodity':x['commodity'],
+            'value': x['value'],
         },axis=1)
-
         attr = attr[attr['period_date'] == filter_date].drop(columns=['period','period_start','period_end','is_yearly'])
-        attr_sort = ['result','indicator_id','id_data','dimension_name']
-        attr_group =  ['result','project_title','indicator_id','indicator','id_data','commodity','country','type','dimension_name']
-        attr = attr.groupby(attr_group)['variable'].apply(group_attribute).reset_index()
-        attr = attr.groupby(attr_group).first().unstack('type').unstack('country').sort_values(attr_sort)
-        attr = attr.groupby(level=[1,3,5],sort=False).first()
+        attr_sort = ['result','indicator_id','dimension_id','id_data']
+        attr = attr.groupby(tbl_group)['variable'].apply(group_attribute).reset_index()
+        attr = attr.groupby(tbl_group).first().unstack('type').unstack('country').sort_values(attr_sort)
+        attr = attr.groupby(level=[1,3,5,7],sort=False).first()
         attr = pd.DataFrame(attr['variable'].to_records())
         attr = attr.rename(columns={
             "('Cumulative Actual Values', 'Malawi')": "CA-MW-D",
@@ -450,10 +467,12 @@ class Api:
             "('Y4 RCoLs Targets', 'Mozambique')":"TG-MZ-D",
             "('Y4 RCoLs Targets', 'Zambia')":"TG-ZA-D"
         })
-        attr = attr.drop(columns=['project_title','indicator','commodity'])
-        merged = pd.merge(attr, tbl, left_index=True, right_index=True)
+        attr = attr.drop(columns=['project_title','indicator','commodity','dimension_name'])
+        merged = pd.merge(tbl, attr, left_index=True, right_index=True)
         merged = merged.replace({np.nan: None})
         merged['CA-TTL-D'] = merged.apply(lambda x: combineList("CA", x), axis=1);
         merged['TG-TTL-D'] = merged.apply(lambda x: combineList("TG", x), axis=1);
         result_title = list(pd.DataFrame(results_framework).groupby('title').first().reset_index()['title'])
-        return {'result': result_title, 'values': merged.to_dict('records')}
+        indicator_title = list(pd.DataFrame(indicators).groupby('title').first().reset_index()['title'])
+        titles = result_title + indicator_title
+        return {'titles': titles, 'values': merged.to_dict('records')}

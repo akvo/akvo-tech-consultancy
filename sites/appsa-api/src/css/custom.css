@@ -72,7 +72,7 @@ p.lead {
 }
 
 .social-icons a:hover {
-    background-color: #44b045
+    background-color:#efefef; 
 }
 
 .dev-icons {
@@ -343,30 +343,45 @@ td.text-right.comment-box {
     padding-left: 0px !important;
     padding-top: 10px !important;
 }
+td.text-right.no-data{
+    color: #e2e3e5;
+}
 td.text-right.has-data{
-    text-decoration: underline;
-    color: #008b8b;
+    color: #000;
     cursor: pointer;
 }
 td.text-right.has-data:hover{
+    text-decoration: underline;
     background: #ddd;
 }
 table.dataTable thead th, 
 table.dataTable thead td,
 table.dataTable tbody th,
 table.dataTable tbody td {
-    padding:.75rem;
+    padding: .5rem;
 }
 table.dataTable tr.dtrg-group td{
-    background-color: #868e96;
-    color: #ffffff;
+    background-color: #228b8b;
+    color: #FFFFFF;
 }
-table.dataTable tr.dtrg-group.dtrg-level-1 td, 
+table.dataTable tr.dtrg-group.dtrg-level-1 td,
 table.dataTable tr.dtrg-group.dtrg-level-2 td{
+    padding-left: 2em;
     background-color: #e2e3e5;
     font-weight:bold;
     font-size:14px;
     color: #484848;
+}
+table.dataTable tr.dtrg-group.dtrg-level-2 td{
+    padding-left: 4em;
+    background-color: #f2f2f2;
+    font-weight:bold;
+    font-size:14px;
+    color: #484848;
+}
+table.dataTable tr.dtrg-group.dtrg-level-2 td.has-data{
+    color:#228b8b;
+    cursor: pointer;
 }
 input.search{
     margin-right: 15px;
