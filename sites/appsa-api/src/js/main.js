@@ -66,13 +66,17 @@ function createRow(data, col_type, country) {
     if (data[details] !== null) {
         tdclass = "has-data";
     }
-    let html = "<td class='text-right "+tdclass+"' data-details='"+JSON.stringify(data[details])+"'>";
+    let html = "<td class='text-right " + tdclass + "' data-details='" + JSON.stringify(data[details]) + "'>";
     html += data[col_type];
     html += "</td>";
     return html;
 }
 
 function generateTable(response) {
+	if ( $.fn.DataTable.isDataTable('#rsr_table') ) {
+          $('#rsr_table').DataTable().destroy();
+    }
+    $('#rsr_table tbody').empty();
     let data = response.values;
     let resultTitle = response.result;
     data.map((x, i) => {
@@ -93,46 +97,39 @@ function generateTable(response) {
         return html;
     });
     /* dom: 'Brftip', */
-	$("#rsr_table").show();
+    $("#rsr_table").show();
     const table = $("#rsr_table").DataTable({
         dom: 'Brftip',
         ordering: false,
-        buttons: [{
-            extend: 'print',
-            text: 'Print Report',
-            exportOptions: {
-                modifier: {
-                    page: 'current'
-                }
-            }
-        }],
+        buttons: ['copy','print','excel','pdf'],
+        fixedColumns: true,
         rowGroup: {
             startRender: function(rows, group) {
-                    let getvalue = (x) => {
-                        var camw = rows
-                            .data()
-                            .pluck(x)
-                            .reduce(function(a, b) {
-                                return a + b * 1;
-                            }, 0);
-                        return camw;
-                    }
-                    if (resultTitle.indexOf(group) === -1){
-                        return $("<tr/>")
-                            .append("<td>" + group + "</td>")
-                            .append("<td class='text-right'>" + getvalue(3) + "</td>")
-                            .append("<td class='text-right'>" + getvalue(4) + "</td>")
-                            .append("<td class='text-right'>" + getvalue(5) + "</td>")
-                            .append("<td class='text-right'>" + getvalue(6) + "</td>")
-                            .append("<td class='text-right'>" + getvalue(7) + "</td>")
-                            .append("<td class='text-right'>" + getvalue(8) + "</td>")
-                            .append("<td class='text-right'>" + getvalue(9) + "</td>")
-                            .append("<td class='text-right'>" + getvalue(10) + "</td>")
-                    }
-                    if (resultTitle.indexOf(group) > -1){
-                        return $("<tr/>")
-                            .append("<td colspan=9>" + group + "</td>")
-                    }
+                let getvalue = (x) => {
+                    var camw = rows
+                        .data()
+                        .pluck(x)
+                        .reduce(function(a, b) {
+                            return a + b * 1;
+                        }, 0);
+                    return camw;
+                }
+                if (resultTitle.indexOf(group) === -1) {
+                    return $("<tr/>")
+                        .append("<td>" + group + "</td>")
+                        .append("<td class='text-right'>" + getvalue(3) + "</td>")
+                        .append("<td class='text-right'>" + getvalue(4) + "</td>")
+                        .append("<td class='text-right'>" + getvalue(5) + "</td>")
+                        .append("<td class='text-right'>" + getvalue(6) + "</td>")
+                        .append("<td class='text-right'>" + getvalue(7) + "</td>")
+                        .append("<td class='text-right'>" + getvalue(8) + "</td>")
+                        .append("<td class='text-right'>" + getvalue(9) + "</td>")
+                        .append("<td class='text-right'>" + getvalue(10) + "</td>")
+                }
+                if (resultTitle.indexOf(group) > -1) {
+                    return $("<tr/>")
+                        .append("<td colspan=9>" + group + "</td>")
+                }
             },
             endRender: null,
             dataSrc: [0, 1]
@@ -143,12 +140,12 @@ function generateTable(response) {
         }],
         scrollY: "600px",
         scrollCollapse: true,
-        responsive:true,
+        responsive: true,
         paging: false,
     });
     table.columns.adjust();
     $('div.dataTables_filter input').addClass('search');
-    $("#rsr_table tbody").on( 'click', 'td', function () {
+    $("#rsr_table tbody").on('click', 'td', function() {
         let cell = table.cell(this);
         let abs = $(this).attr('data-details');
         abs = JSON.parse(abs);
@@ -176,16 +173,16 @@ function generateTable(response) {
         html += "<table>";
         $(".modal-body").append("<div>" + html + "</div>");
         $("#modal").modal('toggle');
-        $('#modal').on('hidden.bs.modal', function () {
+        $('#modal').on('hidden.bs.modal', function() {
             $(".modal-body").children().remove();
         })
     });
-	$("#generate-report i").hide();
-	$("#scroll-report").click();
+    $("#generate-report i").hide();
+    $("#scroll-report").click();
 }
 
 function generate_report(pd) {
-	$("#generate-report i").show();
+    $("#generate-report i").show();
     axios.post(baseurl + "/api/datatables/" + pd.project_id, pd)
         .then(response => {
             generateTable(response.data);
