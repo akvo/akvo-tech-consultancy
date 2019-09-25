@@ -159,6 +159,10 @@ section.resume-section .resume-item .resume-date {
     min-width: none
 }
 
+section.resume-section.report-section {
+    max-width:none;
+}
+
 @media (min-width:768px) {
     section.resume-section {
         min-height: 100vh
@@ -329,4 +333,51 @@ color:#f35f42;
 }
 #checkbox3:checked + .checkbox-label:after{
 color:#1fc1c8;
+}
+
+/*comment-box*/
+td {
+    font-size: 14px;
+}
+td.text-right.comment-box {
+    padding-left: 0px !important;
+    padding-top: 10px !important;
+}
+td.text-right.has-data{
+    text-decoration: underline;
+    color: #008b8b;
+    cursor: pointer;
+}
+td.text-right.has-data:hover{
+    background: #ddd;
+}
+table.dataTable thead th, 
+table.dataTable thead td,
+table.dataTable tbody th,
+table.dataTable tbody td {
+    padding:.75rem;
+}
+table.dataTable tr.dtrg-group td{
+    background-color: #868e96;
+    color: #ffffff;
+}
+table.dataTable tr.dtrg-group.dtrg-level-1 td, 
+table.dataTable tr.dtrg-group.dtrg-level-2 td{
+    background-color: #e2e3e5;
+    font-weight:bold;
+    font-size:14px;
+    color: #484848;
+}
+input.search{
+    margin-right: 15px;
+    height: calc(1.5em + .75rem + 2px);
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }

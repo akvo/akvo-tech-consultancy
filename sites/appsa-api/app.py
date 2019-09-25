@@ -33,7 +33,7 @@ def api(trigger, endpoint, rsr_id):
     if not os.path.exists(cache):
         update = True
     if update:
-        if endpoint == 'results_framework':
+        if endpoint == 'rf':
             get_data.api_results_framwork(rsr_id)
         else:
             rsr.api(endpoint,'project',rsr_id)
@@ -48,12 +48,6 @@ def get_datatable(rsr_id):
     data = get_data.datatable(rsr_id, 'parent', filter_date, filter_country)
     return jsonify(data)
 
-
-@app.route('/render/<project_type>/<project>/')
-def get_template(project_type, project):
-    html_template = project_type + "_" + project + ".html"
-    return render_template(html_template)
-
 @app.route('/')
 def index():
     appsa = '7950'
@@ -61,10 +55,10 @@ def index():
     project_parent = rsr.api('project', 'id', 7283)['results'][0]
     projects = []
     countries = ['Zambia','Malawi','Mozambique']
-    directory = './cache/results_framework/'
+    directory = './cache/rf/'
     if not os.path.exists(directory):
         os.makedirs(directory)
-    cache = './cache/results_framework/' + appsa + '.json'
+    cache = './cache/rf/' + appsa + '.json'
     if not os.path.exists(cache):
         get_data.api_results_framwork(appsa)
     period_list = rsr.readcache(cache).get('period_list')
@@ -77,6 +71,18 @@ def index():
             project_parent = project_parent,
             projects = projects,
             countries = countries)
+
+@app.route('/api/destroy_cache', methods=['GET'])
+def destroy_cache():
+    cache_dir = "./cache"
+    dirs = os.listdir(cache_dir)
+    return jsonify(dirs)
+
+@app.route('/render/<project_type>/<project>/')
+def get_template(project_type, project):
+    html_template = project_type + "_" + project + ".html"
+    return render_template(html_template)
+
 
 if __name__ == '__main__':
     app.config['TEMPLATES_AUTO_RELOAD'] = True
