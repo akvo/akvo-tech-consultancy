@@ -18,6 +18,11 @@ if [[ ! -d "/var/lib/ckan/storage" ]]; then
     chown www-data:www-data /var/lib/ckan/storage
 fi
 
+if [[ ! -d "/var/lib/ckan/storage/storage/uploads" ]]; then
+    mkdir -p /var/lib/ckan/storage
+    chown www-data:www-data /var/lib/ckan/storage
+fi
+
 if [[ ! -d "/var/lib/solr/data/" ]]; then
     mkdir -p /var/lib/solr/data/
     chown jetty:jetty /var/lib/solr/data/
