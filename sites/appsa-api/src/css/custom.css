@@ -336,15 +336,26 @@ color:#1fc1c8;
 }
 
 /*comment-box*/
+#rsr_table_wrapper{
+    width:100%;
+}
+
+div.dataTables_wrapper div.dataTables_filter{
+    text-align: right;
+    display: inline;
+    float: left;
+}
+
+.dataTables_wrapper .btn-group,
+.dataTables_wrapper .btn-group-vertical{
+    float: right;
+    margin-right: 20px;
+}
 
 section.resume-section.report-section {
     max-width: none;
     padding: 10px!important;
 }
-#rsr_table_wrapper{
-    width:100%;
-}
-
 td {
     font-size: 14px;
 }
@@ -426,4 +437,10 @@ div.modal-comment {
 div.text-comment {
     font-size: 14px;
     padding: 10px;
+}
+
+span.badge-comment {
+    cursor: pointer;
+    margin-right: 10px;
+    font-size:14px;
 }

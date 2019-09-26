@@ -31,7 +31,11 @@ let showModal = (html) => {
     $(".modal-data").append("<div>" + html + "</div>");
     $("#modal").modal('toggle');
     $('#modal').on('hidden.bs.modal', function() {
+        $("#save-comment").hide();
+        $("#discard-comment").hide();
+        $("#close-modal").show();
         $(".modal-data").children().remove();
+        $(".modal-comment").children().remove();
         $(".text-comment").remove();
     });
 };
@@ -77,6 +81,41 @@ let generateModal = (data) => {
         return true;
     }
     return true;
+};
+
+let mergecomment = (data) => {
+    $(".modal-comment").prepend("<div class='text-comment'>" + data['event_date'] + ": " + data['text'] +"</div>");
+}
+
+let generateModalComment = (data) => {
+    data = JSON.parse(data);
+    let indicator = (data[0]['indicator_name']);
+    let result_id = (data[0]['result_id']);
+    $("#modal-title").text('Add New Comment');
+    $("#modal-subtitle").text(indicator);
+    let html = "<div class='form-group'>";
+        html += "<label for='input-title'>Title</label>";
+        html += "<input class='form-control' type='text' id='input-title' placeholder='Message Title'></input></hr>";
+        html += "</div>";
+        html += "<div class='form-group'>";
+        html += "<textarea class='form-control' rows=5 id='input-comment'></textarea>";
+        html += "</div>";
+    $("#save-comment").show();
+    $("#discard-comment").show();
+    $("#close-modal").hide();
+    $(".modal-comment").append(html);
+    $("#save-comment").on('click', () =>{
+        let json = {
+            "validator": data,
+            "message": $("#input-comment").val(),
+            "title": $("#input-title").val()
+        };
+        axios.post(baseurl + "/api/postcomment/", json)
+            .then(response => {
+                mergecomment(response.data);
+            }).catch(error => {console.log(error)});
+    });
+    showModal("");
 };
 
 let generateGroup = (val, json) => {
@@ -194,8 +233,8 @@ let generateTable = (response) => {
                     return camw;
                 }
 
+                let html = '';
                 if (groupTitle.indexOf(group) === -1) {
-                    let html = '';
                     [4,5,6,7,8,9,10,11].map((x) => {
                         let td = getvalue(x);
                         let act = getattr(x);
@@ -205,9 +244,19 @@ let generateTable = (response) => {
                         .append("<td>" + group + "</td>")
                         .append(html)
                 }
+                let indicator_level = [];
                 if (resultTitle.indexOf(group) === -1) {
+                    [4,5,6,7,8,9,10,11].map((x) => {
+                        let td = getattr(x);
+                        td.map((x) => {
+                            indicator_level.push(x);
+                        });
+                    })
+                    let comment_data = JSON.stringify(indicator_level);
+                    html = "<td class='has-data' data-comments=true data-details='"+comment_data+"' colspan=9><span class='badge badge-light badge-comment'>"
+                    html += "<i class='fa fa-plus'></i> Comments</span>"
                     return $("<tr/>")
-                        .append("<td colspan=9><span class='badge badge-light'>Add Comments</span> "+group+"</td>")
+                        .append(html + group + "</td>")
                 }
                 return $("<tr/>")
                     .append("<td colspan=9>" + group + "</td>")
@@ -219,7 +268,7 @@ let generateTable = (response) => {
             targets: [0, 1, 2],
             visible: false
         }],
-        scrollY: (screen.height - 400).toString() + "px",
+        scrollY: (screen.height - 300).toString() + "px",
         scrollCollapse: true,
         responsive: true,
         paging: false
@@ -227,10 +276,16 @@ let generateTable = (response) => {
     table.columns.adjust();
     $('div.dataTables_filter input').addClass('search');
     $("#rsr_table tbody").on('click', 'td', function() {
+        let iscomment = $(this).attr('data-comments');
         let cell = table.cell(this);
         let abs = $(this).attr('data-details');
-        generateModal(abs);
+        if (!iscomment) {
+            generateModal(abs);
+        } else {
+            generateModalComment(abs);
+        }
     });
     $("#generate-report i").hide();
     $("#scroll-report").click();
 };
+

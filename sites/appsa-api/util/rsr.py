@@ -49,3 +49,19 @@ class Rsr:
                 json.dump(data, outfile)
         data = self.readcache(filename)
         return data
+
+    def send_comment(self, data):
+        URL = PROD_URL
+        uri = '{}{}{}'.format(URL, 'project_update', FMT100)
+        r = requests.post(uri, data=json.dumps(data), headers=headers)
+        return r.json()
+
+    def live(self, endpoint, param, value):
+        self.endpoint = endpoint
+        self.param = param
+        self.value = value
+        uri = '{}{}{}&{}={}'.format(PROD_URL, endpoint, FMT100, param, value)
+        print(printer.get_time() + ' :: FETCH RSR - ' + uri)
+        data = requests.get(uri, headers=headers)
+        data = data.json()
+        return data

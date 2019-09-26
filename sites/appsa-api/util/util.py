@@ -1,4 +1,5 @@
 from datetime import datetime
+import pandas as pd
 
 class Printer:
 
@@ -11,3 +12,13 @@ class Printer:
         if base_url == 'tech-consultancy.akvotest.org':
             path = '/appsa-api'
         return path
+
+    def get_uuid(self, data):
+        validator = pd.DataFrame(data).drop(columns=['type']).groupby(
+            ['result','indicator_id','dimension','period','country']
+        ).first().reset_index()
+        input_index = ['result','indicator_id','period']
+        validator = validator[input_index].sort_values(input_index).astype(str)
+        validator['validator'] = validator.apply('-'.join, axis=1)
+        validator = validator['validator'].to_list()
+        return validator

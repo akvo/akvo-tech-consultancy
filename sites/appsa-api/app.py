@@ -21,6 +21,14 @@ def api(endpoint, param, val):
     response = rsr.api(endpoint, param, val)['results']
     return jsonify(response)
 
+@app.route('/api/live/<endpoint>/<param>/<val>', methods=['POST'])
+def live(endpoint, param, val):
+    content = request.json
+    notes = printer.get_uuid(content["validator"])
+    notes = '#'.join(notes)
+    response = rsr.live(endpoint, param, val)['results']
+    return jsonify(response)
+
 @app.route('/api/datatables/<rsr_id>', methods=['GET','POST'])
 def get_datatable(rsr_id):
     content = request.json
@@ -28,6 +36,30 @@ def get_datatable(rsr_id):
     filter_country = content['project_option']
     data = get_data.datatable(rsr_id, 'parent', filter_date, filter_country)
     return jsonify(data)
+
+@app.route('/api/postcomment/', methods=['GET','POST'])
+def generate_validator():
+    content = request.json
+    notes = printer.get_uuid(content["validator"])
+    notes = '#'.join(notes)
+    data = {
+            "locations": [],
+            "editable": True,
+            "deletable": True,
+            "edited": True,
+            "title": content["title"],
+            "text": content["message"],
+            "language": "en",
+            "update_method": "W",
+            "user_agent": "Akvo Report Generator",
+            "uuid": "",
+            "notes": notes,
+            "project": 7282,
+            "user":43779
+    }
+    resp = rsr.send_comment(data)
+    return jsonify(resp)
+
 
 @app.route('/')
 def index():
