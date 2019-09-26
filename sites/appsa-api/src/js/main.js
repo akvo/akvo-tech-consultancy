@@ -253,10 +253,11 @@ let generateTable = (response) => {
                         });
                     })
                     let comment_data = JSON.stringify(indicator_level);
-                    html = "<td class='has-data' data-comments=true data-details='"+comment_data+"' colspan=9><span class='badge badge-light badge-comment'>"
-                    html += "<i class='fa fa-plus'></i> Comments</span>"
+                    html = "<td colspan=7>" + group + "</td>";
+                    html += "<td class='has-data comment-form-show' data-comments=true data-details='"+ comment_data+"' colspan=2>";
+                    html += "<i class='fa fa-plus'></i> Comments</td>"
                     return $("<tr/>")
-                        .append(html + group + "</td>")
+                        .append(html)
                 }
                 return $("<tr/>")
                     .append("<td colspan=9>" + group + "</td>")

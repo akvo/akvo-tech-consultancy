@@ -415,6 +415,18 @@ table.dataTable tr.dtrg-group.dtrg-level-2 td.has-data{
     color:#228b8b;
     cursor: pointer;
 }
+table.dataTable tr.dtrg-group.dtrg-level-1 td.comment-form-show {
+    background-color: #d2d2d2!important;
+    color: #6d757d !important;
+    text-align: center;
+    padding-right: 20px;
+    cursor:pointer;
+}
+table.dataTable tr.dtrg-group.dtrg-level-1 td.comment-form-show:hover {
+    background-color: #44b045!important;
+    color: #f2f2f2 !important;
+}
+
 input.search{
     margin-right: 15px;
     height: calc(1.5em + .75rem + 2px);
