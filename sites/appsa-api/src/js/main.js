@@ -69,7 +69,7 @@ let generateModal = (data) => {
         html += "</tbody>";
         html += "<table>";
         showModal(html);
-        axios.get('/api/indicator_period_framework/indicator/' + indicator_id)
+        axios.get(baseurl + '/api/indicator_period_framework/indicator/' + indicator_id)
             .then(response => {
                 $(".text-comment").remove();
                 response.data.map(x => {
