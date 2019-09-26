@@ -21,11 +21,8 @@ def api(endpoint, param, val):
     response = rsr.api(endpoint, param, val)['results']
     return jsonify(response)
 
-@app.route('/api/live/<endpoint>/<param>/<val>', methods=['POST'])
+@app.route('/api/live/<endpoint>/<param>/<val>', methods=['GET'])
 def live(endpoint, param, val):
-    content = request.json
-    notes = printer.get_uuid(content["validator"])
-    notes = '#'.join(notes)
     response = rsr.live(endpoint, param, val)['results']
     return jsonify(response)
 
@@ -37,7 +34,7 @@ def get_datatable(rsr_id):
     data = get_data.datatable(rsr_id, 'parent', filter_date, filter_country)
     return jsonify(data)
 
-@app.route('/api/postcomment/', methods=['GET','POST'])
+@app.route('/api/postcomment', methods=['POST'])
 def generate_validator():
     content = request.json
     notes = printer.get_uuid(content["validator"])
@@ -60,6 +57,13 @@ def generate_validator():
     resp = rsr.send_comment(data)
     return jsonify(resp)
 
+@app.route('/api/getcomments', methods=['POST'])
+def get_comments():
+    validator = printer.get_uuid(request.json)
+    validator = '#'.join(validator)
+    response = rsr.live('project_update', 'project', 7282)['results']
+    response = rsr.get_comment(response, validator)
+    return jsonify(response)
 
 @app.route('/')
 def index():

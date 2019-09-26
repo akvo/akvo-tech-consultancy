@@ -153,7 +153,6 @@ class Api:
 
         ## Update Results Framework
         print(printer.get_time() + ' :: GENERATING NEW CACHE /cache/results_framework.json')
-
         period_list = pd.DataFrame(periods)
         period_list['period_date'] = period_list['period_start'] + ' - ' + period_list['period_end']
         period_list['type'] = period_list.apply(lambda x: 'Yearly' if x['is_yearly'] else 'Semester', axis=1)

@@ -69,10 +69,10 @@ let generateModal = (data) => {
         html += "</tbody>";
         html += "<table>";
         showModal(html);
-        axios.get(baseurl + '/api/indicator_period_framework/indicator/' + indicator_id)
+        axios.get(baseurl + '/api/live/indicator_period_framework/indicator/' + indicator_id)
             .then(response => {
                 $(".text-comment").remove();
-                response.data.map(x => {
+                return response.data.map(x => {
                     if (x['actual_comment'].length > 0) {
                         $(".modal-comment").append("<div class='text-comment'>" + x['actual_comment'] + "</div>");
                     }
@@ -84,7 +84,32 @@ let generateModal = (data) => {
 };
 
 let mergecomment = (data) => {
-    $(".modal-comment").prepend("<div class='text-comment'>" + data['event_date'] + ": " + data['text'] +"</div>");
+    $(".modal-comment").prepend("<div class='text-comment'>" + data['event_date'] + ": " + data['text'] + "</div>");
+    return true;
+}
+let mergecomments = (data) => {
+    data.map(x => {
+        return $(".modal-comment").prepend("<div class='text-comment'>" + x['event_date'] + ": " + x['text'] + "</div>");
+    })
+    return true;
+}
+
+let postcomment = (json) => {
+    return axios.post(baseurl + "/api/postcomment", json)
+        .then(response => {
+            mergecomment(response.data);
+        })
+        .catch(error => {
+            console.log(error);
+        });
+}
+let getcomments = (data) => {
+    return axios.post(baseurl + "/api/getcomments", data)
+        .then(response => {
+            return mergecomments(response.data);
+        }).catch(error => {
+            console.log(error)
+        });
 }
 
 let generateModalComment = (data) => {
@@ -94,28 +119,28 @@ let generateModalComment = (data) => {
     $("#modal-title").text('Add New Comment');
     $("#modal-subtitle").text(indicator);
     let html = "<div class='form-group'>";
-        html += "<label for='input-title'>Title</label>";
-        html += "<input class='form-control' type='text' id='input-title' placeholder='Message Title'></input></hr>";
-        html += "</div>";
-        html += "<div class='form-group'>";
-        html += "<textarea class='form-control' rows=5 id='input-comment'></textarea>";
-        html += "</div>";
+    html += "<label for='input-title'>Title</label>";
+    html += "<input class='form-control' type='text' id='input-title' placeholder='Message Title'></input></hr>";
+    html += "</div>";
+    html += "<div class='form-group'>";
+    html += "<textarea class='form-control' rows=5 id='input-comment'></textarea>";
+    html += "</div>";
+    $(".modal-comment").append(html);
+    $("#save-comment").on('click', () => {
+        let title = $("#input-comment").val();
+        let content = $("#input-title").val();
+        let json = {
+            "validator": data,
+            "message": content,
+            "title": title,
+        };
+        postcomment(json);
+    });
     $("#save-comment").show();
     $("#discard-comment").show();
     $("#close-modal").hide();
-    $(".modal-comment").append(html);
-    $("#save-comment").on('click', () =>{
-        let json = {
-            "validator": data,
-            "message": $("#input-comment").val(),
-            "title": $("#input-title").val()
-        };
-        axios.post(baseurl + "/api/postcomment/", json)
-            .then(response => {
-                mergecomment(response.data);
-            }).catch(error => {console.log(error)});
-    });
-    showModal("");
+    getcomments(data);
+    return showModal("");
 };
 
 let generateGroup = (val, json) => {
@@ -127,9 +152,11 @@ let generateReport = (pd) => {
     $("#generate-report i").show();
     axios.post(baseurl + "/api/datatables/" + pd.project_id, pd)
         .then(response => {
-            generateTable(response.data);
+            return generateTable(response.data);
         })
-        .catch(error => { console.log(error); })
+        .catch(error => {
+            console.log(error);
+        })
 };
 
 
@@ -192,11 +219,11 @@ let generateTable = (response) => {
         html += "<td>" + x['indicator'] + "</td>";
         html += "<td>" + x['dimension_name'] + "</td>";
         html += "<td style='padding-left:50px;'>" + x['commodity'] + "</td>";
-        ["TTL", "MW","MZ", "ZA"].map(tvalue => {
-            html += createRow(x, "TG", tvalue );
+        ["TTL", "MW", "MZ", "ZA"].map(tvalue => {
+            html += createRow(x, "TG", tvalue);
         });
-        ["MW","MZ", "ZA", "TTL"].map(tvalue => {
-            html += createRow(x, "CA", tvalue );
+        ["MW", "MZ", "ZA", "TTL"].map(tvalue => {
+            html += createRow(x, "CA", tvalue);
         });
         html += "</tr>";
         $("#rsr_table tbody").append(html);
@@ -215,10 +242,13 @@ let generateTable = (response) => {
                     let rowidx = rows[0];
                     let camw = rows.cells().column(x).nodes();
                     let cells = [];
-                    rowidx.map((a,i) => {
+                    rowidx.map((a, i) => {
                         let json = camw[a].dataset.details;
-                        try { cells.push(JSON.parse(json)[0]); }
-                        catch(error) { console.log('no-data'); }
+                        try {
+                            cells.push(JSON.parse(json)[0]);
+                        } catch (error) {
+                            console.log('no-data');
+                        }
                         return true;
                     });
                     return cells;
@@ -232,10 +262,9 @@ let generateTable = (response) => {
                         }, 0);
                     return camw;
                 }
-
                 let html = '';
                 if (groupTitle.indexOf(group) === -1) {
-                    [4,5,6,7,8,9,10,11].map((x) => {
+                    [4, 5, 6, 7, 8, 9, 10, 11].map((x) => {
                         let td = getvalue(x);
                         let act = getattr(x);
                         html += generateGroup(td, act);
@@ -246,7 +275,7 @@ let generateTable = (response) => {
                 }
                 let indicator_level = [];
                 if (resultTitle.indexOf(group) === -1) {
-                    [4,5,6,7,8,9,10,11].map((x) => {
+                    [4, 5, 6, 7, 8, 9, 10, 11].map((x) => {
                         let td = getattr(x);
                         td.map((x) => {
                             indicator_level.push(x);
@@ -254,7 +283,7 @@ let generateTable = (response) => {
                     })
                     let comment_data = JSON.stringify(indicator_level);
                     html = "<td colspan=7>" + group + "</td>";
-                    html += "<td class='has-data comment-form-show' data-comments=true data-details='"+ comment_data+"' colspan=2>";
+                    html += "<td class='has-data comment-form-show' data-comments=true data-details='" + comment_data + "' colspan=2>";
                     html += "<i class='fa fa-plus'></i> Comments</td>"
                     return $("<tr/>")
                         .append(html)
@@ -289,4 +318,3 @@ let generateTable = (response) => {
     $("#generate-report i").hide();
     $("#scroll-report").click();
 };
-

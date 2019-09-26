@@ -1,5 +1,6 @@
 from util.util import Printer
 import json
+import pandas as pd
 import requests
 import os
 
@@ -51,10 +52,15 @@ class Rsr:
         return data
 
     def send_comment(self, data):
-        URL = PROD_URL
-        uri = '{}{}{}'.format(URL, 'project_update', FMT100)
+        self.data = data
+        uri = '{}{}{}'.format(PROD_URL, 'project_update', FMT100)
         r = requests.post(uri, data=json.dumps(data), headers=headers)
         return r.json()
+
+    def get_comment(self, data, validator):
+        data = pd.DataFrame(data)
+        data = data[data['notes'] == validator].to_dict('records')
+        return data
 
     def live(self, endpoint, param, value):
         self.endpoint = endpoint

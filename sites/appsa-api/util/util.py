@@ -14,7 +14,9 @@ class Printer:
         return path
 
     def get_uuid(self, data):
-        validator = pd.DataFrame(data).drop(columns=['type']).groupby(
+        self.data = data
+        validator = list(filter(None, data))
+        validator = pd.DataFrame(validator).dropna().drop(columns=['type']).groupby(
             ['result','indicator_id','dimension','period','country']
         ).first().reset_index()
         input_index = ['result','indicator_id','period']
