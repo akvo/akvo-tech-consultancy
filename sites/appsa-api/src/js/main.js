@@ -32,6 +32,7 @@ let showModal = (html) => {
     $("#modal").modal('toggle');
     $('#modal').on('hidden.bs.modal', function() {
         $(".modal-data").children().remove();
+        $(".text-comment").remove();
     });
 };
 
@@ -39,10 +40,11 @@ let generateModal = (data) => {
     data = JSON.parse(data);
     if (data.length > 0) {
         let indicator = (data[0]['indicator_name']);
+        let indicator_id = (data[0]['indicator_id']);
         let dimension_name = (data[0]['dimension_name']);
-        $(".modal-title").text(indicator);
-        $(".modal-subtitle").text(dimension_name);
-        let html = "<table class='table table-bordered'>";
+        $("#modal-title").text(indicator);
+        $("#modal-subtitle").text(dimension_name);
+        let html = "<table class='table table-striped'>";
         html += "<thead>";
         html += "<tr>";
         html += "<td>Report Date</td>";
@@ -63,6 +65,15 @@ let generateModal = (data) => {
         html += "</tbody>";
         html += "<table>";
         showModal(html);
+        axios.get('/api/indicator_period_framework/indicator/' + indicator_id)
+            .then(response => {
+                $(".text-comment").remove();
+                response.data.map(x => {
+                    if (x['actual_comment'].length > 0) {
+                        $(".modal-comment").append("<div class='text-comment'>" + x['actual_comment'] + "</div>");
+                    }
+                });
+            });
         return true;
     }
     return true;
@@ -134,21 +145,20 @@ let generateTable = (response) => {
     }
     $('#rsr_table tbody').empty();
     let data = response.values;
-    let resultTitle = response.titles;
+    let resultTitle = response.result_titles;
+    let groupTitle = response.titles;
     data.map((x, i) => {
         let html = "<tr>";
         html += "<td>" + x['project_title'] + "</td>";
         html += "<td>" + x['indicator'] + "</td>";
         html += "<td>" + x['dimension_name'] + "</td>";
-        html += "<td style='padding-left:120px;'>" + x['commodity'] + "</td>";
-        html += createRow(x, "TG", "TTL");
-        html += createRow(x, "TG", "MW");
-        html += createRow(x, "TG", "MZ");
-        html += createRow(x, "TG", "ZA");
-        html += createRow(x, "CA", "MW");
-        html += createRow(x, "CA", "MZ");
-        html += createRow(x, "CA", "ZA");
-        html += createRow(x, "CA", "TTL");
+        html += "<td style='padding-left:50px;'>" + x['commodity'] + "</td>";
+        ["TTL", "MW","MZ", "ZA"].map(tvalue => {
+            html += createRow(x, "TG", tvalue );
+        });
+        ["MW","MZ", "ZA", "TTL"].map(tvalue => {
+            html += createRow(x, "CA", tvalue );
+        });
         html += "</tr>";
         $("#rsr_table tbody").append(html);
         return html;
@@ -184,7 +194,7 @@ let generateTable = (response) => {
                     return camw;
                 }
 
-                if (resultTitle.indexOf(group) === -1) {
+                if (groupTitle.indexOf(group) === -1) {
                     let html = '';
                     [4,5,6,7,8,9,10,11].map((x) => {
                         let td = getvalue(x);
@@ -194,6 +204,10 @@ let generateTable = (response) => {
                     return $("<tr/>")
                         .append("<td>" + group + "</td>")
                         .append(html)
+                }
+                if (resultTitle.indexOf(group) === -1) {
+                    return $("<tr/>")
+                        .append("<td colspan=9><span class='badge badge-light'>Add Comments</span> "+group+"</td>")
                 }
                 return $("<tr/>")
                     .append("<td colspan=9>" + group + "</td>")
@@ -205,7 +219,7 @@ let generateTable = (response) => {
             targets: [0, 1, 2],
             visible: false
         }],
-        scrollY: "600px",
+        scrollY: (screen.height - 400).toString() + "px",
         scrollCollapse: true,
         responsive: true,
         paging: false

@@ -4,7 +4,7 @@ import os
 from util.util import Printer
 from util.rsr import Rsr
 from util.api import Api
-from flask import Flask, jsonify, Response, render_template, request
+from flask import Flask, jsonify, render_template, request
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -16,28 +16,9 @@ printer = Printer()
 rsr = Rsr()
 get_data = Api()
 
-@app.route('/api/<trigger>/<endpoint>/<rsr_id>', methods=['GET'])
-def api(trigger, endpoint, rsr_id):
-    print(printer.get_time() + ' :: ACCESS - ' + endpoint)
-    if not endpoint in rsr.result_framework:
-        return Response("{'message':'enpoint has no contents'}",
-                status=204,
-                mimetype='application/json')
-    update = False
-    directory = './cache/' + endpoint + '/'
-    if trigger == 'update':
-        update = True
-    if not os.path.exists(directory):
-        os.makedirs(directory)
-    cache = directory + rsr_id + '.json'
-    if not os.path.exists(cache):
-        update = True
-    if update:
-        if endpoint == 'rf':
-            get_data.api_results_framwork(rsr_id)
-        else:
-            rsr.api(endpoint,'project',rsr_id)
-    response = rsr.readcache(cache)
+@app.route('/api/<endpoint>/<param>/<val>', methods=['GET'])
+def api(endpoint, param, val):
+    response = rsr.api(endpoint, param, val)['results']
     return jsonify(response)
 
 @app.route('/api/datatables/<rsr_id>', methods=['GET','POST'])

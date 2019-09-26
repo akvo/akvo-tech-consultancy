@@ -336,6 +336,15 @@ color:#1fc1c8;
 }
 
 /*comment-box*/
+
+section.resume-section.report-section {
+    max-width: none;
+    padding: 10px!important;
+}
+#rsr_table_wrapper{
+    width:100%;
+}
+
 td {
     font-size: 14px;
 }
@@ -359,6 +368,16 @@ table.dataTable thead td,
 table.dataTable tbody th,
 table.dataTable tbody td {
     padding: .5rem;
+    font-size: 14px;
+}
+table.dataTable thead th, 
+table.dataTable thead td{
+    background-color: #eee;
+    color: #555;
+}
+.table thead th {
+    border-bottom: 1px solid #ddd;
+    border-top:none;
 }
 table.dataTable tr.dtrg-group td{
     background-color: #228b8b;
@@ -366,18 +385,20 @@ table.dataTable tr.dtrg-group td{
 }
 table.dataTable tr.dtrg-group.dtrg-level-1 td,
 table.dataTable tr.dtrg-group.dtrg-level-2 td{
-    padding-left: 2em;
+    padding-left: 1em;
     background-color: #e2e3e5;
     font-weight:bold;
     font-size:14px;
     color: #484848;
 }
 table.dataTable tr.dtrg-group.dtrg-level-2 td{
-    padding-left: 4em;
+    padding-left: 2em;
     background-color: #f2f2f2;
     font-weight:bold;
     font-size:14px;
     color: #484848;
+}
+table.table thead th {
 }
 table.dataTable tr.dtrg-group.dtrg-level-2 td.has-data{
     color:#228b8b;
@@ -395,4 +416,14 @@ input.search{
     background-clip: padding-box;
     border: 1px solid #ced4da;
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+div.modal-comment {
+    font-size: 14px;
+    margin-bottom: 10px;
+    border-top: 1px solid #fefefe;
+}
+div.text-comment {
+    font-size: 14px;
+    padding: 10px;
 }

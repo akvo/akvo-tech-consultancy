@@ -475,4 +475,4 @@ class Api:
         result_title = list(pd.DataFrame(results_framework).groupby('title').first().reset_index()['title'])
         indicator_title = list(pd.DataFrame(indicators).groupby('title').first().reset_index()['title'])
         titles = result_title + indicator_title
-        return {'titles': titles, 'values': merged.to_dict('records')}
+        return {'titles': titles,'result_titles':result_title, 'values': merged.to_dict('records')}
