@@ -30,8 +30,9 @@ def live(endpoint, param, val):
 def get_datatable(rsr_id):
     content = request.json
     filter_date = content['filter_date']
+    report_type = content['report_type']
     filter_country = content['project_option']
-    data = get_data.datatable(rsr_id, 'parent', filter_date, filter_country)
+    data = get_data.datatable(rsr_id, 'parent', report_type, filter_date, filter_country)
     return jsonify(data)
 
 @app.route('/api/postcomment', methods=['POST'])

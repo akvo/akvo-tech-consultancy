@@ -5,25 +5,43 @@ const baseurl = $("meta[name=path]").attr("content");
 
 let post_data = {};
 let project_option = () => {
-    return $("input[name='project-option']:checked").map(function(_, el) {
+    let selected = $("input[name='project-option']:checked").map(function(_, el) {
         return $(el).val();
     }).get();
+    if (selected.length > 0){
+        return selected;
+    }
+    return false;
 };
 
 let project_selection = () => {
-    return $("input[name='project-selection']:checked").map(function(_, el) {
+    let selected = $("input[name='project-selection']:checked").map(function(_, el) {
         return $(el).val();
     }).get();
+    if (selected[0]){
+        return selected[0];
+    }
+    return false;
 };
 
 let project_type = () => {
-    return $("input[name='period-type']:checked").map(function(_, el) {
-        return $(el).val();
-    }).get();
+    let yearly = $("#period-yearly").prop("checked");
+    let semester = $("#period-semester").prop("checked");
+    if (yearly) {
+        return "yearly";
+    }
+    if (semester) {
+        return "semester";
+    }
+    return false;
 };
 
 let date_selected = (x) => {
-    return $("#period-" + x + "-select option:selected").text();
+    let selected = $("#period-" + x + "-select option:selected").text();
+    if (selected === ""){
+        return false
+    }
+    return selected;
 };
 
 let showModal = (html) => {
@@ -155,34 +173,73 @@ let generateReport = (pd) => {
             return generateTable(response.data);
         })
         .catch(error => {
-            console.log(error);
+            $("#list-of-alerts").append(
+                "<h4 class='text-center'>Data is Not Available</h4>"
+            );
+            $("#alert").modal().show();
         })
 };
 
+$("#period-yearly").on('click', () => {
+    $("#period-semester").prop('checked',false);
+});
+$("#period-semester").on('click', () => {
+    $("#period-yearly").prop('checked',false);
+});
+
+$("input[name='project-selection'").map((x) => {
+    let selection = $("input[name='project-selection'");
+    let selected = $("input[name='project-selection'")[x];
+    let selected_id = $("input[name='project-selection'")[x];
+    $(selected).on('click', () =>{
+        $(selection).map((a) => {
+            let ids = $("input[name='project-selection'")[a];
+            if (ids !== selected_id) {
+                $(ids).prop('checked', false);
+            }
+        });
+    });
+});
 
 let update_data = () => {
-    let inputVal = project_type();
-    let pt = '';
-    if (inputVal.length > 0) {
-        pt = inputVal[0];
-    }
-    if (pt === "yearly") {
-        $("#period-semester").prop("checked", false);
-    }
-    if (pt === "semester") {
-        $("#period-yearly").prop("checked", false);
-    }
+    let report_type = project_type();
     let data = {
-        'filter_date': date_selected(pt),
+        'report_type': report_type,
+        'filter_date': date_selected(report_type),
         'project_id': project_selection(),
-        'project_option': project_option(),
+        'project_option': project_option()
     };
     return data;
 };
 
 $("#generate-report").on('click', () => {
-    post_data = update_data();
-    generateReport(post_data);
+    let post_data = update_data();
+    $("#list-of-alerts").children().remove();
+    let show_alert = false;
+    let html = "<h4><i class='fa fa-times-circle' style='color:red;'></i> ";
+    if(post_data["project_id"] === false) {
+        show_alert = true;
+        $("#list-of-alerts").append(
+            html + "<a href='#projects'>Project ID is not Set</a></h4>"
+        );
+    }
+    if(post_data["project_option"] === false) {
+        show_alert = true;
+        $("#list-of-alerts").append(
+            html + "<a href='#settings'>Country is not Set</a></h4>"
+        );
+    }
+    if(post_data["filter_date"] === false) {
+        show_alert = true;
+        $("#list-of-alerts").append(
+            html + "<a href='#settings'>Period is not Set</a></h4>"
+        );
+    }
+    if (show_alert) {
+        $("#alert").modal('toggle');
+        return false;
+    }
+    return generateReport(post_data);
 });
 
 let destroyTable = () => {

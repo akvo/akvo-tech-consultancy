@@ -29,14 +29,14 @@
                 <div class="form-group">
                 <select class="form-control" id="period-yearly-select" name='period-select-yearly'>
                     {% for pd in period_list.Yearly %}
-                    <option value={{pd}}>{{pd}}</option>
+                    <option value={{pd.year}}>{{pd.year}}</option>
                     {% endfor %}
                 </select>
                 </div>
           </div>
           <div class="resume-date text-md-right">
               <div class="ios-toggle-container">
-              <input type="checkbox" name="period-type" id="period-yearly" class="ios-toggle" value="yearly"/>
+              <input type="checkbox" name="period-yearly" id="period-yearly" class="ios-toggle" value="yearly"/>
               <label for="period-yearly" class="checkbox-label" data-off="enable" data-on="disable"></label>
               </div>
           </div>
@@ -49,14 +49,14 @@
                 <div class="form-group">
                 <select class="form-control" id="period-semester-select" name='period-select-semester'>
                     {% for pd in period_list.Semester %}
-                    <option value={{pd}}>{{pd}}</option>
+                    <option value={{pd.period_date}}>{{pd.period_date}}</option>
                     {% endfor %}
                 </select>
                 </div>
           </div>
           <div class="resume-date text-md-right">
               <div class="ios-toggle-container">
-              <input type="checkbox" name="period-type" id="period-semester" class="ios-toggle" value="semester"/>
+              <input type="checkbox" name="period-semester" id="period-semester" class="ios-toggle" value="semester"/>
               <label for="period-semester" class="checkbox-label" data-off="enable" data-on="disable"></label>
               </div>
           </div>

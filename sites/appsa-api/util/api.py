@@ -12,6 +12,11 @@ def get_sibling_id(x):
     for k,v in x.items():
         return k
 
+def get_year(x):
+    y = x['period_start'].split(' - ')[0]
+    y = x['period_start'].split('-')[0]
+    return y
+
 def get_report_type(ps,pe):
     rt = {'is_yearly':False}
     psm = ps.split('-')[1]
@@ -155,10 +160,14 @@ class Api:
         print(printer.get_time() + ' :: GENERATING NEW CACHE /cache/results_framework.json')
         period_list = pd.DataFrame(periods)
         period_list['period_date'] = period_list['period_start'] + ' - ' + period_list['period_end']
+        period_list['year'] = period_list.apply(get_year, axis=1)
         period_list['type'] = period_list.apply(lambda x: 'Yearly' if x['is_yearly'] else 'Semester', axis=1)
-        period_list = period_list[['period_date','type']].groupby(['type','period_date']).first().reset_index()
-        period_list = period_list.groupby('type')['period_date'].apply(list).to_dict()
-
+        period_list = period_list[['year','type','period_date']].groupby(['type','year','period_date']).first().reset_index()
+        period_list['data'] = period_list.apply(lambda x: {
+            'year': x['year'],
+            'period_date': x['period_date']
+            }, axis=1)
+        period_list = period_list.groupby('type')['data'].apply(list).to_dict()
         periods_df = pd.DataFrame(periods)
         periods_df = periods_df.groupby(['is_yearly','result']).size().to_frame('size').reset_index().to_dict('records')
 
@@ -216,7 +225,7 @@ class Api:
             json.dump(response, outfile)
         return response;
 
-    def datatable(self, project_id, project_type, filter_date, filter_country):
+    def datatable(self, project_id, project_type, report_type, filter_date, filter_country):
         self.project_id = project_id
         self.project_type = project_type
         self.filter_date = filter_date
@@ -398,14 +407,19 @@ class Api:
         tbl = tbl.sort_values(by=['result','indicator_id','dimension_id','id'])
         tbl = tbl.merge(periods_short,how='inner',left_on='period',right_on='id',suffixes=('_data','_period')).sort_values(['id_data','indicator_id','dimension_name'])
         remove_columns = [
-            'period_end',
             'period_start',
             'id_period',
             'period',
             'is_yearly'
         ]
+        tbl['cumulative'] = tbl['period_end'].apply(lambda x: True if x.split('-')[1] == '12' else False)
+        tbl = tbl[tbl['cumulative'] == True].drop(columns=['cumulative','period_end'])
         tbl = tbl.drop(columns=remove_columns)
-        tbl = tbl[tbl['period_date'] == filter_date].drop(columns=['period_date'])
+        if report_type== 'yearly':
+            tbl['year'] = tbl['period_date'].apply(lambda x: x.split(' - ')[0].split('-')[0])
+            tbl = tbl[tbl['year'] == filter_date].drop(columns=['year','period_date'])
+        else:
+            tbl = tbl[tbl['period_date'] == filter_date].drop(columns=['period_date'])
         order_columns = ['result','project_title','indicator_id','indicator','dimension_id','dimension_name','commodity','type','country','value','id_data']
         tbl = tbl[order_columns]
         tbl_group = [
@@ -452,7 +466,14 @@ class Api:
             'commodity':x['commodity'],
             'value': x['value'],
         },axis=1)
-        attr = attr[attr['period_date'] == filter_date].drop(columns=['period','period_start','period_end','is_yearly'])
+        attr['cumulative'] = attr['period_end'].apply(lambda x: True if x.split('-')[1] == '12' else False)
+        attr = attr[attr['cumulative'] == True].drop(columns=['cumulative'])
+        if report_type == 'yearly':
+            attr['year'] = attr['period_date'].apply(lambda x: x.split(' - ')[0].split('-')[0])
+            attr = attr[attr['year'] == filter_date].drop(columns=['year','period_date'])
+        else:
+            attr = attr[attr['period_date'] == filter_date].drop(columns=['period_date'])
+        attr = attr.drop(columns=['period','period_start','period_end','is_yearly'])
         attr_sort = ['result','indicator_id','dimension_id','id_data']
         attr = attr.groupby(tbl_group)['variable'].apply(group_attribute).reset_index()
         attr = attr.groupby(tbl_group).first().unstack('type').unstack('country').sort_values(attr_sort)
