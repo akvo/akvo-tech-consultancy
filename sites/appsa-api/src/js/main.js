@@ -49,11 +49,14 @@ let showModal = (html) => {
     $(".modal-data").append("<div>" + html + "</div>");
     $("#modal").modal('toggle');
     $('#modal').on('hidden.bs.modal', function() {
+        $("#comment-alert").slideUp('fast');
         $("#save-comment").remove();
         $("#discard-comment").hide();
         $("#close-modal").show();
         $(".modal-data").children().remove();
-        $(".modal-comment").children().hide();
+        $(".comment-list").children().hide();
+        $(".comment-group").children().hide();
+        $(".comment-list").children().remove();
         $(".text-comment").remove();
     });
 };
@@ -86,15 +89,19 @@ let generateModal = (data) => {
         });
         html += "</tbody>";
         html += "<table>";
+        $(".loading-comments").show();
         showModal(html);
         axios.get(baseurl + '/api/live/indicator_period_framework/indicator/' + indicator_id)
             .then(response => {
                 $(".text-comment").remove();
+                $(".loading-comments").hide();
                 return response.data.map(x => {
                     if (x['actual_comment'].length > 0) {
-                        $(".modal-comment").append("<div class='text-comment'>" + x['actual_comment'] + "</div>");
+                        $(".comment-list").append("<div class='text-comment'>" + x['actual_comment'] + "</div>");
                     }
                 });
+            }).catch(error => {
+                $(".loading-comments").hide();
             });
         return true;
     }
@@ -102,12 +109,12 @@ let generateModal = (data) => {
 };
 
 let mergecomment = (data) => {
-    $(".modal-comment").prepend("<div class='text-comment'>" + data['event_date'] + ": " + data['text'] + "</div>");
+    $(".comment-list").prepend("<div class='text-comment'>" + data['event_date'] + ": " + data['text'] + "</div>");
     return true;
 }
 let mergecomments = (data) => {
     data.map(x => {
-        return $(".modal-comment").prepend("<div class='text-comment'>" + x['event_date'] + ": " + x['text'] + "</div>");
+        return $(".comment-list").prepend("<div class='text-comment'>" + x['event_date'] + ": " + x['text'] + "</div>");
     })
     return true;
 }
@@ -115,19 +122,52 @@ let mergecomments = (data) => {
 let postcomment = (json) => {
     return axios.post(baseurl + "/api/postcomment", json)
         .then(response => {
+            switchAlertClass("New Comment added", "success");
             mergecomment(response.data);
+            $(".loading-comments").hide();
         })
         .catch(error => {
+            switchAlertClass("Network Error", "danger");
+            $(".loading-comments").hide();
             console.log(error);
         });
 }
 let getcomments = (data) => {
     return axios.post(baseurl + "/api/getcomments", data)
         .then(response => {
+            $(".loading-comments").hide();
+            $("#save-comment i").hide();
+            $("#comment-title").val("");
+            $("#comment-input").val("");
             return mergecomments(response.data);
         }).catch(error => {
+            $(".loading-comments").hide();
+            $("#save-comment i").hide();
             console.log(error);
         });
+}
+
+let switchAlertClass = (text, classname) => {
+    $("#comment-alert").children().remove();
+    $("#save-comment i").hide();
+    $("#comment-alert").prepend("<strong>" + text + "</strong>");
+    if (classname === 'danger'){
+        $("#comment-alert").addClass('alert-danger');
+        $("#comment-alert").removeClass('alert-success');
+    }
+    if (classname === 'success'){
+        $("#comment-alert").addClass('alert-success');
+        $("#comment-alert").removeClass('alert-danger');
+    }
+    $("#comment-alert").slideDown('fast');
+    return hideCommentAlert();
+}
+
+let hideCommentAlert = () => {
+    return setTimeout(() => {
+        $("#comment-alert").children().remove();
+        $("#comment-alert").slideUp('fast');
+    }, 2000);
 }
 
 let generateModalComment = (data) => {
@@ -136,6 +176,8 @@ let generateModalComment = (data) => {
     let result_id = (data[0]['result_id']);
     $("#modal-title").text('Add New Comment');
     $("#modal-subtitle").text(indicator);
+    $(".loading-comments").show();
+    $(".comment-group").children().show();
     getcomments(data);
     axios.post(baseurl + "api/comment-validator", data)
         .then(response => {
@@ -151,9 +193,9 @@ let generateModalComment = (data) => {
     $("#comment-input").val("");
     $("#discard-comment").show();
     $("#close-modal").hide();
-    $(".modal-footer").append('<button type="button" class="btn btn-primary" id="save-comment">Save Comment</button>');
+    $("#modal-footer").append('<button type="button" class="btn btn-primary" id="save-comment"><i class="fa fa-circle-notch fa-spin" style="display:none"></i> Save Comment</button>');
     $("#save-comment").on('click', () => {
-        console.log("test");
+        $("#save-comment i").show();
         let title = () => {return $("#comment-input").val();}
         let content = () => {return $("#comment-title").val();}
         let validator = () => {return $("#comment-validator").val();}
@@ -162,11 +204,36 @@ let generateModalComment = (data) => {
             "message": content(),
             "title": title(),
         };
-        console.log(json);
-        postcomment(json);
+        let emptypost = false;
+        let error_alert = "";
+        if (title() === "") {
+            error_alert += "Content"
+            emptypost = true;
+        }
+        if (content() === "") {
+            if(emptypost) {
+                error_alert += " & "
+            }
+            error_alert += "Title"
+            emptypost = true;
+        }
+        if(emptypost) {
+            error_alert += error_alert + " cannot be empty";
+            switchAlertClass(error_alert, "danger");
+        }
+        if(!emptypost) {
+            hideCommentAlert();
+            $("#comment-alert").slideUp('fast');
+            $(".loading-comments").show();
+            postcomment(json);
+        }
     });
     return showModal("");
 };
+
+$("#comment-alert").on('closed.bs.alert', function () {
+    $("#comment-alert").children().remove();
+})
 
 let generateGroup = (val, json) => {
     let html = "<td class='text-right has-data' data-details='" + JSON.stringify(json) + "'>" + val + "</td>";
@@ -180,6 +247,7 @@ let generateReport = (pd) => {
             return generateTable(response.data);
         })
         .catch(error => {
+            $("#generate-report i").hide();
             $("#list-of-alerts").append(
                 "<h4 class='text-center'>Data is Not Available</h4>"
             );
@@ -247,6 +315,7 @@ $("#generate-report").on('click', () => {
         $("#alert").modal('toggle');
         return false;
     }
+    console.log(show_alert);
     return generateReport(post_data);
 });
 

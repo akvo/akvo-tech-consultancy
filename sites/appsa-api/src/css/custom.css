@@ -448,11 +448,28 @@ div.modal-comment {
 }
 div.text-comment {
     font-size: 14px;
-    padding: 10px;
+    padding: 5px 15px;
+    margin: 5px;
+    border: 1px solid #dfe2e7;
+    border-radius: 6px;
+    background: #248a8b;
+    color: #fff;
 }
 
 span.badge-comment {
     cursor: pointer;
     margin-right: 10px;
     font-size:14px;
+}
+
+div.comment-list {
+    max-height: 201px;
+    overflow-y: scroll;
+    margin-bottom: 20px;
+    padding: 5px 5px 0px;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+h5.loading-comments{
+    color: #248a8b;
 }

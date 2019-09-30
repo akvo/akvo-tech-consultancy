@@ -9,20 +9,32 @@
       </div>
       <div class="modal-body">
         <h5 class="modal-subtitle" id="modal-subtitle">Modal subtitle</h5>
-        <div class="modal-data"></div>
+        <div class="modal-data">
+        </div>
         </hr>
         <h5 class="modal-subtitle">Comments</h5>
+        <div class="alert alert-danger alert-dismissible fade show" id="comment-alert" role="alert" style="display:none;">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
         <div class="modal-comment">
+            <h5 class="loading-comments">
+                <i class="fa fa-circle-notch fa-spin"></i> Loading Comments
+            </h5>
+            <div class="col-md-12 comment-list">
+            </div>
             <div class="form-group comment-group" style="display:none;">
             <label for="input-title">Title</label>
-            <input class="form-control" type="text" id="comment-title" placeholder="Message Title"></input><br>
+            <input class="form-control" type="text" id="comment-title" placeholder="Message Title"></input>
+            <br>
             <input class="form-control" type="hidden" id="comment-validator"></input>
             <div class="form-group comment-group" style="display:none;">
             <textarea class="form-control" rows=5 id="comment-input"></textarea>
             </div>
         </div>
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer" id="modal-footer">
         <button type="button" class="btn btn-danger" data-dismiss="modal" id="discard-comment" style="display:none;">Discard</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close-modal">Close</button>
       </div>
