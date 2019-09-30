@@ -38,8 +38,6 @@ def get_datatable(rsr_id):
 @app.route('/api/postcomment', methods=['POST'])
 def generate_validator():
     content = request.json
-    notes = printer.get_uuid(content["validator"])
-    notes = '#'.join(notes)
     data = {
             "locations": [],
             "editable": True,
@@ -51,7 +49,7 @@ def generate_validator():
             "update_method": "W",
             "user_agent": "Akvo Report Generator",
             "uuid": "",
-            "notes": notes,
+            "notes": content["validator"],
             "project": 7282,
             "user":43779
     }
@@ -65,6 +63,12 @@ def get_comments():
     response = rsr.live('project_update', 'project', 7282)['results']
     response = rsr.get_comment(response, validator)
     return jsonify(response)
+
+@app.route('/api/comment-validator', methods=['POST'])
+def get_comment_validator():
+    validator = printer.get_uuid(request.json)
+    validator = '#'.join(validator)
+    return validator
 
 @app.route('/')
 def index():

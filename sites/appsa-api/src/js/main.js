@@ -49,11 +49,11 @@ let showModal = (html) => {
     $(".modal-data").append("<div>" + html + "</div>");
     $("#modal").modal('toggle');
     $('#modal').on('hidden.bs.modal', function() {
-        $("#save-comment").hide();
+        $("#save-comment").remove();
         $("#discard-comment").hide();
         $("#close-modal").show();
         $(".modal-data").children().remove();
-        $(".modal-comment").children().remove();
+        $(".modal-comment").children().hide();
         $(".text-comment").remove();
     });
 };
@@ -126,7 +126,7 @@ let getcomments = (data) => {
         .then(response => {
             return mergecomments(response.data);
         }).catch(error => {
-            console.log(error)
+            console.log(error);
         });
 }
 
@@ -136,28 +136,35 @@ let generateModalComment = (data) => {
     let result_id = (data[0]['result_id']);
     $("#modal-title").text('Add New Comment');
     $("#modal-subtitle").text(indicator);
-    let html = "<div class='form-group'>";
-    html += "<label for='input-title'>Title</label>";
-    html += "<input class='form-control' type='text' id='input-title' placeholder='Message Title'></input></hr>";
-    html += "</div>";
-    html += "<div class='form-group'>";
-    html += "<textarea class='form-control' rows=5 id='input-comment'></textarea>";
-    html += "</div>";
-    $(".modal-comment").append(html);
-    $("#save-comment").on('click', () => {
-        let title = $("#input-comment").val();
-        let content = $("#input-title").val();
-        let json = {
-            "validator": data,
-            "message": content,
-            "title": title,
-        };
-        postcomment(json);
-    });
-    $("#save-comment").show();
+    getcomments(data);
+    axios.post(baseurl + "api/comment-validator", data)
+        .then(response => {
+            let validator = response.data;
+            $("#comment-validator").val(validator);
+            return true;
+        }).catch(error => {
+            console.log(error);
+        });
+    $("#save-comment").remove();
+    $(".comment-group").show();
+    $("#comment-title").val("");
+    $("#comment-input").val("");
     $("#discard-comment").show();
     $("#close-modal").hide();
-    getcomments(data);
+    $(".modal-footer").append('<button type="button" class="btn btn-primary" id="save-comment">Save Comment</button>');
+    $("#save-comment").on('click', () => {
+        console.log("test");
+        let title = () => {return $("#comment-input").val();}
+        let content = () => {return $("#comment-title").val();}
+        let validator = () => {return $("#comment-validator").val();}
+        let json = {
+            "validator": validator(),
+            "message": content(),
+            "title": title(),
+        };
+        console.log(json);
+        postcomment(json);
+    });
     return showModal("");
 };
 
@@ -186,6 +193,7 @@ $("#period-yearly").on('click', () => {
 $("#period-semester").on('click', () => {
     $("#period-yearly").prop('checked',false);
 });
+
 
 $("input[name='project-selection'").map((x) => {
     let selection = $("input[name='project-selection'");

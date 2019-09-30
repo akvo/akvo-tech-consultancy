@@ -13,10 +13,16 @@
         </hr>
         <h5 class="modal-subtitle">Comments</h5>
         <div class="modal-comment">
+            <div class="form-group comment-group" style="display:none;">
+            <label for="input-title">Title</label>
+            <input class="form-control" type="text" id="comment-title" placeholder="Message Title"></input><br>
+            <input class="form-control" type="hidden" id="comment-validator"></input>
+            <div class="form-group comment-group" style="display:none;">
+            <textarea class="form-control" rows=5 id="comment-input"></textarea>
+            </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" id="save-comment" style="display:none;">Save Comment</button>
         <button type="button" class="btn btn-danger" data-dismiss="modal" id="discard-comment" style="display:none;">Discard</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close-modal">Close</button>
       </div>
