@@ -32,7 +32,11 @@ def get_datatable(rsr_id):
     filter_date = content['filter_date']
     report_type = content['report_type']
     filter_country = content['project_option']
-    data = get_data.datatable(rsr_id, 'parent', report_type, filter_date, filter_country)
+    rsr_pos = 'parent'
+    if rsr_id == '7283':
+       rsr_id = '7282'
+       rsr_pos = 'grand_parent'
+    data = get_data.datatable(rsr_id, rsr_pos, report_type, filter_date, filter_country)
     return jsonify(data)
 
 @app.route('/api/postcomment', methods=['POST'])
@@ -42,7 +46,6 @@ def generate_validator():
             "locations": [],
             "editable": True,
             "deletable": True,
-            "edited": True,
             "title": content["title"],
             "text": content["message"],
             "language": "en",
@@ -53,15 +56,20 @@ def generate_validator():
             "project": 7282,
             "user":43779
     }
-    resp = rsr.send_comment(data)
+    if content["id"]:
+        methods = "put"
+        data.update({"id":content["id"]})
+        resp = rsr.send_comment(data, methods)
+    else:
+        methods = "post"
+        resp = rsr.send_comment(data, methods)
     return jsonify(resp)
 
 @app.route('/api/getcomments', methods=['POST'])
 def get_comments():
-    validator = printer.get_uuid(request.json)
-    validator = '#'.join(validator)
+    validator = request.json
     response = rsr.live('project_update', 'project', 7282)['results']
-    response = rsr.get_comment(response, validator)
+    response = rsr.get_comment(response, validator['uuid'])
     return jsonify(response)
 
 @app.route('/api/comment-validator', methods=['POST'])

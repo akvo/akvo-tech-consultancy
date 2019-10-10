@@ -1,7 +1,7 @@
 import './../css/custom.css';
 const axios = require("axios");
+const _ = require("lodash");
 const baseurl = $("meta[name=path]").attr("content");
-
 
 let post_data = {};
 let project_option = () => {
@@ -45,8 +45,6 @@ let date_selected = (x) => {
 };
 
 let showModal = (html) => {
-    $(".modal-data").children().remove();
-    $(".modal-data").append("<div>" + html + "</div>");
     $("#modal").modal('toggle');
     $('#modal').on('hidden.bs.modal', function() {
         $("#comment-alert").slideUp('fast');
@@ -67,46 +65,66 @@ let generateModal = (data) => {
         let indicator = (data[0]['indicator_name']);
         let indicator_id = (data[0]['indicator_id']);
         let dimension_name = (data[0]['dimension_name']);
+        let target_value = " > Target: " + (data[0]['target_value']);
+        let country = " > Country: " + (data[0]['country']);
         $("#modal-title").text(indicator);
-        $("#modal-subtitle").text(dimension_name);
-        let html = "<table class='table table-striped'>";
-        html += "<thead>";
-        html += "<tr>";
-        html += "<td>Report Date</td>";
-        html += "<td>Country</td>";
-        html += "<td>Disaggregation</td>";
-        html += "<td>Value</td>";
-        html += "</tr>"
-        html += "</thead>";
-        html += "<tbody>";
-        let content = data.map(x => {
-            html += "<tr>";
-            html += "<td>" + x.date + "</td>";
-            html += "<td>" + x.country + "</td>";
-            html += "<td>" + x.commodity + "</td>";
-            html += "<td>" + x.value + "</td>";
-            html += "</tr>";
-        });
-        html += "</tbody>";
-        html += "<table>";
-        $(".loading-comments").show();
+        $("#modal-subtitle").text(dimension_name + country + target_value);
+        $(".comment-list").hide();
+        $(".text-comment").remove();
+        let html = tablecomment();
         showModal(html);
-        axios.get(baseurl + '/api/live/indicator_period_framework/indicator/' + indicator_id)
-            .then(response => {
-                $(".text-comment").remove();
-                $(".loading-comments").hide();
-                return response.data.map(x => {
-                    if (x['actual_comment'].length > 0) {
-                        $(".comment-list").append("<div class='text-comment'>" + x['actual_comment'] + "</div>");
-                    }
-                });
-            }).catch(error => {
-                $(".loading-comments").hide();
-            });
+        appendcomment(indicator_id);
         return true;
     }
     return true;
 };
+
+let tablecomment = () => {
+    let html = "<table class='table table-striped'>";
+    html += "<thead>";
+    html += "<tr>";
+    html += "<td>Date</td>";
+    html += "<td>Actual</td>";
+    html += "<td>Reported</td>";
+    html += "<td>Approved</td>";
+    html += "<td width='30%'>Comments</td>";
+    html += "</tr>"
+    html += "</thead>";
+    html += "<tbody class='data-list'>";
+    html += "</tbody>";
+    html += "<table>";
+    $(".modal-data").children().remove();
+    $(".modal-data").append("<div>" + html + "</div>");
+}
+
+let appendcomment = (id) => {
+    $(".loading-comments").show();
+    axios.get(baseurl + '/api/live/indicator_period_framework/indicator/' + id)
+        .then(response => {
+            $(".loading-comments").hide();
+            return response.data.map(x => {
+                let html = '';
+                if (x['data'].length > 0){
+                    x['data'].map(a => {
+                        console.log(a);
+                        let html = "";
+                        html += "<tr>";
+                        html += "<td>" + a.created_at.split("T")[0] + "</td>";
+                        html += "<td>" + a.value + "</td>";
+                        html += "<td>" + a.user_details.last_name + " " + a.user_details.first_name + "</td>";
+                        html += "<td>" + a.approver_details.last_name + " " + a.approver_details.first_name + "</td>";
+                        html += "<td>" + a.text + "</td>";
+                        html += "</tr>";
+                        $(".data-list").append(html);
+                    });
+                }
+            });
+        }).catch(error => {
+            console.log(error);
+            $(".loading-comments").hide();
+        });
+    return true;
+}
 
 let mergecomment = (data) => {
     $(".comment-list").prepend("<div class='text-comment'>" + data['event_date'] + ": " + data['text'] + "</div>");
@@ -122,8 +140,8 @@ let mergecomments = (data) => {
 let postcomment = (json) => {
     return axios.post(baseurl + "/api/postcomment", json)
         .then(response => {
-            switchAlertClass("New Comment added", "success");
-            mergecomment(response.data);
+            switchAlertClass("Comment Updated", "success");
+            $("#comment-id").val(response.data.id);
             $(".loading-comments").hide();
         })
         .catch(error => {
@@ -132,16 +150,17 @@ let postcomment = (json) => {
             console.log(error);
         });
 }
-let getcomments = (data) => {
-    return axios.post(baseurl + "/api/getcomments", data)
+let getcomments = (id) => {
+    $(".comment-list").show();
+    return axios.post(baseurl + "/api/getcomments", {uuid:id})
         .then(response => {
-            $(".loading-comments").hide();
+            let data = response.data[0];
             $("#save-comment i").hide();
-            $("#comment-title").val("");
-            $("#comment-input").val("");
-            return mergecomments(response.data);
+            $("#comment-title").val(data.title);
+            $("#comment-validator").val(data.notes);
+            $("#comment-input").val(data.text);
+            $("#comment-id").val(data.id);
         }).catch(error => {
-            $(".loading-comments").hide();
             $("#save-comment i").hide();
             console.log(error);
         });
@@ -171,49 +190,53 @@ let hideCommentAlert = () => {
 }
 
 let generateModalComment = (data) => {
-    data = JSON.parse(data);
+    data = _.uniqBy(JSON.parse(data), 'indicator_id');
+    data = _.without(data, null);
     let indicator = (data[0]['indicator_name']);
+    let indicator_id = (data[0]['indicator_id']);
+    let period = (data[0]['date']);
     let result_id = (data[0]['result_id']);
+    let validator_id = [];
+    let title = "ID" + project_selection() + "I" + indicator_id + "PD" + date_selected(project_type());
     $("#modal-title").text('Add New Comment');
     $("#modal-subtitle").text(indicator);
-    $(".loading-comments").show();
     $(".comment-group").children().show();
-    getcomments(data);
-    axios.post(baseurl + "api/comment-validator", data)
-        .then(response => {
-            let validator = response.data;
-            $("#comment-validator").val(validator);
-            return true;
-        }).catch(error => {
-            console.log(error);
-        });
+    $(".text-comment").remove();
+    tablecomment();
+    data.map((x) => {
+        const valid_id = x['indicator_id'] + "" + x['period'];
+        validator_id.push(valid_id);
+    });
+    validator_id = _.join(validator_id, '-');
+    getcomments(validator_id);
+    $("#comment-input").val("");
+    $("#comment-id").val("");
+    $("#comment-title").val(title);
+    $("#comment-validator").val(validator_id);
+    data.map((x) => {
+        const indicator_id = x['indicator_id'];
+        return appendcomment(indicator_id);
+    });
     $("#save-comment").remove();
     $(".comment-group").show();
-    $("#comment-title").val("");
-    $("#comment-input").val("");
     $("#discard-comment").show();
     $("#close-modal").hide();
     $("#modal-footer").append('<button type="button" class="btn btn-primary" id="save-comment"><i class="fa fa-circle-notch fa-spin" style="display:none"></i> Save Comment</button>');
     $("#save-comment").on('click', () => {
         $("#save-comment i").show();
-        let title = () => {return $("#comment-input").val();}
-        let content = () => {return $("#comment-title").val();}
+        let title = () => {return $("#comment-title").val();}
+        let content = () => {return $("#comment-input").val();}
         let validator = () => {return $("#comment-validator").val();}
+        let cid = () => {return $("#comment-id").val();}
         let json = {
             "validator": validator(),
             "message": content(),
             "title": title(),
+            "id": cid()
         };
         let emptypost = false;
         let error_alert = "";
-        if (title() === "") {
-            error_alert += "Content"
-            emptypost = true;
-        }
         if (content() === "") {
-            if(emptypost) {
-                error_alert += " & "
-            }
             error_alert += "Title"
             emptypost = true;
         }
@@ -235,11 +258,6 @@ $("#comment-alert").on('closed.bs.alert', function () {
     $("#comment-alert").children().remove();
 })
 
-let generateGroup = (val, json) => {
-    let html = "<td class='text-right has-data' data-details='" + JSON.stringify(json) + "'>" + val + "</td>";
-    return html;
-}
-
 let generateReport = (pd) => {
     $("#generate-report i").show();
     axios.post(baseurl + "/api/datatables/" + pd.project_id, pd)
@@ -247,6 +265,7 @@ let generateReport = (pd) => {
             return generateTable(response.data);
         })
         .catch(error => {
+            console.log(error);
             $("#generate-report i").hide();
             $("#list-of-alerts").append(
                 "<h4 class='text-center'>Data is Not Available</h4>"
@@ -315,7 +334,6 @@ $("#generate-report").on('click', () => {
         $("#alert").modal('toggle');
         return false;
     }
-    console.log(show_alert);
     return generateReport(post_data);
 });
 
@@ -331,13 +349,40 @@ let createRow = (data, col_type, country) => {
     let details = col_type + "-D";
     let tdclass = "no-data";
     if (data[details] !== null) {
-        tdclass = "has-data";
+        // tdclass = "has-data";
+        tdclass = "";
     }
-    let html = "<td class='text-right " + tdclass + "' data-details='" + JSON.stringify(data[details]) + "'>";
+    let html = "<td class='text-right "+ tdclass +"' data-details='" + JSON.stringify(data[details]) + "'>";
     html += data[col_type];
     html += "</td>";
     return html;
 }
+
+let generateGroup = (val, json, val_type) => {
+    let val_data = ' - ';
+    let has_value = false;
+    let total = false;
+    let attribute;
+    if (val_type === 'total_actual_value' || val_type === 'total_target_value'){
+        total = true;
+    }
+    if (json[0]) {
+        has_value = true;
+    }
+    if (has_value){
+        attribute = json[0]['indicator_type'];
+        val_data = parseInt(json[0][val_type]);
+    }
+    if (has_value && total){
+        val_data = val;
+    }
+    if (has_value && isNaN(val_data)) {
+        val_data = ' - ';
+    }
+    let html = "<td class='text-right has-data' data-details='" + JSON.stringify(json) + "'>" + val_data + "</td>";
+    return html;
+}
+
 
 let generateTable = (response) => {
     if ($.fn.DataTable.isDataTable('#rsr_table')) {
@@ -348,11 +393,16 @@ let generateTable = (response) => {
     let resultTitle = response.result_titles;
     let groupTitle = response.titles;
     data.map((x, i) => {
+        const commodity = ["Maize","Rice","Legumes","Cassava"];
+        let dimension_class = "dimension";
         let html = "<tr>";
         html += "<td>" + x['project_title'] + "</td>";
-        html += "<td>" + x['indicator'] + "</td>";
+        if(commodity.indexOf(x['commodity']) > -1){
+            dimension_class = "commodity";
+        }
+        html += "<td data-type='+ x['indicator_type']  +'>" + x['indicator'] + "</td>";
         html += "<td>" + x['dimension_name'] + "</td>";
-        html += "<td style='padding-left:50px;'>" + x['commodity'] + "</td>";
+        html += "<td class='"+dimension_class+"'>" + x['commodity'] + "</td>";
         ["TTL", "MW", "MZ", "ZA"].map(tvalue => {
             html += createRow(x, "TG", tvalue);
         });
@@ -381,7 +431,20 @@ let generateTable = (response) => {
                         try {
                             cells.push(JSON.parse(json)[0]);
                         } catch (error) {
-                            console.log('no-data');
+                        }
+                        return true;
+                    });
+                    return cells;
+                }
+                let getattrttl = (x) => {
+                    let rowidx = rows[0];
+                    let camw = rows.cells().column(x).nodes();
+                    let cells = [];
+                    rowidx.map((a, i) => {
+                        let json = camw[a].dataset.details;
+                        try {
+                            cells.push(JSON.parse(json));
+                        } catch (error) {
                         }
                         return true;
                     });
@@ -397,16 +460,80 @@ let generateTable = (response) => {
                     return camw;
                 }
                 let html = '';
-                if (groupTitle.indexOf(group) === -1) {
-                    [4, 5, 6, 7, 8, 9, 10, 11].map((x) => {
+                if (resultTitle.indexOf(group) > 0) {
+                    return $("<tr/>")
+                        .append("<td colspan=9>" + group + "</td>")
+                }
+                if (groupTitle.indexOf(group) > 0) {
+                    let attr = getattrttl(4);
+                    let row_data = [];
+                    let measure = 1;
+                    let targets = false;
+                    let actuals = false;
+                    if (attr.length > 0){
+                        row_data = _.uniqBy(attr[0], 'country');
+                    }
+                    if (row_data.length > 0) {
+                        measure = parseInt(row_data[0]['indicator_type']);
+                    }
+                    if (measure === 2) {
+                        actuals = row_data.map((a, b) => {
+                            if(isNaN(parseInt(a['actual_value']))){
+                                return 0;
+                            }
+                            return parseInt(a['actual_value']);
+                        });
+                        targets = row_data.map((a, b) => {
+                            if(isNaN(parseInt(a['target_value']))){
+                                return 0;
+                            }
+                            return parseInt(a['target_value']);
+                        });
+                    }
+                    if (targets && actuals) {
+                        targets = targets.reduce((a,b) => {
+                            return a + b * 1;
+                        });
+                        actuals = actuals.reduce((a,b) => {
+                            return a + b * 1;
+                        });
+                    }
+                    [4, 5, 6, 7, 8, 9, 10, 11].map((x,i) => {
                         let td = getvalue(x);
                         let act = getattr(x);
-                        html += generateGroup(td, act);
-                    })
+                        if (i === 7) {
+                            if (measure === 2){
+                                html += generateGroup(Math.round(actuals/3), act, 'total_actual_value');
+                            } else {
+                                html += generateGroup(td, act, 'total_actual_value');
+                            }
+                        }
+                        if (i === 0) {
+                            if (measure === 2){
+                                html += generateGroup(Math.round(targets/3), act, 'total_target_value');
+                            } else {
+                                html += generateGroup(td, act, 'total_actual_value');
+                            }
+                        }
+                        if ([4,5,6].indexOf(i) > -1){
+                            html += generateGroup(td, act, 'actual_value');
+                        }
+                        if ([1,2,3].indexOf(i) > -1){
+                            html += generateGroup(td, act, 'target_value');
+                        }
+                    });
+                    let indicator_badge;
+                    if (measure === 1) {
+                        indicator_badge = " <span class='numeric'> #N </span>";
+                    }
+                    if (measure === 2) {
+                        indicator_badge = " <span class='percentage'> %P </span>";
+                    }
                     return $("<tr/>")
-                        .append("<td>" + group + "</td>")
+                        .append("<td><span class='group-text'>" + group +"</span>"+ indicator_badge + "</td>")
                         .append(html)
                 }
+                console.log("-----");
                 let indicator_level = [];
                 if (resultTitle.indexOf(group) === -1) {
                     [4, 5, 6, 7, 8, 9, 10, 11].map((x) => {
@@ -416,8 +543,8 @@ let generateTable = (response) => {
                         });
                     })
                     let comment_data = JSON.stringify(indicator_level);
-                    html = "<td colspan=7>" + group + "</td>";
-                    html += "<td class='has-data comment-form-show' data-comments=true data-details='" + comment_data + "' colspan=2>";
+                    html = "<td colspan=6>" + group + "</td>";
+                    html += "<td class='has-data comment-form-show' data-comments=true data-details='" + comment_data + "' colspan=3>";
                     html += "<i class='fa fa-plus'></i> Comments</td>"
                     return $("<tr/>")
                         .append(html)
@@ -433,13 +560,12 @@ let generateTable = (response) => {
             visible: false
         }],
         scrollY: (screen.height - 300).toString() + "px",
-        scrollCollapse: true,
         responsive: true,
         paging: false
     });
     table.columns.adjust();
     $('div.dataTables_filter input').addClass('search');
-    $("#rsr_table tbody").on('click', 'td', function() {
+    $("#rsr_table tbody").on('click', 'td.has-data', function() {
         let iscomment = $(this).attr('data-comments');
         let cell = table.cell(this);
         let abs = $(this).attr('data-details');

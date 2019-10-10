@@ -51,10 +51,16 @@ class Rsr:
         data = self.readcache(filename)
         return data
 
-    def send_comment(self, data):
+    def send_comment(self, data, methods):
         self.data = data
-        uri = '{}{}{}'.format(PROD_URL, 'project_update', FMT100)
-        r = requests.post(uri, data=json.dumps(data), headers=headers)
+        if methods == "put":
+            uri = '{}{}{}'.format(PROD_URL , 'project_update', "/?id=" + data["id"] + "&format=json")
+            r = requests.post(uri, data=json.dumps(data), headers=headers)
+            print("put")
+        else:
+            uri = '{}{}{}'.format(PROD_URL, 'project_update', FMT100)
+            r = requests.post(uri, data=json.dumps(data), headers=headers)
+            print("post")
         return r.json()
 
     def get_comment(self, data, validator):

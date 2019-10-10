@@ -19,12 +19,15 @@ def get_year(x):
 
 def get_report_type(ps,pe):
     rt = {'is_yearly':False}
-    psm = ps.split('-')[1]
-    pem = pe.split('-')[1]
-    if psm == '01' and pem == '12':
-        rt = {'is_yearly':True}
-    if psm == '01' and pem == '01':
-        rt = {'is_yearly':True}
+    try:
+       psm = ps.split('-')[1]
+       pem = pe.split('-')[1]
+       if psm == '01' and pem == '12':
+           rt = {'is_yearly':True}
+       if psm == '01' and pem == '01':
+           rt = {'is_yearly':True}
+    except:
+       pass
     return rt
 
 def get_dimension_country(dv):
@@ -52,6 +55,15 @@ def get_dimension_country(dv):
             'has_country':True
         })
     return dv
+
+def get_total_value(x,vtype):
+    y = 0
+    if x['indicator_type'] == 1:
+        y = x[vtype + '-MW'] + x[vtype + '-MZ'] + x[vtype + '-ZA']
+    if x['indicator_type'] == 2:
+        y = x[vtype + '-MW'] + x[vtype + '-MZ'] + x[vtype + '-ZA']
+        y = round(y / 3,1)
+    return y
 
 def trace_onechildren(list_id):
     results_framework = []
@@ -231,14 +243,30 @@ class Api:
         self.filter_date = filter_date
         self.filter_country = filter_country
         related_project = rsr.api('related_project','related_project',project_id)
-        project_list = list(pd.DataFrame(related_project['results'])['project'])
+        if project_type == 'parent':
+           project_list = list(pd.DataFrame(related_project['results'])['project'])
+        if project_type == 'grand_parent':
+            parent_list = list(pd.DataFrame(related_project['results'])['project'])
+            project_list = []
+            for second_level in parent_list:
+                second_list = rsr.api('related_project','related_project',second_level)
+                try:
+                   second_list = list(pd.DataFrame(second_list['results'])['project'])
+                   for third_level in second_list:
+                       project_list.append(third_level)
+                except:
+                   pass
         # project_list.append(project_id)
         if project_type == 'child':
             results_framework = no_trace(project_id)
         if project_type == 'parent':
             results_framework = trace_onechildren(project_list)
+        if project_type == 'grand_parent':
+            results_framework = trace_onechildren(project_list)
         results_framework = pd.DataFrame(results_framework)
         results_framework['child_projects'] = results_framework['child_projects'].apply(get_sibling_id)
+        if project_type == 'grand_parent':
+            results_framework = results_framework[results_framework['child_projects'].isnull()].reset_index().drop(columns=['index'])
         results_framework = results_framework.to_dict('records')
         indicators = []
         periods = []
@@ -253,6 +281,8 @@ class Api:
             for indicator in result_framework['indicators']:
                 indicator_id = indicator['id']
                 indicator_title = {'indicator':indicator['title']}
+                indicator_type = int(indicator['measure'])
+                indicator.update({'indicator_type':indicator_type})
                 for period in indicator['periods']:
                     is_yearly = get_report_type(period['period_start'],period['period_end'])
                     period.update(rf_title)
@@ -260,6 +290,7 @@ class Api:
                     period.update(is_yearly)
                     period.update(rf_id)
                     period.update({'indicator':indicator_id})
+                    period.update({'indicator_type':indicator_type})
                     periods.append(period)
                     for data in period['data']:
                         if len(data) > 0:
@@ -357,6 +388,14 @@ class Api:
         disaggregations_merged['indicator_id'] = disaggregations_merged['indicator_id'].apply(lambda x: int(float(x)))
         disaggregations_merged['type'] = 'Cumulative Actual Values'
         disaggregations_merged['country'] = disaggregations_merged.apply(fill_country , axis = 1)
+
+        if project_type == 'grand_parent':
+            disaggregations_merged['project'] = 'APPSA Zambia'
+            disaggregations_merged['commodity'] = disaggregations_merged['commodity'].apply(lambda x: x.replace('-',' ').title())
+            disaggregations_merged['commodity'] = disaggregations_merged['commodity'].apply(lambda x: "Country Project" if x == "" else x)
+            disaggregations_merged['country'] = disaggregations_merged.apply(fill_country, axis=1)
+            disaggregations_merged = disaggregations_merged.drop(columns=['project'])
+
         targets = pd.DataFrame(disaggregation_targets).fillna(0).drop(columns=['id']).merge(
             dimension_values,
             how='outer',
@@ -381,8 +420,17 @@ class Api:
         targets = targets.rename(columns=rename_columns)[column_order]
         targets['indicator_id'] = targets['indicator_id'].apply(lambda x: int(float(x)))
         targets['type'] = 'Y4 RCoLs Targets'
-        targets['country'] = ''
-        targets['country'] = targets.apply(fill_country, axis = 1)
+        if project_type == 'grand_parent':
+                targets['project'] = 'APPSA Zambia'
+                targets['commodity'] = targets['commodity'].apply(lambda x: x.replace('-',' ').title())
+                targets['commodity'] = targets['commodity'].apply(lambda x: "Country Project" if x == "" else x)
+                targets['country'] = targets.apply(fill_country, axis=1)
+                targets = targets.drop(columns=['project'])
+        else:
+                targets['country'] = ''
+                targets['country'] = targets.apply(fill_country, axis = 1)
+                targets['country'] = ''
+                targets['country'] = targets.apply(fill_country, axis = 1)
         disaggregations_merged = disaggregations_merged.rename(columns={'name':'dimension_id'})
         order_columns = [
                 'id',
@@ -401,7 +449,7 @@ class Api:
         targets = targets[order_columns]
         disaggregations_merged = disaggregations_merged[order_columns]
         periods_short = pd.DataFrame(periods)
-        periods_short = periods_short[['id','is_yearly','period_start','period_end']]
+        periods_short = periods_short[['id','is_yearly','period_start','period_end','target_value','actual_value','indicator_type']]
         periods_short['period_date'] = periods_short['period_start'] + ' - ' + periods_short['period_end']
         tbl = pd.concat([disaggregations_merged,targets],sort=False)
         tbl = tbl.sort_values(by=['result','indicator_id','dimension_id','id'])
@@ -420,12 +468,25 @@ class Api:
             tbl = tbl[tbl['year'] == filter_date].drop(columns=['year','period_date'])
         else:
             tbl = tbl[tbl['period_date'] == filter_date].drop(columns=['period_date'])
-        order_columns = ['result','project_title','indicator_id','indicator','dimension_id','dimension_name','commodity','type','country','value','id_data']
+        order_columns = [
+                'result',
+                'project_title',
+                'indicator_id',
+                'indicator_type',
+                'indicator',
+                'dimension_id',
+                'dimension_name',
+                'commodity',
+                'type',
+                'country',
+                'value',
+                'id_data']
         tbl = tbl[order_columns]
         tbl_group = [
                 'result',
                 'project_title',
                 'indicator_id',
+                'indicator_type',
                 'indicator',
                 'dimension_id',
                 'dimension_name',
@@ -436,7 +497,7 @@ class Api:
         tbl_sort = ['result','indicator_id','dimension_id','id_data']
         tbl = tbl.groupby(tbl_group).sum()
         tbl = tbl.unstack('type').unstack('country').sort_values(tbl_sort)
-        tbl = tbl.groupby(level=[1,3,5,7],sort=False).sum().astype(int)
+        tbl = tbl.groupby(level=[1,3,4,6,8],sort=False).sum().astype(int)
         tbl = pd.DataFrame(tbl['value'].to_records())
         tbl = tbl.rename(columns={
             "('Cumulative Actual Values', 'Malawi')": "CA-MW",
@@ -446,8 +507,8 @@ class Api:
             "('Y4 RCoLs Targets', 'Mozambique')":"TG-MZ",
             "('Y4 RCoLs Targets', 'Zambia')":"TG-ZA"
         })
-        tbl['TG-TTL'] = tbl['TG-MW'] + tbl['TG-MZ'] + tbl['TG-ZA']
-        tbl['CA-TTL'] = tbl['CA-MW'] + tbl['CA-MZ'] + tbl['CA-ZA']
+        tbl['TG-TTL'] = tbl.apply(lambda x: get_total_value(x,'TG'), axis=1)
+        tbl['CA-TTL'] = tbl.apply(lambda x: get_total_value(x,'CA'), axis=1)
         attr = pd.concat([disaggregations_merged,targets],sort=False)
         attr = attr.sort_values(by=['result','indicator_id','dimension_id','id'])
         sort_values = ['id_data','indicator_id','dimension_name']
@@ -460,11 +521,14 @@ class Api:
             'period':x['period'],
             'date':x['period_date'],
             'indicator_id':x['indicator_id'],
+            'indicator_type':x['indicator_type'],
             'indicator_name':x['indicator'],
             'dimension':x['dimension_id'],
             'dimension_name':x['dimension_name'],
             'commodity':x['commodity'],
             'value': x['value'],
+            'target_value': x['target_value'],
+            'actual_value': x['actual_value'],
         },axis=1)
         attr['cumulative'] = attr['period_end'].apply(lambda x: True if x.split('-')[1] == '12' else False)
         attr = attr[attr['cumulative'] == True].drop(columns=['cumulative'])
@@ -477,7 +541,7 @@ class Api:
         attr_sort = ['result','indicator_id','dimension_id','id_data']
         attr = attr.groupby(tbl_group)['variable'].apply(group_attribute).reset_index()
         attr = attr.groupby(tbl_group).first().unstack('type').unstack('country').sort_values(attr_sort)
-        attr = attr.groupby(level=[1,3,5,7],sort=False).first()
+        attr = attr.groupby(level=[1,4,6,8],sort=False).first()
         attr = pd.DataFrame(attr['variable'].to_records())
         attr = attr.rename(columns={
             "('Cumulative Actual Values', 'Malawi')": "CA-MW-D",
@@ -492,6 +556,13 @@ class Api:
         merged = merged.replace({np.nan: None})
         merged['CA-TTL-D'] = merged.apply(lambda x: combineList("CA", x), axis=1);
         merged['TG-TTL-D'] = merged.apply(lambda x: combineList("TG", x), axis=1);
+        merged['TG-MW-D'] = merged['TG-MW-D'].fillna(merged['CA-MW-D'])
+        merged['TG-MZ-D'] = merged['TG-MZ-D'].fillna(merged['CA-MZ-D'])
+        merged['TG-ZA-D'] = merged['TG-ZA-D'].fillna(merged['CA-ZA-D'])
+        merged['CA-MW-D'] = merged['CA-MW-D'].fillna(merged['TG-MW-D'])
+        merged['CA-MZ-D'] = merged['CA-MZ-D'].fillna(merged['TG-MZ-D'])
+        merged['CA-ZA-D'] = merged['CA-ZA-D'].fillna(merged['TG-ZA-D'])
+        merged['indicator_type'] = merged['indicator_type'].apply(lambda x: '#' if x == 1 else '%')
         result_title = list(pd.DataFrame(results_framework).groupby('title').first().reset_index()['title'])
         indicator_title = list(pd.DataFrame(indicators).groupby('title').first().reset_index()['title'])
         titles = result_title + indicator_title
