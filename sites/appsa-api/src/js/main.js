@@ -8,7 +8,7 @@ let project_option = () => {
     let selected = $("input[name='project-option']:checked").map(function(_, el) {
         return $(el).val();
     }).get();
-    if (selected.length > 0){
+    if (selected.length > 0) {
         return selected;
     }
     return false;
@@ -18,7 +18,7 @@ let project_selection = () => {
     let selected = $("input[name='project-selection']:checked").map(function(_, el) {
         return $(el).val();
     }).get();
-    if (selected[0]){
+    if (selected[0]) {
         return selected[0];
     }
     return false;
@@ -38,7 +38,7 @@ let project_type = () => {
 
 let date_selected = (x) => {
     let selected = $("#period-" + x + "-select option:selected").text();
-    if (selected === ""){
+    if (selected === "") {
         return false
     }
     return selected;
@@ -106,7 +106,7 @@ let appendcomment = (id, country) => {
             $(".loading-comments").hide();
             return response.data.map(x => {
                 let html = '';
-                if (x['data'].length > 0){
+                if (x['data'].length > 0) {
                     x['data'].map(a => {
                         let html = "";
                         html += "<tr>";
@@ -154,7 +154,9 @@ let postcomment = (json) => {
 }
 let getcomments = (id) => {
     $(".comment-list").show();
-    return axios.post(baseurl + "/api/getcomments", {uuid:id})
+    return axios.post(baseurl + "/api/getcomments", {
+            uuid: id
+        })
         .then(response => {
             let data = response.data[0];
             $("#save-comment i").hide();
@@ -172,11 +174,11 @@ let switchAlertClass = (text, classname) => {
     $("#comment-alert").children().remove();
     $("#save-comment i").hide();
     $("#comment-alert").prepend("<strong>" + text + "</strong>");
-    if (classname === 'danger'){
+    if (classname === 'danger') {
         $("#comment-alert").addClass('alert-danger');
         $("#comment-alert").removeClass('alert-success');
     }
-    if (classname === 'success'){
+    if (classname === 'success') {
         $("#comment-alert").addClass('alert-success');
         $("#comment-alert").removeClass('alert-danger');
     }
@@ -227,10 +229,18 @@ let generateModalComment = (data) => {
     $("#modal-footer").append('<button type="button" class="btn btn-primary" id="save-comment"><i class="fa fa-circle-notch fa-spin" style="display:none"></i> Save Comment</button>');
     $("#save-comment").on('click', () => {
         $("#save-comment i").show();
-        let title = () => {return $("#comment-title").val();}
-        let content = () => {return $("#comment-input").val();}
-        let validator = () => {return $("#comment-validator").val();}
-        let cid = () => {return $("#comment-id").val();}
+        let title = () => {
+            return $("#comment-title").val();
+        }
+        let content = () => {
+            return $("#comment-input").val();
+        }
+        let validator = () => {
+            return $("#comment-validator").val();
+        }
+        let cid = () => {
+            return $("#comment-id").val();
+        }
         let json = {
             "validator": validator(),
             "message": content(),
@@ -243,11 +253,11 @@ let generateModalComment = (data) => {
             error_alert += "Title"
             emptypost = true;
         }
-        if(emptypost) {
+        if (emptypost) {
             error_alert += error_alert + " cannot be empty";
             switchAlertClass(error_alert, "danger");
         }
-        if(!emptypost) {
+        if (!emptypost) {
             hideCommentAlert();
             $("#comment-alert").slideUp('fast');
             $(".loading-comments").show();
@@ -257,7 +267,7 @@ let generateModalComment = (data) => {
     return showModal("");
 };
 
-$("#comment-alert").on('closed.bs.alert', function () {
+$("#comment-alert").on('closed.bs.alert', function() {
     $("#comment-alert").children().remove();
 })
 
@@ -278,10 +288,10 @@ let generateReport = (pd) => {
 };
 
 $("#period-yearly").on('click', () => {
-    $("#period-semester").prop('checked',false);
+    $("#period-semester").prop('checked', false);
 });
 $("#period-semester").on('click', () => {
-    $("#period-yearly").prop('checked',false);
+    $("#period-yearly").prop('checked', false);
 });
 
 
@@ -289,7 +299,7 @@ $("input[name='project-selection'").map((x) => {
     let selection = $("input[name='project-selection'");
     let selected = $("input[name='project-selection'")[x];
     let selected_id = $("input[name='project-selection'")[x];
-    $(selected).on('click', () =>{
+    $(selected).on('click', () => {
         $(selection).map((a) => {
             let ids = $("input[name='project-selection'")[a];
             if (ids !== selected_id) {
@@ -315,19 +325,19 @@ $("#generate-report").on('click', () => {
     $("#list-of-alerts").children().remove();
     let show_alert = false;
     let html = "<h4><i class='fa fa-times-circle' style='color:red;'></i> ";
-    if(post_data["project_id"] === false) {
+    if (post_data["project_id"] === false) {
         show_alert = true;
         $("#list-of-alerts").append(
             html + "<a href='#projects'>Project ID is not Set</a></h4>"
         );
     }
-    if(post_data["project_option"] === false) {
+    if (post_data["project_option"] === false) {
         show_alert = true;
         $("#list-of-alerts").append(
             html + "<a href='#settings'>Country is not Set</a></h4>"
         );
     }
-    if(post_data["filter_date"] === false) {
+    if (post_data["filter_date"] === false) {
         show_alert = true;
         $("#list-of-alerts").append(
             html + "<a href='#settings'>Period is not Set</a></h4>"
@@ -355,7 +365,7 @@ let createRow = (data, col_type, country) => {
         // tdclass = "has-data";
         tdclass = "";
     }
-    let html = "<td class='text-right "+ tdclass +"' data-details='" + JSON.stringify(data[details]) + "'>";
+    let html = "<td class='text-right " + tdclass + "' data-details='" + JSON.stringify(data[details]) + "'>";
     html += data[col_type];
     html += "</td>";
     return html;
@@ -366,16 +376,16 @@ let generateGroup = (val, json, val_type) => {
     let has_value = false;
     let total = false;
     let aggregats = '';
-    if (val_type === 'total_actual_value' || val_type === 'total_target_value'){
+    if (val_type === 'total_actual_value' || val_type === 'total_target_value') {
         total = true;
     }
     if (json[0]) {
         has_value = true;
     }
-    if (has_value){
+    if (has_value) {
         val_data = parseInt(json[0][val_type]);
     }
-    if (has_value && total){
+    if (has_value && total) {
         val_data = val;
         aggregats = "data-aggregats=true";
     }
@@ -398,16 +408,16 @@ let generateTable = (response) => {
     let resultTitle = response.result_titles;
     let groupTitle = response.titles;
     data.map((x, i) => {
-        const commodity = ["Maize","Rice","Legumes","Cassava"];
+        const commodity = ["Maize", "Rice", "Legumes", "Cassava"];
         let dimension_class = "dimension";
         let html = "<tr>";
         html += "<td>" + x['project_title'] + "</td>";
-        if(commodity.indexOf(x['commodity']) > -1){
+        if (commodity.indexOf(x['commodity']) > -1) {
             dimension_class = "commodity";
         }
         html += "<td data-type='+ x['indicator_type']  +'>" + x['indicator'] + "</td>";
         html += "<td>" + x['dimension_name'] + "</td>";
-        html += "<td class='"+dimension_class+"'>" + x['commodity'] + "</td>";
+        html += "<td class='" + dimension_class + "'>" + x['commodity'] + "</td>";
         ["TTL", "MW", "MZ", "ZA"].map(tvalue => {
             html += createRow(x, "TG", tvalue);
         });
@@ -420,10 +430,23 @@ let generateTable = (response) => {
     });
     /* dom: 'Brftip', */
     $("#rsr_table").show();
+    const printsubtitle = "Project ID: " + project_selection() + " | Periods: " + date_selected(project_type());
     const table = $("#rsr_table").DataTable({
         dom: 'Brftip',
         ordering: false,
-        buttons: ['copy', 'print', 'excel', 'pdf'],
+        buttons: ['copy', {
+            extend: 'print',
+            title: 'APPSA',
+            autoPrint: false,
+            customize: function(win) {
+                $(win.document.head).append($('<link href="'+baseurl+'/static/css/custom.css" rel="stylesheet">'));
+                $(win.document.body).find('table thead').remove();
+                $(win.document.body).find('table tbody').remove();
+                $(win.document.body).prepend("<h5>"+printsubtitle+"</h5></hr>");
+                $(win.document.body).find('table').append($('.dataTable').html());
+                $(win.document.body).find('table.dataTable tr.dtrg-group td');
+            },
+        }, 'excel', 'pdf'],
         fixedHeader: true,
         rowGroup: {
             startRender: (rows, group) => {
@@ -435,8 +458,7 @@ let generateTable = (response) => {
                         let json = camw[a].dataset.details;
                         try {
                             cells.push(JSON.parse(json)[0]);
-                        } catch (error) {
-                        }
+                        } catch (error) {}
                         return true;
                     });
                     return cells;
@@ -449,8 +471,7 @@ let generateTable = (response) => {
                         let json = camw[a].dataset.details;
                         try {
                             cells.push(JSON.parse(json));
-                        } catch (error) {
-                        }
+                        } catch (error) {}
                         return true;
                     });
                     return cells;
@@ -482,7 +503,7 @@ let generateTable = (response) => {
                     let measure = 1;
                     let targets = false;
                     let actuals = false;
-                    if (attr.length > 0){
+                    if (attr.length > 0) {
                         row_data = _.uniqBy(attr[0], 'country');
                     }
                     if (row_data.length > 0) {
@@ -490,47 +511,47 @@ let generateTable = (response) => {
                     }
                     if (measure === 2) {
                         actuals = row_data.map((a, b) => {
-                            if(isNaN(parseInt(a['actual_value']))){
+                            if (isNaN(parseInt(a['actual_value']))) {
                                 return 0;
                             }
                             return parseInt(a['actual_value']);
                         });
                         targets = row_data.map((a, b) => {
-                            if(isNaN(parseInt(a['target_value']))){
+                            if (isNaN(parseInt(a['target_value']))) {
                                 return 0;
                             }
                             return parseInt(a['target_value']);
                         });
                     }
                     if (targets && actuals) {
-                        targets = targets.reduce((a,b) => {
+                        targets = targets.reduce((a, b) => {
                             return a + b * 1;
                         });
-                        actuals = actuals.reduce((a,b) => {
+                        actuals = actuals.reduce((a, b) => {
                             return a + b * 1;
                         });
                     }
-                    [4, 5, 6, 7, 8, 9, 10, 11].map((x,i) => {
+                    [4, 5, 6, 7, 8, 9, 10, 11].map((x, i) => {
                         let td = getvalue(x);
                         let act = getattr(x);
                         if (i === 7) {
-                            if (measure === 2){
-                                html += generateGroup(Math.round(actuals/3), indicator_level, 'total_actual_value');
+                            if (measure === 2) {
+                                html += generateGroup(Math.round(actuals / 3), indicator_level, 'total_actual_value');
                             } else {
                                 html += generateGroup(td, indicator_level, 'total_actual_value');
                             }
                         }
                         if (i === 0) {
-                            if (measure === 2){
-                                html += generateGroup(Math.round(targets/3), indicator_level, 'total_target_value');
+                            if (measure === 2) {
+                                html += generateGroup(Math.round(targets / 3), indicator_level, 'total_target_value');
                             } else {
                                 html += generateGroup(td, indicator_level, 'total_actual_value');
                             }
                         }
-                        if ([4,5,6].indexOf(i) > -1){
+                        if ([4, 5, 6].indexOf(i) > -1) {
                             html += generateGroup(td, act, 'actual_value');
                         }
-                        if ([1,2,3].indexOf(i) > -1){
+                        if ([1, 2, 3].indexOf(i) > -1) {
                             html += generateGroup(td, act, 'target_value');
                         }
                     });
@@ -542,7 +563,7 @@ let generateTable = (response) => {
                         indicator_badge = " <span class='percentage'> %P </span>";
                     }
                     return $("<tr/>")
-                        .append("<td><span class='group-text'>" + group +"</span>"+ indicator_badge + "</td>")
+                        .append("<td><span class='group-text'>" + group + "</span>" + indicator_badge + "</td>")
                         .append(html)
                 }
                 console.log("-----");
@@ -564,7 +585,6 @@ let generateTable = (response) => {
             targets: [0, 1, 2],
             visible: false
         }],
-        scrollY: (screen.height - 300).toString() + "px",
         responsive: true,
         paging: false
     });
