@@ -513,46 +513,6 @@ h5.loading-comments{
     color: #248a8b;
 }
 
-@media print {
-    h1{
-        margin-bottom: 15px!important;
-        margin-top: 15px!important;
-    }
-    table.dataTable tr.dtrg-group td{
-        background-color: #228b8b!important;
-        color: #FFFFFF;
-    }
-    table.dataTable tr.dtrg-group.dtrg-level-1 td,
-    table.dataTable tr.dtrg-group.dtrg-level-2 td{
-        padding-left: 1em;
-        background-color: #e2e3e5!important;
-        font-weight:bold;
-        font-size:14px;
-        color: #484848!important;
-    }
-    table.dataTable tr.dtrg-group.dtrg-level-2 td{
-        padding-left: 2em;
-        background-color: #f2f2f2!important;
-        font-weight:bold;
-        font-size:14px;
-        color: #484848!important;
-    }
-    table.dataTable tr.dtrg-group.dtrg-level-1 td.has-data{
-        color:#228b8b!important;
-    }
-    table.dataTable tr.dtrg-group.dtrg-level-2 td.comment-form-show 
-    {
-        background-color: #d2d2d2!important;
-        color: #6d757d !important;
-        text-align: center;
-        padding-right: 20px;
-        cursor:pointer;
-    }
-    table.dataTable tr.dtrg-group.dtrg-level-2{
-        display:none!important;
-    }
-} 
-
 /*Simplemde*/
 .editor-preview-side{
     display:none!important;

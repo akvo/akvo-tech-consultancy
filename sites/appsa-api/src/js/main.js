@@ -1,3 +1,4 @@
+import './../css/print.css';
 import './../css/custom.css';
 const axios = require("axios");
 const _ = require("lodash");
@@ -444,6 +445,7 @@ let generateTable = (response) => {
             title: 'APPSA',
             customize: function(win) {
                 $(win.document.head).append($('<link href="'+baseurl+'/static/css/custom.css" rel="stylesheet">'));
+                $(win.document.head).append($('<link href="'+baseurl+'/static/css/print.css" rel="stylesheet">'));
                 $(win.document.body).find('table thead').remove();
                 $(win.document.body).find('table tbody').remove();
                 $(win.document.body).prepend("<h5>"+printsubtitle+"</h5></hr>");
@@ -589,7 +591,10 @@ let generateTable = (response) => {
             targets: [0, 1, 2],
             visible: false
         }],
-        scrollCollapse: true,
+        fixedColumns: {
+            leftColumns: 2
+        },
+        scrollCollapse: false,
         responsive: false,
         fixedHeader: true,
         paging: false,
