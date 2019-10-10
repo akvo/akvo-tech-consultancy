@@ -437,7 +437,7 @@ let generateTable = (response) => {
         buttons: ['copy', {
             extend: 'print',
             title: 'APPSA',
-            autoPrint: false,
+            autoPrint: true,
             customize: function(win) {
                 $(win.document.head).append($('<link href="'+baseurl+'/static/css/custom.css" rel="stylesheet">'));
                 $(win.document.body).find('table thead').remove();
