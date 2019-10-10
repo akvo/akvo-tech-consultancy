@@ -81,7 +81,7 @@ let generateModal = (data) => {
 };
 
 let tablecomment = () => {
-    let html = "<table class='table table-striped'>";
+    let html = "<table id='report-list' class='table table-striped table-fixed'>";
     html += "<thead>";
     html += "<tr>";
     html += "<td>Country</td>";
@@ -96,7 +96,7 @@ let tablecomment = () => {
     html += "</tbody>";
     html += "<table>";
     $(".modal-data").children().remove();
-    $(".modal-data").append("<div>" + html + "</div>");
+    $(".modal-data").append("<div class='table-responsive'>" + html + "</div>");
 }
 
 let appendcomment = (id, country) => {
@@ -119,7 +119,7 @@ let appendcomment = (id, country) => {
                         html += "</tr>";
                         $(".data-list").append(html);
                     });
-                }
+                };
             });
         }).catch(error => {
             console.log(error);
@@ -162,7 +162,8 @@ let getcomments = (id) => {
             $("#save-comment i").hide();
             $("#comment-title").val(data.title);
             $("#comment-validator").val(data.notes);
-            $("#comment-input").val(data.text);
+            simplemde.value(data.text);
+            // $("#comment-input").val(data.text);
             $("#comment-id").val(data.id);
         }).catch(error => {
             $("#save-comment i").hide();
@@ -213,7 +214,8 @@ let generateModalComment = (data) => {
     });
     validator_id = _.join(validator_id, '-');
     getcomments(validator_id);
-    $("#comment-input").val("");
+    simplemde.value();
+    // $("#comment-input").val("");
     $("#comment-id").val("");
     $("#comment-title").val(title);
     $("#comment-validator").val(validator_id);
@@ -233,7 +235,8 @@ let generateModalComment = (data) => {
             return $("#comment-title").val();
         }
         let content = () => {
-            return $("#comment-input").val();
+            return simplemde.value();
+            // return $("#comment-input").val();
         }
         let validator = () => {
             return $("#comment-validator").val();

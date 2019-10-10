@@ -481,7 +481,7 @@ div.modal-comment {
     margin-bottom: 10px;
     border-top: 1px solid #fefefe;
 }
-div.modal-data {
+div.modal-data{
     max-height: 300px;
     overflow-y: scroll;
 }
@@ -552,3 +552,11 @@ h5.loading-comments{
         display:none!important;
     }
 } 
+
+/*Simplemde*/
+.editor-preview-side{
+    display:none!important;
+}
+textarea.form-control{
+    display:none!important;
+}

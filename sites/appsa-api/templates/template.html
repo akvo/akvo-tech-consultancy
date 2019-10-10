@@ -15,10 +15,12 @@
 <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet">
 <link href="{{base_url}}/static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link href="{{base_url}}/static/vendor/simplemde/simplemde.min.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.20/af-2.3.4/b-1.6.0/b-flash-1.6.0/b-html5-1.6.0/b-print-1.6.0/fh-3.1.6/r-2.2.3/rg-1.1.1/datatables.min.css"/>
 <script src="{{base_url}}/static/vendor/jquery/jquery.min.js"></script>
 <script src="{{base_url}}/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="{{base_url}}/static/vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="{{base_url}}/static/vendor/simplemde/simplemde.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.20/af-2.3.4/b-1.6.0/b-flash-1.6.0/b-html5-1.6.0/b-print-1.6.0/fh-3.1.6/r-2.2.3/rg-1.1.1/datatables.min.js"></script>
@@ -29,8 +31,13 @@
     {% block body %}
     {% endblock %}
 
-    <script src="{{base_url}}/static/js/all.js"></script>
     {% include '/includes/_alert.html' %}
     {% include '/includes/_modal.html' %}
+    <script>
+        var simplemde = new SimpleMDE({
+            hideIcons: ["guide", "side-by-side","image","heading"],
+        });
+    </script>
+    <script src="{{base_url}}/static/js/all.js"></script>
 </body>
 </html>
