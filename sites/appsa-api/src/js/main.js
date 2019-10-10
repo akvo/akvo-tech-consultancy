@@ -61,6 +61,7 @@ let showModal = (html) => {
 
 let generateModal = (data) => {
     data = JSON.parse(data);
+    console.log(data.length);
     if (data.length > 0) {
         let indicator = (data[0]['indicator_name']);
         let indicator_id = (data[0]['indicator_id']);
@@ -73,7 +74,7 @@ let generateModal = (data) => {
         $(".text-comment").remove();
         let html = tablecomment();
         showModal(html);
-        appendcomment(indicator_id);
+        appendcomment(indicator_id, data[0]['country']);
         return true;
     }
     return true;
@@ -83,6 +84,7 @@ let tablecomment = () => {
     let html = "<table class='table table-striped'>";
     html += "<thead>";
     html += "<tr>";
+    html += "<td>Country</td>";
     html += "<td>Date</td>";
     html += "<td>Actual</td>";
     html += "<td>Reported</td>";
@@ -97,7 +99,7 @@ let tablecomment = () => {
     $(".modal-data").append("<div>" + html + "</div>");
 }
 
-let appendcomment = (id) => {
+let appendcomment = (id, country) => {
     $(".loading-comments").show();
     axios.get(baseurl + '/api/live/indicator_period_framework/indicator/' + id)
         .then(response => {
@@ -106,9 +108,9 @@ let appendcomment = (id) => {
                 let html = '';
                 if (x['data'].length > 0){
                     x['data'].map(a => {
-                        console.log(a);
                         let html = "";
                         html += "<tr>";
+                        html += "<td>" + country + "</td>";
                         html += "<td>" + a.created_at.split("T")[0] + "</td>";
                         html += "<td>" + a.value + "</td>";
                         html += "<td>" + a.user_details.last_name + " " + a.user_details.first_name + "</td>";
@@ -215,7 +217,8 @@ let generateModalComment = (data) => {
     $("#comment-validator").val(validator_id);
     data.map((x) => {
         const indicator_id = x['indicator_id'];
-        return appendcomment(indicator_id);
+        const country = x['country'];
+        return appendcomment(indicator_id, country);
     });
     $("#save-comment").remove();
     $(".comment-group").show();
@@ -362,7 +365,7 @@ let generateGroup = (val, json, val_type) => {
     let val_data = ' - ';
     let has_value = false;
     let total = false;
-    let attribute;
+    let aggregats = '';
     if (val_type === 'total_actual_value' || val_type === 'total_target_value'){
         total = true;
     }
@@ -370,16 +373,18 @@ let generateGroup = (val, json, val_type) => {
         has_value = true;
     }
     if (has_value){
-        attribute = json[0]['indicator_type'];
         val_data = parseInt(json[0][val_type]);
     }
     if (has_value && total){
         val_data = val;
+        aggregats = "data-aggregats=true";
     }
     if (has_value && isNaN(val_data)) {
         val_data = ' - ';
     }
-    let html = "<td class='text-right has-data' data-details='" + JSON.stringify(json) + "'>" + val_data + "</td>";
+    let html = "<td class='text-right has-data'";
+    html += aggregats + " data-details='" + JSON.stringify(json) + "'>" + val_data;
+    html += "</td>";
     return html;
 }
 
@@ -464,6 +469,13 @@ let generateTable = (response) => {
                     return $("<tr/>")
                         .append("<td colspan=9>" + group + "</td>")
                 }
+                let indicator_level = [];
+                [4, 5, 6, 7, 8, 9, 10, 11].map((x) => {
+                    let td = getattr(x);
+                    td.map((x) => {
+                        indicator_level.push(x);
+                    });
+                })
                 if (groupTitle.indexOf(group) > 0) {
                     let attr = getattrttl(4);
                     let row_data = [];
@@ -503,16 +515,16 @@ let generateTable = (response) => {
                         let act = getattr(x);
                         if (i === 7) {
                             if (measure === 2){
-                                html += generateGroup(Math.round(actuals/3), act, 'total_actual_value');
+                                html += generateGroup(Math.round(actuals/3), indicator_level, 'total_actual_value');
                             } else {
-                                html += generateGroup(td, act, 'total_actual_value');
+                                html += generateGroup(td, indicator_level, 'total_actual_value');
                             }
                         }
                         if (i === 0) {
                             if (measure === 2){
-                                html += generateGroup(Math.round(targets/3), act, 'total_target_value');
+                                html += generateGroup(Math.round(targets/3), indicator_level, 'total_target_value');
                             } else {
-                                html += generateGroup(td, act, 'total_actual_value');
+                                html += generateGroup(td, indicator_level, 'total_actual_value');
                             }
                         }
                         if ([4,5,6].indexOf(i) > -1){
@@ -534,14 +546,7 @@ let generateTable = (response) => {
                         .append(html)
                 }
                 console.log("-----");
-                let indicator_level = [];
                 if (resultTitle.indexOf(group) === -1) {
-                    [4, 5, 6, 7, 8, 9, 10, 11].map((x) => {
-                        let td = getattr(x);
-                        td.map((x) => {
-                            indicator_level.push(x);
-                        });
-                    })
                     let comment_data = JSON.stringify(indicator_level);
                     html = "<td colspan=6>" + group + "</td>";
                     html += "<td class='has-data comment-form-show' data-comments=true data-details='" + comment_data + "' colspan=3>";
@@ -567,11 +572,16 @@ let generateTable = (response) => {
     $('div.dataTables_filter input').addClass('search');
     $("#rsr_table tbody").on('click', 'td.has-data', function() {
         let iscomment = $(this).attr('data-comments');
+        let isaggregate = $(this).attr('data-aggregats');
         let cell = table.cell(this);
         let abs = $(this).attr('data-details');
-        if (!iscomment) {
+        if (!iscomment && !isaggregate) {
             generateModal(abs);
-        } else {
+        }
+        if (isaggregate) {
+            generateModalComment(abs);
+        }
+        if (iscomment) {
             generateModalComment(abs);
         }
     });
