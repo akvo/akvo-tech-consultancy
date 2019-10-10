@@ -43,7 +43,6 @@ def get_datatable(rsr_id):
 def generate_validator():
     content = request.json
     data = {
-            "locations": [],
             "editable": True,
             "deletable": True,
             "title": content["title"],
@@ -51,14 +50,14 @@ def generate_validator():
             "language": "en",
             "update_method": "W",
             "user_agent": "Akvo Report Generator",
-            "uuid": "",
             "notes": content["validator"],
             "project": 7282,
             "user":43779
     }
     if content["id"]:
-        methods = "put"
-        data.update({"id":content["id"]})
+        methods = "patch"
+        data.update({"id":int(content["id"])})
+        print(data)
         resp = rsr.send_comment(data, methods)
     else:
         methods = "post"

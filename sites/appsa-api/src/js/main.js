@@ -89,7 +89,7 @@ let tablecomment = () => {
     html += "<td>Actual</td>";
     html += "<td>Reported</td>";
     html += "<td>Approved</td>";
-    html += "<td width='30%'>Comments</td>";
+    html += "<td width='30%'>Descriptions</td>";
     html += "</tr>"
     html += "</thead>";
     html += "<tbody class='data-list'>";
@@ -429,15 +429,16 @@ let generateTable = (response) => {
         return html;
     });
     /* dom: 'Brftip', */
+    /* autoPrint: true, */
     $("#rsr_table").show();
     const printsubtitle = "Project ID: " + project_selection() + " | Periods: " + date_selected(project_type());
     const table = $("#rsr_table").DataTable({
         dom: 'Brftip',
         ordering: false,
-        buttons: ['copy', {
+        buttons: [
+            'copy', {
             extend: 'print',
             title: 'APPSA',
-            autoPrint: true,
             customize: function(win) {
                 $(win.document.head).append($('<link href="'+baseurl+'/static/css/custom.css" rel="stylesheet">'));
                 $(win.document.body).find('table thead').remove();
@@ -445,9 +446,10 @@ let generateTable = (response) => {
                 $(win.document.body).prepend("<h5>"+printsubtitle+"</h5></hr>");
                 $(win.document.body).find('table').append($('.dataTable').html());
                 $(win.document.body).find('table.dataTable tr.dtrg-group td');
+                },
             },
-        }, 'excel', 'pdf'],
-        fixedHeader: true,
+            'excel',
+            'pdf'],
         rowGroup: {
             startRender: (rows, group) => {
                 let getattr = (x) => {
@@ -566,7 +568,6 @@ let generateTable = (response) => {
                         .append("<td><span class='group-text'>" + group + "</span>" + indicator_badge + "</td>")
                         .append(html)
                 }
-                console.log("-----");
                 if (resultTitle.indexOf(group) === -1) {
                     let comment_data = JSON.stringify(indicator_level);
                     html = "<td colspan=6>" + group + "</td>";
@@ -585,8 +586,10 @@ let generateTable = (response) => {
             targets: [0, 1, 2],
             visible: false
         }],
-        responsive: true,
-        paging: false
+        scrollCollapse: true,
+        responsive: false,
+        fixedHeader: true,
+        paging: false,
     });
     table.columns.adjust();
     $('div.dataTables_filter input').addClass('search');

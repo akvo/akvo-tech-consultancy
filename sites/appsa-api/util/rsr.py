@@ -53,10 +53,9 @@ class Rsr:
 
     def send_comment(self, data, methods):
         self.data = data
-        if methods == "put":
-            uri = '{}{}{}'.format(PROD_URL , 'project_update', "/?id=" + data["id"] + "&format=json")
-            r = requests.post(uri, data=json.dumps(data), headers=headers)
-            print("put")
+        if methods == "patch":
+            uri = '{}{}{}'.format(PROD_URL , 'project_update', "/" + str(data["id"]) + "/?format=json")
+            r = requests.patch(uri, data=json.dumps({"text":data["text"]}), headers=headers)
         else:
             uri = '{}{}{}'.format(PROD_URL, 'project_update', FMT100)
             r = requests.post(uri, data=json.dumps(data), headers=headers)
