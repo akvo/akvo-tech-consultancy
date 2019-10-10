@@ -45,6 +45,7 @@ def survey(instance,surveyId,lang):
     if not os.path.exists(xmlpath):
         download = True
     if download:
+        print(endpoint+surveyId+'.zip')
         zipurl = r.get(endpoint+surveyId+'.zip', allow_redirects=True)
         z = ZipFile(BytesIO(zipurl.content))
         z.extractall(ziploc)
@@ -134,9 +135,14 @@ def submit():
         "username": "Deden Akvo",
         "uuid": rec['_uuid']
     }
+    # data = r.post('/')
+    # sendZip(results, rec['_uuid'])
+    return jsonify(results)
+
+def sendZip(results, uuid):
     with open('data.json','w') as f:
         json.dump(results, f)
-    zip_name = rec['_uuid'] + '.zip'
+    zip_name = uuid  + '.zip'
     zip_file = ZipFile(zip_name, 'w')
     zip_file.write('data.json', compress_type=ZIP_DEFLATED)
     zip_file.close()
@@ -145,7 +151,7 @@ def submit():
     if not os.path.exists('./tmp'):
         os.mkdir('./tmp')
     os.rename(zip_name, './tmp/' + zip_name)
-    return jsonify(results)
+
 
 if __name__ == '__main__':
     app.jinja_env.auto_reload = True

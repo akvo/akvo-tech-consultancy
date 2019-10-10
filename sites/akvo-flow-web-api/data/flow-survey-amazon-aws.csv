@@ -1,4 +1,5 @@
 names,instances
+https://akvoflow-dev3.s3.amazonaws.com/surveys/,dev3
 https://flowliberia-hrd.s3.amazonaws.com/surveys/,flowliberia
 https://watermapmonitordev-hrd.s3.amazonaws.com/surveys/,wfp
 https://akvoflow-1.s3.amazonaws.com/surveys/,mwa
