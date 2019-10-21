@@ -10,10 +10,24 @@ import sqlite3
 import xmltodict
 import json
 import os
+import ast
 
 app = Flask(__name__)
 CORS(app)
 instance_list = './data/flow-survey-amazon-aws.csv'
+
+pk = "_pk_id.10.68e2"
+pk_id = "03f2911e2c9d84d1.1568611861.6.1571316199.1571313388."
+session_id = "U3bhNeEu-M-7m1TcVPP-HA"
+sacsid= "~AJKiYcFkezrbx_lnbEq6fnH03bAMZ5WQHkVO34gaLfH52AX1YalpXWNvfDflzWFFAuhCIrvphSwsVN6EKxh3_cZGBexce5JzihCFhpBUSnBB7YDwHXp0ypNor_y7bAYVx2Sw_CfqR5fR19pBpKT6BBT41Ng-kyfLwclDJu-D_8SiZ5z7nREmpe2qsYamaRsvUIzeT9A08-IChpEWE0adYPr17lMOrlBcV7gzMC7Q7NQ5dpv_Ka66SYbG6y_9he0tNdfnZmqgwfSPhFOnAfdwU_RaqkyRZqb7YBiKXl7v-DecIa9_gTOB3Jhhx-Sd3tHiP0z4WSPtLWbz"
+posturl = "https://dev3.akvoflow.org/rest/form_instances"
+
+header = {
+    'Accept': "application/json, text/javascript, */*; q=0.01",
+    'Content-Type': "application/json",
+    'Cookie': pk + "=" + pk_id + "; JSESSIONID=" + session_id + ";SACSID=" + sacsid + ";",
+    'cache-control': "no-cache",
+}
 
 def readxml(xmlpath):
     with open(xmlpath) as survey:
@@ -107,11 +121,26 @@ def submit():
     for i, ids in enumerate(questionId):
         try:
             if answerType[i] == "OPTION":
-                val = json.dumps([{"text":rec[ids]}])
+                try:
+                    vals = []
+                    for rc in list(ast.literal_eval(rec[ids])):
+                        vals.append({"text":rc})
+                    val = json.dumps(vals)
+                except:
+                    val = json.dumps([{"text":rec[ids]}])
+                print(val)
+            elif answerType[i] == "CASCADE":
+                vals = []
+                for rc in list(ast.literal_eval(rec[ids])):
+                    vals.append({"name":rc, "code":rc})
+                val = json.dumps(vals)
             else:
                 val = rec[ids]
+            aType = answerType[i]
+            if answerType[i] in ["FREE"]:
+                aType = "VALUE"
             form = {
-                "answerType": answerType[i],
+                "answerType": aType,
                 "iteration": 0,
                 "questionId": ids,
                 "value": val
@@ -124,7 +153,7 @@ def submit():
     duration = enddate - startdate
     duration = round(duration.total_seconds())
     version = float(rec['_version'])
-    results = {
+    payload = {
         "dataPointId": rec['_dataPointId'],
         "deviceId": rec['_deviceId'],
         "duration": duration,
@@ -135,9 +164,9 @@ def submit():
         "username": "Deden Akvo",
         "uuid": rec['_uuid']
     }
-    # data = r.post('/')
-    # sendZip(results, rec['_uuid'])
-    return jsonify(results)
+    response = r.post(posturl, headers=header, data=json.dumps(payload))
+    #sendZip(results, rec['_uuid'])
+    return jsonify(response.json())
 
 def sendZip(results, uuid):
     with open('data.json','w') as f:
