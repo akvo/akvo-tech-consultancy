@@ -7,19 +7,15 @@ class QuestionHandler {
             return qtype
         }
         switch (qtype) {
-            case "signature":
-            case "photo":
-                return "file"
-            case "number":
-                return "number"
-            case "cascade":
-                return "select"
+            case "signature": break
+            case "photo": return "file"
+            case "number": return "number"
+            case "cascade": return "select"
             case "geo": return "text"
             case "date": return "date"
             default:
                 return "text"
         }
-        console.log(qtype)
         return qtype
     }
 

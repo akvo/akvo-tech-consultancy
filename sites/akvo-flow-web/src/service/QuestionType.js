@@ -2,12 +2,16 @@ import React, { Component } from 'react'
 import axios from 'axios';
 import QuestionHandler from '../util/QuestionHandler'
 
+// const apiurl = "http://localhost:5000/"
+// const pathurl = 1
+const apiurl = 'https://tech-consultancy.akvotest.org/akvo-flow-web-api/'
+const pathurl = 2
+
 class QuestionType extends Component {
 
     constructor(props) {
         super(props)
-        this.api = 'https://tech-consultancy.akvotest.org/akvo-flow-web-api/'
-        this.instanceUrl = window.location.pathname.split('/')[2]
+        this.instanceUrl = window.location.pathname.split('/')[pathurl]
         this.handler = new QuestionHandler()
         this.value = localStorage.getItem(this.props.data.id)
         this.state = { value: this.value ? this.value : '' }
@@ -21,6 +25,19 @@ class QuestionType extends Component {
         this.renderCascadeOption = this.renderCascadeOption.bind(this)
         this.limitCascade = 0
         this.handleChange = this.handleChange.bind(this)
+        this.handleCascadeChange = this.handleCascadeChange.bind(this)
+    }
+
+    handleCascadeChange(targetLevel, text) {
+        let vals;
+        if (localStorage.getItem(this.props.data.id)) {
+            let multipleValue = JSON.parse(localStorage.getItem(this.props.data.id))
+            multipleValue[targetLevel - 1] = text;
+            vals = JSON.stringify(multipleValue)
+        } else {
+            vals = JSON.stringify([text])
+        }
+        return localStorage.setItem(this.props.data.id, vals)
     }
 
     handleChange(event) {
@@ -28,12 +45,15 @@ class QuestionType extends Component {
         let value = event.target.value
         this.props.checkDependency(id, value)
         if (this.props.data.type === "cascade") {
+            let ddindex = event.target.selectedIndex
+            let text = event.target[ddindex].text
             let targetLevel = parseInt(event.target.name.split('-')[1]) + 1
+            this.handleCascadeChange(targetLevel, text)
             if (this.limitCascade > targetLevel) {
                 this.getCascadeDropdown(value, targetLevel)
             }
         }
-        if (this.props.data.options && this.props.data.options.allowMultiple)  {
+        else if (this.props.data.options && this.props.data.options.allowMultiple)  {
             let multipleValue = []
             if (localStorage.getItem(id)) {
                 multipleValue = JSON.parse(localStorage.getItem(id))
@@ -138,18 +158,15 @@ class QuestionType extends Component {
     }
 
     getCascade (opts, lv) {
-        let url = this.instanceUrl
-        url = this.api + 'cascade/' + url + '/' + opts.cascadeResource + '/2'
+        let l = opts.levels.level.length - 1
         return opts.levels.level.map((opt, i) => {
             this.limitCascade = i + 1
-            return this.renderCascade(opt, i)
+            return this.renderCascade(opt, i, l)
         })
     }
 
-    renderCascade (opt, i) {
-        let levels = "cascade_" + i
+    renderCascade (opt, i, l) {
         let cascades = []
-        let options = "options_" + i
         let choose_options = "cascade_" + i
         let dropdown = this.state[this.state[choose_options]]
         let cascade = (
@@ -162,7 +179,7 @@ class QuestionType extends Component {
                 key={this.props.data.id + '-' + i}
                 onChange={this.handleChange}
             >
-                {this.renderCascadeOption(dropdown)}
+                {this.renderCascadeOption(dropdown,i,opt.text)}
             </select>
             </>
         )
@@ -173,10 +190,12 @@ class QuestionType extends Component {
         return cascades.map((x, i) => x)
     }
 
-    renderCascadeOption (data) {
+    renderCascadeOption (data,targetLevel) {
         if(data) {
             return data.map((x, i) => {
-                let options = (<option key={i} value={x.id} >{x.name}</option>)
+                let options = (
+                    <option key={i} value={x.id} >{x.name}</option>
+                )
                 return options
             })
         }
@@ -185,16 +204,24 @@ class QuestionType extends Component {
     getCascadeDropdown(lv, ix) {
         if (this.props.data.type === "cascade") {
             let url = this.instanceUrl
-            url = this.api + 'cascade/' + url + '/' + this.props.data.cascadeResource + '/' + lv
+            url = apiurl + 'cascade/' + url + '/' + this.props.data.cascadeResource + '/' + lv
             let options = "options_" + lv
             let cascade = "cascade_" + ix
-            axios.get(url).then((res) =>
+            axios.get(url).then((res) =>{
                 this.setState({
                     [options]: res.data,
                     [cascade]: [options],
-                    value: res.data[0]['id']
+                    value: res.data[ix]['id']
                 })
-            )
+                return res
+            }).then((res) => {
+                let levels = this.props.data.levels.level.length
+                if (lv < levels) {
+                    this.getCascadeDropdown(this.state.value, ix + 1)
+                    this.handleCascadeChange(ix, res.data[ix]['name'])
+                }
+                //this.getCascadeDropdown(value, targetLevel)
+            })
         }
     }
 

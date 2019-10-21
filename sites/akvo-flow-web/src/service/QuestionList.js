@@ -66,7 +66,7 @@ export class QuestionList extends Component {
     render() {
         return this.props.data.map((questions, index) => (
             <Questions
-            key={'question_group-' + index}
+            key={'qg-'+ questions.id + index}
             data={questions} index={index}
             dataPoint={this.props.dataPoint}
             reloadData={this.reloadData}

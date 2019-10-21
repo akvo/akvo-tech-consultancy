@@ -22,7 +22,7 @@ body {
 }
 
 .sidebar-wrapper .list-group {
-  width: 18rem;
+  width: 20rem;
   cursor: pointer;
 }
 
@@ -74,6 +74,29 @@ body {
     padding: 0px 0px 20px;
 }
 
+.swal-button-container {
+    width: 100%;
+}
+
+.swal-button {
+    width: 100%;
+    background-color: #007bff;
+    border-color: #007bff;
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    border: none;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
 @media (min-width: 768px) {
   .sidebar-wrapper {
     margin-left: 0;
@@ -88,3 +111,4 @@ body {
     margin-left: -285px;
   }
 }
+

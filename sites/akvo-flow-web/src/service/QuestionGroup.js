@@ -26,7 +26,7 @@ class QuestionGroup extends Component {
 
     getQuestionList(props){
         return this.props.data.map((group, index) => (
-                <div className="list-group list-group-flush" key={'group-list-' + index}>
+                <div className="list-group list-group-flush" key={'gl-' + index}>
                 <a onClick={() => {this.showQuestion(index)}}
                 href={this.getUrl(group.heading)}
                 className={(this.props.currentActive === index ?

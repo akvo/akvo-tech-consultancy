@@ -1,18 +1,72 @@
-import React, { Component } from 'react'
-import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import React, {
+    Component
+} from 'react'
+import {
+    connect
+} from 'react-redux'
+import {
+    createSelector
+} from 'reselect'
+import {
+    FaArrowLeft,
+    FaArrowRight
+} from 'react-icons/fa'
+import {
+    Spinner
+} from 'reactstrap'
+import swal from '@sweetalert/with-react';
 import uuid from 'uuid/v4'
+import ReCAPTCHA from "react-google-recaptcha";
 import './App.css'
-import axios from 'axios';
+import axios from 'axios'
 import Header from './component/Header'
 import Pagination from './component/Pagination'
 import QuestionGroup from './service/QuestionGroup'
 import QuestionList from './service/QuestionList'
+import {
+    getQuestions
+} from './actions/questionAction'
+import {
+    updateAnswer,
+    getAnswer
+} from './actions/answerAction'
+
+const questionsSelector = createSelector(
+    state => state.questions,
+    questions => questions,
+);
+
+const answerSelector = createSelector(
+    state => state.answers,
+    answer => answer,
+);
+
+const mapStateToProps = createSelector(
+    questionsSelector,
+    answerSelector,
+    state => state.questions,
+    state => state.answer,
+    (questions, answer) => ({
+        questions,
+        answer
+    })
+);
+
+const mapActionsToProps = {
+    onUpdateAnswer: updateAnswer,
+    onRequestAnswer: getAnswer,
+    onRequestQuestions: getQuestions
+}
+
+const TEST_SITE_KEY = "6Lejm74UAAAAAA6HkQwn6rkZ7mxGwIjOx_vgNzWC";
+const DELAY = 1500;
+//const apiurl = "http://localhost:5000/"
+const apiurl = 'https://tech-consultancy.akvotest.org/akvo-flow-web-api/'
 
 class Home extends Component {
 
     constructor(props) {
         super(props);
-        this.api = 'https://tech-consultancy.akvotest.org/akvo-flow-web-api/'
         this.instance = this.props.match.params.instance
         this.surveyId = this.props.match.params.surveyid
         this.selectGroup = this.selectGroup.bind(this)
@@ -21,7 +75,10 @@ class Home extends Component {
         this.dataPoint = this.dataPoint.bind(this)
         this.submitForm = this.submitForm.bind(this)
         this.state = {
-            questionGroup:[],
+			callback: "not fired",
+			value:"[empty]",
+			load:false,
+            questionGroup: [],
             questionIndex: 0,
             activeQuestions: [],
             activeGroup: '',
@@ -34,26 +91,29 @@ class Home extends Component {
             _totalGroup: '',
             _nextGroup: ''
         }
+		this._reCaptchaRef = React.createRef();
     }
 
-    dataPoint = ((a) => (this.setState({ _dataPointName: a })))
+    dataPoint = ((a) => (this.setState({
+        _dataPointName: a
+    })))
 
     // Fetching the API Update
     selectGroup = (index) => {
         let ng = (index === this.state._totalgroup ? 0 : (index + 1))
         let pg = (index <= 0 ? index : (index - 1))
         this.setState({
-            activeGroup:this.state.questionGroup[index].heading,
-            activeQuestions:this.state.questionGroup[index].question,
-            _currentGroup:index,
+            activeGroup: this.state.questionGroup[index].heading,
+            activeQuestions: this.state.questionGroup[index].question,
+            _currentGroup: index,
             _nextGroup: ng,
-            _prevGroup:pg
+            _prevGroup: pg
         })
     }
 
     updateData = (data) => {
-        localStorage.setItem("_version",data.version)
-        localStorage.setItem("_instanceId",data.app)
+        localStorage.setItem("_version", data.version)
+        localStorage.setItem("_instanceId", data.app)
         let questionId = []
         let answerType = []
         let questionGroupArray = Array.isArray(data.questionGroup)
@@ -61,29 +121,29 @@ class Home extends Component {
             data.questionGroup = [data.questionGroup];
         }
         data.questionGroup.forEach((g) => {
-            g.question.forEach((q,i) => {
+            g.question.forEach((q, i) => {
                 questionId.push(q.id)
                 answerType.push(q.type.toUpperCase())
             })
         })
-        localStorage.setItem("questionId",questionId)
-        localStorage.setItem("answerType",answerType)
+        localStorage.setItem("questionId", questionId)
+        localStorage.setItem("answerType", answerType)
         this.setState({
             ...data,
-            activeGroup:data.questionGroup[0].heading,
-            activeQuestions:data.questionGroup[0].question,
-            _nextGroup:(data.questionGroup.length >= 1 ? 0 : 1),
-            _currentGroup:0,
-            _prevGroup:0,
-            _totalGroup:data.questionGroup.length
+            activeGroup: data.questionGroup[0].heading,
+            activeQuestions: data.questionGroup[0].question,
+            _nextGroup: (data.questionGroup.length >= 1 ? 0 : 1),
+            _currentGroup: 0,
+            _prevGroup: 0,
+            _totalGroup: data.questionGroup.length
         })
-        this.selectGroup (this.state.questionIndex)
+        this.selectGroup(this.state.questionIndex)
 
         localStorage.setItem('_uuid', uuid())
-        let dataPointId  = [
-            Math.random().toString(36).slice(2).substring(1,5),
-            Math.random().toString(36).slice(2).substring(1,5),
-            Math.random().toString(36).slice(2).substring(1,5)
+        let dataPointId = [
+            Math.random().toString(36).slice(2).substring(1, 5),
+            Math.random().toString(36).slice(2).substring(1, 5),
+            Math.random().toString(36).slice(2).substring(1, 5)
         ]
         localStorage.setItem("_dataPointId", dataPointId.join("-"))
         localStorage.setItem("_submissionStart", Date.now())
@@ -98,26 +158,55 @@ class Home extends Component {
 
     //example http://localhost:5000/angkorsalad/22420001/en
     componentDidMount() {
-        localStorage.setItem("_formId",this.surveyId)
-        localStorage.setItem("_instanceId",this.instance)
-        axios.get(this.api + this.instance+'/'+this.surveyId+'/en')
+        localStorage.setItem("_formId", this.surveyId)
+        localStorage.setItem("_instanceId", this.instance)
+        axios.get(apiurl + this.instance + '/' + this.surveyId + '/en')
             .then(res => this.updateData(res.data))
+            .catch(error => {
+                swal("Oops!", "Something went wrong!", "error")
+            })
+
+		setTimeout(() => {
+                  this.setState({ load: true });
+        }, DELAY);
     }
 
     // Animations
     setFullscreen() {
         const currentState = this.state._fullscreen
-        this.setState({_fullscreen: !currentState})
+        this.setState({
+            _fullscreen: !currentState
+        })
     }
 
     submitForm() {
         localStorage.setItem("_submissionStop", Date.now())
-        axios.post(this.api + 'submit-form', localStorage)
-            .then(res => console.log(res.data))
+        this.setState({'_showSpinner': true})
+        axios.post(apiurl + 'submit-form', localStorage)
+            .then(res => {
+                console.log(res.data)
+                this.setState({'_showSpinner': false})
+                swal("Success!", "New datapoint is sent!", "success")
+                return res;
+            }).catch(error => {
+                swal("Oops!", "Something went wrong!", "error")
+            })
     }
 
+	handleCaptcha = value => {
+		console.log("Captcha value:", value);
+		this.setState({"captcha": value});
+		// if value is null recaptcha expired
+		if (this.state.captcha === null) this.setState({ expired: "true" });
+	};
+
+    asyncScriptOnLoad = () => {
+            this.setState({ callback: "called!" });
+            console.log("scriptLoad - reCaptcha Ref-", this._reCaptchaRef);
+    };
+
     // Rendered Components
-    render (){
+    render() {
         return (
             <div className={this.state._fullscreen ? "wrapper d-flex toggled": "wrapper d-flex"}>
                 <div className="sidebar-wrapper bg-light border-right">
@@ -129,9 +218,24 @@ class Home extends Component {
                         surveyId={this.surveyId}
                         currentActive={this.state._currentGroup}
                     />
+					<ReCAPTCHA
+                        style={{
+                            'display': 'block',
+                            'overflow': 'hidden',
+                            'border-bottom': '1px solid #ddd',
+                            'padding': '8px',
+                        }}
+						size="normal"
+						theme="light"
+						ref={this._reCaptchaRef}
+						sitekey={TEST_SITE_KEY}
+						onChange={this.handleCaptcha}
+						asyncScriptOnLoad={this.asyncScriptOnLoad}
+					/>
                     <div className="submit-block">
                     <button onClick={this.submitForm} className="btn btn-block btn-primary">
-                        Submit
+                        { this.state._showSpinner ? <Spinner size="sm" color="light" /> : "" }
+                        <span>Submit</span>
                     </button>
                     </div>
                 </div>
@@ -152,10 +256,10 @@ class Home extends Component {
                             }
                         }/>
                     </nav>
-                    <div className="container-fluid fixed-container" >
+                    <div className="container-fluid fixed-container" key={'div-group-'+this.state.surveyId}>
                         <h2 className="mt-2">{this.state.activeGroup}</h2>
                         <p>{this.state.activeGroup}</p>
-                        <QuestionList data={this.state.activeQuestions} dataPoint={this.dataPoint} classes={this.state._allClasses} key={"key-1"}/>
+                        <QuestionList data={this.state.activeQuestions} dataPoint={this.dataPoint} classes={this.state._allClasses} key="2"/>
                     </div>
                 </div>
             </div>
@@ -163,4 +267,5 @@ class Home extends Component {
     };
 }
 
-export default Home;
+
+export default connect(mapStateToProps, mapActionsToProps)(Home);
