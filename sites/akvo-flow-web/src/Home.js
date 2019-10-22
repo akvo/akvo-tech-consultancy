@@ -58,8 +58,10 @@ const mapActionsToProps = {
     onRequestQuestions: getQuestions
 }
 
-const SITE_KEY = process.env.REACT_APP_CAPTCHA_KEY;
-const API_URL = process.env.REACT_APP_API_URL;
+
+const PROD_URL = true
+const API_URL = (PROD_URL ? "https://tech-consultancy.akvotest.org/akvo-flow-web-api/" : process.env.REACT_APP_API_URL)
+const SITE_KEY = "6Lejm74UAAAAAA6HkQwn6rkZ7mxGwIjOx_vgNzWC"
 const DELAY = 1500;
 
 class Home extends Component {

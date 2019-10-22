@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import axios from 'axios';
 import QuestionHandler from '../util/QuestionHandler'
 
-const API_URL = process.env.REACT_APP_API_URL;
-const pathurl = (process.env.REACT_APP_BASE_URL === "" ? 1 : 2)
+const PROD_URL = true
+const API_URL = (PROD_URL ? "https://tech-consultancy.akvotest.org/akvo-flow-web-api/" : process.env.REACT_APP_API_URL)
+const pathurl = (PROD_URL === "" ? 2 : 1)
 
 class QuestionType extends Component {
 

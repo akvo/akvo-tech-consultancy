@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { BrowserRouter, Route } from 'react-router-dom'
 import Home from './Home'
 
-const BASE_URL = process.env.REACT_APP_BASE_URL;
+const PROD_URL = true
+const BASE_URL = ( PROD_URL ? "/akvo-flow-web" : process.env.REACT_APP_BASE_URL);
 
 class App extends Component {
 
