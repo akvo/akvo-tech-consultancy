@@ -17,9 +17,9 @@ CORS(app)
 instance_list = './data/flow-survey-amazon-aws.csv'
 
 pk = "_pk_id.10.68e2"
-pk_id = "03f2911e2c9d84d1.1568611861.6.1571316199.1571313388."
-session_id = "U3bhNeEu-M-7m1TcVPP-HA"
-sacsid= "~AJKiYcFkezrbx_lnbEq6fnH03bAMZ5WQHkVO34gaLfH52AX1YalpXWNvfDflzWFFAuhCIrvphSwsVN6EKxh3_cZGBexce5JzihCFhpBUSnBB7YDwHXp0ypNor_y7bAYVx2Sw_CfqR5fR19pBpKT6BBT41Ng-kyfLwclDJu-D_8SiZ5z7nREmpe2qsYamaRsvUIzeT9A08-IChpEWE0adYPr17lMOrlBcV7gzMC7Q7NQ5dpv_Ka66SYbG6y_9he0tNdfnZmqgwfSPhFOnAfdwU_RaqkyRZqb7YBiKXl7v-DecIa9_gTOB3Jhhx-Sd3tHiP0z4WSPtLWbz"
+pk_id = "03f2911e2c9d84d1.1568611861.10.1571720734.1571720734."
+session_id = "Ak26L25N75CI6iTcd90vjQ"
+sacsid= "~AJKiYcHzULM1QxaelSIE5-jcfe-TLKBtIBcrKQSO-ArGXN-FPH0SmbEazxE54OPLPxF1GMvKXNbZUuQrLcdGwnTSyz9AiYZRsqUSBNS8ooiycR7RSTIkQvrGZQR7PbjgWHupo2gy9bZndvxJflooD2lfKnXpyBgCBRqDF-nKxSVhIE912VYlDC0SFRpvLGoVS9A-DnU11oNkAMWZsxrAwNALQv3GFUJjZkFPpHqLvg0lbBcUTOXYiPWHFdHl5fIfjgkWX-zKC-Fufj5GueC17Yaje5pqw-kuhoullQ36iIbVVlLwG3mddEIKUoEP1wztp4RCfJtRukUP"
 posturl = "https://dev3.akvoflow.org/rest/form_instances"
 
 header = {
