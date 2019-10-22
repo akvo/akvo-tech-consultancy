@@ -75,6 +75,7 @@ class Home extends Component {
         this.setFullscreen = this.setFullscreen.bind(this)
         this.dataPoint = this.dataPoint.bind(this)
         this.submitForm = this.submitForm.bind(this)
+        this.emptyForm = this.emptyForm.bind(this)
         this.state = {
 			callback: "not fired",
 			value:"[empty]",
@@ -172,6 +173,18 @@ class Home extends Component {
         }, DELAY);
     }
 
+    emptyForm() {
+        localStorage.clear();
+        axios.get(API_URL+ this.instance + '/' + this.surveyId + '/en')
+            .then(res => this.updateData(res.data))
+            .catch(error => {
+                swal("Oops!", "Something went wrong!", "error")
+            })
+        setTimeout(() => {
+                  this.setState({ load: true });
+        }, DELAY);
+    }
+
     // Animations
     setFullscreen() {
         const currentState = this.state._fullscreen
@@ -188,32 +201,7 @@ class Home extends Component {
                 console.log(res.data)
                 this.setState({'_showSpinner': false})
                 swal("Success!", "New datapoint is sent!", "success")
-                localStorage.clear();
-                this.setState({
-                    callback: "not fired",
-                    value:"[empty]",
-                    load:false,
-                    questionGroup: [],
-                    questionIndex: 0,
-                    activeQuestions: [],
-                    activeGroup: '',
-                    _fullScreen: false,
-                    _dataPointName: localStorage.getItem('_dataPointName'),
-                    _dataPointId: localStorage.getItem('_dataPointId'),
-                    _canSubmit: false,
-                    _currentGroup: '',
-                    _prevGroup: '',
-                    _totalGroup: '',
-                    _nextGroup: ''
-                })
-                axios.get(API_URL+ this.instance + '/' + this.surveyId + '/en')
-                    .then(res => this.updateData(res.data))
-                    .catch(error => {
-                        swal("Oops!", "Something went wrong!", "error")
-                    })
-                setTimeout(() => {
-                          this.setState({ load: true });
-                }, DELAY);
+                this.emptyForm();
                 return res;
             }).catch(error => {
                 swal("Oops!", "Something went wrong!", "error")
