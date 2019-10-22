@@ -2,10 +2,8 @@ import React, { Component } from 'react'
 import axios from 'axios';
 import QuestionHandler from '../util/QuestionHandler'
 
-// const apiurl = "http://localhost:5000/"
-// const pathurl = 1
-const apiurl = 'https://tech-consultancy.akvotest.org/akvo-flow-web-api/'
-const pathurl = 2
+const API_URL = process.env.REACT_APP_API_URL;
+const pathurl = (process.env.REACT_APP_BASE_URL === "" ? 1 : 2)
 
 class QuestionType extends Component {
 
@@ -204,7 +202,7 @@ class QuestionType extends Component {
     getCascadeDropdown(lv, ix) {
         if (this.props.data.type === "cascade") {
             let url = this.instanceUrl
-            url = apiurl + 'cascade/' + url + '/' + this.props.data.cascadeResource + '/' + lv
+            url = API_URL + 'cascade/' + url + '/' + this.props.data.cascadeResource + '/' + lv
             let options = "options_" + lv
             let cascade = "cascade_" + ix
             axios.get(url).then((res) =>{

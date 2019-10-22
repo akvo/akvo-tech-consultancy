@@ -15,6 +15,8 @@ import {
 } from 'react-redux';
 import questionReducer from './reducers/questionReducer.js'
 import answerReducer from './reducers/answerReducer.js'
+require('dotenv').config()
+
 
 
 const allReducers = combineReducers({
@@ -24,7 +26,7 @@ const allReducers = combineReducers({
 
 const allStoreEnhancers = compose(
 	applyMiddleware(thunk),
-	window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 
 const store = createStore(

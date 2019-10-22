@@ -58,10 +58,9 @@ const mapActionsToProps = {
     onRequestQuestions: getQuestions
 }
 
-const TEST_SITE_KEY = "6Lejm74UAAAAAA6HkQwn6rkZ7mxGwIjOx_vgNzWC";
+const SITE_KEY = process.env.REACT_APP_CAPTCHA_KEY;
+const API_URL = process.env.REACT_APP_API_URL;
 const DELAY = 1500;
-//const apiurl = "http://localhost:5000/"
-const apiurl = 'https://tech-consultancy.akvotest.org/akvo-flow-web-api/'
 
 class Home extends Component {
 
@@ -160,7 +159,7 @@ class Home extends Component {
     componentDidMount() {
         localStorage.setItem("_formId", this.surveyId)
         localStorage.setItem("_instanceId", this.instance)
-        axios.get(apiurl + this.instance + '/' + this.surveyId + '/en')
+        axios.get(API_URL+ this.instance + '/' + this.surveyId + '/en')
             .then(res => this.updateData(res.data))
             .catch(error => {
                 swal("Oops!", "Something went wrong!", "error")
@@ -182,11 +181,37 @@ class Home extends Component {
     submitForm() {
         localStorage.setItem("_submissionStop", Date.now())
         this.setState({'_showSpinner': true})
-        axios.post(apiurl + 'submit-form', localStorage)
+        axios.post(API_URL+ 'submit-form', localStorage)
             .then(res => {
                 console.log(res.data)
                 this.setState({'_showSpinner': false})
                 swal("Success!", "New datapoint is sent!", "success")
+                localStorage.clear();
+                this.setState({
+                    callback: "not fired",
+                    value:"[empty]",
+                    load:false,
+                    questionGroup: [],
+                    questionIndex: 0,
+                    activeQuestions: [],
+                    activeGroup: '',
+                    _fullScreen: false,
+                    _dataPointName: localStorage.getItem('_dataPointName'),
+                    _dataPointId: localStorage.getItem('_dataPointId'),
+                    _canSubmit: false,
+                    _currentGroup: '',
+                    _prevGroup: '',
+                    _totalGroup: '',
+                    _nextGroup: ''
+                })
+                axios.get(API_URL+ this.instance + '/' + this.surveyId + '/en')
+                    .then(res => this.updateData(res.data))
+                    .catch(error => {
+                        swal("Oops!", "Something went wrong!", "error")
+                    })
+                setTimeout(() => {
+                          this.setState({ load: true });
+                }, DELAY);
                 return res;
             }).catch(error => {
                 swal("Oops!", "Something went wrong!", "error")
@@ -207,6 +232,7 @@ class Home extends Component {
 
     // Rendered Components
     render() {
+        console.log(process.env.REACT_APP_FOO);
         return (
             <div className={this.state._fullscreen ? "wrapper d-flex toggled": "wrapper d-flex"}>
                 <div className="sidebar-wrapper bg-light border-right">
@@ -228,7 +254,7 @@ class Home extends Component {
 						size="normal"
 						theme="light"
 						ref={this._reCaptchaRef}
-						sitekey={TEST_SITE_KEY}
+						sitekey={SITE_KEY}
 						onChange={this.handleCaptcha}
 						asyncScriptOnLoad={this.asyncScriptOnLoad}
 					/>
