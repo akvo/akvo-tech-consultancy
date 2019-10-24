@@ -74,6 +74,15 @@ body {
     padding: 0px 0px 20px;
 }
 
+.card-title .badge.badge-warning{
+    float: right;
+    color: #FFF;
+    border-radius: 100%;
+    width: 20px;
+    line-height: 10px;
+    border: 2px solid #FFF;
+}
+
 .swal-button-container {
     width: 100%;
 }
@@ -108,7 +117,7 @@ body {
   }
 
   .wrapper.toggled .sidebar-wrapper {
-    margin-left: -285px;
+    margin-left: -320px;
   }
 }
 

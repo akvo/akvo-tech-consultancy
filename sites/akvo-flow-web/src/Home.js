@@ -1,22 +1,9 @@
-import React, {
-    Component
-} from 'react'
-import {
-    connect
-} from 'react-redux'
-import {
-    createSelector
-} from 'reselect'
-import {
-    FaArrowLeft,
-    FaArrowRight
-} from 'react-icons/fa'
-import {
-    Spinner
-} from 'reactstrap'
-import swal from '@sweetalert/with-react';
+import React, { Component, Fragment } from 'react'
+import { connect } from 'react-redux'
+import { Spinner } from 'reactstrap'
+import swal from '@sweetalert/with-react'
 import uuid from 'uuid/v4'
-import ReCAPTCHA from "react-google-recaptcha";
+import ReCAPTCHA from "react-google-recaptcha"
 import './App.css'
 import axios from 'axios'
 import Header from './component/Header'
@@ -24,40 +11,14 @@ import Pagination from './component/Pagination'
 import QuestionGroup from './service/QuestionGroup'
 import QuestionList from './service/QuestionList'
 import {
-    getQuestions
-} from './actions/questionAction'
-import {
-    updateAnswer,
-    getAnswer
-} from './actions/answerAction'
+    FaArrowLeft,
+    FaArrowRight
+} from 'react-icons/fa'
 
-const questionsSelector = createSelector(
-    state => state.questions,
-    questions => questions,
-);
-
-const answerSelector = createSelector(
-    state => state.answers,
-    answer => answer,
-);
-
-const mapStateToProps = createSelector(
-    questionsSelector,
-    answerSelector,
-    state => state.questions,
-    state => state.answer,
-    (questions, answer) => ({
-        questions,
-        answer
-    })
-);
-
-const mapActionsToProps = {
-    onUpdateAnswer: updateAnswer,
-    onRequestAnswer: getAnswer,
-    onRequestQuestions: getQuestions
-}
-
+export const Mandatory = () => (
+  <div class='question-info'>
+  </div>
+)
 
 const PROD_URL = true
 const API_URL = (PROD_URL ? "https://tech-consultancy.akvotest.org/akvo-flow-web-api/" : process.env.REACT_APP_API_URL)
@@ -75,7 +36,7 @@ class Home extends Component {
         this.setFullscreen = this.setFullscreen.bind(this)
         this.dataPoint = this.dataPoint.bind(this)
         this.submitForm = this.submitForm.bind(this)
-        this.emptyForm = this.emptyForm.bind(this)
+        this.showCaptcha = this.showCaptcha.bind(this)
         this.state = {
 			callback: "not fired",
 			value:"[empty]",
@@ -84,10 +45,10 @@ class Home extends Component {
             questionIndex: 0,
             activeQuestions: [],
             activeGroup: '',
+            _cannotSubmit: true,
             _fullScreen: false,
             _dataPointName: localStorage.getItem('_dataPointName'),
             _dataPointId: localStorage.getItem('_dataPointId'),
-            _canSubmit: false,
             _currentGroup: '',
             _prevGroup: '',
             _totalGroup: '',
@@ -96,9 +57,9 @@ class Home extends Component {
 		this._reCaptchaRef = React.createRef();
     }
 
-    dataPoint = ((a) => (this.setState({
+    dataPoint = (a) => { this.setState({
         _dataPointName: a
-    })))
+    })}
 
     // Fetching the API Update
     selectGroup = (index) => {
@@ -114,6 +75,9 @@ class Home extends Component {
     }
 
     updateData = (data) => {
+        this.props.questionReducer(data);
+        this.props.checkSubmission();
+        console.log(this.props)
         localStorage.setItem("_version", data.version)
         localStorage.setItem("_instanceId", data.app)
         let questionId = []
@@ -163,24 +127,13 @@ class Home extends Component {
         localStorage.setItem("_formId", this.surveyId)
         localStorage.setItem("_instanceId", this.instance)
         axios.get(API_URL+ this.instance + '/' + this.surveyId + '/en')
-            .then(res => this.updateData(res.data))
+            .then(res => {
+                this.updateData(res.data)
+            })
             .catch(error => {
                 swal("Oops!", "Something went wrong!", "error")
             })
-
 		setTimeout(() => {
-                  this.setState({ load: true });
-        }, DELAY);
-    }
-
-    emptyForm() {
-        localStorage.clear();
-        axios.get(API_URL+ this.instance + '/' + this.surveyId + '/en')
-            .then(res => this.updateData(res.data))
-            .catch(error => {
-                swal("Oops!", "Something went wrong!", "error")
-            })
-        setTimeout(() => {
                   this.setState({ load: true });
         }, DELAY);
     }
@@ -198,10 +151,8 @@ class Home extends Component {
         this.setState({'_showSpinner': true})
         axios.post(API_URL+ 'submit-form', localStorage)
             .then(res => {
-                console.log(res.data)
                 this.setState({'_showSpinner': false})
                 swal("Success!", "New datapoint is sent!", "success")
-                this.emptyForm();
                 return res;
             }).catch(error => {
                 swal("Oops!", "Something went wrong!", "error")
@@ -210,19 +161,35 @@ class Home extends Component {
 
 	handleCaptcha = value => {
 		console.log("Captcha value:", value);
-		this.setState({"captcha": value});
+		this.setState({captcha: value, _cannotSubmit:false});
 		// if value is null recaptcha expired
 		if (this.state.captcha === null) this.setState({ expired: "true" });
 	};
 
     asyncScriptOnLoad = () => {
-            this.setState({ callback: "called!" });
-            console.log("scriptLoad - reCaptcha Ref-", this._reCaptchaRef);
+        this.setState({ callback: "called!", _cannotSubmit:true});
+        // console.log("scriptLoad - reCaptcha Ref-", this._reCaptchaRef);
     };
+
+    showCaptcha = () => (
+        <ReCAPTCHA
+            style={{
+                'display': 'block',
+                'overflow': 'hidden',
+                'borderBottom': '1px solid #ddd',
+                'padding': '8px',
+            }}
+            size="normal"
+            theme="light"
+            ref={this._reCaptchaRef}
+            sitekey={SITE_KEY}
+            onChange={this.handleCaptcha}
+            asyncScriptOnLoad={this.asyncScriptOnLoad}
+        />
+    )
 
     // Rendered Components
     render() {
-        console.log(process.env.REACT_APP_FOO);
         return (
             <div className={this.state._fullscreen ? "wrapper d-flex toggled": "wrapper d-flex"}>
                 <div className="sidebar-wrapper bg-light border-right">
@@ -234,25 +201,17 @@ class Home extends Component {
                         surveyId={this.surveyId}
                         currentActive={this.state._currentGroup}
                     />
-					<ReCAPTCHA
-                        style={{
-                            'display': 'block',
-                            'overflow': 'hidden',
-                            'border-bottom': '1px solid #ddd',
-                            'padding': '8px',
-                        }}
-						size="normal"
-						theme="light"
-						ref={this._reCaptchaRef}
-						sitekey={SITE_KEY}
-						onChange={this.handleCaptcha}
-						asyncScriptOnLoad={this.asyncScriptOnLoad}
-					/>
+                    {this.props.value.submit ? false  : this.showCaptcha()}
                     <div className="submit-block">
-                    <button onClick={this.submitForm} className="btn btn-block btn-primary">
+                        <button
+                            onClick={this.submitForm}
+                            className={"btn btn-block btn-" + ( this.props.value.submit ? "secondary" : "primary")
+                            }
+                            disabled={this.state._cannotSubmit}
+                        >
                         { this.state._showSpinner ? <Spinner size="sm" color="light" /> : "" }
                         <span>Submit</span>
-                    </button>
+                        </button>
                     </div>
                 </div>
                 <div className="page-content-wrapper">
@@ -275,7 +234,9 @@ class Home extends Component {
                     <div className="container-fluid fixed-container" key={'div-group-'+this.state.surveyId}>
                         <h2 className="mt-2">{this.state.activeGroup}</h2>
                         <p>{this.state.activeGroup}</p>
+                        <Fragment>
                         <QuestionList data={this.state.activeQuestions} dataPoint={this.dataPoint} classes={this.state._allClasses} key="2"/>
+                        </Fragment>
                     </div>
                 </div>
             </div>
@@ -283,5 +244,18 @@ class Home extends Component {
     };
 }
 
+export const mapStateToProps = (state) => {
+    return {
+        value: state
+    }
+}
 
-export default connect(mapStateToProps, mapActionsToProps)(Home);
+export const mapDispatchToProps = (dispatch) => {
+    return {
+        questionReducer: (data) => dispatch({type:"UPDATE QUESTION", data:data}),
+        answerReducer: (data) => dispatch({type:"REPLACE ANSWER", data:data}),
+        checkSubmission: () => dispatch({type:"CHECK SUBMISSION"})
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

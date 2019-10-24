@@ -1,9 +1,14 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { mapStateToProps, mapDispatchToProps } from '../reducers/actions.js'
 import {
     Card,
     CardBody,
     CardTitle
 } from 'reactstrap'
+import {
+	Mandatory
+} from '../util/Badges'
 import QuestionType from './QuestionType'
 
 
@@ -12,12 +17,14 @@ class Questions extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            _Badge: this.props.value.answers.find(x => x.id = this.props.data.id).answer,
             _Answer: '',
-            _isOption: false,
+            _isOption: false
         }
         this.checkDependency = this.checkDependency.bind(this)
         this.solveDependent = this.solveDependent.bind(this)
         this.isJsonString = this.isJsonString.bind(this)
+        this.renderMandatoryIcon = this.renderMandatoryIcon.bind(this)
         this.classes = 'd-none'
     }
 
@@ -51,6 +58,10 @@ class Questions extends Component {
         return true;
     }
 
+    renderMandatoryIcon(answered) {
+        return (<Mandatory id={'tooltip-' + this.props.data.id} answered={this.state._Badge}/>);
+    }
+
     render() {
         this.classes = this.props.parentState[this.props.data.id]
         if (this.props.data.dependency) {
@@ -70,17 +81,23 @@ class Questions extends Component {
                 }
             }
         }
+        let mandatory = "";
+        if(this.props.data.mandatory){
+            mandatory = this.renderMandatoryIcon()
+        }
+		let idx = this.props.data.order + '-' + this.props.data.id.toString()
         return (
-            <Card key={"card-" + this.props.index} className= {this.classes} >
-            <CardBody key={"card-body-" + this.props.index}>
-                <CardTitle key={"card-title-" + this.props.index}>
+            <Card key={"card-" + idx} className= {this.classes} >
+            <CardBody key={"card-body-" + idx} id={"card-body-" + idx}>
+                <CardTitle key={"card-title-" + idx} id={"card-title-" + idx}>
                     { (this.props.index + 1) + '. ' + this.props.data.text}
+                    { mandatory }
                 </CardTitle>
-                <QuestionType key={this.props.index} data={this.props.data} dataPoint={this.props.dataPoint} checkDependency={this.checkDependency} isJsonString={this.isJsonString}/>
+                <QuestionType key={'question-type-' + idx} data={this.props.data} dataPoint={this.props.dataPoint} checkDependency={this.checkDependency} isJsonString={this.isJsonString}/>
             </CardBody>
             </Card>
         )
     }
 }
 
-export default Questions;
+export default connect(mapStateToProps, mapDispatchToProps)(Questions);

@@ -1,3 +1,5 @@
+import { connect } from 'react-redux'
+import { mapStateToProps, mapDispatchToProps } from '../reducers/actions.js'
 import React, { Component } from 'react'
 import Questions from './Questions'
 
@@ -78,4 +80,4 @@ export class QuestionList extends Component {
     }
 }
 
-export default QuestionList;
+export default connect(mapStateToProps, mapDispatchToProps)(QuestionList);

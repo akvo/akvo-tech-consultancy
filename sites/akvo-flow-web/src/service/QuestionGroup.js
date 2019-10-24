@@ -1,3 +1,5 @@
+import { connect } from 'react-redux'
+import { mapStateToProps, mapDispatchToProps } from '../reducers/actions.js'
 import React, { Component } from 'react'
 
 class QuestionGroup extends Component {
@@ -24,6 +26,18 @@ class QuestionGroup extends Component {
         )
     }
 
+    componentDidMount() {
+        this.props.data.map((group, index) => {
+            group.question.map(x => {
+                this.props.answerReducer([{
+                    id:x.id,
+                    answer:localStorage.getItem(x.id),
+                }])
+            })
+        })
+        console.log(this.props.value)
+    }
+
     getQuestionList(props){
         return this.props.data.map((group, index) => (
                 <div className="list-group list-group-flush" key={'gl-' + index}>
@@ -43,4 +57,4 @@ class QuestionGroup extends Component {
 
 }
 
-export default QuestionGroup;
+export default connect(mapStateToProps, mapDispatchToProps)(QuestionGroup);

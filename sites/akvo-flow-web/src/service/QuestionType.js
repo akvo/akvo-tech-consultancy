@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { mapStateToProps, mapDispatchToProps } from '../reducers/actions.js'
 import axios from 'axios';
 import QuestionHandler from '../util/QuestionHandler'
-
 const PROD_URL = true
-const API_URL = (PROD_URL ? "https://tech-consultancy.akvotest.org/akvo-flow-web-api/" : process.env.REACT_APP_API_URL)
+const API_URL = (PROD_URL ? "https://tech-consultancy.akvotest.org/akvo-flow-web-api/" : "http://localhost:5000/")
 const pathurl = (PROD_URL ? 2 : 1)
 
 class QuestionType extends Component {
@@ -15,28 +16,39 @@ class QuestionType extends Component {
         this.value = localStorage.getItem(this.props.data.id)
         this.state = { value: this.value ? this.value : '' }
         this.setDpStorage = this.setDpStorage.bind(this)
-        this.getRadio = this.getRadio.bind(this)
         this.getRadioSelected = this.getRadio.bind(this)
         this.renderRadio = this.renderRadio.bind(this)
-        this.getCascade = this.getCascade.bind(this)
         this.getCascadeDropdown = this.getCascadeDropdown.bind(this)
         this.renderCascade = this.renderCascade.bind(this)
         this.renderCascadeOption = this.renderCascadeOption.bind(this)
         this.limitCascade = 0
         this.handleChange = this.handleChange.bind(this)
         this.handleCascadeChange = this.handleCascadeChange.bind(this)
+        this.handleGlobal = this.handleGlobal.bind(this)
     }
 
-    handleCascadeChange(targetLevel, text) {
+    handleGlobal(questionid, qval){
+        if (qval === "" || qval === null){
+            this.props.answerReducer([{id:questionid,answer:null}])
+        } else {
+            this.props.answerReducer([{id:questionid,answer:qval}])
+        }
+        this.props.checkSubmission()
+    }
+
+    handleCascadeChange(targetLevel, text, id) {
         let vals;
-        if (localStorage.getItem(this.props.data.id)) {
-            let multipleValue = JSON.parse(localStorage.getItem(this.props.data.id))
-            multipleValue[targetLevel - 1] = text;
+        let storage = {id:targetLevel,text:text}
+        if (localStorage.getItem(id)) {
+            let multipleValue = JSON.parse(localStorage.getItem(id))
+            multipleValue[targetLevel - 1] = storage;
             vals = JSON.stringify(multipleValue)
         } else {
-            vals = JSON.stringify([text])
+            vals = JSON.stringify([storage])
         }
-        return localStorage.setItem(this.props.data.id, vals)
+        localStorage.setItem(this.props.data.id, vals)
+        this.handleGlobal(id, localStorage.getItem(id))
+        return true
     }
 
     handleChange(event) {
@@ -47,7 +59,7 @@ class QuestionType extends Component {
             let ddindex = event.target.selectedIndex
             let text = event.target[ddindex].text
             let targetLevel = parseInt(event.target.name.split('-')[1]) + 1
-            this.handleCascadeChange(targetLevel, text)
+            this.handleCascadeChange(targetLevel, text, id)
             if (this.limitCascade > targetLevel) {
                 this.getCascadeDropdown(value, targetLevel)
             }
@@ -64,7 +76,9 @@ class QuestionType extends Component {
             }
 			if (multipleValue.length > 0) {
             	localStorage.setItem(id, JSON.stringify(multipleValue))
+                this.props.answerReducer([{[id]:value}])
             	this.setState({value: multipleValue})
+                this.handleGlobal(id, value)
 			} else {
 				localStorage.removeItem(id)
             	this.setState({value: ""})
@@ -72,6 +86,12 @@ class QuestionType extends Component {
         } else {
             localStorage.setItem(id, value)
             this.setState({value: value})
+            this.handleGlobal(id, value)
+        }
+        if(value === "") {
+            this.setState({value: value})
+            localStorage.removeItem(id)
+            this.handleGlobal(id, value)
         }
         if (this.props.data.localeNameFlag) {
             let a = JSON.parse(localStorage.getItem('_dpOrder'));
@@ -102,12 +122,13 @@ class QuestionType extends Component {
 
     }
 
-    getRadio (opts) {
+    getRadio (data, unique) {
+        let opts = data.options
         let radioType = (opts.allowMultiple ? "checkbox" : "radio")
         return (
             opts.option.length > 1 ? (opts.option.map((opt, i) => this.renderRadio(
-                opt, i, this.props.data.id, radioType)
-            )) : (this.renderRadio(opts.option, 0, this.props.data.id, radioType))
+                opt, i, data.id, radioType, unique)
+            )) : (this.renderRadio(opts.option, 0, data.id, radioType, unique))
         )
     }
 
@@ -121,8 +142,8 @@ class QuestionType extends Component {
         return false
     }
 
-    renderRadio (opt, i, id, radioType) {
-        let answer = localStorage.getItem(this.props.data.id)
+    renderRadio (opt, i, id, radioType, unique) {
+        let answer = localStorage.getItem(id)
         let checked = () => (localStorage.getItem(id) === opt.value)
 		if (radioType === "checkbox" && this.state.value.indexOf(opt.value) >= 0) {
 			checked = () => (true)
@@ -135,50 +156,48 @@ class QuestionType extends Component {
         }
         return (
             <div className="form-check"
-                 key={id+i}
+                 key={unique + '-radio-' + i.toString()}
             >
                 <input
                     className="form-check-input"
                     type={radioType}
                     name={id}
                     value={opt.value}
-                    id={id+i}
-                    key={"input" + id+i}
                     onChange={this.handleChange}
                     checked={checked()}
             />
                 <label
                     className="form-check-label"
-                    htmlFor={id+i}>
+                    htmlFor={"input-" + (id+i).toString()}>
                     {opt.text}
                 </label>
             </div>
         )
     }
 
-    getCascade (opts, lv) {
+    getCascade (opts, lv, unique) {
         let l = opts.levels.level.length - 1
         return opts.levels.level.map((opt, i) => {
             this.limitCascade = i + 1
-            return this.renderCascade(opt, i, l)
+            return this.renderCascade(opt, i, l, unique)
         })
     }
 
-    renderCascade (opt, i, l) {
+    renderCascade (opt, i, l, unique) {
         let cascades = []
         let choose_options = "cascade_" + i
         let dropdown = this.state[this.state[choose_options]]
         let cascade = (
             <>
-            <div key={i}>{opt.text}</div>
+            <div>{opt.text}</div>
             <select
                 className="form-control"
                 value={this.state.selected} type="select"
-                name={this.props.data.id + '-' + i}
-                key={this.props.data.id + '-' + i}
+                name={this.props.data.id.toString() + '-' + i}
                 onChange={this.handleChange}
             >
-                {this.renderCascadeOption(dropdown,i,opt.text)}
+                <option key={unique + '-cascade-options-' + 0} value="">Please Select</option>
+                {this.renderCascadeOption(dropdown,(i+1),opt.text, unique)}
             </select>
             </>
         )
@@ -189,11 +208,16 @@ class QuestionType extends Component {
         return cascades.map((x, i) => x)
     }
 
-    renderCascadeOption (data,targetLevel) {
+    renderCascadeOption (data,targetLevel, unique) {
         if(data) {
             return data.map((x, i) => {
                 let options = (
-                    <option key={i} value={x.id} >{x.name}</option>
+                    <option
+                        key={unique + '-cascade-options-' + i}
+                        value={x.id}
+                    >
+                        {x.name}
+                    </option>
                 )
                 return options
             })
@@ -217,33 +241,95 @@ class QuestionType extends Component {
                 let levels = this.props.data.levels.level.length
                 if (lv < levels) {
                     this.getCascadeDropdown(this.state.value, ix + 1)
-                    this.handleCascadeChange(ix, res.data[ix]['name'])
+                    if (localStorage.getItem(this.props.data.id)){
+                        let selected = JSON.parse(localStorage.getItem(this.props.data.id));
+                        this.handleCascadeChange(ix, selected[ix]['name'], selected[ix]['id'])
+                    } else {
+                        this.handleCascadeChange(ix, res.data[ix]['name'], res.data[ix]['id'])
+                    }
                 }
                 //this.getCascadeDropdown(value, targetLevel)
             })
         }
     }
 
+    getInput(data, unique, validation, answered) {
+        return (
+            <input
+                className={data.type === "photo" ? "form-control-file" : "form-control"}
+                value={answered ? answered : ""}
+                min={validation.minVal ? validation.minVal : ""}
+                max={validation.maxVal ? validation.maxVal: ""}
+                key={unique}
+                type={this.handler.getQuestionType(data)}
+                name={'Q-' + data.id.toString()}
+                onChange={this.handleChange}
+            />
+        )
+    }
+
+    getInputOther(data, unique, answered) {
+        return (
+            <input
+                className={data.type === "photo" ? "form-control-file" : "form-control"}
+                value={answered ? answered : ""}
+                key={unique}
+                type={this.handler.getQuestionType(data)}
+                name={'Q-' + data.id.toString()}
+                onChange={this.handleChange}
+            />
+        )
+    }
+
+    getTextArea(data, unique, answered) {
+        return (
+            <textarea
+                rows="3"
+                className="form-control"
+                value={answered ? answered : ""}
+                type={this.handler.getQuestionType(data)}
+                onChange={this.handleChange}
+                name={'Q-' + data.id.toString()}
+            />
+        )
+    }
+
     componentDidMount () {
-        this.getCascadeDropdown(0, 0)
+        if (this.props.data.type === "cascade"){
+            this.getCascadeDropdown(0, 0)
+        }
+        let current = localStorage.getItem(this.props.data.id)
+        let identifier = this.props.data.id
+        this.props.answerReducer([{id: identifier, answer:current}])
+        this.props.checkSubmission()
     }
 
     render() {
-        if (this.props.data.localeNameFlag) {
+        let data = this.props.data
+        let key = 'question-form-' + data.id.toString()
+        let formtype = data.type
+        let answered = localStorage.getItem(data.id)
+        if (data.validationRule && data.validationRule.validationType === "numeric") {
+            formtype = "number"
+        }
+        if (data.localeNameFlag) {
             this.setDpStorage()
         }
-        let answered = localStorage.getItem(this.props.data.id)
-        return this.props.data.type === "option" ? this.getRadio(this.props.data.options) : (
-            this.props.data.type === "cascade" ? this.getCascade(this.props.data, 0): (<input
-                className={this.props.data.type === "photo" ? "form-control-file" : "form-control"}
-                value={answered ? answered : ""}
-                key={this.props.data.id}
-                type={this.handler.getQuestionType(this.props.data)}
-                name={this.props.data.id}
-                onChange={this.handleChange} />
-            )
-        )
+        switch(formtype) {
+            case "option":
+                return this.getRadio(data, key)
+            case "cascade":
+                return this.getCascade(data,0, key)
+            case "number":
+                return this.getInput(data, key, data.validationRule, answered)
+            case "photo":
+                return this.getInputOther(data, key, answered)
+            case "date":
+                return this.getInputOther(data, key, answered)
+            default:
+                return this.getTextArea(data, key, answered)
+        }
     }
 }
 
-export default QuestionType;
+export default connect(mapStateToProps, mapDispatchToProps)(QuestionType);
