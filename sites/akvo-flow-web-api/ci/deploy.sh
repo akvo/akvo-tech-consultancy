@@ -29,10 +29,9 @@ gcloud config set container/cluster europe-west1-d
 gcloud config set compute/zone europe-west1-d
 gcloud config set container/use_client_certificate True
 
-## TODO!!! Change to prod! Decide if we publish to test or not
 if [[ "${TRAVIS_BRANCH}" == "master" ]]; then
     log Environment is production
-    gcloud container clusters get-credentials test
+    gcloud container clusters get-credentials production
 else
     log Environement is test
     gcloud container clusters get-credentials test
