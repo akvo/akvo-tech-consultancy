@@ -8,6 +8,18 @@ require('dotenv').config()
 ReactDOM.render(<App /> , document.getElementById('root'));
 serviceWorker.unregister();
 
-window.onbeforeunload = function(e) {
-    return "You have unsaved changes.";
+window.onbeforeunload = function() {
+   let dataType = localStorage.getItem("answerType");
+   let photos = [];
+   dataType.split(",").forEach(function(x, i) {
+       if (x === "PHOTO") {
+           photos.push(i);
+       }
+   });
+   photos.forEach(function(x, i) {
+       if(localStorage.getItem(x)){
+           localStorage.removeItem(x);
+       };
+   });
+   return "You have unsaved changes.";
 };

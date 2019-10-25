@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { mapStateToProps, mapDispatchToProps } from '../reducers/actions.js'
-import { isJsonString } from '../util/QuestionHandler.js'
 import axios from 'axios';
 
 const PROD_URL = true
@@ -17,6 +16,7 @@ class QuestionType extends Component {
         this.state = { value: this.value ? this.value : '' }
         this.setDpStorage = this.setDpStorage.bind(this)
         this.getRadioSelected = this.getRadio.bind(this)
+        this.getPhoto = this.getPhoto.bind(this)
         this.renderRadio = this.renderRadio.bind(this)
         this.getCascadeDropdown = this.getCascadeDropdown.bind(this)
         this.renderCascade = this.renderCascade.bind(this)
@@ -55,7 +55,6 @@ class QuestionType extends Component {
         let id = this.props.data.id
         let value = event.target.value
         console.log(value)
-        // this.props.checkDependency(id, value)
         if (this.props.data.type === "cascade") {
             let ddindex = event.target.selectedIndex
             let text = event.target[ddindex].text
@@ -110,10 +109,6 @@ class QuestionType extends Component {
         }
     }
 
-    noEffect() {
-        console.log("Photo will be removed")
-    }
-
     setDpStorage () {
         if (localStorage.getItem('_dpOrder')) {
             let a = JSON.parse(localStorage.getItem('_dpOrder'));
@@ -153,12 +148,6 @@ class QuestionType extends Component {
 		if (radioType === "checkbox" && this.state.value.indexOf(opt.value) >= 0) {
 			checked = () => (true)
 		}
-        if(isJsonString(answer)) {
-            answer = JSON.parse(answer)
-            if (answer !== null && answer.indexOf(opt.value) >=0) {
-			    checked = () => (true)
-            }
-        }
         return (
             <div className="form-check"
                  key={unique + '-div-radio-' + i.toString()}
@@ -289,10 +278,10 @@ class QuestionType extends Component {
     getPhoto(data, unique, answered, type) {
         return (
             <input
-                className={"photo"}
+                className={data.type === "file" ? "form-control-file" : "form-control"}
                 value={answered ? answered : ""}
                 key={unique}
-                type={type}
+                type={"file"}
                 name={'Q-' + data.id.toString()}
                 onChange={this.handleChange}
             />

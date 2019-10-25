@@ -85,12 +85,30 @@ const showHideQuestions = (orig, group) => {
             show = false
         }
         if(dependent){
-            if(localStorage.getItem(dependent.question)){
+            let answer_value;
+            if (dependent["answer-value"].includes("|") > -1) {
+                answer_value = dependent["answer-value"].split("|")
+                answer_value = answer_value.map(b => {
+                    b = b
+                    if (!isNaN(b)){
+                        b = parseInt(b);
+                    }
+                    return b;
+                })
+            }
+            console.log(dependent.question)
+            if(localStorage.getItem(dependent.question)) {
                 let answer = localStorage.getItem(dependent.question)
                 if(isJsonString(answer)) {
                     answer = JSON.parse(answer)
                 }
-                if(answer.indexOf(dependent['answer-value']) > -1 || answer === dependent['answer-value']) {
+                if(!isNaN(answer)) {
+                    answer = answer.toString()
+                }
+                if(answer.indexOf(answer_value) > -1){
+                    show = true
+                }
+                if(answer === answer_value) {
                     show = true
                 }
             }
@@ -117,7 +135,6 @@ const replaceAnswers = (questions, data, restore) => {
             try {
                 answer = JSON.parse(answer)
             } catch (err) {
-                console.log("not json")
             }
             answer = (parseInt(answer).isNan ? parseInt(answer) : answer)
         }
@@ -133,7 +150,6 @@ const replaceAnswers = (questions, data, restore) => {
 const generateUUID = () => {
     let id = uuid()
     id = id.split('-')
-    console.log(id)
     id = id.map(x => {
         return x.substring(0, 4);
     }).slice(0,3);
