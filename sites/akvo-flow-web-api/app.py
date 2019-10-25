@@ -18,8 +18,8 @@ instance_list = './data/flow-survey-amazon-aws.csv'
 
 pk = "_pk_id.10.68e2"
 pk_id = "03f2911e2c9d84d1.1568611861.10.1571720734.1571720734."
-session_id = "Ak26L25N75CI6iTcd90vjQ"
-sacsid= "~AJKiYcHzULM1QxaelSIE5-jcfe-TLKBtIBcrKQSO-ArGXN-FPH0SmbEazxE54OPLPxF1GMvKXNbZUuQrLcdGwnTSyz9AiYZRsqUSBNS8ooiycR7RSTIkQvrGZQR7PbjgWHupo2gy9bZndvxJflooD2lfKnXpyBgCBRqDF-nKxSVhIE912VYlDC0SFRpvLGoVS9A-DnU11oNkAMWZsxrAwNALQv3GFUJjZkFPpHqLvg0lbBcUTOXYiPWHFdHl5fIfjgkWX-zKC-Fufj5GueC17Yaje5pqw-kuhoullQ36iIbVVlLwG3mddEIKUoEP1wztp4RCfJtRukUP"
+session_id = "vxbeZj63AdVRa3dYTAKrqQ"
+sacsid= "~AJKiYcHxKD0yayJufQ98X8FLRKrYyD-i-P0388GrOqfvjh1n8MgOZfFs90QnFQODC-uhZGrP7eITXl4Li7g_i1y22cEWFiuW3Pr111iWCpQbAsMKEP3kaNdUPfuSewzjMgLZqbU6bvmp8XPjni-76-t5kTAwA170n9N-zwM19IqbIGwwsvhirktmZ4nQ472G0uNh2IOq6-1EoJ2v_hFB1aKzivSzwiAjE2ag6H_U6QlVq6kl7r4oPJTl0ChkA5hAayxdzTZ-_6J5AIIfCYnV1xUn_cWcC_YwOIUq3ztCCjLFe9rKFUNvziu_jReznwGSJusDJm1_kTWM"
 posturl = "https://dev3.akvoflow.org/rest/form_instances"
 
 header = {
