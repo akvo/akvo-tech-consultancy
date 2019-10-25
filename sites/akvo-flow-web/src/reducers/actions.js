@@ -6,9 +6,14 @@ export const mapStateToProps = (state) => {
 
 export const mapDispatchToProps = (dispatch) => {
     return {
-        questionReducer: (data) => dispatch({type:"UPDATE QUESTION", data:data}),
-        answerReducer: (data) => dispatch({type:"REPLACE ANSWER", data:data}),
-        checkSubmission: () => dispatch({type:"CHECK SUBMISSION"})
+        loadQuestions: (data) => dispatch({type:"LOAD QUESTIONS", data:data}),
+        changeGroup: (data) => dispatch({type:"CHANGE GROUP", group:data}),
+        restoreAnswers: (data) => dispatch({type:"RESTORE ANSWERS", data:data}),
+        reduceAnswer: (data) => dispatch({type:"REDUCE ANSWER", answer:data}),
+        reduceDataPoint: (data) => dispatch({type:"REDUCE DATAPOINT", data:data}),
+        checkSubmission: () => dispatch({type:"CHECK SUBMISSION"}),
+        submitState: (data) => dispatch({type:"SUBMIT STATE", data:data}),
+        generateUUID: (data) => dispatch({type:"GENERATE UUID", data:data})
     }
 }
 

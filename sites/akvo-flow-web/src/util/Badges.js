@@ -4,21 +4,20 @@ import {
     FaCheckCircle,
 } from 'react-icons/fa'
 
-export const Mandatory = (identifier, answered) => {
+export const Mandatory = (answered) => {
     if (answered) {
         return (
             <FaCheckCircle
                 color="green"
                 className="float-right"
-                id={identifier.id}
+            />
+        )
+    } else {
+        return (
+            <FaExclamationTriangle
+                color="red"
+                className="float-right"
             />
         )
     }
-    return (
-        <FaExclamationTriangle
-            color="red"
-            className="float-right"
-            id={identifier.id}
-        />
-    )
 }

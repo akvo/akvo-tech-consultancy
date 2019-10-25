@@ -16,7 +16,6 @@ class Pagination extends Component {
               _prevDisable: (this.props.data.prev <= 0 ? false : true),
               _nextDisable: (this.props.data.next === (this.props.data.total) ? false : true)
         })
-        console.log(this.state)
     }
 
     render() {

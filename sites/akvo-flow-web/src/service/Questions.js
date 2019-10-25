@@ -90,7 +90,7 @@ class Questions extends Component {
             <Card key={"card-" + idx} className= {this.classes} >
             <CardBody key={"card-body-" + idx} id={"card-body-" + idx}>
                 <CardTitle key={"card-title-" + idx} id={"card-title-" + idx}>
-                    { (this.props.index + 1) + '. ' + this.props.data.text}
+                    { (this.props.index + 1) + '. ' + this.props.data.text + ' - ' + this.props.data.id}
                     { mandatory }
                 </CardTitle>
                 <QuestionType key={'question-type-' + idx} data={this.props.data} dataPoint={this.props.dataPoint} checkDependency={this.checkDependency} isJsonString={this.isJsonString}/>

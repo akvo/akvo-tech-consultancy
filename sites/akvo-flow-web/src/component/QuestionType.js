@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { mapStateToProps, mapDispatchToProps } from '../reducers/actions.js'
+import { isJsonString } from '../util/QuestionHandler.js'
 import axios from 'axios';
-import QuestionHandler from '../util/QuestionHandler'
+
 const PROD_URL = false
 const API_URL = (PROD_URL ? "https://tech-consultancy.akvotest.org/akvo-flow-web-api/" : "http://localhost:5000/")
 const pathurl = (PROD_URL ? 2 : 1)
@@ -12,7 +13,6 @@ class QuestionType extends Component {
     constructor(props) {
         super(props)
         this.instanceUrl = window.location.pathname.split('/')[pathurl]
-        this.handler = new QuestionHandler()
         this.value = localStorage.getItem(this.props.data.id)
         this.state = { value: this.value ? this.value : '' }
         this.setDpStorage = this.setDpStorage.bind(this)
@@ -29,10 +29,11 @@ class QuestionType extends Component {
 
     handleGlobal(questionid, qval){
         if (qval === "" || qval === null){
-            this.props.answerReducer([{id:questionid,answer:null}])
+            this.props.restoreAnswers(this.props.value.questions)
         } else {
-            this.props.answerReducer([{id:questionid,answer:qval}])
+            this.props.restoreAnswers(this.props.value.questions)
         }
+        this.props.changeGroup(this.props.value.groups.active)
         this.props.checkSubmission()
     }
 
@@ -53,7 +54,8 @@ class QuestionType extends Component {
     handleChange(event) {
         let id = this.props.data.id
         let value = event.target.value
-        this.props.checkDependency(id, value)
+        console.log(value)
+        // this.props.checkDependency(id, value)
         if (this.props.data.type === "cascade") {
             let ddindex = event.target.selectedIndex
             let text = event.target[ddindex].text
@@ -75,7 +77,7 @@ class QuestionType extends Component {
             }
 			if (multipleValue.length > 0) {
             	localStorage.setItem(id, JSON.stringify(multipleValue))
-                this.props.answerReducer([{[id]:value}])
+                // this.props.answerReducer([{[id]:value}])
             	this.setState({value: multipleValue})
                 this.handleGlobal(id, value)
 			} else {
@@ -104,8 +106,12 @@ class QuestionType extends Component {
             })
             let edited = names.join(" - ")
             localStorage.setItem("_dataPointName", edited)
-            this.props.dataPoint(edited)
+            this.props.reduceDataPoint(localStorage.getItem('_dataPointName'))
         }
+    }
+
+    noEffect() {
+        console.log("Photo will be removed")
     }
 
     setDpStorage () {
@@ -147,7 +153,7 @@ class QuestionType extends Component {
 		if (radioType === "checkbox" && this.state.value.indexOf(opt.value) >= 0) {
 			checked = () => (true)
 		}
-        if(this.props.isJsonString(answer)) {
+        if(isJsonString(answer)) {
             answer = JSON.parse(answer)
             if (answer !== null && answer.indexOf(opt.value) >=0) {
 			    checked = () => (true)
@@ -240,7 +246,7 @@ class QuestionType extends Component {
             }).then((res) => {
                 let levels = this.props.data.levels.level.length
                 if (lv < levels) {
-                    this.getCascadeDropdown(this.state.value, ix + 1)
+                    // this.getCascadeDropdown(this.state.value, ix + 1)
                     if (localStorage.getItem(this.props.data.id)){
                         let selected = JSON.parse(localStorage.getItem(this.props.data.id));
                         this.handleCascadeChange(ix, selected[ix]['name'], selected[ix]['id'])
@@ -248,12 +254,11 @@ class QuestionType extends Component {
                         this.handleCascadeChange(ix, res.data[ix]['name'], res.data[ix]['id'])
                     }
                 }
-                //this.getCascadeDropdown(value, targetLevel)
             })
         }
     }
 
-    getInput(data, unique, validation, answered) {
+    getInput(data, unique, validation, answered, type) {
         return (
             <input
                 className={data.type === "photo" ? "form-control-file" : "form-control"}
@@ -261,34 +266,47 @@ class QuestionType extends Component {
                 min={validation.minVal ? validation.minVal : ""}
                 max={validation.maxVal ? validation.maxVal: ""}
                 key={unique}
-                type={this.handler.getQuestionType(data)}
+                type={type}
                 name={'Q-' + data.id.toString()}
                 onChange={this.handleChange}
             />
         )
     }
 
-    getInputOther(data, unique, answered) {
+    getInputOther(data, unique, answered, type) {
         return (
             <input
                 className={data.type === "photo" ? "form-control-file" : "form-control"}
                 value={answered ? answered : ""}
                 key={unique}
-                type={this.handler.getQuestionType(data)}
+                type={type}
                 name={'Q-' + data.id.toString()}
                 onChange={this.handleChange}
             />
         )
     }
 
-    getTextArea(data, unique, answered) {
+    getPhoto(data, unique, answered, type) {
+        return (
+            <input
+                className={"photo"}
+                value={answered ? answered : ""}
+                key={unique}
+                type={type}
+                name={'Q-' + data.id.toString()}
+                onChange={this.handleChange}
+            />
+        )
+    }
+
+    getTextArea(data, unique, answered, type) {
         return (
             <textarea
                 key={unique}
                 rows="3"
                 className="form-control"
                 value={answered ? answered : ""}
-                type={this.handler.getQuestionType(data)}
+                type={type}
                 onChange={this.handleChange}
                 name={'Q-' + data.id.toString()}
             />
@@ -299,9 +317,6 @@ class QuestionType extends Component {
         if (this.props.data.type === "cascade"){
             this.getCascadeDropdown(0, 0)
         }
-        let current = localStorage.getItem(this.props.data.id)
-        let identifier = this.props.data.id
-        this.props.answerReducer([{id: identifier, answer:current}])
         this.props.checkSubmission()
     }
 
@@ -310,9 +325,6 @@ class QuestionType extends Component {
         let key = 'question-form-' + data.id.toString()
         let formtype = data.type
         let answered = localStorage.getItem(data.id)
-        if (data.validationRule && data.validationRule.validationType === "numeric") {
-            formtype = "number"
-        }
         if (data.localeNameFlag) {
             this.setDpStorage()
         }
@@ -322,13 +334,13 @@ class QuestionType extends Component {
             case "cascade":
                 return this.getCascade(data,0, key)
             case "number":
-                return this.getInput(data, key, data.validationRule, answered)
+                return this.getInput(data, key, data.validationRule, answered, formtype)
             case "photo":
-                return this.getInputOther(data, key, answered)
+                return this.getPhoto(data, key, answered, "file")
             case "date":
-                return this.getInputOther(data, key, answered)
+                return this.getInputOther(data, key, answered, formtype)
             default:
-                return this.getTextArea(data, key, answered)
+                return this.getTextArea(data, key, answered, formtype)
         }
     }
 }
