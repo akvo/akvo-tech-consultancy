@@ -15,7 +15,7 @@ import {
     FaArrowRight
 } from 'react-icons/fa'
 
-const PROD_URL = false
+const PROD_URL = true
 const API_URL = (PROD_URL ? "https://tech-consultancy.akvotest.org/akvo-flow-web-api/" : process.env.REACT_APP_API_URL)
 const DELAY = 1500;
 

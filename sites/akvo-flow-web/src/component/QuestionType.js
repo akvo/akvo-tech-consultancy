@@ -4,7 +4,7 @@ import { mapStateToProps, mapDispatchToProps } from '../reducers/actions.js'
 import { isJsonString } from '../util/QuestionHandler.js'
 import axios from 'axios';
 
-const PROD_URL = false
+const PROD_URL = true
 const API_URL = (PROD_URL ? "https://tech-consultancy.akvotest.org/akvo-flow-web-api/" : "http://localhost:5000/")
 const pathurl = (PROD_URL ? 2 : 1)
 
