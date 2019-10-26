@@ -14,7 +14,9 @@ class QuestionType extends Component {
         super(props)
         this.instanceUrl = window.location.pathname.split('/')[pathurl]
         this.value = localStorage.getItem(this.props.data.id)
-        this.state = { value: this.value ? this.value : '' }
+        this.state = {
+            value: this.value ? this.value : '',
+        }
         this.setDpStorage = this.setDpStorage.bind(this)
         this.getRadioSelected = this.getRadio.bind(this)
         this.getPhoto = this.getPhoto.bind(this)
@@ -38,12 +40,11 @@ class QuestionType extends Component {
         this.props.checkSubmission()
     }
 
-    handleCascadeChange(targetLevel, text, id) {
+    handleCascadeChange(targetLevel, text, id, value) {
         let vals;
-        let storage = {id:targetLevel,text:text}
+        let storage = {id:targetLevel,text:text, option:parseInt(value)}
         if (localStorage.getItem(id)) {
             let multipleValue = JSON.parse(localStorage.getItem(id))
-            console.log(targetLevel)
             let current = multipleValue.filter(x => x.id < targetLevel);
             vals = JSON.stringify([...current, storage])
         } else {
@@ -63,7 +64,7 @@ class QuestionType extends Component {
             let ddindex = event.target.selectedIndex
             let text = event.target[ddindex].text
             let targetLevel = parseInt(event.target.name.split('-')[1]) + 1
-            this.handleCascadeChange(targetLevel, text, id)
+            this.handleCascadeChange(targetLevel, text, id, value)
             if (this.limitCascade > targetLevel) {
                 this.getCascadeDropdown(value, targetLevel)
             }
@@ -192,16 +193,17 @@ class QuestionType extends Component {
         let cascades = []
         let choose_options = "cascade_" + i
         let dropdown = this.state[this.state[choose_options]]
+        let selected = null;
         let cascade = (
             <>
             <div>{opt.text}</div>
             <select
                 className="form-control"
-                value={this.state.selected} type="select"
-                name={this.props.data.id.toString() + '-' + i}
+                value={ this.state.selected } type="select"
+                name={ this.props.data.id.toString() + '-' + i}
                 onChange={this.handleChange}
             >
-                <option key={unique + '-cascade-options-' + 0} value="">Please Select</option>
+                <option key={unique + '-cascade-options-' + 0} value="0" selected>Please Select</option>
                 {this.renderCascadeOption(dropdown,(i+1),opt.text, unique)}
             </select>
             </>
@@ -243,18 +245,14 @@ class QuestionType extends Component {
                         value: res.data[ix]['id']
                     })
                 } catch (err) {
-                    console.log(this.state)
+                    localStorage.clear()
                 }
                 return res
             }).then((res) => {
                 let levels = this.props.data.levels.level.length
                 if (lv < levels) {
-                    // this.getCascadeDropdown(this.state.value, ix + 1)
-                    if (localStorage.getItem(this.props.data.id)){
-                        let selected = JSON.parse(localStorage.getItem(this.props.data.id));
-                        this.handleCascadeChange(ix, selected[ix]['name'], selected[ix]['id'])
-                    } else {
-                        this.handleCascadeChange(ix, res.data[ix]['name'], res.data[ix]['id'])
+                    if (localStorage.getItem(this.props.data.id) === null){
+                        this.handleCascadeChange(ix, res.data[ix]['name'], this.props.data.id, res.data[ix]['id'])
                     }
                 }
             })
@@ -318,6 +316,7 @@ class QuestionType extends Component {
 
     componentDidMount () {
         if (this.props.data.type === "cascade"){
+            localStorage.removeItem(this.props.data.id)
             this.getCascadeDropdown(0, 0)
         }
         this.props.checkSubmission()

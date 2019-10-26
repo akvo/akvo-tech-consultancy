@@ -107,7 +107,8 @@ class Home extends Component {
             })
             .catch(error => {
                 console.log(error)
-                // swal("Oops!", "Something went wrong!", "error")
+                swal("Oops!", "Something went wrong!", "error")
+                console.log(this.state)
             })
 		setTimeout(() => {
                   this.setState({ load: true });
