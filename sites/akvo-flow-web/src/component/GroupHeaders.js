@@ -15,7 +15,7 @@ class GroupHeaders extends Component {
     }
 
     getHeader = (groups) => {
-        let active = groups.filter(g => g.index === groups.active)
+        let active = groups.list.filter(g => g.index === groups.active)
         return active.map((group) => (
             <Fragment key={group.index}>
             <h2 className="mt-2" >{group.heading}</h2>
@@ -29,7 +29,7 @@ class GroupHeaders extends Component {
     render() {
         return (
             this.props.value.questions.length === 1 ?
-            this.getLoading() : this.getHeader(this.props.value.groups.list)
+            this.getLoading() : this.getHeader(this.props.value.groups)
         )
     }
 

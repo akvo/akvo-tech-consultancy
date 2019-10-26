@@ -114,8 +114,10 @@ const showHideQuestions = (orig, group) => {
                 }
             }
         }
-        if(x.group !== group){
-            show = false
+        if (group) {
+            if(x.group !== group){
+                show = false
+            }
         }
         return { ...x, show:show, type: getQuestionType(x)}
     })
@@ -157,9 +159,19 @@ const generateUUID = () => {
 }
 
 const checkSubmission = (answers, questions) => {
-    console.log(answers.filter(x => x.mandatory))
-    let activelist = [];
-    return true
+    let activelist = showHideQuestions(questions, false).filter(x => x.show);
+    answers = answers.filter(x => x.mandatory).filter(x => x.answer !== null);
+    let active_mandatory = activelist.map(x => {
+        let answered = answers.filter(y => y.id === x.id).map(y => y.answer);
+        answered = (answered.length < 1 ? false : true)
+        return {
+            ...x,
+            answered: answered
+        }
+    }).filter(x => x.mandatory);
+    let answered_mandatory = active_mandatory.filter(x => x.answered)
+    let captcha = (answered_mandatory.length === active_mandatory.length)
+    return captcha
 }
 
 const setupPages = (current, data) => {

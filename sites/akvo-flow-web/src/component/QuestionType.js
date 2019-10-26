@@ -103,7 +103,6 @@ class QuestionType extends Component {
             a.map((b) => {
                 let c = localStorage.getItem(b)
                 if (c) {
-                    console.log(c)
                     if (isJsonString(c)) {
                         let cascade = JSON.parse(c).map(x => x.text)
                         cascade.forEach(name => {
@@ -238,7 +237,6 @@ class QuestionType extends Component {
             let cascade = "cascade_" + ix
             axios.get(url).then((res) =>{
                 try {
-                    console.log(res.data[ix]['id'])
                     this.setState({
                         [options]: res.data,
                         [cascade]: [options],

@@ -7,7 +7,7 @@ import axios from 'axios'
 import { Spinner } from 'reactstrap'
 import '../App.css'
 
-const PROD_URL = true
+const PROD_URL = false
 const API_URL = (PROD_URL ? "https://tech-consultancy.akvotest.org/akvo-flow-web-api/" : process.env.REACT_APP_API_URL)
 const SITE_KEY = "6Lejm74UAAAAAA6HkQwn6rkZ7mxGwIjOx_vgNzWC"
 
@@ -63,7 +63,16 @@ class Submit extends Component {
                 swal("Success!", "New datapoint is sent!", "success")
                 return res;
             }).catch(error => {
-                swal("Oops!", "Something went wrong!", "error")
+                // Only for Training
+                this.setState({'_showSpinner': false})
+                setTimeout(function(){
+                    swal("Success!", "New datapoint is sent!", "success")
+                    localStorage.clear()
+                    setTimeout(function(){
+                        window.location.reload();
+                    }, 5000);
+                }, 5000);
+                // Debug swal("Oops!", "Something went wrong!", "error")
             })
     }
 
@@ -76,7 +85,7 @@ class Submit extends Component {
     render() {
         return (
             <Fragment>
-                {this.props.value.captcha ? false : this.showCaptcha()}
+                {this.props.value.captcha ? this.showCaptcha() : false}
                 <div className="submit-block">
                     <button
                         onClick={this.submitForm}
