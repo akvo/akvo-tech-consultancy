@@ -9,7 +9,7 @@ body {
 
 .sidebar-wrapper {
   min-height: 100vh;
-  margin-left: -285px;
+  margin-left: 320px;
   -webkit-transition: margin .1s ease-out;
   -moz-transition: margin .1s ease-out;
   -o-transition: margin .1s ease-out;
@@ -117,7 +117,7 @@ body {
   }
 
   .wrapper.toggled .sidebar-wrapper {
-    margin-left: -320px;
+    margin-left: -390px;
   }
 }
 
