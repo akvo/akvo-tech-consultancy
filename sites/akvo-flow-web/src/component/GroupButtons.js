@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
 import { mapStateToProps, mapDispatchToProps } from '../reducers/actions.js'
 import React, { Component } from 'react'
+import Loading from '../util/Loading'
 
 class GroupButtons extends Component {
 
@@ -41,8 +42,14 @@ class GroupButtons extends Component {
         ))
     }
 
-    render() {return this.getQuestionList(this.props.value.groups)}
+    getLoading = () => (<Loading styles={'sidebar-loading'}/>)
 
+    render() {
+        return (
+            this.props.value.questions.length === 1 ?
+            this.getLoading() : this.getQuestionList(this.props.value.groups)
+        )
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(GroupButtons);

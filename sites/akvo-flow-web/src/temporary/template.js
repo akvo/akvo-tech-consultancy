@@ -50,3 +50,17 @@
                         </Fragment>
                     </div>
                 </div>
+        if (localStorage.getItem("answerType")) {
+            console.log("executed")
+            let dataType = localStorage.getItem("answerType");
+            let photos = [];
+            let questionId = localStorage.getItem("questionId").split(",");
+            dataType.split(",").forEach(function(x, i) {
+                if (x === "PHOTO") { photos.push(questionId[i]); }
+            });
+            photos.forEach(function(x, i) {
+                if(localStorage.getItem(x)){
+                    localStorage.removeItem(x);
+                };
+            });
+        };

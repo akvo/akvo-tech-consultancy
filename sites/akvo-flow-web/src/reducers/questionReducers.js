@@ -3,9 +3,9 @@ import { isJsonString } from '../util/QuestionHandler.js'
 import uuid from 'uuid/v4'
 
 const initialState = {
-    surveyName: null,
-    surveyId:null,
-    version:null,
+    surveyName:"Loading..",
+    surveyId:"Loading..",
+    version:"Loading..",
     questions: [{
         group: 1,
         heading: null,
@@ -33,6 +33,8 @@ const initialState = {
         }],
         active: 1,
     },
+    pages:{
+    }
 }
 
 const addQuestions = (data) => {
@@ -77,6 +79,7 @@ const listMandatory = (data) => {
 }
 
 const showHideQuestions = (orig, group) => {
+    let emptyquestion = []
     let active = orig.map(x => {
         let show = true
         let dependent = false
@@ -89,14 +92,12 @@ const showHideQuestions = (orig, group) => {
             if (dependent["answer-value"].includes("|") > -1) {
                 answer_value = dependent["answer-value"].split("|")
                 answer_value = answer_value.map(b => {
-                    b = b
                     if (!isNaN(b)){
                         b = parseInt(b);
                     }
                     return b;
                 })
             }
-            console.log(dependent.question)
             if(localStorage.getItem(dependent.question)) {
                 let answer = localStorage.getItem(dependent.question)
                 if(isJsonString(answer)) {
@@ -105,7 +106,7 @@ const showHideQuestions = (orig, group) => {
                 if(!isNaN(answer)) {
                     answer = answer.toString()
                 }
-                if(answer.indexOf(answer_value) > -1){
+                if(answer_value.includes(answer)){
                     show = true
                 }
                 if(answer === answer_value) {
@@ -134,8 +135,7 @@ const replaceAnswers = (questions, data, restore) => {
             answer = (stored ? stored : null)
             try {
                 answer = JSON.parse(answer)
-            } catch (err) {
-            }
+            } catch (err) { }
             answer = (parseInt(answer).isNan ? parseInt(answer) : answer)
         }
         return {
@@ -156,12 +156,17 @@ const generateUUID = () => {
     return id.join('-');
 }
 
-const checkSubmission = (current, questions) => {
-    let mandatory = questions.filter(q => q.mandatory)
-    let answered = current.filter(q => q.answer !== null);
-    answered = answered.map(a => mandatory.find(m => m.id === a.id) || false)
-    answered = answered.filter(a => a)
-    return (answered.length >= mandatory.length ? false : true)
+const checkSubmission = (answers, questions) => {
+    console.log(answers.filter(x => x.mandatory))
+    let activelist = [];
+    return true
+}
+
+const setupPages = (current, data) => {
+    return {
+        ...current,
+        data
+    }
 }
 
 export const questionReducers = (state = initialState, action) => {
@@ -212,6 +217,11 @@ export const questionReducers = (state = initialState, action) => {
             return {
                 ...state,
                 uuid: generateUUID(action.data)
+            }
+        case 'PAGES SETTINGS':
+            return {
+                ...state,
+                pages: setupPages(state.pages, action.data)
             }
         default:
             return state;

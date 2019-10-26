@@ -6,6 +6,7 @@ import swal from '@sweetalert/with-react'
 import './App.css'
 import GroupButtons from './component/GroupButtons'
 import GroupHeaders from './component/GroupHeaders'
+import DataPoint from './component/DataPoint'
 import Questions from './component/Questions'
 import Pagination from './component/Pagination'
 import Header from './component/Header'
@@ -17,7 +18,7 @@ import {
 
 const PROD_URL = true
 const API_URL = (PROD_URL ? "https://tech-consultancy.akvotest.org/akvo-flow-web-api/" : process.env.REACT_APP_API_URL)
-const DELAY = 1500;
+const DELAY = 10000000;
 
 class Home extends Component {
 
@@ -38,7 +39,7 @@ class Home extends Component {
     updateData = (data) => {
         this.props.loadQuestions(data)
         this.props.restoreAnswers(this.props.value.questions)
-        if(localStorage.getItem("_dataPointName")){
+        if (localStorage.getItem("_dataPointName")){
             this.props.reduceDataPoint(localStorage.getItem('_dataPointName'))
         }
         this.props.changeGroup(1)
@@ -97,13 +98,15 @@ class Home extends Component {
 
     componentDidMount() {
         this.props.generateUUID({})
+        this.props.changeSettings({_isLoading:true})
         localStorage.setItem("_formId", this.surveyId)
         localStorage.setItem("_instanceId", this.instance)
-        axios.get(API_URL+ this.instance + '/' + this.surveyId + '/update')
+        axios.get(API_URL+ this.instance + '/' + this.surveyId + '/en')
             .then(res => {
                 this.updateData(res.data)
             })
             .catch(error => {
+                console.log(error)
                 // swal("Oops!", "Something went wrong!", "error")
             })
 		setTimeout(() => {
@@ -117,17 +120,14 @@ class Home extends Component {
                 <div className="sidebar-wrapper bg-light border-right">
                     <Header/>
                     <GroupButtons />
-                    <Submit />
+                    {( this.props.value.questions.length === 1 ? "" : (<Submit />) )}
                 </div>
                 <div className="page-content-wrapper">
                     <nav className="navbar navbar-expand-lg navbar-light bg-light border-bottom">
                         <button className="btn btn-primary" onClick={this.setFullscreen}>
                             {this.state._fullscreen ? <FaArrowRight /> : <FaArrowLeft />}
                         </button>
-                        <div className="data-point">
-                        <h3 className="data-point-name">{this.props.value.datapoint}</h3>
-                        <span className="text-center data-point-id">{this.props.value.uuid}</span>
-                        </div>
+                        {( this.props.value.questions.length === 1 ? "" : (<DataPoint />) )}
                         <Pagination onSelectGroup={this.selectGroup} data={
                             {
                              'prev':this.state._prevGroup,

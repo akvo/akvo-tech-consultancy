@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { mapStateToProps, mapDispatchToProps } from '../reducers/actions.js'
 import axios from 'axios';
+import { isJsonString } from  '../util/QuestionHandler.js'
 
 const PROD_URL = true
 const API_URL = (PROD_URL ? "https://tech-consultancy.akvotest.org/akvo-flow-web-api/" : "http://localhost:5000/")
@@ -42,19 +43,22 @@ class QuestionType extends Component {
         let storage = {id:targetLevel,text:text}
         if (localStorage.getItem(id)) {
             let multipleValue = JSON.parse(localStorage.getItem(id))
-            vals = JSON.stringify(multipleValue)
+            console.log(targetLevel)
+            let current = multipleValue.filter(x => x.id < targetLevel);
+            vals = JSON.stringify([...current, storage])
         } else {
             vals = JSON.stringify([storage])
         }
-        localStorage.setItem(this.props.data.id, vals)
-        this.handleGlobal(id, vals)
+        if (targetLevel !== 0){
+            localStorage.setItem(this.props.data.id, vals)
+            this.handleGlobal(this.props.data.id, vals)
+        }
         return true
     }
 
     handleChange(event) {
         let id = this.props.data.id
         let value = event.target.value
-        console.log(value)
         if (this.props.data.type === "cascade") {
             let ddindex = event.target.selectedIndex
             let text = event.target[ddindex].text
@@ -99,7 +103,15 @@ class QuestionType extends Component {
             a.map((b) => {
                 let c = localStorage.getItem(b)
                 if (c) {
-                    names.push(c)
+                    console.log(c)
+                    if (isJsonString(c)) {
+                        let cascade = JSON.parse(c).map(x => x.text)
+                        cascade.forEach(name => {
+                            names.push(name)
+                        });
+                    } else {
+                        names.push(c)
+                    }
                 }
                 return true
             })
@@ -143,7 +155,6 @@ class QuestionType extends Component {
     }
 
     renderRadio (opt, i, id, radioType, unique) {
-        let answer = localStorage.getItem(id)
         let checked = () => (localStorage.getItem(id) === opt.value)
 		if (radioType === "checkbox" && this.state.value.indexOf(opt.value) >= 0) {
 			checked = () => (true)
@@ -226,11 +237,16 @@ class QuestionType extends Component {
             let options = "options_" + lv
             let cascade = "cascade_" + ix
             axios.get(url).then((res) =>{
-                this.setState({
-                    [options]: res.data,
-                    [cascade]: [options],
-                    value: res.data[ix]['id']
-                })
+                try {
+                    console.log(res.data[ix]['id'])
+                    this.setState({
+                        [options]: res.data,
+                        [cascade]: [options],
+                        value: res.data[ix]['id']
+                    })
+                } catch (err) {
+                    console.log(this.state)
+                }
                 return res
             }).then((res) => {
                 let levels = this.props.data.levels.level.length
@@ -278,7 +294,7 @@ class QuestionType extends Component {
     getPhoto(data, unique, answered, type) {
         return (
             <input
-                className={data.type === "file" ? "form-control-file" : "form-control"}
+                className={"form-control-file"}
                 value={answered ? answered : ""}
                 key={unique}
                 type={"file"}

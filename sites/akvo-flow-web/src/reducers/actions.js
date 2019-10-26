@@ -13,7 +13,8 @@ export const mapDispatchToProps = (dispatch) => {
         reduceDataPoint: (data) => dispatch({type:"REDUCE DATAPOINT", data:data}),
         checkSubmission: () => dispatch({type:"CHECK SUBMISSION"}),
         submitState: (data) => dispatch({type:"SUBMIT STATE", data:data}),
-        generateUUID: (data) => dispatch({type:"GENERATE UUID", data:data})
+        generateUUID: (data) => dispatch({type:"GENERATE UUID", data:data}),
+        changeSettings: (data) => dispatch({type:"PAGES SETTINGS", data:data})
     }
 }
 
