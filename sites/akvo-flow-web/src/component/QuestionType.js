@@ -245,7 +245,7 @@ class QuestionType extends Component {
                         value: res.data[ix]['id']
                     })
                 } catch (err) {
-                    localStorage.clear()
+                    localStorage.removeItem(this.props.data.id)
                 }
                 return res
             }).then((res) => {
