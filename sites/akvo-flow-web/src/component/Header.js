@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {connect } from 'react-redux';
 import { mapStateToProps } from '../reducers/actions.js'
-import { Toast, ToastHeader, ToastBody } from 'reactstrap'
+import { Toast, ToastHeader, ToastBody, Image } from 'reactstrap'
 
 class Header extends Component {
     render() {
@@ -10,6 +10,7 @@ class Header extends Component {
                 <div className="my-2">
                 <Toast>
                   <ToastHeader>
+                      <img src="https://www.2scale.org/assets/default/img/logo_2scale_red.gif" className='responsive-image'/>
                     {this.props.value.surveyName}
                   </ToastHeader>
                   <ToastBody>

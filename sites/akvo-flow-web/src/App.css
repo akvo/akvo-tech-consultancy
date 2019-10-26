@@ -121,3 +121,7 @@ body {
   }
 }
 
+img.responsive-image {
+    width: 100%;
+    padding: 20px;
+}
