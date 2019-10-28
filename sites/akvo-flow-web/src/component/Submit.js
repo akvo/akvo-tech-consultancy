@@ -6,8 +6,8 @@ import ReCAPTCHA from "react-google-recaptcha"
 import axios from 'axios'
 import { Spinner } from 'reactstrap'
 import '../App.css'
+import { PROD_URL } from '../util/Environment'
 
-const PROD_URL = false
 const API_URL = (PROD_URL ? "https://tech-consultancy.akvotest.org/akvo-flow-web-api/" : process.env.REACT_APP_API_URL)
 const SITE_KEY = "6Lejm74UAAAAAA6HkQwn6rkZ7mxGwIjOx_vgNzWC"
 

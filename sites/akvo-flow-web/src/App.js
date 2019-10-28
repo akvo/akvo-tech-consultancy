@@ -4,8 +4,8 @@ import Home from './Home'
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { questionReducers } from './reducers/questionReducers.js'
+import { PROD_URL } from './util/Environment.js'
 
-const PROD_URL = true
 const BASE_URL = ( PROD_URL ? "/akvo-flow-web" : process.env.REACT_APP_BASE_URL);
 
 const store = createStore(questionReducers)

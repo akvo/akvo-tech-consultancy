@@ -15,9 +15,10 @@ import {
     FaArrowLeft,
     FaArrowRight
 } from 'react-icons/fa'
+import { PROD_URL } from './util/Environment.js'
 
-const PROD_URL = true
 const API_URL = (PROD_URL ? "https://tech-consultancy.akvotest.org/akvo-flow-web-api/" : process.env.REACT_APP_API_URL)
+const CACHE_URL = (PROD_URL ? "update" : "fetch")
 const DELAY = 10000000;
 
 class Home extends Component {
@@ -101,7 +102,7 @@ class Home extends Component {
         this.props.changeSettings({_isLoading:true})
         localStorage.setItem("_formId", this.surveyId)
         localStorage.setItem("_instanceId", this.instance)
-        axios.get(API_URL+ this.instance + '/' + this.surveyId + '/update')
+        axios.get(API_URL+ this.instance + '/' + this.surveyId + '/' + CACHE_URL)
             .then(res => {
                 this.updateData(res.data)
             })
