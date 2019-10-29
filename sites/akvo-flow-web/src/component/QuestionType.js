@@ -4,9 +4,14 @@ import { mapStateToProps, mapDispatchToProps } from '../reducers/actions.js'
 import axios from 'axios';
 import { isJsonString } from  '../util/QuestionHandler.js'
 import { PROD_URL } from '../util/Environment'
+import { FilePond, registerPlugin } from 'react-filepond';
+import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css';
 
 const API_URL = (PROD_URL ? "https://tech-consultancy.akvotest.org/akvo-flow-web-api/" : "http://localhost:5000/")
 const pathurl = (PROD_URL ? 2 : 1)
+
+registerPlugin(FilePondPluginImagePreview);
 
 class QuestionType extends Component {
 
@@ -26,6 +31,7 @@ class QuestionType extends Component {
         this.renderCascadeOption = this.renderCascadeOption.bind(this)
         this.limitCascade = 0
         this.handleChange = this.handleChange.bind(this)
+        this.handlePhoto = this.handlePhoto.bind(this)
         this.handleCascadeChange = this.handleCascadeChange.bind(this)
         this.handleGlobal = this.handleGlobal.bind(this)
     }
@@ -55,6 +61,13 @@ class QuestionType extends Component {
             this.handleGlobal(this.props.data.id, vals)
         }
         return true
+    }
+
+    handlePhoto(image) {
+        let id = this.props.data.id
+        localStorage.setItem(id, image)
+        this.setState({value: image})
+        this.handleGlobal(id, image)
     }
 
     handleChange(event) {
@@ -104,7 +117,7 @@ class QuestionType extends Component {
             a.map((b) => {
                 let c = localStorage.getItem(b)
                 if (c) {
-                    if (isJsonString(c)) {
+                    if (isJsonString(c) && isNaN(c)) {
                         let cascade = JSON.parse(c).map(x => x.text)
                         cascade.forEach(name => {
                             names.push(name)
@@ -193,7 +206,6 @@ class QuestionType extends Component {
         let cascades = []
         let choose_options = "cascade_" + i
         let dropdown = this.state[this.state[choose_options]]
-        let selected = null;
         let cascade = (
             <>
             <div>{opt.text}</div>
@@ -289,13 +301,15 @@ class QuestionType extends Component {
 
     getPhoto(data, unique, answered, type) {
         return (
-            <input
-                className={"form-control-file"}
-                value={answered ? answered : ""}
+            <FilePond
                 key={unique}
-                type={"file"}
+                allowMultiple={false}
                 name={'Q-' + data.id.toString()}
-                onChange={this.handleChange}
+                data-max-file-size="500kb"
+                server={API_URL + "upload-image"}
+                onprocessfile={(err, file) => {
+                    this.handlePhoto(file.serverId)
+                }}
             />
         )
     }

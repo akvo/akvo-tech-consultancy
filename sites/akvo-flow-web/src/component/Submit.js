@@ -65,13 +65,13 @@ class Submit extends Component {
             }).catch(error => {
                 // Only for Training
                 this.setState({'_showSpinner': false})
-                swal("Success!", "New datapoint is sent!", "success")
-                setTimeout(function(){
-                    localStorage.clear()
-                    setTimeout(function(){
-                        window.location.reload();
-                    }, 5000);
-                }, 1000);
+                swal("Failed!", "Something Wrong!", "error")
+                // setTimeout(function(){
+                //     localStorage.clear()
+                //     setTimeout(function(){
+                //         window.location.reload();
+                //     }, 5000);
+                // }, 1000);
                 // Debug swal("Oops!", "Something went wrong!", "error")
             })
     }

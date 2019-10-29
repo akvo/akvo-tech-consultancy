@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { mapStateToProps, mapDispatchToProps } from './reducers/actions.js'
 import swal from '@sweetalert/with-react'
 import './App.css'
+import 'filepond/dist/filepond.min.css';
 import GroupButtons from './component/GroupButtons'
 import GroupHeaders from './component/GroupHeaders'
 import DataPoint from './component/DataPoint'

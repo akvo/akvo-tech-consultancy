@@ -79,7 +79,7 @@ const listMandatory = (data) => {
 }
 
 const showHideQuestions = (orig, group) => {
-    let emptyquestion = []
+    let updated_answer = []
     let active = orig.map(x => {
         let show = true
         let dependent = false
@@ -98,19 +98,27 @@ const showHideQuestions = (orig, group) => {
                     return b;
                 })
             }
-            if(localStorage.getItem(dependent.question)) {
+            if (localStorage.getItem(dependent.question) !== null) {
                 let answer = localStorage.getItem(dependent.question)
-                if(isJsonString(answer)) {
-                    answer = JSON.parse(answer)
+                if (isJsonString(answer_value)) {
+                    answer = JSON.parse(answer_value)
                 }
-                if(!isNaN(answer)) {
+                if (!isNaN(answer_value)) {
                     answer = answer.toString()
                 }
-                if(answer_value.includes(answer)){
+                if (answer_value.includes(answer)){
                     show = true
                 }
-                if(answer === answer_value) {
+                if (answer === answer_value) {
                     show = true
+                }
+            } else {
+                show = false
+            }
+            if (updated_answer.length > 0) {
+                let ua = updated_answer.find(b => {return parseInt(b.id) === parseInt(dependent.question)})
+                if (ua.length > 0) {
+                    console.log(ua.filter(b => b.show))
                 }
             }
         }
@@ -119,6 +127,10 @@ const showHideQuestions = (orig, group) => {
                 show = false
             }
         }
+        if (!group && !show) {
+            localStorage.removeItem(x.id)
+        }
+        updated_answer.push({...x, show:show, type: getQuestionType(x)})
         return { ...x, show:show, type: getQuestionType(x)}
     })
     return active;
@@ -170,7 +182,7 @@ const checkSubmission = (answers, questions) => {
         }
     }).filter(x => x.mandatory);
     let answered_mandatory = active_mandatory.filter(x => x.answered)
-    let captcha = (answered_mandatory.length === active_mandatory.length)
+    let captcha = (answered_mandatory.length >= active_mandatory.length)
     return captcha
 }
 
