@@ -1,9 +1,10 @@
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, jsonify, render_template, request, make_response
 from flask_cors import CORS
 from lxml import etree
 from io import BytesIO
 from zipfile import ZipFile, ZIP_DEFLATED
 from datetime import datetime
+import uuid
 import pandas as pd
 import requests as r
 import sqlite3
@@ -15,19 +16,11 @@ import ast
 app = Flask(__name__)
 CORS(app)
 instance_list = './data/flow-survey-amazon-aws.csv'
+BASE_URL="https://flow-services.akvotest.org/upload"
 
-pk = "_pk_id.10.68e2"
-pk_id = "03f2911e2c9d84d1.1568611861.10.1571720734.1571720734."
-session_id = "vxbeZj63AdVRa3dYTAKrqQ"
-sacsid= "~AJKiYcHxKD0yayJufQ98X8FLRKrYyD-i-P0388GrOqfvjh1n8MgOZfFs90QnFQODC-uhZGrP7eITXl4Li7g_i1y22cEWFiuW3Pr111iWCpQbAsMKEP3kaNdUPfuSewzjMgLZqbU6bvmp8XPjni-76-t5kTAwA170n9N-zwM19IqbIGwwsvhirktmZ4nQ472G0uNh2IOq6-1EoJ2v_hFB1aKzivSzwiAjE2ag6H_U6QlVq6kl7r4oPJTl0ChkA5hAayxdzTZ-_6J5AIIfCYnV1xUn_cWcC_YwOIUq3ztCCjLFe9rKFUNvziu_jReznwGSJusDJm1_kTWM"
-posturl = "https://dev3.akvoflow.org/rest/form_instances"
-
-header = {
-    'Accept': "application/json, text/javascript, */*; q=0.01",
-    'Content-Type': "application/json",
-    'Cookie': pk + "=" + pk_id + "; JSESSIONID=" + session_id + ";SACSID=" + sacsid + ";",
-    'cache-control': "no-cache",
-}
+UPLOAD_FOLDER='./tmp-images'
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 def readxml(xmlpath):
     with open(xmlpath) as survey:
@@ -101,6 +94,7 @@ def cascade(instance,sqlite,lv):
 @app.route('/submit-form', methods=['POST'])
 def submit():
     rec = request.get_json()
+    _uuid = str(uuid.uuid4())
     questionId = rec['questionId'].split(',')
     answerType = rec['answerType'].split(',')
     data = []
@@ -118,6 +112,7 @@ def submit():
     }
     data.append(meta_name)
     data.append(meta_geo)
+    imagelist = []
     for i, ids in enumerate(questionId):
         try:
             if answerType[i] == "OPTION":
@@ -129,16 +124,21 @@ def submit():
                 except:
                     val = json.dumps([{"text":rec[ids]}])
                 print(val)
+            elif answerType[i] == "PHOTO":
+                val = json.dumps([{"filename":rec[ids]}])
+                imagelist.append(rec[ids])
             elif answerType[i] == "CASCADE":
                 vals = []
                 for rc in list(ast.literal_eval(rec[ids])):
-                    vals.append({"name":rc, "code":rc})
+                    vals.append({"code":rc["text"], "name":rc["text"]})
                 val = json.dumps(vals)
             else:
                 val = rec[ids]
             aType = answerType[i]
             if answerType[i] in ["FREE"]:
                 aType = "VALUE"
+            if answerType[i] in ["PHOTO"]:
+                aType = "IMAGE"
             form = {
                 "answerType": aType,
                 "iteration": 0,
@@ -162,25 +162,84 @@ def submit():
         "responses": data,
         "submissionDate": int(rec['_submissionStop']),
         "username": "Deden Akvo",
-        "uuid": rec['_uuid']
+        "uuid": _uuid
     }
-    response = r.post(posturl, headers=header, data=json.dumps(payload))
-    #sendZip(results, rec['_uuid'])
-    return jsonify(response.json())
+    sendZip(payload, _uuid, rec['_instanceId'], imagelist)
+    return jsonify(payload)
 
-def sendZip(results, uuid):
+def sendZip(payload, _uuid, instance_id, imagelist):
     with open('data.json','w') as f:
-        json.dump(results, f)
-    zip_name = uuid  + '.zip'
+        json.dump(payload, f)
+    zip_name = _uuid + '.zip'
     zip_file = ZipFile(zip_name, 'w')
     zip_file.write('data.json', compress_type=ZIP_DEFLATED)
     zip_file.close()
-    if os.path.isfile('data.json'):
-        os.remove('data.json')
+    os.rename(zip_name, zip_name)
+    combined="all-{}.zip".format(round(datetime.today().timestamp()))
+    with ZipFile(combined, 'w') as all_zip:
+        all_zip.write(zip_name)
+        for image in imagelist:
+            os.rename('./tmp-images/' + image, image)
+            all_zip.write(image)
+            os.remove(image)
+
+    fsize = os.path.getsize(combined)
+    uid = str(uuid.uuid4())
+    params = {
+        'resumableChunkNumber': 1,
+        'resumableChunkSize': 524288,
+        'resumableCurrentChunkSize': fsize,
+        'resumableTotalSize': fsize,
+        'resumableType': 'application/zip',
+        'resumableIdentifier': uid,
+        'resumableFilename': combined,
+        'resumableRelativePath': combined,
+        'resumableTotalChunks': 1
+    }
+
+    files = {
+        'file': (combined, open(combined, 'rb'), 'application/zip')
+    }
+    result = r.post(BASE_URL, files= files, data=params)
+    bucket = instance_id + '.s3.amazonaws.com'
+    instances = pd.read_csv(instance_list)
+    bucket_url = 'https://' + bucket + '/surveys/'
+    dashboard = list(instances[instances['names'] == bucket_url]['instances'])[0]
+    params = {
+        'uniqueIdentifier': uid,
+        'filename': combined,
+        'baseURL': dashboard,
+        'appId': instance_id,
+        'uploadDomain': bucket,
+        'complete': 'true'
+    }
+    result = r.post(BASE_URL, data=params)
     if not os.path.exists('./tmp'):
         os.mkdir('./tmp')
-    os.rename(zip_name, './tmp/' + zip_name)
+    if os.path.isfile('data.json'):
+        os.remove('data.json')
+    if os.path.isfile(combined):
+        os.rename(combined, './tmp/ ' + combined)
+    return result
 
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+@app.route('/upload-image', methods=['GET', 'POST'])
+def upload_file():
+    files = dict(request.files)
+    if request.method == "POST":
+        _uuid = str(uuid.uuid4())
+        for f in files:
+            fn = files[f]
+            for fs in fn:
+                filetype = fs.filename.split('.')[-1]
+                _uuid += '.' + filetype
+                fs.save(os.path.join(app.config['UPLOAD_FOLDER'], _uuid))
+        return _uuid
+    else:
+        make_response("Failed", 400)
 
 if __name__ == '__main__':
     app.jinja_env.auto_reload = True
