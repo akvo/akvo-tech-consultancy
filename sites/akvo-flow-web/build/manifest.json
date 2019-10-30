@@ -1,0 +1,16 @@
+{
+  "short_name": "Flow React",
+  "name": "React Web App for Flow",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ],
+  "start_url": ".",
+  "homepage": "https://tech-consultancy.akvotest.org/akvo-flow-web",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
