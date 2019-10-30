@@ -17,8 +17,9 @@ app = Flask(__name__)
 CORS(app)
 instance_list = './data/flow-survey-amazon-aws.csv'
 BASE_URL="https://flow-services.akvotest.org/upload"
+PASSWORD="2SCALE"
 
-UPLOAD_FOLDER='./tmp-images'
+UPLOAD_FOLDER='./tmp/images'
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -91,8 +92,7 @@ def cascade(instance,sqlite,lv):
     result = table[table['parent'] == int(lv)].sort_values(by="name").to_dict('records')
     return jsonify(result)
 
-@app.route('/submit-form', methods=['POST'])
-def submit():
+def submitprocess(rec, _uuid):
     rec = request.get_json()
     _uuid = str(uuid.uuid4())
     questionId = rec['questionId'].split(',')
@@ -125,7 +125,7 @@ def submit():
                     val = json.dumps([{"text":rec[ids]}])
                 print(val)
             elif answerType[i] == "PHOTO":
-                val = json.dumps([{"filename":rec[ids]}])
+                val = json.dumps({"filename":rec[ids]})
                 imagelist.append(rec[ids])
             elif answerType[i] == "CASCADE":
                 vals = []
@@ -167,6 +167,9 @@ def submit():
     sendZip(payload, _uuid, rec['_instanceId'], imagelist)
     return jsonify(payload)
 
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 def sendZip(payload, _uuid, instance_id, imagelist):
     with open('data.json','w') as f:
         json.dump(payload, f)
@@ -179,9 +182,10 @@ def sendZip(payload, _uuid, instance_id, imagelist):
     with ZipFile(combined, 'w') as all_zip:
         all_zip.write(zip_name)
         for image in imagelist:
-            os.rename('./tmp-images/' + image, image)
-            all_zip.write(image)
-            os.remove(image)
+            if os.path.isfile('./tmp/images/' + image ):
+                os.rename('./tmp/images/' + image, image)
+                all_zip.write(image)
+                os.remove(image)
 
     fsize = os.path.getsize(combined)
     uid = str(uuid.uuid4())
@@ -222,13 +226,26 @@ def sendZip(payload, _uuid, instance_id, imagelist):
         os.rename(combined, './tmp/ ' + combined)
     return result
 
-
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+@app.route('/submit-form', methods=['POST'])
+def submit():
+    rec = request.get_json()
+    _uuid = str(uuid.uuid4())
+    submit = False
+    if rec['_password'] == PASSWORD:
+        submit = True
+    if submit:
+        response = submitprocess(rec, _uuid)
+        return response
+    resp = make_response("Integrity Error", 400)
+    return resp
 
 @app.route('/upload-image', methods=['GET', 'POST'])
 def upload_file():
     files = dict(request.files)
+    if not os.path.exists('./tmp'):
+        os.mkdir('./tmp')
+    if not os.path.exists('./tmp/images'):
+        os.mkdir('./tmp/images')
     if request.method == "POST":
         _uuid = str(uuid.uuid4())
         for f in files:
