@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "866712e4c346258ae1543f6f14e24670",
+    "revision": "acdc4d5c0d1177feb3f24f881feafcb5",
     "url": "/akvo-flow-web/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/akvo-flow-web/static/css/2.5e3fb3fa.chunk.css"
   },
   {
-    "revision": "522886c02d197d9654cc",
+    "revision": "e749e3f675d7314a223f",
     "url": "/akvo-flow-web/static/css/main.c9bf2bc9.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/akvo-flow-web/static/js/2.e2d3be11.chunk.js"
   },
   {
-    "revision": "522886c02d197d9654cc",
-    "url": "/akvo-flow-web/static/js/main.3cb96d21.chunk.js"
+    "revision": "e749e3f675d7314a223f",
+    "url": "/akvo-flow-web/static/js/main.39659208.chunk.js"
   },
   {
     "revision": "efd400460111dd5b74b3",
