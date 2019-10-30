@@ -112,14 +112,16 @@ const showHideQuestions = (orig, group) => {
                 if (answer === answer_value) {
                     show = true
                 }
-            } else {
-                show = false
             }
-            if (updated_answer.length > 0) {
-                let ua = updated_answer.find(b => {return parseInt(b.id) === parseInt(dependent.question)})
-                if (ua.length > 0) {
-                    console.log(ua.filter(b => b.show))
-                }
+            if (localStorage.getItem(parseInt(dependent.question)) === null) {
+                show = false
+                localStorage.removeItem(x.id)
+            }
+            let current_state = updated_answer.find(u => {
+                return parseInt(u.id) === parseInt(dependent.question)
+            });
+            if (current_state.show === false) {
+                show = false
             }
         }
         if (group) {

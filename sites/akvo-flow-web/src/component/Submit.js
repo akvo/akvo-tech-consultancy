@@ -16,13 +16,21 @@ class Submit extends Component {
     constructor(props) {
         super(props);
         this.showCaptcha = this.showCaptcha.bind(this)
+        this.showPassword = this.showPassword.bind(this)
         this.submitForm = this.submitForm.bind(this)
+        this.handleCaptcha = this.handleCaptcha.bind(this)
+        this.handlePassword = this.handlePassword.bind(this)
         this.showSpinner = this.showSpinner.bind(this)
         this.state = {
             _showCaptcha : this.props.value.captcha,
             _showSpinner : false
         }
 		this._reCaptchaRef = React.createRef();
+    }
+
+    handlePassword (event) {
+        console.log(event.target.value)
+        localStorage.setItem("_password",event.target.value)
     }
 
 	handleCaptcha = value => {
@@ -54,6 +62,25 @@ class Submit extends Component {
         )
     }
 
+    showPassword = () => {
+        return (
+            <Fragment>
+                <label
+                    className="form-password-label"
+                    htmlFor={"submit-password"}>
+                    Password:
+                </label>
+                <input
+                    className="form-control"
+                    type="password"
+                    name="submit-password"
+                    onChange={this.handlePassword}
+                />
+                <hr/>
+            </Fragment>
+        )
+    }
+
     submitForm () {
         localStorage.setItem("_submissionStop", Date.now())
         this.setState({'_showSpinner': true})
@@ -62,8 +89,8 @@ class Submit extends Component {
                 this.setState({'_showSpinner': false})
                 swal("Success!", "New datapoint is sent!", "success")
                 return res;
-            }).catch(error => {
-                // Only for Training
+            }).catch((res, error) => {
+                console.log(res, error)
                 this.setState({'_showSpinner': false})
                 swal("Failed!", "Something Wrong!", "error")
                 // setTimeout(function(){
@@ -87,6 +114,7 @@ class Submit extends Component {
             <Fragment>
                 {this.props.value.captcha ? this.showCaptcha() : false}
                 <div className="submit-block">
+                    {this.props.value.submit? this.showPassword() : false}
                     <button
                         onClick={this.submitForm}
                         className={"btn btn-block btn-" + ( this.props.value.submit ? "primary" : "secondary")
