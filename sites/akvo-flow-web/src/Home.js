@@ -18,7 +18,7 @@ import {
 } from 'react-icons/fa'
 import { PROD_URL } from './util/Environment.js'
 
-const API_URL = (PROD_URL ? "https://tech-consultancy.akvotest.org/akvo-flow-web-api/" : process.env.REACT_APP_API_URL)
+const API_URL = (PROD_URL ? "https://2scale.tc.akvo.org/akvo-flow-web-api/" : process.env.REACT_APP_API_URL)
 const CACHE_URL = (PROD_URL ? "update" : "fetch")
 const DELAY = 10000000;
 

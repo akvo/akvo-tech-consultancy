@@ -5,7 +5,7 @@ import axios from 'axios';
 import QuestionHandler from '../util/QuestionHandler'
 import { PROD_URL } from '../util/Environment'
 
-const API_URL = (PROD_URL ? "https://tech-consultancy.akvotest.org/akvo-flow-web-api/" : "http://localhost:5000/")
+const API_URL = (PROD_URL ? "https://2scale.tc.akvo.org/akvo-flow-web-api/" : "http://localhost:5000/")
 const pathurl = (PROD_URL ? 2 : 1)
 
 class QuestionType extends Component {
