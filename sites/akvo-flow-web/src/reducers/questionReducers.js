@@ -117,12 +117,6 @@ const showHideQuestions = (orig, group) => {
                 show = false
                 localStorage.removeItem(x.id)
             }
-            let current_state = updated_answer.find(u => {
-                return parseInt(u.id) === parseInt(dependent.question)
-            });
-            if (current_state.show === false) {
-                show = false
-            }
         }
         if (group) {
             if(x.group !== group){
@@ -131,6 +125,14 @@ const showHideQuestions = (orig, group) => {
         }
         if (!group && !show) {
             localStorage.removeItem(x.id)
+        }
+        if (dependent) {
+            let current_state = updated_answer.find(u => {
+                return parseInt(u.id) === parseInt(dependent.question)
+            });
+            if (current_state.show === false) {
+                show = false
+            }
         }
         updated_answer.push({...x, show:show, type: getQuestionType(x)})
         return { ...x, show:show, type: getQuestionType(x)}
