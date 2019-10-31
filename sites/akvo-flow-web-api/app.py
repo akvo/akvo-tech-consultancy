@@ -239,6 +239,12 @@ def submit():
     resp = make_response("Integrity Error", 400)
     return resp
 
+@app.route('/test-post', methods=['GET','POST'])
+def testpost():
+    if request.method == 'POST':
+        return "POST, itworks!"
+    return "GET, itworks!"
+
 @app.route('/upload-image', methods=['GET', 'POST'])
 def upload_file():
     files = dict(request.files)
