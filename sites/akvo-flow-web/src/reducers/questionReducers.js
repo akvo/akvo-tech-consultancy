@@ -125,13 +125,13 @@ const showHideQuestions = (orig, group) => {
         }
         if (!group && !show) {
             localStorage.removeItem(x.id)
-        }
-        if (dependent) {
-            let current_state = updated_answer.find(u => {
-                return parseInt(u.id) === parseInt(dependent.question)
-            });
-            if (current_state.show === false) {
-                show = false
+            if (dependent) {
+                let current_state = updated_answer.find(u => {
+                    return parseInt(u.id) === parseInt(dependent.question)
+                });
+                if (current_state.show === false) {
+                    show = false
+                }
             }
         }
         updated_answer.push({...x, show:show, type: getQuestionType(x)})
@@ -234,7 +234,8 @@ export const questionReducers = (state = initialState, action) => {
         case 'CHECK SUBMISSION':
             return {
                 ...state,
-                captcha: checkSubmission(state.answers, state.questions)
+                captcha: checkSubmission(state.answers, state.questions),
+                submit: false
             }
         case 'SUBMIT STATE':
             return {

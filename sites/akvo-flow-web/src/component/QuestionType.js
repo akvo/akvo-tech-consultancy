@@ -149,6 +149,9 @@ class QuestionType extends Component {
 
     getRadio (data, unique) {
         let opts = data.options
+        if (opts.allowMultiple === undefined) {
+            opts = {...opts, allowMultiple: false}
+        }
         let radioType = (opts.allowMultiple ? "checkbox" : "radio")
         return (
             opts.option.length > 1 ? (opts.option.map((opt, i) => this.renderRadio(
@@ -195,6 +198,7 @@ class QuestionType extends Component {
     }
 
     getCascade (opts, lv, unique) {
+        console.log(opts)
         let l = opts.levels.level.length - 1
         return opts.levels.level.map((opt, i) => {
             this.limitCascade = i + 1
