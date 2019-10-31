@@ -256,7 +256,7 @@ def upload_file():
                 fs.save(os.path.join(app.config['UPLOAD_FOLDER'], _uuid))
         return _uuid
     else:
-        make_response("Failed", 400)
+        return make_response("Failed", 400)
 
 if __name__ == '__main__':
     app.jinja_env.auto_reload = True
