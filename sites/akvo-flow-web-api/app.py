@@ -271,6 +271,7 @@ def upload_file():
         for f in files:
             fn = files[f]
             for fs in fn:
+                print(fs)
                 filetype = fs.filename.split('.')[-1]
                 _uuid += '.' + filetype
                 fs.save(os.path.join(app.config['UPLOAD_FOLDER'], _uuid))
