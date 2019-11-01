@@ -226,16 +226,23 @@ def sendZip(payload, _uuid, instance_id, imagelist):
         os.rename(combined, './tmp/ ' + combined)
     return result
 
-@app.route('/submit-form', methods=['POST'])
+@app.route('/submit-form', methods=['POST', 'OPTIONS'])
 def submit():
     rec = request.get_json()
     _uuid = str(uuid.uuid4())
     submit = False
-    if rec['_password'] == PASSWORD:
-        submit = True
-    if submit:
-        response = submitprocess(rec, _uuid)
-        return response
+    if request.method == 'POST':
+        if rec['_password'] == PASSWORD:
+            submit = True
+        if submit:
+            response = submitprocess(rec, _uuid)
+            return response
+    if request.method == 'OPTIONS':
+        if rec['_password'] == PASSWORD:
+            submit = True
+        if submit:
+            response = submitprocess(rec, _uuid)
+            return response
     resp = make_response("Integrity Error", 400)
     return resp
 
