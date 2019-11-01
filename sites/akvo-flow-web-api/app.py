@@ -267,9 +267,7 @@ def upload_file():
         for f in list(files):
             fn = files[f]
             for fs in fn:
-                filetype = fs.headers.get('Content-Disposition').split('=')[2].replace('"','').split('.')[1]
-                print(filetype)
-                _uuid += '.' + filetype
+                _uuid += '.jpg'
                 fs.save(os.path.join(app.config['UPLOAD_FOLDER'], _uuid))
         resp = make_response(_uuid, 200)
         resp.headers['Access-Control-Allow-Origin'] = request.headers['Origin']
