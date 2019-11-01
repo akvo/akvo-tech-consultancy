@@ -245,7 +245,21 @@ def testpost():
         return "POST, itworks!"
     return "GET, itworks!"
 
-@app.route('/upload-image', methods=['GET', 'POST'])
+@app.route('/fetch-image', methods=['GET'])
+def fetch_file():
+    return jsonify(request.headers)
+
+@app.route('/delete-image/<image_file>')
+def delete_file(image_file):
+    image_path = './tmp/images/' + image_file
+    if os.path.exists(image_path):
+        os.remove(image_path)
+        return jsonify({'file': image_file, 'status': 'removed'})
+    else:
+        return make_response("Image is Expired", 204)
+
+
+@app.route('/upload-image', methods=['GET', 'POST', 'DELETE', 'OPTIONS'])
 def upload_file():
     files = dict(request.files)
     if not os.path.exists('./tmp'):
@@ -260,7 +274,27 @@ def upload_file():
                 filetype = fs.filename.split('.')[-1]
                 _uuid += '.' + filetype
                 fs.save(os.path.join(app.config['UPLOAD_FOLDER'], _uuid))
-        return _uuid
+        resp = make_response(_uuid, 200)
+        resp.headers['Access-Control-Allow-Origin'] = request.headers['Origin']
+        resp.headers['Content-Type'] = request.headers['Content-Type']
+        resp.headers['Accept'] = request.headers['Accept']
+        resp.headers['Accept-Encoding'] = request.headers['Accept-Encoding']
+        return resp
+    elif request.method == "OPTIONS":
+        print(request.headers)
+        method = request.headers['Access-Control-Request-Method']
+        if method == "DELETE":
+            resp = delete_file(request.text)
+        if method == "POST":
+            resp = make_response("Success", 200)
+            resp.headers['Access-Control-Allow-Origin'] = request.headers['Origin']
+            resp.headers['Accept'] = request.headers['Accept']
+            resp.headers['Accept-Encoding'] = request.headers['Accept-Encoding']
+        return resp
+    elif request.method == "DELETE":
+        print(request.args)
+        response = delete_file(request.text)
+        return response
     else:
         return make_response("Failed", 400)
 
