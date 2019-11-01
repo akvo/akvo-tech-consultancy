@@ -198,7 +198,6 @@ class QuestionType extends Component {
     }
 
     getCascade (opts, lv, unique) {
-        console.log(opts)
         let l = opts.levels.level.length - 1
         return opts.levels.level.map((opt, i) => {
             this.limitCascade = i + 1
@@ -306,14 +305,48 @@ class QuestionType extends Component {
     getPhoto(data, unique, answered, type) {
         return (
             <FilePond
+                server={(
+                    {
+                        url: API_URL,
+                        process: {
+                            url: './upload-image',
+                            method: 'POST',
+                            onload: (response) => {
+                                this.handlePhoto(response)
+                                return response.key
+                            },
+                            onerror: (response) => {
+                                return response.data
+                            },
+                            ondata: (formData) => {
+                                formData.append('Status', 'Uploaded');
+                                return formData;
+                            }
+                        },
+                        patch: {
+                            url: './upload-image',
+                            method: 'GET',
+                            onload: (response) => {
+                                this.handlePhoto(response)
+                                return response.key
+                            },
+                            onerror: (response) => {
+                                return response.data
+                            }
+                        },
+                        revert: {
+                            url: './delete-image/' + localStorage.getItem(data.id),
+                            method: 'GET',
+                            onload: (response) => {
+                                localStorage.removeItem(data.id)
+                            }
+                        }
+                    }
+                )}
                 key={unique}
                 allowMultiple={false}
                 name={'Q-' + data.id.toString()}
                 data-max-file-size="500kb"
-                server={API_URL + "upload-image"}
-                onprocessfile={(err, file) => {
-                    this.handlePhoto(file.serverId)
-                }}
             />
         )
     }

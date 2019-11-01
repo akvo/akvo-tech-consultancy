@@ -1,1 +1,1 @@
-export const PROD_URL = true
+export const PROD_URL = false
