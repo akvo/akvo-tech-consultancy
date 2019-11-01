@@ -267,7 +267,7 @@ def upload_file():
         for f in list(files):
             image = files[f]
             fn = image.filename
-            fn = fn.split('.')[1]
+            fn = fn.split('.')[-1]
             _uuid += '.' + fn
             image.save(os.path.join(app.config['UPLOAD_FOLDER'], _uuid))
         resp = make_response(_uuid, 200)
