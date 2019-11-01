@@ -29,12 +29,8 @@ class Home extends Component {
         this.instance = this.props.match.params.instance
         this.surveyId = this.props.match.params.surveyid
         this.setFullscreen = this.setFullscreen.bind(this)
-        this.selectGroup = this.selectGroup.bind(this)
         this.state = {
             _fullScreen: false,
-            _prevGroup: false,
-            _nextGroup: true,
-            _totalGroup: this.props.value.groups.length
         }
     }
 
@@ -63,10 +59,6 @@ class Home extends Component {
         localStorage.setItem("answerType", answerType)
         this.setState({
             ...data,
-            _nextGroup: (data.questionGroup.length >= 1 ? 0 : 1),
-            _currentGroup: 0,
-            _prevGroup: 0,
-            _totalGroup: data.questionGroup.length
         })
         let dataPointId = [
             Math.random().toString(36).slice(2).substring(1, 5),
@@ -88,13 +80,6 @@ class Home extends Component {
         const currentState = this.state._fullscreen
         this.setState({
             _fullscreen: !currentState
-        })
-    }
-
-    selectGroup = () => {
-        this.setState({
-            _prevGroup:false,
-            _nextGroup:true
         })
     }
 
@@ -131,13 +116,6 @@ class Home extends Component {
                             {this.state._fullscreen ? <FaArrowRight /> : <FaArrowLeft />}
                         </button>
                         {( this.props.value.questions.length === 1 ? "" : (<DataPoint />) )}
-                        <Pagination onSelectGroup={this.selectGroup} data={
-                            {
-                             'prev':this.state._prevGroup,
-                             'total':this.state._totalGroup,
-                             'next':this.state._nextGroup
-                            }
-                        }/>
                     </nav>
                     <div className="container-fluid fixed-container" key={'div-group-'+this.state.surveyId}>
                         <GroupHeaders />
@@ -149,5 +127,6 @@ class Home extends Component {
     };
 }
 //<Questions />
+//<Pagination />
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

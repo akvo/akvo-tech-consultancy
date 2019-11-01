@@ -9,7 +9,7 @@ body {
 
 .sidebar-wrapper {
   min-height: 100vh;
-  margin-left: 320px;
+  margin-left: -320px;
   -webkit-transition: margin .1s ease-out;
   -moz-transition: margin .1s ease-out;
   -o-transition: margin .1s ease-out;
@@ -39,11 +39,19 @@ body {
 .data-point-name{
     font-size: 16px;
     margin-bottom: auto;
+    text-align:right;
 }
 
 .data-point-id{
     display:block;
     font-size: 14px;
+    text-align:right;
+}
+.data-point-icon{
+    display:block;
+    margin-left: 20px;
+    font-size: 24px;
+    text-align:right;
 }
 
 .page-content-wrapper {
