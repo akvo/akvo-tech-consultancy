@@ -268,7 +268,7 @@ def upload_file():
             image = files[f]
             fn = image.filename
             fn = fn.split('.')[1]
-            _uuid += fn
+            _uuid += '.' + fn
             image.save(os.path.join(app.config['UPLOAD_FOLDER'], _uuid))
         resp = make_response(_uuid, 200)
         resp.headers['Access-Control-Allow-Origin'] = request.headers['Origin']
