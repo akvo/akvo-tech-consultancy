@@ -55,7 +55,6 @@ def survey(instance,surveyId,lang):
     if not os.path.exists(xmlpath):
         download = True
     if download:
-        print(endpoint+surveyId+'.zip')
         zipurl = r.get(endpoint+surveyId+'.zip', allow_redirects=True)
         z = ZipFile(BytesIO(zipurl.content))
         z.extractall(ziploc)
@@ -80,7 +79,6 @@ def survey(instance,surveyId,lang):
             if not os.path.exists(cascadefile):
                 download = True
             if download:
-                print("downloading... " + cascade)
                 zipurl = r.get(cascade, allow_redirects=True)
                 z = ZipFile(BytesIO(zipurl.content))
                 z.extractall(ziploc)
@@ -125,7 +123,6 @@ def submitprocess(rec, _uuid):
                     val = json.dumps(vals)
                 except:
                     val = json.dumps([{"text":rec[ids]}])
-                print(val)
             elif answerType[i] == "PHOTO":
                 val = json.dumps({"filename":rec[ids]})
                 imagelist.append(rec[ids])
@@ -240,19 +237,9 @@ def submit():
             response = submitprocess(rec, _uuid)
             return response
     if request.method == 'OPTIONS':
-        if rec['_password'] == PASSWORD:
-            submit = True
-        if submit:
-            response = submitprocess(rec, _uuid)
-            return response
+            return make_response("Verified", 200)
     resp = make_response("Integrity Error", 400)
     return resp
-
-@app.route('/test-post', methods=['GET','POST'])
-def testpost():
-    if request.method == 'POST':
-        return "POST, itworks!"
-    return "GET, itworks!"
 
 @app.route('/fetch-image', methods=['GET'])
 def fetch_file():
@@ -279,11 +266,9 @@ def upload_file():
         _uuid = str(uuid.uuid4())
         for f in files:
             fn = files[f]
-            fn = list(fn)
             for fs in fn:
-                filetype = fs.filename
-                filetype = filetype.split('.')[-1]
-                app.logger.info(filetype)
+                filetype = fs.content_type
+                filetype = filetype.split('/')[1]
                 _uuid += '.' + filetype
                 fs.save(os.path.join(app.config['UPLOAD_FOLDER'], _uuid))
         resp = make_response(_uuid, 200)
