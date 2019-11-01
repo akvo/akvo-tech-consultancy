@@ -94,20 +94,27 @@ class Submit extends Component {
                 }
             )
             .then(res => {
+                swal({
+                    icon: "success",
+                    title: "Success!",
+                    text: "New datapoint is sent! clearing form...",
+                    closeOnClickOutside: false,
+                    closeOnEsc: false,
+                    button: false,
+                    timer: 3200
+                })
                 this.setState({'_showSpinner': false})
-                swal("Success!", "New datapoint is sent!", "success")
+                setTimeout(function(){
+                     localStorage.clear()
+                     setTimeout(function(){
+                        window.location.reload();
+                     }, 3000);
+                }, 500);
                 return res;
             }).catch((res, error) => {
                 console.log(res, error)
                 this.setState({'_showSpinner': false})
-                swal("Failed!", "Something Wrong!", "error")
-                // setTimeout(function(){
-                //     localStorage.clear()
-                //     setTimeout(function(){
-                //         window.location.reload();
-                //     }, 5000);
-                // }, 1000);
-                // Debug swal("Oops!", "Something went wrong!", "error")
+                swal("Oops!", "Something went wrong!", "error")
             })
     }
 
