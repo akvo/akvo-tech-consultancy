@@ -264,11 +264,11 @@ def upload_file():
         os.mkdir('./tmp/images')
     if request.method == "POST":
         _uuid = str(uuid.uuid4())
-        for f in files:
+        for f in list(files):
             fn = files[f]
             for fs in fn:
-                filetype = fs.content_type
-                filetype = filetype.split('/')[1]
+                filetype = fs.headers.get('Content-Disposition').split('=')[2].replace('"','').split('.')[1]
+                print(filetype)
                 _uuid += '.' + filetype
                 fs.save(os.path.join(app.config['UPLOAD_FOLDER'], _uuid))
         resp = make_response(_uuid, 200)
