@@ -12,8 +12,10 @@ import xmltodict
 import json
 import os
 import ast
+import logging
 
 app = Flask(__name__)
+logging.basicConfig(level=logging.DEBUG)
 CORS(app)
 instance_list = './data/flow-survey-amazon-aws.csv'
 BASE_URL="https://flow-services.akvotest.org/upload"
@@ -275,11 +277,13 @@ def upload_file():
         os.mkdir('./tmp/images')
     if request.method == "POST":
         _uuid = str(uuid.uuid4())
+        app.logger.info(request.files)
         for f in files:
             fn = files[f]
             for fs in fn:
-                print(fs)
+                app.logger.info(fs)
                 filetype = fs.filename.split('.')[-1]
+                app.logger.info(filetype)
                 _uuid += '.' + filetype
                 fs.save(os.path.join(app.config['UPLOAD_FOLDER'], _uuid))
         resp = make_response(_uuid, 200)
@@ -289,7 +293,6 @@ def upload_file():
         resp.headers['Accept-Encoding'] = request.headers['Accept-Encoding']
         return resp
     elif request.method == "OPTIONS":
-        print(request.headers)
         method = request.headers['Access-Control-Request-Method']
         if method == "DELETE":
             resp = delete_file(request.text)
@@ -300,7 +303,6 @@ def upload_file():
             resp.headers['Accept-Encoding'] = request.headers['Accept-Encoding']
         return resp
     elif request.method == "DELETE":
-        print(request.args)
         response = delete_file(request.text)
         return response
     else:
