@@ -277,12 +277,12 @@ def upload_file():
         os.mkdir('./tmp/images')
     if request.method == "POST":
         _uuid = str(uuid.uuid4())
-        app.logger.info(request.files)
         for f in files:
             fn = files[f]
+            fn = list(fn)
             for fs in fn:
-                app.logger.info(fs)
-                filetype = fs.filename.split('.')[-1]
+                filetype = fs.filename
+                filetype = filetype.split('.')[-1]
                 app.logger.info(filetype)
                 _uuid += '.' + filetype
                 fs.save(os.path.join(app.config['UPLOAD_FOLDER'], _uuid))
