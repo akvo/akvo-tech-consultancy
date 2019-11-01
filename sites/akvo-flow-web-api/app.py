@@ -265,10 +265,10 @@ def upload_file():
     if request.method == "POST":
         _uuid = str(uuid.uuid4())
         for f in list(files):
-            fn = files[f]
-            for fs in fn:
-                _uuid += '.jpg'
-                fs.save(os.path.join(app.config['UPLOAD_FOLDER'], _uuid))
+            fn = f.filename
+            fn = fn.split('.')[1]
+            _uuid += fn
+            f.save(os.path.join(app.config['UPLOAD_FOLDER'], _uuid))
         resp = make_response(_uuid, 200)
         resp.headers['Access-Control-Allow-Origin'] = request.headers['Origin']
         resp.headers['Content-Type'] = request.headers['Content-Type']
