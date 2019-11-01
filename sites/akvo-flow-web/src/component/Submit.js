@@ -8,7 +8,7 @@ import { Spinner } from 'reactstrap'
 import '../App.css'
 import { PROD_URL } from '../util/Environment'
 
-const API_URL = (PROD_URL ? "https://2scale.tc.akvotest.org/akvo-flow-web-api/" : process.env.REACT_APP_API_URL)
+const API_URL = (PROD_URL ? "https://2scale.tc.akvo.org/akvo-flow-web-api/" : process.env.REACT_APP_API_URL)
 const SITE_KEY = "6Lejm74UAAAAAA6HkQwn6rkZ7mxGwIjOx_vgNzWC"
 
 class Submit extends Component {
@@ -84,7 +84,15 @@ class Submit extends Component {
     submitForm () {
         localStorage.setItem("_submissionStop", Date.now())
         this.setState({'_showSpinner': true})
-        axios.post(API_URL+ 'submit-form', localStorage)
+        let content_length =  JSON.stringify(localStorage).length.toString()
+        let content = localStorage;
+        axios.post(API_URL+ 'submit-form',
+                content, { headers: {
+                'Content-Length': content_length,
+                'Content-Type': 'application/json'
+                    }
+                }
+            )
             .then(res => {
                 this.setState({'_showSpinner': false})
                 swal("Success!", "New datapoint is sent!", "success")

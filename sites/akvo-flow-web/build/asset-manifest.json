@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/akvo-flow-web/static/css/main.c9bf2bc9.chunk.css",
-    "main.js": "/akvo-flow-web/static/js/main.ce5bab47.chunk.js",
-    "main.js.map": "/akvo-flow-web/static/js/main.ce5bab47.chunk.js.map",
+    "main.js": "/akvo-flow-web/static/js/main.0215ba9a.chunk.js",
+    "main.js.map": "/akvo-flow-web/static/js/main.0215ba9a.chunk.js.map",
     "runtime~main.js": "/akvo-flow-web/static/js/runtime~main.7129806f.js",
     "runtime~main.js.map": "/akvo-flow-web/static/js/runtime~main.7129806f.js.map",
     "static/css/2.4ad65912.chunk.css": "/akvo-flow-web/static/css/2.4ad65912.chunk.css",
     "static/js/2.09cb768e.chunk.js": "/akvo-flow-web/static/js/2.09cb768e.chunk.js",
     "static/js/2.09cb768e.chunk.js.map": "/akvo-flow-web/static/js/2.09cb768e.chunk.js.map",
     "index.html": "/akvo-flow-web/index.html",
-    "precache-manifest.6e945ced8cf93f3b24374d61568d7249.js": "/akvo-flow-web/precache-manifest.6e945ced8cf93f3b24374d61568d7249.js",
+    "precache-manifest.240ad31d14f0c8334c39b04bbed02766.js": "/akvo-flow-web/precache-manifest.240ad31d14f0c8334c39b04bbed02766.js",
     "service-worker.js": "/akvo-flow-web/service-worker.js",
     "static/css/2.4ad65912.chunk.css.map": "/akvo-flow-web/static/css/2.4ad65912.chunk.css.map",
     "static/css/main.c9bf2bc9.chunk.css.map": "/akvo-flow-web/static/css/main.c9bf2bc9.chunk.css.map"
