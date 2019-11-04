@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use App\Libraries\Akvo;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +17,12 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/test', function (Request $request) {
+    Akvo::login();
+    return response()->json([
+        'status' => 'mashook'
+    ]);
+});
+
+Route::get('/surveys/{id}', 'SurveyController@getSurvey');
