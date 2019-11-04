@@ -119,7 +119,13 @@ def submitprocess(rec, _uuid):
                 try:
                     vals = []
                     for rc in list(ast.literal_eval(rec[ids])):
-                        vals.append({"text":rc})
+                        if rc == "Other Option":
+                            if(rec["other_" + ids]):
+                                vals.append({"text":rec["other_" + ids],"isOther":True})
+                            else:
+                                vals.append({"text":"No Answer","isOther":True})
+                        else:
+                            vals.append({"text":rc})
                     val = json.dumps(vals)
                 except:
                     val = json.dumps([{"text":rec[ids]}])
@@ -160,7 +166,7 @@ def submitprocess(rec, _uuid):
         "formVersion": version,
         "responses": data,
         "submissionDate": int(rec['_submissionStop']),
-        "username": "Deden Akvo",
+        "username": rec['_username'],
         "uuid": _uuid
     }
     sendZip(payload, _uuid, rec['_instanceId'], imagelist)
@@ -221,6 +227,8 @@ def sendZip(payload, _uuid, instance_id, imagelist):
         os.mkdir('./tmp')
     if os.path.isfile('data.json'):
         os.remove('data.json')
+    if os.path.isfile(zip_name):
+        os.remove(zip_name)
     if os.path.isfile(combined):
         os.rename(combined, './tmp/ ' + combined)
     return result
