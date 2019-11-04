@@ -20,6 +20,7 @@ class Submit extends Component {
         this.submitForm = this.submitForm.bind(this)
         this.handleCaptcha = this.handleCaptcha.bind(this)
         this.handlePassword = this.handlePassword.bind(this)
+        this.handleUser = this.handleUser.bind(this)
         this.showSpinner = this.showSpinner.bind(this)
         this.state = {
             _showCaptcha : this.props.value.captcha,
@@ -31,6 +32,11 @@ class Submit extends Component {
     handlePassword (event) {
         console.log(event.target.value)
         localStorage.setItem("_password",event.target.value)
+    }
+
+    handleUser (event) {
+        console.log(event.target.value)
+        localStorage.setItem("_username",event.target.value)
     }
 
 	handleCaptcha = value => {
@@ -65,6 +71,17 @@ class Submit extends Component {
     showPassword = () => {
         return (
             <Fragment>
+                <label
+                    className="form-password-label"
+                    htmlFor={"submit-username"}>
+                    Username:
+                </label>
+                <input
+                    className="form-control"
+                    type="text"
+                    name="submit-username"
+                    onChange={this.handleUser}
+                />
                 <label
                     className="form-password-label"
                     htmlFor={"submit-password"}>

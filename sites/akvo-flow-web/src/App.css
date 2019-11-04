@@ -39,18 +39,16 @@ body {
 .data-point-name{
     font-size: 16px;
     margin-bottom: auto;
-    text-align:right;
+    text-align:center;
 }
 
 .data-point-id{
     display:block;
     font-size: 14px;
-    text-align:right;
+    text-align:center;
 }
 .data-point-icon{
-    display:block;
-    margin-left: 20px;
-    font-size: 24px;
+    margin-right: 10px;
     text-align:right;
 }
 
@@ -133,4 +131,7 @@ body {
 img.responsive-image {
     width: 100%;
     padding: 20px;
+}
+.hidden {
+    display:none!important;
 }

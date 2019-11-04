@@ -12,11 +12,11 @@ class DataPoint extends Component {
             <Fragment>
             <div className="data-point">
                 <h3 className="data-point-name">
+                    <FaThumbtack color="#9ea4a8" className="data-point-icon"/>
                     {this.props.value.datapoint}
                 </h3>
                 <span className="data-point-id">{this.props.value.uuid}</span>
             </div>
-            <FaThumbtack color="#495057" className="data-point-icon"/>
             </Fragment>
         );
     }

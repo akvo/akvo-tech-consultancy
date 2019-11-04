@@ -34,7 +34,8 @@ const initialState = {
         active: 1,
     },
     pages:{
-    }
+    },
+    cascade:[]
 }
 
 const addQuestions = (data) => {
@@ -197,6 +198,13 @@ const setupPages = (current, data) => {
     }
 }
 
+const storeCascade = (current, cascade) => {
+    if (current.length < 1) {
+        return [cascade];
+    }
+    return [...current, cascade];
+}
+
 export const questionReducers = (state = initialState, action) => {
     switch(action.type){
         case 'LOAD QUESTIONS':
@@ -251,6 +259,11 @@ export const questionReducers = (state = initialState, action) => {
             return {
                 ...state,
                 pages: setupPages(state.pages, action.data)
+            }
+        case 'STORE CASCADE':
+            return {
+                ...state,
+                cascade: storeCascade(state.cascade, action.data)
             }
         default:
             return state;

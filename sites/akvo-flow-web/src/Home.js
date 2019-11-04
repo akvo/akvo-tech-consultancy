@@ -26,11 +26,14 @@ class Home extends Component {
 
     constructor(props) {
         super(props);
-        this.instance = this.props.match.params.instance
-        this.surveyId = this.props.match.params.surveyid
-        this.setFullscreen = this.setFullscreen.bind(this)
+        this.instance = this.props.match.params.instance;
+        this.surveyId = this.props.match.params.surveyid;
+        this.setFullscreen = this.setFullscreen.bind(this);
+        this.renderQuestions = this.renderQuestions.bind(this);
+        this.renderGroups = this.renderGroups.bind(this);
         this.state = {
             _fullScreen: false,
+            _rendered: false
         }
     }
 
@@ -67,7 +70,7 @@ class Home extends Component {
         ]
         localStorage.setItem("_dataPointId", dataPointId.join("-"))
         localStorage.setItem("_submissionStart", Date.now())
-        localStorage.setItem("_deviceId", "Deden Flow Support")
+        localStorage.setItem("_deviceId", "Akvo Flow Web")
     }
 
     updateQuestions = (index) => {
@@ -86,11 +89,17 @@ class Home extends Component {
     componentDidMount() {
         this.props.generateUUID({})
         this.props.changeSettings({_isLoading:true})
+        if (localStorage.getItem("_formId")) {
+            if (localStorage.getItem("_formId") !== this.surveyId){
+                localStorage.clear();
+            }
+        }
         localStorage.setItem("_formId", this.surveyId)
         localStorage.setItem("_instanceId", this.instance)
         axios.get(API_URL+ this.instance + '/' + this.surveyId + '/' + CACHE_URL)
             .then(res => {
                 this.updateData(res.data)
+                this.setState({ _rendered:true });
             })
             .catch(error => {
                 console.log(error)
@@ -102,12 +111,24 @@ class Home extends Component {
         }, DELAY);
     }
 
+    renderQuestions() {
+        return (
+            <Questions />
+        )
+    }
+
+    renderGroups() {
+        return (
+            <GroupButtons />
+        )
+    }
+
     render() {
         return (
             <div className={this.state._fullscreen ? "wrapper d-flex toggled": "wrapper d-flex"}>
                 <div className="sidebar-wrapper bg-light border-right">
                     <Header/>
-                    <GroupButtons />
+                    {this.state._rendered ? this.renderGroups() : ""}
                     {( this.props.value.questions.length === 1 ? "" : (<Submit />) )}
                 </div>
                 <div className="page-content-wrapper">
@@ -116,10 +137,11 @@ class Home extends Component {
                             {this.state._fullscreen ? <FaArrowRight /> : <FaArrowLeft />}
                         </button>
                         {( this.props.value.questions.length === 1 ? "" : (<DataPoint />) )}
+                        <Pagination />
                     </nav>
                     <div className="container-fluid fixed-container" key={'div-group-'+this.state.surveyId}>
                         <GroupHeaders />
-                        <Questions />
+                        {this.state._rendered ? this.renderQuestions() : ""}
                     </div>
                 </div>
             </div>
