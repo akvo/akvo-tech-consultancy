@@ -39,11 +39,11 @@ const initialState = {
 }
 
 const validateGroup = (data) => {
-	let groups = [];
     if (Array.isArray(data)) {
-		groups = data;
+        return data;
     }
-	if ( (typeof data === "object") ) {
+	let groups = [];
+	if ( typeof data === "object" ) {
 		groups.push({
 			index:0,
 			heading:data.heading,
@@ -73,6 +73,7 @@ const addQuestions = (data) => {
 	const groups = validateGroup(data.questionGroup);
 
 	let questionGroup = groups.map((g,i) => {
+        console.log(g,i)
 		return {
 			...g,
 			question: mapgroup(g.question, {heading:g.heading, index: i})
