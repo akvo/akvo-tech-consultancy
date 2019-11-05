@@ -19,10 +19,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/test', function (Request $request) {
-    Akvo::login();
     return response()->json([
         'status' => 'mashook'
     ]);
 });
 
-Route::get('/surveys/{id}', 'SurveyController@getSurvey');
+Route::get('/folders', 'FolderController@getFolders');
+Route::get('/surveys', 'SurveyController@getSurveys');
+Route::get('/survey/{id}', 'SurveyController@getSurvey');
