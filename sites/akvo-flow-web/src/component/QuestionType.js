@@ -198,11 +198,15 @@ class QuestionType extends Component {
     }
 
     getCascade (opts, lv, unique) {
-        let l = opts.levels.level.length - 1
-        return opts.levels.level.map((opt, i) => {
-            this.limitCascade = i + 1
-            return this.renderCascade(opt, i, l, unique)
-        })
+        if (Array.isArray(opts.levels.level)){
+            let l = opts.levels.level.length - 1
+            return opts.levels.level.map((opt, i) => {
+                this.limitCascade = i + 1
+                return this.renderCascade(opt, i, l, unique)
+            });
+        }
+        this.limitCascade = 1;
+        return this.renderCascade(opts.levels.level, 0, 0, unique);
     }
 
     renderCascade (opt, i, l, unique) {

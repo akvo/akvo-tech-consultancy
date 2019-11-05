@@ -37,6 +37,21 @@ const initialState = {
     }
 }
 
+const validateGroup = (data) => {
+	let groups = [];
+    if (Array.isArray(data)) {
+		groups = data;
+    }
+	if ( (typeof data === "object") ) {
+		groups.push({
+			index:0,
+			heading:data.heading,
+			question:data.question
+		});
+	}
+	return groups;
+}
+
 const addQuestions = (data) => {
     const relable = (q,g) => {
         return {
@@ -53,21 +68,29 @@ const addQuestions = (data) => {
     const mapgroup = (q, g) => {
         return q.map(q => relable(q,g))
     }
-    let questionGroup = data.questionGroup.map((g,i) => {
-        return {
-            ...g,
-            question: mapgroup(g.question, {heading:g.heading, index: i})
-        }
-    }).map(g => g.question)
+
+	const groups = validateGroup(data.questionGroup);
+
+	let questionGroup = groups.map((g,i) => {
+		return {
+			...g,
+			question: mapgroup(g.question, {heading:g.heading, index: i})
+		}
+	}).map(g => g.question)
+
     return [].concat(...questionGroup);
 }
 
 const listDatapoints = (data) => {
-    return addQuestions(data).filter(x => x.localeNameFlag).map(q => q.id)
+
+	const groups = validateGroup(data.questionGroup);
+    return addQuestions(groups).filter(x => x.localeNameFlag).map(q => q.id)
 }
 
 const listGroups = (data) => {
-    const group = data.questionGroup.map((x,i) => {return { index: (i + 1), heading: x.heading}});
+
+	const groups = validateGroup(data.questionGroup);
+    const group = groups.map((x,i) => {return { index: (i + 1), heading: x.heading}});
     return {
         list: group,
         active: 1
