@@ -14,9 +14,10 @@ class Questions extends Component {
 
     constructor(props) {
         super(props);
-        this.getForms = this.getForms.bind(this)
-        this.isJsonString = this.isJsonString.bind(this)
-        this.renderMandatoryIcon = this.renderMandatoryIcon.bind(this)
+        this.getForms = this.getForms.bind(this);
+        this.isJsonString = this.isJsonString.bind(this);
+        this.renderMandatoryIcon = this.renderMandatoryIcon.bind(this);
+        this.renderQuestion = this.renderQuestion.bind(this);
     }
 
     isJsonString(str) {
@@ -26,6 +27,12 @@ class Questions extends Component {
             return false;
         }
         return true;
+    }
+
+    renderQuestion(qid, question) {
+        return(
+           <QuestionType key={'question-type-' + qid} data={question} />
+        )
     }
 
     renderMandatoryIcon(qid) {
@@ -46,14 +53,16 @@ class Questions extends Component {
                         { (question.order.toString()) + '. ' + question.text }
                         { question.mandatory ? this.renderMandatoryIcon(qid) : ''}
                     </CardTitle>
-                    <QuestionType key={'question-type-' + qid} data={question} />
+                    {this.renderQuestion(qid, question)}
                 </CardBody>
                 </Card>
             )}
         )
     }
 
-    render() {return this.getForms(this.props.value.questions)}
+    render() {
+        return this.getForms(this.props.value.questions);
+    }
 }
 
 export default connect(mapStateToProps)(Questions);

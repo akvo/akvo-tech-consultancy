@@ -8,7 +8,7 @@ import { Spinner } from 'reactstrap'
 import '../App.css'
 import { PROD_URL } from '../util/Environment'
 
-const API_URL = (PROD_URL ? "https://2scale.tc.akvotest.org/akvo-flow-web-api/" : process.env.REACT_APP_API_URL)
+const API_URL = (PROD_URL ? "https://2scale.tc.akvo.org/akvo-flow-web-api/" : process.env.REACT_APP_API_URL)
 const SITE_KEY = "6Lejm74UAAAAAA6HkQwn6rkZ7mxGwIjOx_vgNzWC"
 
 class Submit extends Component {
@@ -20,6 +20,7 @@ class Submit extends Component {
         this.submitForm = this.submitForm.bind(this)
         this.handleCaptcha = this.handleCaptcha.bind(this)
         this.handlePassword = this.handlePassword.bind(this)
+        this.handleUser = this.handleUser.bind(this)
         this.showSpinner = this.showSpinner.bind(this)
         this.state = {
             _showCaptcha : this.props.value.captcha,
@@ -31,6 +32,11 @@ class Submit extends Component {
     handlePassword (event) {
         console.log(event.target.value)
         localStorage.setItem("_password",event.target.value)
+    }
+
+    handleUser (event) {
+        console.log(event.target.value)
+        localStorage.setItem("_username",event.target.value)
     }
 
 	handleCaptcha = value => {
@@ -67,6 +73,17 @@ class Submit extends Component {
             <Fragment>
                 <label
                     className="form-password-label"
+                    htmlFor={"submit-username"}>
+                    Username:
+                </label>
+                <input
+                    className="form-control"
+                    type="text"
+                    name="submit-username"
+                    onChange={this.handleUser}
+                />
+                <label
+                    className="form-password-label"
                     htmlFor={"submit-password"}>
                     Password:
                 </label>
@@ -84,22 +101,37 @@ class Submit extends Component {
     submitForm () {
         localStorage.setItem("_submissionStop", Date.now())
         this.setState({'_showSpinner': true})
-        axios.post(API_URL+ 'submit-form', localStorage)
+        let content_length =  JSON.stringify(localStorage).length.toString()
+        let content = localStorage;
+        axios.post(API_URL+ 'submit-form',
+                content, { headers: {
+                'Content-Length': content_length,
+                'Content-Type': 'application/json'
+                    }
+                }
+            )
             .then(res => {
+                swal({
+                    icon: "success",
+                    title: "Success!",
+                    text: "New datapoint is sent! clearing form...",
+                    closeOnClickOutside: false,
+                    closeOnEsc: false,
+                    button: false,
+                    timer: 3200
+                })
                 this.setState({'_showSpinner': false})
-                swal("Success!", "New datapoint is sent!", "success")
+                setTimeout(function(){
+                     localStorage.clear()
+                     setTimeout(function(){
+                        window.location.reload();
+                     }, 3000);
+                }, 500);
                 return res;
             }).catch((res, error) => {
                 console.log(res, error)
                 this.setState({'_showSpinner': false})
-                swal("Failed!", "Something Wrong!", "error")
-                // setTimeout(function(){
-                //     localStorage.clear()
-                //     setTimeout(function(){
-                //         window.location.reload();
-                //     }, 5000);
-                // }, 1000);
-                // Debug swal("Oops!", "Something went wrong!", "error")
+                swal("Oops!", "Something went wrong!", "error")
             })
     }
 

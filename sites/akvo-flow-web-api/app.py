@@ -12,8 +12,10 @@ import xmltodict
 import json
 import os
 import ast
+import logging
 
 app = Flask(__name__)
+logging.basicConfig(level=logging.DEBUG)
 CORS(app)
 instance_list = './data/flow-survey-amazon-aws.csv'
 BASE_URL="https://flow-services.akvotest.org/upload"
@@ -53,7 +55,6 @@ def survey(instance,surveyId,lang):
     if not os.path.exists(xmlpath):
         download = True
     if download:
-        print(endpoint+surveyId+'.zip')
         zipurl = r.get(endpoint+surveyId+'.zip', allow_redirects=True)
         z = ZipFile(BytesIO(zipurl.content))
         z.extractall(ziploc)
@@ -78,7 +79,6 @@ def survey(instance,surveyId,lang):
             if not os.path.exists(cascadefile):
                 download = True
             if download:
-                print("downloading... " + cascade)
                 zipurl = r.get(cascade, allow_redirects=True)
                 z = ZipFile(BytesIO(zipurl.content))
                 z.extractall(ziploc)
@@ -119,11 +119,16 @@ def submitprocess(rec, _uuid):
                 try:
                     vals = []
                     for rc in list(ast.literal_eval(rec[ids])):
-                        vals.append({"text":rc})
+                        if rc == "Other Option":
+                            if(rec["other_" + ids]):
+                                vals.append({"text":rec["other_" + ids],"isOther":True})
+                            else:
+                                vals.append({"text":"No Answer","isOther":True})
+                        else:
+                            vals.append({"text":rc})
                     val = json.dumps(vals)
                 except:
                     val = json.dumps([{"text":rec[ids]}])
-                print(val)
             elif answerType[i] == "PHOTO":
                 val = json.dumps({"filename":rec[ids]})
                 imagelist.append(rec[ids])
@@ -161,7 +166,7 @@ def submitprocess(rec, _uuid):
         "formVersion": version,
         "responses": data,
         "submissionDate": int(rec['_submissionStop']),
-        "username": "Deden Akvo",
+        "username": rec['_username'],
         "uuid": _uuid
     }
     sendZip(payload, _uuid, rec['_instanceId'], imagelist)
@@ -222,28 +227,27 @@ def sendZip(payload, _uuid, instance_id, imagelist):
         os.mkdir('./tmp')
     if os.path.isfile('data.json'):
         os.remove('data.json')
+    if os.path.isfile(zip_name):
+        os.remove(zip_name)
     if os.path.isfile(combined):
         os.rename(combined, './tmp/ ' + combined)
     return result
 
-@app.route('/submit-form', methods=['POST'])
+@app.route('/submit-form', methods=['POST', 'OPTIONS'])
 def submit():
     rec = request.get_json()
     _uuid = str(uuid.uuid4())
     submit = False
-    if rec['_password'] == PASSWORD:
-        submit = True
-    if submit:
-        response = submitprocess(rec, _uuid)
-        return response
+    if request.method == 'POST':
+        if rec['_password'] == PASSWORD:
+            submit = True
+        if submit:
+            response = submitprocess(rec, _uuid)
+            return response
+    if request.method == 'OPTIONS':
+            return make_response("Verified", 200)
     resp = make_response("Integrity Error", 400)
     return resp
-
-@app.route('/test-post', methods=['GET','POST'])
-def testpost():
-    if request.method == 'POST':
-        return "POST, itworks!"
-    return "GET, itworks!"
 
 @app.route('/fetch-image', methods=['GET'])
 def fetch_file():
@@ -268,12 +272,12 @@ def upload_file():
         os.mkdir('./tmp/images')
     if request.method == "POST":
         _uuid = str(uuid.uuid4())
-        for f in files:
-            fn = files[f]
-            for fs in fn:
-                filetype = fs.filename.split('.')[-1]
-                _uuid += '.' + filetype
-                fs.save(os.path.join(app.config['UPLOAD_FOLDER'], _uuid))
+        for f in list(files):
+            image = files[f]
+            fn = image.filename
+            fn = fn.split('.')[-1]
+            _uuid += '.' + fn
+            image.save(os.path.join(app.config['UPLOAD_FOLDER'], _uuid))
         resp = make_response(_uuid, 200)
         resp.headers['Access-Control-Allow-Origin'] = request.headers['Origin']
         resp.headers['Content-Type'] = request.headers['Content-Type']
@@ -281,7 +285,6 @@ def upload_file():
         resp.headers['Accept-Encoding'] = request.headers['Accept-Encoding']
         return resp
     elif request.method == "OPTIONS":
-        print(request.headers)
         method = request.headers['Access-Control-Request-Method']
         if method == "DELETE":
             resp = delete_file(request.text)
@@ -292,7 +295,6 @@ def upload_file():
             resp.headers['Accept-Encoding'] = request.headers['Accept-Encoding']
         return resp
     elif request.method == "DELETE":
-        print(request.args)
         response = delete_file(request.text)
         return response
     else:

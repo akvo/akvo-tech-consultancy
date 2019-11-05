@@ -19,21 +19,25 @@ class QuestionType extends Component {
         super(props)
         this.instanceUrl = window.location.pathname.split('/')[pathurl]
         this.value = localStorage.getItem(this.props.data.id)
+        this.other = localStorage.getItem("other_" + this.props.data.id)
         this.state = {
             value: this.value ? this.value : '',
+            other: this.other ? this.other : ''
         }
-        this.setDpStorage = this.setDpStorage.bind(this)
-        this.getRadioSelected = this.getRadio.bind(this)
-        this.getPhoto = this.getPhoto.bind(this)
-        this.renderRadio = this.renderRadio.bind(this)
-        this.getCascadeDropdown = this.getCascadeDropdown.bind(this)
-        this.renderCascade = this.renderCascade.bind(this)
-        this.renderCascadeOption = this.renderCascadeOption.bind(this)
-        this.limitCascade = 0
-        this.handleChange = this.handleChange.bind(this)
-        this.handlePhoto = this.handlePhoto.bind(this)
-        this.handleCascadeChange = this.handleCascadeChange.bind(this)
-        this.handleGlobal = this.handleGlobal.bind(this)
+        this.setDpStorage = this.setDpStorage.bind(this);
+        this.getRadio = this.getRadio.bind(this);
+        this.getPhoto = this.getPhoto.bind(this);
+        this.renderRadio = this.renderRadio.bind(this);
+        this.getCascadeDropdown = this.getCascadeDropdown.bind(this);
+        this.renderCascade = this.renderCascade.bind(this);
+        this.renderCascadeOption = this.renderCascadeOption.bind(this);
+        this.fetchCascade = this.fetchCascade.bind(this);
+        this.limitCascade = 0;
+        this.handleChange = this.handleChange.bind(this);
+        this.handleOther = this.handleOther.bind(this);
+        this.handlePhoto = this.handlePhoto.bind(this);
+        this.handleCascadeChange = this.handleCascadeChange.bind(this);
+        this.handleGlobal = this.handleGlobal.bind(this);
     }
 
     handleGlobal(questionid, qval){
@@ -73,6 +77,10 @@ class QuestionType extends Component {
     handleChange(event) {
         let id = this.props.data.id
         let value = event.target.value
+        let target = event.target.id;
+        if (target.split("_")[0]) {
+            return this.handleOther(target, value);
+        }
         if (this.props.data.type === "cascade") {
             let ddindex = event.target.selectedIndex
             let text = event.target[ddindex].text
@@ -94,13 +102,23 @@ class QuestionType extends Component {
             }
 			if (multipleValue.length > 0) {
             	localStorage.setItem(id, JSON.stringify(multipleValue))
-                // this.props.answerReducer([{[id]:value}])
             	this.setState({value: multipleValue})
                 this.handleGlobal(id, value)
 			} else {
 				localStorage.removeItem(id)
             	this.setState({value: ""})
 			}
+            if(this.props.data.options.allowOther) {
+                if (value === "Other Option" && event.target.checked){
+                    let otherClass = "other_" + this.props.data.id.toString();
+                    this.setState({[otherClass]: true});
+                }
+                if (value === "Other Option" && !event.target.checked){
+                    let otherClass = "other_" + this.props.data.id.toString();
+                    this.setState({[otherClass]: false});
+                }
+            }
+            this.handleGlobal(id, value)
         } else {
             localStorage.setItem(id, value)
             this.setState({value: value})
@@ -134,6 +152,16 @@ class QuestionType extends Component {
         }
     }
 
+    handleOther(target, value) {
+        let history = "";
+        if (localStorage.getItem(target)) {
+            history = localStorage.getItem(target);
+        }
+        history = value;
+        localStorage.setItem(target, history);
+        this.setState({other:history});
+    }
+
     setDpStorage () {
         if (localStorage.getItem('_dpOrder')) {
             let a = JSON.parse(localStorage.getItem('_dpOrder'));
@@ -153,28 +181,72 @@ class QuestionType extends Component {
             opts = {...opts, allowMultiple: false}
         }
         let radioType = (opts.allowMultiple ? "checkbox" : "radio")
+        let ao = opts.allowOther;
+        if (ao) {
+            if ( opts.option.length > 1 ) {
+                let oi = opts.option.length + 1;
+                let main = opts.option.map((opt, i) => this.renderRadio(false, opt, i, data.id, radioType, unique))
+                let other = this.renderRadio(true, {text: "Other", value:"Other Option"}, oi, data.id, radioType, unique)
+                return [...main, other];
+            }
+            let main = this.renderRadio(false, opts.option, 0, data.id, radioType, unique)
+            let other = this.renderRadio(true, {text: "Other", value:"Other Option"}, 1 , data.id, radioType, unique)
+            return [...main, other];
+        }
         return (
-            opts.option.length > 1 ? (opts.option.map((opt, i) => this.renderRadio(
-                opt, i, data.id, radioType, unique)
-            )) : (this.renderRadio(opts.option, 0, data.id, radioType, unique))
+            opts.option.length > 1
+            ?
+            (opts.option.map((opt, i) => this.renderRadio(false, opt, i, data.id, radioType, unique)))
+            :
+            (this.renderRadio(false, opts.option, 0, data.id, radioType, unique))
         )
     }
 
-    getRadioSelected (value,id) {
-        if (localStorage.getItem(id)) {
-            if (localStorage.getItem(id) === value) {
-            return true
-            }
-            return false
-        }
-        return false
-    }
-
-    renderRadio (opt, i, id, radioType, unique) {
+    renderRadio (o, opt, i, id, radioType, unique) {
         let checked = () => (localStorage.getItem(id) === opt.value)
 		if (radioType === "checkbox" && this.state.value.indexOf(opt.value) >= 0) {
 			checked = () => (true)
 		}
+        if (o) {
+            let oname = "other_"+id.toString();
+            return (
+                <div key={unique + '-div-radio-' + i.toString()} >
+                    <div className="form-check" >
+                        <input
+                            key={unique + '-radio-' + i.toString()}
+                            className="form-check-input"
+                            type={radioType}
+                            name={id}
+                            value={opt.value}
+                            onChange={this.handleChange}
+                            checked={checked()}
+                        />
+                        <label
+                            className="form-check-label badge badge-secondary"
+                            htmlFor={"input-" + (id).toString()}>
+                            {opt.text}
+                        </label>
+                    </div>
+                <hr/>
+                    <div className={checked() ? "":"hidden"}>
+                        <label
+                            className="form-label"
+                            htmlFor={oname}>
+                            Other Answer:
+                        </label>
+                        <input
+                            className="form-control"
+                            key={unique + "-radio-other-" + i.toString()}
+                            value={this.state.other}
+                            type="text"
+                            name={oname}
+                            id={oname}
+                            onChange={this.handleChange}
+                        />
+                    </div>
+                </div>
+            )
+        }
         return (
             <div className="form-check"
                  key={unique + '-div-radio-' + i.toString()}
@@ -214,7 +286,7 @@ class QuestionType extends Component {
         let choose_options = "cascade_" + i
         let dropdown = this.state[this.state[choose_options]]
         let cascade = (
-            <>
+            <div key={unique + '-dropdown-' + i}>
             <div>{opt.text}</div>
             <select
                 className="form-control"
@@ -222,11 +294,11 @@ class QuestionType extends Component {
                 name={ this.props.data.id.toString() + '-' + i}
                 onChange={this.handleChange}
             >
-                <option key={unique + '-cascade-options-' + 0} value="0" selected>Please Select</option>
+                <option key={unique + '-cascade-options-' + 0} value={this.state.value}>Please Select</option>
                 {this.renderCascadeOption(dropdown,(i+1),opt.text, unique)}
             </select>
-            </>
-        )
+            </div>
+        );
         cascades.push(cascade)
         if (this.limitCascade <= i) {
             this.handleChange()
@@ -256,7 +328,18 @@ class QuestionType extends Component {
             url = API_URL + 'cascade/' + url + '/' + this.props.data.cascadeResource + '/' + lv
             let options = "options_" + lv
             let cascade = "cascade_" + ix
-            axios.get(url).then((res) =>{
+            let availcasc = this.props.value.cascade;
+            let isavailable = false;
+            let res;
+            if (availcasc.length > 0) {
+                isavailable = true;
+            }
+            if (isavailable) {
+                res = availcasc.filter(x => {
+                    return x.url === url;
+                })[0];
+            }
+            if (res) {
                 try {
                     this.setState({
                         [options]: res.data,
@@ -266,16 +349,32 @@ class QuestionType extends Component {
                 } catch (err) {
                     localStorage.removeItem(this.props.data.id)
                 }
-                return res
-            }).then((res) => {
-                let levels = this.props.data.levels.level.length
-                if (lv < levels) {
-                    if (localStorage.getItem(this.props.data.id) === null){
-                        this.handleCascadeChange(ix, res.data[ix]['name'], this.props.data.id, res.data[ix]['id'])
-                    }
-                }
-            })
+            }
+            if (!res) {
+                this.fetchCascade(lv, ix, url, options, cascade);
+                console.log('NEW CASCADE');
+            }
         }
+    }
+
+    fetchCascade(lv, ix, url, options, cascade) {
+        axios.get(url).then((res) =>{
+            try {
+                this.setState({
+                    [options]: res.data,
+                    [cascade]: [options],
+                    value: res.data[ix]['id']
+                })
+            } catch (err) {
+                localStorage.removeItem(this.props.data.id)
+            }
+            return res
+        }).then((res) => {
+            this.props.storeCascade({
+                url:url,
+                data:res.data
+            })
+        })
     }
 
     getInput(data, unique, validation, answered, type) {
@@ -374,7 +473,9 @@ class QuestionType extends Component {
             localStorage.removeItem(this.props.data.id)
             this.getCascadeDropdown(0, 0)
         }
-        this.props.checkSubmission()
+        if (localStorage.getItem(this.props.data.id) !== null){
+            this.props.checkSubmission();
+        };
     }
 
     render() {
