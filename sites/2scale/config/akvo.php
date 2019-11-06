@@ -13,6 +13,7 @@ return [
         'login' => $BASE_AUTH_URL . '/auth/realms/akvo/protocol/openid-connect/token',
         'surveys' => $BASE_API_URL . '/surveys',
         'folders' => $BASE_API_URL . '/folders',
-        'datapoints' => $BASE_API_URL . '/form_instances/'
+        'datapoints' => $BASE_API_URL . '/data_points',
+        'forminstances' => $BASE_API_URL . '/form_instances'
     ]
 ];
