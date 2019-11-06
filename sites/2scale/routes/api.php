@@ -29,3 +29,4 @@ Route::get('/surveys', 'SurveyController@getSurveys');
 Route::get('/survey/{id}', 'SurveyController@getSurvey');
 Route::get('/datapoints', 'DataController@getDataPoint');
 Route::get('/forminstances', 'DataController@getFormInstance');
+Route::get('/download', 'DataController@downloadCSV');
