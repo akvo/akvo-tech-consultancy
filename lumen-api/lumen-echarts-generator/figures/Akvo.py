@@ -5,13 +5,18 @@ class Flow:
     def getToken():
         authentification = {
             'client_id':'curl',
-            'username': os.environ['KEYCLOAK_USER'],
-            'password': os.environ['KEYCLOAK_PWD'],
+            'username': os.environ['AUTH0_USER'],
+            'password': os.environ['AUTH0_PWD'],
             'grant_type':'password',
+		    'audience': 'https://akvofoundation.eu.auth0.com/api/v2/',
+		    'scope': 'openid profile email',
+		    'client_id': os.environ['AUTH0_CLIENT_ID'],
+		    'client_secret': os.environ['AUTH0_CLIENT_PASSWORD']
+
         }
-        tokenURI = 'https://login.akvo.org/auth/realms/akvo/protocol/openid-connect/token'
+        tokenURI = 'https://akvofoundation.eu.auth0.com/oauth/token'
         tokens = r.post(tokenURI, authentification).json()
-        return tokens['access_token']
+        return tokens['id_token']
 
     def getData(self, accessToken):
         response = r.get(self, headers={
