@@ -8,10 +8,10 @@ class Flow:
             'username': os.environ['AUTH0_USER'],
             'password': os.environ['AUTH0_PWD'],
             'grant_type':'password',
-		    'audience': 'https://akvofoundation.eu.auth0.com/api/v2/',
-		    'scope': 'openid profile email',
-		    'client_id': os.environ['AUTH0_CLIENT_ID'],
-		    'client_secret': os.environ['AUTH0_CLIENT_PASSWORD']
+            'audience': 'https://akvofoundation.eu.auth0.com/api/v2/',
+            'scope': 'openid profile email',
+	    'client_id': 'KOgRM2Uam6FXOZdwKs3AKU7I8VtGKsiu',
+	    'client_secret': os.environ['AUTH0_CLIENT_PASSWORD']
 
         }
         tokenURI = 'https://akvofoundation.eu.auth0.com/oauth/token'
