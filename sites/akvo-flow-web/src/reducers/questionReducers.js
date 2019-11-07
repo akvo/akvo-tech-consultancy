@@ -73,7 +73,6 @@ const addQuestions = (data) => {
 	const groups = validateGroup(data.questionGroup);
 
 	let questionGroup = groups.map((g,i) => {
-        console.log(g,i)
 		return {
 			...g,
 			question: mapgroup(g.question, {heading:g.heading, index: i})
