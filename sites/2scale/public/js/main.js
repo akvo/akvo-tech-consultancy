@@ -93,7 +93,10 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-
+$("#select-survey").on("change.bs.select", function (e) {
+  var url = e.target.attributes["data-url"].value + "/" + e.target.value;
+  $("#akvo-flow-web").attr("src", url);
+});
 
 /***/ }),
 

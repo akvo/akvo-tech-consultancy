@@ -26,7 +26,8 @@ class PageController extends Controller
 	*/
 	public function index()
 	{
-		return view('pages.index');
+		return view('pages.index', ['surveys' => config('surveys')]);
+		return view('pages.index', config('surveys'));
 	}
 }
 
