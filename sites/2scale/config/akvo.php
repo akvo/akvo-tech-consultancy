@@ -8,6 +8,7 @@ return [
     'instance' => env('AKVO_INSTANCE', ''),
     'keycloak_user' => env('KEYCLOAK_USER', ''),
     'keycloak_pwd' => env('KEYCLOAK_PWD', ''),
+    'surveys' => env('AKVO_SURVEYS', ''),
 
     'endpoints' => [
         'login' => $BASE_AUTH_URL . '/auth/realms/akvo/protocol/openid-connect/token',

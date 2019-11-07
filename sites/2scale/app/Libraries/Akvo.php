@@ -2,6 +2,8 @@
 namespace App\Libraries;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Cache;
+use App\Data;
+use App\Questions;
 
 class Akvo
 {
@@ -92,5 +94,54 @@ class Akvo
         }
 
         return $tmp;
+    }
+
+    public static function updateDataSurvey() {
+        $surveys = explode(',', config('akvo.surveys'));
+
+        foreach ($surveys as $surveyId) {
+            $result = Akvo::get(config('akvo.endpoints.surveys') . '/' . $surveyId);
+
+            if (is_array($result)) {
+                foreach ($result['forms'] as $form) {
+                    Questions::where('form_id', $form['id'])->delete();
+
+                    foreach ($form['questionGroups'] as $qgitem) {
+                        foreach ($qgitem['questions'] as $qdata) {
+                            $question = new Questions;
+                            $question->question_id = $qdata['id'];
+                            $question->type = $qdata['type'];
+                            $question->text = $qdata['name'];
+                            $question->form_id = $form['id'];
+                            $question->survey_id = $surveyId;
+                            $question->save();
+                        }
+                    }
+
+                    // DATA 
+                    $dataResult = self::getSurveyData(
+                        $surveyId,
+                        $form['id']
+                    );
+
+                    if (is_array($dataResult)) {
+                        foreach ($dataResult as $ditem) {
+                            Data::where('datapoint_id', $ditem['dataPointId'])->delete();
+
+                            foreach ($ditem['responses'] as $dresponse) {
+                                foreach ($dresponse[0] as $qid => $qanswer) {
+                                    $datam = new Data;
+                                    $datam->question_id = $qid;
+                                    $datam->datapoint_id = $ditem['dataPointId'];
+                                    $datam->answer = is_array($qanswer) ? serialize($qanswer) : $qanswer;
+                                    $datam->country = 'Indonesia';
+                                    $datam->save();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
