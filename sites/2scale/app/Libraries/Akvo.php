@@ -64,4 +64,33 @@ class Akvo
             return null;
         }
     }
+
+    public static function getSurveyData($surveyId, $formId) {
+        $instanceRslt = self::get(
+            config('akvo.endpoints.forminstances') 
+            . '?survey_id=' 
+            . $surveyId
+            . '&form_id=' 
+            . $formId
+        );
+
+        $tmp = [];
+        foreach($instanceRslt['formInstances'] as $item) {
+            $tmp[] = $item;
+        }
+
+        $isNotFinished = true;
+        while($isNotFinished) {
+            if (isset($result['nextPageUrl'])) {
+                $result = Akvo::get($result['nextPageUrl']);
+                foreach($result['formInstances'] as $item) {
+                    $tmp[] = $item;
+                }
+            } else {
+                $isNotFinished = false;
+            }
+        }
+
+        return $tmp;
+    }
 }

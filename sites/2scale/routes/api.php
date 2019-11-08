@@ -24,6 +24,9 @@ Route::get('/test', function (Request $request) {
     ]);
 });
 
-Route::get('/folders', 'FolderController@getFolders');
-Route::get('/surveys', 'SurveyController@getSurveys');
-Route::get('/survey/{id}', 'SurveyController@getSurvey');
+Route::get('/folders', 'Api\FolderController@getFolders');
+Route::get('/surveys', 'Api\SurveyController@getSurveys');
+Route::get('/survey/{id}', 'Api\SurveyController@getSurvey');
+Route::get('/datapoints', 'Api\DataController@getDataPoint');
+Route::get('/forminstances', 'Api\DataController@getFormInstance');
+Route::get('/download', 'Api\DataController@downloadCSV');
