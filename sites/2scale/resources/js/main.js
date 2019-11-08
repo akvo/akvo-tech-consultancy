@@ -2,9 +2,6 @@ $("#select-survey").on("change.bs.select", (e) => {
     let url = e.target.attributes["data-url"].value + "/" + e.target.value;
     $("#akvo-flow-web").attr("src", url);
 });
-<<<<<<< HEAD
-=======
-
 const iframeheight = window.innerHeight - 158;
 
 $("#akvo-flow-web").attr("height", iframeheight);
@@ -29,4 +26,3 @@ $(function() {
         console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
     });
 });
->>>>>>> master

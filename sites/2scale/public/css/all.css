@@ -50,12 +50,9 @@ body {
         transform: translateX(-100%);
     }
 }
-<<<<<<< HEAD
-=======
 .navbar {
     padding: 0;
 }
->>>>>>> master
 
 .nav-scroller {
     position: relative;
@@ -79,11 +76,7 @@ body {
 }
 
 .nav-underline .nav-link {
-<<<<<<< HEAD
-    padding-top: .75rem;
-=======
     padding-top: 3rem;
->>>>>>> master
     padding-bottom: .75rem;
     font-size: .875rem;
     color: #6c757d;
@@ -98,8 +91,6 @@ body {
     color: #343a40;
 }
 
-<<<<<<< HEAD
-=======
 .nav,
 .navbar {
     border-bottom: 1px solid #ddd;
@@ -143,7 +134,6 @@ body {
     background: #0069d9;
     color: #fff;
 }
->>>>>>> master
 .text-white-50 {
     color: rgba(255, 255, 255, .5);
 }
@@ -167,13 +157,6 @@ body {
 nav.nav button {
     width: 20%;
 }
-<<<<<<< HEAD
-
-.bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
-    width: 80%;
-}
-
-=======
 nav.nav-md-6{
   flex-grow: 1;
   flex-shrink: 1;
@@ -192,13 +175,10 @@ input.btn.dropdown-toggle.btn-light{
     text-align: left;
     border: none;
 }
->>>>>>> master
 .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn):focus {
 	outline: none;
 }
 
-<<<<<<< HEAD
-=======
 .footer {
   position: absolute;
   bottom: 1px;
@@ -212,4 +192,3 @@ input.btn.dropdown-toggle.btn-light{
 .hidden {
     display:none!important;
 }
->>>>>>> master
