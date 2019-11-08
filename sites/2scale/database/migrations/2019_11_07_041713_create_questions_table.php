@@ -15,11 +15,11 @@ class CreateQuestionsTable extends Migration
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('question_id');
+            $table->unsignedBigInteger('question_id')->unique();
             $table->char('type', 12);
             $table->text('text');
-            $table->bigInteger('form_id');
-            $table->bigInteger('survey_id');
+            $table->unsignedBigInteger('form_id');
+            $table->unsignedBigInteger('survey_id');
             $table->timestamps();
 
             $table->index('survey_id');

@@ -3,7 +3,7 @@ namespace App\Libraries;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Cache;
 use App\Data;
-use App\Questions;
+use App\Question;
 
 class Akvo
 {
@@ -104,11 +104,11 @@ class Akvo
 
             if (is_array($result)) {
                 foreach ($result['forms'] as $form) {
-                    Questions::where('form_id', $form['id'])->delete();
+                    Question::where('form_id', $form['id'])->delete();
 
                     foreach ($form['questionGroups'] as $qgitem) {
                         foreach ($qgitem['questions'] as $qdata) {
-                            $question = new Questions;
+                            $question = new Question;
                             $question->question_id = $qdata['id'];
                             $question->type = $qdata['type'];
                             $question->text = $qdata['name'];

@@ -15,13 +15,14 @@ class CreateDataTable extends Migration
     {
         Schema::create('data', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('question_id');
-            $table->bigInteger('datapoint_id');
+            $table->unsignedBigInteger('question_id');
+            $table->unsignedBigInteger('datapoint_id');
             $table->text('answer');
             $table->char('country', 20);
             $table->timestamps();
+            $table->foreign('question_id')->references('question_id')
+                ->on('questions')->onDelete('cascade');
 
-            $table->index('question_id');
             $table->index('country');
             $table->index('created_at');
         });
