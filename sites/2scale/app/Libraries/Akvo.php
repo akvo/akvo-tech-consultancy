@@ -77,27 +77,34 @@ class Akvo
         );
 
         $tmp = [];
-        foreach($instanceRslt['formInstances'] as $item) {
-            $tmp[] = $item;
-        }
-
-        $isNotFinished = true;
-        while($isNotFinished) {
-            if (isset($result['nextPageUrl'])) {
-                $result = Akvo::get($result['nextPageUrl']);
-                foreach($result['formInstances'] as $item) {
-                    $tmp[] = $item;
+        if (isset($instanceRslt['formInstances']) && is_array($instanceRslt['formInstances'])) {
+            foreach($instanceRslt['formInstances'] as $item) {
+                $tmp[] = $item;
+            }
+    
+            $isNotFinished = true;
+            while($isNotFinished) {
+                if (isset($result['nextPageUrl'])) {
+                    $result = Akvo::get($result['nextPageUrl']);
+                    foreach($result['formInstances'] as $item) {
+                        $tmp[] = $item;
+                    }
+                } else {
+                    $isNotFinished = false;
                 }
-            } else {
-                $isNotFinished = false;
             }
         }
-
+        
         return $tmp;
     }
 
     public static function updateDataSurvey() {
-        $surveys = explode(',', config('akvo.surveys'));
+        $forms = config('surveys.forms');
+        foreach ($forms as $item) {
+            foreach ($item['list'] as $survey) {
+                $surveys[] = $survey['id'];
+            }
+        }
 
         foreach ($surveys as $surveyId) {
             $result = Akvo::get(config('akvo.endpoints.surveys') . '/' . $surveyId);
