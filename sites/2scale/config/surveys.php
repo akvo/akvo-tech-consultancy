@@ -19,5 +19,39 @@ return [
                 ["id" => 14170009,"name" => "Producer Organization"]
             )
         ],
-    )
+    ),
+    "countries" => array(
+        [
+            "id" => 1,
+            "name" => "burkina faso",
+        ],
+        [
+            "id" => 2,
+            "name" => "cote d'ivoire",
+        ],
+        [
+            "id" => 3,
+            "name" => "ethiophia",
+        ],
+        [
+            "id" => 4,
+            "name" => "ghana",
+        ],
+        [
+            "id" => 5,
+            "name" => "kenya",
+        ],
+        [
+            "id" => 6,
+            "name" => "mali",
+        ],
+        [
+        [
+            "id" => 7,
+            "name" => "niger",
+        ],
+            "id" => 8,
+            "name" => "nigeria",
+        ],
+    ),
 ];

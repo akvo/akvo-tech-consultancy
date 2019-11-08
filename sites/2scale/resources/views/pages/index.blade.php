@@ -19,14 +19,11 @@
               </optgroup>
             @endforeach
 		</select>
-		<button class="btn btn-secondary">Load Survey</button>
 	</nav>
 </div>
 
-<main role="main" class="container">
-	<div class="my-3 p-3 bg-white rounded shadow-sm">
-		<iframe id="akvo-flow-web" src="http://2scale.tc.akvo.org/akvo-flow-web/2scale/20020001" frameborder=0 width="100%" height="640px"></iframe>
-	</div>
+<main role="main" class="row">
+    <iframe id="akvo-flow-web" src="/home" frameborder=0 width="100%"></iframe>
 </main>
 
 @endsection

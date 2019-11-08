@@ -20,3 +20,4 @@ mix.styles([
 ],  'public/css/all.css');
 
 mix.copyDirectory('resources/vendor', 'public/vendor');
+mix.copyDirectory('resources/images', 'public/images');

@@ -39,11 +39,11 @@ const initialState = {
 }
 
 const validateGroup = (data) => {
-	let groups = [];
     if (Array.isArray(data)) {
-		groups = data;
+        return data;
     }
-	if ( (typeof data === "object") ) {
+	let groups = [];
+	if ( typeof data === "object" ) {
 		groups.push({
 			index:0,
 			heading:data.heading,
