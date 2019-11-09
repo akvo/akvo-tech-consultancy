@@ -143,7 +143,7 @@ class Akvo
                     if (is_array($dataResult)) {
                         foreach ($dataResult as $ditem) {
                             Data::where('datapoint_id', $ditem['dataPointId'])->delete();
-
+                            $country = '';
                             foreach ($ditem['responses'] as $dresponse) {
                                 foreach ($dresponse[0] as $qid => $qanswer) {
                                     $datam = new Data;
@@ -166,6 +166,7 @@ class Akvo
                                     if ($countryQID == $qid) {
                                         $datam->country = isset($qanswer[0]['name']) ? strtolower($qanswer[0]['name']) : '';
                                         $datam->country = in_array($datam->country, $countries) ? $datam->country : '';
+                                        $country = $datam->country;
                                     } else {
                                         $datam->country = '';
                                     }
@@ -173,6 +174,10 @@ class Akvo
                                     $datam->save();
                                 }
                             }
+
+                            Data::where('datapoint_id', $ditem['dataPointId'])->update([
+                                'country' => $country
+                            ]);
                         }
                     }
                 }
