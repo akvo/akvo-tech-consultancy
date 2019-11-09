@@ -18,7 +18,7 @@ class CreateDataTable extends Migration
             $table->unsignedBigInteger('question_id');
             $table->unsignedBigInteger('datapoint_id');
             $table->text('answer');
-            $table->char('country', 20);
+            $table->char('country', 50);
             $table->timestamps();
             $table->foreign('question_id')->references('question_id')
                 ->on('questions')->onDelete('cascade');

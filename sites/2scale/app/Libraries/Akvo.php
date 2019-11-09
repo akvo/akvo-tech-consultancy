@@ -99,10 +99,15 @@ class Akvo
     }
 
     public static function updateDataSurvey() {
+        $countries = [];
+        foreach (config('surveys.countries') as $item) {
+            $countries[] = $item['name'];
+        }
+
         $forms = config('surveys.forms');
         foreach ($forms as $item) {
             foreach ($item['list'] as $survey) {
-                $surveys[] = $survey['id'];
+                $surveys[] = $survey['survey_id'];
             }
         }
 
@@ -112,7 +117,7 @@ class Akvo
             if (is_array($result)) {
                 foreach ($result['forms'] as $form) {
                     Question::where('form_id', $form['id'])->delete();
-
+                    $countryQID = '';
                     foreach ($form['questionGroups'] as $qgitem) {
                         foreach ($qgitem['questions'] as $qdata) {
                             $question = new Question;
@@ -122,6 +127,10 @@ class Akvo
                             $question->form_id = $form['id'];
                             $question->survey_id = $surveyId;
                             $question->save();
+
+                            if ($qdata['type'] == 'CASCADE') {
+                                $countryQID = $qdata['id'];
+                            }
                         }
                     }
 
@@ -140,8 +149,27 @@ class Akvo
                                     $datam = new Data;
                                     $datam->question_id = $qid;
                                     $datam->datapoint_id = $ditem['dataPointId'];
-                                    $datam->answer = is_array($qanswer) ? serialize($qanswer) : $qanswer;
-                                    $datam->country = 'Indonesia';
+
+                                    if (is_array($qanswer)) {
+                                        $tmp = [];
+                                        foreach ($qanswer as $qitem) {
+                                            $tcode = isset($qitem['code']) ? $qitem['code'] : '';
+                                            $tname = isset($qitem['name']) ? $qitem['name'] : '';
+                                            $tmp[] = isset($qitem['name']) ? $tcode . ':' . $tname : '';
+                                        }
+
+                                        $datam->answer = implode('|', $tmp);
+                                    } else {
+                                        $datam->answer = $qanswer;
+                                    }
+
+                                    if ($countryQID == $qid) {
+                                        $datam->country = isset($qanswer[0]['name']) ? strtolower($qanswer[0]['name']) : '';
+                                        $datam->country = in_array($datam->country, $countries) ? $datam->country : '';
+                                    } else {
+                                        $datam->country = '';
+                                    }
+                                    
                                     $datam->save();
                                 }
                             }
