@@ -30,3 +30,5 @@ Route::get('/survey/{id}', 'Api\SurveyController@getSurvey');
 Route::get('/datapoints', 'Api\DataController@getDataPoint');
 Route::get('/forminstances', 'Api\DataController@getFormInstance');
 Route::get('/download', 'Api\DataController@downloadCSV');
+
+Route::get('/csv', 'Api\DataController@downloadCSV2');

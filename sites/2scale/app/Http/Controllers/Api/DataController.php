@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Libraries\Akvo;
 use App\Libraries\Helpers;
+use App\Question;
+use App\Data;
 
 class DataController extends Controller
 {
@@ -158,6 +160,48 @@ class DataController extends Controller
         return Helpers::downloadCSV('SURVEY_' 
             . $request->query('survey_id') 
             . '_FORM_' 
+            . $request->query('form_id') 
+            . '.csv', $data
+        );
+    }
+
+    public function downloadCSV2(Request $request)
+    {
+        $formId = $request->input('form_id');
+        $country = $request->input('country');
+        $from = $request->input('from');
+        $to = $request->input('to');
+
+        $questions = Question::where('form_id', $formId)->get();
+        $titles = [];
+        $qids = [];
+        foreach ($questions as $item) {
+            $titles[] = $item->text;
+            $qids[] = $item->question_id;
+        }
+      
+        $qdata = Data::whereIn('question_id', $qids)
+            ->where('country', $country)
+            ->whereBetween('created_at', [$from, $to])
+            ->get();
+
+        $answers = [];
+        foreach ($qdata as $item) {
+            $answers[$item->datapoint_id][$item->question_id] = $item->answer;
+        }
+
+        $tmp = [];
+        foreach ($answers as $k => $item) {
+            foreach ($qids as $qid) {
+                $tmp[$k][] = isset($item[$qid]) ? $item[$qid] : '';
+            }
+        }
+
+        $data['names'] = $titles;
+        $data['rows'] = $tmp;
+        return Helpers::downloadCSV(
+            $country . '_' .
+            'FORM_' 
             . $request->query('form_id') 
             . '.csv', $data
         );

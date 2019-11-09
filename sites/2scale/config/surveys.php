@@ -31,7 +31,7 @@ return [
         ],
         [
             "id" => 3,
-            "name" => "ethiophia",
+            "name" => "ethiopia",
         ],
         [
             "id" => 4,
