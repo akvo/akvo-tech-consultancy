@@ -33,3 +33,11 @@ Route::get('/download', 'Api\DataController@downloadCSV');
 
 Route::get('/csv', 'Api\DataController@downloadCSV2');
 Route::get('/cron', 'Api\DataController@cron');
+
+/*
+|
+| CHARTS API
+|
+*/
+
+Route::get('/chart/{id}', 'Api\ChartController@questionId');
