@@ -19,12 +19,14 @@ class CreateDataTable extends Migration
             $table->unsignedBigInteger('datapoint_id');
             $table->text('answer');
             $table->char('country', 50);
+            $table->date('submission_date');
             $table->timestamps();
             $table->foreign('question_id')->references('question_id')
                 ->on('questions')->onDelete('cascade');
 
             $table->index('country');
             $table->index('created_at');
+            $table->index('submission_date');
         });
     }
 

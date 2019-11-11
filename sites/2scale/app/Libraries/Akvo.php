@@ -2,6 +2,7 @@
 namespace App\Libraries;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use App\Data;
 use App\Question;
 
@@ -98,6 +99,21 @@ class Akvo
         return $tmp;
     }
 
+    public static function getValue($value) {
+        $tmp = [];
+        if (isset($value['code'])) {
+            $tmp[] = $value['code'];
+        }
+
+        if (isset($value['name'])) {
+            $tmp[] = $value['name'];
+        } else if (isset($value['text'])) {
+            $tmp[] = $value['text'];
+        }
+
+        return implode(':', $tmp);
+    }
+
     public static function updateDataSurvey() {
         $countries = [];
         foreach (config('surveys.countries') as $item) {
@@ -140,8 +156,10 @@ class Akvo
                         $form['id']
                     );
 
+                    $counter = 0;
                     if (is_array($dataResult)) {
                         foreach ($dataResult as $ditem) {
+                            $counter++;
                             Data::where('datapoint_id', $ditem['dataPointId'])->delete();
                             $country = '';
                             foreach ($ditem['responses'] as $dresponse) {
@@ -149,13 +167,12 @@ class Akvo
                                     $datam = new Data;
                                     $datam->question_id = $qid;
                                     $datam->datapoint_id = $ditem['dataPointId'];
+                                    $datam->submission_date = date('Y-m-d', strtotime($ditem['submissionDate']));
 
                                     if (is_array($qanswer)) {
                                         $tmp = [];
                                         foreach ($qanswer as $qitem) {
-                                            $tcode = isset($qitem['code']) ? $qitem['code'] : '';
-                                            $tname = isset($qitem['name']) ? $qitem['name'] : '';
-                                            $tmp[] = isset($qitem['name']) ? $tcode . ':' . $tname : '';
+                                            $tmp[] = self::getValue($qitem);
                                         }
 
                                         $datam->answer = implode('|', $tmp);
@@ -183,5 +200,7 @@ class Akvo
                 }
             }
         }
+
+        Log::channel('akvodata')->info('Update Data: ' . $counter . ' datapoint');
     }
 }
