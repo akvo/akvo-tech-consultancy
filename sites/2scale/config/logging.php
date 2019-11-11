@@ -95,6 +95,10 @@ return [
             'driver' => 'monolog',
             'handler' => NullHandler::class,
         ],
+        'akvodata' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/updatedata.log'),
+        ],
     ],
 
 ];

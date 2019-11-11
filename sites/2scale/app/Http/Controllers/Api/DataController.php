@@ -50,8 +50,6 @@ class DataController extends Controller
     {
         $query = http_build_query($request->all());
 
-        $surveyRslt = Akvo::get(config('akvo.endpoints.surveys') . '/' . $request->query('survey_id'));
-
         $result = Akvo::getSurveyData(
             $request->query('survey_id'),
             $request->query('form_id')
@@ -187,18 +185,20 @@ class DataController extends Controller
         }
 
         if ($from && $to) {
-            $query->whereBetween('created_at', [$from, $to]);
+            $query->whereBetween('submission_date', [$from, $to]);
         } else if ($from) {
-            $query->whereDate('created_at', '>=', $from);
+            $query->whereDate('submission_date', '>=', $from);
         } else if ($to) {
-            $query->whereDate('created_at', '<=', $to);
+            $query->whereDate('submission_date', '<=', $to);
         }
 
-        $qdata = $query->get();
+        $qdata = $query->orderBy('submission_date', 'desc')->get();
 
         $answers = [];
+        $submissionDates = [];
         foreach ($qdata as $item) {
             $answers[$item->datapoint_id][$item->question_id] = $item->answer;
+            $submissionDates[$item->datapoint_id] = $item->submission_date;
         }
 
         $tmp = [];
@@ -206,8 +206,11 @@ class DataController extends Controller
             foreach ($qids as $qid) {
                 $tmp[$k][] = isset($item[$qid]) ? $item[$qid] : '';
             }
+
+            $tmp[$k][] = $submissionDates[$k];
         }
 
+        $titles[] = 'submission_date';
         $data['names'] = $titles;
         $data['rows'] = $tmp;
         return Helpers::downloadCSV(
