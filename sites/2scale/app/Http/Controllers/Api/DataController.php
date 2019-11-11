@@ -180,10 +180,21 @@ class DataController extends Controller
             $qids[] = $item->question_id;
         }
       
-        $qdata = Data::whereIn('question_id', $qids)
-            ->where('country', $country)
-            ->whereBetween('created_at', [$from, $to])
-            ->get();
+        $query = Data::whereIn('question_id', $qids);
+
+        if ($country) {
+            $query->where('country', $country);
+        }
+
+        if ($from && $to) {
+            $query->whereBetween('created_at', [$from, $to]);
+        } else if ($from) {
+            $query->whereDate('created_at', '>=', $from);
+        } else if ($to) {
+            $query->whereDate('created_at', '<=', $to);
+        }
+
+        $qdata = $query->get();
 
         $answers = [];
         foreach ($qdata as $item) {
@@ -205,5 +216,14 @@ class DataController extends Controller
             . $request->query('form_id') 
             . '.csv', $data
         );
+    }
+
+    public function cron(Request $request)
+    {
+        Akvo::updateDataSurvey();
+
+        return response()->json([
+            'status' => 'Updated at ' . date('d-m-Y h:i:s')
+        ]);
     }
 }

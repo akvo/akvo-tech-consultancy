@@ -32,3 +32,4 @@ Route::get('/forminstances', 'Api\DataController@getFormInstance');
 Route::get('/download', 'Api\DataController@downloadCSV');
 
 Route::get('/csv', 'Api\DataController@downloadCSV2');
+Route::get('/cron', 'Api\DataController@cron');
