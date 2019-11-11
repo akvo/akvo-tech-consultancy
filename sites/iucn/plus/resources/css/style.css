@@ -1,0 +1,25 @@
+@CHARSET "ISO-8859-1";
+#map {
+	height: 500px;
+	padding: 0;
+	margin: 0;
+	/*position: absolute; 
+	z-index: 0*/
+}
+#legend {
+	position: absolute; 
+	z-index: 9999;
+	bottom: 35px;
+	left: 25px;
+}
+.cartodb-legend {
+	position: initial !important;
+}
+.chart{
+	 max-width: 600px; 
+	 margin: 0 auto;
+	 overflow: auto
+}
+div.cartodb-popup.v2 {
+	width: 180px;
+}
