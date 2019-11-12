@@ -5,10 +5,7 @@
 <link href="<?=base_url()?>resources/silviomoreto-bootstrap-select/bootstrap-select.min.css" rel="stylesheet"/>
 <link href="<?=base_url()?>resources/css/style.css" rel="stylesheet"/>
 <link rel="stylesheet" href="https://libs.cartocdn.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
-<script
-  src="https://code.jquery.com/jquery-3.4.1.min.js"
-  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-  crossorigin="anonymous"></script>
+<script type="text/javascript" src="<?=base_url()?>resources/js/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="<?=base_url()?>resources/js/iframeResizer.contentWindow.min.js"></script>
 <div class="container-fluid">
 <nav class="navbar navbar-default" role="navigation" style="margin-top: 15px">
