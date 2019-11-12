@@ -213,7 +213,8 @@ $( document ).ready(function() {
           +'}'/**/,
       interactivity: '<?=implode(", ", $visualisation_details[$page]['map_interactivity'])?>'
     }],
-    tooltip: false
+    tooltip: false,
+    https: true
   })
   .addTo(map, 1)
   .done( function(layer) {
@@ -308,14 +309,14 @@ var LayerActions = {
     return true;
   }<?php foreach ($admin_organ_types as $admin_organ_type):?>,
   <?=$admin_organ_type?>: function(){
-    <?php 
+    <?php
     switch ($admin_organ_type) {
       case 'project':?>
         let questionId = '<?='q'.$project_question_id;?>';
         <?php break;
       case 'country':?>
         const project = projects.find(proj => proj.countries.indexOf($( "#<?=$admin_organ_type?> option:selected" ).text()) > -1);
-        let questionId = 'q'+project.question_id; 
+        let questionId = 'q'+project.question_id;
         <?php break;
     }?>
     const filterVal = $( "#<?=$admin_organ_type?> option:selected" ).text().split(" ");
@@ -448,7 +449,7 @@ function getData () {
   } else {
     catQid = 'q'+projectQuestionId;
   }
-  
+
   queryData['filter'] = questionId;
   queryData['filter_value'] = selectedFilterText.toLowerCase();
   queryData['report_on'] = ('<?=$visualisation_details[$page]['event_type']?>'

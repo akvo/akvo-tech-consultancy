@@ -4,7 +4,7 @@
 <link href="<?=base_url()?>resources/bootstrap-3.3.2-dist/css/bootstrap.min.css" rel="stylesheet"/>
 <link href="<?=base_url()?>resources/silviomoreto-bootstrap-select/bootstrap-select.min.css" rel="stylesheet"/>
 <link href="<?=base_url()?>resources/css/style.css" rel="stylesheet"/>
-<link rel="stylesheet" href="https://libs.cartodb.com/cartodb.js/v3/3.15/themes/css/cartodb.css" />
+<link rel="stylesheet" href="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/themes/css/cartodb.css" />
 <script type="text/javascript" src="<?=base_url()?>resources/js/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="<?=base_url()?>resources/js/iframeResizer.contentWindow.min.js"></script>
 <div class="container-fluid">

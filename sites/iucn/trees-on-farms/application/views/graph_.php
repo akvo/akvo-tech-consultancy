@@ -209,7 +209,8 @@ $( document ).ready(function() {
 			    +'}'/**/,
 			interactivity: '<?=implode(", ", $visualisation_details['map_interactivity'])?>'
 		}],
-		tooltip: false
+		tooltip: false,
+		https: true
 	})
 	.addTo(map, 1)
 	.done( function(layer) {

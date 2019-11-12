@@ -66,7 +66,7 @@ if (isset($admin_organs)){
 					</div>
 				</div>
 		    </div>
-		<?php 
+		<?php
 		$charts = $visualisation_details['columns'];
 		foreach ($charts as $key => $column):?>
 			<div class="panel panel-default">
@@ -106,7 +106,7 @@ if (isset($admin_organs)){
 </div>
 <a class="open-modal-infobox" data-toggle="modal" data-target="#modalInfobox"></a>
 <!-- End modal -->
-	
+
 <!-- Carto info windows -->
 <script type="infowindow/html" id="iucn-infowindow">
 <div class="cartodb-popup v2">
@@ -208,7 +208,8 @@ $( document ).ready(function() {
 			    +'}'/**/,
 			interactivity: '<?=implode(", ", $visualisation_details['map_interactivity'])?>'
 		}],
-		tooltip: false
+		tooltip: false,
+		https: true
 	})
 	.addTo(map, 1)
 	.done( function(layer) {
@@ -235,9 +236,9 @@ $( document ).ready(function() {
 						for (var i=0; i<formsOrder.length; i++) {
 							orderedDt[formsOrder[i]] = dt[formsOrder[i]];
 						}
-						
+
 						var formCount = 0;
-						moreInfoLink = $(".open-modal-infobox"); 
+						moreInfoLink = $(".open-modal-infobox");
 						moreInfoLink.click();
 						$("#forms-nav").html("");
 						$("#point-content").html("");
@@ -251,14 +252,14 @@ $( document ).ready(function() {
 							$("#form-"+formCount).html("<div class=\"panel-group\" id=\"accordion-"+formCount+"\"></div>");
 
 							//for every instance in the form, add
-							var instanceCount = 0; 
+							var instanceCount = 0;
 							for (instance in orderedDt[form]) {
 								var date = new Date(parseInt(instance));
 								var collectionYear = date.getFullYear();
 								var collectionMonth = ("0"+(date.getMonth() + 1)).slice(-2);
 								var collectionDay = ("0"+date.getDate()).slice(-2);
 								var collectionDate = collectionDay+"-"+collectionMonth+"-"+collectionYear;
-								
+
 								var answers = "";
 								for (var i=0; i<orderedDt[form][instance].length; i++) {
 									answers += "<tr><td><b>"+orderedDt[form][instance][i]['questionText']+":</b> </td><td>";
@@ -314,7 +315,7 @@ $( document ).ready(function() {
 										+"</div>"
 										);
 								instanceCount++;
-							} 
+							}
 							formCount++;
 						}
 					});
@@ -384,14 +385,14 @@ var LayerActions = {
 		all: function(){
 			var query = "SELECT * FROM iucn_7160001"+($("#event-type").val() != "" ? " WHERE q6140001 = '"+$("#event-type").val()+"'" : "");
 			dataLayer.setSQL(query);
-			
+
 			fitMapToLayer(query);
 			return true;
 		}<?php foreach ($admin_organ_types as $admin_organ_type):?>,
 		<?=$admin_organ_type?>: function(){
 			var query = "SELECT * FROM iucn_7160001 WHERE q2160001 LIKE '%"+$( "#<?=$admin_organ_type?> option:selected" ).text()+"%'"+($("#event-type").val() != "" ? " AND q6140001 = '"+$("#event-type").val()+"'" : "");
 			dataLayer.setSQL(query);
-			
+
 			fitMapToLayer(query);
 			return true;
 		}
@@ -428,7 +429,7 @@ function getData(){
 				//load table
 				populateTable(data);
 			});
-	
+
 	queryData['fields'] = <?=json_encode(array_keys($visualisation_details['columns']))?>;
 	queryData['survey'] = '<?=$visualisation_details['table']?>';
 	$.post(

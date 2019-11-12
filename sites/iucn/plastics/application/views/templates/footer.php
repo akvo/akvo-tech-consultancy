@@ -1,5 +1,5 @@
 </div>
-<script type="text/javascript" src="https://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
+<script type="text/javascript" src="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/cartodb.js"></script>
 <script type="text/javascript" src="<?=base_url()?>resources/bootstrap-3.3.2-dist/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="<?=base_url()?>resources/silviomoreto-bootstrap-select/bootstrap-select.min.js"></script>
 <script src="https://code.highcharts.com/highcharts.js"></script>
