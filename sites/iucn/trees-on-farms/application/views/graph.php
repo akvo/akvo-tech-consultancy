@@ -151,7 +151,7 @@ $( document ).ready(function() {
 
 	map = L.map('map', {/*scrollWheelZoom: false*/}).setView([0, 0], 0);
 
-	var mbAttr = 'Map &copy; 1987-2014 <a href="http://developer.here.com">HERE</a>',
+	var mbAttr = 'Map &copy; 1987-2014 <a href="https://developer.here.com">HERE</a>',
 	mbUrl = 'https://{s}.{base}.maps.cit.api.here.com/maptile/2.1/maptile/{mapID}/{scheme}/{z}/{x}/{y}/256/{format}?app_id={app_id}&app_code={app_code}';
 
 	var normal = L.tileLayer(mbUrl, {
