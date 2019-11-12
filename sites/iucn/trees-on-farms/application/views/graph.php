@@ -217,7 +217,7 @@ $( document ).ready(function() {
 			    +'marker-fill: #42f4eb;'
 			    +'}'
 			    +'#tof_28030003[q4800002=\'Intended or unexpected Result\'] {'
-                +'marker-file: url(<?=base_url()?>/resources/images/black.svg);'
+                +'marker-file: url(<?=base_url()?>resources/images/black.svg);'
 			    +'}'/**/,
 			interactivity: '<?=implode(", ", $visualisation_details[$page]['map_interactivity'])?>'
 		}],
