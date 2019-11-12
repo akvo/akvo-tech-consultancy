@@ -114,7 +114,7 @@ class Iucn_controller extends CI_Controller {
             $query .= ($filter != '') ? " WHERE $filter = '$filter_value'" : "";
             $query .= ($event_type != '') ? (($filter != '') ? " AND " : " WHERE ")." q4800002 = '$event_type'" : "";
 
-            $url = "http://akvo.cartodb.com/api/v2/sql?q=".urlencode($query)."&api_key=$cartodb_api_key";
+            $url = "https://akvo.cartodb.com/api/v2/sql?q=".urlencode($query)."&api_key=$cartodb_api_key";
             $response = curl_get_data($url);
 
             //convert response to array
@@ -178,7 +178,7 @@ class Iucn_controller extends CI_Controller {
             $query .= ($filter != '') ? " WHERE $filter = '$filter_value'" : "";
             $query .= ($event_type != '') ? (($filter != '') ? " AND " : " WHERE ")." q4800002 = '$event_type'" : "";
 
-            $url = "http://akvo.cartodb.com/api/v2/sql?q=".urlencode($query)."&api_key=$cartodb_api_key";
+            $url = "https://akvo.cartodb.com/api/v2/sql?q=".urlencode($query)."&api_key=$cartodb_api_key";
             $response = curl_get_data($url);
 
             //convert response to array
@@ -231,7 +231,7 @@ class Iucn_controller extends CI_Controller {
             $query .= ($filter != '') ? " WHERE $filter = '$filter_value'" : "";
             $query .= ($event_type != '') ? (($filter != '') ? " AND " : " WHERE ")." q4800002 = '$event_type'" : "";
 
-            $url = "http://akvo.cartodb.com/api/v2/sql?q=".urlencode($query)."&api_key=$cartodb_api_key";
+            $url = "https://akvo.cartodb.com/api/v2/sql?q=".urlencode($query)."&api_key=$cartodb_api_key";
             $response = curl_get_data($url);
 
             //convert response to array
@@ -401,7 +401,7 @@ class Iucn_controller extends CI_Controller {
         if (!empty($this->input->post())) {
             $query = "SELECT * FROM ".$this->input->post('survey')." WHERE identifier = '".$this->input->post('identifier')."'";
 
-            $url = "http://akvo.cartodb.com/api/v2/sql?q=".urlencode($query)."&api_key=$cartodb_api_key";
+            $url = "https://akvo.cartodb.com/api/v2/sql?q=".urlencode($query)."&api_key=$cartodb_api_key";
             $response = curl_get_data($url);
 
             //convert response to array

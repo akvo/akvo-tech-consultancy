@@ -1,5 +1,5 @@
 </div>
-<script type="text/javascript" src="http://libs.cartodb.com/cartodb.js/v3/3.15/cartodb.js"></script>
+<script type="text/javascript" src="https://libs.cartocdn.com/cartodb.js/v3/3.15/cartodb.js"></script>
 <script type="text/javascript" src="<?=base_url()?>resources/bootstrap-3.3.2-dist/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="<?=base_url()?>resources/silviomoreto-bootstrap-select/bootstrap-select.min.js"></script>
 <script src="<?=base_url()?>resources/highcharts/highcharts.js"></script>
@@ -21,7 +21,7 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
 
 	var CSV = '';
 	//Set Report title in first row or line
-	
+
 	//CSV += ReportTitle + '\r\n\n';
 
 	//This condition will generate the Label/Header
@@ -68,7 +68,7 @@ function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel) {
 	// you can use either>> window.open(uri);
 	// but this will not work in some browsers
 	// or you will not get the correct file extension
-	
+
 	//this trick will generate a temp <a /> tag
 	var link = document.createElement("a");
 	link.href = uri;

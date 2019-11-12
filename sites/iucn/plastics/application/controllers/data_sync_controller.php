@@ -48,7 +48,7 @@ class Data_sync_controller extends CI_Controller {
 					}
 				}
 				$create_table_query = "CREATE TABLE IF NOT EXISTS public.iucn_plastics_$survey_id (".implode(", ", $columns)."); \nSELECT cdb_cartodbfytable('iucn_plastics_".$survey_id."');";
-				$create_table_url = "http://akvo.cartodb.com/api/v2/sql?q=".urlencode($create_table_query)."&api_key=$cartodb_api_key";
+				$create_table_url = "https://akvo.cartodb.com/api/v2/sql?q=".urlencode($create_table_query)."&api_key=$cartodb_api_key";
 				curl_get_data($create_table_url);
 				/*end create table*/
 
@@ -92,7 +92,7 @@ class Data_sync_controller extends CI_Controller {
 
 					$upload_instance_query = "INSERT INTO iucn_plastics_$survey_id (".implode(", ", array_keys($instance_values)).") SELECT ".implode(", ", $instance_values)
 					." WHERE NOT EXISTS (SELECT instance FROM iucn_plastics_$survey_id WHERE instance = '".$instance['keyId']."')";
-					$upload_instance_url = "http://akvo.cartodb.com/api/v2/sql?q=".urlencode($upload_instance_query)."&api_key=$cartodb_api_key";
+					$upload_instance_url = "https://akvo.cartodb.com/api/v2/sql?q=".urlencode($upload_instance_query)."&api_key=$cartodb_api_key";
 					$upload_instance_response = curl_get_data($upload_instance_url);
 					echo "$upload_instance_response\n\n";
 				}
@@ -100,7 +100,7 @@ class Data_sync_controller extends CI_Controller {
 
 				/*update geom*/
 				$update_geom_query = "UPDATE iucn_plastics_$survey_id SET the_geom = ST_SetSRID(st_makepoint(longitude, latitude),4326)";
-				$update_geom_url = "http://akvo.cartodb.com/api/v2/sql?q=".urlencode($update_geom_query)."&api_key=$cartodb_api_key";
+				$update_geom_url = "https://akvo.cartodb.com/api/v2/sql?q=".urlencode($update_geom_query)."&api_key=$cartodb_api_key";
 				$update_geom_response = curl_get_data($update_geom_url);
 				echo "$update_geom_response\n";
 				/*end update geom*/
@@ -121,7 +121,7 @@ class Data_sync_controller extends CI_Controller {
 
 			//get all instance IDs associated with point
 			$instance_ID_query = "SELECT collection_date, instance FROM iucn_plastics_".$survey['keyId']." WHERE identifier = '$identifier'";
-			$instance_ID_url = "http://akvo.cartodb.com/api/v2/sql?q=".urlencode($instance_ID_query)."&api_key=$cartodb_api_key";
+			$instance_ID_url = "https://akvo.cartodb.com/api/v2/sql?q=".urlencode($instance_ID_query)."&api_key=$cartodb_api_key";
 			$instance_ID_response = curl_get_data($instance_ID_url);
 			//echo "$instance_ID_query\n$instance_ID_response";
 			$instance_ID_response_array = json_decode($instance_ID_response, true);

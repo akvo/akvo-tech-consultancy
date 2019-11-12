@@ -22,7 +22,7 @@
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://iucn.tc.akvo.org/plus';
+$config['base_url'] = 'https://iucn.tc.akvo.org/plus';
 
 /*
 |--------------------------------------------------------------------------

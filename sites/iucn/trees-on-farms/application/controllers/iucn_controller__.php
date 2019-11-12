@@ -238,7 +238,7 @@ class Iucn_controller extends CI_Controller {
             $query .= " WHERE q4800002 = '$event_type'";
             $query .= ($filter != '') ? " AND $filter = '$filter_value'" : "";
 
-            $url = "http://akvo.cartodb.com/api/v2/sql?q=".urlencode($query)."&api_key=$cartodb_api_key";
+            $url = "https://akvo.cartodb.com/api/v2/sql?q=".urlencode($query)."&api_key=$cartodb_api_key";
             $response = curl_get_data($url);
 
             //convert response to array
@@ -303,7 +303,7 @@ class Iucn_controller extends CI_Controller {
             $query .= ($filter != '') ? " AND $filter = '$filter_value'" : "";
             $query .= "ORDER BY collection_date DESC";
 
-            $url = "http://akvo.cartodb.com/api/v2/sql?q=".urlencode($query)."&api_key=$cartodb_api_key";
+            $url = "https://akvo.cartodb.com/api/v2/sql?q=".urlencode($query)."&api_key=$cartodb_api_key";
             $response = curl_get_data($url);
 
             //convert response to array
@@ -372,7 +372,7 @@ class Iucn_controller extends CI_Controller {
             $query .= " WHERE q4800002 = '$event_type'";
             $query .= ($filter != '') ? " AND $filter = '$filter_value'" : "";
 
-            $url = "http://akvo.cartodb.com/api/v2/sql?q=".urlencode($query)."&api_key=$cartodb_api_key";
+            $url = "https://akvo.cartodb.com/api/v2/sql?q=".urlencode($query)."&api_key=$cartodb_api_key";
             $response = curl_get_data($url);
 
             //convert response to array

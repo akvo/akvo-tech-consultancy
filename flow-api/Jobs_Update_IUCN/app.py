@@ -7,7 +7,7 @@ from Akvo import Flow
 from FlowHandler import FlowHandler
 
 APIKEY='&api_key='+os.environ['CARTOKEY']
-CARTOURL='http://akvo.cartodb.com/api/v2/sql?q='
+CARTOURL='https://akvo.cartodb.com/api/v2/sql?q='
 #DATABASEID = "test_iucn_tof"
 DATABASEID = "tof_28030003"
 INSTANCE='iucn'
@@ -112,4 +112,3 @@ for g in data.to_dict('split')['data']:
 update_geom = "UPDATE " + DATABASEID + " SET the_geom = ST_SetSRID(st_makepoint(longitude,latitude),4326)";
 update_geom = r.get(CARTOURL + update_geom + APIKEY)
 print(str(update_geom.json()).replace("{","").replace("}","").replace(":","= "))
-

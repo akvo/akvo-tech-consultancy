@@ -16,12 +16,12 @@ class Data_sync_controller extends CI_Controller {
 		$this->load->helper('url');
 		$this->load->helper('functions');
 	}
-	
+
 	public function sync_data($instance_name, $survey_group_id, $time=null){
 		$cartodb_api_key = "0344aaf6dba34f9786bbbc90805b8bc5143043eb";
-		
+
 		$surveys = $this->surveys($instance_name, $survey_group_id);
-		
+
 		if (array_key_exists("surveys", $surveys)) {
 			foreach ($surveys["surveys"] as $survey) {
 				$survey_id = $survey["keyId"];
@@ -48,10 +48,10 @@ class Data_sync_controller extends CI_Controller {
 					}
 				}
 				$create_table_query = "CREATE TABLE IF NOT EXISTS public.iucn_$survey_id (".implode(", ", $columns)."); \nSELECT cdb_cartodbfytable('iucn_".$survey_id."');";
-				$create_table_url = "http://akvo.cartodb.com/api/v2/sql?q=".urlencode($create_table_query)."&api_key=$cartodb_api_key";
+				$create_table_url = "https://akvo.cartodb.com/api/v2/sql?q=".urlencode($create_table_query)."&api_key=$cartodb_api_key";
 				curl_get_data($create_table_url);
 				/*end create table*/
-				 	
+
 				/*pull and upload instances and question answers*/
 				$instances = $this->survey_instances($instance_name, $survey_id, $time);
 				foreach ($instances as $instance) {
@@ -61,7 +61,7 @@ class Data_sync_controller extends CI_Controller {
 							"submitter" => "'".str_replace("'", "''", $instance['submitterName'])."'",
 							"collection_date" => "'".$instance['collectionDate']."'"
 					);
-						
+
 					//pull answers
 					$answers = $this->question_answers($instance_name, $instance['keyId']);
 					foreach ($answers['question_answers'] as $answer) {
@@ -89,32 +89,32 @@ class Data_sync_controller extends CI_Controller {
 						}
 					}
 					//end pull answers
-						
+
 					$upload_instance_query = "INSERT INTO iucn_$survey_id (".implode(", ", array_keys($instance_values)).") SELECT ".implode(", ", $instance_values)
 					." WHERE NOT EXISTS (SELECT instance FROM iucn_$survey_id WHERE instance = '".$instance['keyId']."')";
-					$upload_instance_url = "http://akvo.cartodb.com/api/v2/sql?q=".urlencode($upload_instance_query)."&api_key=$cartodb_api_key";
+					$upload_instance_url = "https://akvo.cartodb.com/api/v2/sql?q=".urlencode($upload_instance_query)."&api_key=$cartodb_api_key";
 					$upload_instance_response = curl_get_data($upload_instance_url);
 					echo "$upload_instance_response<br><br>";
 				}
 				/*end upload instances and question answers*/
 			}
 		}
-		
+
 		//$this->merge_data();
 	}
-	
+
 	//return all associated point data when passed identifier
 	public function point_data($identifier, $survey_group_id) {
 		$output = array();
 		$cartodb_api_key = "0344aaf6dba34f9786bbbc90805b8bc5143043eb";
-		
+
 		$surveys = $this->surveys("akvoflow-165", $survey_group_id);
 		foreach ($surveys['surveys'] as $survey) {
 			$output[$survey['name']] = array();
-			
+
 			//get all instance IDs associated with point
 			$instance_ID_query = "SELECT collection_date, instance FROM iucn_".$survey['keyId']." WHERE identifier = '$identifier'";
-			$instance_ID_url = "http://akvo.cartodb.com/api/v2/sql?q=".urlencode($instance_ID_query)."&api_key=$cartodb_api_key";
+			$instance_ID_url = "https://akvo.cartodb.com/api/v2/sql?q=".urlencode($instance_ID_query)."&api_key=$cartodb_api_key";
 			$instance_ID_response = curl_get_data($instance_ID_url);
 			//echo "$instance_ID_query<br>$instance_ID_response";
 			$instance_ID_response_array = json_decode($instance_ID_response, true);
@@ -126,7 +126,7 @@ class Data_sync_controller extends CI_Controller {
 				}
 			}
 		}
-		
+
 		$this->output
 		 ->set_header('Access-Control-Allow-Origin: *')
 		 ->set_header('Access-Control-Allow-Methods: GET')
@@ -216,7 +216,7 @@ class Data_sync_controller extends CI_Controller {
 	}
 
 	private function survey_instances($instance_name, $survey_id, $begin_date=null, $end_date=null){
-		$output = array(); 
+		$output = array();
 		$instances_output = array();
 		$dashboard_data = $this->dashboards_data($instance_name);
 		if ($dashboard_data !== false) {
@@ -227,22 +227,22 @@ class Data_sync_controller extends CI_Controller {
 			$get_data_object['requested_resource'] = "survey_instances";
 			$get_data_object['conditions'] = "?surveyId=$survey_id".(($begin_date) ? "&beginDate=$begin_date" : "");
 			$data = $this->get_data($get_data_object);
-			
+
 			$instances = json_decode($data, true);
-			
+
 			if ($instances['meta']['num'] > 0) {
 				foreach ($instances['survey_instances'] as $instance) {
 					array_push($output, $instance);
 				}
 			}
-			
+
 			if ($instances['meta']['num'] === 20) {
 				while ($instances['meta']['num'] === 20) {
 					$get_data_object['conditions'] = "?surveyId=$survey_id".(($begin_date) ? "&beginDate=$begin_date" : "")."&since=".$instances['meta']['since'];
 					$data = $this->get_data($get_data_object);
-					
+
 					$instances = json_decode($data, true);
-					
+
 					if ($instances['meta']['num'] > 0) {
 						foreach ($instances['survey_instances'] as $instance) {
 							array_push($output, $instance);

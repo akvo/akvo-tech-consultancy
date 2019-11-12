@@ -170,7 +170,7 @@ class Iucn_controller extends CI_Controller {
             $query .= " WHERE LOWER(q223910002) LIKE '%$event_type%'";
             $query .= ($filter_value != '') ? " AND LOWER($filter) LIKE '%$filter_value%'" : "";
 
-            $url = "http://akvo.cartodb.com/api/v2/sql?q=".urlencode($query)."&api_key=$cartodb_api_key";
+            $url = "https://akvo.cartodb.com/api/v2/sql?q=".urlencode($query)."&api_key=$cartodb_api_key";
             $response = curl_get_data($url);
 
             //convert response to array
@@ -233,7 +233,7 @@ class Iucn_controller extends CI_Controller {
             $query .= ($filter_value != '') ? " AND LOWER($filter) LIKE '%$filter_value%'" : "";
             $query .= "ORDER BY collection_date DESC";
 
-            $url = "http://akvo.cartodb.com/api/v2/sql?q=".urlencode($query)."&api_key=$cartodb_api_key";
+            $url = "https://akvo.cartodb.com/api/v2/sql?q=".urlencode($query)."&api_key=$cartodb_api_key";
             $response = curl_get_data($url);
 
             //convert response to array
@@ -293,7 +293,7 @@ class Iucn_controller extends CI_Controller {
             $query .= " WHERE LOWER(q223910002) LIKE '%$event_type%'";
             $query .= ($filter_value != '') ? " AND LOWER($filter) LIKE '%$filter_value%'" : "";
 
-            $url = "http://akvo.cartodb.com/api/v2/sql?q=".urlencode($query)."&api_key=$cartodb_api_key";
+            $url = "https://akvo.cartodb.com/api/v2/sql?q=".urlencode($query)."&api_key=$cartodb_api_key";
             $response = curl_get_data($url);
 
             //convert response to array
@@ -451,7 +451,7 @@ class Iucn_controller extends CI_Controller {
                           }
                           array_push(${$field."_identifiers"}, $row['identifier']);
                         }
-                      } 
+                      }
                     }
                     $output[$field] = ${$field."_output"};
                   }

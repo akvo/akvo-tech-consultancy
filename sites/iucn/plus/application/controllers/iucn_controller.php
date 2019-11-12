@@ -6,10 +6,10 @@ class Iucn_controller extends CI_Controller {
         $this->load->helper('url');
         $this->load->helper('functions');
     }
-    
+
     public function index(){
         $data = array();
-        
+
         $data['visualisation_details'] = array(
             'table' => 'iucn_7160001',
             'columns' => array(
@@ -67,7 +67,7 @@ class Iucn_controller extends CI_Controller {
             "National",
             "International"
         );
-        
+
         if(file_exists("resources/data/admin_organs.csv" )){
             $csv = array_map("str_getcsv", file("resources/data/admin_organs.csv", FILE_SKIP_EMPTY_LINES));
             $keys = array_shift($csv);
@@ -76,12 +76,12 @@ class Iucn_controller extends CI_Controller {
             }
             $data['admin_organs'] = $csv;
         }
-        
+
         $this->load->view('templates/header', $data);
         $this->load->view('graph', $data);
         $this->load->view('templates/footer');
     }
-    
+
     public function get_graph_data(){
         $output = array();
         $cartodb_api_key = "0344aaf6dba34f9786bbbc90805b8bc5143043eb";
@@ -94,22 +94,22 @@ class Iucn_controller extends CI_Controller {
             "National" => 2,
             "International" => 3
         );
-        
+
         if (!empty($this->input->post())){
             $filter = ($this->input->post('filter') != "") ? $filters[$this->input->post('filter')] : "";
             $filter_value = $this->input->post('filter_value');
             $event_type = $this->input->post('event_type');
-            
+
             $query = "SELECT identifier, submitter, collection_date, q6140001, q2150002, q8160001 FROM iucn_7160001";
             $query .= ($filter != '') ? " WHERE $filter = '$filter_value'" : "";
             $query .= ($event_type != '') ? (($filter != '') ? " AND " : " WHERE ")." q6140001 = '$event_type'" : "";
-            
-            $url = "http://akvo.cartodb.com/api/v2/sql?q=".urlencode($query)."&api_key=$cartodb_api_key";
+
+            $url = "https://akvo.cartodb.com/api/v2/sql?q=".urlencode($query)."&api_key=$cartodb_api_key";
             $response = curl_get_data($url);
-            
+
             //convert response to array
             $response_array = json_decode($response, true);
-            
+
             if (!empty($response_array['rows'])){
                 $types = array();
                 foreach ($response_array['rows'] as $row){
@@ -138,7 +138,7 @@ class Iucn_controller extends CI_Controller {
                 }
             }
         }
-        
+
         $this->output
         ->set_header('Access-Control-Allow-Origin: *')
         ->set_header('Access-Control-Allow-Methods: GET')
@@ -149,34 +149,34 @@ class Iucn_controller extends CI_Controller {
         ->set_content_type('application/json')
         ->set_output(json_encode($output));
     }
-    
+
     public function get_table_data(){
         $output = array();
         $cartodb_api_key = "0344aaf6dba34f9786bbbc90805b8bc5143043eb";
         $filters = array(
             'country' => 'q2160001'
         );
-        
+
         if (!empty($this->input->post())){
             $filter = ($this->input->post('filter') != "") ? $filters[$this->input->post('filter')] : "";
             $filter_value = $this->input->post('filter_value');
             $event_type = $this->input->post('event_type');
-            
+
             $query = "SELECT submitter, collection_date, q6140001, q210007, q2150002 FROM iucn_7160001";
             $query .= ($filter != '') ? " WHERE $filter = '$filter_value'" : "";
             $query .= ($event_type != '') ? (($filter != '') ? " AND " : " WHERE ")." q6140001 = '$event_type'" : "";
-            
-            $url = "http://akvo.cartodb.com/api/v2/sql?q=".urlencode($query)."&api_key=$cartodb_api_key";
+
+            $url = "https://akvo.cartodb.com/api/v2/sql?q=".urlencode($query)."&api_key=$cartodb_api_key";
             $response = curl_get_data($url);
-            
+
             //convert response to array
             $response_array = json_decode($response, true);
-            
+
             if (!empty($response_array['rows'])){
                 $output = $response_array['rows'];
             }
         }
-        
+
         $this->output
         ->set_header('Access-Control-Allow-Origin: *')
         ->set_header('Access-Control-Allow-Methods: GET')
@@ -187,7 +187,7 @@ class Iucn_controller extends CI_Controller {
         ->set_content_type('application/json')
         ->set_output(json_encode($output));
     }
-    
+
     public function get_data(){
         $output = array();
         $cartodb_api_key = "0344aaf6dba34f9786bbbc90805b8bc5143043eb";
@@ -198,30 +198,30 @@ class Iucn_controller extends CI_Controller {
         $q2150002_options = array("Field action","Training","Meeting");
         $q9080003_options = array("Policy, laws, regulations","Governance arrangements","Actions on the ground","Land Use Dialogue");
         $q7170001_options = array("Local Government","National Government","CSO","Private Sector","NGO","Academia","Governance Working Group","Traditional Authority");
-        
-        
+
+
         if(!empty($this->input->post())){
             $filter = ($this->input->post('filter') != "") ? $filters[$this->input->post('filter')] : "";
             $filter_value = $this->input->post('filter_value');
             $event_type = $this->input->post('event_type');
-            
+
             $fields = $this->input->post('fields');
-            
+
             $query = "SELECT identifier, ".implode(", ", $fields)." FROM ".$this->input->post('survey');
             $query .= ($filter != '') ? " WHERE $filter = '$filter_value'" : "";
             $query .= ($event_type != '') ? (($filter != '') ? " AND " : " WHERE ")." q6140001 = '$event_type'" : "";
-            
-            $url = "http://akvo.cartodb.com/api/v2/sql?q=".urlencode($query)."&api_key=$cartodb_api_key";
+
+            $url = "https://akvo.cartodb.com/api/v2/sql?q=".urlencode($query)."&api_key=$cartodb_api_key";
             $response = curl_get_data($url);
-            
+
             //convert response to array
             $response_array = json_decode($response, true);
-            
+
             if (!empty($response_array['rows'])) {
                 foreach ($fields as $field){
                     ${$field."_output"} = array();
                     ${$field."_options_array"} = array();
-                    
+
                     foreach ($response_array['rows'] as $row){
                         if(array_key_exists($field, $row)){
                             if (strpos($row[$field], '|') !== false) {
@@ -244,7 +244,7 @@ class Iucn_controller extends CI_Controller {
                                                 }
                                             }
                                         }
-                                        
+
                                     }
                                 }
                             } else {
@@ -268,7 +268,7 @@ class Iucn_controller extends CI_Controller {
                             }
                         }
                     }
-                    
+
                     foreach (${$field."_options_array"} as $key => $field_option) {
                         ${"field_option_$key"} = 0;
                         if ($field_option != "" && $field_option != null && $field_option != "null") {
@@ -277,7 +277,7 @@ class Iucn_controller extends CI_Controller {
                             );
                         }
                     }
-                    
+
                     //initialise array of identifiers
                     ${$field."_identifiers"} = array();
                     foreach ($response_array['rows'] as $row){
@@ -309,7 +309,7 @@ class Iucn_controller extends CI_Controller {
                                                         }
                                                     }
                                                 }
-                                                
+
                                             }
                                         }
                                     }
@@ -350,7 +350,7 @@ class Iucn_controller extends CI_Controller {
                 }
             }
         }
-        
+
         $this->output
         ->set_header('Access-Control-Allow-Origin: *')
         ->set_header('Access-Control-Allow-Methods: GET')
@@ -361,19 +361,19 @@ class Iucn_controller extends CI_Controller {
         ->set_content_type('application/json')
         ->set_output(json_encode($output));
     }
-    
+
     public function get_point_data(){
         $output = array();
         $cartodb_api_key = "0344aaf6dba34f9786bbbc90805b8bc5143043eb";
         if (!empty($this->input->post())) {
             $query = "SELECT * FROM ".$this->input->post('survey')." WHERE identifier = '".$this->input->post('identifier')."'";
-            
-            $url = "http://akvo.cartodb.com/api/v2/sql?q=".urlencode($query)."&api_key=$cartodb_api_key";
+
+            $url = "https://akvo.cartodb.com/api/v2/sql?q=".urlencode($query)."&api_key=$cartodb_api_key";
             $response = curl_get_data($url);
-            
+
             //convert response to array
             $response_array = json_decode($response, true);
-            
+
             if (!empty($response_array['rows'])) {
                 $output = $response_array['rows'][0];
             }
