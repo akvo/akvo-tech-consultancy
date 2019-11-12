@@ -208,10 +208,8 @@ $( document ).ready(function() {
 			    +'marker-file: url(http://213.136.89.20/akvo/DNAAS/resources/images/black.svg);'
 			    +'}'/**/,
 			interactivity: '<?=implode(", ", $visualisation_details['map_interactivity'])?>'
-		}],
-		tooltip: false,
-		https: true
-	})
+		}]
+	}, {tooltip: false, https: true})
 	.addTo(map, 1)
 	.done( function(layer) {
 		//do stuff

@@ -220,10 +220,8 @@ $( document ).ready(function() {
                 +'marker-file: url(<?=base_url()?>resources/images/black.svg);'
 			    +'}'/**/,
 			interactivity: '<?=implode(", ", $visualisation_details[$page]['map_interactivity'])?>'
-		}],
-		tooltip: false,
-		https: true
-	})
+		}]
+	}, {tooltip: false, https: true})
 	.addTo(map, 1)
 	.done( function(layer) {
 		//do stuff
