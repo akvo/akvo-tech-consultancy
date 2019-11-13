@@ -216,8 +216,6 @@ $( document ).ready(function() {
 
 		fitMapToLayer("SELECT * FROM tof_28030003 WHERE q4800002 ='<?=$visualisation_details[$page]['event_type']?>'");
 		map.setView([0, 0], 2);
-
-		<? }; ?>;
 		fitMapToLayer("SELECT * FROM iucn_7160001");
 
 		addCursorInteraction(layer);
