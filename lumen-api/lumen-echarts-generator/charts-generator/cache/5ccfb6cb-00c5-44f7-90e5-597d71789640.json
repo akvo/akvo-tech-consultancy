@@ -1,0 +1,1 @@
+{"series": [{"key": "Female", "label": "Female", "data": [{"value": 205}, {"value": 1020}]}, {"key": "Male", "label": "Male", "data": [{"value": 122}, {"value": 1102}]}], "common": {"metadata": {"type": "text"}, "data": [{"label": "No", "key": "No"}, {"label": "Yes", "key": "Yes"}]}}
