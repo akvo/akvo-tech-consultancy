@@ -214,12 +214,7 @@ $( document ).ready(function() {
 		//do stuff
 		layer.setZIndex(1000); //required to ensure that the cartodb layer is not obscured by the here maps base layers
 
-        <? if ($visualisation_details[$page]['event_type'] === 'Activity'){ ?>
-
 		fitMapToLayer("SELECT * FROM tof_28030003 WHERE q4800002 ='<?=$visualisation_details[$page]['event_type']?>'");
-
-		<? }; if ($visualisation_details[$page]['event_type'] === 'Result'){ ?>
-
 		map.setView([0, 0], 2);
 
 		<? }; ?>;
