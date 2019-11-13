@@ -8,7 +8,7 @@ import { FilePond, registerPlugin } from 'react-filepond';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css';
 
-const API_URL = (PROD_URL ? "https://2scale.tc.akvo.org/akvo-flow-web-api/" : "http://localhost:5000/")
+const API_URL = (PROD_URL ? window.location.href.replace("flow-web","flow-web-api") : process.env.REACT_APP_API_URL)
 const pathurl = (PROD_URL ? 2 : 1)
 
 registerPlugin(FilePondPluginImagePreview);
