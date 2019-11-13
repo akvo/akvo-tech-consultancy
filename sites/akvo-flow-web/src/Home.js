@@ -96,7 +96,7 @@ class Home extends Component {
         }
         localStorage.setItem("_formId", this.surveyId)
         localStorage.setItem("_instanceId", this.instance)
-        axios.get(API_URL+ this.instance + '/' + this.surveyId + '/' + CACHE_URL)
+        axios.get(API_URL + '/' + CACHE_URL)
             .then(res => {
                 this.updateData(res.data)
                 this.setState({ _rendered:true });
