@@ -124,7 +124,7 @@ class Submit extends Component {
                 setTimeout(function(){
                      localStorage.clear()
                      setTimeout(function(){
-                        window.location.reload();
+                         window.location.replace(window.location.origin + window.location.pathname);
                      }, 3000);
                 }, 500);
                 return res;
