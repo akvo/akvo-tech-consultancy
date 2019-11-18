@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/akvo-flow-web/precache-manifest.3e448042c10e70c9f776b2985736b868.js"
+  "/akvo-flow-web/precache-manifest.97c2278265d06c85c9e22d5aedd04ff9.js"
 );
 
 self.addEventListener('message', (event) => {

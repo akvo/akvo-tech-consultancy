@@ -8,7 +8,7 @@ import { FilePond, registerPlugin } from 'react-filepond';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css';
 
-const API_ORIGIN = (PROD_URL ? ( window.location.origin + window.location.pathname.split('/')[1] + "-api" ) : process.env.REACT_APP_API_URL) + "/";
+const API_ORIGIN = (PROD_URL ? ( window.location.origin + "/" + window.location.pathname.split('/')[1] + "-api" ) : process.env.REACT_APP_API_URL) + "/";
 const pathurl = (PROD_URL ? 2 : 1);
 
 registerPlugin(FilePondPluginImagePreview);
