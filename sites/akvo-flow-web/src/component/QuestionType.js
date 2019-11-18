@@ -8,8 +8,8 @@ import { FilePond, registerPlugin } from 'react-filepond';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css';
 
-const API_URL = (PROD_URL ? window.location.href.replace("flow-web","flow-web-api") : process.env.REACT_APP_API_URL)
-const pathurl = (PROD_URL ? 2 : 1)
+const API_ORIGIN = (PROD_URL ? ( window.location.origin + window.location.pathname.split('/')[1] ) : process.env.REACT_APP_API_URL) + "-api";
+const pathurl = (PROD_URL ? 2 : 1);
 
 registerPlugin(FilePondPluginImagePreview);
 
@@ -324,8 +324,7 @@ class QuestionType extends Component {
 
     getCascadeDropdown(lv, ix) {
         if (this.props.data.type === "cascade") {
-            let url = this.instanceUrl
-            url = API_URL.replace('/akvo-flow-web-api',"/akvo-flow-web-api/cascade") + '/' + this.props.data.cascadeResource + '/' + lv
+            let url = API_ORIGIN.replace('/akvo-flow-web-api',"/akvo-flow-web-api/cascade") + '/' + this.props.data.cascadeResource + '/' + lv
             console.log(url);
             let options = "options_" + lv
             let cascade = "cascade_" + ix
@@ -411,9 +410,9 @@ class QuestionType extends Component {
             <FilePond
                 server={(
                     {
-                        url: API_URL,
+                        url: API_ORIGIN,
                         process: {
-                            url: './upload-image',
+                            url: '/upload-image',
                             method: 'POST',
                             onload: (response) => {
                                 this.handlePhoto(response)
