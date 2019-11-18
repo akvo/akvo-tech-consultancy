@@ -8,7 +8,7 @@ import { Spinner } from 'reactstrap'
 import '../App.css'
 import { PROD_URL } from '../util/Environment'
 
-const API_ORIGIN = (PROD_URL ? ( window.location.origin + window.location.pathname.split('/')[1] + "-api/" ) : process.env.REACT_APP_API_URL);
+const API_ORIGIN = (PROD_URL ? ( window.location.origin + "/" + window.location.pathname.split('/')[1] + "-api/" ) : process.env.REACT_APP_API_URL);
 const SITE_KEY = "6Lejm74UAAAAAA6HkQwn6rkZ7mxGwIjOx_vgNzWC"
 
 class Submit extends Component {
