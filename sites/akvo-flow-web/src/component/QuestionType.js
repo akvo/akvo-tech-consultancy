@@ -324,7 +324,7 @@ class QuestionType extends Component {
 
     getCascadeDropdown(lv, ix) {
         if (this.props.data.type === "cascade") {
-            let url = API_ORIGIN.replace('/akvo-flow-web',"/akvo-flow-web-api") + '/cascade/' + this.props.value.surveyId + '/' + this.props.data.cascadeResource + '/' + lv
+            let url = API_ORIGIN.replace('/akvo-flow-web',"/akvo-flow-web-api") + '/cascade/' + this.instanceUrl + '/' + this.props.data.cascadeResource + '/' + lv
             console.log(url);
             let options = "options_" + lv
             let cascade = "cascade_" + ix
