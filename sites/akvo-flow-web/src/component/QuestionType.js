@@ -8,7 +8,7 @@ import { FilePond, registerPlugin } from 'react-filepond';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css';
 
-const API_ORIGIN = (PROD_URL ? ( window.location.origin + window.location.pathname.split('/')[1] ) : process.env.REACT_APP_API_URL) + "-api";
+const API_ORIGIN = (PROD_URL ? ( window.location.origin + window.location.pathname.split('/')[1] + "-api" ) : process.env.REACT_APP_API_URL);
 const pathurl = (PROD_URL ? 2 : 1);
 
 registerPlugin(FilePondPluginImagePreview);
@@ -324,7 +324,7 @@ class QuestionType extends Component {
 
     getCascadeDropdown(lv, ix) {
         if (this.props.data.type === "cascade") {
-            let url = API_ORIGIN.replace('/akvo-flow-web-api',"/akvo-flow-web-api/cascade") + '/' + this.props.data.cascadeResource + '/' + lv
+            let url = API_ORIGIN.replace('/akvo-flow-web',"/akvo-flow-web-api") + '/cascade/' + this.props.value.surveyId + '/' + this.props.data.cascadeResource + '/' + lv
             console.log(url);
             let options = "options_" + lv
             let cascade = "cascade_" + ix
