@@ -8,7 +8,7 @@ import { FilePond, registerPlugin } from 'react-filepond';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css';
 
-const API_ORIGIN = (PROD_URL ? ( window.location.origin + window.location.pathname.split('/')[1] + "-api" ) : process.env.REACT_APP_API_URL);
+const API_ORIGIN = (PROD_URL ? ( window.location.origin + window.location.pathname.split('/')[1] + "-api/" ) : process.env.REACT_APP_API_URL);
 const pathurl = (PROD_URL ? 2 : 1);
 
 registerPlugin(FilePondPluginImagePreview);
@@ -412,7 +412,7 @@ class QuestionType extends Component {
                     {
                         url: API_ORIGIN,
                         process: {
-                            url: '/upload-image',
+                            url: 'upload-image',
                             method: 'POST',
                             onload: (response) => {
                                 this.handlePhoto(response)
@@ -427,7 +427,7 @@ class QuestionType extends Component {
                             }
                         },
                         patch: {
-                            url: './upload-image',
+                            url: '.upload-image',
                             method: 'GET',
                             onload: (response) => {
                                 this.handlePhoto(response)
@@ -438,7 +438,7 @@ class QuestionType extends Component {
                             }
                         },
                         revert: {
-                            url: './delete-image/' + localStorage.getItem(data.id),
+                            url: '.delete-image/' + localStorage.getItem(data.id),
                             method: 'GET',
                             onload: (response) => {
                                 localStorage.removeItem(data.id)
