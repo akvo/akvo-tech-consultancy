@@ -1,0 +1,133 @@
+{
+    "color": [
+        "#2f4554",
+        "#c23531",
+        "#749f83",
+        "#d48265"
+    ],
+    "tooltip": {
+        "trigger": "axis",
+        "axisPointer": {
+            "type": "shadow"
+        }
+    },
+    "legend": {
+        "data": ["Winning Candidate", "Second Place"],
+        "padding": 20,
+        "textStyle": {
+            "fontSize": 20,
+            "fontWeight": "bold",
+            "rotate": 315,
+            "margin": 20,
+            "width": "100%"
+        }
+    },
+    "grid": {
+        "left": 30,
+        "right": "5%",
+        "bottom": 45,
+        "top": 50,
+        "containLabel": true
+    },
+    "xAxis": {
+        "type": "category",
+        "data": [
+            "Box 1",
+            "Box 2",
+            "Box 3",
+            "Box 4",
+            "Box 5",
+            "Box 6",
+            "Box 7",
+            "Box 8",
+            "Box 9",
+            "Box \n10",
+            "Box \n11",
+            "Box \n12",
+            "Box \n13",
+            "Box \n14",
+            "Box \n15"
+        ],
+        "axisLabel": {
+            "fontSize": 14,
+            "fontWeight": "bold",
+            "margin": 30,
+            "width": "100%"
+        }
+    },
+    "yAxis": {
+        "type": "value",
+        "axisLabel": {
+            "fontSize": 14,
+            "fontWeight": "bold",
+            "formatter": "{value} %",
+            "margin": 20,
+            "width": "100%"
+        }
+    },
+    "series": [
+        {
+            "name": "Winning Candidate",
+            "type": "bar",
+            "barGap": 0,
+            "label": {
+                "normal": {
+                    "fontSize": 14,
+                    "fontWeight": "bold",
+                    "show": true,
+                    "position": "inside",
+                    "formatter": "{c}%"
+                }
+            },
+            "data": [
+                18,
+                63,
+                51,
+                29,
+                33,
+                14,
+                33,
+                9,
+                36,
+                16,
+                8,
+                46,
+                35,
+                41,
+                85
+            ]
+        },
+
+        {
+            "name": "Second Place",
+            "type": "bar",
+            "barGap": 0,
+            "label": {
+                "normal": {
+                    "fontSize": 14,
+                    "fontWeight": "bold",
+                    "show": true,
+                    "position": "inside",
+                    "formatter": "{c}%"
+                }
+            },
+            "data": [
+                4,
+                2,
+                2,
+                27,
+                35,
+                51,
+                16,
+                28,
+                16,
+                68,
+                56,
+                21,
+                50,
+                26,
+                2
+            ]
+        }
+    ]
+}

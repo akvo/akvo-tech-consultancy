@@ -1,0 +1,95 @@
+{
+    "color": [
+        "#2f4554",
+        "#c23531",
+        "#749f83",
+        "#d48265"
+    ],
+    "tooltip": {
+        "trigger": "axis",
+        "axisPointer": {
+            "type": "shadow"
+        }
+    },
+    "legend": {
+        "data": [],
+        "padding": 20,
+        "textStyle": {
+            "fontSize": 20,
+            "fontWeight": "bold",
+            "rotate": 315,
+            "margin": 20,
+            "width": "100%"
+        }
+    },
+    "grid": {
+        "left": 30,
+        "right": "5%",
+        "bottom": 45,
+        "top": 50,
+        "containLabel": true
+    },
+    "xAxis": {
+        "type": "category",
+        "data": [
+            "Yes",
+            "No",
+            "Not Sure"
+        ],
+        "axisLabel": {
+            "fontSize": 14,
+            "fontWeight": "bold",
+            "margin": 30,
+            "width": "100%"
+        }
+    },
+    "yAxis": {
+        "type": "value",
+        "axisLabel": {
+            "fontSize": 14,
+            "fontWeight": "bold",
+            "formatter": "{value} %",
+            "margin": 20,
+            "width": "100%"
+        }
+    },
+    "series": [
+        {
+            "name": "Men",
+            "type": "bar",
+            "label": {
+                "normal": {
+                    "fontSize": 14,
+                    "fontWeight": "bold",
+                    "show": true,
+                    "position": "inside",
+                    "formatter": "{c}%"
+                }
+            },
+            "data": [
+                68,
+                74,
+                4
+            ]
+        },
+
+        {
+            "name": "Women",
+            "type": "bar",
+            "label": {
+                "normal": {
+                    "fontSize": 14,
+                    "fontWeight": "bold",
+                    "show": true,
+                    "position": "inside",
+                    "formatter": "{c}%"
+                }
+            },
+            "data": [
+                65,
+                76,
+                5
+            ]
+        }
+    ]
+}
