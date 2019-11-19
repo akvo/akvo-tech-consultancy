@@ -22,8 +22,7 @@ This repository contains Akvo Tools custom integration pack development.
 | General | Akvo Flow Web. | Website & API | Python, Flask, Javascripts, ReactJS |
 | APPSA | Generate Custom Report from Akvo RSR. | Website & API | Python, Flask, Javascripts, ReactJS, Redux |
 | Akvo Ckan | Plugins for AkvoSite. | Wordpress Plugins | PHP, Javascripts |
-| Flow Web Forms | Web-Based version of Akvo Flow App. | Website | Javascripts, ReactJS, Redux |
-| Flow Web Forms API | Api for Flow Web Forms. | API | Python |
+| 2 Scale | Web-Based version of Akvo Flow App. | Website | Python, Javascripts, ReactJS, Redux |
 
 -------
 
