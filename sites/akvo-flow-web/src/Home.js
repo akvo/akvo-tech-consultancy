@@ -18,7 +18,7 @@ import {
 } from 'react-icons/fa'
 import { PROD_URL } from './util/Environment.js'
 
-const API_URL = (PROD_URL ? "https://2scale.tc.akvo.org/akvo-flow-web-api/" : process.env.REACT_APP_API_URL)
+const API_URL = (PROD_URL ? window.location.href.replace("flow-web","flow-web-api") : process.env.REACT_APP_API_URL)
 const CACHE_URL = (PROD_URL ? "update" : "fetch")
 const DELAY = 10000000;
 
@@ -96,7 +96,7 @@ class Home extends Component {
         }
         localStorage.setItem("_formId", this.surveyId)
         localStorage.setItem("_instanceId", this.instance)
-        axios.get(API_URL+ this.instance + '/' + this.surveyId + '/' + CACHE_URL)
+        axios.get(API_URL + '/' + CACHE_URL)
             .then(res => {
                 this.updateData(res.data)
                 this.setState({ _rendered:true });

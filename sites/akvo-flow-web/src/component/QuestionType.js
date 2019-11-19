@@ -8,8 +8,8 @@ import { FilePond, registerPlugin } from 'react-filepond';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css';
 
-const API_URL = (PROD_URL ? "https://2scale.tc.akvo.org/akvo-flow-web-api/" : "http://localhost:5000/")
-const pathurl = (PROD_URL ? 2 : 1)
+const API_ORIGIN = (PROD_URL ? ( window.location.origin + "/" + window.location.pathname.split('/')[1] + "-api" ) : process.env.REACT_APP_API_URL) + "/";
+const pathurl = (PROD_URL ? 2 : 1);
 
 registerPlugin(FilePondPluginImagePreview);
 
@@ -324,8 +324,8 @@ class QuestionType extends Component {
 
     getCascadeDropdown(lv, ix) {
         if (this.props.data.type === "cascade") {
-            let url = this.instanceUrl
-            url = API_URL + 'cascade/' + url + '/' + this.props.data.cascadeResource + '/' + lv
+            let url = API_ORIGIN + 'cascade/' + this.instanceUrl + '/' + this.props.data.cascadeResource + '/' + lv
+            console.log(url);
             let options = "options_" + lv
             let cascade = "cascade_" + ix
             let availcasc = this.props.value.cascade;
@@ -410,9 +410,9 @@ class QuestionType extends Component {
             <FilePond
                 server={(
                     {
-                        url: API_URL,
+                        url: API_ORIGIN,
                         process: {
-                            url: './upload-image',
+                            url: 'upload-image',
                             method: 'POST',
                             onload: (response) => {
                                 this.handlePhoto(response)
@@ -427,7 +427,7 @@ class QuestionType extends Component {
                             }
                         },
                         patch: {
-                            url: './upload-image',
+                            url: '.upload-image',
                             method: 'GET',
                             onload: (response) => {
                                 this.handlePhoto(response)
@@ -438,7 +438,7 @@ class QuestionType extends Component {
                             }
                         },
                         revert: {
-                            url: './delete-image/' + localStorage.getItem(data.id),
+                            url: '.delete-image/' + localStorage.getItem(data.id),
                             method: 'GET',
                             onload: (response) => {
                                 localStorage.removeItem(data.id)
