@@ -1,9 +1,9 @@
 {
     "color": [
-        "#2f4554",
-        "#c23531",
         "#749f83",
-        "#d48265"
+        "#d48265",
+        "#c23531",
+        "#2f4554"
     ],
     "tooltip": {
         "trigger": "axis",
@@ -30,7 +30,7 @@
     "grid": {
         "left": 30,
         "right": "5%",
-        "bottom": 45,
+        "bottom": 60,
         "top": 50,
         "containLabel": true
     },

@@ -30,7 +30,7 @@
     "grid": {
         "left": 30,
         "right": "5%",
-        "bottom": 45,
+        "bottom": 55,
         "top": 50,
         "containLabel": true
     },
@@ -136,37 +136,6 @@
             ]
         },
         {
-            "name": "N/A",
-            "type": "bar",
-            "stack": "total",
-            "label": {
-                "normal": {
-                    "fontSize": 14,
-                    "fontWeight": "bold",
-                    "show": true,
-                    "position": "inside",
-                    "formatter": "{c}%"
-                }
-            },
-            "data": [
-                null,
-                null,
-                1,
-                1,
-                1,
-                1,
-                1,
-                null,
-                null,
-                2,
-                null,
-                1,
-                null,
-                null,
-                1
-            ]
-        },
-        {
             "name": "Someone in my community",
             "type": "bar",
             "stack": "total",
@@ -195,6 +164,37 @@
                 2,
                 1,
                 4
+            ]
+        },
+        {
+            "name": "N/A",
+            "type": "bar",
+            "stack": "total",
+            "label": {
+                "normal": {
+                    "fontSize": 14,
+                    "fontWeight": "bold",
+                    "show": true,
+                    "position": "inside",
+                    "formatter": "{c}%"
+                }
+            },
+            "data": [
+                null,
+                null,
+                1,
+                1,
+                1,
+                1,
+                1,
+                null,
+                null,
+                2,
+                null,
+                1,
+                null,
+                null,
+                1
             ]
         }
     ]

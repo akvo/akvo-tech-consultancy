@@ -1,7 +1,7 @@
 {
     "color": [
-        "#2f4554",
         "#c23531",
+        "#2f4554",
         "#749f83",
         "#d48265"
     ],
@@ -28,7 +28,7 @@
     "grid": {
         "left": 30,
         "right": "5%",
-        "bottom": 45,
+        "bottom": 60,
         "top": 50,
         "containLabel": true
     },

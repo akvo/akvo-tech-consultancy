@@ -1,8 +1,8 @@
 {
     "color": [
-        "#2f4554",
-        "#c23531",
         "#749f83",
+        "#c23531",
+        "#2f4554",
         "#d48265"
     ],
     "tooltip": {
@@ -29,7 +29,7 @@
     "grid": {
         "left": 30,
         "right": "5%",
-        "bottom": 43,
+        "bottom": 60,
         "top": 50,
         "containLabel": true
     },
@@ -55,7 +55,7 @@
         "axisLabel": {
             "fontSize": 13,
             "fontWeight": "bold",
-            "rotate": 312,
+            "rotate": 310,
             "margin": 20,
             "width": "100%"
         }

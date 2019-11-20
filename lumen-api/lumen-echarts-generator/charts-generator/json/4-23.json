@@ -1,9 +1,9 @@
 {
     "color": [
         "#2f4554",
+        "#d48265",
         "#c23531",
-        "#749f83",
-        "#d48265"
+        "#749f83"
     ],
     "tooltip": {
         "trigger": "axis",
@@ -30,7 +30,7 @@
     "grid": {
         "left": 30,
         "right": "5%",
-        "bottom": 46,
+        "bottom": 55,
         "top": 50,
         "containLabel": true
     },
@@ -73,23 +73,6 @@
         }
     },
     "series": [
-        {
-            "name": "No Response",
-            "type": "bar",
-            "stack": "total",
-            "label": {
-                "normal": {
-                    "fontSize": 14,
-                    "fontWeight": "bold",
-                    "show": true,
-                    "position": "inside",
-                    "formatter": "{c}%"
-                }
-            },
-            "data": [
-                null, 1, null, 1, null, 1, null, 1, 2, 3, 1, 2, 2, 4, 1
-            ]
-        },
         {
             "name": "Yes",
             "type": "bar",
@@ -139,6 +122,23 @@
             },
             "data": [
                13, 26, 33, 23, 26, 23, 34, 23, 41, 43, 19, 34, 21, 20, 30
+            ]
+        },
+        {
+            "name": "No Response",
+            "type": "bar",
+            "stack": "total",
+            "label": {
+                "normal": {
+                    "fontSize": 14,
+                    "fontWeight": "bold",
+                    "show": true,
+                    "position": "inside",
+                    "formatter": "{c}%"
+                }
+            },
+            "data": [
+                null, 1, null, 1, null, 1, null, 1, 2, 3, 1, 2, 2, 4, 1
             ]
         }
     ]
