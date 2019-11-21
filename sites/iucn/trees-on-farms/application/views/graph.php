@@ -149,11 +149,10 @@ $( document ).ready(function() {
 	$('.selectpicker').selectpicker('refresh');
 	<?php endif;?>
 
-	map = L.map('map', {/*scrollWheelZoom: false*/}).setView([0, 0], 0);
+	map = L.map('map', { maxZoom: 10 }).setView([0, 0], 0);
  
 	var tileServer = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     tileAttribution = 'Tiles © Wikimedia — Source: OpenStreetMap, Data: Unicef Pacific WASH, <a href="https://akvo.org">Akvo SEAP</a>';
-
 
   L.tileLayer(tileServer, {
       attribution: tileAttribution,
@@ -204,7 +203,7 @@ $( document ).ready(function() {
 		layer.setZIndex(10000); //required to ensure that the cartodb layer is not obscured by the here maps base layers
 
 		fitMapToLayer("SELECT * FROM tof_28030003 WHERE q4800002 ='<?=$visualisation_details[$page]['event_type']?>'");
-
+    
 		addCursorInteraction(layer);
 
 		dataLayer = layer.getSubLayer(0);
