@@ -51,7 +51,7 @@ def table_ddl(table_name, columns):
     return ddl
 
 
-def value_values(c):
+def cast_value(c):
     if c['type'] == 'date':
         return 'to_timestamp(%s/1000)'
     elif c['type'] == 'geopoint':
@@ -61,7 +61,7 @@ def value_values(c):
 
 def values_template(columns):
     tpl = '('
-    tpl += ','.join(list(map(lambda x: value_values(x), columns)))
+    tpl += ','.join(list(map(lambda x: cast_value(x), columns)))
     tpl += ')'
     return tpl
 
