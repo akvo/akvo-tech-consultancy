@@ -104,9 +104,6 @@ def get_address(x):
     return p_address
 
 
-carbon_monitor_survey = Flow.get_response(requestURI + '/surveys/40050001')
-carbon_monitor_data = get_data(carbon_monitor_survey)
-
-with open("/tmp/carbon-data.json", "w") as f:
-    f.write(json.dumps(carbon_monitor_data))
+#carbon_monitor_survey = Flow.get_response(requestURI + '/surveys/40050001')
+#carbon_monitor_data = get_data(carbon_monitor_survey)
 
