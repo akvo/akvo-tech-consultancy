@@ -1,4 +1,4 @@
-FROM python:3.6.9-buster
+FROM python:3.8.0-slim-buster
 
 WORKDIR /usr/src/app
 COPY requirements.txt ./
