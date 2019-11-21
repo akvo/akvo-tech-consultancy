@@ -8,7 +8,7 @@ conn = psycopg2.connect(database=os.environ['POSTGRES_DB'], user=os.environ['POS
                         password=os.environ['POSTGRES_PASSWORD'], host=os.environ['POSTGRES_HOST'],
                         port=os.environ['POSTGRES_PORT'])
 
-with open('data-formatted.json', 'r') as f:
+with open('baseline.json', 'r') as f:
     lumen = json.loads(f.read())
 
 cols = lumen['columns']
@@ -51,6 +51,13 @@ def table_ddl(table_name, columns):
     return ddl
 
 
+def create_table(table_name, columns):
+    cur = conn.cursor()
+    sql = table_ddl(table_name, columns)
+    cur.execute(sql)
+    conn.commit()
+
+
 def cast_value(c):
     if c['type'] == 'date':
         return 'to_timestamp(%s/1000)'
@@ -83,4 +90,5 @@ def insert_data(table_name, columns, rows):
     )
     conn.commit()
 
-#insert_data('test_3', cols, rows)
+# create_table('test_4', cols)
+# insert_data('test_4', cols, rows)
