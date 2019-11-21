@@ -1,0 +1,4 @@
+numpy==1.17.4
+pandas==0.25.3
+requests==2.22.0
+psycopg2-binary==2.8.4
