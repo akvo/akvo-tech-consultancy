@@ -1,1 +1,83 @@
-{"color": ["#2f4554", "#c23531", "#749f83", "#d48265"], "tooltip": {"trigger": "axis", "axisPointer": {"type": "shadow"}}, "legend": {"data": ["Yes", "No", "Not Sure"], "padding": 20, "textStyle": {"fontSize": 20, "fontWeight": "bold", "rotate": 315, "margin": 20, "width": "100%"}}, "grid": {"left": 100, "right": "10%", "bottom": 50, "top": 100, "containLabel": true}, "xAxis": {"type": "category", "data": ["Central Makira", "East Guadalcanal", "Central Guadalcanal", "East Honiara", "Central Honiara", "West Honiara", "Aoke Langalanga", "Small Malaita", "Lau Mbaelelea", "Russell Savo", "Gao Bugotu", "Maringe Kokota", "Gizo Kolombangara", "North Vella Lavella", "North West Choiseul"], "axisLabel": {"fontSize": 18, "fontWeight": "bold", "rotate": 305, "margin": 20, "width": "100%"}}, "yAxis": {"type": "value", "axisLabel": {"fontSize": 18, "fontWeight": "bold", "formatter": "{value} %", "rotate": 305, "margin": 20, "width": "100%"}}, "series": [{"name": "Yes", "type": "bar", "stack": "total", "label": {"normal": {"fontSize": 20, "fontWeight": "bold", "show": true, "position": "inside", "formatter": "{c}%"}}, "data": [50, null, null, 17, null, 12, null, 13, 29, 15, null, 8, null, null, null]}, {"name": "No", "type": "bar", "stack": "total", "label": {"normal": {"fontSize": 20, "fontWeight": "bold", "show": true, "position": "inside", "formatter": "{c}%"}}, "data": [50, 91, 100, 83, 100, 88, 85, 62, 57, 85, 88, 84, 100, 75, 71]}, {"name": "Not Sure", "type": "bar", "stack": "total", "label": {"normal": {"fontSize": 20, "fontWeight": "bold", "show": true, "position": "inside", "formatter": "{c}%"}}, "data": [null, 9, null, null, null, null, 15, 25, 14, null, 12, 8, null, 25, 29]}]}
+{
+    "color": [
+        "#2f4554",
+        "#c23531",
+        "#749f83",
+        "#d48265"
+    ],
+    "title": {
+        "show": false,
+        "left": "center",
+        "top": "47.5%",
+        "text": "2418",
+        "textStyle": {
+            "fontSize": 50,
+            "fontWeight": "bold"
+        }
+    },
+    "legend": {
+        "data": [
+            "Yes",
+            "No",
+            "Not Sure",
+            "No Response"
+        ],
+        "orient": "horizontal",
+        "x": "center",
+        "y": "5%",
+        "itemGap": 15,
+        "padding": 20,
+        "margin": 20,
+        "textStyle": {
+            "fontSize": 20,
+            "fontWeight": "bold"
+        }
+    },
+    "series": [
+        {
+            "type": "pie",
+            "avoidLabelOverlap": "false",
+            "radius": [
+                "70%",
+                "30%"
+            ],
+            "center": [
+                "50%",
+                "50%"
+            ],
+            "label": {
+                "show": true,
+                "normal": {
+                    "formatter": "{d}%\n({c})",
+                    "show": true,
+                    "fontSize": 14,
+                    "color": "#FFF",
+                    "position": "inside"
+                }
+            },
+            "labelLine": {
+                "normal": {
+                    "show": false
+                }
+            },
+            "data": [
+                {
+                    "value": 1146,
+                    "name": "Yes"
+                },
+                {
+                    "value": 905,
+                    "name": "No"
+                },
+                {
+                    "value": 313,
+                    "name": "Not Sure"
+                },
+                {
+                    "value": 54,
+                    "name": "No Response"
+                }
+            ]
+        }
+    ]
+}

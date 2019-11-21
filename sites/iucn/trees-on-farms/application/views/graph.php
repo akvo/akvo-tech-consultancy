@@ -105,7 +105,7 @@ if (isset($admin_organs)){
 <!-- End modal -->
 
 <!-- Carto info windows -->
-<script type="infowindow/html" id="iucn-infowindow">
+<script type="infowindow/html" id="2">
 <div class="cartodb-popup v2">
     <a href="#close" class="cartodb-popup-close-button close">x</a>
     <div class="cartodb-popup-content-wrapper">
@@ -149,38 +149,15 @@ $( document ).ready(function() {
 	$('.selectpicker').selectpicker('refresh');
 	<?php endif;?>
 
-	map = L.map('map', {/*scrollWheelZoom: false*/}).setView([0, 0], 0);
+	map = L.map('map', { maxZoom: 10 }).setView([0, 0], 0);
+ 
+	var tileServer = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    tileAttribution = 'Tiles © Wikimedia — Source: OpenStreetMap, Data: Unicef Pacific WASH, <a href="https://akvo.org">Akvo SEAP</a>';
 
-	var mbAttr = 'Map &copy; 1987-2014 <a href="https://developer.here.com">HERE</a>',
-	mbUrl = 'https://{s}.{base}.maps.cit.api.here.com/maptile/2.1/maptile/{mapID}/{scheme}/{z}/{x}/{y}/256/{format}?app_id={app_id}&app_code={app_code}';
-
-	var normal = L.tileLayer(mbUrl, {
-		scheme: 'normal.day.transit',
-		format: 'png8',
-		attribution: mbAttr,
-		subdomains: '1234',
-		mapID: 'newest',
-		app_id: 'DC0jMgnvlRs54v4XvyBV',
-		app_code: '3PNibIUvykZ8RK-nD_dh4Q',
-		base: 'base'
-	}).addTo(map),
-	satellite  = L.tileLayer(mbUrl, {
-		scheme: 'hybrid.day',
-		format: 'jpg',
-		attribution: mbAttr,
-		subdomains: '1234',
-		mapID: 'newest',
-		app_id: 'DC0jMgnvlRs54v4XvyBV',
-		app_code: '3PNibIUvykZ8RK-nD_dh4Q',
-		base: 'aerial'
-	});
-
-	var baseLayers = {
-		"Normal": normal,
-		"Satellite": satellite
-	};
-
-	L.control.layers(baseLayers).addTo(map);
+  L.tileLayer(tileServer, {
+      attribution: tileAttribution,
+      maxZoom: 18
+  }).addTo(map);
 
 	cartodb.createLayer(map, {
 	    user_name: 'akvo',
@@ -216,25 +193,23 @@ $( document ).ready(function() {
 			    +'#tof_28030003[q10170002=\'Global\'] {'
 			    +'marker-fill: #42f4eb;'
 			    +'}'
-			    +'#tof_28030003[q4800002=\'Intended or unexpected Result\'] {'
-                +'marker-file: url(<?=base_url()?>resources/images/black.svg);'
-			    +'}'/**/,
+			,
 			interactivity: '<?=implode(", ", $visualisation_details[$page]['map_interactivity'])?>'
 		}]
-	}, {tooltip: false, https: true})
+	}, {tooltip: false, https: false})
 	.addTo(map, 1)
 	.done( function(layer) {
 		//do stuff
-		layer.setZIndex(1000); //required to ensure that the cartodb layer is not obscured by the here maps base layers
+		layer.setZIndex(10000); //required to ensure that the cartodb layer is not obscured by the here maps base layers
 
 		fitMapToLayer("SELECT * FROM tof_28030003 WHERE q4800002 ='<?=$visualisation_details[$page]['event_type']?>'");
-
+    
 		addCursorInteraction(layer);
 
 		dataLayer = layer.getSubLayer(0);
 
 		dataLayer.setInteraction(true);
-		dataLayer.set({'interactivity': '<?=implode(", ", $visualisation_details[$page]['map_interactivity'])?>'});
+    dataLayer.set({'interactivity': '<?=implode(", ", $visualisation_details[$page]['map_interactivity'])?>'});
 		cdb.vis.Vis.addInfowindow(map, layer.getSubLayer(0), <?=json_encode($visualisation_details[$page]['map_interactivity'])?>, {
 			infowindowTemplate: $('#iucn-infowindow').html()
 		});
@@ -314,7 +289,7 @@ var LayerActions = {
 		<?=$admin_organ_type?>: function(){
 			var query = "SELECT * FROM tof_28030003 WHERE q4800002 ='<?=$visualisation_details[$page]['event_type']?>' AND q10170002 LIKE '%"+$( "#<?=$admin_organ_type?> option:selected" ).text()+"%'";
 			dataLayer.setSQL(query);
-
+      
 			fitMapToLayer(query);
 			return true;
 		}

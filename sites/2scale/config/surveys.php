@@ -1,7 +1,7 @@
 <?php
 
 return [
-    "url" => "http://2scale.tc.akvo.org/akvo-flow-web/2scale",
+    "url" => "http://tech-consultancy.akvo.org/akvo-flow-web/2scale",
     "forms" => array(
         [
         "name" => "M&E Tools",
@@ -46,10 +46,10 @@ return [
             "name" => "mali",
         ],
         [
-        [
             "id" => 7,
             "name" => "niger",
         ],
+        [
             "id" => 8,
             "name" => "nigeria",
         ],

@@ -1,0 +1,137 @@
+{
+    "color": [
+        "#2f4554",
+        "#c23531",
+        "#749f83",
+        "#d48265"
+    ],
+    "tooltip": {
+        "trigger": "axis",
+        "axisPointer": {
+            "type": "shadow"
+        }
+    },
+    "legend": {
+        "data": [
+            "Yes",
+            "No"
+        ],
+        "padding": 20,
+        "textStyle": {
+            "fontSize": 20,
+            "fontWeight": "bold",
+            "rotate": 315,
+            "margin": 20,
+            "width": "100%"
+        }
+    },
+    "grid": {
+        "left": 30,
+        "right": "5%",
+        "bottom": 60,
+        "top": 50,
+        "containLabel": true
+    },
+    "xAxis": {
+        "type": "category",
+        "data": [
+            "Central Makira",
+            "East Guadalcanal",
+            "Central Guadalcanal",
+            "East Honiara",
+            "Central Honiara",
+            "West Honiara",
+            "Aoke Langalanga",
+            "Small Malaita",
+            "Lau Mbaelelea",
+            "Russell Savo",
+            "Gao Bugotu",
+            "Maringe Kokota",
+            "Gizo Kolombangara",
+            "North Vella Lavella",
+            "North West Choiseul"
+        ],
+        "axisLabel": {
+            "fontSize": 14,
+            "fontWeight": "bold",
+            "rotate": 305,
+            "margin": 20,
+            "width": "100%"
+        }
+    },
+    "yAxis": {
+        "type": "value",
+        "axisLabel": {
+            "fontSize": 14,
+            "fontWeight": "bold",
+            "formatter": "{value} %",
+            "rotate": 305,
+            "margin": 20,
+            "width": "100%"
+        }
+    },
+    "series": [
+        {
+            "name": "Yes",
+            "type": "bar",
+            "stack": "total",
+            "label": {
+                "normal": {
+                    "fontSize": 14,
+                    "fontWeight": "bold",
+                    "show": true,
+                    "position": "inside",
+                    "formatter": "{c}%"
+                }
+            },
+            "data": [
+                8,
+                21,
+                4,
+                10,
+                7,
+                3,
+                2,
+                2,
+                13,
+                1,
+                8,
+                17,
+                2,
+                21,
+                24
+            ]
+        },
+        {
+            "name": "No",
+            "type": "bar",
+            "stack": "total",
+            "label": {
+                "normal": {
+                    "fontSize": 14,
+                    "fontWeight": "bold",
+                    "show": true,
+                    "position": "inside",
+                    "formatter": "{c}%"
+                }
+            },
+            "data": [
+                92,
+                79,
+                96,
+                90,
+                93,
+                97,
+                98,
+                98,
+                87,
+                99,
+                92,
+                83,
+                98,
+                79,
+                76
+            ]
+        }
+    ]
+}

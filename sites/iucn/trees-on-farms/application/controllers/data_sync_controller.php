@@ -116,6 +116,7 @@ class Data_sync_controller extends CI_Controller {
 		$cartodb_api_key = "0344aaf6dba34f9786bbbc90805b8bc5143043eb";
 
 		$surveys = $this->surveys("akvoflow-165", $survey_group_id);
+		$surveys['surveys'] = [];
 		foreach ($surveys['surveys'] as $survey) {
 			$output[$survey['name']] = array();
 

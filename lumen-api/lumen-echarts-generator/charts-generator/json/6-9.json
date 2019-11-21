@@ -1,0 +1,95 @@
+{
+    "color": [
+        "#2f4554",
+        "#c23531",
+        "#749f83",
+        "#d48265"
+    ],
+    "tooltip": {
+        "trigger": "axis",
+        "axisPointer": {
+            "type": "shadow"
+        }
+    },
+    "legend": {
+        "data": ["Winning Candidate", "Second Place"],
+        "padding": 20,
+        "textStyle": {
+            "fontSize": 20,
+            "fontWeight": "bold",
+            "rotate": 315,
+            "margin": 20,
+            "width": "100%"
+        }
+    },
+    "grid": {
+        "left": 30,
+        "right": "5%",
+        "bottom": 45,
+        "top": 50,
+        "containLabel": true
+    },
+    "xAxis": {
+        "type": "category",
+        "data": [
+            "Batch 1",
+            "Batch 2",
+            "Batch 3",
+            "Batch 4",
+            "Batch 5"
+        ],
+        "axisLabel": {
+            "fontSize": 14,
+            "fontWeight": "bold",
+            "margin": 30,
+            "width": "100%"
+        }
+    },
+    "yAxis": {
+        "type": "value",
+        "axisLabel": {
+            "fontSize": 14,
+            "fontWeight": "bold",
+            "formatter": "{value} %",
+            "margin": 20,
+            "width": "100%"
+        }
+    },
+    "series": [
+        {
+            "name": "Winning Candidate",
+            "type": "bar",
+            "barGap": 0,
+            "label": {
+                "normal": {
+                    "fontSize": 14,
+                    "fontWeight": "bold",
+                    "show": true,
+                    "position": "inside",
+                    "formatter": "{c}%"
+                }
+            },
+            "data": [
+                50, 30, 37, 72, 42
+            ]
+        },
+
+        {
+            "name": "Second Place",
+            "type": "bar",
+            "barGap": 0,
+            "label": {
+                "normal": {
+                    "fontSize": 14,
+                    "fontWeight": "bold",
+                    "show": true,
+                    "position": "inside",
+                    "formatter": "{c}%"
+                }
+            },
+            "data": [
+                34, 48, 26, 15, 43
+            ]
+        }
+    ]
+}

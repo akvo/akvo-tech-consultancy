@@ -40,4 +40,5 @@ Route::get('/cron', 'Api\DataController@cron');
 |
 */
 
-Route::get('/chart/{id}', 'Api\ChartController@questionId');
+Route::get('/charts-dropdown', 'Api\ChartController@questionList');
+Route::get('/chart/{id}', 'Api\ChartController@chartsById');
