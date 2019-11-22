@@ -23,7 +23,7 @@
 </div>
 
 <main role="main" class="row">
-    <iframe id="akvo-flow-web" src="/home" frameborder=0 width="100%"></iframe>
+    <iframe id="akvo-flow-web" src="/blank-survey" frameborder=0 width="100%"></iframe>
 </main>
 
 @endsection

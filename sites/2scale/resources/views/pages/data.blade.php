@@ -42,18 +42,17 @@
         <div class="btn-group">
           <button type="button" class="btn btn-secondary btn-block dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Explore</button>
           <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
+            <a class="dropdown-item" href="#"><i class="fas fa-play-circle"></i> Inspect</a>
+            <a class="dropdown-item" href="#"><i class="fas fa-arrow-circle-down"></i> Download</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Separated link</a>
+            <a class="dropdown-item" href="#"><i class="fas fa-question-circle"></i> FAQ</a>
           </div>
         </div>
 	</nav>
 </div>
 
 <main role="main" class="row">
-    <iframe id="akvo-flow-web" src="/home" frameborder=0 width="100%"></iframe>
+    <iframe id="akvo-flow-web" src="/blank-survey" frameborder=0 width="100%"></iframe>
 </main>
 
 @endsection
