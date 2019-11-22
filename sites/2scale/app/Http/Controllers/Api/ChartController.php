@@ -16,15 +16,6 @@ class ChartController extends Controller
     {
         $questions = $questions->whereIn('type', ['NUMBER','OPTION'])->get(); 
         return $questions;
-        $questions = collect($questions)->map(function($question) {
-            $type  = $question->type();
-            $chart_type = "bar";
-            if ($type === "OPTION") {
-                $chart_type = "bar";
-            }
-            $question["chart_type"] = $chart_type;
-        });
-        return $questions->groupBy('form_id');
     }
 
     public function chartsById(Request $request, Question $questions)

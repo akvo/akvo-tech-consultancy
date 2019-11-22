@@ -24,19 +24,25 @@ class PageController extends Controller
 	* @return \Illuminate\Http\Response
 	*
 	*/
-	public function index()
+	public function home()
+	{
+		return view('pages.home');
+	}
+
+    public function data()
+    {
+		return view('pages.data', ['surveys' => config('surveys')]);
+    }
+
+	public function survey()
 	{
 		return view('pages.index', ['surveys' => config('surveys')]);
 	}
 
-	public function home()
+	public function blank()
 	{
-		return view('home');
+		return view('blank');
 	}
 
-    public function database()
-    {
-		return view('pages.database', ['surveys' => config('surveys')]);
-    }
 }
 
