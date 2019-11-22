@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use App\Data;
 use App\Question;
+use App\Form;
+use App\Option;
 
 class Akvo
 {
@@ -101,7 +103,7 @@ class Akvo
 
     public static function getValue($value) {
         $tmp = [];
-        if (isset($value['code'])) {
+        if (isset($value['code']) && !empty($value['code'])) {
             $tmp[] = $value['code'];
         }
 
@@ -120,19 +122,28 @@ class Akvo
             $countries[] = $item['name'];
         }
 
+        Form::whereNotNull('id')->delete();
+
         $forms = config('surveys.forms');
         foreach ($forms as $item) {
             foreach ($item['list'] as $survey) {
                 $surveys[] = $survey['survey_id'];
+
+                $form = new Form;
+                $form->form_id = $survey['id'];
+                $form->form_name = $survey['name'];
+                $form->survey_id = $survey['survey_id'];
+                $form->save();
             }
         }
-
+   
         foreach ($surveys as $surveyId) {
             $result = Akvo::get(config('akvo.endpoints.surveys') . '/' . $surveyId);
 
             if (is_array($result)) {
                 foreach ($result['forms'] as $form) {
                     Question::where('form_id', $form['id'])->delete();
+                    $questionTypes = [];
                     $countryQID = '';
                     foreach ($form['questionGroups'] as $qgitem) {
                         foreach ($qgitem['questions'] as $qdata) {
@@ -147,6 +158,8 @@ class Akvo
                             if ($qdata['type'] == 'CASCADE') {
                                 $countryQID = $qdata['id'];
                             }
+
+                            $questionTypes[$qdata['id']] = $qdata['type'];
                         }
                     }
 
@@ -164,31 +177,53 @@ class Akvo
                             $country = '';
                             foreach ($ditem['responses'] as $dresponse) {
                                 foreach ($dresponse[0] as $qid => $qanswer) {
-                                    $datam = new Data;
-                                    $datam->question_id = $qid;
-                                    $datam->datapoint_id = $ditem['dataPointId'];
-                                    $datam->submission_date = date('Y-m-d', strtotime($ditem['submissionDate']));
+                                    if (isset($questionTypes[$qid]) && $questionTypes[$qid] == 'OPTION') {
+                                        if (is_array($qanswer)) {
+                                            foreach ($qanswer as $qitem) {
+                                                $datam = new Data;
+                                                $datam->question_id = $qid;
+                                                $datam->datapoint_id = $ditem['dataPointId'];
+                                                $datam->submission_date = date('Y-m-d', strtotime($ditem['submissionDate']));
+                                                $datam->answer = self::getValue($qitem);
 
-                                    if (is_array($qanswer)) {
-                                        $tmp = [];
-                                        foreach ($qanswer as $qitem) {
-                                            $tmp[] = self::getValue($qitem);
+                                                if ($countryQID == $qid) {
+                                                    $datam->country = isset($qanswer[0]['name']) ? strtolower($qanswer[0]['name']) : '';
+                                                    $datam->country = in_array($datam->country, $countries) ? $datam->country : '';
+                                                    $country = $datam->country;
+                                                } else {
+                                                    $datam->country = '';
+                                                }
+                                                
+                                                $datam->save();
+                                            }
+                                        }
+                                    } else {
+                                        $datam = new Data;
+                                        $datam->question_id = $qid;
+                                        $datam->datapoint_id = $ditem['dataPointId'];
+                                        $datam->submission_date = date('Y-m-d', strtotime($ditem['submissionDate']));
+
+                                        if (is_array($qanswer)) {
+                                            $tmp = [];
+                                            foreach ($qanswer as $qitem) {
+                                                $tmp[] = self::getValue($qitem);
+                                            }
+
+                                            $datam->answer = implode('|', $tmp);
+                                        } else {
+                                            $datam->answer = $qanswer;
                                         }
 
-                                        $datam->answer = implode('|', $tmp);
-                                    } else {
-                                        $datam->answer = $qanswer;
+                                        if ($countryQID == $qid) {
+                                            $datam->country = isset($qanswer[0]['name']) ? strtolower($qanswer[0]['name']) : '';
+                                            $datam->country = in_array($datam->country, $countries) ? $datam->country : '';
+                                            $country = $datam->country;
+                                        } else {
+                                            $datam->country = '';
+                                        }
+                                        
+                                        $datam->save();
                                     }
-
-                                    if ($countryQID == $qid) {
-                                        $datam->country = isset($qanswer[0]['name']) ? strtolower($qanswer[0]['name']) : '';
-                                        $datam->country = in_array($datam->country, $countries) ? $datam->country : '';
-                                        $country = $datam->country;
-                                    } else {
-                                        $datam->country = '';
-                                    }
-                                    
-                                    $datam->save();
                                 }
                             }
 
