@@ -1,4 +1,3 @@
-import json
 import os
 
 import psycopg2
@@ -8,22 +7,18 @@ conn = psycopg2.connect(database=os.environ['POSTGRES_DB'], user=os.environ['POS
                         password=os.environ['POSTGRES_PASSWORD'], host=os.environ['POSTGRES_HOST'],
                         port=os.environ['POSTGRES_PORT'])
 
-with open('baseline.json', 'r') as f:
-    lumen = json.loads(f.read())
-
-cols = lumen['columns']
-rows = lumen['rows']
-
 column_types = {
     'text': 'text',
     'date': 'timestamptz',
     'number': 'numeric',
     'geopoint': 'geometry(POINT, 4326)',
+    'geoshape': 'geometry(GEOMETRY, 4326)',
+    'multiple': 'jsonb',
 }
 
 
 def primary_key(c):
-    if c['key']:
+    if 'key' in c and c['key']:
         return ' primary key'
     else:
         return ''
@@ -33,27 +28,27 @@ def column_ddl(columns):
     return list(map(lambda x: '"' + x['title'] + '" ' + column_types[x['type']] + primary_key(x), columns))
 
 
-def gist_index(table_name, column_title):
-    return 'CREATE INDEX ON ' + table_name + ' USING GIST ("' + column_title + '");'
+def gist_index(schema, table_name, column_title):
+    return 'CREATE INDEX ON ' + schema + '."' + table_name + '" USING GIST ("' + column_title + '");'
 
 
-def index_ddl(table_name, columns):
+def index_ddl(schema, table_name, columns):
     geo = list(filter(lambda x: x['type'] == 'geopoint', columns))
-    idxs = list(map(lambda x: gist_index(table_name, x['title']), geo))
+    idxs = list(map(lambda x: gist_index(schema, table_name, x['title']), geo))
     return "\n".join(idxs)
 
 
-def table_ddl(table_name, columns):
-    ddl = 'CREATE TABLE "' + table_name + '" ( '
+def table_ddl(schema, table_name, columns):
+    ddl = 'CREATE TABLE ' + schema + '."' + table_name + '" ( '
     ddl += ','.join(column_ddl(columns))
     ddl += ' );\n'
-    ddl += index_ddl(table_name, columns)
+    ddl += index_ddl(schema, table_name, columns)
     return ddl
 
 
-def create_table(table_name, columns):
+def create_table(schema, table_name, columns):
     cur = conn.cursor()
-    sql = table_ddl(table_name, columns)
+    sql = table_ddl(schema, table_name, columns)
     cur.execute(sql)
     conn.commit()
 
@@ -62,6 +57,8 @@ def cast_value(c):
     if c['type'] == 'date':
         return 'to_timestamp(%s/1000)'
     elif c['type'] == 'geopoint':
+        return 'ST_GeomFromText(%s, 4326)'
+    elif c['type'] == 'geoshape':
         return 'ST_GeomFromText(%s, 4326)'
     return '%s'
 
@@ -73,22 +70,26 @@ def values_template(columns):
     return tpl
 
 
-def insert_dml(table_name, columns):
-    dml = 'INSERT INTO "' + table_name + '" ('
+def insert_dml(schema, table_name, columns):
+    dml = 'INSERT INTO ' + schema + '."' + table_name + '" ('
     dml += ','.join(list(map(lambda x: '"' + x['title'] + '"', columns)))
     dml += ')\n'
     dml += 'VALUES %s'
     return dml
 
 
-def insert_data(table_name, columns, rows):
+def insert_data(schema, table_name, columns, rows):
     cur = conn.cursor()
-    sql = insert_dml(table_name, columns)
+    sql = insert_dml(schema, table_name, columns)
     template = values_template(columns)
     psycopg2.extras.execute_values(
-        cur, sql, rows, template, page_size=100
+        cur, sql, rows, template, page_size=200
     )
     conn.commit()
 
-# create_table('test_4', cols)
-# insert_data('test_4', cols, rows)
+
+def create_view(view_name, table_name):
+    cur = conn.cursor()
+    sql = 'CREATE OR REPLACE VIEW public."{}" AS SELECT * FROM import."{}"'.format(view_name, table_name)
+    cur.execute(sql)
+    conn.commit()
