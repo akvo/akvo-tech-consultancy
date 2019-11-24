@@ -22,11 +22,20 @@ token_data = {
     'scope': 'openid email'
 }
 
+# Form - dataset mapping
 table_dataset = {
     'Carbon Monitoring': '5dd7c3f3-0903-45b1-87af-edff38b7b9dd',
     'Biodiversity Monitoring - Community': '5dd7c4a8-6a97-4992-800a-33340cf73432',
-    'Biodiversity Monitoring - Rangers Final - Baseline': '5dd7c51b-9dd2-494e-8a15-af09d7079cef',
-    'Forest Disturbance Monitoring - Rangers Final - Baseline': '5dd7c69a-e27d-433c-abe6-8167884745dc',
+    'Biodiversity Monitoring - Baseline': '5dd7c51b-9dd2-494e-8a15-af09d7079cef',
+    'Forest Disturbance Monitoring - Baseline': '5dd7c69a-e27d-433c-abe6-8167884745dc',
+}
+
+# Dataset - Location column mapping
+column_dataset = {
+    'Carbon Monitoring': 'c30070004',
+    'Biodiversity Monitoring - Community': 'c20050001',
+    'Biodiversity Monitoring - Baseline': 'c2230007',
+    'Forest Disturbance Monitoring - Baseline': 'c3300002',
 }
 
 
@@ -89,12 +98,18 @@ def get_dataset(token, dataset_id):
     return data.json()
 
 
-def update_tables(dataset_name, dataset):
-    prefix = int(time.time())
-    table_name = '{}_{}'.format(prefix, dataset_name)
+def location_column_name(dataset_name, cols):
+    column_name = column_dataset[dataset_name]
+    location = list(filter(lambda x: x['columnName'] == column_name, cols))[0]
+    return location['title']
+
+
+def update_tables(ts, dataset_name, dataset):
+    table_name = '{}_{}'.format(ts, dataset_name)
     view_name = dataset_name
     cols = dataset['columns']
     rows = dataset['rows']
+    location_column = location_column_name(dataset_name, cols)
 
     print('Creating import table')
     pg.create_table('import', table_name, cols)
@@ -105,12 +120,22 @@ def update_tables(dataset_name, dataset):
     print('Recreating view')
     pg.create_view(view_name, table_name)
 
+    print('Creating views by location')
+    locations = pg.distinct_location_values(view_name, location_column)
+    for loc in locations:
+        loc_name = loc[0]
+        new_view_name = '{} - {}'.format(view_name, loc_name)
+        pg.create_location_view(new_view_name, view_name, location_column, loc_name)
 
-for d in table_dataset:
-    print('Processing: ' + d)
-    dataset_id = table_dataset[d]
-    token = get_token()
-    if update_dataset(token, dataset_id):
-        dataset_data = get_dataset(token, dataset_id)
-        if dataset_data is not None:
-            update_tables(d, dataset_data)
+
+if __name__ == '__main__':
+    prefix = int(time.time())
+
+    for d in table_dataset:
+        print('Processing: ' + d)
+        dataset_id = table_dataset[d]
+        token = get_token()
+        if update_dataset(token, dataset_id):
+            dataset_data = get_dataset(token, dataset_id)
+            if dataset_data is not None:
+                update_tables(prefix, d, dataset_data)

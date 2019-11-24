@@ -93,3 +93,24 @@ def create_view(view_name, table_name):
     sql = 'CREATE OR REPLACE VIEW public."{}" AS SELECT * FROM import."{}"'.format(view_name, table_name)
     cur.execute(sql)
     conn.commit()
+
+
+def distinct_location_values(table_name, column_name):
+    cur = conn.cursor()
+    sql = """
+    SELECT DISTINCT split_part("{}",'|',1) AS location
+    FROM "{}"
+    WHERE "{}" IS NOT NULL;
+    """.format(column_name, table_name, column_name)
+    cur.execute(sql)
+    return cur
+
+
+def create_location_view(new_view, base_view, location_column, value):
+    cur = conn.cursor()
+    sql = """
+    CREATE OR REPLACE VIEW "{}" AS
+    SELECT * FROM "{}" WHERE split_part("{}",'|',1) = '{}';
+    """.format(new_view, base_view, location_column, value)
+    cur.execute(sql)
+    conn.commit()
