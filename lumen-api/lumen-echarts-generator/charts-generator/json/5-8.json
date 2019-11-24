@@ -19,8 +19,8 @@
         "data": [
             "N/A",
             "Me",
-            "My family",
-            "Someone in my community"
+            "Someone in my community",
+            "My family"
         ],
         "orient": "horizontal",
         "x": "center",
@@ -70,12 +70,12 @@
                     "name": "Me"
                 },
                 {
-                    "value": 388,
-                    "name": "My family"
-                },
-                {
                     "value": 47,
                     "name": "Someone in my community"
+                },
+                {
+                    "value": 388,
+                    "name": "My family"
                 }
             ]
         }

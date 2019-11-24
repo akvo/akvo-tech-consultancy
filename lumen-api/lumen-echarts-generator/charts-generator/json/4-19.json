@@ -30,7 +30,7 @@
     "grid": {
         "left": 30,
         "right": "5%",
-        "bottom": 39,
+        "bottom": 55,
         "top": 50,
         "containLabel": true
     },
@@ -54,9 +54,9 @@
             "North West Choiseul"
         ],
         "axisLabel": {
-            "fontSize": 14,
+            "fontSize": 13,
             "fontWeight": "bold",
-            "rotate": 305,
+            "rotate": 315,
             "margin": 20,
             "width": "100%"
         }
@@ -139,6 +139,7 @@
             "name": "No Response",
             "type": "bar",
             "stack": "total",
+            "zlevel": 3,
             "label": {
                 "normal": {
                     "fontSize": 14,

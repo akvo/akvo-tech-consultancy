@@ -19,7 +19,6 @@
         "data": [
             "Yes",
             "No",
-            "Family Did",
             "No Response"
         ],
         "orient": "horizontal",
@@ -48,7 +47,7 @@
             "label": {
                 "show": true,
                 "normal": {
-                    "formatter": "{d}%\n({c})",
+                    "formatter": "{d}%",
                     "show": true,
                     "fontSize": 14,
                     "color": "#FFF",
@@ -62,19 +61,15 @@
             },
             "data": [
                 {
-                    "value": 1002,
+                    "value": 46,
                     "name": "Yes"
                 },
                 {
-                    "value": 1226,
+                    "value": 51,
                     "name": "No"
                 },
                 {
-                    "value": 115,
-                    "name": "Family Did"
-                },
-                {
-                    "value": 75,
+                    "value": 3,
                     "name": "No Response"
                 }
             ]

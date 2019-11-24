@@ -29,16 +29,33 @@
     "grid": {
         "left": 30,
         "right": "5%",
-        "bottom": 80,
+        "bottom": 45,
         "top": 50,
         "containLabel": true
     },
     "xAxis": {
         "type": "category",
-        "data": ["Female", "Male"],
+        "data": [
+            "Central Makira",
+            "East Guadalcanal",
+            "Central Guadalcanal",
+            "East Honiara",
+            "Central Honiara",
+            "West Honiara",
+            "Aoke Langalanga",
+            "Small Malaita",
+            "Lau Mbaelelea",
+            "Russell Savo",
+            "Gao Bugotu",
+            "Maringe Kokota",
+            "Gizo Kolombangara",
+            "North Vella Lavella",
+            "North West Choiseul"
+        ],
         "axisLabel": {
             "fontSize": 14,
             "fontWeight": "bold",
+            "rotate": 310,
             "margin": 20,
             "width": "100%"
         }
@@ -61,7 +78,7 @@
             "stack": "total",
             "label": {
                 "normal": {
-                    "fontSize": 20,
+                    "fontSize": 14,
                     "fontWeight": "bold",
                     "show": true,
                     "position": "inside",
@@ -69,8 +86,21 @@
                 }
             },
             "data": [
-                13,
-                10
+                11,
+                10,
+                8,
+                6,
+                12,
+                8,
+                10,
+                6,
+                17,
+                2,
+                10,
+                30,
+                5,
+                18,
+                18
             ]
         },
         {
@@ -79,7 +109,7 @@
             "stack": "total",
             "label": {
                 "normal": {
-                    "fontSize": 20,
+                    "fontSize": 14,
                     "fontWeight": "bold",
                     "show": true,
                     "position": "inside",
@@ -87,8 +117,21 @@
                 }
             },
             "data": [
+                89,
+                89,
+                92,
+                94,
                 86,
-                89
+                91,
+                90,
+                93,
+                83,
+                98,
+                89,
+                70,
+                94,
+                81,
+                79
             ]
         },
         {
@@ -97,7 +140,7 @@
             "stack": "total",
             "label": {
                 "normal": {
-                    "fontSize": 20,
+                    "fontSize": 14,
                     "fontWeight": "bold",
                     "show": true,
                     "position": "inside",
@@ -105,8 +148,21 @@
                 }
             },
             "data": [
+                null,
                 1,
-                1
+                null,
+                null,
+                2,
+                1,
+                null,
+                1,
+                null,
+                null,
+                1,
+                null,
+                1,
+                1,
+                3
             ]
         }
     ]

@@ -7,16 +7,13 @@
   <div class="navbar-collapse offcanvas-collapse">
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
-        <a class="nav-link {{Route::is('home') ? 'active' : '' }}" href="/database"><i class="fas fa-database"></i> Home</a>
+        <a class="nav-link {{Route::is('home') ? 'active' : '' }}" href="/"><i class="fas fa-tachometer-alt"></i> Home</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link {{Route::is('report') ? 'active' : '' }}" href="/database"><i class="fas fa-database"></i> Report</a>
+        <a class="nav-link {{Route::is('data') ? 'active' : '' }}" href="/data"><i class="fas fa-database"></i> Data</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link {{Route::is('data') ? 'active' : '' }}" href="/database"><i class="fas fa-database"></i> Data</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link {{Route::is('index') ? 'active' : '' }}" href="/"><i class="fas fa-list-ul"></i> Survey</a>
+        <a class="nav-link {{Route::is('survey') ? 'active' : '' }}" href="/survey"><i class="fas fa-list-ul"></i> Survey</a>
       </li>
     </ul>
   </div>

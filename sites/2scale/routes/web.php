@@ -10,6 +10,7 @@
 |
 */
 
-Route::get('/', 'PageController@index')->name('index');
-Route::get('/home', 'PageController@home')->name('home');
-Route::get('/database', 'PageController@database')->name('database');
+Route::get('/', 'PageController@home')->name('home');
+Route::get('/data', 'PageController@data')->name('data');
+Route::get('/survey', 'PageController@survey')->name('survey');
+Route::get('/blank-survey', 'PageController@blank');

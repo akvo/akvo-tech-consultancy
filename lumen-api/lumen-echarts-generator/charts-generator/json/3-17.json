@@ -5,14 +5,10 @@
         "#749f83",
         "#d48265"
     ],
-    "title": {
-        "show": false,
-        "left": "center",
-        "top": "47.5%",
-        "text": "73",
-        "textStyle": {
-            "fontSize": 50,
-            "fontWeight": "bold"
+    "tooltip": {
+        "trigger": "axis",
+        "axisPointer": {
+            "type": "shadow"
         }
     },
     "legend": {
@@ -21,57 +17,152 @@
             "No",
             "Not Sure"
         ],
-        "orient": "horizontal",
-        "x": "center",
-        "y": "5%",
-        "itemGap": 15,
         "padding": 20,
-        "margin": 20,
         "textStyle": {
             "fontSize": 20,
-            "fontWeight": "bold"
+            "fontWeight": "bold",
+            "rotate": 315,
+            "margin": 20,
+            "width": "100%"
+        }
+    },
+    "grid": {
+        "left": 30,
+        "right": "5%",
+        "bottom": 55,
+        "top": 50,
+        "containLabel": true
+    },
+    "xAxis": {
+        "type": "category",
+        "data": [
+            "Central Makira",
+            "East Guadalcanal",
+            "Central Guadalcanal",
+            "East Honiara",
+            "Central Honiara",
+            "West Honiara",
+            "Aoke Langalanga",
+            "Small Malaita",
+            "Lau Mbaelelea",
+            "Russell Savo",
+            "Gao Bugotu",
+            "Maringe Kokota",
+            "Gizo Kolombangara",
+            "North Vella Lavella",
+            "North West Choiseul"
+        ],
+        "axisLabel": {
+            "fontSize": 14,
+            "fontWeight": "bold",
+            "rotate": 305,
+            "margin": 20,
+            "width": "100%"
+        }
+    },
+    "yAxis": {
+        "type": "value",
+        "axisLabel": {
+            "fontSize": 14,
+            "fontWeight": "bold",
+            "formatter": "{value} %",
+            "rotate": 305,
+            "margin": 20,
+            "width": "100%"
         }
     },
     "series": [
         {
-            "type": "pie",
-            "avoidLabelOverlap": "false",
-            "radius": [
-                "70%",
-                "30%"
-            ],
-            "center": [
-                "50%",
-                "50%"
-            ],
+            "name": "Yes",
+            "type": "bar",
+            "stack": "total",
             "label": {
-                "show": true,
                 "normal": {
-                    "formatter": "{d}%\n({c})",
+                    "fontSize": 14,
+                    "fontWeight": "bold",
                     "show": true,
-                    "fontSize": 25,
-                    "color": "#FFF",
-                    "position": "inside"
-                }
-            },
-            "labelLine": {
-                "normal": {
-                    "show": false
+                    "position": "inside",
+                    "formatter": "{c}%"
                 }
             },
             "data": [
-                {
-                    "value": 28,
-                    "name": "Yes"
-                },
-                {
-                    "value": 41,
-                    "name": "No"
-                },
-                {
-                    "value": 4,
-                    "name": "Not Sure"
+                40,
+                20,
+                34,
+                40,
+                null,
+                null,
+                100,
+                83,
+                40,
+                80,
+                40,
+                null,
+                40,
+                20,
+                17
+            ]
+        },
+        {
+            "name": "No",
+            "type": "bar",
+            "stack": "total",
+            "label": {
+                "normal": {
+                    "fontSize": 14,
+                    "fontWeight": "bold",
+                    "show": true,
+                    "position": "inside",
+                    "formatter": "{c}%"
                 }
+            },
+            "data": [
+                60,
+                80,
+                33,
+                60,
+                100,
+                100,
+                null,
+                17,
+                60,
+                20,
+                60,
+                100,
+                60,
+                80,
+                33
+            ]
+        },
+        {
+            "name": "Not Sure",
+            "type": "bar",
+            "stack": "total",
+            "label": {
+                "normal": {
+                    "fontSize": 14,
+                    "fontWeight": "bold",
+                    "show": true,
+                    "position": "inside",
+                    "formatter": "{c}%"
+                }
+            },
+            "data": [
+                null,
+                null,
+                33,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                50
             ]
         }
     ]
