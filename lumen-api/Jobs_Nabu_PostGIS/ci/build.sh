@@ -13,6 +13,6 @@ fi
 
 log Creating Production image
 
-docker build --rm=false -t eu.gcr.io/${PROJECT_NAME}/nabu-postgis:${TRAVIS_COMMIT} .
+docker build --rm=false -t "eu.gcr.io/${PROJECT_NAME}/nabu-postgis:${TRAVIS_COMMIT}" .
 
 log Done

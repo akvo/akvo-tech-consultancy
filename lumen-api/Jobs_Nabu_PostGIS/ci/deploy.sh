@@ -8,9 +8,9 @@ function log {
 
 export PROJECT_NAME=akvo-lumen
 
-if [[ "${TRAVIS_BRANCH}" != "develop" ]] && [[ "${TRAVIS_BRANCH}" != "master" ]]; then
-    exit 0
-fi
+#if [[ "${TRAVIS_BRANCH}" != "develop" ]] && [[ "${TRAVIS_BRANCH}" != "master" ]]; then
+#    exit 0
+#fi
 
 if [[ "${TRAVIS_PULL_REQUEST}" != "false" ]]; then
     exit 0
@@ -39,8 +39,8 @@ fi
 
 log Pushing images
 gcloud auth configure-docker
-docker push eu.gcr.io/${PROJECT_NAME}/pricing-integration-greencoffee
+docker push "eu.gcr.io/${PROJECT_NAME}/nabu-postgis:${TRAVIS_COMMIT}"
 
-#sed -e "s/\${TRAVIS_COMMIT}/$TRAVIS_COMMIT/" ci/k8s/cronjob.yaml.template > cronjob.yaml.donotcommit
+sed -e "s/\${TRAVIS_COMMIT}/$TRAVIS_COMMIT/g" ci/k8s/cronjob.yaml.template > cronjob.yaml.donotcommit
 
-#kubectl apply -f cronjob.yaml.donotcommit
+kubectl apply -f cronjob.yaml.donotcommit
