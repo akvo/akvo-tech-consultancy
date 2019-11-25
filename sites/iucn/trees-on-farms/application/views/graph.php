@@ -196,7 +196,7 @@ $( document ).ready(function() {
 			,
 			interactivity: '<?=implode(", ", $visualisation_details[$page]['map_interactivity'])?>'
 		}]
-	}, {tooltip: false, https: false})
+	}, {tooltip: false, https: true})
 	.addTo(map, 1)
 	.done( function(layer) {
 		//do stuff
@@ -210,10 +210,11 @@ $( document ).ready(function() {
 
 		dataLayer.setInteraction(true);
     dataLayer.set({'interactivity': '<?=implode(", ", $visualisation_details[$page]['map_interactivity'])?>'});
+    /*
 		cdb.vis.Vis.addInfowindow(map, layer.getSubLayer(0), <?=json_encode($visualisation_details[$page]['map_interactivity'])?>, {
 			infowindowTemplate: $('#iucn-infowindow').html()
 		});
-
+    */
 		dataLayer.on('featureClick', function(e, latlng, pos, data) {
 			getPointData(data);
 		});
@@ -320,7 +321,8 @@ function getPointData (data) {
       $("#forms-nav").html("");
       $("#point-content").html("");
       $("#point-title").html(data.<?=$visualisation_details[$page]['popup_title']?>);
-      for (form in orderedDt) {
+
+      for (form in orderedDt) { 
         $("#forms-nav").append("<li class=\""+((formCount === 0) ? 'active' : '')
             +"\"><a href=\"#form-"+formCount+"\" data-toggle=\"tab\">"+form+"</a></li>");
 
@@ -328,7 +330,52 @@ function getPointData (data) {
         $("#point-content").append("<div class=\"tab-pane "+((formCount === 0) ? 'active' : '')+"\" id=\"form-"+formCount+"\">&nbsp;</div>");
         $("#form-"+formCount).html("<div class=\"panel-group\" id=\"accordion-"+formCount+"\"></div>");
 
+        var instanceCount = 0;
+        var answers = '';
+        for (instance in dt) {
+          if (dt[instance]['question'] == undefined) continue;
+
+          answers += "<tr><td><b>"+ dt[instance]['question'] +":</b> </td><td>";
+          switch (dt[instance]['type']) {
+            case "CASCADE":
+              answers += dt[instance]['value'];
+              break;
+            case "IMAGE":
+              answers += '<img style=\"width: 100%\" src="' + dt[instance]['value'] +'"/>';
+              break;
+            case "PHOTO":
+              answers += '<img style=\"width: 100%\" src="' + dt[instance]['value'] +'"/>';
+              break;
+            case "SIGNATURE":
+              answers += '<img style=\"width: 100%\" src="';
+              answers += dt[instance]['value'] +'"/>';
+              break;
+            default:
+              answers += dt[instance]['value'];
+              break;
+          }
+          answers += "</td></tr>";
+        }
+
+        $("#accordion-"+formCount).append(
+              "<div class=\"panel panel-default\">"
+              +"<div class=\"panel-heading\">"
+              +"<h4 class=\"panel-title\">"
+              +"<a class=\"accordion-toggle\" data-toggle=\"collapse\" data-parent=\"#accordion-"+formCount+"\" >"+"</a>"
+              +"</h4>"
+              +"</div>"
+            
+              +"<div class=\"panel-body\">"
+              //question-answer logic goes here
+              +"<div class=\"table-responsive\"><table class=\"table table-condensed\">"+answers+"</table></div>"
+              +"</div>"
+              +"</div>"
+              +"</div>"
+              );
+          instanceCount++;
+
         //for every instance in the form, add
+        /*
         var instanceCount = 0;
         for (instance in orderedDt[form]) {
           var date = new Date(parseInt(instance));
@@ -376,6 +423,7 @@ function getPointData (data) {
             }
             answers += "</td></tr>";
           }
+        
           $("#accordion-"+formCount).append(
               "<div class=\"panel panel-default\">"
               +"<div class=\"panel-heading\">"
@@ -392,9 +440,11 @@ function getPointData (data) {
               +"</div>"
               );
           instanceCount++;
-        }
+        }*/
         formCount++;
       }
+      
+      
     });
 }
 
