@@ -22,7 +22,7 @@
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://192.168.33.10:7676';//'https://iucn.tc.akvo.org/trees-on-farms';
+$config['base_url'] = 'https://iucn.tc.akvo.org/trees-on-farms';
 
 /*
 |--------------------------------------------------------------------------
