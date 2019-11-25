@@ -17,6 +17,7 @@ class CreateFormsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('survey_id');
             $table->unsignedBigInteger('form_id')->unique();
+            $table->unsignedBigInteger('country_id');
             $table->text('form_name');
             $table->timestamps();
 
