@@ -155,17 +155,10 @@ $( document ).ready(function() {
 	map = L.map('map', {/*scrollWheelZoom: false*/}).setView([0, 0], 0);
 
 	var mbAttr = 'Map &copy; 1987-2014 <a href="http://developer.here.com">HERE</a>',
-	mbUrl = 'https://{s}.{base}.maps.cit.api.here.com/maptile/2.1/maptile/{mapID}/{scheme}/{z}/{x}/{y}/256/{format}?app_id={app_id}&app_code={app_code}';
-
+	//mbUrl = 'https://{s}.{base}.maps.cit.api.here.com/maptile/2.1/maptile/{mapID}/{scheme}/{z}/{x}/{y}/256/{format}?app_id={app_id}&app_code={app_code}';
+	mbUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 	var normal = L.tileLayer(mbUrl, {
-		scheme: 'normal.day.transit',
-		format: 'png8',
-		attribution: mbAttr,
-		subdomains: '1234',
-		mapID: 'newest',
-		app_id: 'DC0jMgnvlRs54v4XvyBV',
-		app_code: '3PNibIUvykZ8RK-nD_dh4Q',
-		base: 'base'
+		
 	}).addTo(map),
 	satellite  = L.tileLayer(mbUrl, {
 		scheme: 'hybrid.day',
@@ -179,8 +172,8 @@ $( document ).ready(function() {
 	});
 
 	var baseLayers = {
-		"Normal": normal,
-		"Satellite": satellite
+		"Normal": normal
+		//"Satellite": satellite
 	};
 
 	L.control.layers(baseLayers).addTo(map);
