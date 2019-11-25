@@ -50,4 +50,4 @@ Route::get('/chart/{id}', 'Api\ChartController@chartsById');
 |
 */
 
-Route::get('/xmlform','TestController@seedAnswer');
+Route::get('/seeds','TestController@seedAnswer');

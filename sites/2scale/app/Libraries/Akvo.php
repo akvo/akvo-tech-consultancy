@@ -3,6 +3,7 @@ namespace App\Libraries;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use App\Data;
 use App\Question;
 use App\Form;
@@ -225,7 +226,7 @@ class Akvo
                             }
 
                             Data::where('datapoint_id', $ditem['dataPointId'])->update([
-                                'country' => $country
+                                'country' => Str::title($country)
                             ]);
                         }
                     }
