@@ -115,11 +115,13 @@ class Data_sync_controller extends CI_Controller {
 		$this->load->driver('cache');
 		$output = $this->cache->get('point_' . $identifier);
 
-		if (!$output) {
+		if (true) {
 			$output = array();
 			$cartodb_api_key = "0344aaf6dba34f9786bbbc90805b8bc5143043eb";
+			$surveys = unserialize(include('resources/data/550001.php'));
 
-			$surveys = $this->surveys("akvoflow-165", $survey_group_id);
+			//$surveys = $this->surveys("akvoflow-165", $survey_group_id);
+			//echo serialize($surveys);die();
 			foreach ($surveys['forms'][0]['questionGroups'][0]['questions'] as $survey) {
 				//$output[$survey['name']] = array();
 
@@ -345,8 +347,8 @@ class Data_sync_controller extends CI_Controller {
 			curl_setopt($ch, CURLOPT_POST, 1);
 			curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query([
 				'client_id' => 'curl',
-				'username' => 'merembablas@gmail.com',
-				'password' => 'arsenal1914',
+				'username' => '',
+				'password' => '',
 				'grant_type' => 'password',
 				'scope' => 'openid offline_access'
 			] ));
