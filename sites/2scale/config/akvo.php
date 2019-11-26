@@ -3,8 +3,8 @@
 $INSTANCE = env('AKVO_INSTANCE', '');
 $BASE_AUTH_URL = 'https://login.akvo.org';
 $BASE_API_URL = 'https://api.akvo.org/flow/orgs' . '/' . $INSTANCE;
-$XML_FORM_URL = 'http://localhost:5000' . '/' . $INSTANCE . '/';
-$CASCADE_API = 'http://localhost:5000/cascade' . '/' . $INSTANCE . '/';
+$XML_FORM_URL = env('XML_FORM_URL', 'http://localhost:5000') . '/' . $INSTANCE . '/';
+$CASCADE_API = env('CASCADE_API', 'http://localhost:5000/cascade') . '/' . $INSTANCE . '/';
 
 return [
     'instance' => env('AKVO_INSTANCE', ''),
