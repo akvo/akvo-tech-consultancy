@@ -210,6 +210,18 @@ class Iucn_controller extends CI_Controller {
             $data['admin_organs'] = $csv;
         }
 
+        $cartodb_api_key = "0344aaf6dba34f9786bbbc90805b8bc5143043eb";
+        $instance_ID_query = "SELECT * FROM tof_28030003";
+				$instance_ID_url = "https://akvo.cartodb.com/api/v2/sql?q=".urlencode($instance_ID_query)."&api_key=$cartodb_api_key";
+        $instance_ID_response = curl_get_data($instance_ID_url);
+        $instance_ID_response_array = json_decode($instance_ID_response, true);
+
+        $this->load->driver('cache');
+
+        foreach ($instance_ID_response_array['rows'] as $item) {
+          $this->cache->file->save('identifier_' . $item['identifier'], $item, 86400);
+        }
+        
         $this->load->view('templates/header', $data);
         $this->load->view('graph', $data);
         $this->load->view('templates/footer');
@@ -341,10 +353,10 @@ class Iucn_controller extends CI_Controller {
         $q20080001_options = array("Field action","Training","Meeting","Data collection");
         $q2790002_options = array("Options Manual development","Biodiversity monitoring tool development","Political and financial framework assessment","Innovation platforms","Knowledge management and capacity strengthening");
         $q670001_options = array("Local government","National government","CSO","Private sector","NGO","Academia","Media","Traditional authority","Farmer/Community");
-        $q22670002_options = array("M.I.1.Q2/18", "M.I.2.Q3/19", "M.I.3.Q4/19", "M.II.1Q3/18", "M.II.2.Q1/20", "M.II.3.Q4/21", "M.III.1.Q3/18", "M.III.2.Q3/19", "M.III.3.Q1/21", "M.III.3.Q2/20", "M.IV.1.Q2/18", "M.IV.2.Q3/18", "M.IV.3.Q3/19", "M.IV.4.Q3/20", "M.IV.5.Q2/21", "M.V.1.Q1/18", "M.V.2.Q3/19", "M.V.3.Q4/19", "M.V.4.Q2/20", "M.V.5.Q2/21");
+        $q22670002_options = array("M.I.1.Q2/18", "M.I.2.Q3/19", "M.I.3.Q4/19", "M.II.1.Q3/18", "M.II.2.Q1/20", "M.II.3.Q4/21", "M.III.1.Q3/18", "M.III.2.Q3/19", "M.III.3.Q1/21", "M.III.3.Q2/20", "M.IV.1.Q2/18", "M.IV.2.Q3/18", "M.IV.3.Q3/19", "M.IV.4.Q3/20", "M.IV.5.Q2/21", "M.V.1.Q1/18", "M.V.2.Q3/19", "M.V.3.Q4/19", "M.V.4.Q2/20", "M.V.5.Q2/21");
 
 
-        if (!empty($this->input->post())) {
+        if (!empty($this->input->post())) { 
             $filter = ($this->input->post('filter') != "") ? $filters[$this->input->post('filter')] : "";
             $filter_value = $this->input->post('filter_value');
             $event_type = $this->input->post('report_on');
@@ -384,7 +396,7 @@ class Iucn_controller extends CI_Controller {
 
             //convert response to array
             $response_array = json_decode($response, true);
-
+      
             if (!empty($response_array['rows'])) {
                 foreach ($fields as $field) {
                   if ($field == "q9760001" || $field == "q18170004") {
@@ -480,7 +492,7 @@ class Iucn_controller extends CI_Controller {
                               ${$field."_output"}[$field_option] = 0;
                           }
                       }
-
+                      
                       //initialise array of identifiers
                       ${$field."_identifiers"} = array();
                       foreach ($response_array['rows'] as $row) {
@@ -522,11 +534,18 @@ class Iucn_controller extends CI_Controller {
                                               ${"field_option_$key"}++;
                                               ${$field."_output"}["Other"] = ${"field_option_$key"};
                                           } else {
+                                  
                                               if (!in_array($field, $others)) {
-                                                  if ($row[$field] == $field_option) {
+                                                  //if ($row[$field] == $field_option) {
+                                   
+                                                  $fieldOptTmp = explode('.', $field_option);
+                                                  $cmp1 = substr($row[$field], 0, 4);
+                                                  $cmp2 = implode('', array_slice($fieldOptTmp, 0, 3));
+                          
+                                                  if (startsWith($row[$field], $cmp2)) {
                                                       if ($row[$field] != "" && $row[$field] != null && $row[$field] != "null") {
                                                           ${"field_option_$key"}++;
-                                                          ${$field."_output"}[$row[$field]] = ${"field_option_$key"};
+                                                          ${$field."_output"}[$field_option] = ${"field_option_$key"};
                                                       }
                                                   }
                                               } else {

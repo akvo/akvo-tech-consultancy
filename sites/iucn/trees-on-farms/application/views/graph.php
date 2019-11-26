@@ -328,7 +328,7 @@ function getPointData (data) {
 
         //create accordion to hold the instances
         $("#point-content").append("<div class=\"tab-pane "+((formCount === 0) ? 'active' : '')+"\" id=\"form-"+formCount+"\">&nbsp;</div>");
-        $("#form-"+formCount).html("<div class=\"panel-group\" id=\"accordion-"+formCount+"\"></div>");
+        $("#form-"+formCount).html("<div class=\"panel-group\" id=\"accordion-"+formCount+"\" style=\"overflow: scroll;height: 300px;\"></div>");
 
         var instanceCount = 0;
         var answers = '';

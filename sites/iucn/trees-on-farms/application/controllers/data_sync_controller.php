@@ -113,44 +113,35 @@ class Data_sync_controller extends CI_Controller {
 	//return all associated point data when passed identifier
 	public function point_data($identifier, $survey_group_id) {
 		$this->load->driver('cache');
-		$output = $this->cache->get('point_' . $identifier);
 
-		if (true) {
-			$output = array();
-			$cartodb_api_key = "0344aaf6dba34f9786bbbc90805b8bc5143043eb";
-			$surveys = unserialize(include('resources/data/550001.php'));
+		$output = array();
+		$cartodb_api_key = "0344aaf6dba34f9786bbbc90805b8bc5143043eb";
+		$surveys = unserialize(include('resources/data/550001.php'));
 
-			//$surveys = $this->surveys("akvoflow-165", $survey_group_id);
-			//echo serialize($surveys);die();
-			foreach ($surveys['forms'][0]['questionGroups'][0]['questions'] as $survey) {
-				//$output[$survey['name']] = array();
+		//$surveys = $this->surveys("akvoflow-165", $survey_group_id);
+		//echo serialize($surveys);die();
+		$cartoData = $this->cache->file->get('identifier_' . $identifier);
 
-				//get all instance IDs associated with point
-				$instance_ID_query = "SELECT * FROM tof_".$surveys['forms'][0]['id']." WHERE identifier = '$identifier'";
-				$instance_ID_url = "https://akvo.cartodb.com/api/v2/sql?q=".urlencode($instance_ID_query)."&api_key=$cartodb_api_key";
-				$instance_ID_response = curl_get_data($instance_ID_url);
-				//echo "$instance_ID_query\n$instance_ID_response";
-				$instance_ID_response_array = json_decode($instance_ID_response, true);
-				
-				if (array_key_exists('rows', $instance_ID_response_array)) {
-					foreach ($instance_ID_response_array['rows'] as $instance_row) {
-						//get the answers from this instance
-						if (!empty($survey['name']) || $survey['name'] == 'undefined') {
-							$output[] = [
-								'date' => $instance_row['collection_date'],
-								'question' => $survey['name'],
-								'value' => isset($instance_row['q' . $survey['id']]) ? $instance_row['q' . $survey['id']] : '',
-								'type' => $survey['type']
-							];
-						}
-						
-						// $this->question_answers("akvoflow-165", $instance_row['instance'])['question_answers'];
-					}
-				}
+		foreach ($surveys['forms'][0]['questionGroups'][0]['questions'] as $survey) {
+			//$output[$survey['name']] = array();
+			/*
+			//get all instance IDs associated with point
+			$instance_ID_query = "SELECT * FROM tof_".$surveys['forms'][0]['id']." WHERE identifier = '$identifier'";
+			$instance_ID_url = "https://akvo.cartodb.com/api/v2/sql?q=".urlencode($instance_ID_query)."&api_key=$cartodb_api_key";
+			$instance_ID_response = curl_get_data($instance_ID_url);
+			//echo "$instance_ID_query\n$instance_ID_response";
+			$instance_ID_response_array = json_decode($instance_ID_response, true);
+			*/
+			if ($cartoData) {
+				$output[] = [
+					'date' => $cartoData['collection_date'],
+					'question' => $survey['name'],
+					'value' => isset($cartoData['q' . $survey['id']]) ? $cartoData['q' . $survey['id']] : '',
+					'type' => $survey['type']
+				];
 			}
-
-			$this->cache->file->save('point_' . $identifier, $output, 86400);
 		}
+		
 
 		$this->output
 		 ->set_header('Access-Control-Allow-Origin: *')
