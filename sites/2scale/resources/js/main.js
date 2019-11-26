@@ -1,4 +1,5 @@
-const iframeheight = window.innerHeight - 158;
+const selectorbar = ($(".selector-bar").length === 1 ? 60 : 0);
+const iframeheight = window.innerHeight - (56 + selectorbar);
 
 $("#akvo-flow-web").attr("height", iframeheight);
 $("#data-frame").attr("height", iframeheight);
@@ -33,13 +34,22 @@ $(function() {
 
 /* DataTables API */
 
+$(".btn.dropdown-toggle.btn-light").removeClass("btn-light");
+$(".btn.dropdown-toggle.btn-light").addClass("btn-primary");
+
 $("#btn-data-inspect").click(() => {
     const form_select = $("#select-database-survey").val();
+	console.log(form_select);
     let url = window.location.origin + '/frame-datatable/' + form_select;
 
     const country_select = $("#select-country-survey").val();
     if (country_select) {
         url += '/' + country_select;
     }
-    $("#data-frame").attr("src", url);
+	if (form_select === "") {
+		$('#notable').modal('show')
+	}
+	if (form_select !== "") {
+    	$("#data-frame").attr("src", url);
+	}
 })

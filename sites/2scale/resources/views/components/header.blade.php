@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
+<nav class="navbar navbar-expand-lg fixed-top navbar-dark primary-color">
   <img class="navbar-brand" src="{{ asset('/images/2scale_logo.gif') }}"/>
   <button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas">
     <span class="navbar-toggler-icon"></span>
@@ -6,14 +6,14 @@
 
   <div class="navbar-collapse offcanvas-collapse">
     <ul class="navbar-nav ml-auto">
-      <li class="nav-item">
-        <a class="nav-link {{Route::is('home') ? 'active' : '' }}" href="/"><i class="fas fa-tachometer-alt"></i> Home</a>
+      <li class="nav-item {{Route::is('home') ? 'active' : '' }}">
+        <a class="nav-link" href="/"><i class="fas fa-tachometer-alt"></i> Home</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link {{Route::is('data') ? 'active' : '' }}" href="/data"><i class="fas fa-database"></i> Data</a>
+      <li class="nav-item {{Route::is('data') ? 'active' : '' }}">
+        <a class="nav-link" href="/data"><i class="fas fa-database"></i> Data</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link {{Route::is('survey') ? 'active' : '' }}" href="/survey"><i class="fas fa-list-ul"></i> Survey</a>
+      <li class="nav-item {{Route::is('survey') ? 'active' : '' }}">
+        <a class="nav-link" href="/survey"><i class="fas fa-list-ul"></i> Survey</a>
       </li>
     </ul>
   </div>

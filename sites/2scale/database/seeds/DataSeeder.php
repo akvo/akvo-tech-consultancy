@@ -55,7 +55,7 @@ class DataSeeder extends Seeder
         $form = json_decode($response->getBody());
 		$qGroup = $form->questionGroup;
 		if(isset($form->questionGroup->question)) {
-			$qGroup = [$form->questionGroup];
+			$qGroup = array($form->questionGroup);
 		}
         $collections = collect();
         $country = collect();

@@ -13,8 +13,8 @@ class Question extends Model
 
     public function getShortTextAttribute() {
         return Str::limit($this->text, 10,'...');
-
     }
+
     public function data() {
         return $this->hasMany('App\Data', 'question_id', 'question_id');
     } 

@@ -2,7 +2,7 @@
 
 @section ('content')
 
-<div class="bg-white shadow-sm">
+<div class="bg-white shadow-sm selector-bar">
 	<nav class="nav">
         <select data-url="{{ $surveys['url'] }}" id="select-survey" class="selectpicker" data-live-search="true">
 		  <option>Select Survey</option>
