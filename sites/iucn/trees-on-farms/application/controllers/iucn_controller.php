@@ -210,6 +210,18 @@ class Iucn_controller extends CI_Controller {
             $data['admin_organs'] = $csv;
         }
 
+        $cartodb_api_key = "0344aaf6dba34f9786bbbc90805b8bc5143043eb";
+        $instance_ID_query = "SELECT * FROM tof_28030003";
+				$instance_ID_url = "https://akvo.cartodb.com/api/v2/sql?q=".urlencode($instance_ID_query)."&api_key=$cartodb_api_key";
+        $instance_ID_response = curl_get_data($instance_ID_url);
+        $instance_ID_response_array = json_decode($instance_ID_response, true);
+
+        $this->load->driver('cache');
+
+        foreach ($instance_ID_response_array['rows'] as $item) {
+          $this->cache->file->save('identifier_' . $item['identifier'], $item, 86400);
+        }
+        
         $this->load->view('templates/header', $data);
         $this->load->view('graph', $data);
         $this->load->view('templates/footer');
