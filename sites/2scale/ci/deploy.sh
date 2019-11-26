@@ -39,7 +39,7 @@ ssh -i "${SITES_SSH_KEY}" \
     -p 18765 \
     -o UserKnownHostsFile=/dev/null \
     -o StrictHostKeyChecking=no \
-    tcakvo@109.73.232.40 'cp ~/etc/tc.akvo.org/2scale.env.prod ~/public_html/2scale/.env.prod'
+    tcakvo@109.73.232.40 'cp ~/etc/tc.akvo.org/2scale.env.prod ~/public_html/2scale/.env'
 
 echo "Clearing cache..."
 
