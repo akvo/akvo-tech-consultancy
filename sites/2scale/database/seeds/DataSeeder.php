@@ -30,7 +30,7 @@ class DataSeeder extends Seeder
 				print_r($e);
 			}
 		}
-        while($i <= 100);
+        while($i <= 500);
 		$submissions = $all_submissions->flatten(1);
 		forEach($submissions as $submission) {
             $data = new Data(); 
@@ -113,12 +113,12 @@ class DataSeeder extends Seeder
                     $cascade = $question->cascadeResource;
                     $first_level = $this->randomCascade($cascade); 
                     $name = $first_level->name;
-                    if (isset($first_level->code) && !empty($first_level->code)) {
-                        $name = $first_level->code .':'. $first_level->name;
-                    }
                 	if ((int) $question->question_id === $country_id) {
                     	$country->push($name); 
 					}
+                    if (isset($first_level->code) && !empty($first_level->code)) {
+                        $name = $first_level->code .':'. $first_level->name;
+                    }
                     $i = 2;
                     do{
                         $i++;

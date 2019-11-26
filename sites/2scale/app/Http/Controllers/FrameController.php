@@ -11,9 +11,19 @@ class FrameController extends Controller
 		return view('frames.blank');
 	}
 
-	public function datatable()
+	public function datatable(Request $request)
 	{
-		return view('frames.datatable');
+        $url = '/' . $request->form_id;
+        $country = '';
+        $date = '';
+        if(isset($request->country)) {
+            $country = $request->country;
+        }
+        if(isset($request->date)) {
+            $date = $request->country;
+        }
+        $url .= '/'.$country.'/'.$date;
+		return view('frames.datatable', ['url' => $url]);
 	}
 
 }

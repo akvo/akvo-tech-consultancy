@@ -93,13 +93,15 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
+var iframeheight = window.innerHeight - 158;
+$("#akvo-flow-web").attr("height", iframeheight);
+$("#data-frame").attr("height", iframeheight);
+/* Akvo Flow Web API */
+
 $("#select-survey").on("change.bs.select", function (e) {
   var url = e.target.attributes["data-url"].value + "/" + e.target.value;
   $("#akvo-flow-web").attr("src", url);
 });
-var iframeheight = window.innerHeight - 158;
-$("#akvo-flow-web").attr("height", iframeheight);
-$("#data-frame").attr("height", iframeheight);
 var startdate = moment().subtract(29, 'days');
 var enddate = moment();
 $(function () {
@@ -119,10 +121,18 @@ $(function () {
     console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
   });
 });
+/* DataTables API */
+
 $("#btn-data-inspect").click(function () {
   var form_select = $("#select-database-survey").val();
+  var url = window.location.origin + '/frame-datatable/' + form_select;
   var country_select = $("#select-country-survey").val();
-  console.log(form_select, country_select);
+
+  if (country_select) {
+    url += '/' + country_select;
+  }
+
+  $("#data-frame").attr("src", url);
 });
 
 /***/ }),

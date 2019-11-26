@@ -23,7 +23,7 @@
 	</nav>
 	<nav class="nav nav-md-6">
         <select id="select-country-survey" class="selectpicker" data-live-search="true">
-		  <option>Select Country</option>
+		  <option value="">Select Country</option>
             @foreach($surveys["countries"] as $country)
             <option 
                 data-tokens="{{ $country['name'] }}"

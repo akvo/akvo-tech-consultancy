@@ -17,4 +17,5 @@ Route::get('/survey', 'PageController@survey')->name('survey');
 */
 
 Route::get('/frame-blank', 'FrameController@blank');
-Route::get('/frame-datatable', 'FrameController@datatable');
+Route::get('/frame-datatable/{form_id}', 'FrameController@datatable');
+Route::get('/frame-datatable/{form_id}/{country}', 'FrameController@datatable');

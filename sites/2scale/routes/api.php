@@ -46,9 +46,12 @@ Route::get('/chart/{id}', 'Api\ChartController@chartsById');
 
 /*
 |
-| TESTING API 
+| DATATABLES API 
 |
 */
 
-Route::get('/test','Api\TestController@getCountries');
-Route::get('/datapoints/{form_id}','Api\TestController@getDataPoints');
+Route::get('/test','Api\DataTableController@getCountries');
+
+Route::get('/datatables/{form_id}','Api\DataTableController@getDataPoints');
+Route::get('/datatables/{form_id}/{country}','Api\DataTableController@getDataPoints');
+Route::get('/datatables/{form_id}/{country}/{datestart}/{dateend}','Api\DataTableController@getDataPoints');
