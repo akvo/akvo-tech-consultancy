@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+  postgis:
+    build: postgis
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=sa
+  job:
+    build: .
+    command: tail -f /dev/null
+    volumes:
+      - ./:/usr/src/app:delegated
