@@ -55,6 +55,6 @@ ssh -i "${SITES_SSH_KEY}" \
     -p 18765 \
     -o UserKnownHostsFile=/dev/null \
     -o StrictHostKeyChecking=no \
-    tcakvo@109.73.232.40 'cd ~/public_html/2scale/ && /usr/local/bin/php72 artisan migrate:fresh --seed'
+    tcakvo@109.73.232.40 'cd ~/public_html/2scale/ && /usr/local/bin/php72 artisan migrate:fresh'
 
 echo "Done"
