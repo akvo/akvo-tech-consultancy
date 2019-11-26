@@ -3,6 +3,8 @@
 $INSTANCE = env('AKVO_INSTANCE', '');
 $BASE_AUTH_URL = 'https://login.akvo.org';
 $BASE_API_URL = 'https://api.akvo.org/flow/orgs' . '/' . $INSTANCE;
+$XML_FORM_URL = 'http://localhost:5000' . '/' . $INSTANCE . '/';
+$CASCADE_API = 'http://localhost:5000/cascade' . '/' . $INSTANCE . '/';
 
 return [
     'instance' => env('AKVO_INSTANCE', ''),
@@ -15,6 +17,8 @@ return [
         'surveys' => $BASE_API_URL . '/surveys',
         'folders' => $BASE_API_URL . '/folders',
         'datapoints' => $BASE_API_URL . '/data_points',
-        'forminstances' => $BASE_API_URL . '/form_instances'
-    ]
+        'forminstances' => $BASE_API_URL . '/form_instances',
+        'xmlform' => $XML_FORM_URL,
+        'cascade' => $CASCADE_API,
+    ],
 ];

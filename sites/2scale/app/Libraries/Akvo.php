@@ -3,6 +3,7 @@ namespace App\Libraries;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use App\Data;
 use App\Question;
 use App\Form;
@@ -125,6 +126,7 @@ class Akvo
         Form::whereNotNull('id')->delete();
 
         $forms = config('surveys.forms');
+        $countryQID = collect();
         foreach ($forms as $item) {
             foreach ($item['list'] as $survey) {
                 $surveys[] = $survey['survey_id'];
@@ -133,7 +135,9 @@ class Akvo
                 $form->form_id = $survey['id'];
                 $form->form_name = $survey['name'];
                 $form->survey_id = $survey['survey_id'];
+                $form->country_id = $survey['country'];
                 $form->save();
+                $countryQID->push($survey['country']);
             }
         }
    
@@ -144,7 +148,6 @@ class Akvo
                 foreach ($result['forms'] as $form) {
                     Question::where('form_id', $form['id'])->delete();
                     $questionTypes = [];
-                    $countryQID = '';
                     foreach ($form['questionGroups'] as $qgitem) {
                         foreach ($qgitem['questions'] as $qdata) {
                             $question = new Question;
@@ -154,11 +157,6 @@ class Akvo
                             $question->form_id = $form['id'];
                             $question->survey_id = $surveyId;
                             $question->save();
-
-                            if ($qdata['type'] == 'CASCADE') {
-                                $countryQID = $qdata['id'];
-                            }
-
                             $questionTypes[$qdata['id']] = $qdata['type'];
                         }
                     }
@@ -186,7 +184,7 @@ class Akvo
                                                 $datam->submission_date = date('Y-m-d', strtotime($ditem['submissionDate']));
                                                 $datam->answer = self::getValue($qitem);
 
-                                                if ($countryQID == $qid) {
+                                                if ($countryQID->contains($qid)) {
                                                     $datam->country = isset($qanswer[0]['name']) ? strtolower($qanswer[0]['name']) : '';
                                                     $datam->country = in_array($datam->country, $countries) ? $datam->country : '';
                                                     $country = $datam->country;
@@ -214,7 +212,7 @@ class Akvo
                                             $datam->answer = $qanswer;
                                         }
 
-                                        if ($countryQID == $qid) {
+                                        if ($countryQID->contains($qid)) {
                                             $datam->country = isset($qanswer[0]['name']) ? strtolower($qanswer[0]['name']) : '';
                                             $datam->country = in_array($datam->country, $countries) ? $datam->country : '';
                                             $country = $datam->country;
@@ -228,7 +226,7 @@ class Akvo
                             }
 
                             Data::where('datapoint_id', $ditem['dataPointId'])->update([
-                                'country' => $country
+                                'country' => Str::title($country)
                             ]);
                         }
                     }
