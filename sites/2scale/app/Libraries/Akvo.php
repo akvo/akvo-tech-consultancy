@@ -183,6 +183,7 @@ class Akvo
                                                 $datam->datapoint_id = $ditem['dataPointId'];
                                                 $datam->submission_date = date('Y-m-d', strtotime($ditem['submissionDate']));
                                                 $datam->answer = self::getValue($qitem);
+                                                $datam->form_id = $form['id'];
 
                                                 if ($countryQID->contains($qid)) {
                                                     $datam->country = isset($qanswer[0]['name']) ? strtolower($qanswer[0]['name']) : '';
@@ -200,6 +201,7 @@ class Akvo
                                         $datam->question_id = $qid;
                                         $datam->datapoint_id = $ditem['dataPointId'];
                                         $datam->submission_date = date('Y-m-d', strtotime($ditem['submissionDate']));
+                                        $datam->form_id = $form['id'];
 
                                         if (is_array($qanswer)) {
                                             $tmp = [];

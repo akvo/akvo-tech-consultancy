@@ -28,7 +28,7 @@
             <option 
                 data-tokens="{{ $country['name'] }}"
                 data-id="{{ $country['id'] }}"
-                value="{{ $country['id'] }}">
+                value="{{ Str::title($country['name']) }}">
                 {{ Str::title($country['name']) }}
             </option>
             @endforeach
@@ -42,8 +42,8 @@
         <div class="btn-group">
           <button type="button" class="btn btn-secondary btn-block dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Explore</button>
           <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item" href="#"><i class="fas fa-play-circle"></i> Inspect</a>
-            <a class="dropdown-item" href="#"><i class="fas fa-arrow-circle-down"></i> Download</a>
+            <a class="dropdown-item" href="#" id="btn-data-inspect"><i class="fas fa-play-circle"></i> Inspect</a>
+            <a class="dropdown-item" href="#" id="btn-data-download"><i class="fas fa-arrow-circle-down"></i> Download</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#"><i class="fas fa-question-circle"></i> FAQ</a>
           </div>
@@ -52,7 +52,7 @@
 </div>
 
 <main role="main" class="row">
-    <iframe id="akvo-flow-web" src="/blank-survey" frameborder=0 width="100%"></iframe>
+    <iframe id="data-frame" src="/frame-blank" frameborder=0 width="100%"></iframe>
 </main>
 
 @endsection

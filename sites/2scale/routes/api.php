@@ -50,4 +50,5 @@ Route::get('/chart/{id}', 'Api\ChartController@chartsById');
 |
 */
 
-Route::get('/seeds','TestController@seedAnswer');
+Route::get('/test','Api\TestController@getCountries');
+Route::get('/datapoints/{form_id}','Api\TestController@getDataPoints');

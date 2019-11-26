@@ -39,10 +39,5 @@ class PageController extends Controller
 		return view('pages.index', ['surveys' => config('surveys')]);
 	}
 
-	public function blank()
-	{
-		return view('blank');
-	}
-
 }
 

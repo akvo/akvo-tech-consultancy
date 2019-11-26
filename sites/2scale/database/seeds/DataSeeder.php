@@ -59,12 +59,12 @@ class DataSeeder extends Seeder
 		}
         $collections = collect();
         $country = collect();
-        $form = collect($qGroup)->each(function($data) use ($collections, $faker, $country_id, $country) {
+        $form = collect($qGroup)->each(function($data) use ($collections, $faker, $country_id, $country, $formId) {
             $identifier = $faker->randomNumber($nbDigits = 8); 
             $submission_date = $faker->dateTimeThisYear($max='now')->format('Y-m-d');
             $questions = collect($data->question)->each(
                 function($question) 
-                use ( $identifier, $collections, $faker, $submission_date, $country_id, $country) {
+                use ( $identifier, $collections, $faker, $submission_date, $country_id, $country, $formId) {
                 $question->datapoint_id = $identifier;
                 $question->question_id = $question->id;
                 $isOption = false;
@@ -113,6 +113,9 @@ class DataSeeder extends Seeder
                     $cascade = $question->cascadeResource;
                     $first_level = $this->randomCascade($cascade); 
                     $name = $first_level->name;
+                    if (isset($first_level->code) && !empty($first_level->code)) {
+                        $name = $first_level->code .':'. $first_level->name;
+                    }
                 	if ((int) $question->question_id === $country_id) {
                     	$country->push($name); 
 					}
@@ -120,7 +123,11 @@ class DataSeeder extends Seeder
                     do{
                         $i++;
                         $next_level = $this->randomCascade($cascade, $first_level->id);
-                        $name .= '|'. $next_level->name;
+                        $next_name = $next_level->name;
+                        if (isset($next_level->code) && !empty($next_level->code)) {
+                            $next_name = $next_level->code .':'. $next_level->name;
+                        }
+                        $name .= '|' .$next_name;
                     }
                     while($i <= count($question->levels->level));
                     $answer = $name;
@@ -128,6 +135,7 @@ class DataSeeder extends Seeder
                 $input = array(
                     "question_id" => (int) $question->question_id, 
                     "datapoint_id" => $identifier, 
+                    "form_id" => $formId, 
                     "answer" => $answer,
                     "submission_date" => $submission_date,
                 );
@@ -152,5 +160,6 @@ class DataSeeder extends Seeder
         $data = json_decode($response->getBody());
         return collect($data)->random();
     }
+
 
 }

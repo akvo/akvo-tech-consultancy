@@ -5,6 +5,7 @@ $("#select-survey").on("change.bs.select", (e) => {
 const iframeheight = window.innerHeight - 158;
 
 $("#akvo-flow-web").attr("height", iframeheight);
+$("#data-frame").attr("height", iframeheight);
 
 const startdate = moment().subtract(29, 'days');
 const enddate = moment();
@@ -26,3 +27,9 @@ $(function() {
         console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
     });
 });
+
+$("#btn-data-inspect").click(() => {
+    const form_select = $("#select-database-survey").val();
+    const country_select = $("#select-country-survey").val();
+    console.log(form_select, country_select);
+})
