@@ -105,13 +105,18 @@ class Data_sync_controller extends CI_Controller {
 
 	//return all associated point data when passed identifier
 	public function point_data($identifier, $survey_group_id) {
+		$this->load->driver('cache');
+
 		$output = array();
 		$cartodb_api_key = "0344aaf6dba34f9786bbbc90805b8bc5143043eb";
+		$surveys = json_decode(unserialize(include('resources/data/2130003.php')), true);
 
-		$surveys = $this->surveys("akvoflow-165", $survey_group_id);
-		foreach ($surveys['surveys'] as $survey) {
-			$output[$survey['name']] = array();
+		//$surveys = $this->surveys("akvoflow-165", $survey_group_id);
+		$cartoData = $this->cache->file->get('identifier_' . $identifier);
 
+		foreach ($surveys['forms'][0]['questionGroups'][0]['questions'] as $survey) {
+			//$output[$survey['name']] = array();
+			/*
 			//get all instance IDs associated with point
 			$instance_ID_query = "SELECT collection_date, instance FROM iucn_".$survey['keyId']." WHERE identifier = '$identifier'";
 			$instance_ID_url = "https://akvo.cartodb.com/api/v2/sql?q=".urlencode($instance_ID_query)."&api_key=$cartodb_api_key";
@@ -124,6 +129,14 @@ class Data_sync_controller extends CI_Controller {
 					//get the answers from this instance
 					$output[$survey['name']][$instance_row['collection_date']] = $this->question_answers("akvoflow-165", $instance_row['instance'])['question_answers'];
 				}
+			}*/
+			if ($cartoData) {
+				$output[] = [
+					'date' => $cartoData['collection_date'],
+					'question' => $survey['name'],
+					'value' => isset($cartoData['q' . $survey['id']]) ? $cartoData['q' . $survey['id']] : '',
+					'type' => $survey['type']
+				];
 			}
 		}
 
@@ -305,6 +318,54 @@ class Data_sync_controller extends CI_Controller {
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
 		curl_setopt($curl, CURLOPT_HTTPHEADER, array("Date: $date", "Authorization: ".$get_data_object['access_key'].":$signature"));
+		$response = curl_exec($curl);
+		curl_close($curl);
+		return $response;
+	}
+
+	private function getData2(){
+		$this->load->driver('cache');
+		$accessToken = $this->cache->get('access_token');
+
+		if (true) {
+			$url = 'https://login.akvo.org/auth/realms/akvo/protocol/openid-connect/token';
+			$ch = curl_init();
+
+			curl_setopt($ch, CURLOPT_URL, $url);
+			curl_setopt($ch, CURLOPT_POST, 1);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query([
+				'client_id' => 'curl',
+				'username' => '',
+				'password' => '',
+				'grant_type' => 'password',
+				'scope' => 'openid offline_access'
+			] ));
+
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			$serverOutput = curl_exec($ch);
+			curl_close ($ch);
+
+			$data = json_decode($serverOutput);
+			if (isset($data->access_token)) {
+				$accessToken = $data->access_token;
+				$this->cache->file->save('access_token', $data->access_token, 240);
+			}
+		}
+
+		//$url = 'https://api.akvo.org/flow/orgs' . '/' . 'iucn/form_instances?form_id=249830001&survey_id=239480001';
+		$url = 'https://api.akvo.org/flow/orgs' . '/' . 'iucn/surveys/2130003';
+		//$url = 'https://api.akvo.org/flow/orgs' . '/iucn/' . $get_data_object['requested_resource'].((array_key_exists('conditions', $get_data_object)) ? $get_data_object['conditions'] : "");
+
+		$curl = curl_init();
+		curl_setopt($curl, CURLOPT_URL, $url);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($curl, CURLOPT_HTTPHEADER, [
+			"Authorization: Bearer " . $accessToken,
+			"Accept: application/vnd.akvo.flow.v2+json",
+			"User-Agent: Curl"
+		]);
+
 		$response = curl_exec($curl);
 		curl_close($curl);
 		return $response;

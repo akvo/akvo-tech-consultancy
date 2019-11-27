@@ -162,38 +162,15 @@ $( document ).ready(function() {
   $('.selectpicker').selectpicker('refresh');
   <?php endif;?>
 
-  map = L.map('map', {/*scrollWheelZoom: false*/}).setView([0, 0], 0);
+  map = L.map('map', { maxZoom: 10 }).setView([0, 0], 0);
+ 
+	var tileServer = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    tileAttribution = 'Tiles © Wikimedia — Source: OpenStreetMap, Data: Unicef Pacific WASH, <a href="https://akvo.org">Akvo SEAP</a>';
 
-  var mbAttr = 'Map &copy; 1987-2014 <a href="http://developer.here.com">HERE</a>',
-  mbUrl = 'https://{s}.{base}.maps.cit.api.here.com/maptile/2.1/maptile/{mapID}/{scheme}/{z}/{x}/{y}/256/{format}?app_id={app_id}&app_code={app_code}';
-
-  var normal = L.tileLayer(mbUrl, {
-    scheme: 'normal.day.transit',
-    format: 'png8',
-    attribution: mbAttr,
-    subdomains: '1234',
-    mapID: 'newest',
-    app_id: '8ius2kgfvAP9jU5FMr4I',
-    app_code: 'NrDDZbMp_01gVc-9Rjwopg',
-    base: 'base'
-  }).addTo(map),
-  satellite  = L.tileLayer(mbUrl, {
-    scheme: 'hybrid.day',
-    format: 'jpg',
-    attribution: mbAttr,
-    subdomains: '1234',
-    mapID: 'newest',
-    app_id: '8ius2kgfvAP9jU5FMr4I',
-    app_code: 'NrDDZbMp_01gVc-9Rjwopg',
-    base: 'aerial'
-  });
-
-  var baseLayers = {
-    "Normal": normal,
-    "Satellite": satellite
-  };
-
-  L.control.layers(baseLayers).addTo(map);
+  L.tileLayer(tileServer, {
+      attribution: tileAttribution,
+      maxZoom: 18
+  }).addTo(map);
 
   cartodb.createLayer(map, {
       user_name: 'akvo',
@@ -361,7 +338,52 @@ function getPointData (data) {
         $("#point-content").append("<div class=\"tab-pane "+((formCount === 0) ? 'active' : '')+"\" id=\"form-"+formCount+"\">&nbsp;</div>");
         $("#form-"+formCount).html("<div class=\"panel-group\" id=\"accordion-"+formCount+"\"></div>");
 
+        var instanceCount = 0;
+        var answers = '';
+        for (instance in dt) {
+          if (dt[instance]['question'] == undefined) continue;
+
+          answers += "<tr><td><b>"+ dt[instance]['question'] +":</b> </td><td>";
+          switch (dt[instance]['type']) {
+            case "CASCADE":
+              answers += dt[instance]['value'];
+              break;
+            case "IMAGE":
+              answers += '<img style=\"width: 100%\" src="' + dt[instance]['value'] +'"/>';
+              break;
+            case "PHOTO":
+              answers += '<img style=\"width: 100%\" src="' + dt[instance]['value'] +'"/>';
+              break;
+            case "SIGNATURE":
+              answers += '<img style=\"width: 100%\" src="';
+              answers += dt[instance]['value'] +'"/>';
+              break;
+            default:
+              answers += dt[instance]['value'];
+              break;
+          }
+          answers += "</td></tr>";
+        }
+
+        $("#accordion-"+formCount).append(
+              "<div class=\"panel panel-default\">"
+              +"<div class=\"panel-heading\">"
+              +"<h4 class=\"panel-title\">"
+              +"<a class=\"accordion-toggle\" data-toggle=\"collapse\" data-parent=\"#accordion-"+formCount+"\" >"+"</a>"
+              +"</h4>"
+              +"</div>"
+            
+              +"<div class=\"panel-body\">"
+              //question-answer logic goes here
+              +"<div class=\"table-responsive\"><table class=\"table table-condensed\">"+answers+"</table></div>"
+              +"</div>"
+              +"</div>"
+              +"</div>"
+              );
+          instanceCount++;
+          
         //for every instance in the form, add
+        /*
         var instanceCount = 0;
         for (instance in orderedDt[form]) {
           var date = new Date(parseInt(instance));
@@ -425,7 +447,7 @@ function getPointData (data) {
             +"</div>"
             );
           instanceCount++;
-        }
+        }*/ 
         formCount++;
       }
     });
