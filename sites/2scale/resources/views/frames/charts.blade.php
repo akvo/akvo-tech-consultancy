@@ -42,7 +42,7 @@ body{
 			<div class="card-header peach-gradient">
 				Africa Maps
   			</div>
-			<div class="card-body">
+			<div class="card-body mask rgba-blue-slight">
 			<div id="maps"></div>
   			</div>
   		</div>
