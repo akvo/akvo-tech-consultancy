@@ -162,38 +162,15 @@ $( document ).ready(function() {
   $('.selectpicker').selectpicker('refresh');
   <?php endif;?>
 
-  map = L.map('map', {/*scrollWheelZoom: false*/}).setView([0, 0], 0);
+  map = L.map('map', { maxZoom: 10 }).setView([0, 0], 0);
+ 
+	var tileServer = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    tileAttribution = 'Tiles © Wikimedia — Source: OpenStreetMap, Data: Unicef Pacific WASH, <a href="https://akvo.org">Akvo SEAP</a>';
 
-  var mbAttr = 'Map &copy; 1987-2014 <a href="http://developer.here.com">HERE</a>',
-  mbUrl = 'https://{s}.{base}.maps.cit.api.here.com/maptile/2.1/maptile/{mapID}/{scheme}/{z}/{x}/{y}/256/{format}?app_id={app_id}&app_code={app_code}';
-
-  var normal = L.tileLayer(mbUrl, {
-    scheme: 'normal.day.transit',
-    format: 'png8',
-    attribution: mbAttr,
-    subdomains: '1234',
-    mapID: 'newest',
-    app_id: '8ius2kgfvAP9jU5FMr4I',
-    app_code: 'NrDDZbMp_01gVc-9Rjwopg',
-    base: 'base'
-  }).addTo(map),
-  satellite  = L.tileLayer(mbUrl, {
-    scheme: 'hybrid.day',
-    format: 'jpg',
-    attribution: mbAttr,
-    subdomains: '1234',
-    mapID: 'newest',
-    app_id: '8ius2kgfvAP9jU5FMr4I',
-    app_code: 'NrDDZbMp_01gVc-9Rjwopg',
-    base: 'aerial'
-  });
-
-  var baseLayers = {
-    "Normal": normal,
-    "Satellite": satellite
-  };
-
-  L.control.layers(baseLayers).addTo(map);
+  L.tileLayer(tileServer, {
+      attribution: tileAttribution,
+      maxZoom: 18
+  }).addTo(map);
 
   cartodb.createLayer(map, {
       user_name: 'akvo',
