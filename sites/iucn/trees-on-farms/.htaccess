@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "Login Required"
+AuthUserFile /home/tcakvo/.htpasswds/.iucn
+Require user tof-user

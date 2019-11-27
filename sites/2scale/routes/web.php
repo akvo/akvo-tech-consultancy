@@ -3,13 +3,23 @@
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
 */
 
-Route::get('/', 'PageController@index')->name('index');
-Route::get('/home', 'PageController@home')->name('home');
-Route::get('/database', 'PageController@database')->name('database');
+Route::get('/', 'PageController@home')->name('home');
+Route::get('/data', 'PageController@data')->name('data');
+Route::get('/survey', 'PageController@survey')->name('survey');
+Route::get('/organisation', 'PageController@organisation')->name('org');
+Route::get('/reach-and-react', 'PageController@reachreact')->name('rnr');
+
+
+/*
+|--------------------------------------------------------------------------
+| Frames 
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/frame-blank', 'FrameController@blank');
+Route::get('/frame-charts', 'FrameController@charts');
+Route::get('/frame-charts-hierarchy', 'FrameController@hierarchy');
+Route::get('/frame-datatable/{form_id}', 'FrameController@datatable');
+Route::get('/frame-datatable/{form_id}/{country}', 'FrameController@datatable');

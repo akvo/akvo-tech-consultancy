@@ -14,8 +14,8 @@
     "legend": {
         "data": [
             "Me",
-            "My family",
             "N/A",
+            "My family",
             "Someone in my community"
         ],
         "padding": 20,
@@ -105,6 +105,39 @@
             ]
         },
         {
+            "name": "N/A",
+            "type": "bar",
+            "stack": "total",
+            "zlevel": 2,
+            "label": {
+                "normal": {
+                    "fontSize": 14,
+                    "fontWeight": "bold",
+                    "show": true,
+                    
+                    "position": "inside",
+                    "formatter": "{c}%"
+                }
+            },
+            "data": [
+                null,
+                null,
+                1,
+                1,
+                1,
+                1,
+                1,
+                null,
+                null,
+                2,
+                null,
+                1,
+                null,
+                null,
+                1
+            ]
+        },
+        {
             "name": "My family",
             "type": "bar",
             "stack": "total",
@@ -144,6 +177,7 @@
                     "fontSize": 14,
                     "fontWeight": "bold",
                     "show": true,
+                    "zlevel": 3,
                     "position": "inside",
                     "formatter": "{c}%"
                 }
@@ -164,37 +198,6 @@
                 2,
                 1,
                 4
-            ]
-        },
-        {
-            "name": "N/A",
-            "type": "bar",
-            "stack": "total",
-            "label": {
-                "normal": {
-                    "fontSize": 14,
-                    "fontWeight": "bold",
-                    "show": true,
-                    "position": "inside",
-                    "formatter": "{c}%"
-                }
-            },
-            "data": [
-                null,
-                null,
-                1,
-                1,
-                1,
-                1,
-                1,
-                null,
-                null,
-                2,
-                null,
-                1,
-                null,
-                null,
-                1
             ]
         }
     ]

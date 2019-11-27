@@ -24,19 +24,29 @@ class PageController extends Controller
 	* @return \Illuminate\Http\Response
 	*
 	*/
-	public function index()
-	{
-		return view('pages.index', ['surveys' => config('surveys')]);
-	}
-
 	public function home()
 	{
-		return view('home');
+		return view('pages.home');
 	}
 
-    public function database()
+    public function data()
     {
-		return view('pages.database', ['surveys' => config('surveys')]);
+		return view('pages.data', ['surveys' => config('surveys')]);
     }
+
+	public function survey()
+	{
+		return view('pages.survey', ['surveys' => config('surveys')]);
+	}
+
+	public function organisation()
+	{
+		return view('pages.org', ['surveys' => config('surveys')]);
+	}
+
+	public function reachreact()
+	{
+		return view('pages.rnr', ['surveys' => config('surveys')]);
+	}
 }
 

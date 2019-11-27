@@ -22,6 +22,9 @@ class CreateQuestionsTable extends Migration
             $table->unsignedBigInteger('survey_id');
             $table->timestamps();
 
+            $table->foreign('form_id')->references('form_id')
+                ->on('forms')->onDelete('cascade');
+
             $table->index('survey_id');
             $table->index('form_id');
             $table->index('created_at');

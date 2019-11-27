@@ -10,7 +10,6 @@ class Header extends Component {
                 <div className="my-2">
                 <Toast>
                   <ToastHeader>
-                      <img alt="img-logo" src="https://www.2scale.org/assets/default/img/logo_2scale_red.gif" className='responsive-image'/>
                     {this.props.value.surveyName}
                   </ToastHeader>
                   <ToastBody>

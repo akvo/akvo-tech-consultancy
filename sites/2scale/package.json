@@ -20,6 +20,8 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "countup.js": "^2.0.4",
+        "echarts": "^4.5.0",
         "jquery": "^3.4.1"
     }
 }

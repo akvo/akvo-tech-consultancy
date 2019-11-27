@@ -42,3 +42,22 @@ Route::get('/cron', 'Api\DataController@cron');
 
 Route::get('/charts-dropdown', 'Api\ChartController@questionList');
 Route::get('/chart/{id}', 'Api\ChartController@chartsById');
+
+
+/*
+|
+| DATATABLES API 
+|
+*/
+
+Route::get('/test','Api\DataTableController@getCountries');
+
+Route::get('/datatables/{form_id}','Api\DataTableController@getDataPoints');
+Route::get('/datatables/{form_id}/{country}','Api\DataTableController@getDataPoints');
+Route::get('/datatables/{form_id}/{country}/{datestart}/{dateend}','Api\DataTableController@getDataPoints');
+
+Route::get('/charts/workstream','Api\ChartController@workStream');
+Route::get('/charts/top-three','Api\ChartController@topThree');
+Route::get('/charts/organisation-forms','Api\ChartController@organisationForms');
+Route::get('/charts/mapcharts','Api\ChartController@mapCharts');
+Route::get('/charts/hierarchy','Api\ChartController@hierarchy');

@@ -93,12 +93,16 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
+var selectorbar = $(".selector-bar").length === 1 ? 60 : 0;
+var iframeheight = window.innerHeight - (56 + selectorbar);
+$("#akvo-flow-web").attr("height", iframeheight);
+$("#data-frame").attr("height", iframeheight);
+/* Akvo Flow Web API */
+
 $("#select-survey").on("change.bs.select", function (e) {
   var url = e.target.attributes["data-url"].value + "/" + e.target.value;
   $("#akvo-flow-web").attr("src", url);
 });
-var iframeheight = window.innerHeight - 158;
-$("#akvo-flow-web").attr("height", iframeheight);
 var startdate = moment().subtract(29, 'days');
 var enddate = moment();
 $(function () {
@@ -118,6 +122,28 @@ $(function () {
     console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
   });
 });
+/* DataTables API */
+
+$(".btn.dropdown-toggle.btn-light").removeClass("btn-light");
+$(".btn.dropdown-toggle.btn-light").addClass("btn-primary");
+$("#btn-data-inspect").click(function () {
+  var form_select = $("#select-database-survey").val();
+  console.log(form_select);
+  var url = window.location.origin + '/frame-datatable/' + form_select;
+  var country_select = $("#select-country-survey").val();
+
+  if (country_select) {
+    url += '/' + country_select;
+  }
+
+  if (form_select === "") {
+    $('#notable').modal('show');
+  }
+
+  if (form_select !== "") {
+    $("#data-frame").attr("src", url);
+  }
+});
 
 /***/ }),
 
@@ -128,7 +154,7 @@ $(function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/dedenbangkit/Sites/2scale/resources/js/main.js */"./resources/js/main.js");
+module.exports = __webpack_require__(/*! /Users/dedenbangkit/Repos/akvo-tech-consultancy/sites/2scale/resources/js/main.js */"./resources/js/main.js");
 
 
 /***/ })

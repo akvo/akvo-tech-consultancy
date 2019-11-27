@@ -75,6 +75,7 @@
             "name": "Yes",
             "type": "bar",
             "stack": "total",
+            "zlevel": 3,
             "label": {
                 "normal": {
                     "fontSize": 14,

@@ -100,8 +100,9 @@ body {
 }
 
 .navbar .navbar-brand {
+    background: white;
     width: 150px;
-    padding: .5rem 1rem;
+    padding: 1rem;
 }
 
 .flex-display{
@@ -167,6 +168,31 @@ nav.nav-md-6{
 .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn) {
     width: 100%;
 }
+nav.nav-selector {
+	padding-left: 10px;
+}
+nav span{
+	display:block!important;
+	min-width: 50%;
+    width: -webkit-calc(100% - 180px);
+    width:    -moz-calc(100% - 180px);
+    width:         calc(100% - 180px);
+}
+nav span input{
+	width: 100%;
+}
+nav span.daterange{
+	min-width:auto; 
+	width: auto;
+}
+span.daterange{
+	background-color: #f8f9fa!important; 
+	box-shadow: none;
+	cursor:unset;
+}
+span.daterange:hover{
+	box-shadow: none;
+}
 span.daterange::after{
     display:none
 }
@@ -177,6 +203,13 @@ input.btn.dropdown-toggle.btn-light{
 }
 .bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn):focus {
 	outline: none;
+}
+button.btn.dropdown-toggle.btn-pink.bs-placeholder {
+    color: #FFF;
+}
+.daterangepicker .ranges li.active,
+.dropdown-item.active, .dropdown-item:active{
+	background-color:#2dbbad;
 }
 
 .footer {

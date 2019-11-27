@@ -94,6 +94,7 @@
             "name": "No Response",
             "type": "bar",
             "stack": "total",
+            "zlevel": 3,
             "label": {
                 "normal": {
                     "fontSize": 14,
