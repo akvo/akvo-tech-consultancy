@@ -16,7 +16,7 @@ class Data extends Model
     } 
 
     public function forms() {
-        return $this->belongsTo('App\Form', 'form_id');
+        return $this->belongsTo('App\Form', 'form_id','form_id');
     }
 
     public function country() {

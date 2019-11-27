@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg fixed-top navbar-dark primary-color">
+<nav class="navbar navbar-expand-lg fixed-top navbar-dark blue-gradient">
   <img class="navbar-brand" src="{{ asset('/images/2scale_logo.gif') }}"/>
   <button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas">
     <span class="navbar-toggler-icon"></span>

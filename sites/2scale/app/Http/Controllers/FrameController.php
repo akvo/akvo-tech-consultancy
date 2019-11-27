@@ -26,4 +26,9 @@ class FrameController extends Controller
 		return view('frames.datatable', ['url' => $url]);
 	}
 
+    public function charts(Request $request)
+    {
+		return view('frames.charts');
+    }
+
 }

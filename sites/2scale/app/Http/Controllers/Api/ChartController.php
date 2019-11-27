@@ -22,38 +22,73 @@ class ChartController extends Controller
     {
         $values = $data->where('form_id', 20020001)
 					->where('question_id',30100022)->get();
-		$legends = collect($values)->map(function($value) {
-			return $value->answer;
+		$categories = collect($values)->map(function($value) {
+			return $value->country;
 		})->unique()->values()->toArray();
-		$values = collect($values)->groupBy('country')->toArray();
-		$values = collect($values)->map(function($value) use ($legends){
-			$value = collect($value)->countBy('answer');
+		$values = collect($values)->groupBy('answer')->toArray();
+		$values = collect($values)->map(function($value) use ($categories){
+			$value = collect($value)->countBy('country');
 			$series = collect();
-			forEach($legends as $legend) {
-				$data = Arr::get($value, $legend,0);
-				if ($value->has($legend)) {
-					$data = Arr::get($value, $legend, $value[$legend]);
+			forEach($categories as $category) {
+				$data = Arr::get($value, $category,null);
+				if ($value->has($category)) {
+					$data = Arr::get($value, $category, $value[$category]);
 				}
 				$series->push($data);
 			}
 			return $series;
 		});
-		$categories = $values->keys();
+		$legends = $values->keys();
 	 	$series = collect();	
 		$type = "Horizontal";
-		forEach($categories as $category) {
+		forEach($legends as $legend) {
 			$series->push(array(
-				"name" => $category,
-				"data" => $values[$category],
-				"stack" => $category,
+				"name" => $legend,
+				"data" => $values[$legend],
+				"stack" => "category",
 			));
 		}
 		return $this->echarts->generateBarCharts($legends, $categories, $type, $series);
-		return $values;
     }
 
-    public function chartsById(Request $request, Question $questions)
+    public function organisationForms(Request $request, Data $data)
     {
+        $orgforms = [30160001, 4100001, 30200004, 14170009];
+        $values = $data->select('country','datapoint_id','form_id')
+                       ->whereIn('form_id', $orgforms)
+                       ->groupBy('datapoint_id')
+                       ->with('forms')
+                       ->get();
+		$categories = collect($values)->map(function($value) {
+			return $value->country;
+		})->unique()->values()->toArray();
+        $values = collect($values)->map(function($value){
+            $value->form_name = $value->forms->form_name;
+            return collect($value)->forget('forms');
+        })->groupBy('form_name')->toArray();
+		$values = collect($values)->map(function($value) use ($categories){
+			$value = collect($value)->countBy('country');
+			$series = collect();
+			forEach($categories as $category) {
+				$data = Arr::get($value, $category,null);
+				if ($value->has($category)) {
+					$data = Arr::get($value, $category, $value[$category]);
+				}
+				$series->push($data);
+			}
+			return $series;
+		});
+		$legends = $values->keys();
+	 	$series = collect();	
+		$type = "Horizontal";
+		forEach($legends as $legend) {
+			$series->push(array(
+				"name" => $legend,
+				"data" => $values[$legend],
+				"stack" => "Organisation Forms",
+			));
+		}
+		return $this->echarts->generateBarCharts($legends, $categories, $type, $series);
     }
 
 }
