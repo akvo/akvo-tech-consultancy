@@ -46,6 +46,7 @@ const createTable=(data, rowType)=> {
 
 getdata.then(res=> {
     createTable(res.questions, "head");
+    $("#loader-spinner").remove();
 	return res.datapoints;
 }).then(datapoints=> {
     createTable(datapoints, "body");
@@ -64,7 +65,6 @@ getdata.then(res=> {
         });
         $("#datatables").DataTable( {
             dom: 'Birftp',
-            orderCellsTop: true,
 			buttons: [ 'copy', 'excel', 'csv', 'colvis'],
 			scrollX: true,
             scrollY: '75vh',
