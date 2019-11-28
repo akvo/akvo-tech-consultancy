@@ -8,3 +8,8 @@ div.sidebar-loading {
     text-align: center;
     margin-top: 20px;
 }
+div.sidebar-wrapper {
+    min-width: 320px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
