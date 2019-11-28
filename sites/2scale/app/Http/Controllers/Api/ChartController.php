@@ -92,6 +92,170 @@ class ChartController extends Controller
 		return $this->echarts->generateBarCharts($legends, $categories, $type, $series);
     }
 
+    public function rnrGender(Request $request, Data $data) {
+        $femaleold = ['36030007'];
+        $femaleyoung = ['24030004'];
+        $maleold = ['20030002'];
+        $maleyoung = ['24030005'];
+        $question_id = collect($femaleold)
+            ->concat($femaleyoung)
+            ->concat($maleold)
+            ->concat($maleyoung);
+        $all = $data->select('country', 'form_id', 'question_id', 'answer')
+                       ->whereIn('question_id', $question_id)
+                       ->get();
+        $legends = ["Female > 35", "Female < 35", "Male > 35", "Male < 35"];
+        $all = collect($all)->groupBy('country')->map(function($countries) 
+            use ($femaleold, $femaleyoung, $maleold, $maleyoung)
+        {
+            $countries = $countries->map(function($country) 
+                use ($femaleold, $femaleyoung, $maleold, $maleyoung)
+            {
+                $country->total = (int) $country->answer;
+                if (collect($femaleold)->contains($country->question_id)){
+                    $country->participant = "Female > 35";
+                }
+                if (collect($femaleyoung)->contains($country->question_id)){
+                    $country->participant = "Female < 35";
+                }
+                if (collect($maleold)->contains($country->question_id)){
+                    $country->participant = "Male > 35";
+                }
+                if (collect($maleyoung)->contains($country->question_id)){
+                    $country->participant = "Male < 35";
+                }
+                return $country;
+            });
+            $countries = $countries->groupBy('participant');
+            $countries = $countries->map(function($country) {
+                return $country->sum('total');
+            });
+            return $countries;
+        });
+        $categories = $all->keys();
+        $femaleold = collect();
+        $femaleyoung = collect();
+        $maleold = collect();
+        $maleyoung = collect();
+        $all = $all->map(function($data) 
+            use ($femaleold, $femaleyoung, $maleold, $maleyoung ){
+                $data->map(function($dt, $key) 
+                use ($femaleold, $femaleyoung, $maleold, $maleyoung ){
+                    if ($key === "Female > 35"){
+                        $femaleold->push($dt);
+                    }
+                    if ($key === "Female < 35"){
+                        $femaleyoung->push($dt);
+                    }
+                    if ($key === "Male > 35"){
+                        $maleold->push($dt);
+                    }
+                    if ($key === "Male < 35"){
+                        $maleyoung->push($dt);
+                    }
+                return $dt;
+            });
+            return $data;
+        });
+        $series = collect($legends)->map(function($legend)
+            use ($femaleold, $femaleyoung, $maleold, $maleyoung ){
+                $values = [];
+                if ($legend === "Female > 35"){
+                    $values = $femaleold;
+                }
+                if ($legend === "Female < 35"){
+                    $values = $femaleyoung;
+                }
+                if ($legend === "Male > 35"){
+                    $values = $maleold;
+                }
+                if ($legend === "Male < 35"){
+                    $values = $maleyoung;
+                }
+            return array(
+				"name" => $legend,
+				"data" => $values,
+				"stack" => "Gender",
+            );
+        });
+		$type = "Horizontal";
+		return $this->echarts->generateBarCharts($legends, $categories, $type, $series);
+    }
+
+    public function rnrGenderTotal(Request $request, Data $data) {
+        $femaleold = ['36030007'];
+        $femaleyoung = ['24030004'];
+        $maleold = ['20030002'];
+        $maleyoung = ['24030005'];
+        $question_id = collect($femaleold)
+            ->concat($femaleyoung)
+            ->concat($maleold)
+            ->concat($maleyoung);
+        $all = $data->select('country', 'form_id', 'question_id', 'answer')
+                       ->whereIn('question_id', $question_id)
+                       ->get();
+        $legends = ["Female > 35", "Female < 35", "Male > 35", "Male < 35"];
+        $series = collect($all)->map(function($dt)
+            use ($femaleold, $femaleyoung, $maleold, $maleyoung ){
+                $dt->answer = (int) $dt->answer;
+                if (collect($femaleold)->contains($dt->question_id)){
+                    $dt->participant = "Female > 35";
+                }
+                if (collect($femaleyoung)->contains($dt->question_id)){
+                    $dt->participant = "Female < 35";
+                }
+                if (collect($maleold)->contains($dt->question_id)){
+                    $dt->participant = "Male > 35";
+                }
+                if (collect($maleyoung)->contains($dt->question_id)){
+                    $dt->participant = "Male < 35";
+                }
+                return $dt;
+            })->groupBy('participant')->map(function($part, $key){
+                return array(
+                    $key => $part->sum('answer')
+                );
+            });
+        $legends = $series->keys();
+        $series = collect($series)->map(function($data, $key){
+            return array(
+                "name"=>$key,
+                "value"=>$data[$key],
+            );
+        })->values();
+		return $this->echarts->generateDonutCharts($legends, $series);
+    }
+
+    public function rnrGenderCountry(Request $request, Data $data) {
+        $femaleold = ['36030007'];
+        $femaleyoung = ['24030004'];
+        $maleold = ['20030002'];
+        $maleyoung = ['24030005'];
+        $question_id = collect($femaleold)
+            ->concat($femaleyoung)
+            ->concat($maleold)
+            ->concat($maleyoung);
+        $all = $data->select('country', 'form_id', 'question_id', 'answer')
+                       ->whereIn('question_id', $question_id)
+                       ->get();
+        $series = collect($all)->map(function($dt) {
+                $dt->answer = (int) $dt->answer;
+                return $dt;
+            })->groupBy('country')->map(function($part, $key){
+                return array(
+                    $key => $part->sum('answer')
+                );
+            });
+        $legends = $series->keys();
+        $series = collect($series)->map(function($data, $key){
+            return array(
+                "name"=>$key,
+                "value"=>$data[$key],
+            );
+        })->values();
+		return $this->echarts->generateDonutCharts($legends, $series);
+    }
+
     public function topThree(Request $request, Data $data)
     {
         $all = $data->select('country', 'form_id', 'question_id', 'answer')

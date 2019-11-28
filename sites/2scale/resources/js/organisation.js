@@ -107,11 +107,10 @@ axios.get('api/charts/organisation')
                         }
                     }
                 },
-
                 expandAndCollapse: true,
                 animationDuration: 250,
-                animationEasing: '',
-                animationDurationUpdate: 500
+                animationEasing: 'backOut',
+                animationDurationUpdate: 250
             }]
         }
         myChart.setOption(option);

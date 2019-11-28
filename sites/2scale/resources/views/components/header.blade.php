@@ -10,7 +10,7 @@
         <a class="nav-link" href="/"><i class="fas fa-tachometer-alt"></i> Home</a>
       </li>
       <li class="nav-item {{Route::is('rnr') ? 'active' : '' }}">
-        <a class="nav-link" href="/react-and-react"><i class="fas fa-compass"></i> R&R</a>
+        <a class="nav-link" href="/reach-and-react"><i class="fas fa-compass"></i> R&R</a>
       </li>
       <li class="nav-item {{Route::is('data') ? 'active' : '' }}">
         <a class="nav-link" href="/data"><i class="fas fa-database"></i> Database</a>

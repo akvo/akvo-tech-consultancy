@@ -61,3 +61,6 @@ Route::get('/charts/top-three','Api\ChartController@topThree');
 Route::get('/charts/organisation-forms','Api\ChartController@organisationForms');
 Route::get('/charts/mapcharts','Api\ChartController@mapCharts');
 Route::get('/charts/organisation','Api\ChartController@hierarchy');
+Route::get('/charts/rnr-gender', 'Api\ChartController@rnrGender');
+Route::get('/charts/rnr-gender-total', 'Api\ChartController@rnrGenderTotal');
+Route::get('/charts/rnr-country-total', 'Api\ChartController@rnrGenderCountry');

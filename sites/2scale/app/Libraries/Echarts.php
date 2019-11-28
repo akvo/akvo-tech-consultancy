@@ -6,6 +6,50 @@ use Illuminate\Support\Collection;
 
 class Echarts
 {
+    public function generateDonutCharts($legend, $data){
+        return array (
+          "color" => array (
+                '#ff4444','#ffbb33', '#00C851', '#33b5e5', '#2BBBAD','#4285F4',  '#aa66cc', '#ff7043','#b2dfdb', '#b3e5fc', '#8d6e63'
+          ),
+          'tooltip' => array ( 'trigger' => 'item'),
+          'legend' => array (
+                'orient' => 'vertical',
+                'x' => 'left',
+                'data' => $legend,
+            ),
+          'series' => array (
+            array (
+              'type' => 'pie',
+              'radius' => array ( '50%', '70%'),
+              'avoidLabelOverlap' => false,
+              'label' => 
+              array (
+                'normal' => 
+                array (
+                  'show' => true,
+                ),
+                'emphasis' => 
+                array (
+                  'show' => true,
+                  'textStyle' => 
+                  array (
+                    'fontSize' => '30',
+                    'fontWeight' => 'bold',
+                  ),
+                ),
+              ),
+              'labelLine' => 
+              array (
+                'normal' => 
+                array (
+                  'show' => false,
+                ),
+              ),
+              'data' => $data 
+            ),
+          ),
+        );
+    }
     public function generateBarCharts($legend, $categories, $type, $series)
     {
         $textStyle = array(
