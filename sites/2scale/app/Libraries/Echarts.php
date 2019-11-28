@@ -73,7 +73,7 @@ class Echarts
                 "bottom" => 0,
 				"left" => '3%',
                 "textStyle" => $legendStyle,
-                "icon" => "roundRect",
+                "icon" => "circle",
                 "data" => $legend
             ),
             "toolbox" => array(
@@ -88,5 +88,71 @@ class Echarts
             "xAxis" => $xAxis,
             "yAxis" => $yAxis
         ];
+    }
+    public function generateMapCharts($data, $min, $max){
+        $data = collect($data)->map(function($dt){
+            $dt = collect($dt);
+            $dt["emphasis"] = array(
+                'label' => array(
+                    'show' => true,
+                    'fontSize' => 14,
+                	'fontWeight' => 400,
+					'color' => '#fff'
+                ),
+            );
+            $dt["label"] = array(
+                'show' => true,
+                'fontSize' => 12,
+				'color' => '#fff'
+            );
+			$dt["itemStyle"] = array(
+				'emphasis' => array(
+                    "shadowOffsetX" =>  0,
+                    "shadowOffsetY" => 0,
+                    "shadowBlur" => 50,
+                    "borderWidth" => 2,
+                    "borderColor" => "#FFF",
+                    "shadowColor" => "rgba(0, 0, 0, .7)",
+				)
+			);
+            return $dt; 
+        })->toArray();
+        return array (
+          'visualMap' => array (
+            'min' => $min,
+            'max' => $max,
+            'text' => array ('High','Low'),
+            'realtime' => false,
+            'calculable' => true,
+            'inRange' => array(
+                'color' => array('#ff4444','#33b5e5', '#2BBBAD'),
+            ),
+          ),
+          'tooltip' => array (
+            'trigger' => 'item',
+            'showDelay' => 0,
+            'transitionDuration' => 0.2,
+          ),
+          'toolbox' => array (
+            'show' => true,
+            'right' => 'right',
+            'bottom' => 'bottom',
+            'feature' => array (
+                'saveAsImage' => array(
+                    'title' => 'Save Image',
+                ),
+            ),
+          ),
+          'series' => array(
+            array(
+              'type' => 'map',
+              'zoom' => 1.2,
+              'room' => true,
+              'aspectScale' => 1,
+              'map' => 'africa',
+              'data' => $data, 
+            ),
+          ),
+        );
     }
 }

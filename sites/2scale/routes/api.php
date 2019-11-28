@@ -57,4 +57,7 @@ Route::get('/datatables/{form_id}/{country}','Api\DataTableController@getDataPoi
 Route::get('/datatables/{form_id}/{country}/{datestart}/{dateend}','Api\DataTableController@getDataPoints');
 
 Route::get('/charts/workstream','Api\ChartController@workStream');
+Route::get('/charts/top-three','Api\ChartController@topThree');
 Route::get('/charts/organisation-forms','Api\ChartController@organisationForms');
+Route::get('/charts/mapcharts','Api\ChartController@mapCharts');
+Route::get('/charts/hierarchy','Api\ChartController@hierarchy');

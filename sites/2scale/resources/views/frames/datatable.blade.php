@@ -37,8 +37,16 @@ main.inner.cover {
     padding-left: 40px;
     padding-right: 40px;
 }
+#loader-spinner {
+    margin-top: 40%;
+}
 </style>
 <body>
+    <div class="d-flex justify-content-center" id="loader-spinner">
+      <div class="spinner-border text-primary loader-spinner" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
     <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
       <main role="main" class="inner cover">
 		<div class="table-wrapper-scroll-y my-custom-scrollbar">

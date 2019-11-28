@@ -36,8 +36,17 @@ class PageController extends Controller
 
 	public function survey()
 	{
-		return view('pages.index', ['surveys' => config('surveys')]);
+		return view('pages.survey', ['surveys' => config('surveys')]);
 	}
 
+	public function organisation()
+	{
+		return view('pages.org', ['surveys' => config('surveys')]);
+	}
+
+	public function reachreact()
+	{
+		return view('pages.rnr', ['surveys' => config('surveys')]);
+	}
 }
 

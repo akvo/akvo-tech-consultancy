@@ -31,4 +31,8 @@ class FrameController extends Controller
 		return view('frames.charts');
     }
 
+    public function hierarchy(Request $request)
+    {
+		return view('frames.hierarchy');
+    }
 }
