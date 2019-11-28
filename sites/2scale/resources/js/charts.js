@@ -11,10 +11,10 @@ const titleCase = (str) => {
     return str.join(' ');
 }
 
-const getcharts = (chart, row, info, md) => {
+const getcharts = (chart, row, info, md, color) => {
     let html = `<div class="col-md-` + md + `">
                 <div class="card">
-                  <div class="card-header">` + titleCase(chart) + `</div>
+                  <div class="card-header gradient-card-header ` + color + `-gradient">` + titleCase(chart) + `</div>
                   <div class="card-body">
                     <div class="d-flex justify-content-center" id="loader-` + chart + `">
                       <div class="spinner-border text-primary loader-spinner" role="status">
@@ -111,8 +111,9 @@ const info = {
     content: "Lorem Ipsum Dolor Sit Amet for Footer"
 };
 
-getcharts('workstream', 'first-row', info, "8");
-getcharts('organisation-forms', 'first-row', info, "4");
+getcharts('rnr-country-total', 'zero-row', info, "6", "purple");
+getcharts('workstream', 'first-row', info, "8", "blue");
+getcharts('organisation-forms', 'first-row', info, "4", "morpheus-den");
 
 const topThree = new Promise((resolve, reject) => {
     axios.get('/api/charts/top-three')

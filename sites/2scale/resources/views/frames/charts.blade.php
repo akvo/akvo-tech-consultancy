@@ -36,7 +36,7 @@ body{
 	<div id="jumbotron" class="row"></div>
   </div>
   <div class="text-white text-center py-2 px-4">
-	<div class="row">
+	<div class="row" id="zero-row">
 	<div class="col-md-6">
 		<div class="card">
 			<div class="card-header peach-gradient">
@@ -50,7 +50,7 @@ body{
   	</div>
   </div>
     <!-- Jumbotron -->
-    <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
+    <div class="cover-container d-flex h-100 p-3 mx-auto flex-column text-white">
       <main role="main" class="inner cover">
       </main>
     </div>

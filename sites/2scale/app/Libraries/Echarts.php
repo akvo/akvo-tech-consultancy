@@ -20,7 +20,7 @@ class Echarts
           'series' => array (
             array (
               'type' => 'pie',
-              'radius' => array ( '50%', '70%'),
+              'radius' => array ( '40%', '70%'),
               'avoidLabelOverlap' => false,
               'label' => 
               array (
