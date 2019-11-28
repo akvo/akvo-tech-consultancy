@@ -1,0 +1,27 @@
+{
+    "countries": [{
+        "country": "Ethiopia",
+        "desc": "This country is located in the Horn of Africa at the North East of the continent. It is one of the fastest growing economies in the region."
+    }, {
+        "country": "Ghana",
+        "desc": "Country in western Africa, situated along the Gulf of Guinea and the Atlantic Ocean. Considered one of the more stable and leading countries of Africa."
+    }, {
+        "country": "Cote D'Ivoire",
+        "desc": "Country located in West Africa. Since 2012 the country's economic growth ranked among the most robust on the African continent."
+    }, {
+        "country": "Kenya",
+        "desc": "Situated on Africa's east coast, Kenya has made significant reforms that have driven sustained economic growth and social development over the past decade."
+    }, {
+        "country": "Mali",
+        "desc": "Landlocked country in western Africa. Although Mali is one of the largest countries in Africa, is has a relatively small population."
+    }, {
+        "country": "Nigeria",
+        "desc": "A key regional player in West Africa, often referred to as the “Giant of Africa”. Nigeria accounts for 47 percent of West Africa’s population."
+    }, {
+        "country": "Burkina Faso",
+        "desc": "Landlocked, Francophone country in Western Africa. It is bordering 6 different countries, among which Ghana, Ivory Coast, Mali and Niger."
+    }, {
+        "country": "Niger",
+        "desc": "Officially the Republic of the Niger, this landlocked country in West Africa named after the Niger River, is the largest country in West-Africa."
+    }]
+}

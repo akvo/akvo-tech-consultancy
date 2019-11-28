@@ -6,17 +6,31 @@ use Illuminate\Support\Collection;
 
 class Echarts
 {
+    public function __construct(){
+        $this->pallete = array(
+            '#ff4444','#ffbb33', '#00C851', '#33b5e5', '#2BBBAD','#4285F4',  '#aa66cc', '#ff7043','#b2dfdb', '#b3e5fc', '#8d6e63'
+        );
+    }
+    private function generateLegend($legend, $textStyle, $orient = "horizontal", $x = "center", $y = "top") {
+        return array(
+            "orient" => $orient,
+            "x" => $x,
+            "y" => $y,
+            "textStyle" => $textStyle,
+            "data" => $legend,
+            "icon" => "circle",
+        );
+    }
     public function generateDonutCharts($legend, $data){
+        $legendStyle = array(
+            "fontFamily" => "sans-serif",
+            "fontWeight" => 200,
+            "fontSize" => 14,
+        );
         return array (
-          "color" => array (
-                '#ff4444','#ffbb33', '#00C851', '#33b5e5', '#2BBBAD','#4285F4',  '#aa66cc', '#ff7043','#b2dfdb', '#b3e5fc', '#8d6e63'
-          ),
+          "color" => $this->pallete, 
           'tooltip' => array ( 'trigger' => 'item'),
-          'legend' => array (
-                'orient' => 'vertical',
-                'x' => 'left',
-                'data' => $legend,
-            ),
+          'legend' => $this->generateLegend($legend, $legendStyle, "vertical", "left", "top"),
           'series' => array (
             array (
               'type' => 'pie',
@@ -95,9 +109,7 @@ class Echarts
             );
         }
         return [
-            "color" => array (
-                '#ff4444','#ffbb33', '#00C851', '#33b5e5', '#2BBBAD','#4285F4',  '#aa66cc', '#ff7043','#b2dfdb', '#b3e5fc', '#8d6e63'
-            ),
+            "color" => $this->pallete, 
             "dataZoom" => array(
                 "type" => 'inside',
                 "yAxisIndex" => [0]
@@ -113,13 +125,7 @@ class Echarts
 				"top" => '3%',
 				"containLabel" => true
 			),
-            "legend" => array(
-                "bottom" => 0,
-				"left" => '3%',
-                "textStyle" => $legendStyle,
-                "icon" => "circle",
-                "data" => $legend
-            ),
+            "legend" => $this->generateLegend($legend, $legendStyle, "horizontal", "left", "bottom"),
             "toolbox" => array(
                 "show" => true,
                 "feature" => array( 

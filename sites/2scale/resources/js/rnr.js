@@ -12,27 +12,28 @@ const titleCase = (str) => {
 }
 
 const getcharts = (chart, row, info, md) => {
+    let chartname = chart.split("/")[1];
     let html = `<div class="col-md-` + md + `">
                 <div class="card">
-                  <div class="card-header">` + titleCase(chart) + `</div>
+                  <div class="card-header">` + titleCase(chartname) + `</div>
                   <div class="card-body">
-                    <div class="d-flex justify-content-center" id="loader-` + chart + `">
+                    <div class="d-flex justify-content-center" id="loader-` + chartname + `">
                       <div class="spinner-border text-primary loader-spinner" role="status">
                         <span class="sr-only">Loading...</span>
                       </div>
                     </div>
-                    <div id="` + chart + `" style="height:450px"></div>
+                    <div id="` + chartname + `" style="height:450px"></div>
                   </div>
 				  <div class="card-footer text-muted">` + info.content + `</div>
                 </div>
                 </div>`;
     $("#" + row).append(html);
-    var element = document.getElementById(chart);
+    var element = document.getElementById(chartname);
     var myChart = echarts.init(element);
     axios.get('/api/charts/' + chart)
         .then(res => {
             setTimeout(function() {
-                $("#loader-" + chart).remove();
+                $("#loader-" + chartname).remove();
                 myChart.setOption(res.data);
             }, 1000);
         })
@@ -73,13 +74,13 @@ const info = {
     content: "Lorem Ipsum Dolor Sit Amet for Footer"
 };
 
-getcharts('rnr-gender', 'first-row', info, "12");
+getcharts('rnr/gender', 'first-row', info, "12");
 $("main").append("<hr><div class='row' id='second-row'></div>");
-getcharts('rnr-gender-total', 'second-row', info, "6");
-getcharts('rnr-country-total', 'second-row', info, "6");
+getcharts('rnr/gender-total', 'second-row', info, "6");
+getcharts('rnr/country-total', 'second-row', info, "6");
 
 const topThree = new Promise((resolve, reject) => {
-    axios.get('/api/charts/top-three')
+    axios.get('/api/charts/home/top-three')
         .then(res => {
             resolve(res.data);
         })

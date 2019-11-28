@@ -3,6 +3,9 @@ const echarts = require('echarts');
 const axios = require('axios');
 const gradients = ["purple","peach","blue","morpheus-den"];
 
+const staticText = require("../json/static.json");
+console.log(staticText);
+
 const titleCase = (str) => {
     str = str.toLowerCase().split('-');
     for (var i = 0; i < str.length; i++) {
@@ -12,27 +15,28 @@ const titleCase = (str) => {
 }
 
 const getcharts = (chart, row, info, md, color) => {
+    let chartname = chart.split("/")[1];
     let html = `<div class="col-md-` + md + `">
                 <div class="card">
-                  <div class="card-header gradient-card-header ` + color + `-gradient">` + titleCase(chart) + `</div>
+                  <div class="card-header gradient-card-header ` + color + `-gradient">` + titleCase(chartname) + `</div>
                   <div class="card-body">
-                    <div class="d-flex justify-content-center" id="loader-` + chart + `">
+                    <div class="d-flex justify-content-center" id="loader-` + chartname + `">
                       <div class="spinner-border text-primary loader-spinner" role="status">
                         <span class="sr-only">Loading...</span>
                       </div>
                     </div>
-                    <div id="` + chart + `" style="height:450px"></div>
+                    <div id="` + chartname + `" style="height:450px"></div>
                   </div>
 				  <div class="card-footer text-muted">` + info.content + `</div>
                 </div>
                 </div>`;
     $("#" + row).append(html);
-    var element = document.getElementById(chart);
+    var element = document.getElementById(chartname);
     var myChart = echarts.init(element);
     axios.get('/api/charts/' + chart)
         .then(res => {
             setTimeout(function() {
-                $("#loader-" + chart).remove();
+                $("#loader-" + chartname).remove();
                 myChart.setOption(res.data);
             }, 1000);
         })
@@ -67,7 +71,7 @@ const popupFormatter = (params) => {
 };
 
 const mapOption = new Promise((resolve, reject) => {
-    axios.get('/api/charts/mapcharts')
+    axios.get('/api/charts/home/map')
         .then(res => {
             resolve(res.data);
         })
@@ -111,12 +115,12 @@ const info = {
     content: "Lorem Ipsum Dolor Sit Amet for Footer"
 };
 
-getcharts('rnr-country-total', 'zero-row', info, "6", "purple");
-getcharts('workstream', 'first-row', info, "8", "blue");
-getcharts('organisation-forms', 'first-row', info, "4", "morpheus-den");
+getcharts('rnr/country-total', 'zero-row', info, "6", "purple");
+getcharts('home/workstream', 'first-row', info, "7", "blue");
+getcharts('home/organisation-forms', 'first-row', info, "5", "morpheus-den");
 
 const topThree = new Promise((resolve, reject) => {
-    axios.get('/api/charts/top-three')
+    axios.get('/api/charts/home/top-three')
         .then(res => {
             resolve(res.data);
         })

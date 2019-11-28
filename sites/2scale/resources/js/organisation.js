@@ -16,7 +16,7 @@ const titleCase = (str) => {
     return str.join(' ');
 }
 
-axios.get('api/charts/organisation')
+axios.get('api/charts/organisation/hierarchy')
     .then(res => {
         const element = document.getElementById('hierarchy');
         const myChart = echarts.init(element);
@@ -34,7 +34,7 @@ axios.get('api/charts/organisation')
                 type: 'tree',
 
                 data: [res.data],
-                initialTreeDepth: 3,
+                initialTreeDepth: 1,
                 top: '1%',
                 left: '7%',
                 bottom: '1%',
