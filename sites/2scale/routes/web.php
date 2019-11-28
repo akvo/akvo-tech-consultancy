@@ -21,5 +21,6 @@ Route::get('/reach-and-react', 'PageController@reachreact')->name('rnr');
 Route::get('/frame-blank', 'FrameController@blank');
 Route::get('/frame-charts', 'FrameController@charts');
 Route::get('/frame-charts-hierarchy', 'FrameController@hierarchy');
+Route::get('/frame-charts-rnr', 'FrameController@reachreact');
 Route::get('/frame-datatable/{form_id}', 'FrameController@datatable');
 Route::get('/frame-datatable/{form_id}/{country}', 'FrameController@datatable');

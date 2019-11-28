@@ -3,9 +3,6 @@ const echarts = require('echarts');
 const axios = require('axios');
 const gradients = ["purple","peach","blue","morpheus-den"];
 
-const staticText = require("../json/static.json");
-console.log(staticText);
-
 const titleCase = (str) => {
     str = str.toLowerCase().split('-');
     for (var i = 0; i < str.length; i++) {
@@ -14,11 +11,11 @@ const titleCase = (str) => {
     return str.join(' ');
 }
 
-const getcharts = (chart, row, info, md, color) => {
+const getcharts = (chart, row, info, md) => {
     let chartname = chart.split("/")[1];
     let html = `<div class="col-md-` + md + `">
                 <div class="card">
-                  <div class="card-header gradient-card-header ` + color + `-gradient">` + titleCase(chartname) + `</div>
+                  <div class="card-header">` + titleCase(chartname) + `</div>
                   <div class="card-body">
                     <div class="d-flex justify-content-center" id="loader-` + chartname + `">
                       <div class="spinner-border text-primary loader-spinner" role="status">
@@ -70,44 +67,6 @@ const popupFormatter = (params) => {
     return params.name + ': ' + value;
 };
 
-const mapOption = new Promise((resolve, reject) => {
-    axios.get('/api/charts/home/map')
-        .then(res => {
-            resolve(res.data);
-        })
-        .catch(err => {
-            reject(err);
-        });
-});
-
-const getMaps = () => {
-    var element = document.getElementById("maps");
-    var myChart = echarts.init(element);
-    axios.get('/json/africa.geojson')
-        .then(res => {
-            return res.data;
-        })
-        .then(africa => {
-            echarts.registerMap('africa', africa);
-            return true;
-        })
-        .then(echarts => {
-            mapOption.then((response) => {
-                let tooltip = {...response.tooltip,...{formatter: popupFormatter}};
-                response = {
-                    ...response,
-                    ...{tooltip: tooltip}
-                }
-                console.log(response);
-                myChart.setOption(response);
-            })
-            return true;
-        });
-    ;
-}
-
-getMaps();
-
 $("main").append("<div class='row' id='first-row'></div>");
 
 const info = {
@@ -115,9 +74,10 @@ const info = {
     content: "Lorem Ipsum Dolor Sit Amet for Footer"
 };
 
-getcharts('rnr/country-total', 'zero-row', info, "6", "purple");
-getcharts('home/workstream', 'first-row', info, "7", "blue");
-getcharts('home/organisation-forms', 'first-row', info, "5", "morpheus-den");
+getcharts('rnr/gender', 'first-row', info, "12");
+$("main").append("<hr><div class='row' id='second-row'></div>");
+getcharts('rnr/gender-total', 'second-row', info, "6");
+getcharts('rnr/country-total', 'second-row', info, "6");
 
 const topThree = new Promise((resolve, reject) => {
     axios.get('/api/charts/home/top-three')

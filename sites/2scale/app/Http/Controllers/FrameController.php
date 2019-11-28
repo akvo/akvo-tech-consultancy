@@ -31,8 +31,13 @@ class FrameController extends Controller
 		return view('frames.charts');
     }
 
+    public function reachreact(Request $request)
+    {
+		return view('frames.reach-react');
+    }
+
     public function hierarchy(Request $request)
     {
-		return view('frames.hierarchy');
+		return view('frames.hierarchy', ['surveys' => config('surveys')]);
     }
 }

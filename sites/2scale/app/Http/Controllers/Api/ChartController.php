@@ -92,6 +92,170 @@ class ChartController extends Controller
 		return $this->echarts->generateBarCharts($legends, $categories, $type, $series);
     }
 
+    public function rnrGender(Request $request, Data $data) {
+        $femaleold = ['36030007'];
+        $femaleyoung = ['24030004'];
+        $maleold = ['20030002'];
+        $maleyoung = ['24030005'];
+        $question_id = collect($femaleold)
+            ->concat($femaleyoung)
+            ->concat($maleold)
+            ->concat($maleyoung);
+        $all = $data->select('country', 'form_id', 'question_id', 'answer')
+                       ->whereIn('question_id', $question_id)
+                       ->get();
+        $legends = ["Female > 35", "Female < 35", "Male > 35", "Male < 35"];
+        $all = collect($all)->groupBy('country')->map(function($countries) 
+            use ($femaleold, $femaleyoung, $maleold, $maleyoung)
+        {
+            $countries = $countries->map(function($country) 
+                use ($femaleold, $femaleyoung, $maleold, $maleyoung)
+            {
+                $country->total = (int) $country->answer;
+                if (collect($femaleold)->contains($country->question_id)){
+                    $country->participant = "Female > 35";
+                }
+                if (collect($femaleyoung)->contains($country->question_id)){
+                    $country->participant = "Female < 35";
+                }
+                if (collect($maleold)->contains($country->question_id)){
+                    $country->participant = "Male > 35";
+                }
+                if (collect($maleyoung)->contains($country->question_id)){
+                    $country->participant = "Male < 35";
+                }
+                return $country;
+            });
+            $countries = $countries->groupBy('participant');
+            $countries = $countries->map(function($country) {
+                return $country->sum('total');
+            });
+            return $countries;
+        });
+        $categories = $all->keys();
+        $femaleold = collect();
+        $femaleyoung = collect();
+        $maleold = collect();
+        $maleyoung = collect();
+        $all = $all->map(function($data) 
+            use ($femaleold, $femaleyoung, $maleold, $maleyoung ){
+                $data->map(function($dt, $key) 
+                use ($femaleold, $femaleyoung, $maleold, $maleyoung ){
+                    if ($key === "Female > 35"){
+                        $femaleold->push($dt);
+                    }
+                    if ($key === "Female < 35"){
+                        $femaleyoung->push($dt);
+                    }
+                    if ($key === "Male > 35"){
+                        $maleold->push($dt);
+                    }
+                    if ($key === "Male < 35"){
+                        $maleyoung->push($dt);
+                    }
+                return $dt;
+            });
+            return $data;
+        });
+        $series = collect($legends)->map(function($legend)
+            use ($femaleold, $femaleyoung, $maleold, $maleyoung ){
+                $values = [];
+                if ($legend === "Female > 35"){
+                    $values = $femaleold;
+                }
+                if ($legend === "Female < 35"){
+                    $values = $femaleyoung;
+                }
+                if ($legend === "Male > 35"){
+                    $values = $maleold;
+                }
+                if ($legend === "Male < 35"){
+                    $values = $maleyoung;
+                }
+            return array(
+				"name" => $legend,
+				"data" => $values,
+				"stack" => "Gender",
+            );
+        });
+		$type = "Horizontal";
+		return $this->echarts->generateBarCharts($legends, $categories, $type, $series);
+    }
+
+    public function rnrGenderTotal(Request $request, Data $data) {
+        $femaleold = ['36030007'];
+        $femaleyoung = ['24030004'];
+        $maleold = ['20030002'];
+        $maleyoung = ['24030005'];
+        $question_id = collect($femaleold)
+            ->concat($femaleyoung)
+            ->concat($maleold)
+            ->concat($maleyoung);
+        $all = $data->select('country', 'form_id', 'question_id', 'answer')
+                       ->whereIn('question_id', $question_id)
+                       ->get();
+        $legends = ["Female > 35", "Female < 35", "Male > 35", "Male < 35"];
+        $series = collect($all)->map(function($dt)
+            use ($femaleold, $femaleyoung, $maleold, $maleyoung ){
+                $dt->answer = (int) $dt->answer;
+                if (collect($femaleold)->contains($dt->question_id)){
+                    $dt->participant = "Female > 35";
+                }
+                if (collect($femaleyoung)->contains($dt->question_id)){
+                    $dt->participant = "Female < 35";
+                }
+                if (collect($maleold)->contains($dt->question_id)){
+                    $dt->participant = "Male > 35";
+                }
+                if (collect($maleyoung)->contains($dt->question_id)){
+                    $dt->participant = "Male < 35";
+                }
+                return $dt;
+            })->groupBy('participant')->map(function($part, $key){
+                return array(
+                    $key => $part->sum('answer')
+                );
+            });
+        $legends = $series->keys();
+        $series = collect($series)->map(function($data, $key){
+            return array(
+                "name"=>$key,
+                "value"=>$data[$key],
+            );
+        })->values();
+		return $this->echarts->generateDonutCharts($legends, $series);
+    }
+
+    public function rnrGenderCountry(Request $request, Data $data) {
+        $femaleold = ['36030007'];
+        $femaleyoung = ['24030004'];
+        $maleold = ['20030002'];
+        $maleyoung = ['24030005'];
+        $question_id = collect($femaleold)
+            ->concat($femaleyoung)
+            ->concat($maleold)
+            ->concat($maleyoung);
+        $all = $data->select('country', 'form_id', 'question_id', 'answer')
+                       ->whereIn('question_id', $question_id)
+                       ->get();
+        $series = collect($all)->map(function($dt) {
+                $dt->answer = (int) $dt->answer;
+                return $dt;
+            })->groupBy('country')->map(function($part, $key){
+                return array(
+                    $key => $part->sum('answer')
+                );
+            });
+        $legends = $series->keys();
+        $series = collect($series)->map(function($data, $key){
+            return array(
+                "name"=>$key,
+                "value"=>$data[$key],
+            );
+        })->values();
+		return $this->echarts->generateDonutCharts($legends, $series);
+    }
+
     public function topThree(Request $request, Data $data)
     {
         $all = $data->select('country', 'form_id', 'question_id', 'answer')
@@ -148,31 +312,104 @@ class ChartController extends Controller
 	public function hierarchy(Request $request, Data $data)
 	{
         $cascades_id = [20150001, 4100002, 36120005, 36100005];
-        $organisaation_id = [20150001, 4100002, 36120005, 36100005];
-		$answers = $data->whereIn('form_id', $orgforms)->get();
-		return collect($answers)->groupBy('datapoint_id');
-		$answers= collect($answers)->map(function($dt) {
-            $key = explode("|", $dt->answer);
-            if(Str::contains($key[0],":")) {
-                $key[0] = explode(":", $key[0])[1];
-            }
-            if(Str::contains($key[1],":")) {
-                $key[1] = explode(":", $key[1])[1];
-            }
-            $dt->country = $key[0];
-            $dt->project = $key[1];
-			$dt->form_name = $dt->forms->form_name;
-			return collect($dt)->forget(['forms','submission_date','datapoint_id','id','answer'])->toArray();
-		});
-	 	$levels = $answers->groupBy('country')->map(function($data) {
-			$dataset = collect($data)->groupby('project');
-			$dataset = collect($dataset)->map(function($ds) {
-				// return collect($ds)->groupby('form_name')->keys();
-				return collect($ds)->groupby('form_name');
-			});
-			return $dataset;
-		});	
-		return $levels;
+        $organisation_id = [20140003, 28150003, 38120005, 38140006];
+        $question_id = collect($cascades_id)->concat($organisation_id);
+		$answers = $data->whereIn('question_id', $question_id)->with('forms')->get();
+		$answers = collect($answers)->groupBy('datapoint_id');
+        $results = collect();
+        $answers = $answers->map(function($dt) use ($cascades_id, $organisation_id, $results) {
+            $new_data = collect();
+            collect($dt)->map(function($d) use ($cascades_id, $organisation_id, $new_data) {
+                if (collect($cascades_id)->contains($d->question_id)) {
+                    $new_data["form_id"] = $d->form_id;
+                    $new_data["service"] = $d->forms->form_name;
+                    $new_data["country"] = $d->country;
+                    $project = explode("|",$d->answer)[1];
+                    if (Str::contains(":", $project)) {
+                        $project = explode(":", $project)[1];
+                    }
+                    $new_data["project"] = $project;
+                } 
+                if (collect($organisation_id)->contains($d->question_id)) {
+                    $new_data["form_id"] = $d->form_id;
+                    $new_data["service"] = $d->forms->form_name;
+                    $new_data["country"] = $d->country;
+                    $new_data["organisation"] = Str::limit($d->answer, 10);
+                } 
+                return;
+            });
+            $results->push($new_data);
+            return $new_data;
+        });
+        $results = $results->groupBy('country')->map(function($result, $key){
+            $projects = collect();
+            $result = $result->groupBy('project');
+            $result = $result->map(function($res, $key) use ($projects) {
+                $services = collect();
+                $res = $res->groupBy('service');
+                $res = $res->map(function($r, $key) use ($services)  {
+                    $children = $r->map(function($child) {
+                        return array(
+                            "name" => $child["organisation"],
+                            "value" => "organisations",
+                            "itemStyle" => array(
+                                "color" => "#ff4444",
+                            ),
+                            "label" => array(
+                                "fontSize" => 10 
+                            ),
+                        );
+                    });
+                    $children = array (
+                        "name" => $key,
+                        "value" => "services",
+                        "children" => $children,
+                        "itemStyle" => array(
+                            "color" => "#ffbb33"
+                        ),
+                        "label" => array(
+                            "fontSize" => 10 
+                        ),
+                    );
+                    $services->push($children);
+                    return $children;
+                });
+                $projects->push(array(
+                    "name" => $key,
+                    "value" => "projects",
+                    "children" => $services,
+                    "itemStyle" => array(
+                        "color" => "#00C851"
+                    ),
+                    "label" => array(
+                        "fontSize" => 12 
+                    ),
+                ));
+                return $services;
+            });
+            return array(
+                "name" => $key,
+                "value" => "countries",
+                "children" => $projects,
+                "itemStyle" => array(
+                    "color" => "#33b5e5"
+                ),
+                "label" => array(
+                    "fontSize" =>  15 
+                ),
+            );
+        });
+        return array(
+            "name" => "2Scale",
+            "value" => "Global",
+            "children" => $results->values(),
+            "itemStyle" => array(
+                "color" => "#aa66cc"
+            ),
+            "label" => array(
+                "fontSize" => 20 
+            ),
+        );
 	}
 
 }

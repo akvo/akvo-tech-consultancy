@@ -15,6 +15,8 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/main.js', 'public/js')
     .js('resources/js/database.js', 'public/js')
     .js('resources/js/charts.js', 'public/js')
+    .js('resources/js/organisation.js', 'public/js')
+    .js('resources/js/rnr.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css');
 
 mix.styles([

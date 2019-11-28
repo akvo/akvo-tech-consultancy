@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg fixed-top navbar-dark blue-gradient">
-  <img class="navbar-brand" src="{{ asset('/images/2scale_logo.gif') }}"/>
+  <img class="navbar-brand" src="{{ asset('/images/2scale_logo_white.png') }}"/>
   <button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -10,7 +10,7 @@
         <a class="nav-link" href="/"><i class="fas fa-tachometer-alt"></i> Home</a>
       </li>
       <li class="nav-item {{Route::is('rnr') ? 'active' : '' }}">
-        <a class="nav-link" href="/react-and-react"><i class="fas fa-compass"></i> R&R</a>
+        <a class="nav-link" href="/reach-and-react"><i class="fas fa-compass"></i> R&R</a>
       </li>
       <li class="nav-item {{Route::is('data') ? 'active' : '' }}">
         <a class="nav-link" href="/data"><i class="fas fa-database"></i> Database</a>
