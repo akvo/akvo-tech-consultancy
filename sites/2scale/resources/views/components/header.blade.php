@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg fixed-top navbar-dark blue-gradient">
-  <img class="navbar-brand" src="{{ asset('/images/2scale_logo.gif') }}"/>
+  <img class="navbar-brand" src="{{ asset('/images/2scale_logo_white.png') }}"/>
   <button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas">
     <span class="navbar-toggler-icon"></span>
   </button>

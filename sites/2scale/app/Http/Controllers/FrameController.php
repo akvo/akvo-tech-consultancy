@@ -33,6 +33,6 @@ class FrameController extends Controller
 
     public function hierarchy(Request $request)
     {
-		return view('frames.hierarchy');
+		return view('frames.hierarchy', ['surveys' => config('surveys')]);
     }
 }

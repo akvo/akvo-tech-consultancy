@@ -9,30 +9,86 @@
     <meta name="keywords" content="2scale">
     <title>2Scale</title>
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Vendor CSS-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
 	<!-- Material Design Bootstrap -->
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.11/css/mdb.min.css" rel="stylesheet">
 </head>
 <style>
 html,
 body{
-    width:95%;
+    width:100%;
 	margin:auto;
-}
-.loader-spinner {
-    position:absolute;
-    top: 45%;
 }
 .view.view-cascade.gradient-card-header{
     border-radius: 3px;
     margin: 5px;
 }
-#maps {
-	height: 500px;
+#hierarchy{
+	height: 70vh;
+}
+.full-width {
+    width: 100%;
+}
+.cover-container {
+    width:95%;
+	margin:auto;
+}
+input.btn.dropdown-toggle.btn-light{
+    width: 200px;
+    text-align: left;
+    border: none;
+}
+
+.dropdown-item.active, .dropdown-item:active{
+	background-color:#2dbbad;
+}
+.bootstrap-select:not([class*=col-]):not([class*=form-control]):not(.input-group-btn):focus {
+	outline: none;
+}
+button.btn.dropdown-toggle.btn-pink.bs-placeholder {
+    color: #FFF;
+}
+.jumbotron.card {
+    background-image: url(https://mdbootstrap.com/img/Photos/Others/gradient1.jpg);
+    background-size:cover;
+}
+#loader-spinner {
+    margin-top: 20%;
 }
 </style>
 <body>
+    <!-- Jumbotron-->
+
+<div class="full-width">
+<div class="jumbotron card card-image">
+  <div class="text-white text-center">
+    <div>
+        <div class="flex-display selector-bar">
+            <select id="select-country-survey" class="selectpicker" data-style="btn-pink" data-live-search="true">
+              <option value="">Select Country</option>
+                @foreach($surveys["countries"] as $country)
+                <option 
+                    data-tokens="{{ $country['name'] }}"
+                    data-id="{{ $country['id'] }}"
+                    value="{{ Str::title($country['name']) }}">
+                    {{ Str::title($country['name']) }}
+                </option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+  </div>
+</div>
+</div>
+    <!-- End Jumbotron-->
+
     <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
       <main role="main" class="inner cover" id="organisation">
+        <div class="d-flex justify-content-center" id="hierarchy">
+          <div class="spinner-border text-primary loader-spinner" id="loader-spinner" role="status">
+          </div>
+        <div>
       </main>
     </div>
     <!-- Global Dependencies -->
@@ -42,6 +98,8 @@ body{
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
 	<!-- Bootstrap core JavaScript -->
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<!-- Bootstrap Select -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
 	<!-- MDB core JavaScript -->
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.11/js/mdb.min.js"></script>
 	<!-- Bootstrap Select -->

@@ -41,7 +41,7 @@ class PageController extends Controller
 
 	public function organisation()
 	{
-		return view('pages.org', ['surveys' => config('surveys')]);
+		return view('pages.org');
 	}
 
 	public function reachreact()
