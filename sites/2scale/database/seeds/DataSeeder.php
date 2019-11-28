@@ -30,7 +30,7 @@ class DataSeeder extends Seeder
 				print_r($e);
 			}
 		}
-        while($i <= 10);
+        while($i <= 100);
 		$submissions = $all_submissions->flatten(1);
 		forEach($submissions as $submission) {
             $data = new Data(); 
