@@ -140,7 +140,8 @@ class Akvo
                 $countryQID->push($survey['country']);
             }
         }
-   
+        
+        $counter = 0;
         foreach ($surveys as $surveyId) {
             $result = Akvo::get(config('akvo.endpoints.surveys') . '/' . $surveyId);
 
@@ -167,7 +168,6 @@ class Akvo
                         $form['id']
                     );
 
-                    $counter = 0;
                     if (is_array($dataResult)) {
                         foreach ($dataResult as $ditem) {
                             $counter++;

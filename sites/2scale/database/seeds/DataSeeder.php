@@ -30,7 +30,7 @@ class DataSeeder extends Seeder
 				print_r($e);
 			}
 		}
-        while($i <= 500);
+        while($i <= 100);
 		$submissions = $all_submissions->flatten(1);
 		forEach($submissions as $submission) {
             $data = new Data(); 
@@ -46,7 +46,7 @@ class DataSeeder extends Seeder
         $client = new \GuzzleHttp\Client();
         $country_id = $formDetail->country_id;
         try {
-            $response = $client->get(config('akvo.endpoints.xmlform') . $formId . '/fetch');
+            $response = $client->get(config('akvo.endpoints.xmlform') . $formId . '/update');
         } catch(RequestException $e) {
             if ($e->hasResponse()) {
                 $response = $e->getResponse();
@@ -102,7 +102,7 @@ class DataSeeder extends Seeder
                 }
                 if ($question->type === "date") {
                     $date = $faker->dateTimeThisYear(
-                        $max = 'now', 
+                        $max = 'now'
                     );
                     $answer = $date->format('Y-m-d') . 'T' . $faker->time($format= 'H:i.s') .'Z';
                 }
