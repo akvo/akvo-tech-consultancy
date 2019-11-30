@@ -9,13 +9,13 @@
       <li class="nav-item {{Route::is('home') ? 'active' : '' }}">
         <a class="nav-link" href="/"><i class="fas fa-tachometer-alt"></i> Home</a>
       </li>
-      <li class="nav-item {{Route::is('rnr') ? 'active' : '' }}">
+      <li class="nav-item {{Route::is('reachreact') ? 'active' : '' }}">
         <a class="nav-link" href="/reach-and-react"><i class="fas fa-compass"></i> R&R</a>
       </li>
-      <li class="nav-item {{Route::is('data') ? 'active' : '' }}">
-        <a class="nav-link" href="/data"><i class="fas fa-database"></i> Database</a>
+      <li class="nav-item {{Route::is('database') ? 'active' : '' }}">
+        <a class="nav-link" href="/database"><i class="fas fa-database"></i> Database</a>
       </li>
-      <li class="nav-item {{Route::is('org') ? 'active' : '' }}">
+      <li class="nav-item {{Route::is('organisation') ? 'active' : '' }}">
         <a class="nav-link" href="/organisation"><i class="fas fa-sitemap"></i> Organisation</a>
       </li>
       <li class="nav-item {{Route::is('survey') ? 'active' : '' }}">

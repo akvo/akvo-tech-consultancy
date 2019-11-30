@@ -74,10 +74,10 @@ const info = {
     content: "Lorem Ipsum Dolor Sit Amet for Footer"
 };
 
-getcharts('rnr/gender', 'first-row', info, "12");
+getcharts('reachreact/gender', 'first-row', info, "12");
 $("main").append("<hr><div class='row' id='second-row'></div>");
-getcharts('rnr/gender-total', 'second-row', info, "6");
-getcharts('rnr/country-total', 'second-row', info, "6");
+getcharts('reachreact/gender-total', 'second-row', info, "6");
+getcharts('reachreact/country-total', 'second-row', info, "6");
 
 const topThree = new Promise((resolve, reject) => {
     axios.get('/api/charts/home/top-three')

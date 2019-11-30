@@ -42,10 +42,17 @@ const getcharts = (chart, row, info, md, color) => {
         })
 }
 
-const getCards = (info, color) => {
+const getCards = (info, color, rank) => {
+    let rankhtml = (rank) => {
+        if (rank !== "") {
+            return "";
+        }
+        return rank;
+    }
     let html = `<div class="col-md-3">
 					<div class="card card-cascade wider">
 						<div class="view view-cascade gradient-card-header ` + color + `-gradient">
+                            <h5 class="card-header-title mb-3 mt-3 text-bold">` + rankhtml(rank) + `</h5>
                             <h5 class="card-header-title mb-3 mt-3 text-bold">` + info.country + `</h5>
                             <h3 class="card-header-title mb-3 mt-3" id="count-up-` + color + `">` + 0  + `</h3>
                             <p class="mb-3"><i class="fas fa-calendar mr-2"></i>` + info.project + ` - <strong>` + info.commodity + `</strong></p>
@@ -115,9 +122,12 @@ const info = {
     content: "Lorem Ipsum Dolor Sit Amet for Footer"
 };
 
-getcharts('rnr/country-total', 'zero-row', info, "6", "purple");
+getcharts('reachreact/country-total', 'zero-row', info, "6", "purple");
 getcharts('home/workstream', 'first-row', info, "7", "blue");
 getcharts('home/organisation-forms', 'first-row', info, "5", "morpheus-den");
+
+$("main").append("<hr><div class='row' id='second-row'></div>");
+getcharts('reachreact/gender-total', 'second-row', info, "7");
 
 const topThree = new Promise((resolve, reject) => {
     axios.get('/api/charts/home/top-three')
@@ -131,7 +141,11 @@ const topThree = new Promise((resolve, reject) => {
 
 topThree.then(res => {
     res.forEach((data, index) =>  {
-        getCards(data, gradients[index]);
+        let rank = '';
+        if (rank !== 4) {
+           rank = index;
+        }
+        getCards(data, gradients[index], rank);
     });
     return true;
 });

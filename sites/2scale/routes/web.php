@@ -6,10 +6,11 @@
 */
 
 Route::get('/', 'PageController@home')->name('home');
-Route::get('/data', 'PageController@data')->name('data');
+Route::get('/database', 'PageController@database')->name('database');
 Route::get('/survey', 'PageController@survey')->name('survey');
-Route::get('/organisation', 'PageController@organisation')->name('org');
-Route::get('/reach-and-react', 'PageController@reachreact')->name('rnr');
+Route::get('/organisation', 'PageController@organisation')->name('organisation');
+Route::get('/partnership', 'PageController@partnership')->name('partnership');
+Route::get('/reach-and-react', 'PageController@reachreact')->name('reachreact');
 
 
 /*
@@ -19,8 +20,9 @@ Route::get('/reach-and-react', 'PageController@reachreact')->name('rnr');
 */
 
 Route::get('/frame-blank', 'FrameController@blank');
-Route::get('/frame-charts', 'FrameController@charts');
-Route::get('/frame-charts-hierarchy', 'FrameController@hierarchy');
-Route::get('/frame-charts-rnr', 'FrameController@reachreact');
-Route::get('/frame-datatable/{form_id}', 'FrameController@datatable');
-Route::get('/frame-datatable/{form_id}/{country}', 'FrameController@datatable');
+Route::get('/frame-home', 'FrameController@home');
+Route::get('/frame-organisation', 'FrameController@organisation');
+Route::get('/frame-reachreact', 'FrameController@reachreact');
+Route::get('/frame-partnership', 'FrameController@partnership');
+Route::get('/frame-database/{form_id}', 'FrameController@database');
+Route::get('/frame-database/{form_id}/{country}', 'FrameController@database');

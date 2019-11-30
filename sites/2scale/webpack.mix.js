@@ -14,9 +14,10 @@ const mix = require('laravel-mix');
 mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/main.js', 'public/js')
     .js('resources/js/database.js', 'public/js')
-    .js('resources/js/charts.js', 'public/js')
+    .js('resources/js/home.js', 'public/js')
     .js('resources/js/organisation.js', 'public/js')
-    .js('resources/js/rnr.js', 'public/js')
+    .js('resources/js/partnership.js', 'public/js')
+    .js('resources/js/reachreact.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css');
 
 mix.styles([

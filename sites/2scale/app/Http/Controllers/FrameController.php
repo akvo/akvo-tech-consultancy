@@ -8,10 +8,10 @@ class FrameController extends Controller
 {
 	public function blank()
 	{
-		return view('frames.blank');
+		return view('frames.frame-blank');
 	}
 
-	public function datatable(Request $request)
+	public function database(Request $request)
 	{
         $url = '/' . $request->form_id;
         $country = '';
@@ -23,21 +23,27 @@ class FrameController extends Controller
             $date = $request->country;
         }
         $url .= '/'.$country.'/'.$date;
-		return view('frames.datatable', ['url' => $url]);
+		return view('frames.frame-database', ['url' => $url]);
 	}
 
-    public function charts(Request $request)
+    public function home(Request $request)
     {
-		return view('frames.charts');
+		return view('frames.frame-home');
     }
 
     public function reachreact(Request $request)
     {
-		return view('frames.reach-react');
+		return view('frames.frame-reachreact');
     }
 
-    public function hierarchy(Request $request)
+    public function organisation(Request $request)
     {
-		return view('frames.hierarchy', ['surveys' => config('surveys')]);
+		return view('frames.frame-organisation', ['surveys' => config('surveys')]);
     }
+
+    public function partnership(Request $request)
+    {
+		return view('frames.frame-partnership', ['surveys' => config('surveys')]);
+    }
+
 }

@@ -58,10 +58,10 @@ Route::get('/datatables/{form_id}/{country}/{datestart}/{dateend}','Api\DataTabl
 
 Route::get('/charts/home/workstream','Api\ChartController@workStream');
 Route::get('/charts/home/top-three','Api\ChartController@topThree');
-Route::get('/charts/home/top-three','Api\ChartController@topThree');
 Route::get('/charts/home/organisation-forms','Api\ChartController@organisationForms');
 Route::get('/charts/home/map','Api\ChartController@mapCharts');
 Route::get('/charts/organisation/hierarchy','Api\ChartController@hierarchy');
-Route::get('/charts/rnr/gender', 'Api\ChartController@rnrGender');
-Route::get('/charts/rnr/gender-total', 'Api\ChartController@rnrGenderTotal');
-Route::get('/charts/rnr/country-total', 'Api\ChartController@rnrGenderCountry');
+Route::get('/charts/reachreact/gender', 'Api\ChartController@rnrGender');
+Route::get('/charts/reachreact/gender-total', 'Api\ChartController@rnrGenderTotal');
+Route::get('/charts/reachreact/country-total', 'Api\ChartController@rnrGenderCountry');
+Route::get('/charts/reachreact/top-three','Api\ChartController@topThree');

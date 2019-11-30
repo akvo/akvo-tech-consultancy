@@ -35,8 +35,22 @@ body{
   <div class="text-white text-center py-2 px-4">
 	<div id="jumbotron" class="row"></div>
   </div>
+  <div class="text-white text-center py-2 px-4">
+	<div class="row" id="zero-row">
+	<div class="col-md-6">
+		<div class="card">
+			<div class="card-header peach-gradient">
+				Africa Maps
+  			</div>
+			<div class="card-body mask rgba-blue-slight">
+			<div id="maps"></div>
+  			</div>
+  		</div>
+  	</div>
+  	</div>
+  </div>
     <!-- Jumbotron -->
-    <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
+    <div class="cover-container d-flex h-100 p-3 mx-auto flex-column text-white">
       <main role="main" class="inner cover">
       </main>
     </div>
@@ -50,6 +64,6 @@ body{
 	<!-- MDB core JavaScript -->
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.11/js/mdb.min.js"></script>
 	<!-- Bootstrap Select -->
-    <script src="{{ asset('/js/rnr.js') }}"></script>
+    <script src="{{ asset('/js/home.js') }}"></script>
 </body>
 </html>

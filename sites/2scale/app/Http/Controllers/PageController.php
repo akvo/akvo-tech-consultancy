@@ -29,9 +29,9 @@ class PageController extends Controller
 		return view('pages.home');
 	}
 
-    public function data()
+    public function database()
     {
-		return view('pages.data', ['surveys' => config('surveys')]);
+		return view('pages.database', ['surveys' => config('surveys')]);
     }
 
 	public function survey()
@@ -41,12 +41,17 @@ class PageController extends Controller
 
 	public function organisation()
 	{
-		return view('pages.org');
+		return view('pages.organisation');
 	}
 
 	public function reachreact()
 	{
-		return view('pages.rnr', ['surveys' => config('surveys')]);
+		return view('pages.reachreact', ['surveys' => config('surveys')]);
+	}
+
+	public function partnership()
+	{
+		return view('pages.partnership', ['surveys' => config('surveys')]);
 	}
 }
 
