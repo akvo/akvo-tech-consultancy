@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFormsTable extends Migration
+class CreateSurveyGroupsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,20 +13,11 @@ class CreateFormsTable extends Migration
      */
     public function up()
     {
-        Schema::create('forms', function (Blueprint $table) {
+        Schema::create('survey_groups', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('survey_group_id');
-            $table->unsignedBigInteger('form_id')->unique();
-            $table->unsignedBigInteger('survey_id')->unique();
             $table->text('name');
-            $table->unsignedBigInteger('partner_qid');
             $table->timestamp('created_at')->default(\Carbon\Carbon::now());
             $table->timestamp('updated_at')->default(\Carbon\Carbon::now());
-
-            $table->foreign('survey_group_id')->references('id')
-                ->on('survey_groups')->onDelete('cascade');
-
-            $table->index('form_id');
         });
     }
 
@@ -37,6 +28,6 @@ class CreateFormsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('forms');
+        Schema::dropIfExists('survey_groups');
     }
 }

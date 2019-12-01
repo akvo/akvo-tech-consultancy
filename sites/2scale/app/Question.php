@@ -15,12 +15,16 @@ class Question extends Model
         return Str::limit($this->text, 10,'...');
     }
 
+    public function surveyGroups() {
+        return $this->hasMany('App\SurveyGroup');
+    }
+
     public function data() {
         return $this->hasMany('App\Data', 'question_id', 'question_id');
     } 
 
     public function options() {
-        return $this->hasMany('App\Option', 'question_id', 'question_id');
+        return $this->hasMany('App\Option');
     } 
 
     public function forms() {
