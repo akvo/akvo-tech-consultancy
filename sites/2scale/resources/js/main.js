@@ -40,7 +40,7 @@ $(".btn.dropdown-toggle.btn-light").addClass("btn-primary");
 $("#btn-data-inspect").click(() => {
     const form_select = $("#select-database-survey").val();
 	console.log(form_select);
-    let url = window.location.origin + '/frame-datatable/' + form_select;
+    let url = window.location.origin + '/frame-database/' + form_select;
 
     const country_select = $("#select-country-survey").val();
     if (country_select) {
