@@ -1,0 +1,69 @@
+Fid,Fname,source
+3.2,Perceived reasons why people were unable to register to vote,Custom
+3.3,Voters who checked their name at a voter registration centre (by constituency),5ccfb75d-da71-43a8-b022-cb302e96d72b
+3.4,Citizens who were asked to register in another constituency (by constituency),5cd41506-bf3d-4c6f-a2d0-77a5fc77c145
+3.5,Reasons why voters changed their constituency of registration (n=263),Custom
+3.6,Citizens who changed their registration to another constituency (by constituency, surveyed post-election),5ccfbb2d-b044-47bc-b980-709d07d72cb6
+3.7,Citizens who know of voters who registered in their constituency but live somewhere else (by constituency),5cd414ca-882e-4ef0-9530-6a306e4c9649
+3.8,Voters who thought the electoral roll in their constituency was accurate (by constituency),5c9c374a-8d58-4838-9ca5-c8f404015f12
+3.9,Reasons voters thought the electoral roll was inaccurate,Custom
+3.10,Citizens who saw any SIEC media or awareness (by constituency),5c99bbe4-d49a-47ef-a143-4e40994adc40
+3.11,Citizens who saw SIEC media or awareness (by category),Custom
+3.13,Voters who discussed the election on social media (by constituency),5cad913a-4038-4f56-9478-25da8fe0727a
+3.14,Voters who discussed the election on social media (by age),5d0acf80-c117-4647-88b7-5d4f1cac79aa
+3.15,Observers assessments of the law and order situation during the campaign period (all constituencies),Custom
+3.16,Election-related tension or violence observed during the campaign period (by constituency),5ccfc09c-f946-4cb2-b611-d3aee2d17d92
+3.17,Observers who heard about election-related tension or violence during the campaign period (all constituencies),5ccfc1f9-c780-4451-ba9f-83ba5262a054
+4.1,Campaign issues or promises addressed at candidate rallies,Custom
+4.2,Campaign activities performed by women,Custom
+4.3,Voters who thought there should be more women MPs (all constituencies and by constituency),5cd0d9a8-cbed-490a-986e-6cdd3debff4b
+4.4,Voters who thought there should be more women MPs (all constituencies and by constituency),5cad9570-ac92-468c-bc60-3bfccc0eb7a7
+4.5,Voters who thought there should be more women MPs (all constituencies sampled, by gender),5cdcfe02-8aa8-4531-a113-d510fdeb132a
+4.6,Voters who said they would vote for a woman candidate (all constituencies and by constituency),5c9c808a-15d5-41e0-b57b-bc8a86ed22c8
+4.7,Voters who said they would vote for a woman candidate (all constituencies and by constituency),5c998616-f56f-40b5-b806-2eb3a3e12801
+4.8,Voters who said they would vote for a woman candidate (all constituencies and by gender),5cdcfeba-af85-4001-9d3d-0be08f18a915
+4.10,Citizens who were promised support by candidates (all constituencies and by constituency),5cd1080a-9e97-4d5d-b156-5719d993beb6
+4.11,Citizens who were promised support by candidates (all constituencies and by constituency),5cad8dcc-93ee-49ab-ac2c-5a98ddcc7ac0
+4.12,Heard reports of candidates or candidates’ agents handing over cash to obtain votes (all constituencies and by constituency),5cd0e165-946a-4e26-ab8e-9ab66f7f1e42
+4.13,Heard reports of candidates or candidates’ agents handing over cash to obtain votes (all constituencies and by constituency),5c9c16d9-c121-4e82-bc28-b44e79696319
+4.14,Observers who heard about candidates soliciting votes on the night before the election (all constituencies and by constituency),5cd0effc-7aa5-4699-b00d-7c7f694afb5e
+4.15,Observers who heard about candidates soliciting votes on the night before the election (all constituencies and by constituency),5cd0f08e-39a0-4c78-906b-c88d7039144c
+4.16,Voters who thought CDFs improved development in their constituency (all constituencies),5c9c828a-5d0e-45e0-9c2b-2b695d208bba
+4.17,Voters who thought CDFs improved development in their constituency (by constituency),5c998e4c-0a0c-4884-8833-2d0ed979dd18
+4.18,Voters who said they or their family had received CDF support in the last five years (all constituencies),5ca2d28e-2934-452a-a8e6-94ad72e2f1c2
+4.19,Voters who said they or their family had received CDF support in the last five years (by constituency),5c9c5889-33bc-46d6-93b9-f28eae59e643
+4.20,Voters who said their community had received CDF projects in the last five years (all constituencies),5ca2d2e8-f8c3-473e-aac7-3679cd8646e7
+4.21,Voters who said their community had received CDF projects in the last five years (by constituency),5c9c58d5-08f0-40c1-b408-eef0d7ea9928
+4.22,Voters who thought CDF spending would influence voting behaviour (all constituencies),5c9c82df-0875-4d23-a744-948a3471374a
+4.23,Voters who thought CDF spending would influence voting behaviour (by constituencies),5c998ef8-02a2-41dc-9620-deba612a2e9a
+4.24,Voters who thought CDFs were fairly distributed (all constituencies),5ca2d381-0a3e-4a67-be8f-1f119ecb6fbc
+4.25,Voters who thought CDFs were fairly distributed (by constituencies),5c9c5929-fb27-46fa-b732-6cb91b7123a7
+4.26,Voters who thought the current level of CDFs for MPs was the right amount,5ca2d3a2-9ca1-499a-b5c2-9aa33fbc10a3
+5.1,Expectations held by voters about election day (all constituencies),Custom
+5.2,Citizens experiences of election day (all constituencies),Custom
+5.3,Reasons citizens thought their vote was not secret,Custom
+5.4,Citizens who believed the winning candidate would find out who they voted for (all constituencies),5c9c803c-099b-4013-8d6c-1149551dffd0
+5.5,Citizens who believed the winning candidate would find out who they voted for (by constituency),5c997c2d-d4fa-4492-9b6c-348d590c3472
+5.6,Citizens who thought a voter ID card was required to vote (all constituencies),5ccfd7b4-29bd-472c-9920-3adc88d9e61c
+5.7,Citizens who thought a voter ID card was required to vote (by constituencies),5ccfd76a-2f5e-4ee5-afd9-190a9e6e8173
+5.8,Citizens’ perceptions of who influenced their vote (all constituencies),5cd2850c-ce84-4faa-a274-1107ee0beef0
+5.9,Citizens’ perceptions of who influenced their vote (by constituency),5cd284be-87d4-42b4-b5f1-94f8fc5d4210
+5.10,Citizens’ perceptions of who influenced their vote (by gender),5d0ad5ab-be35-4745-9ba9-7e17b3cd69a0
+5.11,Most important qualities voters want in a candidate (all constituencies),Custom
+5.12,Observed polling stations that opened on time (all constituencies),5cd4066f-8093-4e8e-a91a-a102b8f5e902
+5.13,Observed polling stations that opened on time (by constituency),5cd29988-4e5f-40b2-8554-bd3cb20200a4
+5.14,Compartments that were positioned to adequately screen voters (by constituency),5cd29a39-a410-47b9-99ba-fe514d83d128
+5.15,Observers who considered the presiding officer to be unbiased and impartial (by constituency),5cada5fb-4223-43da-851d-0af73606cb06
+5.16,Polling stations that accommodated the needs of people with disabilities (by constituency),5c9c1ea6-11c9-4644-a29d-6257debcf075
+5.17,Observers who saw voters (men and women) turned away because their names could not be found on the roll,Custom
+5.18,Observed instances of underage voting (by constituency),5cd8f49d-1d1f-4a7d-a3d8-5556b95abd30
+5.19,Observers’ overall assessment of voter conduct at polling stations,5cd8f90c-68e5-42e8-a88a-c34621108176
+6.1,Were ballot boxes transported directly to the counting centre? (all constituencies),5cd92486-5146-440a-88ff-b0d98665243f
+6.2,Observers who noted that the count was completed in one day (all constituencies),5cd93fe2-a9c2-4543-9182-a78a81c3d949
+6.3,Observers who noted that each ballot paper was displayed for scrutiny (by constituencies),5cd93fa5-2871-4444-9177-a356a7cc65ee
+6.4,Observers who noted that the count was conducted in a transparent manner (all constituencies),5cd9455f-7e83-4e83-b1f2-7abecffe251e
+6.5,Observers who heard about incidents of minor post-election disturbances in the constituency (all constituencies),5cd93b1f-b2c9-4311-8100-2c7d006ac95e
+6.6,Votes received by winning candidate vs second place for 2014 election in North West Choiseul (by box counting),Custom
+6.7,Votes received by winning candidate vs second place for 2014 election in North West Choiseul (by batch counting),Custom
+6.8,Maringe/Kokota 2014 election results,Custom
+6.9,Maringe/Kokota 2019 election results,Custom
