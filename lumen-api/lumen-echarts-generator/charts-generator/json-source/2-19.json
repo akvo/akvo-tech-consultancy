@@ -1,0 +1,56 @@
+{
+    "color": ["#2f4554", "#d48265", "#c23531"],
+    "title": {
+        "left": "center",
+        "top": "37.5%",
+        "text": "73",
+        "textStyle": {
+            "fontSize": 50,
+            "fontWeight": "bold"
+        }
+    },
+    "legend": {
+        "data": ["few or no problems", "some tension but no election violence", "tension with localised election-related violence"],
+        "orient": "vertical",
+        "x": "center",
+        "y": "80%",
+        "itemGap": 15,
+        "padding": 20,
+        "margin": 20,
+        "textStyle": {
+            "fontSize": 20,
+            "fontWeight": "bold"
+        }
+    },
+    "series": [{
+        "type": "pie",
+        "avoidLabelOverlap": "false",
+        "radius": ["70%", "30%"],
+        "center": ["50%", "40%"],
+        "label": {
+            "show": true,
+            "normal": {
+                "formatter": "{d}%\n({c})",
+                "show": true,
+                "fontSize": 25,
+                "color": "#FFF",
+                "position": "inside"
+            }
+        },
+        "labelLine": {
+            "normal": {
+                "show": false
+            }
+        },
+        "data": [{
+            "value": 50,
+            "name": "few or no problems"
+        }, {
+            "value": 22,
+            "name": "some tension but no election violence"
+        }, {
+            "value": 1,
+            "name": "tension with localised election-related violence"
+        }]
+    }]
+}

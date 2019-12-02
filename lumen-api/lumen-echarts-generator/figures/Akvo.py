@@ -14,7 +14,6 @@ class Flow:
         }
         tokenURI = 'https://akvofoundation.eu.auth0.com/oauth/token'
         tokens = r.post(tokenURI, authentification).json()
-        print(token)
         return tokens['id_token']
 
     def getData(self, accessToken):

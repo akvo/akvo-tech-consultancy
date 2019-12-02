@@ -1,0 +1,78 @@
+{
+    "color": [
+        "#2f4554",
+        "#c23531",
+        "#749f83",
+        "#d48265"
+    ],
+    "title": {
+        "show": false,
+        "left": "center",
+        "top": "47.5%",
+        "text": "73",
+        "textStyle": {
+            "fontSize": 50,
+            "fontWeight": "bold"
+        }
+    },
+    "legend": {
+        "data": [
+            "Yes",
+            "No",
+            "Not Sure"
+        ],
+        "orient": "horizontal",
+        "x": "center",
+        "y": "5%",
+        "itemGap": 15,
+        "padding": 20,
+        "margin": 20,
+        "textStyle": {
+            "fontSize": 20,
+            "fontWeight": "bold"
+        }
+    },
+    "series": [
+        {
+            "type": "pie",
+            "avoidLabelOverlap": "false",
+            "radius": [
+                "70%",
+                "30%"
+            ],
+            "center": [
+                "50%",
+                "50%"
+            ],
+            "label": {
+                "show": true,
+                "normal": {
+                    "formatter": "{d}%\n({c})",
+                    "show": true,
+                    "fontSize": 25,
+                    "color": "#FFF",
+                    "position": "inside"
+                }
+            },
+            "labelLine": {
+                "normal": {
+                    "show": false
+                }
+            },
+            "data": [
+                {
+                    "value": 6,
+                    "name": "Yes"
+                },
+                {
+                    "value": 60,
+                    "name": "No"
+                },
+                {
+                    "value": 7,
+                    "name": "Not Sure"
+                }
+            ]
+        }
+    ]
+}

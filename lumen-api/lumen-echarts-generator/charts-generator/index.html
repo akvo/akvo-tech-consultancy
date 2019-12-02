@@ -30,6 +30,12 @@ div#main {
         $.ajax({
           url: '/json/'+hash+'.json',
           success: function(data){ 
+              if(data.series[0].type === "pie") {
+                  data.series[0].label.normal.formatter = function(params) {
+                      let rounded = Math.round(params.percent);
+                      return rounded + "%";
+                  }
+              }
               myChart.setOption(data);
           }
         });

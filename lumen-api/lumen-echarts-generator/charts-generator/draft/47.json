@@ -1,0 +1,104 @@
+{
+    "tooltip": {
+        "trigger": "axis",
+        "axisPointer": {
+            "type": "shadow"
+        }
+    },
+    "legend": {
+        "data": ["Me", "My family", "Someone in my community", "N/A"],
+        "padding": 100,
+        "textStyle": {
+            "fontSize": 20,
+            "fontWeight": "bold",
+            "rotate": 315,
+            "margin": 20,
+            "width": "100%"
+        }
+    },
+    "grid": {
+        "left": "3%",
+        "right": "4%",
+        "bottom": "3%",
+        "containLabel": true
+    },
+    "xAxis": {
+        "type": "category",
+        "data": ["Aoke Langalanga", "Central Guadalcanal", "Central Honiara", "Central Makira", "East Guadalcanal", "East Honiara", "Gao Bugotu", "Gizo Kolombangara", "Lau Mbaelelea", "Maringe Kokota", "North Vella Lavella", "North West Choiseul", "Russell Savo", "Small Malaita", "West Honiara"],
+        "axisLabel": {
+            "fontSize": 20,
+            "fontWeight": "bold",
+            "rotate": 315,
+            "margin": 20,
+            "width": "100%"
+        }
+    },
+    "yAxis": {
+        "type": "value",
+        "axisLabel": {
+            "fontSize": 20,
+            "fontWeight": "bold",
+            "formatter": "{value} %",
+            "rotate": 315,
+            "margin": 20,
+            "width": "100%"
+        }
+    },
+    "series": [{
+        "name": "Me",
+        "type": "bar",
+        "stack": "total",
+        "label": {
+            "normal": {
+                "fontSize": 20,
+                "fontWeight": "bold",
+                "show": true,
+                "position": "inside",
+                "formatter": "{c}%"
+            }
+        },
+        "data": [85, 89, 75, 91, 83, 61, 77, 91, 87, 80, 69, 92, 84, 78, 86]
+    }, {
+        "name": "My family",
+        "type": "bar",
+        "stack": "total",
+        "label": {
+            "normal": {
+                "fontSize": 20,
+                "fontWeight": "bold",
+                "show": true,
+                "position": "inside",
+                "formatter": "{c}%"
+            }
+        },
+        "data": [14, 8, 21, 8, 16, 34, 22, 8, 10, 18, 30, 5, 16, 20, 8]
+    }, {
+        "name": "Someone in my community",
+        "type": "bar",
+        "stack": "total",
+        "label": {
+            "normal": {
+                "fontSize": 0,
+                "fontWeight": "bold",
+                "show": false,
+                "position": "inside",
+                "formatter": "{c}%"
+            }
+        },
+        "data": [0, 3, 4, 1, 1, 4, 2, 1, 3, 2, 0, 0, 1, 2, 5]
+    }, {
+        "name": "N/A",
+        "type": "bar",
+        "stack": "total",
+        "label": {
+            "normal": {
+                "fontSize": 0,
+                "fontWeight": "bold",
+                "show": false,
+                "position": "inside",
+                "formatter": "{c}%"
+            }
+        },
+        "data": [1, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 2, 0, 0, 0]
+    }]
+}

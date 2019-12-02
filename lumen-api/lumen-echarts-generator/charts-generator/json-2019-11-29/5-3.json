@@ -1,0 +1,83 @@
+{
+    "color": [
+        "#2f4554",
+        "#c23531",
+        "#749f83",
+        "#d48265"
+    ],
+    "tooltip": {
+        "trigger": "axis",
+        "axisPointer": {
+            "type": "shadow"
+        }
+    },
+    "legend": {
+        "data": [],
+        "padding": 20,
+        "textStyle": {
+            "fontSize": 20,
+            "fontWeight": "bold",
+            "rotate": 315,
+            "margin": 20,
+            "width": "100%"
+        }
+    },
+    "grid": {
+        "left": 30,
+        "right": "5%",
+        "bottom": 42,
+        "top": 50,
+        "containLabel": true
+    },
+    "yAxis": {
+        "type": "category",
+        "data": [
+            "Other",
+            "Assisted because\nunsure how to vote",
+            "Assisted (not specified)",
+            "Assisted due to\nmedical issue or disability",
+            "Family of community\nmembers already know",
+            "Inadequate polling\nstation arrangements"
+        ],
+        "axisLabel": {
+            "fontSize": 14,
+            "fontWeight": "bold",
+            "margin": 20,
+            "width": "100%"
+        }
+    },
+    "xAxis": {
+        "type": "value",
+        "axisLabel": {
+            "fontSize": 14,
+            "fontWeight": "bold",
+            "formatter": "{value} %",
+            "rotate": 305,
+            "margin": 20,
+            "width": "100%"
+        }
+    },
+    "series": [
+        {
+            "name": "Yes",
+            "type": "bar",
+            "label": {
+                "normal": {
+                    "fontSize": 14,
+                    "fontWeight": "bold",
+                    "show": true,
+                    "position": "inside",
+                    "formatter": "{c}%"
+                }
+            },
+            "data": [
+                4,
+                5,
+                6,
+                13,
+                32,
+                40
+            ]
+        }
+    ]
+}

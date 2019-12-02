@@ -1,0 +1,38 @@
+{
+    "title": {
+        "left": "center",
+        "top": "middle",
+        "text": "2418",
+        "textStyle": {
+            "fontSize": 50,
+            "fontFamily": "Monospace"
+        }
+    },
+    "series": [{
+        "type": "pie",
+        "radius": ["30%", "50%"],
+        "label": {
+            "normal": {
+                "show": true,
+                "formatter": "{b}\n{d}% ({c})",
+                "fontSize": 18,
+                "fontFamily": "Monospace",
+                "fontWeight": "bold",
+                "color": "#000"
+            }
+        },
+        "data": [{
+            "value": 388,
+            "name": "My family"
+        }, {
+            "value": 10,
+            "name": "N/A"
+        }, {
+            "value": 1973,
+            "name": "Me"
+        }, {
+            "value": 47,
+            "name": "Someone in my community"
+        }]
+    }]
+}

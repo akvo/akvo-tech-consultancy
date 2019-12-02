@@ -1,0 +1,42 @@
+{
+    "title": {
+        "left": "center",
+        "top": "middle",
+        "text": "2449",
+        "textStyle": {
+            "fontSize":50,
+            "fontFamily":"Monospace"
+        }
+    },
+    "series": [{
+        "type": "pie",
+        "radius": ["90%", "50%"],
+        "avoidLabelOverlap": true,
+        "label": {
+            "show": true,
+            "normal": {
+                "formatter": "{b}\n\n{d}%\n({c})",
+                "show": true,
+                "fontSize":25,
+                "fontFamily":"Monospace",
+                "color": "#FFF",
+                "position": "inside"
+            }
+        },
+        "labelLine": {
+            "normal": {
+                "show": false
+            }
+        },
+        "data": [{
+            "value": 832,
+            "name": "No"
+        }, {
+            "value": 783,
+            "name": "Yes"
+        }, {
+            "value": 834,
+            "name": "Not Sure"
+        }]
+    }]
+}

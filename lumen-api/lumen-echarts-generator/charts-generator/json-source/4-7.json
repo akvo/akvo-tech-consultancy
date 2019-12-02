@@ -1,0 +1,56 @@
+{
+    "title": {
+        "left": "center",
+        "top": "35%",
+        "text": "2418",
+        "textStyle": {
+            "fontSize": 50
+        }
+    },
+    "legend": {
+        "data": ["Community", "N/A", "Me", "My family"],
+        "orient": "vertical",
+        "itemWidth": 50,
+        "itemHeight": 50,
+        "x": "right",
+        "y": "35%",
+        "itemGap": 15,
+        "textStyle": {
+            "fontSize": 20,
+            "fontWeight": "bold"
+        }
+    },
+    "series": [{
+        "type": "pie",
+        "radius": ["60%", "40%"],
+        "center": ["50%", "40%"],
+        "label": {
+            "show": true,
+            "normal": {
+                "formatter": "{d}%\n({c})",
+                "show": true,
+                "fontSize": 20,
+                "color": "#FFF",
+                "position": "inside"
+            }
+        },
+        "labelLine": {
+            "normal": {
+                "show": false
+            }
+        },
+        "data": [{
+            "value": 47,
+            "name": "Community"
+        }, {
+            "value": 1973,
+            "name": "Me"
+        }, {
+            "value": 10,
+            "name": "N/A"
+        }, {
+            "value": 388,
+            "name": "My family"
+        }]
+    }]
+}

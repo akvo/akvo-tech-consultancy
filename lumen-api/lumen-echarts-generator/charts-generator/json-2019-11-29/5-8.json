@@ -1,0 +1,83 @@
+{
+    "color": [
+        "#2f4554",
+        "#c23531",
+        "#749f83",
+        "#d48265"
+    ],
+    "title": {
+        "show": false,
+        "left": "center",
+        "top": "47.5%",
+        "text": "2418",
+        "textStyle": {
+            "fontSize": 50,
+            "fontWeight": "bold"
+        }
+    },
+    "legend": {
+        "data": [
+            "N/A",
+            "Me",
+            "Someone in my community",
+            "My family"
+        ],
+        "orient": "horizontal",
+        "x": "center",
+        "y": "5%",
+        "itemGap": 15,
+        "padding": 20,
+        "margin": 20,
+        "textStyle": {
+            "fontSize": 20,
+            "fontWeight": "bold"
+        }
+    },
+    "series": [
+        {
+            "type": "pie",
+            "avoidLabelOverlap": true,
+            "radius": [
+                "70%",
+                "30%"
+            ],
+            "center": [
+                "50%",
+                "50%"
+            ],
+            "label": {
+                "show": true,
+                "normal": {
+                    "formatter": "{d}%\n({c})",
+                    "show": true,
+                    "fontSize": 14,
+                    "color": "#FFF",
+                    "position": "inside"
+                }
+            },
+            "labelLine": {
+                "normal": {
+                    "show": false
+                }
+            },
+            "data": [
+                {
+                    "value": 10,
+                    "name": "N/A"
+                },
+                {
+                    "value": 1973,
+                    "name": "Me"
+                },
+                {
+                    "value": 47,
+                    "name": "Someone in my community"
+                },
+                {
+                    "value": 388,
+                    "name": "My family"
+                }
+            ]
+        }
+    ]
+}
