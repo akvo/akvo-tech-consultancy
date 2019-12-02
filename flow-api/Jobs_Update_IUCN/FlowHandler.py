@@ -1,6 +1,6 @@
-def FlowHandler(val,qId,qType):
+def FlowHandler(val, groupId, qId, qType):
     try:
-        data = val[0][qId]
+        data = val[groupId][0][qId]
         if (data == 'Error'):
             return ""
         elif(qType=='OPTION'):
