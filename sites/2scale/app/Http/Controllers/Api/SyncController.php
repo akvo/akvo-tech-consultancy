@@ -233,4 +233,11 @@ class SyncController extends Controller
         return $collections;
     } 
 
+    public function testing(Datapoint $datapoints) 
+    {
+        return $datapoints
+            ->with('country.childrens')
+            ->get();
+    }
+
 }

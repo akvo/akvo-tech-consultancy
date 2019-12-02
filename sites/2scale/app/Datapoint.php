@@ -23,4 +23,14 @@ class Datapoint extends Model
         return $this->belongsTo('App\SurveyGroup');
     }
 
+    public function partnership()
+    {
+        return $this->hasMany('App\Partnership', 'id', 'partnership_id');
+    }
+
+    public function country()
+    {
+        return $this->hasMany('App\Partnership', 'id', 'country_id');
+    }
+
 }
