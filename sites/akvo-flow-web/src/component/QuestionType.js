@@ -7,6 +7,7 @@ import { PROD_URL } from '../util/Environment'
 import { FilePond, registerPlugin } from 'react-filepond';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css';
+import MapForm from '../types/MapForm.js'
 
 const API_ORIGIN = (PROD_URL ? ( window.location.origin + "/" + window.location.pathname.split('/')[1] + "-api/" ) : process.env.REACT_APP_API_URL);
 const pathurl = (PROD_URL ? 2 : 1);
@@ -22,11 +23,12 @@ class QuestionType extends Component {
         this.other = localStorage.getItem("other_" + this.props.data.id)
         this.state = {
             value: this.value ? this.value : '',
-            other: this.other ? this.other : ''
+            other: this.other ? this.other : '',
         }
         this.setDpStorage = this.setDpStorage.bind(this);
         this.getRadio = this.getRadio.bind(this);
         this.getPhoto = this.getPhoto.bind(this);
+        this.getGeo = this.getGeo.bind(this);
         this.renderRadio = this.renderRadio.bind(this);
         this.getCascadeDropdown = this.getCascadeDropdown.bind(this);
         this.renderCascade = this.renderCascade.bind(this);
@@ -325,7 +327,6 @@ class QuestionType extends Component {
     getCascadeDropdown(lv, ix) {
         if (this.props.data.type === "cascade") {
             let url = API_ORIGIN + 'cascade/' + this.instanceUrl + '/' + this.props.data.cascadeResource + '/' + lv
-            console.log(url);
             let options = "options_" + lv
             let cascade = "cascade_" + ix
             let availcasc = this.props.value.cascade;
@@ -352,7 +353,6 @@ class QuestionType extends Component {
             }
             if (!res) {
                 this.fetchCascade(lv, ix, url, options, cascade);
-                console.log('NEW CASCADE');
             }
         }
     }
@@ -468,6 +468,16 @@ class QuestionType extends Component {
         )
     }
 
+    getGeo(data, unique) {
+        const pos = [51.505, -0.09]
+        return (
+            <MapForm
+                center={pos}
+                zoom={13}
+            />
+        );
+    }
+
     componentDidMount () {
         if (this.props.data.type === "cascade"){
             localStorage.removeItem(this.props.data.id)
@@ -497,6 +507,8 @@ class QuestionType extends Component {
                 return this.getPhoto(data, key, answered, "file")
             case "date":
                 return this.getInputOther(data, key, answered, formtype)
+            case "geo":
+                return this.getGeo(data, key)
             default:
                 return this.getTextArea(data, key, answered, formtype)
         }
