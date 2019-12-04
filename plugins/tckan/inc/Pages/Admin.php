@@ -1,6 +1,6 @@
 <?php 
 /**
- * @package  TckanPlugin
+ * @package  AkvoCkanPlugin
  */
 namespace Inc\Pages;
 
@@ -37,10 +37,10 @@ class Admin extends BaseController
 	{
 		$this->pages = array(
 			array(
-				'page_title' => 'Tckan Plugins', 
-				'menu_title' => 'TCkan', 
+				'page_title' => 'Akvo Ckan Settings', 
+				'menu_title' => 'Akvo Ckan', 
 				'capability' => 'manage_options', 
-				'menu_slug' => 'tckan_plugin', 
+				'menu_slug' => 'akvockan_plugin', 
 				'callback' => array( $this->callbacks, 'adminSettings' ), 
 				'icon_url' => 'dashicons-admin-network', 
 				'position' => 110
@@ -52,27 +52,27 @@ class Admin extends BaseController
 	{
 		$this->subpages = array(
 			array(
-				'parent_slug' => 'tckan_plugin', 
+				'parent_slug' => 'akvockan_plugin', 
 				'page_title' => 'Datasets Views', 
 				'menu_title' => 'Datasets Views', 
 				'capability' => 'manage_options', 
-				'menu_slug' => 'tckan_datasets', 
+				'menu_slug' => 'akvockan_datasets', 
 				'callback' => array( $this->callbacks, 'adminDatasets' )
 			),
 			array(
-				'parent_slug' => 'tckan_plugin', 
+				'parent_slug' => 'akvockan_plugin', 
 				'page_title' => 'Organisations', 
 				'menu_title' => 'Organisations', 
 				'capability' => 'manage_options', 
-				'menu_slug' => 'tckan_organisation', 
+				'menu_slug' => 'akvockan_organisation', 
 				'callback' => array( $this->callbacks, 'adminOrganisations' )
 			),
 			array(
-				'parent_slug' => 'tckan_plugin', 
+				'parent_slug' => 'akvockan_plugin', 
 				'page_title' => 'Visualisations', 
 				'menu_title' => 'Visualisations', 
 				'capability' => 'manage_options', 
-				'menu_slug' => 'tckan_visualisation', 
+				'menu_slug' => 'akvockan_visualisation', 
 				'callback' => array( $this->callbacks, 'adminVisualisations' )
 			)
 		);
@@ -82,12 +82,12 @@ class Admin extends BaseController
 	{
 		$args = array(
 			array(
-				'option_group' => 'tckan_options_group',
+				'option_group' => 'akvockan_options_group',
 				'option_name' => 'api_key',
-				'callback' => array( $this->callbacks, 'tckanOptionsGroup' )
+				'callback' => array( $this->callbacks, 'akvockanOptionsGroup' )
 			),
 			array(
-				'option_group' => 'tckan_options_group',
+				'option_group' => 'akvockan_options_group',
 				'option_name' => 'ckan_url'
 			),
 		);
@@ -99,10 +99,10 @@ class Admin extends BaseController
 	{
 		$args = array(
 			array(
-				'id' => 'tckan_admin_index',
+				'id' => 'akvockan_admin_index',
 				'title' => 'Settings',
-				'callback' => array( $this->callbacks, 'tckanAdminSection' ),
-				'page' => 'tckan_plugin'
+				'callback' => array( $this->callbacks, 'akvockanAdminSection' ),
+				'page' => 'akvockan_plugin'
 			)
 		);
 
@@ -115,9 +115,9 @@ class Admin extends BaseController
 			array(
 				'id' => 'api_key',
 				'title' => 'CKAN API KEY',
-				'callback' => array( $this->callbacks, 'tckanApiKey' ),
-				'page' => 'tckan_plugin',
-				'section' => 'tckan_admin_index',
+				'callback' => array( $this->callbacks, 'akvockanApiKey' ),
+				'page' => 'akvockan_plugin',
+				'section' => 'akvockan_admin_index',
 				'args' => array(
 					'label_for' => 'api_key',
 					'class' => 'example-class'
@@ -126,9 +126,9 @@ class Admin extends BaseController
 			array(
 				'id' => 'ckan_url',
 				'title' => 'CKAN URL',
-				'callback' => array( $this->callbacks, 'tckanUrl' ),
-				'page' => 'tckan_plugin',
-				'section' => 'tckan_admin_index',
+				'callback' => array( $this->callbacks, 'akvockanUrl' ),
+				'page' => 'akvockan_plugin',
+				'section' => 'akvockan_admin_index',
 				'args' => array(
 					'label_for' => 'ckan_url',
 					'class' => 'example-class'

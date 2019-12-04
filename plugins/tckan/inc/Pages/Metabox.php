@@ -1,12 +1,12 @@
 <?php 
 /**
- * @package  TckanPlugin
+ * @package  AkvoCkanPlugin
  */
 namespace Inc\Pages;
 
-use Inc\Base\TckanMetabox;
+use Inc\Base\AkvoCkanMetabox;
 
-class Metabox extends TckanMetabox {
+class Metabox extends AkvoCkanMetabox {
 
     public function register() {
         add_action( 'admin_init', array( $this, 'my_meta_fields' ) );
@@ -17,7 +17,7 @@ class Metabox extends TckanMetabox {
         $args = array(
             'meta_box_id'   =>  'ckan_meta_id',
             'label'         =>  __( '<i class="dashicons dashicons-list-view"></i> CKAN Dataset' ),
-            'post_type'     =>  array( 'post','dataset' ),
+            'post_type'     =>  array( 'dataset' ), // can also be in post
             'context'       =>  'normal', // side|normal|advanced
             'priority'      =>  'high', // high|low
             'hook_priority'  =>  10,
@@ -27,7 +27,7 @@ class Metabox extends TckanMetabox {
                     'label'     =>  __( 'Datasets' ),
                     'type'      =>  'ckan',
                     'desc'      =>  __( '' ),
-                    'class'     =>  'tckan-meta-field',
+                    'class'     =>  'akvockan-meta-field',
                     'default'   =>  '',
                     'readonly'  =>  false, // true|false
                     'disabled'  =>  false, // true|false
@@ -36,11 +36,11 @@ class Metabox extends TckanMetabox {
             )
         );
 
-            $this->tckan_meta_box( $args );
+            $this->akvockan_meta_box( $args );
     }
 
-    public function tckan_meta_box( $args ){
-        return new TckanMetabox( $args );
+    public function akvockan_meta_box( $args ){
+        return new AkvoCkanMetabox( $args );
     }
 }
 

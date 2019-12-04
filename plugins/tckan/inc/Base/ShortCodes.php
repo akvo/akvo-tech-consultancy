@@ -1,0 +1,54 @@
+<?php
+/**
+ * @package  AkvoCkanPlugin
+ */
+namespace Inc\Base;
+
+class ShortCodes extends BaseController
+{
+	public function register() {
+        add_shortcode( "ckan_search", array($this, "search_widget") );
+        add_action( "wp_enqueue_scripts", array($this, "is_archive_dataset") );
+	}
+
+    public function search_widget() {
+        $html = '<div class="ckan_search_bar col-md-12">';
+        $html .= '<div class="input-group input-group-lg">';
+        $html .= '<div class="input-group-prepend">';
+        $html .= '<span class="input-group-text" id="inputGroup-sizing-lg">Search Watershed Data</span>';
+        $html .= '</div>';
+        $html .= '<input type="text" class="form-control" id="dataset-query" aria-label="Large" aria-describedby="inputGroup-sizing-sm">';
+        $html .= '</div>';
+        $html .= '<div class="col-md-12 text-center">';
+		$html .= '<div class="lds-ellipsis" style="display:none;"><div></div><div></div><div></div><div></div></div>';
+        $html .= '</div>';
+        $html .= "</div>";
+        return $html;
+    }
+
+    public function is_archive_dataset( $post_types = '' ) {
+        global $wp_query;
+        $datasets_archive = $wp_query->is_post_type_archive( 'dataset' );
+        $datasets_page = is_singular( 'dataset' );
+        if ($datasets_archive){
+            $terms = get_terms( 'collection', array(
+                    'hide_empty' => false
+            ));
+            return add_filter( 'sidebars_widgets', array($this, 'disable_all_widgets') );
+        }
+        if ($datasets_page){
+            return add_filter( 'sidebars_widgets', array($this, 'disable_all_widgets') );
+        }
+        return;
+    }
+
+    public function disable_all_widgets( $sidebars_widgets ) {
+        if($sidebars_widgets['sidebar-1']){
+        	$sidebars_widgets = array( 'sidebar-1' => array (
+				0 => 'lc_taxonomy-2'
+			));
+		}
+        return $sidebars_widgets;
+    }
+
+}

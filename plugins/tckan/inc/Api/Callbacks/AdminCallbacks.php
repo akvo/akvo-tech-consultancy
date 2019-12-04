@@ -1,6 +1,6 @@
 <?php 
 /**
- * @package  TckanPlugin
+ * @package  AkvoCkanPlugin
  */
 namespace Inc\Api\Callbacks;
 
@@ -42,23 +42,23 @@ class AdminCallbacks extends BaseController
         return require_once( "$this->plugin_path/templates/error.php" );
 	}
 
-	public function tckanOptionsGroup( $input )
+	public function akvockanOptionsGroup( $input )
 	{
 		return $input;
 	}
 
-	public function tckanAdminSection()
+	public function akvockanAdminSection()
 	{
 		echo 'Some API functions require authorization. The API uses the same authorization functions and configuration as the web interface, so if a user is authorized to do something in the web interface they’ll be authorized to do it via the API as well.';
 	}
 
-	public function tckanApiKey()
+	public function akvockanApiKey()
 	{
 		$value = esc_attr( get_option( 'api_key' ) );
 		echo '<input type="text" class="regular-text" name="api_key" value="' . $value . '" placeholder="dc6ad34e-5eb4-45a5-af0c-fcaf3747326d">';
 	}
 
-	public function tckanUrl()
+	public function akvockanUrl()
 	{
 		$value = esc_attr( get_option( 'ckan_url' ) );
 		echo '<input type="text" class="regular-text" name="ckan_url" value="' . $value . '" placeholder="https://watersheed.ckan.org">';

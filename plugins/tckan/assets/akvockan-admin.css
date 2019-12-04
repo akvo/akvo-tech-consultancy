@@ -150,7 +150,7 @@ kbd {
 
 /* version 3.8 fix */
 
-input#suggest_tckan_cmb_ckan_dataset {
+input#suggest_akvockan_cmb_ckan_dataset {
     margin: 0px;
     padding: 10px;
     border: none;
@@ -159,7 +159,7 @@ input#suggest_tckan_cmb_ckan_dataset {
     padding-left: 30px;
 }
 
-.tckan-row i {
+.akvockan-row i {
     position: absolute;
     top: 42px;
     left: 20px;
@@ -192,16 +192,16 @@ input#suggest_tckan_cmb_ckan_dataset {
     padding: 20px 10px;
 }
 
-.tckan-row {
+.akvockan-row {
     border-bottom: 1px solid #ebebeb;
     padding: 8px 4px;
 }
 
-.tckan-row:last-child {
+.akvockan-row:last-child {
     border-bottom: 0px;
 }
 
-.tckan-row .tckan-label {
+.akvockan-row .akvockan-label {
     display: inline-block;
     vertical-align: top;
     width: 200px;
@@ -209,31 +209,31 @@ input#suggest_tckan_cmb_ckan_dataset {
     line-height: 24px;
 }
 
-.tckan-row .tckan-browse {
+.akvockan-row .akvockan-browse {
     width: 96px;
 }
 
-.tckan-row .tckan-file {
+.akvockan-row .akvockan-file {
     width: calc( 100% - 110px);
     margin-right: 4px;
     line-height: 20px;
 }
 
-#postbox-container-1 .tckan-meta-field,
-#postbox-container-1 .tckan-meta-field-text {
+#postbox-container-1 .akvockan-meta-field,
+#postbox-container-1 .akvockan-meta-field-text {
     width: 100%;
 }
 
-#postbox-container-2 .tckan-meta-field,
-#postbox-container-2 .tckan-meta-field-text {
+#postbox-container-2 .akvockan-meta-field,
+#postbox-container-2 .akvockan-meta-field-text {
     width: 100%;
 }
 
-#postbox-container-1 .tckan-meta-field-text.tckan-file {
+#postbox-container-1 .akvockan-meta-field-text.akvockan-file {
     width: calc(100% - 101px)
 }
 
-#postbox-container-2 .tckan-meta-field-text.tckan-file {
+#postbox-container-2 .akvockan-meta-field-text.akvockan-file {
     width: calc(100% - 306px)
 }
 

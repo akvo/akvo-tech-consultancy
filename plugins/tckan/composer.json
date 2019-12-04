@@ -1,5 +1,5 @@
 {
-    "name": "tckan/tckan-plugin",
+    "name": "akvo/akvockan-plugin",
     "description": "Connect Wordpress to CKAN",
     "type": "project",
     "license": "GPL",

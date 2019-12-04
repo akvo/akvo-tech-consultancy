@@ -1,6 +1,6 @@
 <?php
 /**
- * @package  TckanPlugin
+ * @package  AkvoCkanPlugin
  */
 namespace Inc;
 
@@ -15,6 +15,7 @@ final class Init
 		return [
 			Pages\Admin::class,
 			Base\Enqueue::class,
+			Base\ShortCodes::class,
 			Base\SettingsLinks::class
 		];
 	}

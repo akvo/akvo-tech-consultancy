@@ -1,6 +1,6 @@
 <?php 
 /**
- * @package  TckanPlugin
+ * @package  AkvoCkanPlugin
  */
 namespace Inc\Api\Callbacks;
 

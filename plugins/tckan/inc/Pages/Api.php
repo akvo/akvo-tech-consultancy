@@ -1,6 +1,6 @@
 <?php 
 /**
- * @package  TckanPlugin
+ * @package  AkvoCkanPlugin
  */
 namespace Inc\Pages;
 
@@ -16,7 +16,7 @@ class Api extends CkanApi
 
     public function route()
     {
-        register_rest_route( 'tckan', '/v1', array(
+        register_rest_route( 'akvockan', 'v1', array(
             'methods'  => 'GET',
             'callback' => array($this,'searchData'),
         ));
