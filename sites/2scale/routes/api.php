@@ -36,6 +36,26 @@ Route::get('/cron', 'Api\DataController@cron');
 
 /*
 |
+| SYNC API
+|
+*/
+
+Route::get('/sync-survey-forms', 'Api\SyncController@syncSurveyForms');
+Route::get('/sync-questions', 'Api\SyncController@syncQuestions');
+Route::get('/sync-question-options', 'Api\SyncController@syncQuestionOptions');
+Route::get('/sync-partnerships', 'Api\SyncController@syncPartnerships');
+Route::get('/sync-datapoints', 'Api\SyncController@syncDataPoints');
+
+/*
+|
+| SEED API
+|
+*/
+
+Route::get('/seed-datapoints/{survey_group_id}', 'Api\SeedController@seedDataPoint');
+
+/*
+|
 | CHARTS API
 |
 */

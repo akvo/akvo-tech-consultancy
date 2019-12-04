@@ -16,16 +16,16 @@ class CreateQuestionsTable extends Migration
         Schema::create('questions', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('question_id')->unique();
+            $table->unsignedBigInteger('form_id');
             $table->char('type', 12);
             $table->text('text');
-            $table->unsignedBigInteger('form_id');
-            $table->unsignedBigInteger('survey_id');
-            $table->timestamps();
+            $table->text('resource')->nullable();
+            $table->timestamp('created_at')->default(\Carbon\Carbon::now());
+            $table->timestamp('updated_at')->default(\Carbon\Carbon::now());
 
             $table->foreign('form_id')->references('form_id')
                 ->on('forms')->onDelete('cascade');
 
-            $table->index('survey_id');
             $table->index('form_id');
             $table->index('created_at');
         });
