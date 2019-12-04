@@ -12,6 +12,9 @@
       <li class="nav-item {{Route::is('reachreact') ? 'active' : '' }}">
         <a class="nav-link" href="/reach-and-react"><i class="fas fa-compass"></i> R&R</a>
       </li>
+      <li class="nav-item {{Route::is('partnership') ? 'active' : '' }}">
+        <a class="nav-link" href="/partnership"><i class="fas fa-database"></i> Partnership</a>
+      </li>
       <li class="nav-item {{Route::is('database') ? 'active' : '' }}">
         <a class="nav-link" href="/database"><i class="fas fa-database"></i> Database</a>
       </li>
