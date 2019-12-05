@@ -20,8 +20,8 @@ class CreateFormsTable extends Migration
             $table->unsignedBigInteger('survey_id')->unique();
             $table->text('name');
             $table->unsignedBigInteger('partner_qid');
-            $table->timestamp('created_at')->default(\Carbon\Carbon::now());
-            $table->timestamp('updated_at')->default(\Carbon\Carbon::now());
+            $table->timestamp('created_at')->nullable();
+            $table->timestamp('updated_at')->nullable();
 
             $table->foreign('survey_group_id')->references('id')
                 ->on('survey_groups')->onDelete('cascade');

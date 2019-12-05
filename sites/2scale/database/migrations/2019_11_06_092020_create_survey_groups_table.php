@@ -16,8 +16,8 @@ class CreateSurveyGroupsTable extends Migration
         Schema::create('survey_groups', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->text('name');
-            $table->timestamp('created_at')->default(\Carbon\Carbon::now());
-            $table->timestamp('updated_at')->default(\Carbon\Carbon::now());
+            $table->timestamp('created_at')->nullable();
+            $table->timestamp('updated_at')->nullable();
         });
     }
 

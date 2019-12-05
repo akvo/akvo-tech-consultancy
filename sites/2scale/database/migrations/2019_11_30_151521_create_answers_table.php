@@ -20,8 +20,8 @@ class CreateAnswersTable extends Migration
             $table->text('text')->nullable();
             $table->bigInteger('value')->nullable();
             $table->json('options');
-            $table->timestamp('created_at')->default(\Carbon\Carbon::now());
-            $table->timestamp('updated_at')->default(\Carbon\Carbon::now());
+            $table->timestamp('created_at')->nullable();
+            $table->timestamp('updated_at')->nullable();
 
             $table->foreign('question_id')->references('question_id')
                 ->on('questions')->onDelete('cascade');

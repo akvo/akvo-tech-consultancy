@@ -20,8 +20,8 @@ class CreateQuestionsTable extends Migration
             $table->char('type', 12);
             $table->text('text');
             $table->text('resource')->nullable();
-            $table->timestamp('created_at')->default(\Carbon\Carbon::now());
-            $table->timestamp('updated_at')->default(\Carbon\Carbon::now());
+            $table->timestamp('created_at')->nullable();
+            $table->timestamp('updated_at')->nullable();
 
             $table->foreign('form_id')->references('form_id')
                 ->on('forms')->onDelete('cascade');

@@ -22,8 +22,8 @@ class CreateDataPointsTable extends Migration
             $table->unsignedBigInteger('datapoint_id');
             $table->char('organisation', 50)->nullable();
             $table->date('submission_date');
-            $table->timestamp('created_at')->default(\Carbon\Carbon::now());
-            $table->timestamp('updated_at')->default(\Carbon\Carbon::now());
+            $table->timestamp('created_at')->nullable();
+            $table->timestamp('updated_at')->nullable();
 
             $table->foreign('form_id')->references('form_id')
                 ->on('forms')->onDelete('cascade');

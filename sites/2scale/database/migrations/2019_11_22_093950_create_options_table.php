@@ -19,7 +19,8 @@ class CreateOptionsTable extends Migration
             $table->text('code');
             $table->text('text');
             $table->enum('type', ['single','multiple'])->default('single');
-            $table->timestamps();
+            $table->timestamp('created_at')->nullable();
+            $table->timestamp('updated_at')->nullable();
 
             $table->foreign('question_id')->references('id')
                 ->on('questions')->onDelete('cascade');

@@ -20,8 +20,8 @@ class CreatePartnershipsTable extends Migration
             $table->string('code')->nullable();
             $table->string('name');
             $table->enum('level', ['country','partnership'])->default('partnership');
-            $table->timestamp('created_at')->default(\Carbon\Carbon::now());
-            $table->timestamp('updated_at')->default(\Carbon\Carbon::now());
+            $table->timestamp('created_at')->nullable();
+            $table->timestamp('updated_at')->nullable();
 
             $table->foreign('parent_id')
                   ->references('id')
