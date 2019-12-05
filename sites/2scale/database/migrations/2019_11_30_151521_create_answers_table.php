@@ -19,7 +19,7 @@ class CreateAnswersTable extends Migration
             $table->unsignedBigInteger('datapoint_id');
             $table->text('text')->nullable();
             $table->bigInteger('value')->nullable();
-            $table->json('options');
+            $table->text('options')->nullable();
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
 

@@ -20,7 +20,7 @@ class TestDatapointsTableSeeder extends Seeder
         $partnerships = new Partnership();
         $datapoints = new Datapoint();
         $faker = Faker\Factory::create();
-        $seed->seedDataPoint(1, 500, $forms, $partnerships, $faker, $datapoints);
-        $seed->seedDataPoint(2, 500, $forms, $partnerships, $faker, $datapoints);
+        $seed->seedDataPoint(1, 200, $forms, $partnerships, $faker, $datapoints);
+        $seed->seedDataPoint(2, 200, $forms, $partnerships, $faker, $datapoints);
     }
 }
