@@ -306,7 +306,7 @@ class ChartController extends Controller
             })->values()->take(4);
             return $results;
         }
-        if (isset($request->country_id)) {
+        if (!isset($request->country_id)) {
             $results = $results
                 ->has('partnership_datapoints')
                 ->with('partnership_datapoints')
