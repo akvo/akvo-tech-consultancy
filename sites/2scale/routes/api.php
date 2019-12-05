@@ -79,9 +79,11 @@ Route::get('/charts/reachreact/gender-total', 'Api\ChartController@genderTotal')
 Route::get('/charts/reachreact/country-total', 'Api\ChartController@countryTotal');
 Route::get('/charts/reachreact/top-three','Api\ChartController@topThree');
 
-Route::get('/charts/partnership/gender/{country_id}/{partnership_id}/{form_id}', 'Api\ChartController@rnrGender');
-Route::get('/charts/partnership/gender-total/{country_id}/{partnership_id}/{form_id}', 'Api\ChartController@genderTotal');
-Route::get('/charts/partnership/country-total/{country_id}/{partnership_id}/{form_id}', 'Api\ChartController@countryTotal');
+Route::get('/charts/partnership/datapoints','Api\ChartController@totalDatapoints');
+Route::get('/charts/partnership/top-three/{country_id}/{partnership_id}','Api\ChartController@topThree');
+Route::get('/charts/partnership/reach-and-react/{country_id}/{partnership_id}', 'Api\ChartController@rnrGender');
+Route::get('/charts/partnership/gender-total/{country_id}/{partnership_id}', 'Api\ChartController@genderTotal');
+Route::get('/charts/partnership/country-total/{country_id}/{partnership_id}', 'Api\ChartController@countryTotal');
 
 /*
 |

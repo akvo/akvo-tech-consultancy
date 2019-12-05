@@ -8,7 +8,6 @@
     <meta name="author" content="Akvo">
     <meta name="country" content="{{$country_id}}">
     <meta name="partnership" content="{{$partnership_id}}">
-    <meta name="form" content="{{$form_id}}">
     <meta name="keywords" content="2scale">
     <title>2Scale</title>
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">

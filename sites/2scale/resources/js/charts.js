@@ -1,5 +1,5 @@
 import { CountUp } from 'countup.js';
-import { staticText, gradient, titleCase} from './util.js';
+import { staticText, gradients, titleCase} from './util.js';
 const echarts = require('echarts');
 const axios = require('axios');
 
@@ -51,7 +51,7 @@ const generateCards = (info, color, rank) => {
 
 export const getCards = (cards) => {
     const topThree = new Promise((resolve, reject) => {
-        axios.get('/api/charts/home/' + cards)
+        axios.get('/api/charts/' + cards)
             .then(res => {
                 resolve(res.data);
             })

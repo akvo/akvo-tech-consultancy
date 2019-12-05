@@ -53,11 +53,7 @@ class PageController extends Controller
 	public function partnership(Partnership $partnerships, Request $request)
 	{
         $countries = $partnerships->has('childrens')->get();
-        return view('pages.partnership', 
-            [
-                'surveys' => config('surveys'), 
-                'countries' => $countries,
-            ]);
+        return view('pages.partnership', [ 'countries' => $countries]);
 	}
 }
 

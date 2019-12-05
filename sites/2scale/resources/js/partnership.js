@@ -1,11 +1,10 @@
 const axios = require('axios');
-import {getCharts} from './charts.js';
+import {getCharts, getCards} from './charts.js';
 
 /* Static */
 const country_id = $("meta[name='country']").attr("content");
 const partnership_id = $("meta[name='partnership']").attr("content");
-const form_id = $("meta[name='form']").attr("content");
-const endpoints = [country_id, partnership_id, form_id].join('/');
+const endpoints = [country_id, partnership_id].join('/');
 
 /* Static */
 const info = {
@@ -13,9 +12,11 @@ const info = {
     content: "Lorem Ipsum Dolor Sit Amet for Footer"
 };
 
+getCards('partnership/top-three/' + endpoints);
+
 /* First Row */
 $("main").append("<div class='row' id='first-row'></div>");
-getCharts('partnership/gender/' + endpoints, 'first-row', info, "12");
+getCharts('partnership/reach-and-react/' + endpoints, 'first-row', info, "12");
 
 /* Second Row */
 $("main").append("<hr><div class='row' id='second-row'></div>");

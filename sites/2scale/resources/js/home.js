@@ -7,7 +7,7 @@ const info = {
 };
 
 /* Cards Row */
-getCards('top-three');
+getCards('home/top-three');
 getMaps();
 
 /* First Row */

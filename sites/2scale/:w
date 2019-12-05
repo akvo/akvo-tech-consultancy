@@ -97,22 +97,15 @@ class ChartController extends Controller
         $maleyoung = ['24030005'];
         $question_id = collect([$femaleold, $femaleyoung, $maleold, $maleyoung])->flatten(0);
         $all = $answers->whereIn('question_id', $question_id);
-        $hasCountry = false;
-        if (isset($request->country_id)) {
-            $hasCountry = true;
-            if ($request->country_id === "0") {
-                $hasCountry = false;
-            }
+        if (isset($request->form_id)) {
             $datapoints_id = $this->filterQuery($request);
             $all = $all->whereIn('datapoint_id',$datapoints_id);
-        }
-        if ($hasCountry) {
             $all = $all->with('datapoints.partnership')->get()->transform(function($dt){
                 $dt->country = $dt->datapoints->partnership->name;
                 return $dt->makeHidden('datapoints');
             });
         }
-        if (!$hasCountry) {
+        if (!isset($request->form_id)) {
             $all = $all->with('datapoints.country')->get()->transform(function($dt){
                 $dt->country = $dt->datapoints->country->name;
                 return $dt->makeHidden('datapoints');
@@ -227,7 +220,7 @@ class ChartController extends Controller
                 return $dt;
             })->groupBy('participant')->map(function($part, $key){
                 return array(
-                    $key => $part->sum('text')
+                    $key => $part->sum('answer')
                 );
             });
         $legends = $series->keys();
@@ -283,44 +276,19 @@ class ChartController extends Controller
 
     public function topThree(Request $request, Partnership $partnerships, Datapoint $datapoints)
     {
-        $results = $partnerships;
-        if (isset($request->country_id)) {
-            $results = $results->where('id', $request->country_id)
-                ->has('country_datapoints')
-                ->with('country_datapoints.partnership')
-                ->first()->country_datapoints;
-            $results = $results->transform(function($dt){
+        $results = $partnerships
+            ->has('partnership_datapoints')
+            ->with('partnership_datapoints')
+            ->with('parents')
+            ->get()
+            ->transform(function($dt){
                 return [
-                    'country' => $dt->partnership->name,
-                    'commodity' => Str::before($dt->partnership->name,'_'),
-                    'project' => Str::after($dt->partnership->name,'_')
+                    'country' => $dt->parents->name,
+                    'commodity' => Str::before($dt->name,'_'),
+                    'project' => Str::after($dt->name,'_'),
+                    'value' => $dt->partnership_datapoints->count() 
                 ];
-            })->groupBy('country');
-            $results = collect($results)->map(function($dt, $key) {
-                return [
-                    'country' => $key,
-                    'commodity' => Str::before($key, '_'),
-                    'project' => Str::after($key, '_'),
-                    'value' => $dt->count(),
-                ];
-            })->values()->take(4);
-            return $results;
-        }
-        if (isset($request->country_id)) {
-            $results = $results
-                ->has('partnership_datapoints')
-                ->with('partnership_datapoints')
-                ->with('parents')
-                ->get()
-                ->transform(function($dt){
-                    return [
-                        'country' => $dt->parents->name,
-                        'commodity' => Str::before($dt->name,'_'),
-                        'project' => Str::after($dt->name,'_'),
-                        'value' => $dt->partnership_datapoints->count() 
-                    ];
-                })->sortByDesc('value')->take(3)->values();
-        }
+            })->sortByDesc('value')->take(3)->values();
         $results = collect($results)->push(array(
             'country' => $partnerships->has('childrens')->count(),
             'commodity' => $partnerships->has('parents')->count(),

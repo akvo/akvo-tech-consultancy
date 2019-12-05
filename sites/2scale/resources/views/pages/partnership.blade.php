@@ -23,31 +23,13 @@
 		  <option value="">Select Partnership</option>
 		</select>
 	</nav>
-	<nav class="nav nav-md-6 nav-selector">
-        <select id="select-country-survey" class="selectpicker" data-style="btn-pink" data-live-search="true">
-		  <option value="0">Select Survey</option>
-            @foreach ($surveys['forms'] as $form)
-              <optgroup label="{{ $form['name'] }}">
-                @foreach($form["list"] as $list)
-                <option 
-                    data-tokens="{{ $list['name'] }}"
-                    data-id="{{ $list['form_id'] }}"
-                    value="{{ $list['form_id'] }}">
-                    {{ $list['name'] }}
-                </option>
-                @endforeach
-              </optgroup>
-            @endforeach
-		  <option value="0">All Surveys</option>
-		</select>
-	</nav>
 	<div class="nav nav-md-4 align-right" style="margin-left:10px;">
       <button type="button" id="generate-partnership-page" class="btn btn-primary"> Generate Charts</button>
 	</div>
 </div>
 
 <main role="main" class="row">
-    <iframe id="data-frame" src="/frame-partnership/0/0/0" frameborder=0 width="100%"></iframe>
+    <iframe id="data-frame" src="/frame-partnership/0/0" frameborder=0 width="100%"></iframe>
 </main>
 
 <!--Modal: modalCookie-->
