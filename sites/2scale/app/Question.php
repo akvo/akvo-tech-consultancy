@@ -23,8 +23,8 @@ class Question extends Model
     public function form() {
         return $this->belongsTo('App\Form', 'form_id', 'form_id');
     }
-    public function data() {
-        return $this->hasMany('App\Data', 'question_id', 'question_id');
+    public function answers() {
+        return $this->hasMany('App\Answer', 'question_id', 'question_id');
     } 
 
     public function options() {

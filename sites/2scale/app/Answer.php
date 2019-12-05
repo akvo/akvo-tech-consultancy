@@ -19,7 +19,7 @@ class Answer extends Model
     }
 
     public function datapoints() {
-        return $this->belongsTo('App\Datapoint');
+        return $this->belongsTo('App\Datapoint','datapoint_id','id');
     }
 
     public function options() {

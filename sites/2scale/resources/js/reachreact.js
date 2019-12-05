@@ -9,10 +9,10 @@ const info = {
 
 /* First Row */
 $("main").append("<div class='row' id='first-row'></div>");
-getcharts('reachreact/gender', 'first-row', info, "12");
+getCharts('reachreact/gender', 'first-row', info, "12");
 
 /* Second Row */
 $("main").append("<hr><div class='row' id='second-row'></div>");
-getcharts('reachreact/gender-total', 'second-row', info, "6");
-getcharts('reachreact/country-total', 'second-row', info, "6");
+getCharts('reachreact/gender-total', 'second-row', info, "6");
+getCharts('reachreact/country-total', 'second-row', info, "6");
 

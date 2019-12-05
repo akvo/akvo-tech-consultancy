@@ -18,4 +18,14 @@ class Partnership extends Model
     {
         return $this->belongsTo('\App\Partnership','parent_id','id');
     } 
+
+    public function country_datapoints()
+    {
+        return $this->hasMany('\App\Datapoint','country_id','id');
+    }
+
+    public function partnership_datapoints()
+    {
+        return $this->hasMany('\App\Datapoint','partnership_id','id');
+    }
 }

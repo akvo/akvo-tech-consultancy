@@ -5,51 +5,49 @@
 
 <div class="bg-white shadow-sm flex-display selector-bar">
 	<nav class="nav nav-md-6 nav-selector">
-        <select id="select-country-survey" class="selectpicker" data-style="btn-pink" data-live-search="true">
-		  <option value="">Select Country</option>
-            @foreach($surveys["countries"] as $country)
+        <select id="partnership-country" class="selectpicker" data-style="btn-pink" data-live-search="true">
+		  <option value="0">Select Country</option>
+            @foreach($countries as $country)
             <option 
                 data-tokens="{{ $country['name'] }}"
                 data-id="{{ $country['id'] }}"
-                value="{{ Str::title($country['name']) }}">
+                value="{{ Str::title($country['id']) }}">
                 {{ Str::title($country['name']) }}
             </option>
             @endforeach
+		  <option value="0">All Countries</option>
 		</select>
 	</nav>
 	<nav class="nav nav-md-6 nav-selector">
-        <select id="select-country-survey" class="selectpicker" data-style="btn-pink" data-live-search="true">
+        <select id="partnership-code" class="selectpicker" data-style="btn-pink" data-live-search="true">
 		  <option value="">Select Partnership</option>
-            @foreach($surveys["countries"] as $country)
-            <option 
-                data-tokens="{{ $country['name'] }}"
-                data-id="{{ $country['id'] }}"
-                value="{{ Str::title($country['name']) }}">
-                {{ Str::title($country['name']) }}
-            </option>
-            @endforeach
 		</select>
 	</nav>
 	<nav class="nav nav-md-6 nav-selector">
         <select id="select-country-survey" class="selectpicker" data-style="btn-pink" data-live-search="true">
-		  <option value="">Select Program</option>
-            @foreach($surveys["countries"] as $country)
-            <option 
-                data-tokens="{{ $country['name'] }}"
-                data-id="{{ $country['id'] }}"
-                value="{{ Str::title($country['name']) }}">
-                {{ Str::title($country['name']) }}
-            </option>
+		  <option value="0">Select Survey</option>
+            @foreach ($surveys['forms'] as $form)
+              <optgroup label="{{ $form['name'] }}">
+                @foreach($form["list"] as $list)
+                <option 
+                    data-tokens="{{ $list['name'] }}"
+                    data-id="{{ $list['form_id'] }}"
+                    value="{{ $list['form_id'] }}">
+                    {{ $list['name'] }}
+                </option>
+                @endforeach
+              </optgroup>
             @endforeach
+		  <option value="0">All Surveys</option>
 		</select>
 	</nav>
 	<div class="nav nav-md-4 align-right" style="margin-left:10px;">
-      <button type="button" class="btn btn-primary"> Generate Charts</button>
+      <button type="button" id="generate-partnership-page" class="btn btn-primary"> Generate Charts</button>
 	</div>
 </div>
 
 <main role="main" class="row">
-    <iframe id="data-frame" src="/frame-partnership" frameborder=0 width="100%"></iframe>
+    <iframe id="data-frame" src="/frame-partnership/0/0/0" frameborder=0 width="100%"></iframe>
 </main>
 
 <!--Modal: modalCookie-->

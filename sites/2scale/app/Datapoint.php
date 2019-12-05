@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Datapoint extends Model
 {
+    protected $hidden = ['created_at','updated_at'];
     protected $fillable = ['form_id','survey_group_id','form_id','partnership_id','country_id','submission_date'];
 
 	public function answers() 
@@ -25,12 +26,12 @@ class Datapoint extends Model
 
     public function partnership()
     {
-        return $this->hasMany('App\Partnership', 'id', 'partnership_id');
+        return $this->hasOne('App\Partnership', 'id', 'partnership_id');
     }
 
     public function country()
     {
-        return $this->hasMany('App\Partnership', 'id', 'country_id');
+        return $this->hasOne('App\Partnership', 'id', 'country_id');
     }
 
 }

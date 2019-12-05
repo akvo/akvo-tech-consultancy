@@ -47,13 +47,13 @@ axios.get('api/charts/organisation/hierarchy')
                     curveness: .3,
                 },
                 symbolSize: function(params, name) {
-                    if (name.data.value === "organisations") {
+                    if (name.data.value === "organisation") {
                         return 5;
                     };
-                    if (name.data.value === "services") {
+                    if (name.data.value === "projects") {
                         return 7;
                     };
-                    if (name.data.value === "projects") {
+                    if (name.data.value === "partnership") {
                         return 10;
                     };
                     if (name.data.value === "countries") {
@@ -62,13 +62,13 @@ axios.get('api/charts/organisation/hierarchy')
                     return 30;
                 },
                 symbol: function(params, name) {
-                    if (name.data.value === "organisations") {
+                    if (name.data.value === "organisation") {
                         return 'rect';
                     };
-                    if (name.data.value === "services") {
+                    if (name.data.value === "projects") {
                         return 'circle';
                     };
-                    if (name.data.value === "projects") {
+                    if (name.data.value === "partnership") {
                         return 'triangle';
                     };
                     if (name.data.value === "countries") {

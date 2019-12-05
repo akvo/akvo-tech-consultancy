@@ -43,7 +43,13 @@ class FrameController extends Controller
 
     public function partnership(Request $request)
     {
-		return view('frames.frame-partnership', ['surveys' => config('surveys')]);
+        return view('frames.frame-partnership', 
+            [
+                'country_id' => $request->country_id,
+                'partnership_id' => $request->partnership_id,
+                'form_id' => $request->form_id,
+            ]
+        );
     }
 
 }

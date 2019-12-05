@@ -13,6 +13,7 @@ const mix = require('laravel-mix');
 
 mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/charts.js', 'public/js')
+    .js('resources/js/util.js', 'public/js')
     .js('resources/js/main.js', 'public/js')
     .js('resources/js/database.js', 'public/js')
     .js('resources/js/home.js', 'public/js')
