@@ -15,11 +15,16 @@ class CreateFormsTable extends Migration
     {
         Schema::create('forms', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('survey_id');
+            $table->unsignedBigInteger('survey_group_id');
             $table->unsignedBigInteger('form_id')->unique();
-            $table->unsignedBigInteger('country_id');
-            $table->text('form_name');
-            $table->timestamps();
+            $table->unsignedBigInteger('survey_id')->unique();
+            $table->text('name');
+            $table->unsignedBigInteger('partner_qid');
+            $table->timestamp('created_at')->nullable();
+            $table->timestamp('updated_at')->nullable();
+
+            $table->foreign('survey_group_id')->references('id')
+                ->on('survey_groups')->onDelete('cascade');
 
             $table->index('form_id');
         });

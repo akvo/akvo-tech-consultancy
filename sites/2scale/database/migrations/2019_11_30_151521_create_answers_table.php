@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDataTable extends Migration
+class CreateAnswersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,23 +13,23 @@ class CreateDataTable extends Migration
      */
     public function up()
     {
-        Schema::create('data', function (Blueprint $table) {
+        Schema::create('answers', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('question_id');
             $table->unsignedBigInteger('datapoint_id');
-            $table->unsignedBigInteger('form_id');
-            $table->text('answer');
-            $table->char('country', 50);
-            $table->date('submission_date');
-            $table->timestamps();
+            $table->text('text')->nullable();
+            $table->bigInteger('value')->nullable();
+            $table->text('options')->nullable();
+            $table->timestamp('created_at')->nullable();
+            $table->timestamp('updated_at')->nullable();
+
             $table->foreign('question_id')->references('question_id')
                 ->on('questions')->onDelete('cascade');
 
-            $table->foreign('form_id')->references('form_id')
-                ->on('forms')->onDelete('cascade');
-            $table->index('country');
+            $table->foreign('datapoint_id')->references('id')
+                ->on('datapoints')->onDelete('cascade');
+
             $table->index('created_at');
-            $table->index('submission_date');
         });
     }
 
@@ -40,6 +40,6 @@ class CreateDataTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('data');
+        Schema::dropIfExists('answers');
     }
 }

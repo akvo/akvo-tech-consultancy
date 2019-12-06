@@ -46,7 +46,7 @@ class DataSeeder extends Seeder
         $client = new \GuzzleHttp\Client();
         $country_id = $formDetail->country_id;
         try {
-            $response = $client->get(config('akvo.endpoints.xmlform') . $formId . '/update');
+            $response = $client->get(config('akvo.endpoints.xmlform') . $formId . '/fetch');
         } catch(RequestException $e) {
             if ($e->hasResponse()) {
                 $response = $e->getResponse();

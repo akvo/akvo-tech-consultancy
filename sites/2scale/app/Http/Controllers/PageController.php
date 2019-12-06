@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use ResponseCache;
+use App\Partnership;
 
 class PageController extends Controller
 {
@@ -49,9 +50,10 @@ class PageController extends Controller
 		return view('pages.reachreact', ['surveys' => config('surveys')]);
 	}
 
-	public function partnership()
+	public function partnership(Partnership $partnerships, Request $request)
 	{
-		return view('pages.partnership', ['surveys' => config('surveys')]);
+        $countries = $partnerships->has('childrens')->get();
+        return view('pages.partnership', [ 'countries' => $countries]);
 	}
 }
 

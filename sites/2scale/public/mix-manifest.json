@@ -1,11 +1,13 @@
 {
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
+    "/js/charts.js": "/js/charts.js",
     "/js/database.js": "/js/database.js",
     "/js/home.js": "/js/home.js",
     "/js/main.js": "/js/main.js",
     "/js/organisation.js": "/js/organisation.js",
     "/js/partnership.js": "/js/partnership.js",
     "/js/reachreact.js": "/js/reachreact.js",
+    "/js/util.js": "/js/util.js",
     "/css/all.css": "/css/all.css"
 }

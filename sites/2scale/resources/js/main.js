@@ -1,5 +1,7 @@
+import { staticText, gradient, titleCase} from './util.js';
 const selectorbar = ($(".selector-bar").length === 1 ? 60 : 0);
 const iframeheight = window.innerHeight - (56 + selectorbar);
+const axios = require("axios");
 
 $("#akvo-flow-web").attr("height", iframeheight);
 $("#data-frame").attr("height", iframeheight);
@@ -53,3 +55,45 @@ $("#btn-data-inspect").click(() => {
     	$("#data-frame").attr("src", url);
 	}
 })
+
+/* Partnership API */
+
+const changePartnershipCode = (data) => {
+    $("#partnership-code option").remove();
+    let html = `<option data-tokens="all" value="0" data-id="0">Select Partnership</options>`;
+    data.forEach((d, i) => {
+        html += `<option data-tokens="` + d.name +
+                `" data-id="` + d.id +
+                `" value="` + d.id + `">` +
+                titleCase(d.name) + `</option>`;
+    });
+    html += `<option data-tokens="all" value="0" data-id="0">All Partnerships</options>`;
+    $("#partnership-code").append(html);
+    $("#partnership-code").selectpicker("refresh");
+};
+
+$("#generate-partnership-page").on('click', () => {
+    let params = [];
+    $(".selectpicker").each((d, i) => {
+        let value = $(i).val();
+        if (value === undefined || value === "") {
+            value = 0;
+        }
+        params = [...params, value];
+    });
+    params = params.join("/");
+    $("#data-frame").attr("src", "/frame-partnership/" + params);
+});
+
+$("#partnership-country").on('change', (data) =>{
+    if (data.target.value !== "") {
+        axios.get("/api/partnership/" + data.target.value)
+            .then(res => {
+                changePartnershipCode(res.data);
+            });
+        return;
+    }
+    $("#partnership-code option").remove();
+    $("#partnership-code").selectpicker("refresh");
+    return;
+});

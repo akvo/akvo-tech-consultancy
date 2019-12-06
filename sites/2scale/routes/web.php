@@ -23,6 +23,6 @@ Route::get('/frame-blank', 'FrameController@blank');
 Route::get('/frame-home', 'FrameController@home');
 Route::get('/frame-organisation', 'FrameController@organisation');
 Route::get('/frame-reachreact', 'FrameController@reachreact');
-Route::get('/frame-partnership', 'FrameController@partnership');
+Route::get('/frame-partnership/{country_id}/{partnership_id}', 'FrameController@partnership');
 Route::get('/frame-database/{form_id}', 'FrameController@database');
 Route::get('/frame-database/{form_id}/{country}', 'FrameController@database');

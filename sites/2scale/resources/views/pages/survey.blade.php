@@ -11,8 +11,8 @@
                 @foreach($form["list"] as $list)
                 <option 
                     data-tokens="{{ $list['name'] }}"
-                    data-id="{{ $list['id'] }}"
-                    value="{{ $list['id'] }}">
+                    data-id="{{ $list['form_id'] }}"
+                    value="{{ $list['form_id'] }}">
                     {{ $list['name'] }}
                 </option>
                 @endforeach

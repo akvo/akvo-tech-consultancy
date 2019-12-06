@@ -45,7 +45,6 @@ class Akvo
     {
         $client = new \GuzzleHttp\Client();
         $token = Cache::get('access_token');
-
         if (!$token) {
             $token = self::login();
         }
@@ -58,17 +57,15 @@ class Akvo
                     'User-Agent' => 'PHP Laravel'
                 ]
             ]);
+            if ($response->getStatusCode() == 200) {
+                return json_decode($response->getBody(), true);
+            }
         } catch(RequestException $e) {
             if ($e->hasResponse()) {
                 $response = $e->getResponse();
             }
         }
-
-        if ($response->getStatusCode() == 200) {
-            return json_decode($response->getBody(), true);
-        } else {
-            return null;
-        }
+        return null;
     }
 
     public static function getSurveyData($surveyId, $formId) {
