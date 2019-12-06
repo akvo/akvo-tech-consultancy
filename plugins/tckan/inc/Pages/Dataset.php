@@ -67,7 +67,7 @@ class Dataset {
             'publicly_queryable'    => true,
             'capability_type'       => 'post',
             'show_in_rest'          => true,
-            'rewrite'               => array( 'slug' => 'dataset' ),
+            'rewrite'               => $rewrite,
         );
 
         register_post_type( 'dataset', $args );

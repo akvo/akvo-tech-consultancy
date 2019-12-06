@@ -308,7 +308,7 @@ class AkvoCkanMetabox {
                 function showDataList(data, defaultStatus) {
                     var html = "<table class='ckan-list' id='"+ data.id +"'>"
                     html += "<tr class='title'><td>";
-                    html += "<button id='button_" + data.id + "' class='button button-small button-secondary'>Attach</button></td>"
+                    html += "<div id='button_" + data.id + "' class='button button-small button-secondary'>Attach</div></td>"
                     html += "<td>"+ data.title +"</tr>"
                     html += "<tr><td class='name'>Author</td><td>"+ data.author +"</td></tr>"
                     html += "<tr><td class='name'>Organisation</td><td>"+ data.organization.title +"</td></tr>"
@@ -331,22 +331,27 @@ class AkvoCkanMetabox {
                     }
                     html += "</table>"
                     $("#ckan-suggest-box").append(html);
-                    $('#button_' + data.id).click(function(){
-                        $('#' + data.id).siblings().remove();
-                        $("#akvockan_cmb_ckan_dataset").val(data.id);
-                        $("#suggest_akvockan_cmb_ckan_dataset").toggle();
-                        $("#akvockan_cmb_fieldset_ckan_dataset").toggle();
-                        if ($("#akvockan_cmb_fieldset_ckan_dataset").is(':visible')) {
-                            $('#button_' + data.id).text('Attach');
-                            $('#button_' + data.id).removeClass('button-primary').addClass('button-secondary');
-                        } else {
-                            $('#button_' + data.id).text('Change');
-                            $('#button_' + data.id).removeClass('button-secondary').addClass('button-primary');
-                        }  
-                    });
-                    if(defaultStatus === 1) {
-                        $('#button_' + data.id).click();
-                    }
+                    $('#button_' + data.id).click(function(event){
+						$('#' + data.id).siblings().remove();
+						$("#akvockan_cmb_ckan_dataset").val(data.id);
+						if ($("#akvockan_cmb_fieldset_ckan_dataset").is(':visible')) {
+							$("#suggest_akvockan_cmb_ckan_dataset").hide();
+							$("#akvockan_cmb_fieldset_ckan_dataset").hide();
+							$('#button_' + data.id).text('Change');
+							$('#button_' + data.id).removeClass('button-secondary').addClass('button-primary');
+						} else {
+							$("#suggest_akvockan_cmb_ckan_dataset").show();
+							$("#akvockan_cmb_fieldset_ckan_dataset").show();
+							$('#button_' + data.id).text('Attach');
+							$('#button_' + data.id).removeClass('button-primary').addClass('button-secondary');
+						}
+					});
+					if(defaultStatus === 1) {
+						$("#suggest_akvockan_cmb_ckan_dataset").hide();
+						$("#akvockan_cmb_fieldset_ckan_dataset").hide();
+						$('#button_' + data.id).text('Change');
+						$('#button_' + data.id).removeClass('button-secondary').addClass('button-primary');
+					}
                 }
 
                 function attachData(data) {
