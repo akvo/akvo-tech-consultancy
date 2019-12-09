@@ -51,7 +51,7 @@ class FrameController extends Controller
                 'color' => 'peach-gradient',
                 'text' => 'A dashboard for select indicators of the Reach and React forms',
                 'button' => 'Reach & React',
-                'link' => '/reachreact'
+                'link' => '/reach-and-react'
             ],
             [
                 'width'=>'4',
