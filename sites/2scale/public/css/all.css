@@ -20,6 +20,7 @@
 html,
 body {
     overflow-x: hidden;
+    font-family: 'Montsterrat', sans-serif;
     /* Prevent scroll on narrow devices */
 }
 
@@ -111,7 +112,7 @@ body {
 }
 @media (min-width: 992px) {
     .navbar-expand-lg .navbar-nav .nav-link {
-        padding: 1rem 1.5rem;
+        padding: 1rem 1rem;
     }
     nav.nav.nav-md-6.align-right {
         flex-direction: row-reverse;

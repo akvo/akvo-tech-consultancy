@@ -7,22 +7,25 @@
   <div class="navbar-collapse offcanvas-collapse">
     <ul class="navbar-nav ml-auto">
       <li class="nav-item {{Route::is('home') ? 'active' : '' }}">
-        <a class="nav-link" href="/"><i class="fas fa-tachometer-alt"></i> Home</a>
+        <a class="nav-link" href="/">Home</a>
       </li>
-      <li class="nav-item {{Route::is('reachreact') ? 'active' : '' }}">
-        <a class="nav-link" href="/reach-and-react"><i class="fas fa-compass"></i> R&R</a>
+      <li class="nav-item {{Route::is('dashboard') ? 'active' : '' }}">
+        <a class="nav-link" href="/dashboard">KPI Dashboard</a>
       </li>
       <li class="nav-item {{Route::is('partnership') ? 'active' : '' }}">
-        <a class="nav-link" href="/partnership"><i class="fas fa-database"></i> Partnership</a>
+        <a class="nav-link" href="/partnership">Partnership</a>
+      </li>
+      <li class="nav-item {{Route::is('reachreact') ? 'active' : '' }}">
+        <a class="nav-link" href="/reach-and-react">Reach and React</a>
       </li>
       <li class="nav-item {{Route::is('database') ? 'active' : '' }}">
-        <a class="nav-link" href="/database"><i class="fas fa-database"></i> Database</a>
+        <a class="nav-link" href="/database">Database</a>
       </li>
       <li class="nav-item {{Route::is('organisation') ? 'active' : '' }}">
-        <a class="nav-link" href="/organisation"><i class="fas fa-sitemap"></i> Organisation</a>
+        <a class="nav-link" href="/organisation">Organisation</a>
       </li>
       <li class="nav-item {{Route::is('survey') ? 'active' : '' }}">
-        <a class="nav-link" href="/survey"><i class="fas fa-list-ul"></i> Survey</a>
+        <a class="nav-link" href="/survey">Survey</a>
       </li>
     </ul>
   </div>

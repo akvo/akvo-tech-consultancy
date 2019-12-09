@@ -9,6 +9,7 @@
     <meta name="keywords" content="2scale">
     <meta name="data-url" content="{{$url}}">
     <title>2Scale</title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
 	<!-- Material Design Bootstrap -->
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.11/css/mdb.min.css" rel="stylesheet">
@@ -19,6 +20,7 @@
 html,
 body{
     width:100%;
+    font-family: 'Montsterrat', sans-serif;
 }
 table {
     font-size: 12px;

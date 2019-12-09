@@ -6,6 +6,7 @@
 */
 
 Route::get('/', 'PageController@home')->name('home');
+Route::get('/dashboard', 'PageController@dashboard')->name('dashboard');
 Route::get('/database', 'PageController@database')->name('database');
 Route::get('/survey', 'PageController@survey')->name('survey');
 Route::get('/organisation', 'PageController@organisation')->name('organisation');
@@ -21,6 +22,7 @@ Route::get('/reach-and-react', 'PageController@reachreact')->name('reachreact');
 
 Route::get('/frame-blank', 'FrameController@blank');
 Route::get('/frame-home', 'FrameController@home');
+Route::get('/frame-dashboard', 'FrameController@dashboard');
 Route::get('/frame-organisation', 'FrameController@organisation');
 Route::get('/frame-reachreact', 'FrameController@reachreact');
 Route::get('/frame-partnership/{country_id}/{partnership_id}', 'FrameController@partnership');

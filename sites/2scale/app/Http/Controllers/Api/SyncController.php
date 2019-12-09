@@ -102,7 +102,7 @@ class SyncController extends Controller
             $isObject = Arr::isAssoc($groups['questionGroup']);
             if($isObject){
                 $questionlist = collect($groups['questionGroup']['question'])->map(function($question) 
-                    use ($form_id) {
+                    use ($questions, $form_id) {
                     return $this->breakQuestions($form_id, $question);
                 })->toArray();
                 $insert = $questions->insert($questionlist); 

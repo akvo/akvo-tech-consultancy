@@ -7,27 +7,55 @@
     <meta name="description" content="2scale website">
     <meta name="author" content="Akvo">
     <meta name="keywords" content="2scale">
-
-    <!-- Title Page-->
     <title>2Scale</title>
-
-    <!-- Fontfaces CSS-->
-	<!-- Bootstrap core CSS -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
 	<!-- Material Design Bootstrap -->
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.11/css/mdb.min.css" rel="stylesheet">
-    <link href="{{ mix('/css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('vendor/font-awesome-5/css/fontawesome-all.min.css') }}" rel="stylesheet" media="all">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
-    <!-- Vendor CSS-->
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-    <link href="{{ mix('/css/all.css') }}" rel="stylesheet" media="all">
 </head>
-<body class="bg-light">
-	@include('components.header')
-	@yield('content')
-    @include('components.footer')
+<style>
+html,
+body{
+    width:95%;
+	margin:auto;
+    font-family: 'Montsterrat', sans-serif;
+}
+.loader-spinner {
+    position:absolute;
+    top: 45%;
+}
+.view.view-cascade.gradient-card-header{
+    border-radius: 3px;
+    margin: 5px;
+}
+#maps {
+	height: 500px;
+}
+</style>
+<body>
+    <!-- Jumbotron -->
+  <div class="text-white text-center py-2 px-4">
+	<div id="jumbotron" class="row"></div>
+  </div>
+  <div class="text-white text-center py-2 px-4">
+	<div class="row" id="zero-row">
+	<div class="col-md-6">
+		<div class="card">
+			<div class="card-header peach-gradient">
+			    2Scale Programs	
+  			</div>
+			<div class="card-body mask rgba-blue-slight">
+			<div id="maps"></div>
+  			</div>
+  		</div>
+  	</div>
+  	</div>
+  </div>
+    <!-- Jumbotron -->
+    <div class="cover-container d-flex h-100 p-3 mx-auto flex-column text-white">
+      <main role="main" class="inner cover">
+      </main>
+    </div>
     <!-- Global Dependencies -->
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
@@ -38,11 +66,6 @@
 	<!-- MDB core JavaScript -->
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.11/js/mdb.min.js"></script>
 	<!-- Bootstrap Select -->
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
-	<!-- Moment -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-	<!-- DateRangePicker -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-    <script src="{{ asset('/js/main.js') }}"></script>
+    <script src="{{ asset('/js/home.js') }}"></script>
 </body>
 </html>

@@ -23,6 +23,10 @@
 		  <option value="">Select Partnership</option>
 		</select>
 	</nav>
+	<nav class="nav nav-md-6 nav-selector">
+        <span class="btn dropdown-toggle btn-pink daterange"> Select Date :</span>
+        <input type="text" class="btn dropdown-toggle btn-pink datarange-picker" name="daterange" value="01/01/2019 - 01/15/2010" />
+	</nav>
 	<div class="nav nav-md-4 align-right" style="margin-left:10px;">
       <button type="button" id="generate-partnership-page" class="btn btn-primary"> Generate Charts</button>
 	</div>
