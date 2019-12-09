@@ -30,6 +30,16 @@ class Echarts
         return array (
           'color' => $this->pallete, 
           'tooltip' => array ( 'trigger' => 'item'),
+          'toolbox' => array (
+            'show' => true,
+            'right' => 'right',
+            'bottom' => 'bottom',
+            'feature' => array (
+                'saveAsImage' => array(
+                    'title' => 'Save Image',
+                ),
+            ),
+          ),
           'legend' => $this->generateLegend($legend, $legendStyle, 'vertical', 'left', 'top'),
           'series' => array (
             array (
@@ -121,7 +131,7 @@ class Echarts
 			),
 			'grid' => array(
 				'left' => '3%',
-				'bottom' => '20.5%',
+				'bottom' => '30.5%',
 				'right' => '4%',
 				'top' => '3%',
 				'containLabel' => true
