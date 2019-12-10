@@ -290,6 +290,9 @@ class ChartController extends Controller
                 $showPartnership = true;
             };
         }
+        if (!isset($request->country_id)) {
+            $showPartnership = true;
+        }
         if($showPartnership){
             $results = $results->where('id', $request->country_id)
                 ->has('country_datapoints')
