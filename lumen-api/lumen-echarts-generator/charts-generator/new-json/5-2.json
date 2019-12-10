@@ -1,0 +1,80 @@
+{
+    "color": [
+        "#2f4554",
+        "#c23531",
+        "#749f83",
+        "#d48265"
+    ],
+    "tooltip": {
+        "trigger": "axis",
+        "axisPointer": {
+            "type": "shadow"
+        }
+    },
+    "legend": {
+        "data": [],
+        "padding": 20,
+        "textStyle": {
+            "fontSize": 20,
+            "fontWeight": "bold",
+            "rotate": 315,
+            "margin": 20,
+            "width": "100%"
+        }
+    },
+    "grid": {
+        "left": 30,
+        "right": "5%",
+        "bottom": 42,
+        "top": 50,
+        "containLabel": true
+    },
+    "xAxis": {
+        "type": "category",
+        "data": [
+            "Voted in the election",
+            "Knew where to vote \n (polling station)",
+            "Voted freely without \nundue influence",
+            "Able to cast \nvote in secret"
+        ],
+        "axisLabel": {
+            "fontSize": 18,
+            "fontWeight": "bold",
+            "margin": 20,
+            "width": "100%"
+        }
+    },
+    "yAxis": {
+        "max":100,
+        "type": "value",
+        "axisLabel": {
+            "rotate": 315,
+            "fontSize": 18,
+            "fontWeight": "bold",
+            "formatter": "{value} %",
+            "margin": 20,
+            "width": "100%"
+        }
+    },
+    "series": [
+        {
+            "name": "Yes",
+            "type": "bar",
+            "label": {
+                "normal": {
+                    "fontSize": 26,
+                    "fontWeight": "bold",
+                    "show": true,
+                    "position": "inside",
+                    "formatter": "{c}%"
+                }
+            },
+            "data": [
+                98,
+                96,
+                94,
+                96
+            ]
+        }
+    ]
+}

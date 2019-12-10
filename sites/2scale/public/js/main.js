@@ -2094,7 +2094,9 @@ $(function () {
       'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
     }
   }, function (start, end, label) {
-    console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+    var start_date = start.format('YYYY-MM-DD');
+    var end_date = start.format('YYYY-MM-DD');
+    console.log(start_date, end_date);
   });
 });
 /* DataTables API */

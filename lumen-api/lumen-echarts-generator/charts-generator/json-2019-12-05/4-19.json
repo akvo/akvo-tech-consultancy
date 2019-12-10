@@ -1,0 +1,109 @@
+{
+    "color": ["#2f4554", "#c23531", "#749f83", "#d48265"],
+    "tooltip": {
+        "trigger": "axis",
+        "axisPointer": {
+            "type": "shadow"
+        }
+    },
+    "legend": {
+        "itemWidth": 50,
+        "itemHeight": 30,
+        "borderRadius": 100,
+        "data": ["Yes", "No","Family Did", "No Response"],
+        "padding": 30,
+        "textStyle": {
+            "fontSize": 30,
+            "fontWeight": "bold",
+            "rotate": 315,
+            "margin": 20,
+            "width": "100%"
+        }
+    },
+    "grid": {
+        "left": 50,
+        "right": "5%",
+        "bottom": 50,
+        "top": 100,
+        "containLabel": true
+    },
+    "xAxis": {
+        "type": "category",
+        "data": ["Central Makira", "East Guadalcanal", "Central Guadalcanal", "East Honiara", "Central Honiara", "West Honiara", "Aoke / Langalanga", "Small Malaita", "Lau / Mbaelelea", "Russells / Savo", "Gao / Bugotu", "Maringe / Kokota", "Gizo Kolombangara", "North Vella Lavella", "North West Choiseul"],
+        "axisLabel": {
+            "fontSize": 20,
+            "fontWeight": "bold",
+            "rotate": 305,
+            "margin": 20,
+            "width": "100%"
+        }
+    },
+    "yAxis": {
+        "type": "value",
+        "axisLabel": {
+            "fontSize": 20,
+            "fontWeight": "bold",
+            "formatter": "{value} %",
+            "rotate": 305,
+            "margin": 20,
+            "width": "100%"
+        }
+    },
+    "series": [{
+        "name": "Yes",
+        "type": "bar",
+        "stack": "total",
+        "label": {
+            "normal": {
+                "fontSize": 20,
+                "fontWeight": "bold",
+                "show": true,
+                "position": "inside",
+                "formatter": "{c}%"
+            }
+        },
+        "data": [60, 65, 36, 26, 17, 41, 28, 47, 15, 52, 40, 53, 57, 31, 59]
+    }, {
+        "name": "No",
+        "type": "bar",
+        "stack": "total",
+        "label": {
+            "normal": {
+                "fontSize": 20,
+                "fontWeight": "bold",
+                "show": true,
+                "position": "inside",
+                "formatter": "{c}%"
+            }
+        },
+        "data": [34, 34, 49, 48, 75, 54, 69, 52, 83, 39, 52, 33, 40, 57, 40]
+    }, {
+        "name": "Family Did",
+        "type": "bar",
+        "stack": "total",
+        "label": {
+            "normal": {
+                "fontSize": 20,
+                "fontWeight": "bold",
+                "show": true,
+                "position": "inside",
+                "formatter": "{c}%"
+            }
+        },
+        "data": [2, null, 14, 9, 6, 2, 1, null, null, 4, 6, 12, 3, 8, 1]
+    }, {
+        "name": "No Response",
+        "type": "bar",
+        "stack": "total",
+        "label": {
+            "normal": {
+                "fontSize": 20,
+                "fontWeight": "bold",
+                "show": true,
+                "position": "inside",
+                "formatter": "{c}%"
+            }
+        },
+        "data": [4, 1, 1, 17, 2, 3, 2, 1, 2, 5, 2, 2, null, 4, null]
+    }]
+}

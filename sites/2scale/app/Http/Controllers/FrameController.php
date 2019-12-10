@@ -28,7 +28,62 @@ class FrameController extends Controller
 
     public function home(Request $request)
     {
-		return view('frames.frame-home');
+        $data = [
+            [
+                'width'=>'4',
+                'icon' => 'tachometer-alt',
+                'color' => 'purple-gradient',
+                'text' => 'A multi-country dashboard for a selection of KPIs',
+                'button' => 'KPI Dashboard',
+                'link' => '/dashboard'
+            ],
+            [
+                'width'=>'4',
+                'icon' => 'handshake',
+                'color' => 'aqua-gradient',
+                'text' => 'A dashboard for Project Facilitator\'s to view select partnership indicators',
+                'button' => 'Partnership',
+                'link' => '/dashboard'
+            ],
+            [
+                'width'=>'4',
+                'icon' => 'briefcase',
+                'color' => 'peach-gradient',
+                'text' => 'A dashboard for select indicators of the Reach and React forms',
+                'button' => 'Reach & React',
+                'link' => '/reach-and-react'
+            ],
+            [
+                'width'=>'4',
+                'icon' => 'sitemap',
+                'color' => 'green-gradient',
+                'text' => 'A tree chart showing the participating organisations of all the partnerships',
+                'button' => 'Organisation',
+                'link' => '/organisation'
+            ],
+            [
+                'width'=>'4',
+                'icon' => 'database',
+                'color' => 'blue-gradient',
+                'text' => 'A section to view and download data',
+                'button' => 'Database',
+                'link' => '/database'
+            ],
+            [
+                'width'=>'4',
+                'icon' => 'tasks',
+                'color' => 'red-gradient',
+                'text' => 'A data entry section for Project Facilitators',
+                'button' => 'Survey',
+                'link' => '/survey'
+            ],
+        ];
+		return view('frames.frame-home', ['cards' => $data]);
+    }
+
+    public function dashboard(Request $request)
+    {
+		return view('frames.frame-dashboard');
     }
 
     public function reachreact(Request $request)

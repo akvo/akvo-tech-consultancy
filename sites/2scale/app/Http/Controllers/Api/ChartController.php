@@ -284,7 +284,13 @@ class ChartController extends Controller
     public function topThree(Request $request, Partnership $partnerships, Datapoint $datapoints)
     {
         $results = $partnerships;
+        $showPartnership = false;
         if (isset($request->country_id)) {
+            if($request->country_id !== "0") {
+                $showPartnership = true;
+            };
+        }
+        if($showPartnership){
             $results = $results->where('id', $request->country_id)
                 ->has('country_datapoints')
                 ->with('country_datapoints.partnership')
@@ -305,8 +311,8 @@ class ChartController extends Controller
                 ];
             })->values()->take(4);
             return $results;
-        }
-        if (!isset($request->country_id)) {
+        };
+        if(!$showPartnership){
             $results = $results
                 ->has('partnership_datapoints')
                 ->with('partnership_datapoints')

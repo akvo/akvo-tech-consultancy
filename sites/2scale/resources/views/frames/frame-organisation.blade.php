@@ -9,6 +9,7 @@
     <meta name="keywords" content="2scale">
     <title>2Scale</title>
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
     <!-- Vendor CSS-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
 	<!-- Material Design Bootstrap -->
@@ -19,6 +20,7 @@ html,
 body{
     width:100%;
 	margin:auto;
+    font-family: 'Montsterrat', sans-serif;
 }
 .view.view-cascade.gradient-card-header{
     border-radius: 3px;

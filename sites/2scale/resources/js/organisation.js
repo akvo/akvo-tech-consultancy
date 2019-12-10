@@ -34,7 +34,7 @@ axios.get('api/charts/organisation/hierarchy')
                 type: 'tree',
 
                 data: [res.data],
-                initialTreeDepth: 1,
+                initialTreeDepth: 2,
                 top: '1%',
                 left: '7%',
                 bottom: '1%',
@@ -47,7 +47,7 @@ axios.get('api/charts/organisation/hierarchy')
                     curveness: .3,
                 },
                 symbolSize: function(params, name) {
-                    if (name.data.value === "organisation") {
+                    if (name.data.value === "organisations") {
                         return 5;
                     };
                     if (name.data.value === "projects") {
@@ -62,7 +62,7 @@ axios.get('api/charts/organisation/hierarchy')
                     return 30;
                 },
                 symbol: function(params, name) {
-                    if (name.data.value === "organisation") {
+                    if (name.data.value === "organisations") {
                         return 'rect';
                     };
                     if (name.data.value === "projects") {

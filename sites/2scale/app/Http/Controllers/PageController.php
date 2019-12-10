@@ -30,6 +30,11 @@ class PageController extends Controller
 		return view('pages.home');
 	}
 
+	public function dashboard()
+	{
+		return view('pages.dashboard');
+	}
+
     public function database()
     {
 		return view('pages.database', ['surveys' => config('surveys')]);

@@ -1,0 +1,88 @@
+{
+    "color": [
+        "#2f4554",
+        "#c23531",
+        "#749f83",
+        "#d48265"
+    ],
+    "tooltip": {
+        "trigger": "axis",
+        "axisPointer": {
+            "type": "shadow"
+        }
+    },
+    "legend": {
+        "data": [],
+        "padding": 20,
+        "textStyle": {
+            "fontSize": 20,
+            "fontWeight": "bold",
+            "rotate": 315,
+            "margin": 20,
+            "width": "100%"
+        }
+    },
+    "grid": {
+        "left": 30,
+        "right": "5%",
+        "bottom": 42,
+        "top": 50,
+        "containLabel": true
+    },
+    "xAxis": {
+        "type": "category",
+        "data": [
+            "Accessible to \nthe community",
+            "Looks after \ncommunity",
+            "Strong leader",
+            "Strong \npersonal/moral\nqualities",
+            "Good policies",
+            "Track record of \nservice",
+            "Helps own \nsupporters first",
+            "Political party \naffiliation"
+        ],
+        "axisLabel": {
+            "fontSize": 16,
+            "fontWeight": "bold",
+            "margin": 20,
+            "width": "100%"
+        }
+    },
+    "yAxis": {
+        "max":100,
+        "type": "value",
+        "axisLabel": {
+            "fontSize": 16,
+            "rotate": 315,
+            "fontWeight": "bold",
+            "formatter": "{value} %",
+            "margin": 20,
+            "width": "100%"
+        }
+    },
+    "series": [
+        {
+            "name": "Yes",
+            "type": "bar",
+            "label": {
+                "normal": {
+                    "fontSize": 16,
+                    "fontWeight": "bold",
+                    "show": true,
+                    "position": "inside",
+                    "formatter": "{c}%"
+                }
+            },
+            "data": [
+                51,
+                46,
+                40,
+                34,
+                24,
+                16,
+                14,
+                7
+            ]
+        }
+    ]
+}
