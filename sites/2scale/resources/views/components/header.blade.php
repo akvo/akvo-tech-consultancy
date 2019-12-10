@@ -6,7 +6,7 @@
 
   <div class="navbar-collapse offcanvas-collapse">
     <ul class="navbar-nav ml-auto">
-      <li class="nav-item {{Route::is('home') ? 'active' : '' }}">
+      <li class="nav-item {{Route::is('home') ? 'active' : ''}}">
         <a class="nav-link" href="/">Home</a>
       </li>
       <li class="nav-item {{Route::is('dashboard') ? 'active' : '' }}">
