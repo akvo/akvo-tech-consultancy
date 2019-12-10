@@ -5603,7 +5603,29 @@ eval("var content = __webpack_require__(/*! !../../node_modules/css-loader/dist/
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _css_app_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../css/app.css */ \"./src/css/app.css\");\n/* harmony import */ var _css_app_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_css_app_css__WEBPACK_IMPORTED_MODULE_0__);\n\n\nconst $ = __webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js\");\nconst echarts = __webpack_require__(/*! echarts */ \"./node_modules/echarts/index.js\");\n\n\n//# sourceURL=webpack:///./src/js/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _css_app_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../css/app.css */ \"./src/css/app.css\");\n/* harmony import */ var _css_app_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_css_app_css__WEBPACK_IMPORTED_MODULE_0__);\n\n\nconst $ = __webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js\");\nconst echarts = __webpack_require__(/*! echarts */ \"./node_modules/echarts/index.js\");\nconst data = __webpack_require__(/*! ../json/data.json */ \"./src/json/data.json\");\nconst indicator = __webpack_require__(/*! ../json/indicator.json */ \"./src/json/indicator.json\");\n\n\nlet combined = [...data, ...indicator];\nconsole.log(combined);\n\n\n//# sourceURL=webpack:///./src/js/index.js?");
+
+/***/ }),
+
+/***/ "./src/json/data.json":
+/*!****************************!*\
+  !*** ./src/json/data.json ***!
+  \****************************/
+/*! exports provided: 0, 1, default */
+/***/ (function(module) {
+
+eval("module.exports = [\"deden\",\"yogyakarta\"];\n\n//# sourceURL=webpack:///./src/json/data.json?");
+
+/***/ }),
+
+/***/ "./src/json/indicator.json":
+/*!*********************************!*\
+  !*** ./src/json/indicator.json ***!
+  \*********************************/
+/*! exports provided: 0, 1, default */
+/***/ (function(module) {
+
+eval("module.exports = [\"nama\",\"alamat\"];\n\n//# sourceURL=webpack:///./src/json/indicator.json?");
 
 /***/ })
 
