@@ -53,6 +53,7 @@ class MapForm extends Component {
 
     updateAddress = () => {
         const newpos = this.state.marker;
+        this.props.update(newpos);
         const address = {'address':newpos.lat + ',' + newpos.lng,'key':apikey}
         axios.get(gapi, {params:address})
             .then( res => {
@@ -100,11 +101,20 @@ class MapForm extends Component {
     }
 
     componentDidMount() {
+		let newstate = {
+            center: this.props.center,
+            marker: this.props.center,
+            zoom: 4,
+			draggable: true,
+            address: false,
+            value:'',
+        };
         const map = this.refs.map.leafletElement;
         setTimeout(() => {
-            map.invalidateSize()
+            map.invalidateSize();
+            this.setState(newstate);
+            this.updateAddress();
         }, 3000);
-        console.log(map);
     }
 
     getSpanAddress = () => {

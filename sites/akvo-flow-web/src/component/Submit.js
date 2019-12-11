@@ -30,12 +30,10 @@ class Submit extends Component {
     }
 
     handlePassword (event) {
-        console.log(event.target.value)
         localStorage.setItem("_password",event.target.value)
     }
 
     handleUser (event) {
-        console.log(event.target.value)
         localStorage.setItem("_username",event.target.value)
     }
 

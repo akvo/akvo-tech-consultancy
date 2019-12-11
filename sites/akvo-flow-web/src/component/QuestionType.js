@@ -39,6 +39,7 @@ class QuestionType extends Component {
         this.handleOther = this.handleOther.bind(this);
         this.handlePhoto = this.handlePhoto.bind(this);
         this.handleCascadeChange = this.handleCascadeChange.bind(this);
+        this.handleMapChange = this.handleMapChange.bind(this);
         this.handleGlobal = this.handleGlobal.bind(this);
     }
 
@@ -74,6 +75,14 @@ class QuestionType extends Component {
         localStorage.setItem(id, image)
         this.setState({value: image})
         this.handleGlobal(id, image)
+    }
+
+    handleMapChange(value) {
+        let id = this.props.data.id
+        value = value.lat + '|' + value.lng + '|0';
+        localStorage.setItem(id, value);
+        this.setState({value: value});
+        this.handleGlobal(id, value);
     }
 
     handleChange(event) {
@@ -469,11 +478,18 @@ class QuestionType extends Component {
     }
 
     getGeo(data, unique) {
-        const pos = [51.505, -0.09]
+        let id = this.props.data.id;
+        let pos = {lat:51.505, lng:-0.09};
+        if (localStorage.getItem(id)) {
+            pos = localStorage.getItem(id);
+            pos = pos.split('|');
+            pos = {lat: pos[0], lng: pos[1]};
+        }
         return (
             <MapForm
                 center={pos}
                 zoom={13}
+                update={this.handleMapChange}
             />
         );
     }
