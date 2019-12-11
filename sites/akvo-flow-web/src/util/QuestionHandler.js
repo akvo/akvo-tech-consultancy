@@ -12,7 +12,7 @@ export const getQuestionType = (props) => {
         case "number": return "number"
         case "option": return "option"
         case "cascade": return "cascade"
-        case "geo": return "text"
+        case "geo": return "geo"
         case "date": return "date"
         default:
             return "text"
