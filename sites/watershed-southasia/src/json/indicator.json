@@ -1,1 +1,20 @@
-{"gram_panchayat": ["Arjyapali", "Podapadar", "Agastinuagan (CT)", "Kanamana"], "village": ["Arjyapali", "Kumarabegapalli", "Gedalanaidupalam", "Agastinuagan", "Humuri", "Matikhala", "Podapadar", "Kanamana", "P.Chhatrapur", "Tikiriabarhampur"]}
+{
+    "gram_panchayat": [
+        "Arjyapali",
+        "Podapadar",
+        "Agastinuagan (CT)",
+        "Kanamana"
+    ],
+    "village": [
+        "Arjyapali",
+        "Kumarabegapalli",
+        "Gedalanaidupalam",
+        "Agastinuagan",
+        "Humuri",
+        "Matikhala",
+        "Podapadar",
+        "Kanamana",
+        "P.Chhatrapur",
+        "Tikiriabarhampur"
+    ]
+}
