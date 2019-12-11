@@ -1,161 +1,163 @@
 import '../css/app.css';
 
 const $ = require('jquery');
-const echarts = require('echarts');
-const L = require('leaflet');
-const data = require('../json/data.json');
+//const data = require('../json/data.json');
 const indicator = require('../json/indicator.json');
+import { getFilter, getCharts, getMaps } from './charts.js';
 
+/* Filter Row */
+$("main").append("<div class='row' id='filter-row'></div>");
 
-let combined = [...data, ...indicator];
-console.log(combined);
-var xing = '';
+getFilter('filter-row');
 
-var fig71a = echarts.init(document.getElementById('fig71a'));
-            
-// specify chart configuration item and data
-var option = {
-    title: {
-        text: 'ECharts entry example'
-    },
-    tooltip: {},
-    legend: {
-        data:['Sales']
-    },
-    xAxis: {
-        data: ["shirt","cardign","chiffon shirt","pants","heels","socks"]
-    },
-    yAxis: {},
-    series: [{
-        name: 'Sales',
-        type: 'bar',
-        data: [5, 20, 36, 10, 10, 20]
-    }]
-};
+/* First Row */
+$("main").append("<div class='row' id='first-row'></div>");
 
-// use configuration item and data specified to show chart
-fig71a.setOption(option);
+getMaps(
+    '7.3.c. Kanamana - Water point status (availability of water). Data Source: Baseline-Water Point Survey, 2017', 'fig73c', {
+        maxZoom: 18,
+        lat: -7.837432,
+        lng: 110.371239
+    },'first-row', { content: "Footer" }, "6");
 
+getCharts(
+    '7.1.a. Kanamana - Demographic - Social Category and Economic Category. Data Source: Baseline-Household Survey, 2017', 'fig71a', {
+        tooltip: {},
+        legend: { data: ['Sales'] },
+        xAxis: { data: ["shirt","cardign","chiffon shirt","pants","heels","socks"] },
+        yAxis: {},
+        series: [{
+            name: 'Sales',
+            type: 'bar',
+            data: [5, 20, 36, 10, 10, 20]
+        }]
+    },'first-row', { content: "Footer" }, "6");
 
-var fig71d = echarts.init(document.getElementById('fig71d'));
-            
-// specify chart configuration item and data
-var option = {
-    title: {
-        text: 'ECharts entry example'
-    },
-    tooltip: {},
-    legend: {
-        data:['Sales']
-    },
-    xAxis: {
-        data: ["shirt","cardign","chiffon shirt","pants","heels","socks"]
-    },
-    yAxis: {},
-    series: [{
-        name: 'Sales',
-        type: 'bar',
-        data: [5, 20, 36, 10, 10, 20]
-    }]
-};
+/* Second Row */
+$("main").append("<hr><div class='row' id='second-row'></div>");
 
-// use configuration item and data specified to show chart
-fig71d.setOption(option);
+getCharts(
+    '7.1.d. Kanamana- Demographic - Education level + Social Category. Data Source: Baseline-Household Survey, 2017', 'fig71d', {
+        tooltip: {},
+        legend: { data: ['Sales'] },
+        xAxis: { data: ["shirt","cardign","chiffon shirt","pants","heels","socks"] },
+        yAxis: {},
+        series: [{
+            name: 'Sales',
+            type: 'bar',
+            data: [5, 20, 36, 10, 10, 20]
+        }]
+    },'second-row', { content: "Footer" }, "6");
 
-
-var fig71c = echarts.init(document.getElementById('fig71c'));
-
-var option = {
-    title : {
-        text: '某站点用户访问来源',
-        subtext: '纯属虚构',
-        x:'center'
-    },
-    tooltip : {
-        trigger: 'item',
-        formatter: "{a} <br/>{b} : {c} ({d}%)"
-    },
-    legend: {
-        orient: 'vertical',
-        left: 'left',
-        data: ['直接访问','邮件营销','联盟广告','视频广告','搜索引擎']
-    },
-    series : [
-        {
-            name: '访问来源',
-            type: 'pie',
-            radius : '55%',
-            center: ['50%', '60%'],
-            data:[
-                {value:335, name:'直接访问'},
-                {value:310, name:'邮件营销'},
-                {value:234, name:'联盟广告'},
-                {value:135, name:'视频广告'},
-                {value:1548, name:'搜索引擎'}
-            ],
-            itemStyle: {
-                emphasis: {
-                    shadowBlur: 10,
-                    shadowOffsetX: 0,
-                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+getCharts(
+    '7.1.c. Kanamana - Demographic - Female headed households. Data Source: Baseline-Household Survey, 2017',
+    'fig71c', {
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        legend: {
+            orient: 'vertical',
+            left: 'left',
+            data: ['Hokya','Hehe','Haha']
+        },
+        series: [
+            {
+                name: 'Metal',
+                type: 'pie',
+                radius : '55%',
+                center: ['50%', '60%'],
+                data:[
+                    {value:50, name:'Hokya'},
+                    {value:30, name:'Hehe'},
+                    {value:20, name:'Haha'}
+                ],
+                itemStyle: {
+                    emphasis: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
                 }
             }
-        }
-    ]
-};
+        ]
+    },'second-row', { content: "Footer" }, "6");
 
-fig71c.setOption(option);
+/* Third Row */
+$("main").append("<hr><div class='row' id='third-row'></div>");
 
-
-var fig71e = echarts.init(document.getElementById('fig71e'));
-
-var option = {
-    title : {
-        text: '某站点用户访问来源',
-        subtext: '纯属虚构',
-        x:'center'
-    },
-    tooltip : {
-        trigger: 'item',
-        formatter: "{a} <br/>{b} : {c} ({d}%)"
-    },
-    legend: {
-        orient: 'vertical',
-        left: 'left',
-        data: ['直接访问','邮件营销','联盟广告','视频广告','搜索引擎']
-    },
-    series : [
-        {
-            name: '访问来源',
-            type: 'pie',
-            radius : '55%',
-            center: ['50%', '60%'],
-            data:[
-                {value:335, name:'直接访问'},
-                {value:310, name:'邮件营销'},
-                {value:234, name:'联盟广告'},
-                {value:135, name:'视频广告'},
-                {value:1548, name:'搜索引擎'}
-            ],
-            itemStyle: {
-                emphasis: {
-                    shadowBlur: 10,
-                    shadowOffsetX: 0,
-                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+getCharts(
+    '7.1.e. Kanamana - Demographic - Occupation. Data Source: Baseline-Household Survey, 2017',
+    'fig71e', {
+        tooltip: {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        legend: {
+            orient: 'vertical',
+            left: 'left',
+            data: ['Hokya','Hehe','Haha']
+        },
+        series: [
+            {
+                name: 'Metal',
+                type: 'pie',
+                radius : '55%',
+                center: ['50%', '60%'],
+                data:[
+                    {value:50, name:'Hokya'},
+                    {value:30, name:'Hehe'},
+                    {value:20, name:'Haha'}
+                ],
+                itemStyle: {
+                    emphasis: {
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
                 }
             }
-        }
-    ]
-};
+        ]
+    },'third-row', { content: "Footer" }, "12");
 
-fig71e.setOption(option);
+/* Fourth Row */
+$("main").append("<hr><div class='row' id='fourth-row'></div>");
 
-var mymap = L.map('map', { maxZoom: 10 }).setView([0, 0], 0);
+getCharts(
+    '7.2.b. Kanamana Water Point Type + Public/Private. Data Source: Baseline-Household Survey, 2017',
+    'fig72b', {
+        tooltip: {},
+        legend: { data: ['Sales'] },
+        xAxis: { data: ["shirt","cardign","chiffon shirt","pants","heels","socks"] },
+        yAxis: {},
+        series: [{
+            name: 'Sales',
+            type: 'bar',
+            data: [5, 20, 36, 10, 10, 20]
+        }]
+    },'fourth-row', { content: "Footer" }, "6");
 
-var tileServer = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-var tileAttribution = 'Tiles © Wikimedia — Source: OpenStreetMap, Data: Unicef Pacific WASH, <a href="https://akvo.org">Akvo SEAP</a>';
+getMaps(
+    '7.3.a. Kanamana - Access - Individuals dependent on water points. Data Source: Baseline-Water Point Survey, 2017', 'fig73a', {
+        maxZoom: 18,
+        lat: -7.837432,
+        lng: 110.371239
+    },'fourth-row', { content: "Footer" }, "6");
 
-L.tileLayer(tileServer, {
-    attribution: tileAttribution,
-    maxZoom: 18
-}).addTo(mymap);
+/* Fifth Row */
+$("main").append("<hr><div class='row' id='fifth-row'></div>");
+
+getMaps(
+    '7.3.e. Kanamana - Water point quantity (12L per minute). Data Source: Baseline-Water Point Survey, 2017',
+    'fig73e', {
+        maxZoom: 18,
+        lat: -7.837432,
+        lng: 110.371239
+    },'fifth-row', { content: "Footer" }, "6");
+
+getMaps(
+    '7.3.g. Kanamana - Water Point Reliability (Not operational for +3 days in 6 months). Data Source: Baseline-Water Point Survey, 2017', 'fig73g', {
+        maxZoom: 18,
+        lat: -7.837432,
+        lng: 110.371239
+    },'fifth-row', { content: "Footer" }, "6");
