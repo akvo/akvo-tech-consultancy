@@ -43,9 +43,8 @@
           <button type="button" class="btn btn-secondary btn-block dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Explore</button>
           <div class="dropdown-menu dropdown-menu-right">
             <a class="dropdown-item" href="#" id="btn-data-inspect"><i class="fas fa-play-circle"></i> Inspect</a>
-            <a class="dropdown-item" href="#" id="btn-data-download"><i class="fas fa-arrow-circle-down"></i> Download</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#"><i class="fas fa-question-circle"></i> FAQ</a>
+            <a class="dropdown-item" href="#" id="btn-data-download"><i class="fas fa-arrow-circle-down"></i> Download</a>
           </div>
         </div>
 	</nav>

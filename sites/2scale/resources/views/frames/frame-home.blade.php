@@ -86,6 +86,9 @@
     .red-gradient {
         background: linear-gradient(40deg,#f8ffbc,#0b7b67)!important;
     }
+    .view video.video-intro{
+        min-height: 150vh;
+    }
 </style>
 </head>
 <body class="text-center">

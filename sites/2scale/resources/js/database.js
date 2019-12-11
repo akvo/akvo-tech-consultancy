@@ -12,7 +12,7 @@ const createRows=(data, rowType)=> {
         console.log(d);
         html +="<td>";
         if (rowType==="head") {
-            html +=d.short_text;
+            html +=d.text;
         }
         if (rowType==="body") {
             html +=d.text;
