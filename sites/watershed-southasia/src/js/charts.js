@@ -1,4 +1,5 @@
-import { gradients, titleCase} from './util.js';
+import { titleCase } from './util.js';
+import { getOptions } from './data.js';
 const echarts = require('echarts');
 const L = require('leaflet');
 
@@ -36,37 +37,44 @@ export const getFilter = (row) => {
     $("#" + row).append(html);
 }
 
-export const getCharts = (title, chart, option, row, info, md, color) => {
+export const getCharts = (title, row, info, md, color) => {
+    let id = title.split(" ")[0];
     let html = `<div class="col-md-` + md + `">
                 <div class="card">
                   <div class="card-header gradient-card-header ` + color + `-gradient">` + titleCase(title) + `</div>
                   <div class="card-body">
-                    <div id="` + chart + `" style="height:450px"></div>
+                    <div id="` + id + `" style="height:450px"></div>
                   </div>
                   <div class="card-footer text-muted">` + info.content + `</div>
                 </div>
                 </div>`;
     $("#" + row).append(html);
-    var element = document.getElementById(chart);
+    var element = document.getElementById(id);
     var myChart = echarts.init(element);
-    myChart.setOption(option);
+    getOptions(info.type, (chartOption) => {
+        myChart.setOption(chartOption);
+    });
 }
 
-export const getMaps = (title, map, option, row, info, md, color) => {
+export const getMaps = (title, row, info, md, color) => {
+    let id = title.split(" ")[0];
     let html = `<div class="col-md-` + md + `">
                 <div class="card">
                   <div class="card-header gradient-card-header ` + color + `-gradient">` + titleCase(title) + `</div>
                   <div class="card-body">
-                    <div id="` + map + `" style="height:450px"></div>
+                    <div id="` + id + `" style="height:450px"></div>
                   </div>
                   <div class="card-footer text-muted">` + info.content + `</div>
                 </div>
                 </div>`;
     $("#" + row).append(html);
-    const mymap = L.map(map, { maxZoom: option.maxZoom }).setView([option.lat, option.lng], 15);
-    const tileServer = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-    const tileAttribution = 'Tiles © Wikimedia — Source: OpenStreetMap, Data: Unicef Pacific WASH, <a href="https://akvo.org">Akvo SEAP</a>';
-    L.tileLayer(tileServer, {
-        attribution: tileAttribution,
-    }).addTo(mymap);
+    getOptions(info.type, (chartOption) => {
+        const mymap = L.map(id, { maxZoom: chartOption.maxZoom }).setView([chartOption.lat, chartOption.lng], 15);
+        const tileServer = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+        const tileAttribution = 'Tiles © Wikimedia — Source: OpenStreetMap, Data: Akvolumen';
+        L.tileLayer(tileServer, {
+            attribution: tileAttribution,
+        }).addTo(mymap);
+    });
+    
 }
