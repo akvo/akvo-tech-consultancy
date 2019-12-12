@@ -104,11 +104,16 @@ def submitprocess(rec, _uuid):
         "questionId": "-1",
         "value": rec['_dataPointName']
     }
+    dataPointLocation = "-8.6764779|115.236364|0";
+    try:
+        dataPointLocation = rec['_dataPointLocation']
+    except:
+        pass
     meta_geo = {
         "answerType": "META_GEO",
         "iteration": 0,
         "questionId": "-2",
-        "value": "-8.6764779|115.236364|0"
+        "value": dataPointLocation
     }
     data.append(meta_name)
     data.append(meta_geo)
