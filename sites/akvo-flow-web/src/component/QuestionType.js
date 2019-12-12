@@ -26,6 +26,7 @@ class QuestionType extends Component {
             other: this.other ? this.other : '',
         }
         this.setDpStorage = this.setDpStorage.bind(this);
+        this.setDplStorage = this.setDplStorage.bind(this);
         this.getRadio = this.getRadio.bind(this);
         this.getPhoto = this.getPhoto.bind(this);
         this.getGeo = this.getGeo.bind(this);
@@ -82,6 +83,10 @@ class QuestionType extends Component {
         value = value.lat + '|' + value.lng + '|0';
         localStorage.setItem(id, value);
         this.setState({value: value});
+        let datapoints = parseInt(localStorage.getItem('_dplOrder'));
+        if (datapoints === id){
+            localStorage.setItem('_dataPointLocation', value)
+        };
         this.handleGlobal(id, value);
     }
 
@@ -184,6 +189,10 @@ class QuestionType extends Component {
             localStorage.setItem('_dpOrder', JSON.stringify([this.props.data.id]));
         }
 
+    }
+
+    setDplStorage () {
+        localStorage.setItem('_dplOrder', this.props.data.id);
     }
 
     getRadio (data, unique) {
@@ -511,6 +520,9 @@ class QuestionType extends Component {
         let answered = localStorage.getItem(data.id)
         if (data.localeNameFlag) {
             this.setDpStorage()
+        }
+        if ('localeLocationFlag' in data){
+            this.setDplStorage()
         }
         switch(formtype) {
             case "option":
