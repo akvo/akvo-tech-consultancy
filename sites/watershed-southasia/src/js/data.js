@@ -1,6 +1,6 @@
-export const getOptions = (chart, cb) => {
+export function getOptions (chart, id) {
     if (chart === 'bar') {
-        cb({
+        return {
             tooltip: {},
             legend: { data: ['Sales'] },
             xAxis: { data: ["shirt","cardign","chiffon shirt","pants","heels","socks"] },
@@ -10,9 +10,11 @@ export const getOptions = (chart, cb) => {
                 type: 'bar',
                 data: [5, 20, 36, 10, 10, 20]
             }]
-        });
-    } else if (chart === 'pie') {
-        cb({
+        }
+    }
+    
+    if (chart === 'pie') {
+        return {
             tooltip: {
                 trigger: 'item',
                 formatter: "{a} <br/>{b} : {c} ({d}%)"
@@ -42,13 +44,17 @@ export const getOptions = (chart, cb) => {
                     }
                 }
             ]
-        });
-    } else if (chart === 'map') {
-        cb({
+        };
+    }
+    
+    if (chart === 'map') {
+        return {
             maxZoom: 18,
             lat: -7.837432,
             lng: 110.371239
-        });
+        };
     }
+
+    return false;
 }
 

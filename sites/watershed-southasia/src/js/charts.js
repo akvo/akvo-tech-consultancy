@@ -51,9 +51,8 @@ export const getCharts = (title, row, info, md, color) => {
     $("#" + row).append(html);
     var element = document.getElementById(id);
     var myChart = echarts.init(element);
-    getOptions(info.type, (chartOption) => {
-        myChart.setOption(chartOption);
-    });
+    var option = getOptions(info.type, id);
+    myChart.setOption(option);
 }
 
 export const getMaps = (title, row, info, md, color) => {
@@ -68,13 +67,11 @@ export const getMaps = (title, row, info, md, color) => {
                 </div>
                 </div>`;
     $("#" + row).append(html);
-    getOptions(info.type, (chartOption) => {
-        const mymap = L.map(id, { maxZoom: chartOption.maxZoom }).setView([chartOption.lat, chartOption.lng], 15);
-        const tileServer = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-        const tileAttribution = 'Tiles © Wikimedia — Source: OpenStreetMap, Data: Akvolumen';
-        L.tileLayer(tileServer, {
-            attribution: tileAttribution,
-        }).addTo(mymap);
-    });
-    
+    var option = getOptions(info.type, id);
+    const mymap = L.map(id, { maxZoom: option.maxZoom }).setView([option.lat, option.lng], 15);
+    const tileServer = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+    const tileAttribution = 'Tiles © Wikimedia — Source: OpenStreetMap, Data: Akvolumen';
+    L.tileLayer(tileServer, {
+        attribution: tileAttribution,
+    }).addTo(mymap);
 }
