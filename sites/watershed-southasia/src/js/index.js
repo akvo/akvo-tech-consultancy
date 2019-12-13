@@ -2,13 +2,24 @@ import '../css/app.css';
 
 const $ = require('jquery');
 //const data = require('../json/data.json');
-const indicator = require('../json/indicator.json');
+const filters = require('../json/filters.json');
 import { getFilter, getCharts, getMaps } from './charts.js';
 
-/* Filter Row */
-$("main").append("<div class='row' id='filter-row'></div>");
+filters['gram_panchayat'].map(x => {
+     $( "#loc-gram-panchayat" ).append( '<a class="dropdown-item" href="#">' + x + '</a>' ); 
+});
 
-getFilter('filter-row');
+$('#loc-gram-panchayat a').on('click', function(){    
+    $('#dr-loc-gram-panchayat').html($(this).html());    
+});
+
+filters['village'].map(x => {
+    $( "#loc-village" ).append( '<a class="dropdown-item" href="#">' + x + '</a>' ); 
+});
+
+$('#loc-village a').on('click', function(){    
+    $('#dr-loc-village').html($(this).html());    
+})
 
 /* First Row */
 $("main").append("<div class='row' id='first-row'></div>");
