@@ -1,16 +1,32 @@
 import '../css/app.css';
 
 const $ = require('jquery');
-//const data = require('../json/data.json');
+const _ = require('lodash');
+const data = require('../json/data.json');
 const filters = require('../json/filters.json');
-import { getFilter, getCharts, getMaps } from './charts.js';
+const figures = require('../json/figures.json');
+import { initChart, updateChart, getMaps } from './charts.js';
+
+let newData = [];
+let chartFigs = [];
+
+function updateData() {
+    let filter = {};
+    $('#dr-loc-gram-panchayat').html() != 'Location Gram Panchayat' ? (filter['T'] = $('#dr-loc-gram-panchayat').html()) : null;
+    $('#dr-loc-village').html() != 'Location Village' ? (filter['U'] = $('#dr-loc-village').html()) : null;
+    newData = _.filter(data, filter);
+    _.forEach(chartFigs, (chart) => {
+        updateChart(chart, newData);
+    });
+}
 
 filters['gram_panchayat'].map(x => {
      $( "#loc-gram-panchayat" ).append( '<a class="dropdown-item" href="#">' + x + '</a>' ); 
 });
 
 $('#loc-gram-panchayat a').on('click', function(){    
-    $('#dr-loc-gram-panchayat').html($(this).html());    
+    $('#dr-loc-gram-panchayat').html($(this).html());
+    updateData();
 });
 
 filters['village'].map(x => {
@@ -19,9 +35,19 @@ filters['village'].map(x => {
 
 $('#loc-village a').on('click', function(){    
     $('#dr-loc-village').html($(this).html());    
+    updateData();
 })
 
-/* First Row */
+$("main").append("<div class='row' id='first-row'></div>");
+$("main").append("<hr><div class='row' id='second-row'></div>");
+$("main").append("<hr><div class='row' id='third-row'></div>");
+
+_.forEach(figures, (v) => {
+    chartFigs.push(initChart(v, data));
+});
+
+
+/* First Row 
 $("main").append("<div class='row' id='first-row'></div>");
 
 getMaps(
@@ -29,11 +55,11 @@ getMaps(
     'first-row',
     { type: "map", content: "Footer" }, "6");
 
-getCharts(
+    figs.push(getCharts(
     '7.1.a. Kanamana - Demographic - Social Category and Economic Category. Data Source: Baseline-Household Survey, 2017',
-    'first-row', { type: "bar", content: "Footer" }, "6");
-
-/* Second Row */
+    'first-row', { type: "bar", content: "Footer" }, "6"));
+*/
+/* Second Row
 $("main").append("<hr><div class='row' id='second-row'></div>");
 
 getCharts(
@@ -43,15 +69,15 @@ getCharts(
 getCharts(
     '7.1.c. Kanamana - Demographic - Female headed households. Data Source: Baseline-Household Survey, 2017',
     'second-row', { type: "pie", content: "Footer" }, "6");
-
-/* Third Row */
+ */
+/* Third Row 
 $("main").append("<hr><div class='row' id='third-row'></div>");
 
 getCharts(
     '7.1.e. Kanamana - Demographic - Occupation. Data Source: Baseline-Household Survey, 2017',
     'third-row', { type: "pie", content: "Footer" }, "12");
-
-/* Fourth Row */
+*/
+/* Fourth Row
 $("main").append("<hr><div class='row' id='fourth-row'></div>");
 
 getCharts(
@@ -61,8 +87,8 @@ getCharts(
 getMaps(
     '7.3.a. Kanamana - Access - Individuals dependent on water points. Data Source: Baseline-Water Point Survey, 2017',
     'fourth-row', { type: "map", content: "Footer" }, "6");
-
-/* Fifth Row */
+ */
+/* Fifth Row 
 $("main").append("<hr><div class='row' id='fifth-row'></div>");
 
 getMaps(
@@ -72,7 +98,7 @@ getMaps(
 getMaps(
     '7.3.g. Kanamana - Water Point Reliability (Not operational for +3 days in 6 months). Data Source: Baseline-Water Point Survey, 2017',
     'fifth-row', { type: "map", content: "Footer" }, "6");
-
+*/
 /* Six Row 
 $("main").append("<hr><div class='row' id='six-row'></div>");
 
