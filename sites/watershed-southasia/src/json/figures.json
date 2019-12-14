@@ -1,0 +1,31 @@
+{
+    "fig71a" : {
+        "position": "first-row",
+        "type": "bar",
+        "title": "7.1.a. Kanamana - Demographic - Social Category and Economic Category. Data Source: Baseline-Household Survey, 2017",
+        "width": 6,
+        "content": "Footer",
+        "legend": "BM",
+        "x": "BI"
+    },
+
+    "fig7id" : {
+        "position": "second-row",
+        "type": "bar",
+        "title": "7.1.d. Kanamana- Demographic - Education level + Social Category. Data Source: Baseline-Household Survey, 2017",
+        "width": 6,
+        "content": "Footer",
+        "legend": "BI",
+        "x": "CB"
+    },
+
+    "fig71e" : {
+        "position": "third-row",
+        "type": "bar",
+        "title": "7.1.e. Kanamana - Demographic - Occupation. Data Source: Baseline-Household Survey, 2017",
+        "width": 12,
+        "content": "Footer",
+        "legend": "BM",
+        "x": "BI"
+    }
+}

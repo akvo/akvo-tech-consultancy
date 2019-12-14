@@ -24,6 +24,7 @@
   "dependencies": {
     "echarts": "^4.5.0",
     "jquery": "^3.4.1",
-    "leaflet": "^1.6.0"
+    "leaflet": "^1.6.0",
+    "lodash": "^4.17.15"
   }
 }
