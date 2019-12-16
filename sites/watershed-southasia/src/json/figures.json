@@ -10,7 +10,7 @@
     },
     
     "fig7id" : {
-        "position": "second-row",
+        "position": "first-row",
         "type": "bar",
         "title": "7.1.d. Kanamana- Demographic - Education level + Social Category. Data Source: Baseline-Household Survey, 2017",
         "width": 6,

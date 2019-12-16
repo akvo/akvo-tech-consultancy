@@ -4,11 +4,15 @@ const L = require('leaflet');
 const _ = require('lodash');
 
 export const initChart = (figure, data) => {
-  let id = figure['title'].split(" ")[0];
+  let id = figure['title'].split(" ")[0].replace(/\./g,'');
   let html = `<div class="col-md-` + figure['width'] + `">
               <div class="card">
                 <div class="card-header gradient-card-header">` + titleCase(figure['title']) + `</div>
                 <div class="card-body">
+                    <div class="loading-frame" id="loading-`+ id +`" >
+                    <div class="spinner-border text-primary">
+                    </div>
+                    </div>
                   <div id="` + id + `" style="height:450px"></div>
                 </div>
                 <div class="card-footer text-muted">` + figure['content'] + `</div>
@@ -18,7 +22,7 @@ export const initChart = (figure, data) => {
   var element = document.getElementById(id);
   var myChart = echarts.init(element);
   myChart['figure'] = figure;
-  
+
   let indexLegend = data.names.indexOf(figure['legend']);
   let indexX = data.names.indexOf(figure['x']);
   let legend = _(data.values).map(x => x[indexLegend] ).uniq().value();
@@ -59,12 +63,12 @@ export const initChart = (figure, data) => {
           data: xAxis,
           axisLabel: {
               rotate: 305
-          } 
+          }
       },
       yAxis: {},
       series
   });
-
+  $("#loading-" + id).remove();
   return myChart;
 }
 
@@ -107,7 +111,7 @@ export const updateChart = (chart, data) => {
           data: xAxis,
           axisLabel: {
               rotate: 305
-          } 
+          }
       },
       yAxis: {},
       series

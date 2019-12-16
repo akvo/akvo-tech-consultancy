@@ -21,3 +21,16 @@ body {
 .bg-light {
     background-color: white !important;
 }
+
+.loading-frame {
+    width: 100%;
+    display: block;
+    height: 450px;
+    position: relative;
+}
+
+.spinner-border {
+    position: absolute;
+    left: 50%;
+    top: 45%;
+}

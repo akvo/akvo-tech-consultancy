@@ -7,3 +7,6 @@ export const titleCase = (str) => {
     return str.join(' ');
 }
 
+export const newRow = (id) => {
+   return `<div class='row' id="` + id + `"></div>`;
+}
