@@ -1,4 +1,14 @@
 {
+    "fig73c" : {
+        "position": "first-row",
+        "type": "map",
+        "title": "7.3.c. Kanamana - Water point status (availability of water). Data Source: Baseline-Water Point Survey, 2017",
+        "width": 6,
+        "content": "Footer",
+        "legend": "economic-category",
+        "x": "social-category"
+    },
+
     "fig71a" : {
         "position": "first-row",
         "type": "bar",

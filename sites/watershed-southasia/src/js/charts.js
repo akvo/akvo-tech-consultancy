@@ -1,4 +1,4 @@
-import { titleCase } from './util.js';
+import { insert, titleCase } from './util.js';
 const echarts = require('echarts');
 const L = require('leaflet');
 const _ = require('lodash');
@@ -21,8 +21,8 @@ export const initChart = (figure, data) => {
   
   let indexLegend = data.names.indexOf(figure['legend']);
   let indexX = data.names.indexOf(figure['x']);
-  let legend = _(data.values).map(x => x[indexLegend] ).uniq().value();
-  let xAxis = _(data.values).map(x => x[indexX] ).uniq().value();
+  let legend = _(data.values).map(x => x[indexLegend]).uniq().value();
+  let xAxis = _(data.values).map(x => x[indexX]).uniq().value();
   let sums = _(data.values).countBy(indexX).value();
 
   let series = _(data.values).groupBy(indexLegend).map((items, val) => {
@@ -56,7 +56,7 @@ export const initChart = (figure, data) => {
       tooltip: {},
       legend: { data: legend },
       xAxis: {
-          data: xAxis,
+          data: _.map(xAxis, x => insert(x, 10, "\n")),
           axisLabel: {
               rotate: 305
           } 
@@ -72,15 +72,18 @@ export const updateChart = (chart, data) => {
   let figure = chart['figure'];
   let indexLegend = data.names.indexOf(figure['legend']);
   let indexX = data.names.indexOf(figure['x']);
-  let legend = _(data.values).map(x => x[indexLegend] ).uniq().value();
-  let xAxis = _(data.values).map(x => x[indexX] ).uniq().value();
+  let legend = _(data.values).map(x => x[indexLegend]).uniq().value();
+  let xAxis = _(data.values).map(x => x[indexX]).uniq().value();
   let sums = _(data.values).countBy(indexX).value();
 
   let series = _(data.values).groupBy(indexLegend).map((items, val) => {
       let values = _(items).countBy(indexX).value();
       let dataSeries = _(xAxis).map(x => {
-          let defVal = values[x] == undefined ? 0 : values[x];
-          return Math.round((defVal * 100) / sums[x]);
+      let defVal = values[x] == undefined ? null : values[x];
+      if (defVal === null || defVal === 0) {
+          return null;
+      }
+        return Math.round((defVal * 100) / sums[x]);
       }).value();
 
       return {
@@ -104,7 +107,7 @@ export const updateChart = (chart, data) => {
       tooltip: {},
       legend: { data: legend },
       xAxis: {
-          data: xAxis,
+          data: _.map(xAxis, x => insert(x, 10, "\n")),
           axisLabel: {
               rotate: 305
           } 
