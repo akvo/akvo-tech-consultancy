@@ -14,7 +14,7 @@ function updateData() {
     let filter = {};
     $('#dr-loc-gram-panchayat').html() != 'Location Gram Panchayat' ? (filter['T'] = $('#dr-loc-gram-panchayat').html()) : null;
     $('#dr-loc-village').html() != 'Location Village' ? (filter['U'] = $('#dr-loc-village').html()) : null;
-    newData = _.filter(data, filter);
+    newData = _.filter(data.values, filter);
     _.forEach(chartFigs, (chart) => {
         updateChart(chart, newData);
     });
