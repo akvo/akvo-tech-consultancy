@@ -68,8 +68,11 @@ export const initChart = (figure, data) => {
   let series = _(data).groupBy(figure['legend']).map((items, val) => {
       let values = _(items).countBy(figure['x']).value();
       let dataSeries = _(xAxis).map(x => {
-          let defVal = values[x] == undefined ? 0 : values[x];
-          return Math.round((defVal * 100) / sums[x]);
+          let defVal = values[x] == undefined ? null : values[x];
+          if (defVal === null || defVal === 0) {
+              return null;
+          }
+          return ((defVal * 100) / sums[x]).toFixed(0);
       }).value();
 
       return {
