@@ -11,10 +11,10 @@
         "colors": false 
     },
 
-    "fig73xx" : {
+    "fig73r" : {
         "position": "row2",
         "type": "map",
-        "title": "7.3.x. Kanamana - Water point status (availability of water). Data Source: Baseline-Water Point Survey, 2017",
+        "title": "7.3.r. Kanamana - Water point status (availability of water). Data Source: Baseline-Water Point Survey, 2017",
         "width": 6,
         "content": "Dummy Example with pre-defined colors",
         "points": ["geolocation_Latitude","geolocation_Longitude"],

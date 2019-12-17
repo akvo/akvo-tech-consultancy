@@ -1,4 +1,4 @@
 node_modules
 test
 .DS_Store
-dist/*.js
+dist/main.js
