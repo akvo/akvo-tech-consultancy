@@ -6,7 +6,6 @@ const data = require('../json/data.json');
 const filters = require('../json/filters.json');
 const figures = require('../json/figures.json');
 import { initChart, updateChart, getMaps } from './charts.js';
-import { newRow } from './util.js';
 
 let newData = {};
 let chartFigs = [];
@@ -57,10 +56,6 @@ $('#loc-village a').on('click', function(){
     $('#dr-loc-village').html($(this).html());
     updateData();
 })
-
-$("main").append(newRow('first-row'));
-$("main").append(newRow('second-row'));
-$("main").append(newRow('third-row'));
 
 _.forEach(figures, (v) => {
     chartFigs.push(initChart(v, data));
