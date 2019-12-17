@@ -11,10 +11,10 @@ const _ = require('lodash');
 
 export const initChart = (figure, data) => {
     newContainer(figure.position);
-    let id = figure['title'].split(" ")[0].replace(/\./g, '');
-    let html = `<div class="col-md-` + figure['width'] + `">
+    let id = figure.title.split(" ")[0].replace(/\./g, '');
+    let html = `<div class="col-md-` + figure.width + `">
               <div class="card">
-                <div class="card-header gradient-card-header">` + titleCase(figure['title']) + `</div>
+                <div class="card-header gradient-card-header">` + titleCase(figure.title) + `</div>
                 <div class="card-body">
                     <div class="loading-frame" id="loading-` + id + `" >
                     <div class="spinner-border text-primary">
@@ -22,17 +22,17 @@ export const initChart = (figure, data) => {
                     </div>
                   <div id="` + id + `" style="height:450px"></div>
                 </div>
-                <div class="card-footer text-muted">` + figure['content'] + `</div>
+                <div class="card-footer text-muted">` + figure.content + `</div>
               </div>
               </div>`;
-    $("#" + figure['position']).append(html);
+    $("#" + figure.position).append(html);
     var element = document.getElementById(id);
     var myChart = echarts.init(element);
     myChart['figure'] = figure;
 
-    if (figure['type'] == 'bar') {
-        let indexLegend = data.names.indexOf(figure['legend']);
-        let indexX = data.names.indexOf(figure['x']);
+    if (figure.type === 'bar') {
+        let indexLegend = data.names.indexOf(figure.legend);
+        let indexX = data.names.indexOf(figure.x);
         let legend = _(data.values).map(x => x[indexLegend]).uniq().value();
         let xAxis = _(data.values).map(x => x[indexX]).uniq().value();
         let sums = _(data.values).countBy(indexX).value();
@@ -82,8 +82,8 @@ export const initChart = (figure, data) => {
         return myChart;
     }
 
-    if (figure['type'] == 'pie') {
-        let indexLegend = data.names.indexOf(figure['legend']);
+    if (figure.type === 'pie') {
+        let indexLegend = data.names.indexOf(figure.legend);
         let legend = _(data.values).map(x => x[indexLegend]).uniq().value();
         let chartData = _(data.values).countBy(indexLegend).value();
         let series = _(legend).map(x => {
@@ -120,9 +120,9 @@ export const initChart = (figure, data) => {
 }
 
 export const updateChart = (chart, data) => {
-    let figure = chart['figure'];
-    let indexLegend = data.names.indexOf(figure['legend']);
-    let indexX = data.names.indexOf(figure['x']);
+    let figure = chart.figure;
+    let indexLegend = data.names.indexOf(figure.legend);
+    let indexX = data.names.indexOf(figure.x);
     let legend = _(data.values).map(x => x[indexLegend]).uniq().value();
     let xAxis = _(data.values).map(x => x[indexX]).uniq().value();
     let sums = _(data.values).countBy(indexX).value();
