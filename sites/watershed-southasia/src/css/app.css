@@ -34,3 +34,28 @@ body {
     left: 50%;
     top: 45%;
 }
+
+.info.legend {
+    background-color:#FFF;
+    padding: 10px;
+    margin: 10px;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.65);
+    border-radius: 4px;
+}
+
+.legend.block {
+    display: block;
+}
+
+.legend-icons{
+    width: 10px;
+    height: 10px;
+    border-radius:10px;
+    display: inline-block;
+}
+
+.legend-text {
+    color: #343a40;
+    line-height: 10px;
+    padding-left: 5px;
+}

@@ -3,11 +3,100 @@ import {
     titleCase
 } from './util.js';
 import {
-    newContainer
+    newContainer,
+    defaultColors
 } from './util.js';
 const echarts = require('echarts');
 const L = require('leaflet');
 const _ = require('lodash');
+
+const getMaps = (id, figure, data) => {
+    const latIndex = data.names.indexOf(figure.points[0]);
+    const lngIndex = data.names.indexOf(figure.points[1]);
+    const indicator = data.names.indexOf(figure.category);
+
+    const map = L.map(id).setView([51.505, -0.09], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    let categories = _(data.values).map((d) => {
+        return d[indicator];
+    }).value();
+    categories = _(categories).uniq().value();
+
+    var legend = L.control({position: 'topright'});
+    legend.onAdd = function (map) {
+        var div = L.DomUtil.create('div', 'info legend');
+        for (let i = 0; i < categories.length; i++) {
+            let legendColor = defaultColors[i];
+            let categoryName = categories[i];
+            if(!isNaN(categoryName)) {
+                categoryName = categoryName === 0 ? "No / Empty / 0" : "Yes / 1";
+            }
+            if (figure.colors) {
+                legendColor = figure.colors[categories[i]];
+            }
+            div.innerHTML +=
+            `<div class='legend-block'>
+                <div class="legend-icons" style="background:` + legendColor + `">
+                </div><span class="legend-text">` + titleCase(categoryName) + `</span></div>`;
+        }
+        return div;
+    };
+    legend.addTo(map)
+
+
+    var markers = _(data.values).map((d) => {
+        let catIndex = categories.indexOf(d[indicator]);
+        let color = defaultColors[catIndex];
+        if (figure.colors) {
+            color = figure.colors[catIndex];
+        }
+        const markerIcon = {
+            color: 'white',
+            fillColor: color,
+            fillOpacity: 1,
+            weight: 1,
+            radius: 120
+        };
+        const markerLayer = L.circle([d[latIndex], d[lngIndex]], markerIcon).addTo(map);
+        return markerLayer;
+    }).value();
+
+    var bounds = _(data.values).map((d) => {
+        return [d[latIndex], d[lngIndex]];
+    }).value();
+    bounds = _(bounds).compact().value();
+    map.fitBounds(bounds);
+
+    var myZoom = {
+        start: map.getZoom(),
+        end: map.getZoom()
+    };
+
+    map.on('zoomstart', function(e) {
+        myZoom.start = map.getZoom();
+    });
+
+    map.on('zoomend', function(e) {
+        myZoom.end = map.getZoom();
+        var diff = myZoom.start - myZoom.end;
+        if (diff > 0) {
+            _(markers).forEach((circle) => {
+                circle.setRadius(circle.getRadius() * 2);
+            });
+        }
+        if (diff < 0) {
+            _(markers).forEach((circle) => {
+                circle.setRadius(circle.getRadius() / 2);
+            });
+        }
+    });
+
+    $("#loading-" + id).remove();
+    return map;
+}
 
 export const initChart = (figure, data) => {
     newContainer(figure.position);
@@ -123,57 +212,8 @@ export const initChart = (figure, data) => {
         return myChart;
     }
 
-    const map = L.map(id).setView([51.505, -0.09], 13);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-    const latIndex = data.names.indexOf(figure.points[0]);
-    const lngIndex = data.names.indexOf(figure.points[1]);
-    const indicator = data.names.indexOf(figure.category);
-    let markers = _(data.values).map((d) => {
-        const color = d[indicator] === 0 ? 'red' : 'green';
-        const markerIcon = {
-            color: 'white',
-            fillColor: color,
-            fillOpacity: 1,
-            weight: 1,
-            radius: 200
-        };
-        const markerLayer = L.circle([d[latIndex], d[lngIndex]], markerIcon).addTo(map);
-        return markerLayer;
-    }).value();
-    let bounds = _(data.values).map((d) => {
-        return [d[latIndex], d[lngIndex]];
-    }).value();
-    bounds = _(bounds).compact().value();
-    map.fitBounds(bounds);
+    return getMaps(id, figure, data);
 
-    var myZoom = {
-        start: map.getZoom(),
-        end: map.getZoom()
-    };
-
-    map.on('zoomstart', function(e) {
-        myZoom.start = map.getZoom();
-    });
-
-    map.on('zoomend', function(e) {
-        myZoom.end = map.getZoom();
-        var diff = myZoom.start - myZoom.end;
-        if (diff > 0) {
-            _(markers).forEach((circle) => {
-                circle.setRadius(circle.getRadius() * 2);
-            });
-        }
-        if (diff < 0) {
-            _(markers).forEach((circle) => {
-                circle.setRadius(circle.getRadius() / 2);
-            });
-        }
-    });
-
-    $("#loading-" + id).remove();
-    return map;
 }
 
 export const updateChart = (chart, data) => {
@@ -226,3 +266,4 @@ export const updateChart = (chart, data) => {
         series
     });
 }
+
