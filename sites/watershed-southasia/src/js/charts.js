@@ -26,9 +26,14 @@ export const initChart = (figure, data) => {
               </div>
               </div>`;
     $("#" + figure.position).append(html);
-    var element = document.getElementById(id);
-    var myChart = echarts.init(element);
-    myChart['figure'] = figure;
+
+    let isMap = figure.type === 'map' ? true : false;
+
+    if (!isMap) {
+        var element = document.getElementById(id);
+        var myChart = echarts.init(element);
+        myChart.figure = figure;
+    }
 
     if (figure.type === 'bar') {
         let indexLegend = data.names.indexOf(figure.legend);
@@ -117,6 +122,58 @@ export const initChart = (figure, data) => {
         $("#loading-" + id).remove();
         return myChart;
     }
+
+    const map = L.map(id).setView([51.505, -0.09], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+    const latIndex = data.names.indexOf(figure.points[0]);
+    const lngIndex = data.names.indexOf(figure.points[1]);
+    const indicator = data.names.indexOf(figure.category);
+    let markers = _(data.values).map((d) => {
+        const color = d[indicator] === 0 ? 'red' : 'green';
+        const markerIcon = {
+            color: 'white',
+            fillColor: color,
+            fillOpacity: 1,
+            weight: 1,
+            radius: 200
+        };
+        const markerLayer = L.circle([d[latIndex], d[lngIndex]], markerIcon).addTo(map);
+        return markerLayer;
+    }).value();
+    let bounds = _(data.values).map((d) => {
+        return [d[latIndex], d[lngIndex]];
+    }).value();
+    bounds = _(bounds).compact().value();
+    map.fitBounds(bounds);
+
+    var myZoom = {
+        start: map.getZoom(),
+        end: map.getZoom()
+    };
+
+    map.on('zoomstart', function(e) {
+        myZoom.start = map.getZoom();
+    });
+
+    map.on('zoomend', function(e) {
+        myZoom.end = map.getZoom();
+        var diff = myZoom.start - myZoom.end;
+        if (diff > 0) {
+            _(markers).forEach((circle) => {
+                circle.setRadius(circle.getRadius() * 2);
+            });
+        }
+        if (diff < 0) {
+            _(markers).forEach((circle) => {
+                circle.setRadius(circle.getRadius() / 2);
+            });
+        }
+    });
+
+    $("#loading-" + id).remove();
+    return map;
 }
 
 export const updateChart = (chart, data) => {
