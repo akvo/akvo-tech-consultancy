@@ -18,7 +18,8 @@ module.exports = {
         ]
     },
     plugins: [
-        new CopyPlugin([{
+        new CopyPlugin([
+            {
                 from: 'src/images/',
                 to: 'images'
             },
