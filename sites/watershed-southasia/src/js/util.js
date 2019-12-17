@@ -1,6 +1,11 @@
 const $ = require('jquery');
+const data = require('../json/data.json');
 
 export const defaultColors = ["#2f4554", "#c23531", "#749f83", "#d48265"];
+export const admLevel = {
+    district : data.names.indexOf("village-habitation_Gram_Panchayat"),
+    village : data.names.indexOf("village-habitation_Village")
+}
 
 export const titleCase = (str) => {
     str = str.toLowerCase().split('-');
