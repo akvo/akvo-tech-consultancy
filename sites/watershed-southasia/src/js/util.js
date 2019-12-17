@@ -1,6 +1,7 @@
 const $ = require('jquery');
 
-export const gradients = ["purple", "peach", "blue", "morpheus-den"];
+export const defaultColors = ["#2f4554", "#c23531", "#749f83", "#d48265"];
+
 export const titleCase = (str) => {
     str = str.toLowerCase().split('-');
     for (var i = 0; i < str.length; i++) {

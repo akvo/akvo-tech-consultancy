@@ -1,17 +1,29 @@
 {
 
-    "fig73c" : {
-        "position": "first-row",
+    "fig73z" : {
+        "position": "row1",
         "type": "map",
-        "title": "7.3.c. Kanamana - Water point status (availability of water). Data Source: Baseline-Water Point Survey, 2017",
-        "width": 6,
-        "content": "Footer",
+        "title": "7.3.z. Kanamana - Water point status (availability of water). Data Source: Baseline-Water Point Survey, 2017",
+        "width": 12,
+        "content": "Dummy Example with color default",
         "points": ["geolocation_Latitude","geolocation_Longitude"],
-        "category": "--OPTION--|Yes.27"
+        "category": "Improved-unimproved",
+        "colors": false 
+    },
+
+    "fig73x" : {
+        "position": "row2",
+        "type": "map",
+        "title": "7.3.x. Kanamana - Water point status (availability of water). Data Source: Baseline-Water Point Survey, 2017",
+        "width": 6,
+        "content": "Dummy Example with pre-defined colors",
+        "points": ["geolocation_Latitude","geolocation_Longitude"],
+        "category": "--OPTION--|Yes.27",
+        "colors": {"1":"red", "0":"green"}
     },
 
     "fig71a" : {
-        "position": "first-row",
+        "position": "row2",
         "type": "bar",
         "title": "7.1.a. Kanamana - Demographic - Social Category and Economic Category. Data Source: Baseline-Household Survey, 2017",
         "width": 6,
@@ -21,7 +33,7 @@
     },
 
     "fig71d" : {
-        "position": "second-row",
+        "position": "row3",
         "type": "bar",
         "title": "7.1.d. Kanamana- Demographic - Education level + Social Category. Data Source: Baseline-Household Survey, 2017",
         "width": 6,
@@ -31,7 +43,7 @@
     },
 
     "fig71c" : {
-        "position": "second-row",
+        "position": "row3",
         "type": "pie",
         "title": "7.1.c. Kanamana - Demographic - Female headed households. Data Source: Baseline-Household Survey, 2017",
         "width": 6,
