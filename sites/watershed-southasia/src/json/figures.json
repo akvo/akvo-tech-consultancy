@@ -1,5 +1,15 @@
 {
 
+    "fig73c" : {
+        "position": "forth-row",
+        "type": "map",
+        "title": "7.3.c. Kanamana - Water point status (availability of water). Data Source: Baseline-Water Point Survey, 2017",
+        "width": 6,
+        "content": "Footer",
+        "points": ["geolocation_Latitude","geolocation_Longitude"],
+        "category": "--OPTION--|Yes.27"
+    },
+
     "fig71a" : {
         "position": "first-row",
         "type": "bar",
@@ -9,9 +19,9 @@
         "legend": "economic-category",
         "x": "social-category"
     },
-    
+
     "fig71d" : {
-        "position": "first-row",
+        "position": "second-row",
         "type": "bar",
         "title": "7.1.d. Kanamana- Demographic - Education level + Social Category. Data Source: Baseline-Household Survey, 2017",
         "width": 6,
