@@ -211,15 +211,14 @@ export const initChart = (figure, data) => {
         $("#loading-" + id).remove();
         return myChart;
     }
-
     return getMaps(id, figure, data);
-
 }
 
 export const updateChart = (chart, data) => {
-    let figure = chart.figure;
-    let indexLegend = data.names.indexOf(figure.legend);
-    let indexX = data.names.indexOf(figure.x);
+  let figure = chart['figure'];
+  if (figure['type'] == 'bar') {
+    let indexLegend = data.names.indexOf(figure['legend']);
+    let indexX = data.names.indexOf(figure['x']);
     let legend = _(data.values).map(x => x[indexLegend]).uniq().value();
     let xAxis = _(data.values).map(x => x[indexX]).uniq().value();
     let sums = _(data.values).countBy(indexX).value();
@@ -231,31 +230,29 @@ export const updateChart = (chart, data) => {
             if (defVal === null || defVal === 0) {
                 return null;
             }
-            return Math.round((defVal * 100) / sums[x]);
+            return ((defVal * 100) / sums[x]).toFixed(0);
         }).value();
 
         return {
-            name: val,
-            type: 'bar',
-            stack: "total",
-            zLevel: 3,
-            label: {
-                normal: {
-                    fontSize: 14,
-                    show: true,
-                    position: "inside",
-                    formatter: "{c}%"
-                }
-            },
-            data: dataSeries
-        }
+          name: val,
+          type: 'bar',
+          stack: "total",
+          zLevel: 3,
+          label: {
+              normal: {
+                  fontSize: 14,
+                  show: true,
+                  position: "inside",
+                  formatter: "{c}%"
+              }
+          },
+          data: dataSeries
+      }
     }).value();
 
     chart.setOption({
         tooltip: {},
-        legend: {
-            data: legend
-        },
+        legend: { data: legend },
         xAxis: {
             data: _.map(xAxis, x => insert(x, 10, "\n")),
             axisLabel: {
@@ -265,5 +262,88 @@ export const updateChart = (chart, data) => {
         yAxis: {},
         series
     });
+
+    return null;
+  }
+
+  if (figure['type'] == 'pie') {
+    let indexLegend = data.names.indexOf(figure['legend']);
+    let legend = _(data.values).map(x => x[indexLegend]).uniq().value();
+    let chartData = _(data.values).countBy(indexLegend).value();
+    let series = _(legend).map(x => {
+      return {
+        value: chartData[x],
+        name: x
+      };
+    }).value();
+
+    chart.setOption({
+        tooltip: {},
+        legend: { data: legend },
+        series: {
+          type: 'pie',
+          radius: ['70%', '30%'],
+          center: ['50%', '50%'],
+          zLevel: 3,
+          label: {
+              normal: {
+                  fontSize: 14,
+                  show: true,
+                  position: "inside",
+                  formatter: "{d}%\n({c})"
+              }
+          },
+          data: series
+        }
+    });
+
+    return null;
+  }
+
+  const latIndex = data.names.indexOf(figure.points[0]);
+  const lngIndex = data.names.indexOf(figure.points[1]);
+  const indicator = data.names.indexOf(figure.category);
+  chart.markerGroup.clearLayers();
+  let markers = _(data.values).map((d) => {
+      const color = d[indicator] === 0 ? 'red' : 'green';
+      const markerIcon = {
+          color: 'white',
+          fillColor: color,
+          fillOpacity: 1,
+          weight: 1,
+          radius: 200
+      };
+      const markerLayer = L.circle([d[latIndex], d[lngIndex]], markerIcon).addTo(chart.markerGroup);
+      return markerLayer;
+  }).value();
+  let bounds = _(data.values).map((d) => {
+      return [d[latIndex], d[lngIndex]];
+  }).value();
+  bounds = _(bounds).compact().value();
+  chart.fitBounds(bounds);
+
+  var myZoom = {
+      start: chart.getZoom(),
+      end: chart.getZoom()
+  };
+
+  chart.on('zoomstart', function(e) {
+      myZoom.start = chart.getZoom();
+  });
+
+  chart.on('zoomend', function(e) {
+      myZoom.end = chart.getZoom();
+      var diff = myZoom.start - myZoom.end;
+      if (diff > 0) {
+          _(markers).forEach((circle) => {
+              circle.setRadius(circle.getRadius() * 2);
+          });
+      }
+      if (diff < 0) {
+          _(markers).forEach((circle) => {
+              circle.setRadius(circle.getRadius() / 2);
+          });
+      }
+  });
 }
 

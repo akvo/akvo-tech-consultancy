@@ -32,7 +32,24 @@ _.forEach(filters, x => {
 
 $('#loc-gram-panchayat a').on('click', function(){
     $('#dr-loc-gram-panchayat').html($(this).html());
+    let location = $(this).html();
+    $("#loc-village").empty(); 
+    $( "#loc-village" ).append( '<a class="dropdown-item" href="#">Location Village</a>' );
+
+    _.forEach(filters, x => {
+        if (location == 'Location Gram Panchayat' || location == x['location']) {
+          _.forEach(x['villages'], y => {
+              $( "#loc-village" ).append( '<a class="dropdown-item" href="#">' + y + '</a>' );
+          });
+        }
+    });
+    
     updateData();
+
+    $('#loc-village a').on('click', function(){
+        $('#dr-loc-village').html($(this).html());
+        updateData();
+    })
 });
 
 $('#loc-village a').on('click', function(){
