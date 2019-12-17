@@ -1,13 +1,4 @@
 {
-    "fig73c" : {
-        "position": "first-row",
-        "type": "map",
-        "title": "7.3.c. Kanamana - Water point status (availability of water). Data Source: Baseline-Water Point Survey, 2017",
-        "width": 6,
-        "content": "Footer",
-        "legend": "economic-category",
-        "x": "social-category"
-    },
 
     "fig71a" : {
         "position": "first-row",
@@ -19,13 +10,22 @@
         "x": "social-category"
     },
     
-    "fig7id" : {
-        "position": "second-row",
+    "fig71d" : {
+        "position": "first-row",
         "type": "bar",
         "title": "7.1.d. Kanamana- Demographic - Education level + Social Category. Data Source: Baseline-Household Survey, 2017",
         "width": 6,
         "content": "Footer",
         "legend": "social-category",
         "x": "education-level"
+    },
+
+    "fig71c" : {
+        "position": "second-row",
+        "type": "pie",
+        "title": "7.1.c. Kanamana - Demographic - Female headed households. Data Source: Baseline-Household Survey, 2017",
+        "width": 6,
+        "content": "Footer",
+        "legend": "Female-headed-house"
     }
 }
