@@ -37,5 +37,14 @@
         "width": 6,
         "content": "Footer",
         "legend": "Female-headed-house"
+    },
+
+    "fig71e" : {
+        "position": "third-row",
+        "type": "pie",
+        "title": "7.1.e. Kanamana - Demographic - Occupation. Data Source: Baseline-Household Survey, 2017",
+        "width": 12,
+        "content": "Footer",
+        "legend": "Female-headed-house"
     }
 }
