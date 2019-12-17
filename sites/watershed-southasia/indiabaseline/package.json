@@ -6,7 +6,8 @@
   "scripts": {
     "test": "node test.js",
     "build": "webpack --mode production",
-    "dev": "webpack --mode development"
+    "dev": "webpack --mode development",
+    "prod": "npm run build"
   },
   "keywords": [
     "Watershed",
