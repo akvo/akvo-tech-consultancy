@@ -1,0 +1,30 @@
+{
+  "name": "watershed-southasia",
+  "version": "1.0.0",
+  "description": "Watershed Dashboard Visualisation",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js",
+    "build": "webpack --mode production",
+    "dev": "webpack --mode development"
+  },
+  "keywords": [
+    "Watershed",
+    "Dashboard"
+  ],
+  "author": "Akvo Tech Consultancy",
+  "license": "ISC",
+  "devDependencies": {
+    "copy-webpack-plugin": "^5.1.0",
+    "css-loader": "^3.3.0",
+    "style-loader": "^1.0.1",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10"
+  },
+  "dependencies": {
+    "echarts": "^4.5.0",
+    "jquery": "^3.4.1",
+    "leaflet": "^1.6.0",
+    "lodash": "^4.17.15"
+  }
+}
