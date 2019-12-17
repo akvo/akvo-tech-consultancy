@@ -1,0 +1,288 @@
+{
+
+    "fig73zxx" : {
+        "position": "row1",
+        "type": "map",
+        "title": "7.3.z. Kanamana - Water point status (availability of water). Data Source: Baseline-Water Point Survey, 2017",
+        "width": 12,
+        "content": "Dummy Example with color default",
+        "points": ["geolocation_Latitude","geolocation_Longitude"],
+        "category": "Improved-unimproved",
+        "colors": false 
+    },
+
+    "fig73xx" : {
+        "position": "row2",
+        "type": "map",
+        "title": "7.3.x. Kanamana - Water point status (availability of water). Data Source: Baseline-Water Point Survey, 2017",
+        "width": 6,
+        "content": "Dummy Example with pre-defined colors",
+        "points": ["geolocation_Latitude","geolocation_Longitude"],
+        "category": "--OPTION--|Yes.27",
+        "colors": {"1":"#2f4554", "0":"#c23531"}
+    },
+
+    "fig71a" : {
+        "position": "row2",
+        "type": "bar",
+        "title": "7.1.a. Kanamana - Demographic - Social Category and Economic Category. Data Source: Baseline-Household Survey, 2017",
+        "width": 6,
+        "content": "Footer",
+        "legend": "economic-category",
+        "x": "social-category"
+    },
+
+    "fig71d" : {
+        "position": "row3",
+        "type": "bar",
+        "title": "7.1.d. Kanamana- Demographic - Education level + Social Category. Data Source: Baseline-Household Survey, 2017",
+        "width": 6,
+        "content": "Footer",
+        "legend": "social-category",
+        "x": "education-level"
+    },
+
+    "fig71c" : {
+        "position": "row3",
+        "type": "pie",
+        "title": "7.1.c. Kanamana - Demographic - Female headed households. Data Source: Baseline-Household Survey, 2017",
+        "width": 6,
+        "content": "Footer",
+        "legend": "Female-headed-house"
+    },
+
+    "fig71e" : {
+        "position": "row4",
+        "type": "pie",
+        "title": "7.1.e. Kanamana - Demographic - Occupation. Data Source: Baseline-Household Survey, 2017",
+        "width": 12,
+        "content": "Footer",
+        "legend": "main-occupation"
+    },
+
+    "fig72b" : {
+        "position": "row5",
+        "type": "bar",
+        "title": "7.2.b. Kanamana Water Point Type + Public/Private. Data Source: Baseline-Household Survey, 2017",
+        "width": 6,
+        "content": "Dummy",
+        "legend": "pub-priv",
+        "x": "education-level"
+    },
+
+    "fig73a" : {
+        "position": "row5",
+        "type": "map",
+        "title": "7.3.a. Kanamana - Access - Individuals dependent on water points. Data Source: Baseline-Water Point Survey, 2017",
+        "width": 6,
+        "content": "Dummy",
+        "points": ["geolocation_Latitude","geolocation_Longitude"],
+        "category": "--OPTION--|Yes.27",
+        "colors": {"1":"red", "0":"green"}
+    },
+
+    "fig73e" : {
+        "position": "row6",
+        "type": "map",
+        "title": "7.3.e. Kanamana - Water point quantity (12L per minute). Data Source: Baseline-Water Point Survey, 2017",
+        "width": 6,
+        "content": "Dummy",
+        "points": ["geolocation_Latitude","geolocation_Longitude"],
+        "category": "--OPTION--|Yes.27",
+        "colors": {"1":"red", "0":"green"}
+    },
+
+    "fig73g" : {
+        "position": "row6",
+        "type": "map",
+        "title": "7.3.g. Kanamana - Water Point Reliability (Not operational for +3 days in 6 months). Data Source: Baseline-Water Point Survey, 2017",
+        "width": 6,
+        "content": "Dummy",
+        "points": ["geolocation_Latitude","geolocation_Longitude"],
+        "category": "--OPTION--|Yes.27",
+        "colors": {"1":"red", "0":"green"}
+    },
+
+    "fig73i" : {
+        "position": "row7",
+        "type": "map",
+        "title": "7.3.i. Kanamana - Water Quality Map. Data Source: Baseline-Water Point Survey, 2017",
+        "width": 6,
+        "content": "Dummy",
+        "points": ["geolocation_Latitude","geolocation_Longitude"],
+        "category": "--OPTION--|Yes.27",
+        "colors": {"1":"red", "0":"green"}
+    },
+
+    "fig73k" : {
+        "position": "row7",
+        "type": "bar",
+        "title": "7.3.k. Kanamana - Water point quality - pH. Data Source: Baseline-Water Point Survey, 2017",
+        "width": 6,
+        "content": "Dummy",
+        "legend": "main-occupation",
+        "x": "main-occupation"
+    },
+
+    "fig73m" : {
+        "position": "row8",
+        "type": "bar",
+        "title": "7.3.m. Kanamana - Water point quality - EC. Data Source: Baseline-Water Point Survey, 2017",
+        "width": 6,
+        "content": "Dummy",
+        "legend": "education-level",
+        "x": "social-category"
+    },
+
+    "fig730" : {
+        "position": "row8",
+        "type": "bar",
+        "title": "7.3.0. Kanamana - Water point quality - Coliform. Data Source: Baseline-Water Point Survey, 2017",
+        "width": 6,
+        "content": "Dummy",
+        "legend": "education-level",
+        "x": "social-category"
+    },
+
+    "fig73q" : {
+        "position": "row9",
+        "type": "bar",
+        "title": "7.3.q. Kanamana- Water point quality - Total Iron. Data Source: Baseline-Water Point Survey, 2017",
+        "width": 6,
+        "content": "Dummy",
+        "legend": "education-level",
+        "x": "social-category"
+    },
+
+    "fig73s" : {
+        "position": "row9",
+        "type": "bar",
+        "title": "7.3.s. Kanamana - Repair done in the last one year. Data Source: Baseline-Water Point Survey, 2017",
+        "width": 6,
+        "content": "Dummy",
+        "legend": "education-level",
+        "x": "social-category"
+    },
+
+    "fig73t" : {
+        "position": "row10",
+        "type": "bar",
+        "title": "7.3.t. Kanamana- Type of repair done in the last one year. Data Source: Baseline-Water Point Survey, 2017",
+        "width": 6,
+        "content": "Dummy",
+        "legend": "education-level",
+        "x": "social-category"
+    },
+
+    "fig73u" : {
+        "position": "row10",
+        "type": "bar",
+        "title": "7.3.u. Kanamana -Nature of minor repair done in the last one year. Data Source: Baseline-Water Point Survey, 2017",
+        "width": 6,
+        "content": "Dummy",
+        "legend": "education-level",
+        "x": "social-category"
+    },
+
+    "fig73v" : {
+        "position": "row11",
+        "type": "bar",
+        "title": "7.3.v. Kanamana-Nature of major repair done in the last one year. Data Source: Baseline-Water Point Survey, 2017",
+        "width": 6,
+        "content": "Dummy",
+        "legend": "education-level",
+        "x": "social-category"
+    },
+
+    "fig73w" : {
+        "position": "row11",
+        "type": "bar",
+        "title": "7.3.w. Kanamana - repair required. Data Source: Baseline-Water Point Survey, 2017",
+        "width": 6,
+        "content": "Dummy",
+        "legend": "education-level",
+        "x": "social-category"
+    },
+
+    "fig73x" : {
+        "position": "row12",
+        "type": "bar",
+        "title": "7.3.x. Kanamana-Nature of repair required/ problems observed. Data Source: Baseline-Water Point Survey, 2017",
+        "width": 12,
+        "content": "Dummy",
+        "legend": "education-level",
+        "x": "social-category"
+    },
+
+    "fig74a" : {
+        "position": "row13",
+        "type": "map",
+        "title": "7.4.a. Kanamana- Toilet at home. Data Source: Baseline-Household Survey, 2017",
+        "width": 12,
+        "content": "Dummy",
+        "points": ["geolocation_Latitude","geolocation_Longitude"],
+        "category": "--OPTION--|Yes.27",
+        "colors": {"1":"red", "0":"green"}
+    },
+
+    "fig74c" : {
+        "position": "row14",
+        "type": "bar",
+        "title": "7.4.c. Kanamana - whether sanitation facilities are in good condition and safe for use. Data Source: Baseline-Household Survey, 2017",
+        "width": 6,
+        "content": "Dummy",
+        "legend": "education-level",
+        "x": "social-category"
+    },
+
+    "fig74e" : {
+        "position": "row14",
+        "type": "bar",
+        "title": "7.4.e. Kanamana - Toilet at home + usage. Data Source: Baseline-Household Survey, 2017",
+        "width": 6,
+        "content": "Dummy",
+        "legend": "education-level",
+        "x": "social-category"
+    },
+
+    "fig75a" : {
+        "position": "row15",
+        "type": "map",
+        "title": "7.5.a. Kanamana - households aware of safe water handling practices",
+        "width": 12,
+        "content": "Dummy",
+        "points": ["geolocation_Latitude","geolocation_Longitude"],
+        "category": "--OPTION--|Yes.27",
+        "colors": {"1":"red", "0":"green"}
+    },
+
+    "fig75c" : {
+        "position": "row16",
+        "type": "bar",
+        "title": "7.5.c. Kanamana - Households Aware of Proper times of handwashing. Data Source: Baseline-Household Survey, 2017",
+        "width": 6,
+        "content": "Dummy",
+        "legend": "education-level",
+        "x": "social-category"
+    },
+
+    "fig75d" : {
+        "position": "row16",
+        "type": "bar",
+        "title": "7.5.d. Kanamana - soap present near the toilet. Data Source: Baseline-Household Survey, 2017",
+        "width": 6,
+        "content": "Dummy",
+        "legend": "education-level",
+        "x": "social-category"
+    },
+
+    "fig75f" : {
+        "position": "row17",
+        "type": "bar",
+        "title": "7.5.f. Kanamana - water present near the toilet. Data Source: Baseline-Household Survey, 2017",
+        "width": 6,
+        "content": "Dummy",
+        "legend": "education-level",
+        "x": "social-category"
+    }
+}
