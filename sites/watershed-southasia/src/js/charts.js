@@ -4,7 +4,8 @@ import {
 } from './util.js';
 import {
     newContainer,
-    defaultColors
+    defaultColors,
+    admLevel,
 } from './util.js';
 const echarts = require('echarts');
 const L = require('leaflet');
@@ -50,6 +51,7 @@ const getMaps = (id, figure, data) => {
     };
     legend.addTo(map)
 
+    const constantZoom = map.getZoom();
 
     var markers = _(data.values).map((d) => {
         let catIndex = categories.indexOf(d[indicator]);
@@ -57,12 +59,19 @@ const getMaps = (id, figure, data) => {
         if (figure.colors) {
             color = figure.colors[catIndex];
         }
+        let radius = 1200 / figure.width;
         const markerIcon = {
+            points: true,
+            adm: {
+                district: d[admLevel.district],
+                village: d[admLevel.village]
+            },
+            opacity: 1,
             color: 'white',
             fillColor: color,
             fillOpacity: 1,
             weight: 1,
-            radius: 120
+            radius: radius
         };
         const markerLayer = L.circle([d[latIndex], d[lngIndex]], markerIcon).addTo(map);
         return markerLayer;
@@ -79,23 +88,17 @@ const getMaps = (id, figure, data) => {
         end: map.getZoom()
     };
 
-    map.on('zoomstart', function(e) {
-        myZoom.start = map.getZoom();
-    });
-
     map.on('zoomend', function(e) {
-        myZoom.end = map.getZoom();
-        var diff = myZoom.start - myZoom.end;
-        if (diff > 0) {
-            _(markers).forEach((circle) => {
-                circle.setRadius(circle.getRadius() * 2);
-            });
+        let currentZoom = map.getZoom();
+        let zoomIn = currentZoom > constantZoom ? true : false;
+        let radius = 1200 / figure.width;
+        if (zoomIn) {
+            let zoomDiff  = currentZoom - constantZoom + 1;
+            radius = radius / zoomDiff;
         }
-        if (diff < 0) {
-            _(markers).forEach((circle) => {
-                circle.setRadius(circle.getRadius() / 2);
-            });
-        }
+        _(markers).forEach((circle) => {
+            circle.setRadius(radius);
+        });
     });
 
     $("#loading-" + id).remove();
@@ -182,7 +185,7 @@ export const initChart = (figure, data) => {
         if (id !== null) {
           $("#loading-" + id).remove();
         }
-        
+
         return myChart;
     }
 
@@ -225,7 +228,7 @@ export const initChart = (figure, data) => {
     return getMaps(id, figure, data);
 }
 
-export const updateChart = (chart, data) => {
+export const updateChart = (chart, data, district, village) => {
   let figure = chart.figure;
   if (figure.type === 'bar') {
     let indexLegend = data.names.indexOf(figure.legend);
@@ -312,6 +315,33 @@ export const updateChart = (chart, data) => {
   }
 
   let id = figure.title.split(" ")[0].replace(/\./g, '');
-  getMaps(id, figure, data);
+  let hideMarker = {fillOpacity: 0, opacity:0};
+  let showMarker = {fillOpacity: 1, opacity:1};
+  chart.eachLayer((layer) => {
+      let isMarker = false;
+      if(layer.options.points){
+          isMarker = true;
+      };
+      if(isMarker) {
+          layer.setStyle({
+              ...layer.options,
+              ...showMarker,
+          });
+          if (layer.options.adm.district !== district && village !== 'Location Gram Panchayat') {
+              layer.setStyle({
+                  ...layer.options,
+                  ...hideMarker,
+              });
+          }
+          if (layer.options.adm.district !== village && village !== 'Location Village') {
+              layer.setStyle({
+                  ...layer.options,
+                  ...hideMarker,
+              });
+          }
+      }
+  });
+  //getMaps(id, figure, data);
+  return null;
 }
 

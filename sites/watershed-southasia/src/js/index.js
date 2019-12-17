@@ -14,12 +14,14 @@ let filterIndex2 = data.names.indexOf('village-habitation_Village');
 
 function updateData() {
     let filter = {};
+    let district = $('#dr-loc-gram-panchayat').html();
+    let village = $('#dr-loc-village').html();
     $('#dr-loc-gram-panchayat').html() != 'Location Gram Panchayat' ? (filter[filterIndex1] = $('#dr-loc-gram-panchayat').html()) : null;
     $('#dr-loc-village').html() != 'Location Village' ? (filter[filterIndex2] = $('#dr-loc-village').html()) : null;
     newData['names'] = data.names;
     newData['values'] = _.filter(data.values, filter);
     _.forEach(chartFigs, (chart) => {
-        updateChart(chart, newData);
+        updateChart(chart, newData, district, village);
     });
 }
 
@@ -33,7 +35,7 @@ _.forEach(filters, x => {
 $('#loc-gram-panchayat a').on('click', function(){
     $('#dr-loc-gram-panchayat').html($(this).html());
     let location = $(this).html();
-    $("#loc-village").empty(); 
+    $("#loc-village").empty();
     $( "#loc-village" ).append( '<a class="dropdown-item" href="#">Location Village</a>' );
 
     _.forEach(filters, x => {
@@ -43,13 +45,12 @@ $('#loc-gram-panchayat a').on('click', function(){
           });
         }
     });
-    
     updateData();
-
     $('#loc-village a').on('click', function(){
         $('#dr-loc-village').html($(this).html());
         updateData();
-    })
+    });
+    $("#loc-village").children()[0].click();
 });
 
 $('#loc-village a').on('click', function(){

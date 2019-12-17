@@ -19,7 +19,7 @@
         "content": "Dummy Example with pre-defined colors",
         "points": ["geolocation_Latitude","geolocation_Longitude"],
         "category": "--OPTION--|Yes.27",
-        "colors": {"1":"red", "0":"green"}
+        "colors": {"1":"#2f4554", "0":"#c23531"}
     },
 
     "fig71a" : {
