@@ -327,7 +327,7 @@ export const updateChart = (chart, data, district, village) => {
               ...layer.options,
               ...showMarker,
           });
-          if (layer.options.adm.district !== district && village !== 'Location Gram Panchayat') {
+          if (layer.options.adm.district !== district && district !== 'Location Gram Panchayat') {
               layer.setStyle({
                   ...layer.options,
                   ...hideMarker,
@@ -341,7 +341,6 @@ export const updateChart = (chart, data, district, village) => {
           }
       }
   });
-  //getMaps(id, figure, data);
   return null;
 }
 
