@@ -16,8 +16,12 @@ function updateData() {
     let filter = {};
     let district = $('#dr-loc-gram-panchayat').html();
     let village = $('#dr-loc-village').html();
-    $('#dr-loc-gram-panchayat').html() != 'Location Gram Panchayat' ? (filter[filterIndex1] = $('#dr-loc-gram-panchayat').html()) : null;
-    $('#dr-loc-village').html() != 'Location Village' ? (filter[filterIndex2] = $('#dr-loc-village').html()) : null;
+    district !== 'Location Gram Panchayat'
+        ? (filter[filterIndex1] = district)
+        : null;
+    village !== 'Location Village'
+        ? (filter[filterIndex2] = village)
+        : null;
     newData['names'] = data.names;
     newData['values'] = _.filter(data.values, filter);
     _.forEach(chartFigs, (chart) => {
@@ -26,9 +30,9 @@ function updateData() {
 }
 
 _.forEach(filters, x => {
-     $( "#loc-gram-panchayat" ).append( '<a class="dropdown-item" href="#">' + x['location'] + '</a>' );
+     $( "#loc-gram-panchayat" ).append( '<a class="dropdown-item">' + x.location + '</a>' );
     _.forEach(x['villages'], y => {
-        $( "#loc-village" ).append( '<a class="dropdown-item" href="#">' + y + '</a>' );
+        $( "#loc-village" ).append( '<a class="dropdown-item">' + y + '</a>' );
     });
 });
 
@@ -36,12 +40,12 @@ $('#loc-gram-panchayat a').on('click', function(){
     $('#dr-loc-gram-panchayat').html($(this).html());
     let location = $(this).html();
     $("#loc-village").empty();
-    $( "#loc-village" ).append( '<a class="dropdown-item" href="#">Location Village</a>' );
+    $( "#loc-village" ).append( '<a class="dropdown-item">Location Village</a>' );
 
     _.forEach(filters, x => {
-        if (location == 'Location Gram Panchayat' || location == x['location']) {
-          _.forEach(x['villages'], y => {
-              $( "#loc-village" ).append( '<a class="dropdown-item" href="#">' + y + '</a>' );
+        if (location == 'Location Gram Panchayat' || location == x.location) {
+          _.forEach(x.villages, y => {
+              $( "#loc-village" ).append( '<a class="dropdown-item">' + y + '</a>' );
           });
         }
     });
