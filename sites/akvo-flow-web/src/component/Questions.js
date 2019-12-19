@@ -44,6 +44,27 @@ class Questions extends Component {
     }
 
     getForms(questions){
+        let total_active = questions.reduce((a, x, i) => {
+            let z = 0;
+            if(i === 1) {
+                a = 0;
+            };
+            z = x.group === this.props.value.groups.active ? 1 : 0;
+            z = x.show ? 1 : 0;
+            return a + z;
+        });
+        if(total_active === 0){
+            return (
+                <Card key={"card-0"}>
+                <CardBody key={"card-body-0"} id={"card-body-0"}>
+                    <CardTitle key={"card-title-0"}>
+                        No Active Questions for This Group {Mandatory(false)}
+                    </CardTitle>
+                    The main question might depend on another answer in the other question group.
+                </CardBody>
+                </Card>
+            )
+        };
         return questions.map((question) => {
             let qid = question.id.toString()
             return (

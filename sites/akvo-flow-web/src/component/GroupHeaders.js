@@ -11,15 +11,12 @@ class GroupHeaders extends Component {
         this.getLoading = this.getLoading.bind(this)
     }
 
-    componentDidMount() {
-    }
-
     getHeader = (groups) => {
         let active = groups.list.filter(g => g.index === groups.active)
         return active.map((group) => (
             <Fragment key={group.index}>
             <h2 className="mt-2" >{group.heading}</h2>
-            <p>{group.heading}</p>
+            <hr/>
             </Fragment>
         ))
     }

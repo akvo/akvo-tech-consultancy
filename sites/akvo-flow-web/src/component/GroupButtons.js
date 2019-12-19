@@ -10,6 +10,7 @@ class GroupButtons extends Component {
         this.showQuestion = this.showQuestion.bind(this)
         this.getQuestionList = this.getQuestionList.bind(this)
         this.listClass = "list-group-item list-group-item-action "
+        this.anyActive = this.anyActive.bind(this)
         this.getUrl = this.getUrl.bind(this)
         this.state = {
           _showQuestion: ''
@@ -20,24 +21,36 @@ class GroupButtons extends Component {
         "#" + group.replace(/ /g,"-").toLowerCase()
     ))
 
+    anyActive = ((group) => {
+        let questions = this.props.value.questions.filter((x) => {
+            return x.group === group.index;
+        });
+        return questions.length;
+    })
+
     showQuestion(group) {
         this.props.changeGroup(group)
     }
 
-    componentDidMount() {
-    }
-
     getQuestionList(groups){
         return groups.list.map((group) => (
-                <div className="list-group list-group-flush" key={'group-' + group.index}>
-                <a onClick={() => {this.showQuestion(group.index)}}
-                href={this.getUrl(group.heading)}
-                className={(group.index === groups.active ?
-                        this.listClass + " bg-current" : this.listClass + " bg-light"
-                )}
+                <div
+                    className={"list-group list-group-flush"}
+                    key={'group-' + group.index}
                 >
-                    { group.heading }
-                </a>
+                    <a onClick={() => {this.showQuestion(group.index)}}
+                    href={this.getUrl(group.heading)}
+                    className={(group.index === groups.active ?
+                            this.listClass + " bg-current" : this.listClass + " bg-light"
+                    )}
+                    >
+                        <span className="question-group-button">{ group.heading }</span>
+                        <span
+                            className={"badge badge-group badge-" + (group.index === groups.active ? "primary" : "secondary")}
+                        >
+                            {this.anyActive(group)}
+                        </span>
+                    </a>
                 </div>
         ))
     }

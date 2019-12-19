@@ -107,12 +107,13 @@ const showHideQuestions = (orig, group) => {
     let active = orig.map(x => {
         let show = true
         let dependent = false
+        let answer_value;
+        let answer;
         if(x.dependency) {
             dependent = x.dependency
             show = false
         }
         if(dependent){
-            let answer_value;
             if (dependent["answer-value"].includes("|") > -1) {
                 answer_value = dependent["answer-value"].split("|")
                 answer_value = answer_value.map(b => {
@@ -123,7 +124,7 @@ const showHideQuestions = (orig, group) => {
                 })
             }
             if (localStorage.getItem(dependent.question) !== null) {
-                let answer = localStorage.getItem(dependent.question)
+                answer = localStorage.getItem(dependent.question)
                 if (isJsonString(answer_value)) {
                     answer = JSON.parse(answer_value)
                 }
@@ -143,6 +144,18 @@ const showHideQuestions = (orig, group) => {
             }
         }
         if (group) {
+            if(x.dependency){
+                answer_value = localStorage.getItem(x.dependency.question)
+                    ? JSON.parse(localStorage.getItem(x.dependency.question))
+                    : false;
+            }
+            if(typeof(answer_value) === "object") {
+                show = answer_value.indexOf(x.dependency['answer-value']);
+                show = show > -1 ? true : false;
+            }
+            if(typeof(answer_value) === "string" || typeof(answer_value) === "number") {
+                show = answer_value === x.dependency['answer-value'] ? true : false;
+            }
             if(x.group !== group){
                 show = false
             }
@@ -160,7 +173,7 @@ const showHideQuestions = (orig, group) => {
         }
         updated_answer.push({...x, show:show, type: getQuestionType(x)})
         return { ...x, show:show, type: getQuestionType(x)}
-    })
+    });
     return active;
 }
 
