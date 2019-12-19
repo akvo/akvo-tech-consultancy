@@ -310,11 +310,12 @@ class QuestionType extends Component {
             <div>{opt.text}</div>
             <select
                 className="form-control"
-                value={ this.state.selected } type="select"
+                value={this.state.selected}
+                type="select"
                 name={ this.props.data.id.toString() + '-' + i}
                 onChange={this.handleChange}
             >
-                <option key={unique + '-cascade-options-' + 0} value={this.state.value}>Please Select</option>
+                <option key={unique + '-cascade-options-' + 0} value=''>Please Select</option>
                 {this.renderCascadeOption(dropdown,(i+1),opt.text, unique)}
             </select>
             </div>
@@ -326,7 +327,7 @@ class QuestionType extends Component {
         return cascades.map((x, i) => x)
     }
 
-    renderCascadeOption (data,targetLevel, unique) {
+    renderCascadeOption (data,targetLevel, text, unique) {
         if(data) {
             return data.map((x, i) => {
                 let options = (
@@ -505,7 +506,6 @@ class QuestionType extends Component {
 
     componentDidMount () {
         if (this.props.data.type === "cascade"){
-            localStorage.removeItem(this.props.data.id)
             this.getCascadeDropdown(0, 0)
         }
         if (localStorage.getItem(this.props.data.id) !== null){

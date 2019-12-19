@@ -144,24 +144,28 @@ const showHideQuestions = (orig, group) => {
             }
         }
         if (group) {
-            if(x.dependency){
-                answer_value = localStorage.getItem(x.dependency.question)
-                    ? JSON.parse(localStorage.getItem(x.dependency.question))
-                    : false;
-            }
-            if(typeof(answer_value) === "object") {
-                show = answer_value.indexOf(x.dependency['answer-value']);
-                show = show > -1 ? true : false;
-            }
-            if(typeof(answer_value) === "string" || typeof(answer_value) === "number") {
-                show = answer_value === x.dependency['answer-value'] ? true : false;
+            if(dependent && answer){
+                if (isJsonString(answer)) {
+                    answer = JSON.parse(answer);
+                    answer_value = dependent["answer-value"].split("|");
+                    answer_value.forEach((x, i) => {
+                        if(answer.includes(x)){
+                            show = true;
+                        }
+                    });
+                }
+                if (answer === answer_value) {
+                    show = true
+                }
             }
             if(x.group !== group){
                 show = false
             }
         }
         if (!group && !show) {
-            localStorage.removeItem(x.id)
+            if (!dependent) {
+                localStorage.removeItem(x.id)
+            }
             if (dependent) {
                 let current_state = updated_answer.find(u => {
                     return parseInt(u.id) === parseInt(dependent.question)
