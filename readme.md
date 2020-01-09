@@ -4,15 +4,15 @@
 
 This repository contains Akvo Tools custom integration pack development.
 
-| Project | Description | Type | Lang / FW / Lib |Proj Manager|
+| Project | Description | Type | Lang / FW / Lib |PM|
 | ------ | ------ | ------ | ------ | ------ |
-| CKAN | Ckan Docker Pilot Project. | Website | Java, Python, SOLR, CKAN | Joy |
+| CKAN | [CKAN](https://ckan.tc.akvotest.org) Docker Pilot Project. | Website | Java, Python, SOLR, CKAN | Joy |
 | G4AW | Green Coffe, Coffee Price Integration. | Jobs & Webhooks | Python, Flask, Pandas, SocketIO |Ima|
 | G4AW | Angkor Salad, Data Pusher for [Lizard.net][liZ]. | Jobs | Python, Pandas |Ima|
 | G4AW | Spice Up, Custom Email Notification for Demo Plots. | Jobs | Python, Pandas |Ima|
 | G4AW | Spice Up, Lizard Data Transformer & pusher. | Jobs | Python, Pandas |Ima|
 | G4AW | Spice Up, Happy Farmer Data Sync. | Jobs | Python, Flask, Pandas |Ima|
-| Unicef Pacific | Wash in Schools Custom Map Development. | Website | PHP, Laravel, Javascripts, Leaflet, Echarts, D3, Webpack |Dagmar|
+| Unicef Pacific | Wash in Schools Custom Map Development, [si-wins.org](https://si-wins.org). | Website | PHP, Laravel, Javascripts, Leaflet, Echarts, D3, Webpack |Dagmar|
 | Oxfam | Oxfam advanced visualisation. | Data Scripts | Python, Jupyter Notebook |Ima|
 | UTZ | Automated Plots download. | Data Scripts | Python |Joy|
 | Mali GOV | Bulk download forms data from a Flow instance. | Data Scripts | Python |Banzou|
@@ -22,9 +22,9 @@ This repository contains Akvo Tools custom integration pack development.
 | General | Akvo Flow Web. | Website & API | Python, Flask, Javascripts, ReactJS |Joy|
 | APPSA | Generate Custom Report from Akvo RSR. | Website & API | Python, Flask, Javascripts, ReactJS, Redux |Annabelle|
 | Akvo Ckan | Plugins for AkvoSite. | Wordpress Plugins | PHP, Javascripts |Joy|
-| 2 Scale | Data portal | Website | PHP, Laravel,Python, Javascripts| Annabelle |
+| 2 Scale | 2Scale [Data portal](http://2scale.tc.akvo.org/). | Website | PHP, Laravel,Python, Javascripts| Annabelle |
 | NABU | A regular job setup to update a postgres database which will be accessed via the qgis app. The job updates the Lumen dataset, fetches the data and imports it into postgres | Jobs | Python |Annabelle|
-| IUCN | 3 dashboards at iucn.tc.akvo.org |Website | PHP, Javascript |Irene|
+| IUCN | 3 dashboards [plastics](https://iucn.tc.akvo.org/plastics),[TOF](https://iucn.tc.akvo.org/tof),[Plus](https://iucn.tc.akvo.org/plus) |Website | PHP, Javascript |Irene|
 -------
 
 ### Contacts
