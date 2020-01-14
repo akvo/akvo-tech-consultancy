@@ -4,28 +4,28 @@
  */
 namespace Inc\Pages;
 
-use Inc\Base\AkvoCkanMetabox;
+use Inc\Base\ShortCodeMetabox;
 
-class Metabox extends AkvoCkanMetabox {
+class Shortcode extends ShortCodeMetabox {
 
-    public function register_ckan_metabox() {
-        add_action( 'admin_init', array( $this, 'ckan_metabox_fields' ) );
+    public function register_shortcode_metabox() {
+        add_action( 'admin_init', array( $this, 'shortcode_metabox_fields' ) );
     }
 
-    public function ckan_metabox_fields()
+    public function shortcode_metabox_fields()
     {
         $args = array(
-            'meta_box_id'   =>  'ckan_meta_id',
-            'label'         =>  __( '<i class="dashicons dashicons-list-view"></i> CKAN Dataset' ),
-            'post_type'     =>  array( 'dataset' ), // can also be in post
+            'meta_box_id'   =>  'ckan_shortcode_id',
+            'label'         =>  __( '<i class="dashicons dashicons-list-view"></i> CKAN Short Code Helper' ),
+            'post_type'     =>  array( 'page','post' ), // can also be in post
             'context'       =>  'normal', // side|normal|advanced
             'priority'      =>  'high', // high|low
             'hook_priority'  =>  10,
             'fields'        =>  array(
                 array(
                     'name'      =>  'ckan_dataset',
-                    'label'     =>  __( 'Datasets' ),
-                    'type'      =>  'ckan',
+                    'label'     =>  __( 'Search Dataset' ),
+                    'type'      =>  'text',
                     'desc'      =>  __( '' ),
                     'class'     =>  'akvockan-meta-field',
                     'default'   =>  '',
@@ -36,12 +36,11 @@ class Metabox extends AkvoCkanMetabox {
             )
         );
 
-            $this->akvockan_meta_box( $args );
+        $this->shortcode_metabox( $args );
     }
 
-
-    public function akvockan_meta_box( $args ){
-        return new AkvoCkanMetabox( $args );
+    public function shortcode_metabox( $args ){
+        return new ShortCodeMetabox( $args );
     }
 
 }

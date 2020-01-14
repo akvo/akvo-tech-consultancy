@@ -8,8 +8,15 @@ class ShortCodes extends BaseController
 {
 	public function register() {
         add_shortcode( "ckan_search", array($this, "search_widget") );
+        add_shortcode( "ckan", array($this, "ckan_dataset") );
         add_action( "wp_enqueue_scripts", array($this, "is_archive_dataset") );
 	}
+
+    public function ckan_dataset($param) {
+        $html = '<div class="ckan-table" data-id="'.$param['id'].'">';
+        $html .= '</div>';
+        return $html;
+    }
 
     public function search_widget() {
         $html = '<div class="ckan_search_bar col-md-12">';

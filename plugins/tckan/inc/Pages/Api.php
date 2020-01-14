@@ -21,4 +21,13 @@ class Api extends CkanApi
             'callback' => array($this,'searchData'),
         ));
     }
+
+    public function addContainerTag() 
+	{
+        add_filter( 'the_content', array($this, 'tagContainer'));
+    }
+
+    public function tagContainer($content) {
+        return $content . '<div id="ckan-container"></div>';
+    }
 }

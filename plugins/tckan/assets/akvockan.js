@@ -1,10 +1,16 @@
 let previewable = ['xls', 'xlsx','csv'];
 var ckanid = jQuery('#ckan-data').text();
+var ckanframes = jQuery('.ckan-table');
 
 jQuery(document).ready(function( jQuery ) {
 if (ckanid !== '') {
-    iniakvockan();
+    initakvockan();
 }
+
+if (ckanframes.length > 0) {
+    generateframes( ckanframes );
+}
+
 jQuery("#dataset-query").on('change', function(){
 	let thisval = jQuery(this).val();
 	if (thisval.length > 4) {
@@ -14,6 +20,49 @@ jQuery("#dataset-query").on('change', function(){
 	}
 });
 
+function generateframes(ckanframes) {
+    jQuery(ckanframes).each(function(index, table) {
+        let id = jQuery(table).attr('data-id');
+        jQuery.get("/wp-json/akvockan/v1?id=" + id, function(data){
+            let html = '';
+            if (data.resources.length > 0) {
+                html += generateresources(data, true);
+            }
+            jQuery(table).append(html);
+        });
+    });
+}
+
+function generateresources(data, isDataset) {
+    let html = "";
+    if (isDataset) {
+        html += "<div class='ckan-div-dataset'>";
+    }
+    html += "<ul class='ckan-resources'>";
+    data.resources.forEach(function(a, x){
+            let at = a.format.toLowerCase();
+            let icon = at;
+            if (at === "akvo lumen") {
+                icon = 'lumen';
+            }
+            let sd = shortDesc(a.description, JSON.stringify(a), data.name);
+            html += "<li class='data-listing'>";
+            html += "<a target='blank' href='"+ a.url +"' id='resource-"+ a.id +"'>";
+            html += "<i class='fa fa-download'></i>  " + a.name +"</a>";
+            html += "<a onclick='showframe(" + JSON.stringify(a) + ",\"" + data.name + "\")' href='#' class='button-file "+ at +"'>"
+            html += "<i class='fa fa-eye'></i>  " + a.format;
+            html += "</a>";
+            html += "</br>";
+            html += "<span class='"+ sd.class +"'>" + sd.desc + "<span>";
+            html += "</li>";
+    })
+    html += "</ul>";
+    if (isDataset) {
+        html += "</div>";
+    }
+    return html;
+}
+
 function searchdatasets( q ) {
     jQuery.get("/wp-json/wp/v2/dataset?search=" + q, function(data){
 		if (data.length > 0) {
@@ -21,7 +70,7 @@ function searchdatasets( q ) {
 		}
         jQuery(".lds-ellipsis").hide();
 		let html = '<article id="post-196" class="dataset-lists card card-blog card-plain post-196 post type-post status-publish format-standard has-post-thumbnail hentry category-all-post"></article>';
-		jQuery(".main .blog-post .container .page-content-wrap").append(html);
+		jQuery("#ckan-container").append(html);
 		data.forEach(function(a,x) {
 			let link = '/?dataset=' + a.slug;
 			let html = '<div class="row">';
@@ -68,9 +117,10 @@ function shortDesc(a, b, c) {
 }
 
 
-function iniakvockan() {
+function initakvockan() {
+    console.log('bing');
     var loading = '<div class="lds-loading"><h3>Loading Datasets</h3><div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div></div>';
-    jQuery(".entry-content").append(loading);
+    jQuery("#ckan-container").append(loading);
     jQuery.get('/wp-json/akvockan/v1?id=' + ckanid, function(data){
         if (data.id) {
             var html = "<table class='ckan-list' id='"+ data.id +"'>"
@@ -81,18 +131,7 @@ function iniakvockan() {
                 html += "<tr><td class='name'>Organisation</td><td>"+ data.organization.title +"</td></tr>"
                 html += "<tr><td class='name'>Resources</td><td class='ckan-datasets'>"
                 if (data.resources.length > 0) {
-                    html += "<ul class='ckan-resources'>";
-                    data.resources.forEach(function(a, x){
-                    let at = a.format.toLowerCase();
-                    let icon = at;
-                    let preview = (previewable.indexOf(at) > -1);
-                    if (at === "akvo lumen") {
-                        icon = 'lumen';
-                    }
-                        let sd = shortDesc(a.description, JSON.stringify(a), data.name);
-                        html += "<li class='data-listing'><a target='blank' href='"+ a.url +"' id='resource-"+ a.id +"'><i class='fa fa-download'></i>  " + a.name +"</a> <a onclick='showframe(" + JSON.stringify(a) + ",\"" + data.name + "\")' href='#' class='button-file "+ at +"'><i class='fa fa-eye'></i>  " + a.format + "</a></br><span class='"+ sd.class +"'>" + sd.desc + "<span></li>";
-                    })
-                    html += "</ul></td></tr>"
+                    html += generateresources(data, false);
                     html += "<tr><td class='name'>License</td><td>"+ data.license_title +"</td></tr>"
                     html += "<tr><td class='name'>Published at</td><td>"+ data.metadata_created +"</td></tr>"
                     html += "<tr><td class='name'>Last modified</td><td>"+ data.metadata_created +"</td></tr>"
@@ -100,7 +139,7 @@ function iniakvockan() {
                     html += "No Data Available";
                 }
             html += "</table>"
-            jQuery(".entry-content").append(html);
+            jQuery("#ckan-container").append(html);
         }
         jQuery(".lds-loading").remove();
     });
@@ -120,7 +159,6 @@ function showframe(a, b){
     } else {
         icon = at;
     }
-    console.log(a.type);
     let html = "<div class='data-viewer' id='view-"+a.id+"'>";
         html += "<h1 class='data-title'>"+a.name+"<small class='" + at + "'>"+a.format+"</small></h1>";
         html += "<p>"+a.description+"</p>";

@@ -26,7 +26,8 @@ class Enqueue extends BaseController
     function enqueue_frontend() {
         wp_enqueue_style( 'akvockan', $this->plugin_url . 'assets/akvockan.css' );
         wp_enqueue_script( 'jquery' );
-		wp_enqueue_script( 'akvockan', $this->plugin_url . 'assets/akvockan.js' );
+        // name, url, other, no, in_footer.
+		wp_enqueue_script( 'akvockan', $this->plugin_url . 'assets/akvockan.js', array(), true, true );
     }
 
     function ckan_scripts() {

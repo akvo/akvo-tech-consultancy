@@ -240,3 +240,26 @@ input#suggest_akvockan_cmb_ckan_dataset {
 #wpbody-content .metabox-holder {
     padding-top: 5px;
 }
+
+
+// Search ShortCode 
+
+table.listing-data {
+    min-width: 100%;
+    border-bottom: 1px solid #eee;
+    margin-top: 10px;
+    padding-bottom: 10px;
+}
+
+li.data-listing{
+    display:block;
+}
+
+td.dataset-title{
+    font-weight:bold;
+    color:#0073aa;
+}
+
+td.vtop{
+    vertical-align:top;
+}

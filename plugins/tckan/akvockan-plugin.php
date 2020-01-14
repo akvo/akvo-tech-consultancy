@@ -36,6 +36,7 @@ if ( file_exists( dirname( __FILE__ ) . '/vendor/autoload.php' ) ) {
 if ( class_exists( 'Inc\\Init' ) ) {
 	Inc\Init::register_services();
     Inc\Init::register_metabox();
+    Inc\Init::register_shortcode();
     Inc\Init::register_post_type();
     Inc\Init::register_custom_api();
 }

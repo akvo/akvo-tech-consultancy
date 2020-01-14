@@ -577,3 +577,10 @@ span.short-desc.no-desc {
     padding-bottom: 30px;
     padding-top: 30px;
 }
+
+.ckan-div-dataset{
+    background: #f0f0f0;
+}
+.ckan-div-dataset > .ckan-resources > .data-listing{
+    border-color: #FFF;
+}
