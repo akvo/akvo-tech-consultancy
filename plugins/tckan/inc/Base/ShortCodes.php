@@ -20,11 +20,9 @@ class ShortCodes extends BaseController
 
     public function search_widget() {
         $html = '<div class="ckan_search_bar col-md-12">';
-        $html .= '<div class="input-group input-group-lg">';
-        $html .= '<div class="input-group-prepend">';
-        $html .= '<span class="input-group-text" id="inputGroup-sizing-lg">Search Watershed Data</span>';
-        $html .= '</div>';
-        $html .= '<input type="text" class="form-control" id="dataset-query" aria-label="Large" aria-describedby="inputGroup-sizing-sm">';
+        $html .= '<div class="input-group input-group-lg ckan-filesearch-box">';
+        $html .= '<input type="text" class="form-control" id="dataset-query" aria-label="Large" aria-describedby="inputGroup-sizing-sm" placeholder="Search Files">';
+        $html .= '<button class="btn btn-primary btn-ckan-search"><i class="fa fa-search"></i> Search</button>';
         $html .= '</div>';
         $html .= '<div class="col-md-12 text-center">';
 		$html .= '<div class="lds-ellipsis" style="display:none;"><div></div><div></div><div></div><div></div></div>';

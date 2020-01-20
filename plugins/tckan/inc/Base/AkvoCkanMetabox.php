@@ -111,9 +111,7 @@ class AkvoCkanMetabox {
 
 		$html	= sprintf( '<fieldset class="akvockan-row" id="akvockan_cmb_fieldset_%1$s">', $field['name'] );
 		$html	.= sprintf( '<label class="akvockan-label" for="akvockan_cmb_%1$s">%2$s</label>', $field['name'], $field['label']);
-
 		$html  .= sprintf( '<input type="%1$s" class="%2$s" id="akvockan_cmb_%3$s" name="%3$s" value="%5$s" %6$s %7$s/>', $field['type'], $class, $field['name'], $field['name'], $value, $readonly, $disabled );
-
 		$html	.= $this->field_description( $field );
 		$html	.= '</fieldset>';
 		return $html;
@@ -133,7 +131,6 @@ class AkvoCkanMetabox {
 
 		$html  .= sprintf( '<input placeholder="type keywords here to search" type="text" class="%2$s" id="suggest_akvockan_cmb_%3$s" />', $field['type'], $class, $field['name'], $field['name'], $value, $readonly, $disabled );
 		$html  .= sprintf( '<input type="hidden" id="akvockan_cmb_%3$s" name="%3$s" value="%5$s" %6$s %7$s/>', $field['type'], $class, $field['name'], $field['name'], $value, $readonly, $disabled );
-
 		$html	.= $this->field_description( $field );
 		$html	.= '</fieldset>';
         $html .= sprintf('<div id="ckan-suggest-box" style="display:none;"></div>');
@@ -160,8 +157,8 @@ class AkvoCkanMetabox {
         <script>
             jQuery(document).ready(function($) {
                 let defaultValue = $("#akvockan_cmb_ckan_dataset").val();
+                console.log(defaultValue);
                 if (typeof defaultValue !== undefined) {
-                    $(".lds-ellipsis").show();
                     $.get("/wp-json/akvockan/v1?id=" + defaultValue, function(data){
                         $(".lds-ellipsis").hide();
                         $("#ckan-suggest-box").children().remove();
@@ -170,6 +167,8 @@ class AkvoCkanMetabox {
                     });
                 }
                 $("#suggest_akvockan_cmb_ckan_dataset").on('input', function(){
+                    $(".lds-ellipsis").show();
+                    $(".result-box table").remove();
                     $("#ckan-suggest-box").children().remove();
                     $("#ckan-suggest-box").show();
                     let thisBox = $(this);

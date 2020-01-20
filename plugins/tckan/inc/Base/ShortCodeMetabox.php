@@ -71,12 +71,9 @@ class ShortCodeMetabox {
 		$disabled  = isset( $field['disabled'] ) && ( $field['disabled'] == true ) ? " disabled" : "";
 
 		$html	= sprintf( '<fieldset class="shortcode-row" id="shortcode_cmb_fieldset_%1$s">', $field['name'] );
-        $html .= sprintf( '<i class="dashicons dashicons-search"></i>');
-		$html	.= sprintf( '<label class="shortcode-label" for="shortcode_cmb_%1$s">%2$s</label>', $field['name'], $field['label']);
-
 		$html  .= sprintf( '<input placeholder="type keywords here to search" type="text" class="%2$s" id="suggest_shortcode_cmb_%3$s" />', $field['type'], $class, $field['name'], $field['name'], $value, $readonly, $disabled );
+        $html  .= sprintf( '<div class="button button-primary" id="search-dataset-admin">Search CKAN</div>');
 		$html  .= sprintf( '<input type="hidden" id="shortcode_cmb_%3$s" name="%3$s" value="%5$s" %6$s %7$s/>', $field['type'], $class, $field['name'], $field['name'], $value, $readonly, $disabled );
-
 		$html	.= $this->field_description( $field );
 		$html	.= '</fieldset>';
         $html .= sprintf('<div id="ckan-suggest-box" style="display:none;"></div>');
@@ -103,12 +100,13 @@ class ShortCodeMetabox {
         ?>
         <script>
             jQuery(document).ready(function($) {
-                $("#suggest_shortcode_cmb_ckan_dataset").on('input', function(){
+                $("#search-dataset-admin").on('click', function(){
+                    $('.result-box table').remove();
                     let currentList = $(".listing-data");
                     if (currentList.length > 0) {
                         $('.listing-data').remove();
                     }
-                    let thisBox = $(this);
+                    let thisBox = $("#suggest_shortcode_cmb_ckan_dataset");
                     showLists(thisBox);
                 });
 
