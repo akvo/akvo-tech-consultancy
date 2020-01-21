@@ -25,6 +25,6 @@ class DatabaseSeeder extends Seeder
         $this->call(DatapointsTableSeeder::class);
 
         /* Faker Test Datapoint */
-        $this->call(TestDatapointsTableSeeder::class);
+        //$this->call(TestDatapointsTableSeeder::class);
     }
 }

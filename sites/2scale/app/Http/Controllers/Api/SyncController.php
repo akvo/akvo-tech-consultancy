@@ -210,22 +210,27 @@ class SyncController extends Controller
                         $split = false;
                         if (is_array($answer) && count($answer) > 0) {
                             $cascade = '';
-                            for($i=0; $i < count($answer); $i++) {
-                                $isOption = Arr::has($answer[$i], 'text') 
-                                    ? true 
-                                    : false;
-                                $cascade .= ($isOption) 
-                                    ? $answer[$i]['text']
-                                    : $answer[$i]['name'];
-                                if($isOption) {
-                                    $option = \App\Option::where('text', $answer[$i]['text'])->first();
-                                    $options->push($option['id']);
-                                }
-                                if ($i < count($answer) - 1) {
-                                    $cascade .= '|';
-                                }
+                            if(isset($answer['filename'])) {
+                                $text = $text['filename'];
                             }
-                            $text = $cascade;
+                            else {
+                                for($i=0; $i < count($answer); $i++) {
+                                    $isOption = Arr::has($answer[$i], 'text') 
+                                        ? true 
+                                        : false;
+                                    $cascade .= ($isOption) 
+                                        ? $answer[$i]['text']
+                                        : $answer[$i]['name'];
+                                    if($isOption) {
+                                        $option = \App\Option::where('text', $answer[$i]['text'])->first();
+                                        $options->push($option['id']);
+                                    }
+                                    if ($i < count($answer) - 1) {
+                                        $cascade .= '|';
+                                    }
+                                }
+                                $text = $cascade;
+                            }
                         }
                         if(!is_array($answer) && (int) $answer) {
                             $value = (int) $answer;
@@ -240,19 +245,21 @@ class SyncController extends Controller
                     });
                     return $answers;
                 })->flatten(1);
-            $country_id = $partnerships->where('name', $partner['country'])->first();
-            $partnership_id = $partnerships->where('name', $partner['partnership'])->first();
-            $collections->push(
-                array(
-                    'datapoint_id' => $datapoint_id,
-                    'form_id' => $form['form_id'],
-                    'partnership_id' => $partnership_id->id,
-                    'country_id' => $country_id->id,
-                    'survey_group_id' => $form['survey_group_id'],
-                    'submission_date' => date('Y-m-d', strtotime($submission_date)),
-                    'answers' => $group,
-                )
-            );
+            if($partner->isNotEmpty()){
+                $country_id = $partnerships->where('name', $partner['country'])->first();
+                $partnership_id = $partnerships->where('name', $partner['partnership'])->first();
+                $collections->push(
+                    array(
+                        'datapoint_id' => $datapoint_id,
+                        'form_id' => $form['form_id'],
+                        'partnership_id' => $partnership_id->id,
+                        'country_id' => $country_id->id,
+                        'survey_group_id' => $form['survey_group_id'],
+                        'submission_date' => date('Y-m-d', strtotime($submission_date)),
+                        'answers' => $group,
+                    )
+                );
+            }
         });
         return $collections;
     } 
