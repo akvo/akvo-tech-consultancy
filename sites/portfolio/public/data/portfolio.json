@@ -1,0 +1,72 @@
+[{
+        "id": 1,
+        "title": "Coffee Price Integration",
+        "description": ["IPSARD collects daily about coffee price which are then displayed on the greencoffee app. They needed a mobile platform for their data collectors to collect the pricing information from various coffee markets in Vietnam."],
+        "objective": "Submit data from Flow App and update partner system incrementally. New data records updated everyday in the partner system.",
+        "project": "G4AW",
+        "website": false,
+        "categories": ["Automation", "Data Integration"],
+        "galleries": [
+            "portfolio-coffee-price-integration-01.jpg",
+            "portfolio-coffee-price-integration-02.jpg",
+            "portfolio-coffee-price-integration-03.jpg",
+            "portfolio-coffee-price-integration-04.jpg"
+        ],
+        "stacks": [
+            "Flask",
+            "SocketIO",
+            "Pandas"
+        ],
+        "partners": [
+            "Nelen & Schuurmans",
+            "IPSARD"
+        ],
+        "countries": ["Vietnam"]
+    },
+    {
+        "id": 2,
+        "title": "Wash in Schools",
+        "description": [
+            "The Solomon Islands government strives for “all Solomon Islanders to have easy access to sufficient quantity and quality of water, appropriate sanitation and to be living in a safe and hygienic environment by 2024.” In order to achieve this, the government needs reliable data to serve as a baseline so that they can effectively steer programmes, policies and interventions.",
+            "Like much of the Pacific, Solomon Islands has historically suffered challenges when collecting and sharing reliable and recent data. This is partly due to the logistical challenges of reaching outer islands for data collection, and poor connectivity making online data collection impossible. Data relating to the WASH sector is no different. Once collected, the resulting data remains locked away in reports, rarely accessible to members of government or the general public."],
+        "objective": "Develop interactive maps and data portal for Wash in Schools",
+        "project": "Wash in Schools",
+        "website": "https://si-wins.org",
+        "categories": ["Website Development"],
+        "galleries": [
+            "portfolio-wash-in-schools-01.jpg",
+            "portfolio-wash-in-schools-02.jpg",
+            "portfolio-wash-in-schools-03.jpg",
+            "portfolio-wash-in-schools-04.jpg"
+        ],
+        "stacks": [
+            "Echarts",
+            "Laravel"
+        ],
+        "partners": ["Unicef Pacific"],
+        "countries": ["Solomon Islands"]
+    },
+    {
+        "id": 3,
+        "title": "Watershed",
+        "description": [
+            "The Solomon Islands government strives for “all Solomon Islanders to have easy access to sufficient quantity and quality of water, appropriate sanitation and to be living in a safe and hygienic environment by 2024.” In order to achieve this, the government needs reliable data to serve as a baseline so that they can effectively steer programmes, policies and interventions.",
+            "Like much of the Pacific, Solomon Islands has historically suffered challenges when collecting and sharing reliable and recent data. This is partly due to the logistical challenges of reaching outer islands for data collection, and poor connectivity making online data collection impossible. Data relating to the WASH sector is no different. Once collected, the resulting data remains locked away in reports, rarely accessible to members of government or the general public."],
+        "objective": "Develop interactive maps and data portal for Wash in Schools",
+        "project": "Wash in Schools",
+        "website": "https://watershed.nl",
+        "categories": ["Website Development"],
+        "galleries": [
+            "portfolio-wash-in-schools-01.jpg",
+            "portfolio-wash-in-schools-02.jpg",
+            "portfolio-wash-in-schools-03.jpg",
+            "portfolio-wash-in-schools-04.jpg"
+        ],
+        "stacks": [
+            "CKAN",
+            "Wordpress"
+        ],
+        "partners": ["Unicef Pacific"],
+        "countries": ["Solomon Islands"]
+    }
+]
