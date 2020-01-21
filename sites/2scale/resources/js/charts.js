@@ -1,7 +1,7 @@
 import { CountUp } from 'countup.js';
 import { staticText, gradients, titleCase} from './util.js';
-const echarts = require('echarts');
-const axios = require('axios');
+const echarts = window.echarts;
+const axios = window.axios;
 
 const popupFormatter = (params) => {
     var value = (params.value + '').split('.');

@@ -1,7 +1,7 @@
 import {
     CountUp
 } from 'countup.js';
-const echarts = require('echarts');
+const echarts = window.echarts;
 const axios = require('axios');
 const gradients = ["purple", "peach", "blue", "morpheus-den"];
 

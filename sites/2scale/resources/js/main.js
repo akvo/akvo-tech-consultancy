@@ -1,7 +1,7 @@
 import { staticText, gradient, titleCase} from './util.js';
 const selectorbar = ($(".selector-bar").length === 1 ? 60 : 0);
 const iframeheight = window.innerHeight - (56 + selectorbar);
-const axios = require("axios");
+const axios = window.axios;
 
 $("#akvo-flow-web").attr("height", iframeheight);
 $("#data-frame").attr("height", iframeheight);

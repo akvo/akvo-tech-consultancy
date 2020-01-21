@@ -1,4 +1,4 @@
-const axios = require('axios');
+const axios = window.axios;
 import {getMaps, getCharts, getCards} from './charts.js';
 
 const info = {

@@ -1,4 +1,4 @@
-const axios=require('axios');
+const axios = window.axios;
 const endpoint=$("meta[name='data-url']").attr("content");
 const getdata=axios.get('/api/datatables' + endpoint) .then(res=> {
     return res.data
