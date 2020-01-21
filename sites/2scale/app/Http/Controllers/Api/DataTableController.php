@@ -21,10 +21,15 @@ class DataTableController extends Controller
 
     public function getDataPoints(Request $request, Datapoint $datapoints, Partnership $partnerships, Question $questions)
     {
-        $country_id = $partnerships->where('name', $request->country)->first()->id;
+        if (!isset($request->country)) {
+            $country_id = $partnerships->select('id')->where('parent_id', null)->get()->pluck('id');
+        }
+        if (isset($request->country)) {
+           $country_id = [$partnerships->where('name', $request->country)->first()->id];
+        }
         $datapoints = $datapoints
             ->where('form_id',$request->form_id)
-            ->where('country_id',$country_id)
+            ->whereIn('country_id',$country_id)
             ->with('answers')
             ->with('country')
             ->get();
@@ -38,19 +43,29 @@ class DataTableController extends Controller
         });
         $questions = $questions->where('form_id', $request->form_id)->get();
         $total_questions = collect($questions)->count(); 
-        /**
         $datapoints = $datapoints->map(function($datapoint) use ($total_questions, $questions) {
-            $questions->map(function($question) {
-                if () {
-                }
-            });
-            if (count($datapoint['data']) < $total_questions) {
-            }
             $ids = collect($datapoint)->get('data')->map(function($data){
                 return $data['question_id'];
             });
+            $data = $datapoint['data'];
+            $datapoint_id = $datapoint['datapoint_id'];
+            $collections = $questions->map(function($question) use ($ids, $data, $datapoint_id) {
+                $id = $question['question_id'];
+                if ($ids->contains($id)){
+                    return collect($data)->where('question_id', $id)->first();
+                };
+                return array (
+                    "id" => null,
+                    "question_id" => $id,
+                    "datapoint_id" => $datapoint_id,
+                    "text" => null,
+                    "value" => null,
+                    "options" => null,
+                );
+            });
+            $datapoint['data'] = $collections;
+            return $datapoint;
         });
-        **/
         return ['datapoints' => $datapoints, 'questions' => $questions];
     }
 }

@@ -291,7 +291,7 @@ class ChartController extends Controller
             };
         }
         if (!isset($request->country_id)) {
-            $showPartnership = true;
+            $showPartnership = false;
         }
         if($showPartnership){
             $results = $results->where('id', $request->country_id)
