@@ -16,7 +16,7 @@ getCards('partnership/top-three/' + endpoints);
 
 /* First Row */
 $("main").append("<div class='row' id='first-row'></div>");
-getCharts('partnership/reach-and-react/' + endpoints, 'first-row', info, "12");
+getCharts('partnership/reach-and-reaction/' + endpoints, 'first-row', info, "12");
 
 /* Second Row */
 $("main").append("<hr><div class='row' id='second-row'></div>");

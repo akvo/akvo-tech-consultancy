@@ -4,10 +4,10 @@
     <!-- Required meta tags-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="2scale website">
+    <meta name="description" content="2SCALE website">
     <meta name="author" content="Akvo">
-    <meta name="keywords" content="2scale">
-    <title>2Scale</title>
+    <meta name="keywords" content="2SCALE">
+    <title>2SCALE</title>
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
 	<!-- Material Design Bootstrap -->

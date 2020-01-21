@@ -10,13 +10,13 @@
         <a class="nav-link" href="/">Home</a>
       </li>
       <li class="nav-item {{Route::is('dashboard') ? 'active' : '' }}">
-        <a class="nav-link" href="/dashboard">KPI Dashboard</a>
+        <a class="nav-link" href="/dashboard">Impact</a>
       </li>
       <li class="nav-item {{Route::is('partnership') ? 'active' : '' }}">
         <a class="nav-link" href="/partnership">Partnership</a>
       </li>
       <li class="nav-item {{Route::is('reachreact') ? 'active' : '' }}">
-        <a class="nav-link" href="/reach-and-react">Reach and React</a>
+        <a class="nav-link" href="/reach-and-react">Reach and Reaction</a>
       </li>
       <li class="nav-item {{Route::is('database') ? 'active' : '' }}">
         <a class="nav-link" href="/database">Database</a>

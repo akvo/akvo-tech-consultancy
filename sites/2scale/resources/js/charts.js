@@ -86,7 +86,7 @@ export const getCharts = (chart, row, info, md, color) => {
                     </div>
                     <div id="` + chartname + `" style="height:450px"></div>
                   </div>
-                  <div class="card-footer text-muted">` + info.content + `</div>
+                  <div class="card-footer text-muted"></div>
                 </div>
                 </div>`;
     $("#" + row).append(html);

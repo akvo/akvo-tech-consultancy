@@ -4,12 +4,12 @@
     <!-- Required meta tags-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="2scale website">
+    <meta name="description" content="2SCALE website">
     <meta name="author" content="Akvo">
-    <meta name="keywords" content="2scale">
+    <meta name="keywords" content="2SCALE">
 
     <!-- Title Page-->
-    <title>2Scale</title>
+    <title>2SCALE</title>
 
     <!-- Fontfaces CSS-->
 	<!-- Bootstrap core CSS -->

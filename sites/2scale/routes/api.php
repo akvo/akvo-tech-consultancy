@@ -81,7 +81,7 @@ Route::get('/charts/reachreact/top-three','Api\ChartController@topThree');
 
 Route::get('/charts/partnership/datapoints','Api\ChartController@totalDatapoints');
 Route::get('/charts/partnership/top-three/{country_id}/{partnership_id}','Api\ChartController@topThree');
-Route::get('/charts/partnership/reach-and-react/{country_id}/{partnership_id}', 'Api\ChartController@rnrGender');
+Route::get('/charts/partnership/reach-and-reaction/{country_id}/{partnership_id}', 'Api\ChartController@rnrGender');
 Route::get('/charts/partnership/gender-total/{country_id}/{partnership_id}', 'Api\ChartController@genderTotal');
 Route::get('/charts/partnership/country-total/{country_id}/{partnership_id}', 'Api\ChartController@countryTotal');
 

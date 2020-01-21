@@ -37,6 +37,20 @@ class DataTableController extends Controller
             ];
         });
         $questions = $questions->where('form_id', $request->form_id)->get();
+        $total_questions = collect($questions)->count(); 
+        /**
+        $datapoints = $datapoints->map(function($datapoint) use ($total_questions, $questions) {
+            $questions->map(function($question) {
+                if () {
+                }
+            });
+            if (count($datapoint['data']) < $total_questions) {
+            }
+            $ids = collect($datapoint)->get('data')->map(function($data){
+                return $data['question_id'];
+            });
+        });
+        **/
         return ['datapoints' => $datapoints, 'questions' => $questions];
     }
 }
