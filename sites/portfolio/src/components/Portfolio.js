@@ -22,7 +22,7 @@ class Portfolio extends Component {
             customPaging: function(i) {
                 return (
                   <a>
-                      <img src={`images/portfolio/${thumb}0${i + 1}.jpg`} />
+                      <img src={`${process.env.PUBLIC_URL}/images/portfolio/${thumb}0${i + 1}.jpg`} />
                     </a>
                 );
             },
@@ -95,7 +95,7 @@ const galleries = (gal) => {
     return gal.map((g, i) => {
         return(
             <div key={i}>
-                <Image src={"/images/portfolio/" + g} fluid />
+                <Image src={`${process.env.PUBLIC_URL}/images/portfolio/${g}`} fluid />
             </div>
         );
     })

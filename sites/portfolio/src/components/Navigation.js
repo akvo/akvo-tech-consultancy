@@ -35,7 +35,7 @@ class Navigation extends Component {
               <Container>
               <Navbar.Brand href="#home">
                   <Image
-                      src="../images/logo-akvo.png"
+                      src={`${process.env.PUBLIC_URL}/images/logo-akvo.png`}
                       height="38px"
                   />
               </Navbar.Brand>
