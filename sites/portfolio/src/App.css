@@ -1,0 +1,35 @@
+body {
+    font-family: 'Assistant', sans-serif;
+}
+.navbar {
+    padding: .2rem 3rem;
+}
+.NavDark {
+    background-color:#202020!important;
+    border-color: #080808;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+}
+.navbar-dark .navbar-nav .nav-link {
+    color: #FFF;
+    font-weight: 400;
+    font-size: 17px;
+    text-rendering: optimizeLegibility;
+    font-family: 'Assistant', sans-serif;
+}
+.carousel {
+    margin-top: 50px;
+}
+
+.btn {
+    border-radius:0px;
+}
+
+.btn-primary {
+    background-color: #03ad8c;
+    font-family: 'Assistant', sans-serif;
+    border: 2px solid #fff !important;
+}
+
+.btn-primary:hover {
+    background-color: #00c19c;
+}

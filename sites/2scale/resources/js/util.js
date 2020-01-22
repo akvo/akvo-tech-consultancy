@@ -1,4 +1,3 @@
-
 export const staticText = require("../json/static.json");
 export const gradients = ["purple","peach","blue","morpheus-den"];
 export const titleCase = (str) => {

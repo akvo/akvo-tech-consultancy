@@ -201,7 +201,7 @@ def sendZip(payload, _uuid, instance_id, imagelist):
     uid = str(uuid.uuid4())
     params = {
         'resumableChunkNumber': 1,
-        'resumableChunkSize': 524288,
+        'resumableChunkSize': fsize,
         'resumableCurrentChunkSize': fsize,
         'resumableTotalSize': fsize,
         'resumableType': 'application/zip',

@@ -67,18 +67,6 @@ class AkvoCkanMetabox {
 			elseif( $field['type'] == 'ckan' ){
 				echo $this->field_ckan( $field );
 			}
-			elseif( $field['type'] == 'select' ){
-				echo $this->field_select( $field );
-			}
-			elseif( $field['type'] == 'checkbox' ){
-				echo $this->field_checkbox( $field );
-			}
-			elseif( $field['type'] == 'file' ){
-				echo $this->field_file( $field );
-			}
-			elseif( $field['type'] == 'wysiwyg' ){
-				echo $this->field_wysiwyg( $field );
-			}
 
 			do_action( "akvockan_meta_field-{$field['name']}", $field, $post->post_type );
 		}
@@ -123,9 +111,7 @@ class AkvoCkanMetabox {
 
 		$html	= sprintf( '<fieldset class="akvockan-row" id="akvockan_cmb_fieldset_%1$s">', $field['name'] );
 		$html	.= sprintf( '<label class="akvockan-label" for="akvockan_cmb_%1$s">%2$s</label>', $field['name'], $field['label']);
-
 		$html  .= sprintf( '<input type="%1$s" class="%2$s" id="akvockan_cmb_%3$s" name="%3$s" value="%5$s" %6$s %7$s/>', $field['type'], $class, $field['name'], $field['name'], $value, $readonly, $disabled );
-
 		$html	.= $this->field_description( $field );
 		$html	.= '</fieldset>';
 		return $html;
@@ -145,119 +131,11 @@ class AkvoCkanMetabox {
 
 		$html  .= sprintf( '<input placeholder="type keywords here to search" type="text" class="%2$s" id="suggest_akvockan_cmb_%3$s" />', $field['type'], $class, $field['name'], $field['name'], $value, $readonly, $disabled );
 		$html  .= sprintf( '<input type="hidden" id="akvockan_cmb_%3$s" name="%3$s" value="%5$s" %6$s %7$s/>', $field['type'], $class, $field['name'], $field['name'], $value, $readonly, $disabled );
-
 		$html	.= $this->field_description( $field );
 		$html	.= '</fieldset>';
         $html .= sprintf('<div id="ckan-suggest-box" style="display:none;"></div>');
         $html .= sprintf('<div class="lds-ellipsis" style="display:none;"><div></div><div></div><div></div><div></div></div>');
 		return $html;
-	}
-
-	public function field_checkbox( $field ){
-		global $post;
-		$field['default'] = ( isset( $field['default'] ) ) ? $field['default'] : '';
-		$value = get_post_meta( $post->ID, $field['name'], true ) != '' ? esc_attr (get_post_meta( $post->ID, $field['name'], true ) ) : $field['default'];
-		$class  = isset( $field['class'] ) && ! is_null( $field['class'] ) ? $field['class'] : 'akvockan-meta-field';
-		$disabled  = isset( $field['disabled'] ) && ( $field['disabled'] == true ) ? " disabled" : "";
-
-		$html	= sprintf( '<fieldset class="akvockan-row" id="akvockan_cmb_fieldset_%1$s">', $field['name'] );
-		$html	.= sprintf( '<label class="akvockan-label" for="akvockan_cmb_%1$s">%2$s</label>', $field['name'], $field['label']);
-
-		$html  .= sprintf( '<input type="checkbox" class="checkbox" id="akvockan_cmb_%1$s" name="%1$s" value="on" %2$s %3$s />', $field['name'], checked( $value, 'on', false ), $disabled );
-
-		$html .= $this->field_description( $field, true ) . '';
-		$html	.= '</fieldset>';
-		return $html;
-	}
-
-	public function field_select( $field ){
-		global $post;
-		$field['default'] = ( isset( $field['default'] ) ) ? $field['default'] : '';
-		$value = get_post_meta( $post->ID, $field['name'], true ) != '' ? esc_attr ( get_post_meta( $post->ID, $field['name'], true ) ) : $field['default'];
-		$class  = isset( $field['class'] ) && ! is_null( $field['class'] ) ? $field['class'] : 'akvockan-meta-field';
-		$disabled  = isset( $field['disabled'] ) && ( $field['disabled'] == true ) ? " disabled" : "";
-		$multiple  = isset( $field['multiple'] ) && ( $field['multiple'] == true ) ? " multiple" : "";
-		$name 	   = isset( $field['multiple'] ) && ( $field['multiple'] == true ) ? $field['name'] . '[]' : $field['name'];
-
-		$html	= sprintf( '<fieldset class="akvockan-row" id="akvockan_cmb_fieldset_%1$s">', $field['name'] );
-        $html	.= sprintf( '<label class="akvockan-label" for="akvockan_cmb_%1$s">%2$s</label>', $field['name'], $field['label']);
-        $html   .= sprintf( '<select class="%1$s" name="%2$s" id="akvockan_cmb_%2$s" %3$s %4$s>', $class, $name, $disabled, $multiple );
-
-        if( $multiple == '' ) { 
-
-        foreach ( $field['options'] as $key => $label ) {
-            $html .= sprintf( '<option value="%s"%s>%s</option>', $key, selected( $value, $key, false ), $label );
-        }
-
-        } else{
-
-            $values = explode( ',', $value );
-            foreach ( $field['options'] as $key => $label ) {
-                $selected = in_array( $key, $values ) && $key != '' ? ' selected' : '';
-                $html .= sprintf( '<option value="%s"%s>%s</option>', $key, $selected, $label );
-            }
-        }
-
-
-        $html .= sprintf( '</select>' );
-        $html .= $this->field_description( $field );
-        $html	.= '</fieldset>';
-        return $html;
-	}
-
-	public function field_file( $field ){
-		global $post;
-		$value = get_post_meta( $post->ID, $field['name'], true ) != '' ? esc_attr (get_post_meta( $post->ID, $field['name'], true ) ) : $field['default'];
-		$class  = isset( $field['class'] ) && ! is_null( $field['class'] ) ? $field['class'] : 'akvockan-meta-field';
-		$disabled  = isset( $field['disabled'] ) && ( $field['disabled'] == true ) ? " disabled" : "";
-
-        $id    = $field['name']  . '[' . $field['name'] . ']';
-        $upload_button = isset( $field['upload_button'] ) ? $field['upload_button'] : __( 'Choose File' );
-        $select_button = isset( $field['select_button'] ) ? $field['select_button'] : __( 'Select' );
-        
-        $html	= sprintf( '<fieldset class="akvockan-row" id="akvockan_cmb_fieldset_%1$s">', $field['name'] );
-        $html	.= sprintf( '<label class="akvockan-label" for="akvockan_cmb_%1$s">%2$s</label>', $field['name'], $field['label']);
-        $html  .= sprintf( '<input type="text" class="%1$s-text akvockan-file" id="akvockan_cmb_%2$s" name="%2$s" value="%3$s" %4$s />', $class, $field['name'], $value, $disabled );
-        $html  .= '<input type="button" class="button akvockan-browse" data-title="' . $field['label'] . '" data-select-text="' . $select_button . '" value="' . $upload_button . '" ' . $disabled . ' />';
-        $html  .= $this->field_description( $field );
-        $html	.= '</fieldset>';
-        return $html;
-	}
-
-	public function field_wysiwyg( $field ){
-		global $post;
-		$value = get_post_meta( $post->ID, $field['name'], true ) != '' ? get_post_meta( $post->ID, $field['name'], true ) : $field['default'];
-		$class  = isset( $field['class'] ) && ! is_null( $field['class'] ) ? $field['class'] : 'akvockan-meta-field';
-		$width  = isset( $field['width'] ) && ! is_null( $field['width'] ) ? $field['width'] : '500px';
-		$teeny  = isset( $field['teeny'] ) && ( $field['teeny'] == true ) ? true : false;
-		$text_mode  = isset( $field['text_mode'] ) && ( $field['text_mode'] == true ) ? true : false;
-		$media_buttons  = isset( $field['media_buttons'] ) && ( $field['media_buttons'] == true ) ? true : false;
-		$rows  = isset( $field['rows'] ) ? $field['rows'] : 10;
-
-		$html	= sprintf( '<fieldset class="akvockan-row" id="akvockan_cmb_fieldset_%1$s">', $field['name'] );
-        $html	.= sprintf( '<label class="akvockan-label" for="akvockan_cmb_%1$s">%2$s</label>', $field['name'], $field['label']);
-        $html	.= '<div style="width: ' . $width . '; float:right">';
-
-        $editor_settings = array(
-            'teeny'         => $teeny,
-            'textarea_name' => $field['name'],
-            'textarea_rows' => $rows,
-            'quicktags'		=> $text_mode,
-            'media_buttons'		=> $media_buttons,
-        );
-
-        if ( isset( $field['options'] ) && is_array( $field['options'] ) ) {
-            $editor_settings = array_merge( $editor_settings, $field['options'] );
-        }
-
-        ob_start();
-        wp_editor( $value, $field['name'], $editor_settings );
-		$html .= ob_get_contents();
-		ob_end_clean();
-        
-        $html	.= '</div>';
-        $html	.= '</fieldset>';
-        return $html;
 	}
 
 	public function field_description( $args ) {
@@ -279,8 +157,8 @@ class AkvoCkanMetabox {
         <script>
             jQuery(document).ready(function($) {
                 let defaultValue = $("#akvockan_cmb_ckan_dataset").val();
+                console.log(defaultValue);
                 if (typeof defaultValue !== undefined) {
-                    $(".lds-ellipsis").show();
                     $.get("/wp-json/akvockan/v1?id=" + defaultValue, function(data){
                         $(".lds-ellipsis").hide();
                         $("#ckan-suggest-box").children().remove();
@@ -289,6 +167,8 @@ class AkvoCkanMetabox {
                     });
                 }
                 $("#suggest_akvockan_cmb_ckan_dataset").on('input', function(){
+                    $(".lds-ellipsis").show();
+                    $(".result-box table").remove();
                     $("#ckan-suggest-box").children().remove();
                     $("#ckan-suggest-box").show();
                     let thisBox = $(this);
@@ -331,7 +211,7 @@ class AkvoCkanMetabox {
                     }
                     html += "</table>"
                     $("#ckan-suggest-box").append(html);
-                    $('#button_' + data.id).click(function(event){
+					$('#button_' + data.id).click(function(event){
 						$('#' + data.id).siblings().remove();
 						$("#akvockan_cmb_ckan_dataset").val(data.id);
 						if ($("#akvockan_cmb_fieldset_ckan_dataset").is(':visible')) {

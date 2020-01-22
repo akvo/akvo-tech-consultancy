@@ -3,7 +3,7 @@
 Plugin Name: Akvo CKAN 
 Plugin URI: https://www.akvo.org
 Description: Connecting Your CKAN Datasets to Wordpress using CKAN API
-Version: 1.0.0
+Version: 1.0.1
 Author: Akvo Foundation 
 Author URI: https://www.akvo.org
 License: GPLv2 or later
@@ -36,6 +36,7 @@ if ( file_exists( dirname( __FILE__ ) . '/vendor/autoload.php' ) ) {
 if ( class_exists( 'Inc\\Init' ) ) {
 	Inc\Init::register_services();
     Inc\Init::register_metabox();
+    Inc\Init::register_shortcode();
     Inc\Init::register_post_type();
     Inc\Init::register_custom_api();
 }

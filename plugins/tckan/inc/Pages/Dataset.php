@@ -92,6 +92,13 @@ class Dataset {
             'choose_from_most_used' => __( 'Choose from the most used collection tags' ),
             'menu_name' => __( 'Collections' ),
           ); 	
+
+          $rewrite = array(
+            'slug'                  => 'dataset',
+            'with_front'            => true,
+            'pages'                 => true,
+            'feeds'                 => true,
+          );
          
           register_taxonomy('collection',array('dataset'), array(
             'hierarchical'          => true,
@@ -105,7 +112,7 @@ class Dataset {
             'show_in_nav_menus'     => true,
             'has_archive'           => true,
             'publicly_queryable'    => true,
-            'rewrite'               => array( 'slug' => 'dataset' ),
+            'rewrite'               => $rewrite,
           ));
     }
 

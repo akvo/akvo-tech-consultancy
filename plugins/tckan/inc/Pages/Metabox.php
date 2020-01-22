@@ -8,11 +8,11 @@ use Inc\Base\AkvoCkanMetabox;
 
 class Metabox extends AkvoCkanMetabox {
 
-    public function register() {
-        add_action( 'admin_init', array( $this, 'my_meta_fields' ) );
+    public function register_ckan_metabox() {
+        add_action( 'admin_init', array( $this, 'ckan_metabox_fields' ) );
     }
 
-    public function my_meta_fields()
+    public function ckan_metabox_fields()
     {
         $args = array(
             'meta_box_id'   =>  'ckan_meta_id',
@@ -39,8 +39,10 @@ class Metabox extends AkvoCkanMetabox {
             $this->akvockan_meta_box( $args );
     }
 
+
     public function akvockan_meta_box( $args ){
         return new AkvoCkanMetabox( $args );
     }
+
 }
 

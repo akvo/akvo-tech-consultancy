@@ -34,7 +34,7 @@ class FrameController extends Controller
                 'icon' => 'tachometer-alt',
                 'color' => 'purple-gradient',
                 'text' => 'A multi-country dashboard for a selection of KPIs',
-                'button' => 'KPI Dashboard',
+                'button' => 'Impact',
                 'link' => '/dashboard'
             ],
             [
@@ -50,7 +50,7 @@ class FrameController extends Controller
                 'icon' => 'briefcase',
                 'color' => 'peach-gradient',
                 'text' => 'A dashboard for select indicators of the Reach and React forms',
-                'button' => 'Reach & React',
+                'button' => 'Reach & Reaction',
                 'link' => '/reach-and-react'
             ],
             [

@@ -44,13 +44,20 @@ final class Init
     public static function register_custom_api()
     {
         $custom_api = new Pages\Api();
-        $custom_api->register();
+		$custom_api->register();
+		$custom_api->addContainerTag();
     }
 
     public static function register_metabox()
     {
         $metabox = new Pages\Metabox();
-        $metabox->register();
+        $metabox->register_ckan_metabox();
+    }
+
+    public static function register_shortcode()
+    {
+        $metabox = new Pages\Shortcode();
+        $metabox->register_shortcode_metabox();
     }
 
 	/**

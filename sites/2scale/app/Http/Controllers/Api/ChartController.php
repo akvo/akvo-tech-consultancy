@@ -281,6 +281,120 @@ class ChartController extends Controller
 		return $this->echarts->generateDonutCharts($legends, $series);
     }
 
+    private function filterPartnership($request, $results) {
+
+        $filter_country = false;
+        $filter_partner = false;
+
+        if (isset($request->country_id)) {
+            $filter_country = true;
+            if ($request->country_id === "0") {
+                $filter_country = false;
+            }
+        }
+
+        if (isset($request->partnership_id)) {
+            $filter_partner = true;
+            if ($request->partnership_id === "0") {
+                $filter_partner = false;
+            }
+        }
+
+        $survey_codes = collect(config('surveys.forms'))->filter(function($survey){
+            return $survey['name'] === "Organisation Forms";
+        })->map(function($survey){
+            return collect($survey['list'])->values()->map(function($list){
+                return $list['form_id'];
+            })->flatten(2);
+        })->values()->flatten();
+
+        if($filter_country){
+            $results = $results->where('parent_id', $request->country_id);
+        };
+        if ($filter_partner) {
+            $results = $results->where('id', $request->partnership_id);
+        }
+        $results = $results->with('partnership_datapoints')->with('parents')->get();
+        $results = collect($results)->map(function($partners) use ($survey_codes) {
+            $partnership_dp = collect($partners['partnership_datapoints'])->filter(function($dp) use ($survey_codes) {
+                return collect($survey_codes)->contains($dp['form_id']);
+            })->count();
+            $res['country'] = $partners['parents']['name'];
+            $res['commodity'] = Str::before($partners['name'],'_');
+            $res['project'] = Str::after($partners['name'],'_');
+            $res['value'] = $partnership_dp;
+            return $res;
+        });
+        $results = $results->reject(function($partners){
+            return $partners['value'] === 0;
+        })->values();
+        return $results;
+    }
+
+    public function partnershipCharts(Request $request, Partnership $partnerships, Datapoint $datapoints) {
+        $results = $this->filterPartnership($request, $partnerships);
+        $results = $results->sortByDesc('value')->values();
+        $categories = $results->groupBy('country')->keys();
+        $series = $results->groupBy('project')->map(function($countries, $key) use ($results, $categories) {
+            $data = collect();
+            $categories->each(function($category) use ($countries, $data) {
+                $countries->each(function($country) use ($category, $data) {
+                    if ($category === $country['country']){
+                        $data->push($country['value']);
+                    } else {
+                        $data->push(null);
+                    }
+                });
+            });
+            return [
+                "name" => $key,
+                "data" => $data,
+                "stack" => "project"
+            ];
+        })->values();
+        $type = "Horizontal";
+        $legends = $series->map(function($legend){
+            return $legend['name'];
+        });
+        return $this->echarts->generateBarCharts($legends, $categories, $type, $series);
+    }
+
+    public function partnershipTotalCharts(Request $request, Partnership $partnerships, Datapoint $datapoints) {
+        $results = $this->filterPartnership($request, $partnerships);
+        $series = $results->groupBy('country')->map(function($data, $key){
+            $data = $data->map(function($val){
+                return $val['value'];
+            })->sum();
+            return [
+                "name" => $key,
+                "value" => $data,
+            ];
+        })->values();
+        $legends = $series->map(function($d){
+            return $d['name'];
+        });
+		return $this->echarts->generateDonutCharts($legends, $series);
+        return $this->echarts->generateBarCharts($legends, $categories, $type, $series);
+    }
+
+    public function partnershipCommodityCharts(Request $request, Partnership $partnerships, Datapoint $datapoints) {
+        $results = $this->filterPartnership($request, $partnerships);
+        $series = $results->groupBy('project')->map(function($data, $key){
+            $data = $data->map(function($val){
+                return $val['value'];
+            })->sum();
+            return [
+                "name" => $key,
+                "value" => $data,
+            ];
+        })->values();
+        $legends = $series->map(function($d){
+            return $d['name'];
+        });
+		return $this->echarts->generateDonutCharts($legends, $series);
+        return $this->echarts->generateBarCharts($legends, $categories, $type, $series);
+    }
+
     public function topThree(Request $request, Partnership $partnerships, Datapoint $datapoints)
     {
         $results = $partnerships;
@@ -291,7 +405,7 @@ class ChartController extends Controller
             };
         }
         if (!isset($request->country_id)) {
-            $showPartnership = true;
+            $showPartnership = false;
         }
         if($showPartnership){
             $results = $results->where('id', $request->country_id)
@@ -316,19 +430,37 @@ class ChartController extends Controller
             return $results;
         };
         if(!$showPartnership){
-            $results = $results
-                ->has('partnership_datapoints')
-                ->with('partnership_datapoints')
-                ->with('parents')
-                ->get()
-                ->transform(function($dt){
-                    return [
-                        'country' => $dt->parents->name,
-                        'commodity' => Str::before($dt->name,'_'),
-                        'project' => Str::after($dt->name,'_'),
-                        'value' => $dt->partnership_datapoints->count() 
-                    ];
-                })->sortByDesc('value')->take(3)->values();
+            $survey_codes = collect(config('surveys.forms'))->filter(function($survey){
+                return $survey['name'] === "Organisation Forms";
+            })->map(function($survey){
+                return collect($survey['list'])->values()->map(function($list){
+                    return $list['form_id'];
+                })->flatten(2);
+            })->values()->flatten();
+            $results = $results->with('partnership_datapoints')->with('parents')->get();
+            $results = collect($results)->map(function($partners) use ($survey_codes) {
+                $partnership_dp = collect($partners['partnership_datapoints'])->filter(function($dp) use ($survey_codes) {
+                    return collect($survey_codes)->contains($dp['form_id']);
+                })->count();
+                $res['country'] = $partners['parents']['name'];
+                $res['commodity'] = Str::before($partners['name'],'_');
+                $res['project'] = Str::after($partners['name'],'_');
+                $res['value'] = $partnership_dp;
+                return $res;
+            });
+            $results = $results->reject(function($partners){
+                return $partners['value'] === 0;
+            })->values();
+            $results = $results->sortByDesc('value')->values();
+            $partners = $results->take(3); 
+            $total = [
+                'country'=> $results->groupBy('country')->count()." Countries",
+                'commodity' => $results->groupBy('commodity')->count(). " Partnerships", 
+                'project' => $results->groupBy('project')->count(). " Projects", 
+                'value' => $results->countBy('value')->flatten()->sum()
+            ];
+            $partners->push($total);
+            return $partners;
         }
         $results = collect($results)->push(array(
             'country' => $partnerships->has('childrens')->count(),
