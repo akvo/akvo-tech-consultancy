@@ -281,6 +281,9 @@ class ChartController extends Controller
 		return $this->echarts->generateDonutCharts($legends, $series);
     }
 
+    public function topThreeReachReact() {
+    }
+
     public function topThree(Request $request, Partnership $partnerships, Datapoint $datapoints)
     {
         $results = $partnerships;
@@ -316,11 +319,49 @@ class ChartController extends Controller
             return $results;
         };
         if(!$showPartnership){
+            $survey_codes = collect(config('surveys.forms'))->filter(function($survey){
+                return $survey['name'] === "Organisation Forms";
+            })->map(function($survey){
+                return collect($survey['list'])->values()->map(function($list){
+                    return $list['form_id'];
+                })->flatten(2);
+            })->values()->flatten();
+            $results = $results->with('partnership_datapoints')->with('parents')->get();
+            $results = collect($results)->map(function($partners) use ($survey_codes) {
+                $partnership_dp = collect($partners['partnership_datapoints'])->filter(function($dp) use ($survey_codes) {
+                    return collect($survey_codes)->contains($dp['form_id']);
+                })->count();
+                $res['country'] = $partners['parents']['name'];
+                $res['commodity'] = Str::before($partners['name'],'_');
+                $res['project'] = Str::after($partners['name'],'_');
+                $res['value'] = $partnership_dp;
+                return $res;
+            });
+            $results = $results->reject(function($partners){
+                return $partners['value'] === 0;
+            })->values();
+            $results = $results->sortByDesc('value')->values();
+            $partners = $results->take(3); 
+            $total = [
+                'country'=> $results->groupBy('country')->count()." Countries",
+                'commodity' => $results->groupBy('commodity')->count(). " Partnerships", 
+                'project' => $results->groupBy('project')->count(). " Projects", 
+                'value' => $results->countBy('value')->flatten()->sum()
+            ];
+            $partners->push($total);
+            return $partners;
             $results = $results
                 ->has('partnership_datapoints')
                 ->with('partnership_datapoints')
                 ->with('parents')
-                ->get()
+                ->get()->transform(function($dt){
+                    return [
+                        'Country' => $dt->parents->name,
+                        'Value' => $dt->partnership_datapoints->count(),
+                    ];
+                });
+            return $results;
+            /**
                 ->transform(function($dt){
                     return [
                         'country' => $dt->parents->name,
@@ -329,6 +370,7 @@ class ChartController extends Controller
                         'value' => $dt->partnership_datapoints->count() 
                     ];
                 })->sortByDesc('value')->take(3)->values();
+                **/
         }
         $results = collect($results)->push(array(
             'country' => $partnerships->has('childrens')->count(),
