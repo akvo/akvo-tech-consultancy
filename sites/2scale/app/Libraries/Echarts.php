@@ -8,7 +8,7 @@ class Echarts
 {
     public function __construct(){
         $this->pallete = array(
-            '#ff4444','#ffbb33', '#00C851', '#33b5e5', '#2BBBAD','#4285F4',  '#aa66cc', '#ff7043','#b2dfdb', '#b3e5fc', '#8d6e63'
+            '#ff4444','#ffbb33', '#00C851', '#33b5e5', '#2BBBAD','#4285F4',  '#aa66cc', '#ff7043','#b2dfdb', '#b3e5fc', '#8d6e63','#f78bba','#231fa1'
         );
     }
     private function generateLegend($legend, $textStyle, $orient = 'horizontal', $x = 'center', $y = 'top') {

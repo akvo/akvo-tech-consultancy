@@ -1,13 +1,13 @@
 {
-    "/js/app.js": "/js/app.js",
-    "/css/app.css": "/css/app.css",
-    "/js/charts.js": "/js/charts.js",
-    "/js/database.js": "/js/database.js",
-    "/js/home.js": "/js/home.js",
-    "/js/main.js": "/js/main.js",
-    "/js/organisation.js": "/js/organisation.js",
-    "/js/partnership.js": "/js/partnership.js",
-    "/js/reachreact.js": "/js/reachreact.js",
-    "/js/util.js": "/js/util.js",
-    "/css/all.css": "/css/all.css"
+    "/js/app.js": "/js/app.js?id=af272048ae675e659e34",
+    "/css/app.css": "/css/app.css?id=d41d8cd98f00b204e980",
+    "/js/charts.js": "/js/charts.js?id=81f4013e13084e163294",
+    "/js/database.js": "/js/database.js?id=5a156d1820e54a9d1351",
+    "/js/home.js": "/js/home.js?id=cd65c9a2f3b6feb21d65",
+    "/js/main.js": "/js/main.js?id=2547a7810208939bbb8d",
+    "/js/organisation.js": "/js/organisation.js?id=2e1bb41ca210241920e6",
+    "/js/partnership.js": "/js/partnership.js?id=f64efd81ee0d738dc03a",
+    "/js/reachreact.js": "/js/reachreact.js?id=ebe3bd8efbe57f3946ae",
+    "/js/util.js": "/js/util.js?id=750279a1ac8a80b5703a",
+    "/css/all.css": "/css/all.css?id=43261e0734cbbd79efea"
 }

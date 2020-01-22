@@ -68,6 +68,6 @@ body{
 	<!-- MDB core JavaScript -->
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.11/js/mdb.min.js"></script>
 	<!-- Bootstrap Select -->
-    <script src="{{ asset('/js/home.js') }}"></script>
+    <script src="{{ mix('/js/home.js') }}"></script>
 </body>
 </html>

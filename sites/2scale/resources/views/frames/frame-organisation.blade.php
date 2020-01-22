@@ -107,6 +107,6 @@ button.btn.dropdown-toggle.btn-pink.bs-placeholder {
 	<!-- MDB core JavaScript -->
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.11/js/mdb.min.js"></script>
 	<!-- Bootstrap Select -->
-    <script src="{{ asset('/js/organisation.js') }}"></script>
+    <script src="{{ mix('/js/organisation.js') }}"></script>
 </body>
 </html>

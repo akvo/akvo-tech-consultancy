@@ -16,10 +16,10 @@ getCards('partnership/top-three/' + endpoints);
 
 /* First Row */
 $("main").append("<div class='row' id='first-row'></div>");
-getCharts('partnership/reach-and-reaction/' + endpoints, 'first-row', info, "12");
+getCharts('partnership/commodities/' + endpoints, 'first-row', info, "12");
 
 /* Second Row */
 $("main").append("<hr><div class='row' id='second-row'></div>");
-getCharts('partnership/gender-total/' + endpoints, 'second-row', info, "6");
-getCharts('partnership/country-total/' + endpoints, 'second-row', info, "6");
+getCharts('partnership/countries-total/' + endpoints, 'second-row', info, "6");
+getCharts('partnership/project-total/' + endpoints, 'second-row', info, "6");
 
