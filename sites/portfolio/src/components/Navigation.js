@@ -14,9 +14,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 class Navigation extends Component {
     constructor(props) {
         super(props);
+        this.changePage = this.changePage.bind(this);
         this.state = {
-            active: "/home"
+            active: 'home'
         }
+    }
+
+    changePage (key) {
+        window.scrollTo(0, 0)
+        this.props.changePage(key);
+        this.setState({
+            active: this.props.value.page
+        });
+        return true;
     }
 
     render() {
@@ -31,15 +41,28 @@ class Navigation extends Component {
               </Navbar.Brand>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="mr-auto" activeKey={this.state.active}>
-                  <Nav.Link href="/home">Home</Nav.Link>
-                  <Nav.Link eventKey="/portfolio">Portfolio</Nav.Link>
-                  <Nav.Link eventKey="/contact">Contact</Nav.Link>
+                <Nav
+                    className="mr-auto"
+                    activeKey={this.props.value.page}
+                    onSelect={this.changePage}
+                >
+                    { this.props.value.page
+                        ? ""
+                        : (
+                            <Nav.Link eventKey="back">
+                                <FontAwesomeIcon icon={["fas", "arrow-circle-left"]} /> Back
+                            </Nav.Link>
+                        )
+                    }
                 </Nav>
                 <Form inline>
-                  <Button variant="secondary">
+                  <a
+                      className="btn btn-secondary text-white"
+                      href="https://github.com/akvo/akvo-tech-consultancy"
+                      target="_blank"
+                  >
                       <FontAwesomeIcon icon={["fab", "github"]} /> GitHub
-                  </Button>
+                  </a>
                 </Form>
               </Navbar.Collapse>
               </Container>

@@ -1,72 +1,149 @@
-[{
+[
+    {
         "id": 1,
         "title": "Coffee Price Integration",
         "description": ["IPSARD collects daily about coffee price which are then displayed on the greencoffee app. They needed a mobile platform for their data collectors to collect the pricing information from various coffee markets in Vietnam."],
         "objective": "Submit data from Flow App and update partner system incrementally. New data records updated everyday in the partner system.",
         "project": "G4AW",
-        "website": false,
+        "link": false,
         "categories": ["Automation", "Data Integration"],
         "galleries": [
             "portfolio-coffee-price-integration-01.jpg",
-            "portfolio-coffee-price-integration-02.jpg",
-            "portfolio-coffee-price-integration-03.jpg",
-            "portfolio-coffee-price-integration-04.jpg"
+            "portfolio-coffee-price-integration-02.jpg"
         ],
         "stacks": [
-            "Flask",
-            "SocketIO",
-            "Pandas"
+            "Akvo Flow",
+            "IPSARD Data Portal"
         ],
-        "partners": [
-            "Nelen & Schuurmans",
-            "IPSARD"
-        ],
-        "countries": ["Vietnam"]
+        "partners": "Nelen & Schuurmans, IPSARD",
+        "countries": "Vietnam"
     },
     {
         "id": 2,
-        "title": "Wash in Schools",
+        "title": "SI-WINS Data Explorer",
         "description": [
-            "The Solomon Islands government strives for “all Solomon Islanders to have easy access to sufficient quantity and quality of water, appropriate sanitation and to be living in a safe and hygienic environment by 2024.” In order to achieve this, the government needs reliable data to serve as a baseline so that they can effectively steer programmes, policies and interventions.",
+            "SI-WINS Data Explorer aims to create an interactive platform that gives an overview of the baseline and monitoring situtation for WASH in schools across Solomon Islands to help inform stakeholder decision making and resource distribution",
             "Like much of the Pacific, Solomon Islands has historically suffered challenges when collecting and sharing reliable and recent data. This is partly due to the logistical challenges of reaching outer islands for data collection, and poor connectivity making online data collection impossible. Data relating to the WASH sector is no different. Once collected, the resulting data remains locked away in reports, rarely accessible to members of government or the general public."],
         "objective": "Develop interactive maps and data portal for Wash in Schools",
         "project": "Wash in Schools",
-        "website": "https://si-wins.org",
+        "link": "https://si-wins.org",
         "categories": ["Website Development"],
         "galleries": [
             "portfolio-wash-in-schools-01.jpg",
             "portfolio-wash-in-schools-02.jpg",
             "portfolio-wash-in-schools-03.jpg",
-            "portfolio-wash-in-schools-04.jpg"
+            "portfolio-wash-in-schools-04.jpg",
+            "portfolio-wash-in-schools-05.jpg",
+            "portfolio-wash-in-schools-06.jpg"
         ],
         "stacks": [
-            "Echarts",
-            "Laravel"
+            "Akvo Flow"
         ],
-        "partners": ["Unicef Pacific"],
-        "countries": ["Solomon Islands"]
+        "partners": "Unicef Pacific",
+        "countries": "Solomon Islands"
     },
     {
         "id": 3,
-        "title": "Watershed",
+        "title": "Data Library Plugins",
         "description": [
-            "The Solomon Islands government strives for “all Solomon Islanders to have easy access to sufficient quantity and quality of water, appropriate sanitation and to be living in a safe and hygienic environment by 2024.” In order to achieve this, the government needs reliable data to serve as a baseline so that they can effectively steer programmes, policies and interventions.",
-            "Like much of the Pacific, Solomon Islands has historically suffered challenges when collecting and sharing reliable and recent data. This is partly due to the logistical challenges of reaching outer islands for data collection, and poor connectivity making online data collection impossible. Data relating to the WASH sector is no different. Once collected, the resulting data remains locked away in reports, rarely accessible to members of government or the general public."],
-        "objective": "Develop interactive maps and data portal for Wash in Schools",
-        "project": "Wash in Schools",
-        "website": "https://watershed.nl",
-        "categories": ["Website Development"],
+            "Deploy and integrate the world's leading Open-Source data portal platform CKAN to Akvo Site with custom plugins. CKAN supports commons filetypes and has capability to visualise the datasets and geo-data type of files such as comma-saperated, excel, json, geojson, CartoDB and many more.",
+            "This plugins links to the CKAN API and use the visualisations on the Watershed's website."],
+        "objective": "Develop Wordpress Plugins for CKAN",
+        "project": "Watershed",
+        "link": "https://watershed.nl",
+        "categories": ["App Development"],
         "galleries": [
-            "portfolio-wash-in-schools-01.jpg",
-            "portfolio-wash-in-schools-02.jpg",
-            "portfolio-wash-in-schools-03.jpg",
-            "portfolio-wash-in-schools-04.jpg"
+            "portfolio-watershed-01.jpg",
+            "portfolio-watershed-02.jpg",
+            "portfolio-watershed-03.jpg",
+            "portfolio-watershed-04.jpg",
+            "portfolio-watershed-05.jpg",
+            "portfolio-watershed-06.jpg",
+            "portfolio-watershed-07.jpg",
+            "portfolio-watershed-08.jpg",
+            "portfolio-watershed-09.jpg"
         ],
         "stacks": [
             "CKAN",
-            "Wordpress"
+            "AkvoSite"
         ],
-        "partners": ["Unicef Pacific"],
-        "countries": ["Solomon Islands"]
+        "partners": "Watershed Partners",
+        "countries": "India"
+    },
+    {
+        "id": 4,
+        "title": "Custom RSR Report Generator",
+        "description": [
+            "Created in response to partners need for an enhanced report generator for RSR data for a highly complex RSR projects setup with features like , country-wise filtering from within projects ,specialised formats, visibility in child projects and ability to add comments along with features like export of PDF and spreadsheets."
+        ],
+        "objective": "Develop Portal to Generate Custom RSR Report",
+        "project": "APPSA Cardesa",
+        "link": "http://tech-consultancy.akvotest.org/appsa-api/",
+        "categories": ["Website Development", "Automation"],
+        "galleries": [
+            "portfolio-appsa-01.jpg",
+            "portfolio-appsa-02.jpg",
+            "portfolio-appsa-03.jpg",
+            "portfolio-appsa-04.jpg",
+            "portfolio-appsa-05.jpg",
+            "portfolio-appsa-06.jpg",
+            "portfolio-appsa-07.jpg"
+        ],
+        "stacks": [
+            "Akvo RSR"
+        ],
+        "partners": "CARDESA, IRRI",
+        "countries": "Malawi, Mozambique, Zambia"
+    },
+    {
+        "id": 5,
+        "title": "2SCALE Data Portal",
+        "description": [
+            "Data portal designed for the partner to have a one stop destination for entering data (using webforms), dashboards, downloading data (with various search and filter options) as well as report generation options in 2nd phase.",
+            "2SCALE offers a range of support services to private partners – companies and farmer groups – enabling them to produce, transform and supply quality food products to local, national and regional end-user markets, including Base of the Pyramid consumers."
+        ],
+        "objective": "Develop Portal to Generate Custom RSR Report",
+        "project": "Wash in Schools",
+        "link": "http://tech-consultancy.akvotest.org/appsa-api/",
+        "categories": ["Website Development"],
+        "galleries": [
+            "portfolio-2scale-01.jpg",
+            "portfolio-2scale-02.jpg",
+            "portfolio-2scale-03.jpg",
+            "portfolio-2scale-04.jpg",
+            "portfolio-2scale-05.jpg",
+            "portfolio-2scale-06.jpg",
+            "portfolio-2scale-07.jpg"
+        ],
+        "stacks": [
+            "Akvo Flow"
+        ],
+        "partners": "IDFC, BoP Innovation Center, SNV",
+        "countries": "Ethiopia, Ghana, Ivory Coast, Kenya, Mali, Nigeria, Burkina Faso, Niger"
+    },
+    {
+        "id": 6,
+        "title": "National General Election Report",
+        "description": [
+            "Report design for Solomon Islands National General Election 2019 based on Akvo Lumen data analysis and visualisations.",
+            "The report has more than 100 custom charts images which is generated using automation scripts. The data was collected with Akvo Flow during and post the elections."
+        ],
+        "objective": "Designing Reports for Solomon Islands National General Election",
+        "project": "Solomon Islands National General Election",
+        "link": false,
+        "categories": ["Website Development"],
+        "galleries": [
+            "portfolio-anu-nge-01.jpg",
+            "portfolio-anu-nge-02.jpg",
+            "portfolio-anu-nge-03.jpg",
+            "portfolio-anu-nge-04.jpg",
+            "portfolio-anu-nge-05.jpg"
+        ],
+        "stacks": [
+            "Akvo Lumen",
+            "Akvo Flow"
+        ],
+        "partners": "ANU",
+        "countries": "Solomon Islands"
     }
 ]
