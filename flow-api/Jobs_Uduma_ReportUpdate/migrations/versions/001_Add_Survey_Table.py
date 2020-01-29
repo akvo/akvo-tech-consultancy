@@ -6,7 +6,7 @@ survey = Table(
     'survey', meta,
     Column('id', Integer, primary_key=True),
     Column('name', Text),
-    Column('registration_id', Integer)
+    Column('registration_id', Integer, nullable=True)
 )
 
 def upgrade(migrate_engine):
