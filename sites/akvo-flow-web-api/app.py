@@ -142,6 +142,9 @@ def submitprocess(rec, _uuid):
                 for rc in list(ast.literal_eval(rec[ids])):
                     vals.append({"code":rc["text"], "name":rc["text"]})
                 val = json.dumps(vals)
+            elif answerType[i] == "DATE":
+                objDate = datetime.strptime(rec[ids], "%Y-%m-%d")
+                val = datetime.timestamp(objDate) * 1000
             else:
                 val = rec[ids]
             aType = answerType[i]
