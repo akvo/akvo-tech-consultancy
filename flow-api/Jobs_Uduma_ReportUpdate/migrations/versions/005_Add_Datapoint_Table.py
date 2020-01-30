@@ -1,18 +1,20 @@
-from sqlalchemy import Table, Column, Integer, Text, MetaData, ForeignKey
+from sqlalchemy import Table, Column, String, Integer, Text, MetaData, ForeignKey
 
 meta = MetaData()
 
-instance = Table(
-    'instance', meta,
+form = Table(
+    'form', meta,
     Column('id', Integer, primary_key=True),
 )
 
 datapoint = Table(
     'datapoint', meta,
     Column('id', Integer, primary_key=True),
-    Column('instance_id', Integer, ForeignKey('instance.id')),
+    Column('identifier', String(16)),
+    Column('form_id', Integer, ForeignKey('form.id')),
     Column('submitter', Text),
-    Column('device', Text)
+    Column('device', Text),
+    Column('survey_time', Integer)
 )
 
 def upgrade(migrate_engine):

@@ -14,10 +14,10 @@ question = Table(
 
 answer = Table(
     'answer', meta,
-    Column('id', Integer, primary_key=True),
+    Column('id', Integer, primary_key=True, autoincrement=True),
     Column('datapoint_id', Integer, ForeignKey('datapoint.id')),
     Column('question_id', Integer, ForeignKey('question.id')),
-    Column('answer', Text),
+    Column('value', Text)
 )
 
 def upgrade(migrate_engine):
