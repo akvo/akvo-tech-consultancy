@@ -14,7 +14,7 @@ class Slider extends Component {
               <Carousel.Item key={i}>
                 <img
                   className="d-block w-100"
-                  src={"../images/" + s}
+                  src={ `${process.env.PUBLIC_URL}/images/${s}` }
                   alt={"slide" + i}
                 />
               </Carousel.Item>
