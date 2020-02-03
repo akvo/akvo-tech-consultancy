@@ -16,7 +16,7 @@ question = Table(
     'question', meta,
     Column('id', BigInteger, primary_key=True),
     Column('form_id', BigInteger, ForeignKey('form.id')),
-    Column('question_group_id', BigInteger, ForeignKey('question_group.id')),
+    Column('question_group_id', BigInteger, ForeignKey('question_group.id'), ondelete='cascade'),
     Column('name', Text),
     Column('type', Text)
 )

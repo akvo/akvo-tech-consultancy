@@ -10,7 +10,7 @@ form = Table(
 question_group = Table(
     'question_group', meta,
     Column('id', BigInteger, primary_key=True),
-    Column('form_id', BigInteger, ForeignKey('form.id')),
+    Column('form_id', BigInteger, ForeignKey('form.id'), ondelete='cascade'),
     Column('repeat', Boolean),
     Column('name', Text)
 )

@@ -8,26 +8,6 @@ engine_url = engine_url()
 engine = create_engine(engine_url)
 Base = declarative_base()
 
-class Forms(Base):
-
-    __tablename__ = "form"
-
-    id = Column(BigInteger, primary_key=True)
-    survey_id = Column(BigInteger, ForeignKey('survey.id'))
-    name = Column(Text)
-    survey = relationship("Surveys")
-    survey_instance = relationship("SurveyInstances")
-    question_group = relationship("QuestionGroups")
-
-    def __init__(self, data):
-        self.id = int(data['id'])
-        self.survey_id = int(data['survey_id'])
-        self.name = data['name']
-
-    def __repr__(self):
-        return "<Forms(id={}, survey_id={}, name={})>".format(
-            self.id, self.survey_id, self.name)
-
 class Surveys(Base):
 
     __tablename__ = "survey"
@@ -35,7 +15,7 @@ class Surveys(Base):
     id = Column(BigInteger, primary_key=True)
     name = Column(Text)
     registration_id = Column(BigInteger, nullable=True)
-    forms = relationship("Forms")
+    forms = relationship("Forms", cascade="all, delete", passive_deletes=True)
 
     def __init__(self, data):
         self.id = int(data['id'])
@@ -46,29 +26,25 @@ class Surveys(Base):
         return "<Survey(id={}, name={}, registration_id={})>".format(
             self.id, self.name, self.registration_id)
 
-class SurveyInstances(Base):
+class Forms(Base):
 
-    __tablename__ = "survey_instance"
+    __tablename__ = "form"
 
     id = Column(BigInteger, primary_key=True)
-    identifier = Column(Text)
-    form_id = Column(BigInteger, ForeignKey('form.id'))
-    submitter = Column(Text)
-    survey_time = Column(Integer)
-    form = relationship('Forms')
-    answers = relationship('Answers')
+    survey_id = Column(BigInteger, ForeignKey('survey.id'))
+    name = Column(Text)
+    survey = relationship("Surveys")
+    survey_instance = relationship("SurveyInstances")
+    question_group = relationship("QuestionGroups", cascade="all, delete", passive_deletes=True)
 
     def __init__(self, data):
         self.id = int(data['id'])
-        self.identifier = data['identifier']
-        self.form_id = int(data['formId'])
-        self.submitter = data['submitter']
-        self.survey_time = data['surveyalTime']
+        self.survey_id = int(data['survey_id'])
+        self.name = data['name']
 
     def __repr__(self):
-        return "<SurveyInstances(id={}, identifier={}, form_id={}, submitter={}, survey_time={})>".format(
-            self.id, self.identifier, self.form_id, self.submitter, self.survey_time)
-
+        return "<Forms(id={}, survey_id={}, name={})>".format(
+            self.id, self.survey_id, self.name)
 
 class QuestionGroups(Base):
 
@@ -78,7 +54,7 @@ class QuestionGroups(Base):
     form_id = Column(BigInteger, ForeignKey('form.id'))
     repeat = Column(Boolean)
     name = Column(Text)
-    questions = relationship('Questions', order_by='asc(Questions.id)')
+    questions = relationship('Questions', order_by='asc(Questions.id)', cascade="all, delete", passive_deletes=True)
     form = relationship('Forms')
 
     def __init__(self, data):
@@ -102,7 +78,7 @@ class Questions(Base):
     type = Column(Text)
     question_group = relationship('QuestionGroups')
     form = relationship('Forms')
-    answers = relationship('Answers', order_by='asc(Answers.repeat_index)')
+    answers = relationship('Answers', order_by='asc(Answers.repeat_index)', cascade="all, delete", passive_deletes=True)
 
     def __init__(self, data):
         self.id = int(data['id'])
@@ -114,6 +90,29 @@ class Questions(Base):
     def __repr__(self):
         return "<Questions(id={}, form_id={}, question_group_id={}, name={}, type={})>".format(
             self.id, self.form_id, self.question_group_id, self.name, self.type)
+
+class SurveyInstances(Base):
+
+    __tablename__ = "survey_instance"
+
+    id = Column(BigInteger, primary_key=True)
+    identifier = Column(Text)
+    form_id = Column(BigInteger, ForeignKey('form.id'))
+    submitter = Column(Text)
+    survey_time = Column(Integer)
+    form = relationship('Forms')
+    answers = relationship('Answers', cascade="all,delete", passive_deletes=True)
+
+    def __init__(self, data):
+        self.id = int(data['id'])
+        self.identifier = data['identifier']
+        self.form_id = int(data['formId'])
+        self.submitter = data['submitter']
+        self.survey_time = data['surveyalTime']
+
+    def __repr__(self):
+        return "<SurveyInstances(id={}, identifier={}, form_id={}, submitter={}, survey_time={})>".format(
+            self.id, self.identifier, self.form_id, self.submitter, self.survey_time)
 
 class Answers(Base):
 

@@ -42,6 +42,15 @@ class flow_api():
             return self.get_new_token()
         return {'token':token['token'], 'time':token['time']}
 
+    def check_folders(self, foldersUrl, surveysUrl, token):
+        folder_depth = self.get_data(foldersUrl, token)['folders']
+        if len(folder_depth) > 0:
+            for df in folder_depth:
+                surveysUrl.append(df['surveysUrl'])
+                self.check_folder(df, surveysUrl, token)
+        else:
+            return surveysUrl
+
     def get_data(self, url, token):
         header = {
             'Authorization':'Bearer ' + token['token'],

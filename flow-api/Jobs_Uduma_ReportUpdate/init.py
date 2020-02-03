@@ -3,10 +3,8 @@ from sqlalchemy.orm import sessionmaker
 from resources.models import Surveys, Forms, QuestionGroups, Questions, SurveyInstances, Answers
 from resources.api import flow_api
 from resources.utils import marktime, checktime, answer_handler
-from resources.database import write_data, table_column_regex, clear_schema
+from resources.database import write_data
 from resources.connection import engine_url
-from collections import ChainMap
-import pandas as pd
 
 instance_name = 'uat2'
 api = flow_api()
@@ -14,7 +12,6 @@ request_url = api.get_instance_url(instance_name)
 engine_url = engine_url()
 engine = create_engine(engine_url)
 session = sessionmaker(bind=engine)()
-getter = sessionmaker(bind=engine)()
 
 surveysUrl = []
 token = api.get_new_token()
@@ -29,6 +26,20 @@ def getFolders(items, token):
             getFolders(childs, token)
         except:
             pass
+
+def saveAnswers(group, index, instance):
+    for qid in [*group]:
+        question = session.query(Questions).filter(Questions.id == int(qid)).first()
+        answer_value = answer_handler(group, qid, question.type)
+        answer_value = str(answer_value)
+        answer = {
+            'survey_instance_id': instance['id'],
+            'question_id': qid,
+            'value': answer_value,
+            'repeat_index': index
+        }
+        input_data = Answers(answer)
+        write_data(session, input_data, answer, False)
 
 print('GETTING FOLDER LIST: ' + checktime(start_time))
 token = api.check_token(token)
@@ -74,20 +85,6 @@ for url in surveys:
         })
 print('SURVEY IS RECORDED: ' + checktime(start_time))
 
-def saveAnswers(group, index):
-    for qid in [*group]:
-        question = getter.query(Questions).filter(Questions.id == int(qid)).first()
-        answer_value = answer_handler(group, qid, question.type)
-        answer_value = str(answer_value)
-        answer = {
-            'survey_instance_id': instance['id'],
-            'question_id': qid,
-            'value': answer_value,
-            'repeat_index': index
-        }
-        input_data = Answers(answer)
-        write_data(session, input_data, answer, False)
-
 print('GETTING SURVEY INSTANCES: ' + checktime(start_time))
 for data in formInstanceUrls:
     token = api.check_token(token)
@@ -105,5 +102,5 @@ for data in formInstanceUrls:
         if answers is not None:
             for group_id in [*answers]:
                 for index, group in enumerate(answers[group_id], start=1):
-                    saveAnswers(group, index)
+                    saveAnswers(group, index, instance)
 print('SURVEY INSTANCES RECORDED: ' + checktime(start_time))

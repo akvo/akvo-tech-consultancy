@@ -15,7 +15,7 @@ question = Table(
 answer = Table(
     'answer', meta,
     Column('id', BigInteger, primary_key=True, autoincrement=True),
-    Column('survey_instance_id', BigInteger, ForeignKey('survey_instance.id')),
+    Column('survey_instance_id', BigInteger, ForeignKey('survey_instance.id'), ondelete='cascade'),
     Column('question_id', BigInteger, ForeignKey('question.id')),
     Column('value', Text, nullable=True),
     Column('repeat_index', Integer, nullable=True)

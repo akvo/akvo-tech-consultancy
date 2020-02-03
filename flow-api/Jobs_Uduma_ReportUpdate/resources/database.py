@@ -114,11 +114,8 @@ def schema_generator(session, engine):
                         '0_submitter':dt.submitter,
                         '0_survey_time':dt.survey_time
                     })
-                    print(repeated)
-                    print('===========================')
                     group_rows[gr]['data'].append(repeated_instance)
         if len(rows) > 0:
-            print(rows)
             generate_pandas_sql(rows, table_name, engine)
             for group_id in [*group_rows]:
                 group_data_rows = group_rows[group_id]['data']

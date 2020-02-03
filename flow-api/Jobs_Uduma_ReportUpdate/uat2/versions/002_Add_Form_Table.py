@@ -10,7 +10,7 @@ survey = Table(
 form = Table(
     'form', meta,
     Column('id', BigInteger, primary_key=True),
-    Column('survey_id', BigInteger, ForeignKey('survey.id')),
+    Column('survey_id', BigInteger, ForeignKey('survey.id'), ondelete='cascade'),
     Column('name', Text)
 )
 
