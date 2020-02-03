@@ -1,4 +1,4 @@
-from sqlalchemy import Table, Column, BigInteger, Integer, Text, MetaData, ForeignKey
+from sqlalchemy import Table, Column, Integer, BigInteger, Text, MetaData, ForeignKey
 
 meta = MetaData()
 
@@ -17,8 +17,8 @@ answer = Table(
     Column('id', BigInteger, primary_key=True, autoincrement=True),
     Column('survey_instance_id', BigInteger, ForeignKey('survey_instance.id')),
     Column('question_id', BigInteger, ForeignKey('question.id')),
-    Column('value', Text),
-    Column('repeat_index', Integer)
+    Column('value', Text, nullable=True),
+    Column('repeat_index', Integer, nullable=True)
 )
 
 def upgrade(migrate_engine):
