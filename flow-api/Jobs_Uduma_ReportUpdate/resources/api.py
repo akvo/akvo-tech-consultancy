@@ -66,16 +66,16 @@ class flow_api():
 class flow_sync():
 
     data = {
-        'client_id':'qsxNP3Nex0wncADQ9Re6Acz6Fa55SuU8',
+        'client_id':environ['AUTH0_CLIENT'],
         'username': environ['AUTH0_USER'],
-        'password': environ['AUTH0_PWD_TEST'],
+        'password': environ['AUTH0_PWD'],
         'grant_type':'password',
         'scope':'openid email'
     }
 
     auth_url = 'https://akvotest.eu.auth0.com/oauth/token'
     data_url = 'https://api-auth0.akvotest.org/flow/orgs/'
-    cursor_url = 'https://api-auth0.akvotest.org/flow/orgs/uat2/sync'
+    cursor_url = 'https://api-auth0.akvotest.org/flow/orgs/udumamali/sync'
 
     def get_token(self):
         try:
