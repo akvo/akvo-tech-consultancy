@@ -1,6 +1,22 @@
 const initialState = {
     page: 'home',
-    portfolios: [{
+    portfolio: [{
+        id: 1,
+        title: "Loading...",
+        project: "Loading...",
+		description: ["Loading..."],
+		objective: ["Loading..."],
+		category: "Loading...",
+        link: "",
+        galleries: [
+            "portfolio-placeholder.gif",
+        ],
+		stacks: [],
+		partners: [],
+		countries: [],
+        active: false
+    }],
+    poc: [{
         id: 1,
         title: "Loading...",
         project: "Loading...",
@@ -29,19 +45,19 @@ const initialState = {
     }]
 }
 
-const getPortfolio = (portfolios) => {
-    return portfolios.map((portfolio) => ({
-            ...portfolio,
+const getList= (list) => {
+    return list.map((data) => ({
+            ...data,
             active: false
         }
     ));
 }
 
-const showPortfolio = (portfolios, id) => {
-    let update = portfolios.map((portfolio) => {
+const showSubPage = (list, id) => {
+    let update = list.map((data) => {
         return {
-            ...portfolio,
-            active: portfolio.id === id ? true : false
+            ...data,
+            active: data.id === id ? true : false
         }
     })
     return update;
@@ -52,17 +68,29 @@ export const states = (state = initialState, action) => {
         case 'GET PORTFOLIO':
             return {
                 ...state,
-                portfolios: getPortfolio(action.data)
+                portfolio: getList(action.data)
+            }
+        case 'GET POC':
+            return {
+                ...state,
+                poc: getList(action.data)
             }
         case 'CHANGE PAGE':
             return {
                 ...state,
-                page: action.data
+                page: action.page
             }
         case 'SHOW PORTFOLIO':
             return {
                 ...state,
-                portfolio: showPortfolio(state.portfolios, action.id)
+                portfolio: showSubPage(state.portfolio, action.id),
+                page: 'portfolio'
+            }
+        case 'SHOW POC':
+            return {
+                ...state,
+                poc: showSubPage(state.poc, action.id),
+                page: 'poc'
             }
         case 'HIDE PAGES':
             return {

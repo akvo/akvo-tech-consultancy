@@ -6,21 +6,21 @@ export const mapStateToProps = (state) => {
 
 export const mapDispatchToProps = (dispatch) => {
     return {
-        getPortfolio: (data) => dispatch({
-            type: "GET PORTFOLIO",
+        getList: (data, list) => dispatch({
+            type: "GET " + list,
             data: data
         }),
-        showPortfolio: (id) => dispatch({
-            type: "SHOW PORTFOLIO",
+        showSubPage: (id, page) => dispatch({
+            type: "SHOW " + page,
             id: id
         }),
         hidePage: (data) => dispatch({
             type: "HIDE PAGES",
             data: data
         }),
-        changePage: (data) => dispatch({
+        changePage: (page) => dispatch({
             type: "CHANGE PAGE",
-            data: data
+            page: page
         })
     }
 }

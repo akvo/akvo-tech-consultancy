@@ -5,24 +5,21 @@ import { Jumbotron, Image, Table } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Slider from "react-slick";
 
-class Portfolio extends Component {
-
-    constructor(props) {
-        super(props);
-    }
+class PageDetails extends Component {
 
     componentDidMount() {
       window.scrollTo(0, 0)
     }
 
     render() {
-        let data = this.props.value.portfolio.find((p) => p.active === true);
+        let data = this.props.value[this.props.value.page].find((p) => p.active === true);
+        let page = this.props.value.page
         let thumb = data.galleries[0].replace(data.galleries[0].split("-").slice(-1), "");
         const settings = {
             customPaging: function(i) {
                 return (
-                  <a>
-                      <img src={`${process.env.PUBLIC_URL}/images/portfolio/${thumb}0${i + 1}.jpg`} />
+                    <a>
+                      <img src={`${process.env.PUBLIC_URL}/images/${page}/${thumb}0${i + 1}.jpg`} />
                     </a>
                 );
             },
@@ -34,12 +31,11 @@ class Portfolio extends Component {
             slidesToShow: 1,
             slidesToScroll: 1
         }
-        console.log(thumb);
         return (
             <Jumbotron>
               <h1 className="title-page">{data.title}</h1>
                 <Slider {...settings}>
-                    {galleries(data.galleries)}
+                    {galleries(data.galleries, this.props.value.page)}
                 </Slider>
               <div className="content">
                   <hr/>
@@ -77,29 +73,39 @@ class Portfolio extends Component {
 
 const links = (link) => {
     return (
-        <a className="btn btn-primary btn-large btn-website" href={link} target="_blank">
+        <a className="btn btn-primary btn-large btn-website" href={link} target="_blank" rel="noopener noreferrer">
             <FontAwesomeIcon icon={["fas","globe"]} /> <span style={{marginLeft:"5px"}}>Visit Website</span>
         </a>
     )
 }
 
+const renderText = (text) => {
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    let parts = text.split(urlRegex)
+    for (let i = 1; i < parts.length; i += 2) {
+      parts[i] = <a key={'link' + i} href={parts[i]} target="_blank" rel="noopener noreferrer">{parts[i]}</a>
+    }
+    return parts
+}
+
+
 const pharagraph = (desc) => {
     return desc.map((d, i) => {
         return(
-            <p key={"desc-" + i}> {d} </p>
+            <p key={"desc-" + i}> {renderText(d)} </p>
         );
     });
 }
 
-const galleries = (gal) => {
+const galleries = (gal, page) => {
     return gal.map((g, i) => {
         return(
             <div key={i}>
-                <Image src={`${process.env.PUBLIC_URL}/images/portfolio/${g}`} fluid />
+                <Image src={`${process.env.PUBLIC_URL}/images/${page}/${g}`} fluid />
             </div>
         );
     })
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Portfolio);
+export default connect(mapStateToProps, mapDispatchToProps)(PageDetails);

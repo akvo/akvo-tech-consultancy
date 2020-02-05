@@ -6,8 +6,7 @@ import {
     Nav,
     Container,
     Image,
-    Form,
-    Button,
+    Form
 } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -20,9 +19,9 @@ class Navigation extends Component {
         }
     }
 
-    changePage (key) {
+    changePage () {
         window.scrollTo(0, 0)
-        this.props.changePage(key);
+        this.props.changePage('home');
         this.setState({
             active: this.props.value.page
         });
@@ -33,7 +32,7 @@ class Navigation extends Component {
         return (
             <Navbar bg="dark" fixed="top" variant="dark" className="NavDark" expand="lg">
               <Container>
-              <Navbar.Brand href="#home">
+              <Navbar.Brand>
                   <Image
                       src={`${process.env.PUBLIC_URL}/images/logo-akvo.png`}
                       height="38px"
@@ -43,10 +42,10 @@ class Navigation extends Component {
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav
                     className="mr-auto"
-                    activeKey={this.props.value.page}
+                    activeKey={this.state.active}
                     onSelect={this.changePage}
                 >
-                    { this.props.value.page
+                    { this.props.value.page === "home"
                         ? ""
                         : (
                             <Nav.Link eventKey="back">
@@ -60,6 +59,7 @@ class Navigation extends Component {
                       className="btn btn-secondary text-white"
                       href="https://github.com/akvo/akvo-tech-consultancy"
                       target="_blank"
+                      rel="noopener noreferrer"
                   >
                       <FontAwesomeIcon icon={["fab", "github"]} /> GitHub
                   </a>

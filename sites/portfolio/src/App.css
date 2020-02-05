@@ -5,6 +5,42 @@ body {
     text-align:center;
 }
 
+.card-image{
+}
+
+.thumbnails {
+    width: 100%;
+    min-width: 100%;
+    text-align: center;
+    height:215px;
+    overflow: hidden;
+    background: #fff;
+    border-bottom: 1px #ddd solid;
+}
+
+.thumbnails img {
+    width: 100%;
+    min-width: 100%;
+    transition: all .1s;
+}
+
+.thumbnails:hover > img {
+    width: 110%;
+    margin: -5% 5% -5% -5%;
+}
+
+.thumbnails-footer {
+    color: #ffffff;
+    background-color: #202020!important;
+    border-color: #080808;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    box-shadow: inset 0px 5px 10px 2px rgb(0, 0, 0);
+}
+.thumbnails-footer .btn-card{
+    border: 2px solid #fff!important;
+}
+
 .footer,
 .tagline{
     margin: 0 0 5rem;
@@ -12,13 +48,30 @@ body {
     min-width: 100%;
     padding: 3rem;
     text-align:center;
-    box-shadow: inset 0px 0 20px 0px rgba(0, 0, 0, 0.27); 
+    box-shadow: inset 0px -20px 20px 0px rgba(0, 0, 0, 0.27)
+}
+.tagline.tagline-poc{
+    background-color: #404898;
+    margin-top: 3rem;
+    box-shadow: inset 0px 0px 20px 0px rgba(0, 0, 0, 0.5)
+}
+.container-thumbnails {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.tagline h1 {
+    font-weight:bold;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+    color: #ffffff;
+    text-shadow: 2px 2px #202020;
 }
 .footer h3,
 .tagline h3 {
     font-weight:thin;
-    padding-top: 1rem;
     padding-bottom: 1rem;
+    padding-top: 1rem;
     color: #ffffff;
 }
 .footer button,
@@ -174,4 +227,16 @@ h1.title-page{
 }
 .jumbotron .footer {
 	margin-top: 0;
+}
+.end-poc.card-body {
+    height: 351px;
+}
+.end-poc h1 {
+    margin-top:30px;
+    font-weight: bold;
+    font-size: 49px;
+    text-transform: uppercase;
+    color: #202020;
+    line-height: 43px;
+    font-family: 'Roboto', sans-serif;
 }
