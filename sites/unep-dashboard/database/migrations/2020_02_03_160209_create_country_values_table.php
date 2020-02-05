@@ -19,7 +19,6 @@ class CreateCountryValuesTable extends Migration
             $table->unsignedBigInteger('value_id');
             $table->bigInteger('value')->nullable();
             $table->text('description')->nullable();
-            $table->timestamps();
 
             $table->foreign('country_id')
                   ->references('id')

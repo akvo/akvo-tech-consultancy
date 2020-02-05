@@ -6,17 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Value extends Model
 {
-    protected $fillable = ['name', 'value', 'description', 'color'];
+    protected $fillable = ['name', 'description', 'color'];
     public $timestamps = false;
-
-    public function groups()
-    {
-        return $this->hasManyTrough('App\Group', 'App\Country');
-    }
 
     public function countries()
     {
-        return $this->belongsToMany('App\Country');
+        return $this->belongsToMany('App\Country', 'App\CountryValue');
+    }
+
+    public function country_values()
+    {
+        return $this->hasMany('App\CountryValue');
     }
 
     public function childrens()
@@ -28,4 +28,10 @@ class Value extends Model
     {
         return $this->hasMany('App\Value', 'id', 'parent_id');
     }
+
+    public function childs()
+    {
+        return $this->hasMany('App\Value', 'parent_id', 'id')->select('id','parent_id','code','name');
+    }
+
 }

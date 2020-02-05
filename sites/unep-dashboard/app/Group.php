@@ -11,22 +11,17 @@ class Group extends Model
 
     public function countries()
     {
-        return $this->hasMany('App\Country');
+        return $this->hasMany('App\CountryGroup');
     }
 
     public function childrens()
     {
-        return $this->hasMany('App\Group', 'parent_id', 'id');
+        return $this->hasMany('App\Group', 'parent_id', 'id')->with('countries.country');
     }
 
     public function parents()
     {
         return $this->hasMany('App\Group', 'id', 'parent_id');
-    }
-
-    public function values()
-    {
-        return $this->hasManyTrough('App\Value', 'App\Country');
     }
 
 }

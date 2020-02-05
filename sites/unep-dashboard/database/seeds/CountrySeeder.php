@@ -1,8 +1,6 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Country as Country;
-use App\CountryValue as CountryValue;
 use Illuminate\Support\Collection;
 
 class CountrySeeder extends Seeder

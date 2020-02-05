@@ -16,7 +16,8 @@ class Country extends Model
 
     public function values()
     {
-        return $this->hasManyTrough('App\Value', 'App\CountryValue');
+        return $this->belongsToMany('App\Value', 'App\CountryValue')
+                    ->select(array('parent_id','name','value','code'));
     }
 
 }
