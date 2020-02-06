@@ -4,7 +4,6 @@ metadata:
   name: jobs-uduma-report
 spec:
   startingDeadlineSeconds: 600
-  command: ["exit", "1"]
   restartPolicy: Never
   jobTemplate:
     metadata:
@@ -38,6 +37,11 @@ spec:
                     name: jobs-uduma-report 
                     key: keycloak-pwd
               - name: AUTH0_CLIENT
+                valueFrom:
+                  secretKeyRef:
+                    name: jobs-uduma-report 
+                    key: autho-client
+              - name: AUTH0_PWD
                 valueFrom:
                   secretKeyRef:
                     name: jobs-uduma-report 

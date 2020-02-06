@@ -11,7 +11,7 @@ survey_instance = Table(
     'survey_instance', meta,
     Column('id', BigInteger, primary_key=True),
     Column('identifier', String(16)),
-    Column('form_id', BigInteger, ForeignKey('form.id'), ondelete='cascade'),
+    Column('form_id', BigInteger, ForeignKey('form.id')),
     Column('submitter', Text),
     Column('device', Text),
     Column('survey_time', Integer)
