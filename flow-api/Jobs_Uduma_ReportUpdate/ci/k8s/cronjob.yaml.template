@@ -1,9 +1,13 @@
 apiVersion: batch/v1beta1
-kind: Pod 
+kind: CronJob 
 metadata:
   name: jobs-uduma-report
 spec:
+  schedule: "@monthly"
   startingDeadlineSeconds: 600
+  concurrencyPolicy: Allow
+  failedJobsHistoryLimit: 3
+  successfulJobsHistoryLimit: 3
   restartPolicy: Never
   jobTemplate:
     metadata:
