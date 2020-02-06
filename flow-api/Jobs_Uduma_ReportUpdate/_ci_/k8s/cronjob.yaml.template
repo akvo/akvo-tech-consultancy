@@ -1,0 +1,65 @@
+apiVersion: batch/v1beta1
+kind: Pod 
+metadata:
+  name: jobs-uduma-report
+spec:
+  startingDeadlineSeconds: 600
+  command: ["exit", "1"]
+  restartPolicy: Never
+  jobTemplate:
+    metadata:
+      labels:
+        cronjob: jobs-uduma-report # <-- for monitoring
+    spec:
+      template:
+        metadata:
+          labels:
+            cronjob: jobs-uduma-report
+        spec:
+          containers:
+          - name: jobs-uduma-report
+            image: eu.gcr.io/akvo-lumen/jobs-uduma-report:${TRAVIS_COMMIT}
+            resources:
+              requests:
+                cpu: "50m"
+                memory: "256Mi"
+              limits:
+                cpu: "1000m"
+                memory: "256Mi"
+            env:
+              - name: KEYCLOAK_USER
+                valueFrom:
+                  secretKeyRef:
+                    name: jobs-uduma-report 
+                    key: keycloak-user
+              - name: KEYCLOAK_PWD
+                valueFrom:
+                  secretKeyRef:
+                    name: jobs-uduma-report 
+                    key: keycloak-pwd
+              - name: AUTH0_CLIENT
+                valueFrom:
+                  secretKeyRef:
+                    name: jobs-uduma-report 
+                    key: autho-client
+              - name: AUTH0_USER
+                valueFrom:
+                  secretKeyRef:
+                    name: jobs-uduma-report 
+                    key: autho-user
+              - name: PSQL_DB 
+                valueFrom:
+                  secretKeyRef:
+                    name: jobs-uduma-report 
+                    key: psql-db
+              - name: PSQL_HOST
+                valueFrom:
+                  secretKeyRef:
+                    name: jobs-uduma-report 
+                    key: psql-host
+              - name: PSQL_PWD
+                valueFrom:
+                  secretKeyRef:
+                    name: jobs-uduma-report 
+                    key: psql-pwd
+          restartPolicy: Never

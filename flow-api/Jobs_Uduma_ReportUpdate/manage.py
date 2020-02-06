@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 from migrate.versioning.shell import main
-import os
+from os import environ
 
-PSQL_USER=os.environ['PSQL_USER']
-PSQL_PWD=os.environ['PSQL_PWD']
+pwd = environ['PSQL_PWD']
+host = environ['PSQL_HOST']
+
+postgres_url = 'postgresql://postgres:{}@{}/uduma_report'.format(pwd, host)
 
 if __name__ == '__main__':
-    main(repository='migrations', url='postgresql://{}:{}@localhost/uduma'.format(PSQL_USER, PSQL_PWD), debug='False')
+    main(repository='migrations', url=postgres_url, debug='False')

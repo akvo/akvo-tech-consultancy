@@ -1,16 +1,16 @@
-from sqlalchemy import Table, Column, Integer, Text, Boolean, MetaData, ForeignKey
+from sqlalchemy import Table, Column, BigInteger, Text, Boolean, MetaData, ForeignKey
 
 meta = MetaData()
 
 form = Table(
     'form', meta,
-    Column('id', Integer, primary_key=True),
+    Column('id', BigInteger, primary_key=True),
 )
 
 question_group = Table(
     'question_group', meta,
-    Column('id', Integer, primary_key=True),
-    Column('form_id', Integer, ForeignKey('form.id')),
+    Column('id', BigInteger, primary_key=True),
+    Column('form_id', BigInteger, ForeignKey('form.id')),
     Column('repeat', Boolean),
     Column('name', Text)
 )

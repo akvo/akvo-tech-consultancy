@@ -1,16 +1,16 @@
-from sqlalchemy import Table, Column, Integer, Text, MetaData, ForeignKey
+from sqlalchemy import Table, BigInteger, Column, Text, MetaData, ForeignKey
 
 meta = MetaData()
 
 survey = Table(
     'survey', meta,
-    Column('id', Integer, primary_key=True),
+    Column('id', BigInteger, primary_key=True),
 )
 
 form = Table(
     'form', meta,
-    Column('id', Integer, primary_key=True),
-    Column('survey_id', Integer, ForeignKey('survey.id')),
+    Column('id', BigInteger, primary_key=True),
+    Column('survey_id', BigInteger, ForeignKey('survey.id')),
     Column('name', Text)
 )
 
