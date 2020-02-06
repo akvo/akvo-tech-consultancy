@@ -8,7 +8,6 @@ spec:
   concurrencyPolicy: Allow
   failedJobsHistoryLimit: 3
   successfulJobsHistoryLimit: 3
-  restartPolicy: Never
   jobTemplate:
     metadata:
       labels:
