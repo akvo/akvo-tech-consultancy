@@ -56,5 +56,5 @@ spec:
                   secretKeyRef:
                     name: jobs-uduma-report
                     key: psql-pwd
-          restartPolicy: Never
-          backoffLimit: 4
+      restartPolicy: Never
+  backoffLimit: 4
