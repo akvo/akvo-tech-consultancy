@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: jobs-uduma-report
+  name: jobs-uduma-report-${TRAVIS_COMMIT}
 spec:
   template:
     spec:
@@ -53,8 +53,10 @@ spec:
                   key: psql-host
             - name: PSQL_PWD
               valueFrom:
-                  secretKeyRef:
-                    name: jobs-uduma-report
-                    key: psql-pwd
+                secretKeyRef:
+                  name: jobs-uduma-report
+                  key: psql-pwd
+            - name: PSQL_USER
+              value: "postgres"
       restartPolicy: Never
   backoffLimit: 4

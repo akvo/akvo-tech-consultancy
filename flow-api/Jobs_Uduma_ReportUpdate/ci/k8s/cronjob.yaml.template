@@ -69,4 +69,6 @@ spec:
                   secretKeyRef:
                     name: jobs-uduma-report
                     key: psql-pwd
+              - name: PSQL_USER
+                value: "postgres"
           restartPolicy: Never
