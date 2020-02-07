@@ -117,5 +117,6 @@ for data in formInstanceUrls:
 print('SURVEY INSTANCES RECORDED: ' + checktime(start_time))
 
 get_summary(session)
+
 clear_schema(engine)
 schema_generator(session, engine)
