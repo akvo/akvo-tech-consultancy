@@ -1,9 +1,9 @@
-apiVersion: batch/v1beta1
-kind: CronJob 
+apiVersion: batch/v1
+kind: Job # temporary CronJob
 metadata:
   name: jobs-uduma-report
 spec:
-  schedule: "30 8 * * *"
+  # schedule: "30 8 * * *"
   startingDeadlineSeconds: 600
   concurrencyPolicy: Allow
   failedJobsHistoryLimit: 3
@@ -32,41 +32,41 @@ spec:
               - name: KEYCLOAK_USER
                 valueFrom:
                   secretKeyRef:
-                    name: jobs-uduma-report 
+                    name: jobs-uduma-report
                     key: keycloak-user
               - name: KEYCLOAK_PWD
                 valueFrom:
                   secretKeyRef:
-                    name: jobs-uduma-report 
+                    name: jobs-uduma-report
                     key: keycloak-pwd
               - name: AUTH0_CLIENT
                 valueFrom:
                   secretKeyRef:
-                    name: jobs-uduma-report 
+                    name: jobs-uduma-report
                     key: autho-client
               - name: AUTH0_PWD
                 valueFrom:
                   secretKeyRef:
-                    name: jobs-uduma-report 
+                    name: jobs-uduma-report
                     key: autho-client
               - name: AUTH0_USER
                 valueFrom:
                   secretKeyRef:
-                    name: jobs-uduma-report 
+                    name: jobs-uduma-report
                     key: autho-user
-              - name: PSQL_DB 
+              - name: PSQL_DB
                 valueFrom:
                   secretKeyRef:
-                    name: jobs-uduma-report 
+                    name: jobs-uduma-report
                     key: psql-db
               - name: PSQL_HOST
                 valueFrom:
                   secretKeyRef:
-                    name: jobs-uduma-report 
+                    name: jobs-uduma-report
                     key: psql-host
               - name: PSQL_PWD
                 valueFrom:
                   secretKeyRef:
-                    name: jobs-uduma-report 
+                    name: jobs-uduma-report
                     key: psql-pwd
           restartPolicy: Never
