@@ -1,9 +1,9 @@
-apiVersion: batch/v1
-kind: Job # temporary CronJob
+apiVersion: batch/v1beta1
+kind: CronJob
 metadata:
   name: jobs-uduma-report
 spec:
-  # schedule: "30 8 * * *"
+  schedule: "30 8 * * *"
   startingDeadlineSeconds: 600
   concurrencyPolicy: Allow
   failedJobsHistoryLimit: 3
