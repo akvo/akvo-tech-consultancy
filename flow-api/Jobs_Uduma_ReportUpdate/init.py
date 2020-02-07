@@ -112,7 +112,6 @@ for data in formInstanceUrls:
                     if saved_group.repeat:
                         for saved_question in saved_questions:
                             group.update({saved_question.id: None})
-                    print(group)
                     saveAnswers(group, index)
 print('SURVEY INSTANCES RECORDED: ' + checktime(start_time))
 

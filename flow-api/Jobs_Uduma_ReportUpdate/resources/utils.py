@@ -9,7 +9,7 @@ def checktime(then):
     integer_time = int(decimal_time)
     seconds_time = decimal_time - integer_time
     seconds_time = int(60 * seconds_time)
-    return '{} Minutes, {} Seconds'.format(integer_time, seconds_time)
+    return '{}:{}'.format(integer_time, seconds_time)
 
 def answer_handler(val, qId, qType):
     try:

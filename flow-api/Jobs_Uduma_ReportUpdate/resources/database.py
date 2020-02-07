@@ -121,3 +121,4 @@ def schema_generator(session, engine):
             for group_id in [*group_rows]:
                 group_data_rows = group_rows[group_id]['data']
                 generate_pandas_sql(group_data_rows, group_rows[group_id]['name'], engine)
+
