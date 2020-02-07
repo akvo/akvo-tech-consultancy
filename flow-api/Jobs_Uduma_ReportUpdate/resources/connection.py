@@ -1,6 +1,6 @@
 import os
 
-PSQL_USER = 'postgres'
+PSQL_USER = os.environ['PSQL_USER']
 PSQL_PWD = os.environ['PSQL_PWD']
 PSQL_DB = os.environ['PSQL_DB']
 PSQL_HOST = os.environ['PSQL_HOST']

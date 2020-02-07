@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: jobs-uduma-report-${TRAVIS_COMMIT}
+  name: jobs-uduma-report-initial-seeds
 spec:
   template:
     spec:

@@ -7,40 +7,30 @@ from resources.models import Sync
 class flow_api():
 
     data = {
-        'client_id':'curl',
-        'username': environ['KEYCLOAK_USER'],
-        'password': environ['KEYCLOAK_PWD'],
+        'client_id':environ['AUTH0_CLIENT'],
+        'username': environ['AUTH0_USER'],
+        'password': environ['AUTH0_PWD'],
         'grant_type':'password',
-        'scope':'openid offline_access'
+        'scope':'openid email'
     }
 
-    auth_url = 'https://login.akvo.org/auth/realms/akvo/protocol/openid-connect/token'
-    data_url = 'https://api.akvo.org/flow/orgs/'
+    auth_url = 'https://akvotest.eu.auth0.com/oauth/token'
+    data_url = 'https://api-auth0.akvotest.org/flow/orgs/udumamali'
 
-    def refresh_token(self):
-        tokens = r.post(self.auth_url, self.data).json();
-        return tokens['refresh_token']
-
-    def get_new_token(self):
-        account = {
-            'client_id':'curl',
-            'refresh_token': self.refresh_token(),
-            'grant_type':'refresh_token'
-        }
+    def get_token(self):
         try:
-            account = r.post(self.auth_url, account).json();
+            account = r.post(self.auth_url, self.data).json();
         except:
             logging.error('FAILED: TOKEN ACCESS UNKNOWN')
             return False
-        return {'token': account['access_token'], 'time':time()}
+        return {'token': account['id_token'], 'time':time()}
 
-    def check_token(self, token):
-        delta = time() - token['time']
-        fetch = True if delta < 300 else False
-        fetch = True if token == False else True
-        if fetch:
-            return self.get_new_token()
-        return {'token':token['token'], 'time':token['time']}
+    def get_header(self, token):
+        return {
+            'Authorization':'Bearer ' + token['token'],
+            'Accept': 'application/vnd.akvo.flow.v2+json',
+            'Content-Type':'application/json'
+        }
 
     def check_folders(self, foldersUrl, surveysUrl, token):
         folder_depth = self.get_data(foldersUrl, token)['folders']
@@ -52,46 +42,29 @@ class flow_api():
             return surveysUrl
 
     def get_data(self, url, token):
-        header = {
-            'Authorization':'Bearer ' + token['token'],
-            'Accept': 'application/vnd.akvo.flow.v2+json',
-            'User-Agent':'python-requests/2.14.2'
-        }
-        response = r.get(url, headers=header).json()
+        header = self.get_header(token)
+        response = r.get(url, headers=header)
+        url = url.replace(self.data_url, '')
+        logging.warn("FETCH: " + str(response.status_code) + " | " + url)
+        if response.status_code == 200:
+            response = response.json()
+            return response
+        logging.error("ERROR: " + url.replace(self.data_url, ''))
         return response
 
-    def get_instance_url(self, instance_id):
-        return  self.data_url + instance_id
-
-class flow_sync():
-
-    data = {
-        'client_id':environ['AUTH0_CLIENT'],
-        'username': environ['AUTH0_USER'],
-        'password': environ['AUTH0_PWD'],
-        'grant_type':'password',
-        'scope':'openid email'
-    }
-
-    auth_url = 'https://akvotest.eu.auth0.com/oauth/token'
-    data_url = 'https://api-auth0.akvotest.org/flow/orgs/'
-    cursor_url = 'https://api-auth0.akvotest.org/flow/orgs/udumamali/sync'
-
-    def get_token(self):
-        try:
-            account = r.post(self.auth_url, self.data).json();
-        except:
-            logging.error('FAILED: TOKEN ACCESS UNKNOWN')
-            return False
-        return {'token': account['id_token'], 'time':time()}
+    def sync_data(self, session, url, token):
+        header = self.get_header(token)
+        response = r.get(url, headers=header)
+        if response.status_code == 200:
+            data = response.json()
+            self.cursor_update(session, data)
+            data.update({'status':200})
+            return data
+        return {'status': 204, 'nextSyncUrl':url}
 
     def init_data(self, session, instance_id, token):
-        init_url = '{}{}/sync?initial=true'.format(self.data_url, instance_id)
-        header = {
-            'Authorization':'Bearer ' + token['token'],
-            'Accept': 'application/vnd.akvo.flow.v2+json',
-            'User-Agent':'python-requests/2.14.2'
-        }
+        init_url = '/sync/{}{}/sync?initial=true'.format(self.data_url, instance_id)
+        header = self.get_header(token)
         response = r.get(init_url, headers=header)
         data = response.json()
         data.update({'status':response.status_code})
@@ -118,7 +91,7 @@ class flow_sync():
 
     def cursor_get(self, session):
         cursor = session.query(Sync).order_by(Sync.id.desc()).first()
-        endpoint = '{}?next=true&cursor={}'.format(self.cursor_url, str(cursor.url))
+        endpoint = '/sync/{}?next=true&cursor={}'.format(self.data_url, str(cursor.url))
         return endpoint
 
     def get_history(self, session):
@@ -126,16 +99,3 @@ class flow_sync():
         last_sync = last_sync[-1]
         return last_sync
 
-    def get_data(self, session, url, token):
-        header = {
-            'Authorization':'Bearer ' + token['token'],
-            'Accept': 'application/vnd.akvo.flow.v2+json',
-            'Content-Type':'application/json'
-        }
-        response = r.get(url, headers=header)
-        if response.status_code == 200:
-            data = response.json()
-            self.cursor_update(session, data)
-            data.update({'status':200})
-            return data
-        return {'status': 204, 'nextSyncUrl':url}

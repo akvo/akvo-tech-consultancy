@@ -1,6 +1,7 @@
 import re
 import pandas as pd
 from sqlalchemy import inspect
+import logging
 from pandas.io import sql
 from collections import ChainMap
 from resources.models import Surveys, Forms, QuestionGroups, Questions, SurveyInstances
@@ -10,11 +11,11 @@ def write_data(session, input_data, info, log):
     try:
         session.add(input_data)
         if log:
-            print('INSERTING: {}'.format(log))
+            logging.warn('SAVING: {} '.format(log))
         return session.commit()
     except:
         if log:
-            print('ERROR: ABORTING {}'.format(log))
+            logging.error('ERROR: ABORTING {} '.format(log))
         session.rollback()
         raise
 

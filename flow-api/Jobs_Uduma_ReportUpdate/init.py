@@ -1,29 +1,26 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from resources.models import Surveys, Forms, QuestionGroups, Questions, SurveyInstances, Answers
-from resources.api import flow_api, flow_sync
+from resources.api import flow_api
 from resources.utils import marktime, checktime, answer_handler
-from resources.database import write_data, clear_schema, schema_generator
+from resources.database import write_data, clear_schema, schema_generator, get_summary
 from resources.connection import engine_url
 
-instance_name = 'udumamali'
 api = flow_api()
-sync = flow_sync()
-request_url = api.get_instance_url(instance_name)
+main_url = api.data_url
 engine_url = engine_url()
 engine = create_engine(engine_url)
 session = sessionmaker(bind=engine)()
 getter = sessionmaker(bind=engine)()
 
 surveysUrl = []
-token = api.get_new_token()
+token = api.get_token()
 start_time = marktime()
 
 def getFolders(items, token):
     for folder in items['folders']:
         try:
             surveysUrl.append(folder['surveysUrl'])
-            token = api.check_token(token)
             childs = api.get_data(folder['foldersUrl'], token)
             getFolders(childs, token)
         except:
@@ -48,8 +45,7 @@ def saveAnswers(group, index):
 ## INIT GETTING FOLDER LIST
 
 print('GETTING FOLDER LIST: ' + checktime(start_time))
-token = api.check_token(token)
-parents = api.get_data(request_url + '/folders', token)
+parents = api.get_data(main_url + '/folders', token)
 getFolders(parents, token)
 print('FOLDER IS POPULATED: ' + checktime(start_time))
 
@@ -57,7 +53,6 @@ surveys = []
 
 print('GETTING SURVEY LIST: ' + checktime(start_time))
 for surveyUrl in surveysUrl:
-    token = api.check_token(token)
     surveyList = api.get_data(surveyUrl, token)
     for survey in surveyList['surveys']:
         surveys.append(survey)
@@ -68,7 +63,6 @@ print('SURVEY IS POPULATED: ' + checktime(start_time))
 print('RECORDING SURVEY: ' + checktime(start_time))
 formInstanceUrls = []
 for url in surveys:
-    token = api.check_token(token)
     data = api.get_data(url['surveyUrl'], token)
     print('GETTING {}: {}'.format(data['name'],checktime(start_time)))
     if data['registrationFormId'] == "":
@@ -98,11 +92,9 @@ print('SURVEY IS RECORDED: ' + checktime(start_time))
 
 print('GETTING SURVEY INSTANCES: ' + checktime(start_time))
 for data in formInstanceUrls:
-    token = api.check_token(token)
     formInstances = api.get_data(data['formInstancesUrl'], token)
     formInstancesData = formInstances['formInstances']
     while 'nextPageUrl' in formInstances:
-        token = api.check_token(token)
         nextPageData = api.get_data(formInstances['nextPageUrl'], token)
         formInstancesData += nextPageData['formInstances']
         formInstances = nextPageData
@@ -124,5 +116,6 @@ for data in formInstanceUrls:
                     saveAnswers(group, index)
 print('SURVEY INSTANCES RECORDED: ' + checktime(start_time))
 
+get_summary(session)
 clear_schema(engine)
 schema_generator(session, engine)
