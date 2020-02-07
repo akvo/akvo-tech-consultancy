@@ -94,7 +94,7 @@ for url in surveys:
         })
 print('SURVEY IS RECORDED: ' + checktime(start_time))
 
-## INIT RECORDING DATA
+# INIT RECORDING DATA
 
 print('GETTING SURVEY INSTANCES: ' + checktime(start_time))
 for data in formInstanceUrls:

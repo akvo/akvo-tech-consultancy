@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: jobs-uduma-report
 spec:
-  schedule: "10 0 * * *"
+  schedule: "20 0 * * *"
   startingDeadlineSeconds: 600
   concurrencyPolicy: Allow
   failedJobsHistoryLimit: 3
