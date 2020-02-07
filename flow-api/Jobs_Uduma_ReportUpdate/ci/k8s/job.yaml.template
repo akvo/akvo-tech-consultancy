@@ -59,4 +59,4 @@ spec:
             - name: PSQL_USER
               value: "postgres"
       restartPolicy: Never
-  backoffLimit: 4
+  backoffLimit: 1 
