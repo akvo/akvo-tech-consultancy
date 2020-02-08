@@ -8,6 +8,10 @@ body {
 .card-image{
 }
 
+.mobile-header-image{
+    display:none;
+} 
+
 .thumbnails {
     width: 100%;
     min-width: 100%;
@@ -239,4 +243,66 @@ h1.title-page{
     color: #202020;
     line-height: 43px;
     font-family: 'Roboto', sans-serif;
+}
+
+@media only screen and (max-width: 600px) {
+  .slick-dots,
+  .slick-arrow{
+      display:none!important;
+  }
+  .content{
+      margin-top: 0rem!important;
+  }
+  .navbar-dark .navbar-toggler {
+      border:none;
+  }
+  .navbar-expand-lg{
+      width:100%;
+      padding: 10px 20px; 
+  }
+  .collapse:not(.show) {
+      display: inline-block;
+  }
+  .navbar-collapse.collapse{
+      display: inline-block;
+      flex-basis: 0px;
+      text-align:right;
+  }
+  .navbar-collapse.collapse .form-inline{
+      display:none;
+  }
+  .navbar-nav {
+      display:inline-block;
+  }
+  .carousel {
+      display:none;
+  }
+  .mobile-header-image{
+      display:block;
+      width:100%;
+      max-width: 100%;
+      overflow:hidden;
+  }
+  .mobile-header-image img{
+      height: 260px;
+      width: 1000%;
+  } 
+  .mobile-header-image h1{
+      color: #505050;
+      position: absolute;
+      top: 120px;
+      font-weight: bold;
+      line-height: 35px;
+      text-align:center;
+      margin-left: 10px;
+      margin-right: 10px;
+      text-shadow: 2px 2px #ddd;
+  }
+  .tagline{
+      padding: 3rem 1rem;
+  }
+    .footer h3,
+    .tagline h3 {
+        font-size: 16px;
+    }
 }
