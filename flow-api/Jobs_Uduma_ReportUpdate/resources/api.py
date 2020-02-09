@@ -14,8 +14,8 @@ class flow_api():
         'scope':'openid email'
     }
 
-    auth_url = 'https://akvotest.eu.auth0.com/oauth/token'
-    data_url = 'https://api-auth0.akvotest.org/flow/orgs/udumamali'
+    auth_url = 'https://akvo.eu.auth0.com/oauth/token'
+    data_url = 'https://api-auth0.akvo.org/flow/orgs/udumamali'
 
     def get_token(self):
         try:
@@ -63,9 +63,12 @@ class flow_api():
         return {'status': 204, 'nextSyncUrl':url}
 
     def init_sync(self, session, token):
-        init_url = '{}/sync/sync?initial=true'.format(self.data_url)
+        init_url = '{}/sync?initial=true'.format(self.data_url)
         header = self.get_header(token)
         response = r.get(init_url, headers=header)
+        logging.warn(response.status_code)
+        if response.status_code != 200:
+            logging.warn(response.text)
         data = response.json()
         data.update({'status':response.status_code})
         self.cursor_save(session, data)

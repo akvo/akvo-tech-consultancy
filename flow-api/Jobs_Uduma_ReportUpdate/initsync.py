@@ -13,5 +13,5 @@ surveysUrl = []
 token = api.get_token()
 
 clear_schema(engine)
-api.init_sync(session, token)
 schema_generator(session, engine)
+api.init_sync(session, token)
