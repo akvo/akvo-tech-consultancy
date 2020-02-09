@@ -62,8 +62,8 @@ class flow_api():
             return data
         return {'status': 204, 'nextSyncUrl':url}
 
-    def init_data(self, session, instance_id, token):
-        init_url = '/sync/{}{}/sync?initial=true'.format(self.data_url, instance_id)
+    def init_sync(self, session, token):
+        init_url = '{}/sync/sync?initial=true'.format(self.data_url)
         header = self.get_header(token)
         response = r.get(init_url, headers=header)
         data = response.json()

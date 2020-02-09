@@ -44,7 +44,7 @@ def get_summary(session):
 def clear_schema(engine):
     inspector = inspect(engine)
     available_table = inspector.get_table_names(schema='public')
-    ignore_table = ['migrate_version','question','survey','form','question_group','answer','survey_instance', 'sync']
+    ignore_table = ['migrate_version','question','survey','form','question_group','answer','survey_instance', 'sync', 'spatial_ref_sys']
     delete_table = list(filter(lambda x: x not in ignore_table, available_table))
     for tbl in delete_table:
         sql.execute('DROP TABLE IF EXISTS "{}"'.format(tbl), engine)
