@@ -8,16 +8,18 @@ class flow_api():
 
     data = {
         'client_id':environ['AUTH0_CLIENT'],
-        'username': environ['AUTH0_USER'],
-        'password': environ['AUTH0_PWD'],
+        'username': 'akvo.tech.consultancy@gmail.com',
+        'password': 'MtEAZ4VppY*Z.sm*j!Ki!rHe',
         'grant_type':'password',
         'scope':'openid email'
     }
 
-    auth_url = 'https://akvo.eu.auth0.com/oauth/token'
+    auth_url = 'https://akvofoundation.eu.auth0.com/oauth/token'
     data_url = 'https://api-auth0.akvo.org/flow/orgs/udumamali'
 
     def get_token(self):
+        account = r.post(self.auth_url, self.data);
+        print(account.status_code)
         try:
             account = r.post(self.auth_url, self.data).json();
         except:

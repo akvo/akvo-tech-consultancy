@@ -29,16 +29,6 @@ spec:
                 cpu: "1000m"
                 memory: "256Mi"
             env:
-              - name: KEYCLOAK_USER
-                valueFrom:
-                  secretKeyRef:
-                    name: jobs-uduma-report
-                    key: keycloak-user
-              - name: KEYCLOAK_PWD
-                valueFrom:
-                  secretKeyRef:
-                    name: jobs-uduma-report
-                    key: keycloak-pwd
               - name: AUTH0_CLIENT
                 valueFrom:
                   secretKeyRef:
