@@ -12,6 +12,6 @@ session = sessionmaker(bind=engine)()
 surveysUrl = []
 token = api.get_token()
 
-#clear_schema(engine)
-#schema_generator(session, engine)
-#api.init_sync(session, token)
+clear_schema(engine)
+schema_generator(session, engine)
+api.init_sync(session, token)
