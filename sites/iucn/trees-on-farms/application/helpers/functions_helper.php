@@ -61,6 +61,7 @@ function curl_get_data($url){
 	$curlConfig = array(
 			CURLOPT_SSL_VERIFYPEER => false,
 			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_FOLLOWLOCATION => true,
 			CURLOPT_URL => $url
 	);
 	
