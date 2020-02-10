@@ -7,9 +7,9 @@ from resources.models import Sync
 class flow_api():
 
     data = {
-        'client_id': 'S6Pm0WF4LHONRPRKjepPXZoX1muXm1JS',
-        'username': 'akvo.tech.consultancy@gmail.com',
-        'password': 'MtEAZ4VppY*Z.sm*j!Ki!rHe',
+        'client_id': environ['AUTH0_CLIENT'],
+        'username': environ['AUTH0_USER'],
+        'password': environ['AUTH0_PWD'],
         'grant_type':'password',
         'scope':'openid email'
     }
@@ -19,9 +19,8 @@ class flow_api():
 
     def get_token(self):
         account = r.post(self.auth_url, self.data);
-        print(account.status_code)
         try:
-            account = r.post(self.auth_url, self.data).json();
+            account = account.json();
         except:
             logging.error('FAILED: TOKEN ACCESS UNKNOWN')
             return False
