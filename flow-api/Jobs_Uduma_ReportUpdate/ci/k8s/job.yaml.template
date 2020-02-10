@@ -14,7 +14,7 @@ spec:
                 memory: "256Mi"
               limits:
                 cpu: "1000m"
-                memory: "256Mi"
+                memory: "768Mi"
           env:
             - name: AUTH0_CLIENT
               valueFrom:
@@ -49,4 +49,4 @@ spec:
             - name: PSQL_USER
               value: "postgres"
       restartPolicy: Never
-  backoffLimit: 1 
+  backoffLimit: 1
