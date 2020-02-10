@@ -19,6 +19,7 @@ class Navigation extends Component {
         this.state = {
             active: 'home'
         }
+        this.links = this.links.bind(this);
     }
 
     changePage (key) {
@@ -30,7 +31,17 @@ class Navigation extends Component {
         return true;
     }
 
+    links (data, page) {
+        return data.map((x, id) => {
+            let active = x === page ? true : false;
+            return (
+                <Nav.Link key={id} eventKey={name} active={active}>{x}</Nav.Link>
+            )
+        });
+    }
+
     render() {
+        let page = this.props.value.active;
         return (
             <Navbar bg="light" fixed="top" variant="light" className="NavLight" expand="lg">
               <Container>
@@ -47,12 +58,12 @@ class Navigation extends Component {
                     activeKey={this.props.value.page}
                     onSelect={this.changePage}
                 >
-                    <Nav.Link eventKey="home">Home</Nav.Link>
-                    <Nav.Link eventKey="summary">Summary</Nav.Link>
-                    <Nav.Link eventKey="overview">Overview</Nav.Link>
-                    <Nav.Link eventKey="actions">Actions</Nav.Link>
-                    <Nav.Link eventKey="evaluation">Evaluation</Nav.Link>
-                    <Nav.Link eventKey="funding">Funding</Nav.Link>
+                    <Nav.Link eventKey="home" active={"home" === page}>Home</Nav.Link>
+                    <Nav.Link eventKey="summary" active={"summary" === page}>Summary</Nav.Link>
+                    <Nav.Link eventKey="overview" active={"overview" === page}>Overview</Nav.Link>
+                    <Nav.Link eventKey="actions" active={"actions" === page}>Actions</Nav.Link>
+                    <Nav.Link eventKey="evaluation" active={"evaluation" === page}>Evaluation</Nav.Link>
+                    <Nav.Link eventKey="funding" active={"funding" === page}>Funding</Nav.Link>
                 </Nav>
                 <Form inline className='nav-right'>
                   <a

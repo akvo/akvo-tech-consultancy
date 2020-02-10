@@ -8,33 +8,18 @@ class Charts extends Component {
 
     constructor(props) {
         super(props);
-        this.getOption = this.getOption.bind(this);
-    }
-
-    getOption() {
-        let option = {
-            xAxis: {
-                type: 'category',
-                data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-            },
-            yAxis: {
-                type: 'value'
-            },
-            series: [{
-                data: [120, 200, 150, 80, 70, 110, 420],
-                type: 'bar'
-            }]
-        };
-        return option;
     }
 
     render() {
+        let option = this.props.option;
+        let style = this.props.data.style;
         return (
             <ReactEcharts
-              option={this.getOption()}
+              option={option}
               notMerge={true}
               lazyUpdate={true}
               theme={"theme_name"}
+              style={style}
               />
         );
     }

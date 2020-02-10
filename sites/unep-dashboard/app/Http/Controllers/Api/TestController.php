@@ -12,6 +12,6 @@ class TestController extends Controller
 {
     public function test(Country $countries, Value $values, CountryValue $countryvalues)
     {
-        return $groups->whereNull('parent_id')->with('childrens')->get();
+        return $values->with('countries')->get();
     } 
 }

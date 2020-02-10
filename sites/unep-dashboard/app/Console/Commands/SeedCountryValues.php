@@ -14,7 +14,7 @@ class SeedCountryValues extends Command
      *
      * @var string
      */
-    protected $signature = 'seed:values {number=10}';
+    protected $signature = 'seed:values {ncategory=10} {ncountry=10}';
 
     /**
      * The console command description.
@@ -40,15 +40,15 @@ class SeedCountryValues extends Command
      */
     public function handle()
     {
-        $numbers = $this->argument('number');
-        $url = 'http://geodata.grid.unep.ch/api/countries/#cid/'.'variables/#vid/'.'years/2012';
-        $countries = \App\Country::select('id','code')->get()->random($numbers);
-        $countries = collect($countries)->map(function($data) use ($url, $numbers) {
-            $variables = \App\Value::select('id','code')
-                                ->doesnthave('childrens')
-                                ->get()->random($numbers);
-            sleep(1);
-            $urls = $variables->map(function($var) use ($data, $url){
+        $ncategory = $this->argument('ncategory');
+        $ncountry = $this->argument('ncountry');
+        $url = 'http://geodata.grid.unep.ch/api/countries/#cid/'.'variables/#vid/'.'years/2008';
+        $countries = \App\Country::select('id','code')->get()->random($ncountry);
+        $variables = \App\Value::select('id','code')
+            ->doesnthave('childrens')
+            ->get()->random($ncategory);
+        $countries = collect($countries)->map(function($data) use ($url, $variables) {
+            $urls = collect($variables)->map(function($var) use ($data, $url){
                 $faker = Faker::create();
                 $client = New \GuzzleHttp\Client();
                 $url = str_replace('#cid',$data->code, $url);
@@ -69,6 +69,7 @@ class SeedCountryValues extends Command
                 }
                 return $results;
             });
+            sleep(1);
             return $urls;
         });
         $input = $countries->flatten(1)->filter()->values()->toArray();

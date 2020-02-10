@@ -32,4 +32,12 @@ class ChartController extends Controller
         });
         return $values;
     }
+
+    public function getValueById(Request $request, Value $values)
+    {
+        return $values->where('id', $request->id)
+                      ->with('country_values.country')
+                      ->with('parents.parents')
+                      ->first();
+    }
 }

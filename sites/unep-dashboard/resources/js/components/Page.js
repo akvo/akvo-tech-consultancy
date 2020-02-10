@@ -23,7 +23,6 @@ class Page extends Component {
 
 
     componentDidMount() {
-        console.log(this.props.value);
         setTimeout(() => {
         axios.get(prefixPage + "filters")
             .then(res => {
@@ -35,6 +34,7 @@ class Page extends Component {
                 this.props.initCountries(res.data);
             });
         },3000);
+        this.props.changePage('home');
     }
 
     repeat(i) {
@@ -54,6 +54,7 @@ class Page extends Component {
     }
 
     render() {
+        let page = this.props.value.active
         return (
             <Fragment>
             <Navigation/>
@@ -61,7 +62,7 @@ class Page extends Component {
                     {this.getFilters(this.props.value.filterDepth)}
                     <DataCountries className='dropdown-right' data={this.props.value.countries}/>
                 </Container>
-            <Home/>
+                {page === "home" ? (<Home/>) : ""}
             </Fragment>
         );
     }

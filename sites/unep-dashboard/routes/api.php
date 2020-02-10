@@ -26,4 +26,4 @@ Route::get('variables', 'Api\SourceController@getVariables');
 Route::get('count/country', 'Api\ChartController@getCountryValues');
 Route::get('count/values', 'Api\ChartController@getAllValues');
 
-Route::get('test', 'Api\TestController@test');
+Route::get('value/{id}', 'Api\ChartController@getValueById');

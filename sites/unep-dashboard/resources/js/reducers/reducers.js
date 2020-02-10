@@ -35,13 +35,10 @@ const updateSelectedFilters = (state, name, depth) => {
     if (depth + 1 < selected.length){
         let i = selected.length;
         let d = depth + 1;
-        console.log('==============')
         while (i > d) {
-            console.log(state.filters[d][0]['name']);
             selected[d] = state.filters[d][0]['name'];
             d++;
         }
-        console.log('==============')
     }
     selected[depth] = name;
     let newdata = {
