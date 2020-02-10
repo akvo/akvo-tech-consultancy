@@ -7,9 +7,9 @@ from resources.models import Sync
 class flow_api():
 
     data = {
-        'client_id':environ['AUTH0_CLIENT'],
-        'username': environ['AUTH0_USER'],
-        'password': environ['AUTH0_PWD'],
+        'client_id': 'S6Pm0WF4LHONRPRKjepPXZoX1muXm1JS',
+        'username': 'akvo.tech.consultancy@gmail.com',
+        'password': 'MtEAZ4VppY*Z.sm*j!Ki!rHe',
         'grant_type':'password',
         'scope':'openid email'
     }
@@ -96,7 +96,7 @@ class flow_api():
 
     def cursor_get(self, session):
         cursor = session.query(Sync).order_by(Sync.id.desc()).first()
-        endpoint = '/sync/{}?next=true&cursor={}'.format(self.data_url, str(cursor.url))
+        endpoint = '{}/sync/?next=true&cursor={}'.format(self.data_url, str(cursor.url))
         return endpoint
 
     def get_history(self, session):
