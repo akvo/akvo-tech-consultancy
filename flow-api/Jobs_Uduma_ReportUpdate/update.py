@@ -106,21 +106,28 @@ def update_survey_data(survey_instance_changed):
                     saveAnswers(group, index, instance)
     print('SURVEY INSTANCES RECORDED: ' + checktime(start_time))
 
+clear = False
+
 if 'formChanged' in sync_history.data:
+    clear = True
     update_survey_meta(sync_history.data['formChanged'])
 if 'formInstanceChanged' in sync_history.data:
+    clear = True
     update_survey_data(sync_history.data['formInstanceChanged'])
 if 'formInstanceDeleted' in sync_history.data:
+    clear = True
     ids = [int(x) for x in sync_history.data['formInstanceDeleted']]
     session.query(Answers).filter(Answers.survey_instance_id._in(ids)).delete(synchronize_session='evaluate')
     session.query(SurveyInstances).filter(SurveyInstances.id._in(ids)).delete(synchronize_session='evaluate')
     session.commit()
 if 'surveyDeleted' in sync_history.data:
+    clear = True
     ids = [int(x) for x in sync_history.data['surveyDeleted']]
     for id in ids:
         session.query(Questions).filter(Questions.survey_instance_id == id).delete(synchronize_session='evaluate')
         session.query(SurveyInstances).filter(SurveyInstances.id == id).delete(synchronize_session='evaluate')
         session.commit()
 
-clear_schema(engine)
-schema_generator(session, engine)
+if clear:
+    clear_schema(engine)
+    schema_generator(session, engine)

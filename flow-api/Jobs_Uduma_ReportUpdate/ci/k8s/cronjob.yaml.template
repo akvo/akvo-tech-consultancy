@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: jobs-uduma-report
 spec:
-  schedule: "30 8 * * *"
+  schedule: "0 13 * * *"
   startingDeadlineSeconds: 600
   concurrencyPolicy: Allow
   failedJobsHistoryLimit: 3
@@ -27,7 +27,7 @@ spec:
                 memory: "256Mi"
               limits:
                 cpu: "1000m"
-                memory: "256Mi"
+                memory: "500Mi"
             env:
               - name: AUTH0_CLIENT
                 valueFrom:
