@@ -26,6 +26,9 @@ This repository contains Akvo Tools custom integration pack development.
 | 2 Scale | 2Scale [Data portal](http://2scale.tc.akvo.org/). | Website | PHP, Laravel,Python, Javascripts| Annabelle |
 | NABU | A regular job setup to update a postgres database which will be accessed via the qgis app. The job updates the Lumen dataset, fetches the data and imports it into postgres | Jobs | Python |Annabelle|
 | IUCN | 3 dashboards [plastics](https://iucn.tc.akvo.org/plastics),[TOF](https://iucn.tc.akvo.org/tof),[Plus](https://iucn.tc.akvo.org/plus) |Website | PHP, Javascript |Irene|
+| UNEP | Data Portal |Website | PHP, Javascript |Joy|
+| UDUMA | Update Postres Jobs |Website | Python, Migrations |Joy|
+
 -------
 
 ### Contacts
