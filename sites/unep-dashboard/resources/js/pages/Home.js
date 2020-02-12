@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { chartStateToProps, chartDispatchToProps } from "../reducers/chartActions";
+import { mapStateToProps, mapDispatchToProps } from "../reducers/actions";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { Col, Row, Container, Jumbotron } from "react-bootstrap";
 import Charts from "../components/Charts";
@@ -58,4 +58,4 @@ class Home extends Component {
     }
 }
 
-export default connect(chartStateToProps, chartDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

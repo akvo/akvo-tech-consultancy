@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { redux } from 'react-redux';
 import { connect } from 'react-redux';
-import { chartStateToProps, chartDispatchToProps } from '../reducers/chartActions.js';
+import { mapStateToProps, mapDispatchToProps } from '../reducers/actions.js';
 import ReactEcharts from 'echarts-for-react';
 
 class Charts extends Component {
@@ -25,4 +25,4 @@ class Charts extends Component {
     }
 }
 
-export default connect(chartStateToProps, chartDispatchToProps)(Charts);
+export default connect(mapStateToProps, mapDispatchToProps)(Charts);

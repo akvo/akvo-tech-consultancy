@@ -1,8 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { createStore } from 'redux';
-import { Provider, connect } from 'react-redux';
-import { mapStateToProps, mapDispatchToProps } from '../reducers/pageActions';
-import { charts } from '../reducers/chartReducers.js'
+import { connect } from 'react-redux';
+import { mapStateToProps, mapDispatchToProps } from '../reducers/actions';
 import Navigation from './Navigation';
 import DataFilters from './DataFilters';
 import DataCountries from './DataCountries';
@@ -13,7 +12,6 @@ import Home from '../pages/Home';
 import axios from 'axios';
 
 const prefixPage = process.env.MIX_PUBLIC_URL + "/page/";
-const chart = createStore(charts);
 
 class Page extends Component {
 
@@ -27,13 +25,13 @@ class Page extends Component {
     componentDidMount() {
         axios.get(prefixPage + "filters")
             .then(res => {
-                this.props.initFilters(res.data);
+                this.props.filter.program.init(res.data);
             });
         axios.get(prefixPage + "countries")
             .then(res => {
-                this.props.initCountries(res.data);
+                this.props.filter.country.init(res.data);
             });
-        this.props.changePage('home');
+        this.props.page.change('home');
     }
 
     repeat(i) {
@@ -53,7 +51,7 @@ class Page extends Component {
     }
 
     render() {
-        let page = this.props.value.active
+        let page = this.props.value.pageActive
         return (
             <Fragment>
             <Navigation/>
@@ -61,9 +59,7 @@ class Page extends Component {
                     {this.getFilters(this.props.value.filterDepth)}
                     <DataCountries className='dropdown-right' data={this.props.value.countries}/>
                 </Container>
-                <Provider store={chart}>
                 {page === "home" ? (<Home parent={this.props}/>) : ""}
-                </Provider>
             </Fragment>
         );
     }

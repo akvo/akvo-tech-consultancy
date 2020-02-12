@@ -3,7 +3,7 @@ import React, { Component, Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import { states } from '../reducers/pageReducers.js'
+import { states } from '../reducers/reducers.js'
 import Page from './Page.js';
 
 import { library } from '@fortawesome/fontawesome-svg-core'

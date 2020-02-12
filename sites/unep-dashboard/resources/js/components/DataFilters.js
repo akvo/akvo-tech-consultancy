@@ -1,7 +1,7 @@
 import React, { Component, useState } from 'react';
 import { redux } from 'react-redux';
 import { connect } from 'react-redux';
-import { mapStateToProps, mapDispatchToProps } from '../reducers/pageActions.js';
+import { mapStateToProps, mapDispatchToProps } from '../reducers/actions.js';
 import {
     Dropdown,
     FormControl
@@ -69,22 +69,22 @@ class DataFilters extends Component {
     }
 
     changeActive(name, id, depth) {
+        this.setState({active: name});
+        let current = this.props.data[this.props.depth];
+            current = current.find((x) => x.id === id);
+        if (current.hasOwnProperty('childs')){
+            this.props.filter.program.append(current.childs, this.props.depth);
+            let next_name = current.childs[0].name;
+            let next_id = current.childs[0].id;
+            this.props.filter.program.update(next_id, next_name, this.props.depth + 1);
+        }
+        this.props.filter.program.update(id, name, this.props.depth);
         if (depth === 2) {
             axios.get('/api/value/' + id)
                 .then(res => {
                     this.saveValues(res.data);
             })
         }
-        this.setState({active: name});
-        let current = this.props.data[this.props.depth];
-            current = current.find((x) => x.id === id);
-        if (current.hasOwnProperty('childs')){
-            this.props.appendFilters(current.childs, this.props.depth);
-            let next_name = current.childs[0].name;
-            let next_id = current.childs[0].id;
-            this.props.updateSelectedFilters(next_id, next_name, this.props.depth + 1);
-        }
-        this.props.updateSelectedFilters(id, name, this.props.depth);
     }
 
     getDropDownItem (dd, depth) {

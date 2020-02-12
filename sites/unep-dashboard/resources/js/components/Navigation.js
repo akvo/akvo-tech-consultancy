@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { redux } from 'react-redux';
 import { connect } from 'react-redux';
-import { mapStateToProps, mapDispatchToProps } from '../reducers/pageActions';
+import { mapStateToProps, mapDispatchToProps } from '../reducers/actions';
 import {
     Navbar,
     Nav,
@@ -24,7 +24,7 @@ class Navigation extends Component {
 
     changePage (key) {
         window.scrollTo(0, 0)
-        this.props.changePage(key);
+        this.props.page.change(key);
         this.setState({
             active: this.props.value.active
         });
