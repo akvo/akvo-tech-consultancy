@@ -1,7 +1,7 @@
 import React, { Component, useState } from 'react';
 import { redux } from 'react-redux';
 import { connect } from 'react-redux';
-import { mapStateToProps, mapDispatchToProps } from '../reducers/actions.js';
+import { mapStateToProps, mapDispatchToProps } from '../reducers/pageActions.js';
 import {
     Dropdown,
     FormControl
@@ -73,18 +73,18 @@ class DataFilters extends Component {
             axios.get('/api/value/' + id)
                 .then(res => {
                     this.saveValues(res.data);
-                })
+            })
         }
-        console.log(depth);
         this.setState({active: name});
         let current = this.props.data[this.props.depth];
             current = current.find((x) => x.id === id);
         if (current.hasOwnProperty('childs')){
             this.props.appendFilters(current.childs, this.props.depth);
             let next_name = current.childs[0].name;
-            this.props.updateSelectedFilters(next_name, this.props.depth + 1);
+            let next_id = current.childs[0].id;
+            this.props.updateSelectedFilters(next_id, next_name, this.props.depth + 1);
         }
-        this.props.updateSelectedFilters(name, this.props.depth);
+        this.props.updateSelectedFilters(id, name, this.props.depth);
     }
 
     getDropDownItem (dd, depth) {
@@ -109,7 +109,7 @@ class DataFilters extends Component {
         return (
             <Dropdown>
                 <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
-                    { selected }
+                    { selected.name }
                 </Dropdown.Toggle>
                 <Dropdown.Menu as={CustomMenu}
                 >

@@ -1,0 +1,13 @@
+
+<--- Last few GCs --->
+lo[9154:0x103e3f000]    44748 ms: Mark-sweep 2050.6 (2053.8) -> 2049.9 (2054.8) MB, 1842.6 / 0.0 ms  (+ 156.2 ms in 28 steps since start of marking, biggest step 17.2 ms, walltime since start of marking 2008 ms) (average mu = 0.074, current mu = 0.005) allo[9154:0x103e3f000]    46672 ms: Mark-sweep 2051.6 (2054.8) -> 2050.9 (2055.8) MB, 1704.7 / 0.0 ms  (+ 199.2 ms in 27 steps since start of marking, biggest step 24.7 ms, walltime since start of marking 1923 ms) (average mu = 0.043, current mu = 0.010) allo
+
+<--- JS stacktrace --->
+
+==== JS stack trace =========================================
+
+    0: ExitFrame [pc: 0x10072e699]
+    1: StubFrame [pc: 0x1006b01c1]
+Security context: 0x15f2c4bc08a1 <JSObject>
+    2: value [0x15f26a2eb769] [/Users/dedenbangkit/Repos/akvo-tech-consultancy/sites/unep-dashboard/node_modules/prettier/parser-babylon.js:~1] [pc=0x3d1fda9484fc](this=0x15f26a2eb519 <e map = 0x15f2745d42a1>,0x15f26a2e3451 <t map = 0x15f2745ccf01>,0x15f26e340631 <true>,0x15f26a2eb4f9 <Object map = 0x15f2745d44d1>,0x15f2216148...
+

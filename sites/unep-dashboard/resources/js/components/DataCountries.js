@@ -1,7 +1,7 @@
 import React, { Component, useState } from 'react';
 import { redux } from 'react-redux';
 import { connect } from 'react-redux';
-import { mapStateToProps, mapDispatchToProps } from '../reducers/actions.js';
+import { mapStateToProps, mapDispatchToProps } from '../reducers/pageActions.js';
 import {
     Dropdown,
     FormControl
@@ -58,7 +58,6 @@ class DataCountries extends Component {
     }
 
     changeActive(name, id) {
-        console.log(name);
         this.props.changeCountry(name);
     }
 

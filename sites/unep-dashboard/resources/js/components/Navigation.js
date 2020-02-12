@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { redux } from 'react-redux';
 import { connect } from 'react-redux';
-import { mapStateToProps, mapDispatchToProps } from '../reducers/actions.js';
+import { mapStateToProps, mapDispatchToProps } from '../reducers/pageActions';
 import {
     Navbar,
     Nav,

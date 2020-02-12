@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { mapStateToProps, mapDispatchToProps } from "../reducers/actions";
+import { chartStateToProps, chartDispatchToProps } from "../reducers/chartActions";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { Col, Row, Container, Jumbotron } from "react-bootstrap";
 import Charts from "../components/Charts";
@@ -13,6 +13,16 @@ require("../data/world.js");
 class Home extends Component {
     constructor(props) {
         super(props);
+        this.storeData = this.storeData.bind(this);
+    }
+
+    selectData() {
+    }
+
+    storeData(filterId) {
+    }
+
+    componentDidMount() {
     }
 
     render() {
@@ -48,4 +58,4 @@ class Home extends Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(chartStateToProps, chartDispatchToProps)(Home);
