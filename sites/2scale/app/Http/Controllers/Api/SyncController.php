@@ -201,8 +201,9 @@ class SyncController extends Controller
                 ->map(function($data) use ($datapoint_id, $form, $partner) {
                     $answers = collect($data)->map(function($answer, $question_id) use ($datapoint_id, $form, $partner) {
                         if ($question_id === $form['partner_qid']) {
+                            $partnership_name = isset($answer[1]) ? $answer[1]['name'] : '';
                             $partner->put('country', $answer[0]['name']); 
-                            $partner->put('partnership', $answer[1]['name']); 
+                            $partner->put('partnership', $partnership_name); 
                         };
                         $text = $answer;
                         $value = null;
@@ -246,8 +247,9 @@ class SyncController extends Controller
                     return $answers;
                 })->flatten(1);
             if($partner->isNotEmpty()){
+                $partnership_part = explode('_', $partner['partnership']);
                 $country_id = $partnerships->where('name', $partner['country'])->first();
-                $partnership_id = $partnerships->where('name', $partner['partnership'])->first();
+                $partnership_id = $partnerships->where('name', 'like', $partnership_part[0] . '%')->first();
                 $collections->push(
                     array(
                         'datapoint_id' => $datapoint_id,
