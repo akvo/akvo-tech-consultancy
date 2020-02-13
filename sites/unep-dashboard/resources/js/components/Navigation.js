@@ -10,6 +10,7 @@ import {
     Form,
     Button,
 } from 'react-bootstrap';
+import DataCountries from './DataCountries';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 class Navigation extends Component {
@@ -26,7 +27,7 @@ class Navigation extends Component {
         window.scrollTo(0, 0)
         this.props.page.change(key);
         this.setState({
-            active: this.props.value.active
+            active: this.props.value.page.name
         });
         return true;
     }
@@ -41,7 +42,7 @@ class Navigation extends Component {
     }
 
     render() {
-        let page = this.props.value.active;
+        let page = this.props.value.page.name;
         return (
             <Navbar bg="light" fixed="top" variant="light" className="NavLight" expand="lg">
               <Container>
@@ -55,7 +56,7 @@ class Navigation extends Component {
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav
                     className="mr-auto"
-                    activeKey={this.props.value.page}
+                    activeKey={this.props.value.page.name}
                     onSelect={this.changePage}
                 >
                     <Nav.Link eventKey="home" active={"home" === page}>Home</Nav.Link>
@@ -66,6 +67,7 @@ class Navigation extends Component {
                     <Nav.Link eventKey="funding" active={"funding" === page}>Funding</Nav.Link>
                 </Nav>
                 <Form inline className='nav-right'>
+                    <DataCountries className='dropdown-right' data={this.props.value.filters.countries}/>
                   <a
                       className="btn btn-primary text-white"
                       href="https://github.com/akvo/akvo-tech-consultancy"

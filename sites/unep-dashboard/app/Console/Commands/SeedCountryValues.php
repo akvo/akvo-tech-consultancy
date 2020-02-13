@@ -14,7 +14,7 @@ class SeedCountryValues extends Command
      *
      * @var string
      */
-    protected $signature = 'seed:values {ncategory=10} {ncountry=10}';
+    protected $signature = 'seed:values {ncategory=10} {ncountry=10} {type=random}';
 
     /**
      * The console command description.
@@ -42,6 +42,49 @@ class SeedCountryValues extends Command
     {
         $ncategory = $this->argument('ncategory');
         $ncountry = $this->argument('ncountry');
+        $type = $this->argument('type');
+        if ($type === "random") {
+            $this->SeedRandomValue($ncategory, $ncountry);
+        }
+        if ($type === "category") {
+            $this->SeedCategory($ncategory, $ncountry);
+        }
+    }
+
+    private function SeedCategory($id, $ncountry) 
+    {
+        $url = 'http://geodata.grid.unep.ch/api/countries/#cid/'.'variables/#vid/'.'years/2012';
+        $countries = \App\Country::select('id','code')->get()->random($ncountry);
+        $var = \App\Value::select('id','code')
+            ->where('id', $id)->first();
+        $countries = collect($countries)->map(function($data) use ($url, $var) {
+            $faker = Faker::create();
+            $client = New \GuzzleHttp\Client();
+            $url = str_replace('#cid',$data->code, $url);
+            $url = str_replace('#vid',$var->code, $url);
+            echo 'FETCH:'.$url."\n";
+            $response = $client->request('GET', $url)->getBody();
+            $response = json_decode($response);
+            $response_value = null;
+            $results = null;
+            if ($response !== "null"){
+                $response_value = $response[0]->value; 
+                $results = array( 
+                    'country_id' => $data->id,
+                    'value_id' => $var->id,
+                    'value' => $response_value,
+                    'description' => $faker->sentence() 
+                );
+            }
+            usleep(500000);
+            return $results;
+        });
+        $input = $countries->filter()->values()->toArray();
+        \App\CountryValue::insert($input);
+    }
+
+    private function SeedRandomValue($ncategory, $ncountry)
+    {
         $url = 'http://geodata.grid.unep.ch/api/countries/#cid/'.'variables/#vid/'.'years/2008';
         $countries = \App\Country::select('id','code')->get()->random($ncountry);
         $variables = \App\Value::select('id','code')
@@ -74,6 +117,5 @@ class SeedCountryValues extends Command
         });
         $input = $countries->flatten(1)->filter()->values()->toArray();
         \App\CountryValue::insert($input);
-
     }
 }

@@ -7,11 +7,11 @@ use Illuminate\Http\Request;
 use App\Country;
 use App\Value;
 use App\CountryValue;
+use Faker\Factory as Faker;
 
 class TestController extends Controller
 {
-    public function test(Country $countries, Value $values, CountryValue $countryvalues)
+    public function test()
     {
-        return $values->with('countries')->get();
     } 
 }

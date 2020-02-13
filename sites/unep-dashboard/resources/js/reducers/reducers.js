@@ -1,90 +1,96 @@
 import {
+    pageState,
     showPage,
-} from './helpers/page-helpers.js';
+} from './states/page-states.js';
 import {
+    filterState,
     appendFilters,
     updateSelectedFilters,
     showFilters,
-} from './helpers/filter-helpers.js';
+} from './states/filter-states.js';
+import {
+    chartState,
+    appendData,
+    appendOption,
+    selectCharts,
+    filterCharts,
+} from './states/chart-states.js';
 
 const initialState = {
-    pageActive: "home",
-    filters: [[
-        {
-            name:'loading',
-            code:'loading',
-            id:1
-        },
-        {
-            name:'mantap',
-            code:'mantap',
-            id:2
-        }
-    ]],
-    filterDepth: 1,
-    filterSelected: [{
-        id: 1,
-        name: 'Select Programs'
-    }],
-    filterActive: false,
-    countries: [{
-        name: 'Select Country',
-        code: 'Loading',
-        id: 1,
-    }],
-    countrySelected: 'Select Country',
-    chartData: [
-        {
-            id: 1,
-            values: [{ code: "Loading", name: "Loading", value: 0 }]
-        }
-    ],
-    chartOptions: [],
-    chartActive: {
-            id: 1,
-            values: [{ code: "Loading", name: "Loading", value: 0 }]
-    }
+    page: pageState,
+    filters: filterState,
+    charts: chartState,
+
 }
 
 export const states = (state = initialState, action) => {
     switch (action.type) {
         case 'PAGE - CHANGE PAGE':
-            return showPage(state, action.page)
+            return {
+                ...state,
+                page: showPage(state.page, action.page)
+            }
         case 'FILTERS - PROGRAM INIT':
             return {
                 ...state,
-                filters: [action.filters]
+                filters: {
+                    ...state.filters,
+                    list: [action.list]
+                }
             }
         case 'FILTERS - PROGRAM APPEND':
-            return appendFilters(state, action.filters, action.depth)
+            return {
+                ...state,
+                filters: appendFilters(state.filters, action.list, action.depth)
+            }
         case 'FILTERS - PROGRAM SELECT':
-            return updateSelectedFilters(state, action.name, action.id, action.depth)
+            return {
+                ...state,
+                filters: updateSelectedFilters(state.filters, action.name, action.id, action.depth)
+            }
         case 'FILTERS - PROGRAM CHANGE':
-            return showFilters(state, action.filters)
+            return {
+                ...state,
+                filters: showFilters(state.filters, action.list)
+            }
         case 'FILTERS - COUNTRY INIT':
             return {
                 ...state,
-                countries: action.countries
+                filters : {
+                    ...state.filters,
+                    countries: action.countries
+                }
             }
-        case 'FILTERS - CHANGE COUNTRY':
+        case 'FILTERS - COUNTRY CHANGE':
             return {
                 ...state,
-                countrySelected: action.country
+                filters: {
+                    ...state.filters,
+                    country: action.country
+                }
             }
-        case 'CHART - STORE':
+        case 'CHART - VALUES APPEND':
             return {
                 ...state,
-                chartData: storeChart(action.id, action.values)
+                charts: appendData(state.charts, action.values)
             }
-        case 'CHART - CHANGE':
+        case 'CHART - VALUES SELECT':
             return {
                 ...state,
-                chartActive: changeActive(state.chartData, action.id)
+                charts: selectCharts(state.charts, action.id)
             }
-        case 'CHART - OPTIONS':
+        case 'CHART - VALUES FILTER':
             return {
                 ...state,
-                chartActive: (action.id)
+                charts: filterCharts(state.charts, action.data)
+            }
+        case 'CHART - OPTIONS APPEND':
+            return {
+                ...state,
+                charts: {
+                    ...state.charts,
+                    options: appendOption(option)
+                }
             }
         default:
             return state;

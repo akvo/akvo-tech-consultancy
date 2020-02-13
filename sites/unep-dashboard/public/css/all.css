@@ -141,10 +141,6 @@ body {
     padding-top: 0px !important;
 }
 
-.right-dropdowns.dropdown {
-    float: right;
-}
-
 .jumbotron {
     margin-top: 20px;
 }
@@ -164,6 +160,8 @@ body {
     background-color: #009fe2 !important;
     font-family: "Assistant", sans-serif;
     border: 1px solid #0e9e82 !important;
+    border-radius: 0px;
+    border-bottom: solid 3px #0478a9!important;
 }
 
 .btn-primary:hover {
@@ -270,7 +268,21 @@ h1.title-page {
 }
 
 .dropdown-menu.show {
+    width: 100%;
     max-width: 100%;
+}
+
+.dropdown-fix {
+    display: inline-block;
+    margin-right: 10px;
+    padding-right: 10px;
+    border-right: 1px solid #ddd;
+    width: 100%;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 12px;
 }
 
 @media (min-width: 992px) {
@@ -280,6 +292,16 @@ h1.title-page {
     .container-sm {
         max-width: 95%!important;
     }
+
+    .dropdown-menu.show {
+        width: 100%;
+    }
+
+    .dropdown-fix {
+        width: 200px;
+        max-width: 200px;
+    }
+
     .navbar-expand-lg .navbar-collapse {
         display: -webkit-box !important;
         display: flex !important;
@@ -298,14 +320,13 @@ h1.title-page {
     }
     .nav-right {
         height: 40px;
-        border-bottom: solid 3px #0478a9;
     }
+    .nav-right .right-dropdowns,
     .nav-right .btn {
         height: 37px;
-        padding-left: 20px;
-        padding-right: 20px;
         line-height: 26px;
         border-radius: 0px;
+        border-bottom: solid 3px #0478a9!important;
     }
     .nav-right .btn svg {
         margin-right: 10px;
@@ -318,9 +339,6 @@ h1.title-page {
         display: block;
         min-width:100%;
         padding-bottom: 10px;
-    }
-    .container .right-dropdowns.dropdown{
-        margin-right: 0px;
     }
     .container .dropdown .btn {
         min-width:100%;

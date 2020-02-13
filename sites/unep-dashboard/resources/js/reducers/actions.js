@@ -15,15 +15,15 @@ export const mapDispatchToProps = dispatch => {
         },
         filter: {
             program: {
-                init: filters =>
+                init: list =>
                     dispatch({
                         type: "FILTERS - PROGRAM INIT",
-                        filters: filters
+                        list: list
                     }),
-                append: (filters, depth) =>
+                append: (list, depth) =>
                     dispatch({
                         type: "FILTERS - PROGRAM APPEND",
-                        filters: filters,
+                        list: list,
                         depth: depth
                     }),
                 update: (id, name, depth) =>
@@ -33,10 +33,10 @@ export const mapDispatchToProps = dispatch => {
                         name: name,
                         depth: depth
                     }),
-                change: filters =>
+                change: list =>
                     dispatch({
                         type: "FILTERS - PROGRAM CHANGE",
-                        filters: filters
+                        list: list
                     })
             },
             country: {
@@ -53,23 +53,27 @@ export const mapDispatchToProps = dispatch => {
             }
         },
         chart: {
-            values: {
-                store: (id, values) =>
+            value: {
+                append: (values) =>
                     dispatch({
-                        type: "CHART - STORE VALUES",
-                        id: id,
+                        type: "CHART - VALUES APPEND",
                         values: values
                     }),
-                change: id =>
+                select: id =>
                     dispatch({
-                        type: "CHART - CHANGE VALUES",
+                        type: "CHART - VALUES SELECT",
                         id: id
+                    }),
+                filter: data =>
+                    dispatch({
+                        type: "CHART - VALUES FILTER",
+                        data: data,
                     })
             },
-            options: {
-                store: (id, option) =>
+            option: {
+                append: (id, option) =>
                     dispatch({
-                        type: "CHART - STORE OPTIONS",
+                        type: "CHART - OPTIONS APPEND",
                         option: option,
                         id: id
                     })

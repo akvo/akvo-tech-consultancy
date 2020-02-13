@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { mapStateToProps, mapDispatchToProps } from '../reducers/actions';
 import Navigation from './Navigation';
 import DataFilters from './DataFilters';
-import DataCountries from './DataCountries';
 import {
     Container
 } from 'react-bootstrap';
@@ -36,7 +35,7 @@ class Page extends Component {
 
     repeat(i) {
         return (
-            <DataFilters key={i} data={this.props.value.filters} depth={i}/>
+            <DataFilters key={i} data={this.props.value.filters.list} depth={i}/>
         );
     }
 
@@ -51,14 +50,14 @@ class Page extends Component {
     }
 
     render() {
-        let page = this.props.value.pageActive
+        let page = this.props.value.page.name
         return (
             <Fragment>
             <Navigation/>
                 <Container className="top-container">
-                    {this.getFilters(this.props.value.filterDepth)}
-                    <DataCountries className='dropdown-right' data={this.props.value.countries}/>
+                    {this.getFilters(this.props.value.filters.depth)}
                 </Container>
+                <hr/>
                 {page === "home" ? (<Home parent={this.props}/>) : ""}
             </Fragment>
         );

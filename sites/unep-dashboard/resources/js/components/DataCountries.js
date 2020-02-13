@@ -76,7 +76,7 @@ class DataCountries extends Component {
 
     render() {
         let filters = this.props.data;
-        let selected = this.props.value.countrySelected;
+        let selected = this.props.value.filters.country;
         return (
             <Dropdown className="right-dropdowns">
                 <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">

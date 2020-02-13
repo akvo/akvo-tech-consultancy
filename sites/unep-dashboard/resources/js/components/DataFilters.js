@@ -58,14 +58,24 @@ class DataFilters extends Component {
         this.saveValues = this.saveValues.bind(this);
     }
 
-    saveValues(data) {
-        let dataVal = data.country_values.map((x) => {
+    saveValues({id, name, units, description, country_values}) {
+        let valuesMap = country_values.map((x) => {
             return {
+                id: x.country.id,
+                code: x.country.code,
                 name: x.country.name,
                 value: x.value,
-                desc: x.description
             }
-        })
+        });
+        let data = {
+            id: id,
+            name: name,
+            units: units,
+            description: description,
+            values: valuesMap
+        };
+        this.props.chart.value.append(data);
+        this.props.chart.value.select(id);
     }
 
     changeActive(name, id, depth) {
@@ -79,11 +89,17 @@ class DataFilters extends Component {
             this.props.filter.program.update(next_id, next_name, this.props.depth + 1);
         }
         this.props.filter.program.update(id, name, this.props.depth);
-        if (depth === 2) {
+        let charts = this.props.value.charts.data;
+        let chartisnew = charts.find((x => x.id === id))
+            chartisnew = chartisnew ? false : true;
+        if (depth === 2 && chartisnew) {
             axios.get('/api/value/' + id)
                 .then(res => {
                     this.saveValues(res.data);
             })
+        }
+        if (depth === 2 && !chartisnew) {
+            this.props.chart.value.select(id);
         }
     }
 
@@ -104,12 +120,14 @@ class DataFilters extends Component {
     render() {
         let depth = this.props.depth;
         let filters = this.props.data[depth];
-        let selected = this.props.value.filterSelected[depth];
+        let selected = this.props.value.filters.selected[depth];
         selected = selected ? selected : this.state.active;
         return (
             <Dropdown>
                 <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
+                    <div className="dropdown-fix">
                     { selected.name }
+                    </div>
                 </Dropdown.Toggle>
                 <Dropdown.Menu as={CustomMenu}
                 >
