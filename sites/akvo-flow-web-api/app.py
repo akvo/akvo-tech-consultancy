@@ -145,7 +145,7 @@ def submitprocess(rec, _uuid):
                 val = json.dumps(vals)
             elif answerType[i] == "DATE":
                 objDate = datetime.strptime(rec[ids], "%Y-%m-%d")
-                val = datetime.timestamp(objDate) * 1000
+                val = int(datetime.timestamp(objDate) * 1000)
             else:
                 val = rec[ids]
             aType = answerType[i]
