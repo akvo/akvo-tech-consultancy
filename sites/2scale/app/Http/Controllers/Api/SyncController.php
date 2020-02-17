@@ -250,17 +250,20 @@ class SyncController extends Controller
                 $partnership_part = explode('_', $partner['partnership']);
                 $country_id = $partnerships->where('name', $partner['country'])->first();
                 $partnership_id = $partnerships->where('name', 'like', $partnership_part[0] . '%')->first();
-                $collections->push(
-                    array(
-                        'datapoint_id' => $datapoint_id,
-                        'form_id' => $form['form_id'],
-                        'partnership_id' => $partnership_id->id,
-                        'country_id' => $country_id->id,
-                        'survey_group_id' => $form['survey_group_id'],
-                        'submission_date' => date('Y-m-d', strtotime($submission_date)),
-                        'answers' => $group,
-                    )
-                );
+                $dt = DataPoint::where('datapoint_id', $datapoint_id)->first();
+                if ($dt === null) {
+                    $collections->push(
+                        array(
+                            'datapoint_id' => $datapoint_id,
+                            'form_id' => $form['form_id'],
+                            'partnership_id' => $partnership_id->id,
+                            'country_id' => $country_id->id,
+                            'survey_group_id' => $form['survey_group_id'],
+                            'submission_date' => date('Y-m-d', strtotime($submission_date)),
+                            'answers' => $group,
+                        )
+                    );
+                }
             }
         });
         return $collections;
