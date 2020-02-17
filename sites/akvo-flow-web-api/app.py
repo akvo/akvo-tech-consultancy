@@ -73,6 +73,7 @@ def survey(instance,surveyId,lang):
     if len(cascadeList) > 0:
         for cascade in cascadeList:
             cascadefile = ziploc + '/' + cascade.split('/surveys/')[1].replace('.zip','')
+            print(cascadefile)
             download = False
             if lang == 'update':
                 download = True
@@ -144,7 +145,7 @@ def submitprocess(rec, _uuid):
                 val = json.dumps(vals)
             elif answerType[i] == "DATE":
                 objDate = datetime.strptime(rec[ids], "%Y-%m-%d")
-                val = datetime.timestamp(objDate) * 1000
+                val = int(datetime.timestamp(objDate) * 1000)
             else:
                 val = rec[ids]
             aType = answerType[i]

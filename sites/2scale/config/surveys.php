@@ -2,7 +2,7 @@
 
 return [
     "url" => "http://tech-consultancy.akvo.org/akvo-flow-web/2scale",
-    "cascade" => "cascade-30100013-v2.sqlite",
+    "cascade" => "cascade-30100013-v6.sqlite",
     "forms" => array(
         [
         "name" => "M&E Tools",
