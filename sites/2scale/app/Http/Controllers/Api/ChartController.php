@@ -493,6 +493,7 @@ class ChartController extends Controller
         $organisation_id = [20140003, 28150003, 38120005, 38140006];
         $organisation = $answers->whereIn('question_id',$organisation_id)
                                 ->with('questions.form')
+                                ->has('datapoints.partnership.parents')
                                 ->with('datapoints.partnership.parents')->get()
                                 ->transform(function($dt){
                                     return array(
