@@ -65,7 +65,7 @@ def survey(instance,surveyId,lang):
     cascadeList = []
     for groups in response["questionGroup"]:
         try:
-            for q in response["questionGroup"]["question"]:
+            for q in groups["question"]:
                 if q["type"] == "cascade":
                     cascadeList.append(endpoint + q["cascadeResource"] + ".zip")
         except:
@@ -101,7 +101,7 @@ def submitprocess(rec, _uuid):
     data = []
     meta_name = {
         "answerType": "META_NAME",
-        "iteration": 0, 
+        "iteration": 0,
         "questionId": "-1",
         "value": rec['_dataPointName']
     }
