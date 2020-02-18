@@ -18,7 +18,6 @@ class flow_api():
     data_url = 'https://api-auth0.akvo.org/flow/orgs/udumamali'
 
     def get_token(self):
-        print('test',self.data['username'][4])
         account = r.post(self.auth_url, self.data);
         try:
             account = account.json();

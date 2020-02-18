@@ -5,6 +5,7 @@ from resources.api import flow_api
 from resources.utils import marktime, checktime, answer_handler
 from resources.database import write_data, schema_generator
 from resources.connection import engine_url
+import logging
 
 start_time = marktime()
 api = flow_api()
@@ -18,14 +19,14 @@ formInstanceUrls = []
 
 def collectSync(url, formChanged=[], formInstanceChanged=[], formInstanceDeleted=[], surveyDeleted=[]):
     data = api.sync_data(session, url, token)
-    print(url)
+    logging.info(url)
     nextUrl = data['nextSyncUrl']
     if data['status'] == 200:
         formChanged = formChanged + data['changes']['formChanged']
         formInstanceChanged = formInstanceChanged + data['changes']['formInstanceChanged']
         formInstanceDeleted = formInstanceDeleted + data['changes']['formInstanceDeleted']
         surveyDeleted = surveyDeleted + data['changes']['surveyDeleted']
-        print('INFO: FORM CHANGED: ' + str(len(formChanged)) +
+        logging.info('FORM CHANGED: ' + str(len(formChanged)) +
               '| FORM INSTANCE CHANGED: ' + str(len(formInstanceChanged)) +
               '| FORM INSTANCE DELETED: '+ str(len(formInstanceDeleted)) +
               '| SURVEY DELETED: '+ str(len(surveyDeleted))
@@ -43,12 +44,12 @@ def collectSync(url, formChanged=[], formInstanceChanged=[], formInstanceDeleted
             results.update({'surveyDeleted':surveyDeleted})
         return results
 
-print('COLLECTING DATA :' + checktime(start_time))
+logging.info(checktime(start_time) + ' COLLECTING DATA')
 next_sync = api.cursor_get(session)
 sync_history = collectSync(next_sync)
 api.cursor_update(session, sync_history)
-print('DONE COLLECTING :' + checktime(start_time))
-print('======================================')
+logging.info(checktime(start_time) + ' DONE COLLECTING')
+logging.info('======================================')
 
 def check_and_update(Model, data):
     stored_data = session.query(Model).filter(Model.id == int(data['id'])).first()
@@ -73,7 +74,7 @@ def saveAnswers(group, index, instance):
         write_data(session, input_data, answer, False)
 
 def update_survey_meta(survey_changed):
-    print('GETTING FOLDERS: ' + checktime(start_time))
+    logging.info(checktime(start_time) + ' GETTING FOLDERS')
     folders = api.get_data(request_url + '/folders', token)
     new_surveys = []
     for sc in survey_changed:
@@ -102,7 +103,7 @@ def update_survey_meta(survey_changed):
                             'formInstancesUrl': form['formInstancesUrl'],
                             'form_id': form['id']
                         })
-                print('GETTING {}: {}'.format(data['name'],checktime(start_time)))
+                logging.info(checktime(start_time) + ' GETTING {}'.format(data['name']))
                 if data['registrationFormId'] == "":
                     data.update({'registrationFormId':0})
                 stored_survey = session.query(Surveys).filter(Surveys.id == int(data['id'])).first()
@@ -111,14 +112,14 @@ def update_survey_meta(survey_changed):
                     stored_survey.name = data['name']
                     session.add(stored_survey)
                     session.commit()
-                    print('SURVEY UPDATED: {}'.format(data['name']))
+                    logging.info('SURVEY UPDATED: {}'.format(data['name']))
                 else:
                     input_data = Surveys(data)
-                    print('NEW SURVEY FOUND: {}'.format(data['name']))
+                    logging.info('NEW SURVEY FOUND: {}'.format(data['name']))
                     write_data(session, input_data, data, "SURVEY")
 
 def update_survey_data(survey_instance_changed):
-    print('GETTING SURVEY INSTANCES: ' + checktime(start_time))
+    logging.info(checktime(start_time) + ' GETTING SURVEY INSTANCES')
     for instance in survey_instance_changed:
         check_and_update(SurveyInstances, instance)
         answers = instance['responses']
@@ -135,7 +136,7 @@ def update_survey_data(survey_instance_changed):
                         for saved_question in saved_questions:
                             group.update({saved_question.id: None})
                     saveAnswers(group, index, instance)
-    print('SURVEY INSTANCES RECORDED: ' + checktime(start_time))
+    logging.info(checktime(start_time) + ' SURVEY INSTANCES RECORDED')
 
 clear = False
 
@@ -160,6 +161,8 @@ if 'surveyDeleted' in sync_history:
     clear = True
 
 if clear:
-    print('GENERATE NEW SCHEMA ' + checktime(start_time))
+    logging.info(checktime(start_time) + ' GENERATING NEW SCHEMA')
     schema_generator(session, engine)
-    print('JOB IS DONE ' + checktime(start_time))
+    logging.info(checktime(start_time) + ' NEW SCHEMA IS GENERATED')
+
+logging.info(checktime(start_time) + ' JOB IS FINISHED')
