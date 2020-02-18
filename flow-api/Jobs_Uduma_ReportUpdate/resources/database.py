@@ -46,8 +46,19 @@ def clear_schema(engine):
     available_table = inspector.get_table_names(schema='public')
     ignore_table = ['migrate_version','question','survey','form','question_group','answer','survey_instance', 'sync', 'spatial_ref_sys']
     delete_table = list(filter(lambda x: x not in ignore_table, available_table))
+    view_list = inspector.get_view_names(schema='public')
+    new_views = []
+    for view_name in view_list:
+        default_views = ['geography_columns','geometry_columns','raster_columns','raster_overviews']
+        if view_name not in default_views:
+            view_definition = inspector.get_view_definition(view_name, schema='public')
+            view_definition = 'CREATE OR REPLACE VIEW ' + view_name + ' AS ' + view_definition
+            new_views.append(view_definition)
+            sql.execute('DROP VIEW IF EXISTS' + view_name, engine)
     for tbl in delete_table:
         sql.execute('DROP TABLE IF EXISTS "{}"'.format(tbl), engine)
+    for new_view in new_views:
+        sql.execute(new_view, engine)
 
 def repeat_marker(x):
     repeat = x.repeat_index
