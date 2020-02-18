@@ -58,10 +58,10 @@ class flow_api():
         response = r.get(url, headers=header)
         if response.status_code == 200:
             data = response.json()
-            self.cursor_update(session, data)
             data.update({'status':200})
             return data
-        return {'status': 204, 'nextSyncUrl':url}
+        if response.status_code == 204:
+            return {'status': 204, 'nextSyncUrl':url}
 
     def init_sync(self, session, token):
         init_url = '{}/sync?initial=true'.format(self.data_url)
@@ -87,7 +87,7 @@ class flow_api():
         current_sync = self.cursor_get(session)
         current_sync_id = current_sync.split('=')[-1]
         current_sync = session.query(Sync).filter(Sync.url == current_sync_id).first()
-        current_sync.data = data['changes']
+        current_sync.data = data
         session.add(current_sync)
         session.commit()
         print("CURSOR UPDATED")

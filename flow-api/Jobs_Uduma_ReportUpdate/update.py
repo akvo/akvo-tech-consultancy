@@ -14,10 +14,41 @@ engine_url = engine_url()
 engine = create_engine(engine_url)
 session = sessionmaker(bind=engine)()
 
-next_sync = api.cursor_get(session)
-new_data = api.sync_data(session, next_sync, token)
-sync_history = api.get_history(session)
 formInstanceUrls = []
+
+def collectSync(url, formChanged=[], formInstanceChanged=[], formInstanceDeleted=[], surveyDeleted=[]):
+    data = api.sync_data(session, url, token)
+    print(url)
+    nextUrl = data['nextSyncUrl']
+    if data['status'] == 200:
+        formChanged = formChanged + data['changes']['formChanged']
+        formInstanceChanged = formInstanceChanged + data['changes']['formInstanceChanged']
+        formInstanceDeleted = formInstanceDeleted + data['changes']['formInstanceDeleted']
+        surveyDeleted = surveyDeleted + data['changes']['surveyDeleted']
+        print('INFO: FORM CHANGED: ' + str(len(formChanged)) +
+              '| FORM INSTANCE CHANGED: ' + str(len(formInstanceChanged)) +
+              '| FORM INSTANCE DELETED: '+ str(len(formInstanceDeleted)) +
+              '| SURVEY DELETED: '+ str(len(surveyDeleted))
+             )
+        return collectSync(nextUrl, formChanged, formInstanceChanged, formInstanceDeleted, surveyDeleted)
+    else:
+        results = {'nextSyncUrl': nextUrl}
+        if len(formChanged) > 0:
+            results.update({'formChanged':formChanged})
+        if len(formInstanceChanged) > 0:
+            results.update({'formInstanceChanged':formInstanceChanged})
+        if len(formInstanceDeleted) > 0:
+            results.update({'formInstanceDeleted':formInstanceDeleted})
+        if len(surveyDeleted) > 0:
+            results.update({'surveyDeleted':surveyDeleted})
+        return results
+
+print('COLLECTING DATA :' + checktime(start_time))
+next_sync = api.cursor_get(session)
+sync_history = collectSync(next_sync)
+api.cursor_update(session, sync_history)
+print('DONE COLLECTING :' + checktime(start_time))
+print('======================================')
 
 def check_and_update(Model, data):
     stored_data = session.query(Model).filter(Model.id == int(data['id'])).first()
@@ -108,26 +139,28 @@ def update_survey_data(survey_instance_changed):
 
 clear = False
 
-if 'formChanged' in sync_history.data:
+if 'formChanged' in sync_history:
+    update_survey_meta(sync_history['formChanged'])
     clear = True
-    update_survey_meta(sync_history.data['formChanged'])
-if 'formInstanceChanged' in sync_history.data:
+if 'formInstanceChanged' in sync_history:
+    update_survey_data(sync_history['formInstanceChanged'])
     clear = True
-    update_survey_data(sync_history.data['formInstanceChanged'])
-if 'formInstanceDeleted' in sync_history.data:
-    clear = True
-    ids = [int(x) for x in sync_history.data['formInstanceDeleted']]
+if 'formInstanceDeleted' in sync_history:
+    ids = [int(x) for x in sync_history['formInstanceDeleted']]
     session.query(Answers).filter(Answers.survey_instance_id._in(ids)).delete(synchronize_session='evaluate')
     session.query(SurveyInstances).filter(SurveyInstances.id._in(ids)).delete(synchronize_session='evaluate')
     session.commit()
-if 'surveyDeleted' in sync_history.data:
     clear = True
-    ids = [int(x) for x in sync_history.data['surveyDeleted']]
+if 'surveyDeleted' in sync_history:
+    ids = [int(x) for x in sync_history['surveyDeleted']]
     for id in ids:
         session.query(Questions).filter(Questions.survey_instance_id == id).delete(synchronize_session='evaluate')
         session.query(SurveyInstances).filter(SurveyInstances.id == id).delete(synchronize_session='evaluate')
         session.commit()
+    clear = True
 
 if clear:
+    print('GENERATE NEW SCHEMA ' + checktime(start_time))
     clear_schema(engine)
     schema_generator(session, engine)
+    print('JOB IS DONE ' + checktime(start_time))
