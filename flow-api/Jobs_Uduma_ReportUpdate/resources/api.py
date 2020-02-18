@@ -95,7 +95,7 @@ class flow_api():
 
     def cursor_get(self, session):
         cursor = session.query(Sync).order_by(Sync.id.desc()).first()
-        endpoint = '{}/sync/?next=true&cursor={}'.format(self.data_url, str(cursor.url))
+        endpoint = '{}/sync?next=true&cursor={}'.format(self.data_url, str(cursor.url))
         return endpoint
 
     def get_history(self, session):

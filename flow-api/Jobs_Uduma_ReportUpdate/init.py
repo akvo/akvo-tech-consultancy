@@ -119,4 +119,3 @@ clear_schema(engine)
 schema_generator(session, engine)
 api.init_sync(session, token)
 get_summary(session)
-
