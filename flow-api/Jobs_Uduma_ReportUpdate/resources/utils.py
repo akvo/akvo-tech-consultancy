@@ -68,7 +68,7 @@ def handleBarCode(data):
     return data
 
 def handleDate(data):
-    return data
+    return data.replace('Z','').replace('T',' ')
 
 def handleNumber(data):
     return data

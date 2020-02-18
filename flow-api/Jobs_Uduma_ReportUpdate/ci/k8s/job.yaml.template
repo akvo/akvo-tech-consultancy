@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: jobs-uduma-report-init-${TRAVIS_COMMIT}
+  name: jobs-uduma-report-test-sync-${TRAVIS_COMMIT}
 spec:
   template:
     spec:

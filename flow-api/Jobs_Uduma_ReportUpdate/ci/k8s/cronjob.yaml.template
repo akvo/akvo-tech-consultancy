@@ -6,7 +6,7 @@ spec:
   schedule: "30 8 * * *"
   startingDeadlineSeconds: 600
   concurrencyPolicy: Allow
-  failedJobsHistoryLimit: 0 
+  failedJobsHistoryLimit: 1 
   successfulJobsHistoryLimit: 3
   jobTemplate:
     metadata:
