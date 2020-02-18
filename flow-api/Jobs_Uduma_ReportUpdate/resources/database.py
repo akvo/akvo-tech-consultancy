@@ -57,8 +57,7 @@ def clear_schema(engine):
             sql.execute('DROP VIEW IF EXISTS ' + view_name, engine)
     for tbl in delete_table:
         sql.execute('DROP TABLE IF EXISTS "{}"'.format(tbl), engine)
-    for new_view in new_views:
-        sql.execute(new_view, engine)
+    return new_views
 
 def repeat_marker(x):
     repeat = x.repeat_index
@@ -74,7 +73,7 @@ def generate_pandas_sql(data, table_name, engine):
     return True
 
 def schema_generator(session, engine):
-    clear_schema(engine)
+    table_views = clear_schema(engine)
     form_list = session.query(Forms).all()
     for fm in form_list:
         table_name = table_column_regex(fm.name, fm.id)
@@ -132,4 +131,6 @@ def schema_generator(session, engine):
             for group_id in [*group_rows]:
                 group_data_rows = group_rows[group_id]['data']
                 generate_pandas_sql(group_data_rows, group_rows[group_id]['name'], engine)
-
+    if len(table_views) > 0:
+        for new_view in table_views:
+            sql.execute(new_view, engine)

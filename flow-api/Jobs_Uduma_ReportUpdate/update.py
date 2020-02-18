@@ -3,7 +3,7 @@ from sqlalchemy.orm import sessionmaker
 from resources.models import Surveys, Forms, QuestionGroups, Questions, SurveyInstances, Answers
 from resources.api import flow_api
 from resources.utils import marktime, checktime, answer_handler
-from resources.database import write_data, clear_schema, schema_generator
+from resources.database import write_data, schema_generator
 from resources.connection import engine_url
 
 start_time = marktime()
@@ -161,6 +161,5 @@ if 'surveyDeleted' in sync_history:
 
 if clear:
     print('GENERATE NEW SCHEMA ' + checktime(start_time))
-    clear_schema(engine)
     schema_generator(session, engine)
     print('JOB IS DONE ' + checktime(start_time))

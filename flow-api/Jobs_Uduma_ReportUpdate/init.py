@@ -3,7 +3,7 @@ from sqlalchemy.orm import sessionmaker
 from resources.models import Surveys, Forms, QuestionGroups, Questions, SurveyInstances, Answers
 from resources.api import flow_api
 from resources.utils import marktime, checktime, answer_handler
-from resources.database import write_data, clear_schema, schema_generator, get_summary
+from resources.database import write_data, schema_generator, get_summary
 from resources.connection import engine_url
 
 api = flow_api()
@@ -115,7 +115,6 @@ for data in formInstanceUrls:
                     saveAnswers(group, index)
 print('SURVEY INSTANCES RECORDED: ' + checktime(start_time))
 
-clear_schema(engine)
 schema_generator(session, engine)
 api.init_sync(session, token)
 get_summary(session)
