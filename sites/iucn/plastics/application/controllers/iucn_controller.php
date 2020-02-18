@@ -103,6 +103,16 @@ class Iucn_controller extends CI_Controller {
                     'title' => "Type of actor",
                     'type' => "pie",
                     'style' => array()
+                ),
+                'q231790004' => array(
+                    'title' => "Link to result framework",
+                    'type' => "vbar-custom",
+                    'style' => array()
+                ),
+                'q259650003' => array(
+                    'title' => "Link to result framework",
+                    'type' => "vbar-custom",
+                    'style' => array()
                 )
             ),
             'forms' => array("Plastics Survey"),

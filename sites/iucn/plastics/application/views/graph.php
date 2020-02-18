@@ -651,6 +651,42 @@ function drawCharts(data){
           series: chartData
         });
         break;
+      case "vbar-custom":
+        for (obj in data[chartObj]) {
+          chartData.push({
+            name: obj,
+            data: [data[chartObj][obj]]
+          });
+        }
+
+        $('#chart-'+colTitle).highcharts({
+          chart: {
+            type: 'column'
+          },
+          title: {
+            text: charts[colTitle]['title']
+          },
+          subtitle: {
+              text: 'Source: Akvo Flow'
+          },
+          yAxis: {
+              min: 0,
+              title: {
+                  text: 'Count'
+              }
+          },
+          tooltip: {
+              pointFormat: '<b>{point.y:.0f} point(s)</b>'
+          },
+          plotOptions: {
+              column: {
+                  pointPadding: 0.2,
+                  borderWidth: 0
+              }
+          },
+          series: chartData
+        });
+        break;
       default:
         for (obj in data[chartObj]) {
           chartData.push({name: obj, y: data[chartObj][obj], color: "#"+((obj in charts[colTitle]['style']) ? charts[colTitle]['style'][obj] : ((1<<24)*Math.random()|0).toString(16))});
