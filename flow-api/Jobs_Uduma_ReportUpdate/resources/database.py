@@ -54,7 +54,7 @@ def clear_schema(engine):
             view_definition = inspector.get_view_definition(view_name, schema='public')
             view_definition = 'CREATE OR REPLACE VIEW ' + view_name + ' AS ' + view_definition
             new_views.append(view_definition)
-            sql.execute('DROP VIEW IF EXISTS' + view_name, engine)
+            sql.execute('DROP VIEW IF EXISTS ' + view_name, engine)
     for tbl in delete_table:
         sql.execute('DROP TABLE IF EXISTS "{}"'.format(tbl), engine)
     for new_view in new_views:
