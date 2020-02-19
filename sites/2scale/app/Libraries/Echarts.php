@@ -84,7 +84,7 @@ class Echarts
     }
     public function generateSimpleBarCharts($categories, $values) 
 	{
-        $categories = $categories->map(function($l) {
+        $categories = collect($categories)->map(function($l) {
             return $this->titler($l);
         });
 		return [
@@ -122,13 +122,13 @@ class Echarts
 
     public function generateBarCharts($legend, $categories, $type, $series)
     {
-        $legend = $legend->map(function($l) {
+        $legend = collect($legend)->map(function($l) {
             return $this->titler($l);
         });
-        $categories = $categories->map(function($l) {
+        $categories = collect($categories)->map(function($l) {
             return $this->titler($l);
         });
-        $series = $series->map(function($l) {
+        $series = collect($series)->map(function($l) {
             $l['name'] = $this->titler($l['name']);
             return $l;
         });
