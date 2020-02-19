@@ -38,7 +38,7 @@ spec:
                 valueFrom:
                   secretKeyRef:
                     name: jobs-uduma-report
-                    key: autho-client
+                    key: autho-pwd
               - name: AUTH0_USER
                 valueFrom:
                   secretKeyRef:
