@@ -1,4 +1,4 @@
-from sqlalchemy import Table, Column, String, Integer, BigInteger, Text, MetaData, ForeignKey
+from sqlalchemy import Table, Column, String, Integer, BigInteger, Text, DateTime, MetaData, ForeignKey
 
 meta = MetaData()
 
@@ -14,6 +14,7 @@ survey_instance = Table(
     Column('form_id', BigInteger, ForeignKey('form.id')),
     Column('submitter', Text),
     Column('device', Text),
+    Column('submission_date', DateTime),
     Column('survey_time', Integer)
 )
 

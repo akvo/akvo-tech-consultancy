@@ -2,7 +2,7 @@ from sqlalchemy import create_engine, ForeignKey, Column, Integer, BigInteger, T
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 from resources.connection import engine_url
-import datetime
+from datetime import datetime
 
 engine_url = engine_url()
 engine = create_engine(engine_url)
@@ -100,6 +100,8 @@ class SurveyInstances(Base):
     form_id = Column(BigInteger, ForeignKey('form.id'))
     submitter = Column(Text)
     survey_time = Column(Integer)
+    device = Column(Text)
+    submission_date = Column(DateTime)
     form = relationship('Forms')
     answers = relationship('Answers', cascade="all,delete", passive_deletes=True)
 
@@ -108,6 +110,8 @@ class SurveyInstances(Base):
         self.identifier = data['identifier']
         self.form_id = int(data['formId'])
         self.submitter = data['submitter']
+        self.device = data['deviceIdentifier']
+        self.submission_date = datetime.strptime(data['submissionDate'], "%Y-%m-%dT%H:%M:%SZ")
         self.survey_time = data['surveyalTime']
 
     def __repr__(self):
@@ -143,7 +147,7 @@ class Sync(Base):
     id = Column(BigInteger, primary_key=True, autoincrement=True)
     url = Column(Text)
     data = Column(JSON)
-    updated_at = Column(DateTime, default=datetime.datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow)
 
     def __init__(self, url, data):
         self.url = int(url)

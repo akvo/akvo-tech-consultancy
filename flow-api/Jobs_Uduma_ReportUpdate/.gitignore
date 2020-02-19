@@ -3,3 +3,4 @@ __pycache__
 /uat2
 env.sh
 api.sh
+migrate-test.sh

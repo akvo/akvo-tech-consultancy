@@ -5,7 +5,6 @@ import logging
 from pandas.io import sql
 from collections import ChainMap
 from resources.models import Surveys, Forms, QuestionGroups, Questions, SurveyInstances
-from resources.utils import checktime
 
 def write_data(session, input_data, info, log):
     try:
@@ -38,7 +37,7 @@ def get_summary(session):
         '{} QUESTION GROUPS\n'\
         '{} QUESTIONS\n'\
         '{} SURVEY INSTANCES\n'\
-        .format(checktime(),total_surveys,total_forms,total_question_groups,total_questions, total_survey_instances)
+        .format(total_surveys,total_forms,total_question_groups,total_questions, total_survey_instances)
     )
 
 def clear_schema(engine):
@@ -108,8 +107,10 @@ def schema_generator(session, engine):
                         row[ids] = group_rows[gr]['name']
             row.update({
                 '0_identifier':dt.identifier,
+                '0_submission_date':dt.submission_date,
                 '0_submitter':dt.submitter,
-                '0_survey_time':dt.survey_time
+                '0_survey_time':dt.survey_time,
+                '0_device':dt.device
             })
             rows.append(row)
             for repeated in repeat_row:
@@ -122,8 +123,10 @@ def schema_generator(session, engine):
                             pass
                     repeated_instance.update({
                         '0_identifier':dt.identifier,
+                        '0_submission_date':dt.submission_date,
                         '0_submitter':dt.submitter,
-                        '0_survey_time':dt.survey_time
+                        '0_survey_time':dt.survey_time,
+                        '0_device':dt.device
                     })
                     group_rows[gr]['data'].append(repeated_instance)
         if len(rows) > 0:
