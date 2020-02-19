@@ -177,7 +177,6 @@ class DataController extends Controller
             $titles[] = $item->text;
             $qids[] = $item->question_id;
         }
-      
         $query = Data::whereIn('question_id', $qids);
 
         if ($country) {
