@@ -1,7 +1,7 @@
 <?php
 
 return [
-    "url" => "http://tech-consultancy.akvo.org/akvo-flow-web/2scale",
+    "url" => "https://tech-consultancy.akvo.org/akvo-flow-web/2scale",
     "cascade" => "cascade-30100013-v6.sqlite",
     "forms" => array(
         [
