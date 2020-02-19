@@ -22,6 +22,13 @@ class Echarts
         );
     }
     public function generateDonutCharts($legend, $data){
+        $legend = collect($legend)->map(function($l){
+            return $this->titler($l);
+        });
+        $data = collect($data)->map(function($d){
+            $d['name'] = $this->titler($d['name']);
+            return $d;
+        });
         $legendStyle = array(
             'fontFamily' => 'sans-serif',
             'fontWeight' => 200,
@@ -75,8 +82,56 @@ class Echarts
           ),
         );
     }
+    public function generateSimpleBarCharts($categories, $values) 
+	{
+        $categories = $categories->map(function($l) {
+            return $this->titler($l);
+        });
+		return [
+            'dataZoom' => array(
+                'type' => 'inside',
+                'yAxisIndex' => [0]
+            ),
+			'tooltip' => array (
+				'trigger' => 'axis',
+				'axisPointer' => array ('type' => 'shadow'),
+			),
+			"grid" => array (
+				"left" => "50%",
+				"top" => "0px",
+				"bottom" => "0px",
+			),
+			"yAxis" => [
+				"type" => "category",
+				"data" => $categories,
+				"axisTick" => [
+					"alignWithLabel" => True,
+					"inside" => True
+				]
+			],
+			"xAxis" => [
+				"type" => "value",
+			],
+			"series" => [[
+            	'color' => $this->pallete, 
+				"data" => $values,
+				"type" => "bar"
+			]]
+		];
+    }
+
     public function generateBarCharts($legend, $categories, $type, $series)
     {
+        $legend = $legend->map(function($l) {
+            return $this->titler($l);
+        });
+        $categories = $categories->map(function($l) {
+            return $this->titler($l);
+        });
+        $series = $series->map(function($l) {
+            $l['name'] = $this->titler($l['name']);
+            return $l;
+        });
         $textStyle = array(
             'fontFamily' => 'sans-serif',
             'fontWeight' => 200
@@ -215,5 +270,8 @@ class Echarts
             ),
           ),
         );
+    }
+    private function titler($name) {
+        return ucwords(str_replace('_',' ', strtolower($name)));
     }
 }

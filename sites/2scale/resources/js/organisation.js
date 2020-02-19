@@ -59,7 +59,7 @@ axios.get('api/charts/organisation/hierarchy')
                     if (name.data.value === "countries") {
                         return 15;
                     };
-                    return 30;
+                    return 12;
                 },
                 symbol: function(params, name) {
                     if (name.data.value === "organisations") {

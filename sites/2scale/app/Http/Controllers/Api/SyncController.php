@@ -219,7 +219,12 @@ class SyncController extends Controller
                                     $isOption = Arr::has($answer[$i], 'text') 
                                         ? true 
                                         : false;
-                                    $cascade .= ($isOption) 
+                                    if (Arr::has($answer[$i], 'isOther')) {
+                                        if ($answer[$i]['isOther']){
+                                            $answer[$i]['name'] = "Choose Other Options";
+                                        } 
+                                    }
+                                    $cascade .= ($isOption)
                                         ? $answer[$i]['text']
                                         : $answer[$i]['name'];
                                     if($isOption) {

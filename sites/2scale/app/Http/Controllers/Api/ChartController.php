@@ -391,8 +391,10 @@ class ChartController extends Controller
         $legends = $series->map(function($d){
             return $d['name'];
         });
-		return $this->echarts->generateDonutCharts($legends, $series);
-        return $this->echarts->generateBarCharts($legends, $categories, $type, $series);
+		$values = $series->map(function($d) {
+            return $d['value'];
+		});
+		return $this->echarts->generateSimpleBarCharts($legends, $values);
     }
 
     public function topThree(Request $request, Partnership $partnerships, Datapoint $datapoints)
