@@ -51,7 +51,7 @@ class Iucn_controller extends CI_Controller {
                     'style' => array()
                 ),
                 'subject' => array( //TODO: multiple activity questions (235950001)
-                    'title' => "Subject",
+                    'title' => "Link to MAREPLASTICCS result framework",
                     'type' => "pie",
                     'style' => array(),
                     'project' => array(
@@ -105,12 +105,12 @@ class Iucn_controller extends CI_Controller {
                     'style' => array()
                 ),
                 'q231790004' => array(
-                    'title' => "Link to result framework",
+                    'title' => "Link to MAREPLASTICCS result framework",
                     'type' => "vbar-custom",
                     'style' => array()
                 ),
                 'q259650003' => array(
-                    'title' => "Link to result framework",
+                    'title' => "Link to PWFI result framework",
                     'type' => "vbar-custom",
                     'style' => array()
                 )
