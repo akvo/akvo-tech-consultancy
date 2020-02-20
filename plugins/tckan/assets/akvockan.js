@@ -17,7 +17,11 @@ jQuery("#dataset-query").on('change', function(){
         jQuery('.dataset-lists').remove();
 		searchdatasets(thisval);
         jQuery(".lds-ellipsis").show();
-	}
+	} else if (thisval.length === 0) {
+        jQuery('.dataset-lists').remove();
+		searchdatasets(thisval);
+        jQuery(".lds-ellipsis").show();
+    }
 });
 
 jQuery(".btn-ckan-search").on('click', function(){
@@ -26,7 +30,11 @@ jQuery(".btn-ckan-search").on('click', function(){
         jQuery('.dataset-lists').remove();
 		searchdatasets(thisval);
         jQuery(".lds-ellipsis").show();
-	}
+	} else if (thisval.length === 0) {
+        jQuery('.dataset-lists').remove();
+		searchdatasets(thisval);
+        jQuery(".lds-ellipsis").show();
+    }
 });
 
 function awaitframes(id_collections, id_tables, queue, iterate) {
@@ -100,7 +108,14 @@ function searchdatasets( q ) {
 		}
         jQuery(".lds-ellipsis").hide();
 		let html = '<article id="post-196" class="dataset-lists card card-blog card-plain post-196 post type-post status-publish format-standard has-post-thumbnail hentry category-all-post"></article>';
-		jQuery("#ckan-container").append(html);
+        jQuery("#ckan-container").append(html);
+        
+        if (data.length === 0) {
+            let html = '';
+            html += "<div class='ckan-files'>Data not Available</div>";
+            jQuery('.dataset-lists').append(html);
+        }
+
 		data.forEach(function(res,index) {
             res.resources.forEach(function(a, x) {
                 let html = '';
@@ -168,6 +183,10 @@ function initakvockan() {
         jQuery(".lds-loading").remove();
     });
 }
+
+jQuery('.dataset-lists').remove();
+searchdatasets('');
+jQuery(".lds-ellipsis").show();
 
 })
 
