@@ -17,7 +17,7 @@ class Iucn_controller extends CI_Controller {
         $data['project_question_id'] = '245700001';
         $data['projects'] = [
             array(
-                'countries' => ['Mozambique', 'Kenya', 'South Africa', 'Thailand', 'Thailand', 'Global'],
+                'countries' => ['Mozambique', 'Kenya', 'South Africa', 'Thailand', 'Vietnam', 'Global'],
                 'question_id' => '259640001',
                 'project_name' => 'Sida MARPLASTICCs',
             ),
