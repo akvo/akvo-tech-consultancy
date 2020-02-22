@@ -477,6 +477,17 @@ function getData () {
   queryData['level'] = filterLevel;
   queryData['tl_categorization'] = catQid;
 
+  if ($('#project').val() ==='sida-marplasticcs') {
+    $($('#accordion .panel')[4]).hide();
+    $($('#accordion .panel')[3]).show();
+  } else if ($('#project').val() ==='norad-plastic-wastefree-islands' || $('#project').val() ==='primat-plastic-wastefree-islands') {
+    $($('#accordion .panel')[3]).hide();
+    $($('#accordion .panel')[4]).show();
+  } else {
+    $($('#accordion .panel')[3]).show();
+    $($('#accordion .panel')[4]).show();
+  }
+
   $.post(
     "<?=base_url()?>index.php/timeline-graph-data",
     queryData,
@@ -614,6 +625,7 @@ function drawCharts(data){
     } else {
       colTitle = chartObj;
     }
+
     switch (charts[colTitle]['type']) {
       case "vbar":
         for (obj in data[chartObj]) {
