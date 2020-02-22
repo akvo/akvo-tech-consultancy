@@ -651,6 +651,15 @@ function drawCharts(data){
                   text: 'Count'
               }
           },
+          xAxis: {
+              categories: ['results'],
+              labels: {
+                  step: 1,
+                  style:{
+                    textOverflow: 'ellipsis'
+                  }
+              }
+          },
           tooltip: {
               pointFormat: '<b>{point.y:.0f} point(s)</b>'
           },
@@ -685,6 +694,15 @@ function drawCharts(data){
               min: 0,
               title: {
                   text: 'Count'
+              }
+          },
+          xAxis: {
+              categories: ['results'],
+              labels: {
+                  step: 1,
+                  style:{
+                    textOverflow: 'ellipsis'
+                  }
               }
           },
           tooltip: {
