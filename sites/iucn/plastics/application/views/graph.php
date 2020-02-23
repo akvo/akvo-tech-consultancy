@@ -478,7 +478,7 @@ function getData () {
   queryData['tl_categorization'] = catQid;
 
   var the_path = window.location.pathname.split('/');
-  if (the_path[2] === 'activities') {
+  if (the_path[3] === 'activities') {
     if ($('#project').val() ==='sida-marplasticcs') {
       $($('#accordion .panel')[3]).hide();
       $($('#accordion .panel')[2]).show();
