@@ -477,15 +477,29 @@ function getData () {
   queryData['level'] = filterLevel;
   queryData['tl_categorization'] = catQid;
 
-  if ($('#project').val() ==='sida-marplasticcs') {
-    $($('#accordion .panel')[4]).hide();
-    $($('#accordion .panel')[3]).show();
-  } else if ($('#project').val() ==='norad-plastic-wastefree-islands' || $('#project').val() ==='primat-plastic-wastefree-islands') {
-    $($('#accordion .panel')[3]).hide();
-    $($('#accordion .panel')[4]).show();
+  var the_path = window.location.pathname.split('/');
+  if (the_path[2] === 'activities') {
+    if ($('#project').val() ==='sida-marplasticcs') {
+      $($('#accordion .panel')[3]).hide();
+      $($('#accordion .panel')[2]).show();
+    } else if ($('#project').val() ==='norad-plastic-wastefree-islands' || $('#project').val() ==='primat-plastic-wastefree-islands') {
+      $($('#accordion .panel')[2]).hide();
+      $($('#accordion .panel')[3]).show();
+    } else {
+      $($('#accordion .panel')[2]).show();
+      $($('#accordion .panel')[3]).show();
+    }
   } else {
-    $($('#accordion .panel')[3]).show();
-    $($('#accordion .panel')[4]).show();
+    if ($('#project').val() ==='sida-marplasticcs') {
+      $($('#accordion .panel')[4]).hide();
+      $($('#accordion .panel')[3]).show();
+    } else if ($('#project').val() ==='norad-plastic-wastefree-islands' || $('#project').val() ==='primat-plastic-wastefree-islands') {
+      $($('#accordion .panel')[3]).hide();
+      $($('#accordion .panel')[4]).show();
+    } else {
+      $($('#accordion .panel')[3]).show();
+      $($('#accordion .panel')[4]).show();
+    }
   }
 
   $.post(
@@ -616,16 +630,17 @@ function drawTimelineGraph(data){
 
 function drawCharts(data){
   var charts = <?=json_encode($charts)?>;
-
   for (chartObj in charts) {
     var chartData = [];
     let colTitle;
+    /*
     if (chartObj == "q241810001" || chartObj == "q235950001") { //handle dependency in activities
       colTitle = 'subject';
     } else {
       colTitle = chartObj;
     }
-
+    */
+    colTitle = chartObj;
     switch (charts[colTitle]['type']) {
       case "vbar":
         for (obj in data[chartObj]) {
