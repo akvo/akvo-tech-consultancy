@@ -290,7 +290,7 @@ class Iucn_controller extends CI_Controller {
     public function get_data(){
         $output = array();
         $cartodb_api_key = "0344aaf6dba34f9786bbbc90805b8bc5143043eb";
-        $others = array("q233810002","q239490004","q241810001","q235950001");
+        $others = array("q233810002","q239490004");
         $q233810002_options = array("Field action","Training","Meeting","Data collection");
         $q239490004_options = array("Local government","National government","CSO","Private sector","NGO","Academia","Media","Traditional authority","Farmer/Community");
         $q241810001_options = array("Output 1: Understanding the state and impact of plastic pollution in the Indian Ocean and Asia Pacific regions","Output 2: Local and regional capacity building to facilitate national action to control plastic pollution","Output 3: Supporting national and regional policy frameworks and legislative reform processes to address plastics","Output 4: Engaging and mobilising business actors in support of effective management and reduction of plastic pollution","Output 5: Monitoring, evaluation, learning and reporting system operational");
