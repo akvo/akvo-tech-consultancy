@@ -116,12 +116,12 @@ class Iucn_controller extends CI_Controller {
                 ),
                 'q231790004' => array(
                     'title' => "Link to MAREPLASTICCS result framework",
-                    'type' => "vbar-custom",
+                    'type' => "pie",
                     'style' => array()
                 ),
                 'q259650003' => array(
                     'title' => "Link to PWFI result framework",
-                    'type' => "vbar-custom",
+                    'type' => "pie",
                     'style' => array()
                 )
             ),
