@@ -47,8 +47,9 @@ class PageThumbs extends Component {
 
     render() {
         return this.props.value[this.props.lists].map((data, index) => {
+            let show = data.active ? "" : " container-hidden";
             return (
-                <Col className="container-thumbnails" xs={12} sm={6} md={4} key={index}>
+                <Col className={"container-thumbnails" + show} xs={12} sm={6} md={4} key={index}>
                     <Card>
                         <Card.Header> {data.title} </Card.Header>
                         <div className="thumbnails">

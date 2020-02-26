@@ -22,6 +22,10 @@ body {
     border-bottom: 1px #ddd solid;
 }
 
+.container-hidden {
+    display:none;
+}
+
 .thumbnails img {
     width: 100%;
     min-width: 100%;
@@ -47,18 +51,36 @@ body {
 
 .footer,
 .tagline{
-    margin: 0 0 5rem;
+    margin: 3rem 0 5rem;
     background-color: #03ad8c;
     min-width: 100%;
     padding: 3rem;
     text-align:center;
-    box-shadow: inset 0px -20px 20px 0px rgba(0, 0, 0, 0.27)
+    box-shadow: inset 0px -20px 20px 0px rgba(0, 0, 0, 0.27);
+    transition: all .5s;
 }
 .tagline.tagline-poc{
     background-color: #404898;
     margin-top: 3rem;
     box-shadow: inset 0px 0px 20px 0px rgba(0, 0, 0, 0.5)
 }
+.tagline.tagline-hidden{
+    height: 0px;
+    padding: 0px;
+    margin: 0px;
+}
+.tagline.tagline-hidden button{
+    display: none;
+}
+
+.tagline.tagline-hidden h1{
+    display:none;
+}
+
+.container {
+    transition: all .5s;
+}
+
 .container-thumbnails {
     margin-top: 1rem;
     margin-bottom: 1rem;
@@ -78,6 +100,31 @@ body {
     padding-top: 1rem;
     color: #ffffff;
 }
+.filter-name{
+    font-weight: bold;
+    line-height: 38px;
+    font-size: 20px;
+}
+
+button.btn-filter{
+    padding: 0px;
+    border: 0px;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+button.btn-filter .filter-text{
+    padding: 10px 0px 10px 10px;
+}
+
+button .close-icon{
+    display: inline;
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+    line-height: 30px;
+}
+
 .footer button,
 .tagline button{
     font-weight:bold;

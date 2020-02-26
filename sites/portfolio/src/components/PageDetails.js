@@ -54,7 +54,12 @@ class PageDetails extends Component {
                                 <td>
                                     <b>Countries</b>:
                                 </td>
-                                <td className="text-left">{data.countries}</td>
+                                <td className="text-left">{data.countries.map((x,i) =>
+                                    {
+                                        let comma = i === (data.countries.length - 1) ? "." : ", "
+                                        return x + comma;
+                                    })
+                                }</td>
                             </tr>
                             <tr>
                                 <td>

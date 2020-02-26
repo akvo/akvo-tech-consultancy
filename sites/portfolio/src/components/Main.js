@@ -5,7 +5,7 @@ import { Container, Row, Button, Col, Card, Image } from "react-bootstrap";
 import Navigation from "./Navigation";
 import PageThumbs from "./PageThumbs";
 import PageDetails from "./PageDetails";
-import Slider from "./Slider";
+import Filters from "./Filters";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -20,6 +20,8 @@ class Page extends Component {
         const fetchPortfolio = new Promise((resolve, reject) => {
             axios.get("./data/portfolio.json").then(res => {
                 this.props.getList(res.data, "PORTFOLIO");
+                this.props.setCategories(res.data, "TYPES");
+                this.props.setCategories(res.data, "COUNTRIES");
                 setTimeout(() => {
                     resolve(true);
                 }, 300);
@@ -29,7 +31,10 @@ class Page extends Component {
         const fetchPoc = new Promise((resolve, reject) => {
             axios.get("./data/poc.json").then(res => {
                 this.props.getList(res.data, "POC");
+                this.props.setCategories(res.data, "TYPES");
+                this.props.setCategories(res.data, "COUNTRIES");
                 setTimeout(() => {
+                    console.log(this.props.value);
                     resolve(true);
                 }, 300);
             });
@@ -62,14 +67,14 @@ class Page extends Component {
     }
 
     setPage(page) {
+        let captions = this.props.value.captions ? "" : " tagline-hidden";
         return (
             <Fragment>
-                <Slider />
                 <div className="mobile-header-image">
                     <h1>Tech Consultancy Team</h1>
                     <Image src={`${process.env.PUBLIC_URL}/images/slider-01.jpg`} />
                 </div>
-                <div className="tagline">
+                <div className={"tagline" + captions}>
                     <Container>
                         <h3>With building something on-top, the solutions are built with robust products like Akvo’s as the core workhorse, and then a layer of customisations which goes sufficiently close to aligning with the partner requirements.</h3>
                         <Button variant="light" size="lg">
@@ -77,12 +82,26 @@ class Page extends Component {
                         </Button>
                     </Container>
                 </div>
+                <Container className={"filter-list"} style={{marginTop: 5 + "rem"}}>
+                    { this.props.value.captions ? "" : (
+                        <Row>
+                            <Col xs={1} className={"filter-name"}>Types</Col>
+                            <Col xs={11}><Filters type="categories"/></Col>
+                        </Row>
+                    ) }
+                    { this.props.value.captions ? "" : (
+                        <Row>
+                            <Col xs={1} className={"filter-name"}>Countries</Col>
+                            <Col xs={11}><Filters type="countries"/></Col>
+                        </Row>
+                    ) }
+                </Container>
                 <Container style={{ marginTop: 30 + "px" }}>
                     <Row>
                         <PageThumbs lists="portfolio" />
                     </Row>
                 </Container>
-                <div className="tagline tagline-poc">
+                <div className={"tagline tagline-poc" + captions}>
                     <Container>
                         <h1>Proof of Concepts</h1>
                         <h3>Evidence, typically derived from an experiment or pilot project, which demonstrates that a design concept, business proposal, etc., is feasible.</h3>

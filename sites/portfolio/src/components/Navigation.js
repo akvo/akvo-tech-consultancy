@@ -13,16 +13,22 @@ class Navigation extends Component {
         };
     }
 
-    changePage() {
-        window.scrollTo(0, 0);
-        this.props.changePage("home");
-        this.setState({
-            active: this.props.value.page
-        });
+    changePage(val) {
+        if (val === "back") {
+            window.scrollTo(0, 0);
+            this.props.changePage("home");
+            this.setState({
+                active: this.props.value.page
+            });
+            return true;
+        }
+        this.props.captionsToggle();
+        console.log(this.props.value.captions);
         return true;
     }
 
     render() {
+        let filterIcon = this.props.value.captions ? "filter" : "times-circle"
         return (
             <Navbar bg="dark" fixed="top" variant="dark" className="NavDark" expand="lg">
                 <Container>
@@ -32,7 +38,9 @@ class Navigation extends Component {
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto" activeKey={this.state.active} onSelect={this.changePage}>
                             {this.props.value.page === "home" ? (
-                                ""
+                                <Nav.Link eventKey="captions">
+                                    <FontAwesomeIcon icon={["fas", filterIcon]} /> Filters
+                                </Nav.Link>
                             ) : (
                                 <Nav.Link eventKey="back">
                                     <FontAwesomeIcon icon={["fas", "arrow-circle-left"]} /> Back
