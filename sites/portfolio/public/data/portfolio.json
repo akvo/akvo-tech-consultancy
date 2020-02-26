@@ -22,7 +22,7 @@
         "objective": "Develop interactive maps and data portal for Wash in Schools",
         "project": "Wash in Schools",
         "link": "https://si-wins.org",
-        "categories": ["Website Development", "Visualisation", "Maps", "Charts"],
+        "categories": ["Website Development", "Data Visualisation", "Maps", "Charts"],
         "galleries": ["portfolio-wash-in-schools-01.jpg", "portfolio-wash-in-schools-02.jpg", "portfolio-wash-in-schools-03.jpg", "portfolio-wash-in-schools-04.jpg", "portfolio-wash-in-schools-05.jpg", "portfolio-wash-in-schools-06.jpg", "portfolio-wash-in-schools-07.jpg"],
         "stacks": ["Akvo Flow"],
         "partners": "Unicef Pacific",
@@ -82,5 +82,44 @@
         "stacks": ["Akvo Lumen", "Akvo Flow"],
         "partners": "ANU",
         "countries": ["Solomon Islands"]
+    },
+    {
+        "id": 7,
+        "title": "Watershed India",
+        "description": ["Custom data visualisation dashboard with additional filter features with AkvoFlow Data"],
+        "objective": "Develop Dashboard for Data Visualisation",
+        "project": "Watershed",
+        "link": "https://tc.akvo.org/watershedchart/indiabaseline/",
+        "categories": ["Website Development", "Data Visualisation"],
+        "galleries": ["portfolio-watershed-india-01.jpg", "portfolio-watershed-india-02.jpg"],
+        "stacks": ["Akvo Lumen", "Akvo Flow"],
+        "partners": "Watershed",
+        "countries": ["India"]
+    },
+    {
+        "id": 8,
+        "title": "Uduma Data Integration",
+        "description": ["We build automated data-synchronisation scheduler of entire Akvo Flow Instance data."],
+        "objective": "Sync Akvo Flow Instance Data to PostgreSQL",
+        "project": "Uduma",
+        "link": false,
+        "categories": ["Automation"],
+        "galleries": ["portfolio-uduma-01.jpg"],
+        "stacks": ["Akvo Flow"],
+        "partners": "Uduma",
+        "countries": ["Mali"]
+    },
+    {
+        "id": 9,
+        "title": "UNEP Data Portal",
+        "description": ["Comming up project, data portal with advanced filter and interactivity"],
+        "objective": "Create data portal with interactive visualisation from partners data",
+        "project": "UNEP",
+        "link": false,
+        "categories": ["Website Development", "Data Visualisation"],
+        "galleries": ["portfolio-unep-01.jpg"],
+        "stacks": ["Akvo Flow"],
+        "partners": "UNEP",
+        "countries": ["Global"]
     }
 ]
