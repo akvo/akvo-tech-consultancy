@@ -64,6 +64,11 @@ body {
     margin-top: 3rem;
     box-shadow: inset 0px 0px 20px 0px rgba(0, 0, 0, 0.5)
 }
+.tagline.tagline-header {
+    box-shadow: inset 0px -20px 20px -10px rgba(0, 0, 0, 0.27);
+    margin: 2rem 0rem 1rem 0rem;
+    padding: 1rem;
+}
 .tagline.tagline-hidden{
     height: 0px;
     padding: 0px;
@@ -73,7 +78,8 @@ body {
     display: none;
 }
 
-.tagline.tagline-hidden h1{
+.tagline.tagline-hidden h1,
+.tagline.tagline-hidden h3{
     display:none;
 }
 

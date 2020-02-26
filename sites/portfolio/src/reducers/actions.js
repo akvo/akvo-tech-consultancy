@@ -25,15 +25,17 @@ export const mapDispatchToProps = dispatch => {
                 type: "SET " + filters,
                 data: data
             }),
-        setFilters: (name, filter) =>
+        setFilters: (data, filter) =>
             dispatch({
                 type: "STORE FILTERS",
-                name: name,
-                filter: filter
+                data: data,
+                filter: filter,
             }),
-        getFilteredList: () =>
+        getFilteredList: (filter, adding) =>
             dispatch({
-                type: "SET FILTERS"
+                type: "SET FILTERS",
+                filter: filter,
+                adding: adding
             }),
         hidePage: data =>
             dispatch({

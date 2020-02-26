@@ -14,7 +14,8 @@ const initialState = {
             stacks: [],
             partners: [],
             countries: [],
-            active: true
+            active: true,
+            show: false
         }
     ],
     poc: [
@@ -30,11 +31,12 @@ const initialState = {
             stacks: [],
             partners: [],
             countries: [],
-            active: true
+            active: true,
+            show: false
         }
     ],
-    categories:["All Types"],
-    countries:["All Countries"],
+    categories:[],
+    countries:[],
     selected:{
         categories:[],
         countries:[],
@@ -52,7 +54,8 @@ const initialState = {
 const getList = list => {
     return list.map(data => ({
         ...data,
-        active: true
+        active: true,
+        show: false
     }));
 };
 
@@ -76,26 +79,32 @@ const setCategories = (state, list, type) => {
     return state;
 }
 
-const filterList = (state, categories, countries) => {
-    let active = true;
+const filterList = (state, selected, filter, adding) => {
+    let empty = false;
+    let selectedFilters = [];
+    for (let selection in selected) {
+        for (let sdata of selected[selection]) {
+            selectedFilters = [...selectedFilters, sdata]
+        }
+    }
+    if (selectedFilters.length === 0) {
+        empty = true;
+    }
     let newList = state.map((data) => {
-        let activeCountries = data.countries.map(e => {
-            if (countries.includes(e)) {
-                return true;
+        let filterLength = 0;
+        let active = false;
+        for (let selection in selected) {
+            for (let fdata of data[selection]) {
+                if (selected[selection].includes(fdata)) {
+                    filterLength += 1;
+                }
             }
-            return false;
-        });
-        let activeCategories = data.categories.map(e => {
-            if (categories.includes(e)) {
-                return true;
-            }
-            return false;
-        });
-        activeCountries = activeCountries.includes(true);
-        activeCategories = activeCategories.includes(true);
-        console.log(activeCountries, activeCountries)
-        if (!activeCategories || !activeCountries){
-            active = false;
+        }
+        if (filterLength >= selectedFilters.length) {
+            active = true;
+        }
+        if (empty) {
+            active = true;
         }
         return {
             ...data,
@@ -109,24 +118,11 @@ const showSubPage = (list, id) => {
     let update = list.map(data => {
         return {
             ...data,
-            active: data.id === id ? true : false
+            show: data.id === id ? true : false
         };
     });
     return update;
 };
-
-const storeFilters = (selected, name, filter) => {
-    let data = selected[filter];
-    if (data.includes(name)){
-        data = data.filter(x => x !== name);
-    } else {
-        data = [...data, name];
-    };
-    return {
-        ...selected,
-        [filter]: data
-    }
-}
 
 export const states = (state = initialState, action) => {
     switch (action.type) {
@@ -145,34 +141,29 @@ export const states = (state = initialState, action) => {
                 ...state,
                 captions: state.captions ? false : true
             }
-        case "SET TYPES":
+        case "SET CATEGORIES":
             return {
                 ...state,
                 categories: setCategories(state.categories, action.data, "TYPES"),
-                selected: {
-                    ...state.selected,
-                    categories: setCategories(state.categories, action.data, "TYPES")
-                }
             }
         case "SET COUNTRIES":
             return {
                 ...state,
                 countries: setCategories(state.countries, action.data, "COUNTRIES"),
-                selected: {
-                    ...state.selected,
-                    countries: setCategories(state.countries, action.data, "COUNTRIES")
-                }
             }
         case "STORE FILTERS":
             return {
                 ...state,
-                selected: storeFilters(state.selected, action.name, action.filter)
+                selected: {
+                    ...state.selected,
+                    [action.filter]:action.data
+                }
             }
         case "SET FILTERS":
             return {
                 ...state,
-                portfolio: filterList(state.portfolio, state.selected.categories, state.selected.countries),
-                poc: filterList(state.poc, state.selected.categories, state.selected.countries)
+                poc: filterList(state.poc, state.selected, action.filter, action.adding),
+                portfolio: filterList(state.portfolio, state.selected, action.filter, action.adding),
             }
         case "CHANGE PAGE":
             return {

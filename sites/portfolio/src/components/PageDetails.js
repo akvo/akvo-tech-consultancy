@@ -11,7 +11,7 @@ class PageDetails extends Component {
     }
 
     render() {
-        let data = this.props.value[this.props.value.page].find(p => p.active === true);
+        let data = this.props.value[this.props.value.page].find(p => p.show === true);
         let page = this.props.value.page;
         let thumb = data.galleries[0].replace(data.galleries[0].split("-").slice(-1), "");
         const settings = {

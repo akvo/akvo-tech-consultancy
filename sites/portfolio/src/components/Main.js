@@ -20,7 +20,7 @@ class Page extends Component {
         const fetchPortfolio = new Promise((resolve, reject) => {
             axios.get("./data/portfolio.json").then(res => {
                 this.props.getList(res.data, "PORTFOLIO");
-                this.props.setCategories(res.data, "TYPES");
+                this.props.setCategories(res.data, "CATEGORIES");
                 this.props.setCategories(res.data, "COUNTRIES");
                 setTimeout(() => {
                     resolve(true);
@@ -31,7 +31,7 @@ class Page extends Component {
         const fetchPoc = new Promise((resolve, reject) => {
             axios.get("./data/poc.json").then(res => {
                 this.props.getList(res.data, "POC");
-                this.props.setCategories(res.data, "TYPES");
+                this.props.setCategories(res.data, "CATEGORIES");
                 this.props.setCategories(res.data, "COUNTRIES");
                 setTimeout(() => {
                     console.log(this.props.value);
@@ -68,6 +68,7 @@ class Page extends Component {
 
     setPage(page) {
         let captions = this.props.value.captions ? "" : " tagline-hidden";
+        let headerList = this.props.value.captions ? " tagline-hidden" : "";
         return (
             <Fragment>
                 <div className="mobile-header-image">
@@ -82,20 +83,26 @@ class Page extends Component {
                         </Button>
                     </Container>
                 </div>
-                <Container className={"filter-list"} style={{marginTop: 5 + "rem"}}>
-                    { this.props.value.captions ? "" : (
+                { this.props.value.captions ? "" : (
+                    <Container className={"filter-list"} style={{marginTop: 5 + "rem"}}>
                         <Row>
-                            <Col xs={1} className={"filter-name"}>Types</Col>
-                            <Col xs={11}><Filters type="categories"/></Col>
+                            <Col xs={6}>
+                                <Col xs={1} className={"filter-name"}>Types</Col>
+                                <Col xs={11}><Filters type="categories"/></Col>
+                            </Col>
+                            <Col xs={6}>
+                                <Col xs={1} className={"filter-name"}>Countries</Col>
+                                <Col xs={11}><Filters type="countries"/></Col>
+                            </Col>
                         </Row>
-                    ) }
-                    { this.props.value.captions ? "" : (
-                        <Row>
-                            <Col xs={1} className={"filter-name"}>Countries</Col>
-                            <Col xs={11}><Filters type="countries"/></Col>
-                        </Row>
-                    ) }
-                </Container>
+                    </Container>
+                    )
+                }
+                <div className={"tagline tagline-header" + headerList}>
+                    <Container>
+                    <h1 className="text-center">Portfolios</h1>
+                    </Container>
+                </div>
                 <Container style={{ marginTop: 30 + "px" }}>
                     <Row>
                         <PageThumbs lists="portfolio" />
@@ -108,6 +115,11 @@ class Page extends Component {
                         <Button variant="light" size="lg">
                             Check it Out
                         </Button>
+                    </Container>
+                </div>
+                <div className={"tagline tagline-poc tagline-header" + headerList}>
+                    <Container>
+                    <h1 className="text-center">Proof of Concepts</h1>
                     </Container>
                 </div>
                 <Container style={{ marginTop: 30 + "px" }}>

@@ -23,7 +23,6 @@ class Navigation extends Component {
             return true;
         }
         this.props.captionsToggle();
-        console.log(this.props.value.captions);
         return true;
     }
 
