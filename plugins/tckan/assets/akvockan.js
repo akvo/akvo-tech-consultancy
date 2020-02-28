@@ -23,9 +23,9 @@ jQuery("#dataset-query").on('change', function(){
         jQuery(".lds-ellipsis").show();
     }
 });
-
-jQuery(".btn-ckan-search").on('click', function(){
-	let thisval = jQuery(this).val();
+/*
+jQuery(".btn-ckan-search").on('click', function(event){
+	let thisval = jQuery("#dataset-query").val();
 	if (thisval.length > 4) {
         jQuery('.dataset-lists').remove();
 		searchdatasets(thisval);
@@ -35,8 +35,10 @@ jQuery(".btn-ckan-search").on('click', function(){
 		searchdatasets(thisval);
         jQuery(".lds-ellipsis").show();
     }
-});
 
+    event.preventDefault();
+});
+*/
 function awaitframes(id_collections, id_tables, queue, iterate) {
     if (queue <= iterate) {
         jQuery.get("/wp-json/akvockan/v1?id=" + id_collections[queue], function(data){
@@ -184,9 +186,13 @@ function initakvockan() {
     });
 }
 
-jQuery('.dataset-lists').remove();
-searchdatasets('');
-jQuery(".lds-ellipsis").show();
+let pathArray = window.location.pathname.split('/');
+
+if (pathArray[1] === 'data-library') {
+    jQuery('.dataset-lists').remove();
+    searchdatasets('');
+    jQuery(".lds-ellipsis").show();
+}
 
 })
 
