@@ -68,7 +68,7 @@ class Page extends Component {
 
     setPage(page) {
         let captions = this.props.value.captions ? "" : " tagline-hidden";
-        let headerList = this.props.value.captions ? " tagline-hidden" : "";
+        let headerList = this.props.value.captions ? " header-hidden" : "";
         return (
             <Fragment>
                 <div className="mobile-header-image">
@@ -77,14 +77,12 @@ class Page extends Component {
                 </div>
                 <div className={"tagline" + captions}>
                     <Container>
+                        <h1 className="text-center">Portfolios</h1>
                         <h3>With building something on-top, the solutions are built with robust products like Akvo’s as the core workhorse, and then a layer of customisations which goes sufficiently close to aligning with the partner requirements.</h3>
-                        <Button variant="light" size="lg">
-                            Get in Touch
-                        </Button>
                     </Container>
                 </div>
                 { this.props.value.captions ? "" : (
-                    <Container className={"filter-list"} style={{marginTop: 5 + "rem"}}>
+                    <Container className={"filter-list"}>
                         <Row>
                             <Col xs={6}>
                                 <Col xs={1} className={"filter-name"}>Types</Col>
@@ -98,11 +96,6 @@ class Page extends Component {
                     </Container>
                     )
                 }
-                <div className={"tagline tagline-header" + headerList}>
-                    <Container>
-                    <h1 className="text-center">Portfolios</h1>
-                    </Container>
-                </div>
                 <Container style={{ marginTop: 30 + "px" }}>
                     <Row>
                         <PageThumbs lists="portfolio" />
@@ -112,14 +105,6 @@ class Page extends Component {
                     <Container>
                         <h1>Proof of Concepts</h1>
                         <h3>Evidence, typically derived from an experiment or pilot project, which demonstrates that a design concept, business proposal, etc., is feasible.</h3>
-                        <Button variant="light" size="lg">
-                            Check it Out
-                        </Button>
-                    </Container>
-                </div>
-                <div className={"tagline tagline-poc tagline-header" + headerList}>
-                    <Container>
-                    <h1 className="text-center">Proof of Concepts</h1>
                     </Container>
                 </div>
                 <Container style={{ marginTop: 30 + "px" }}>

@@ -51,9 +51,10 @@ body {
 
 .footer,
 .tagline{
-    margin: 3rem 0 5rem;
+    margin: 3rem 0 3rem;
     background-color: #03ad8c;
     min-width: 100%;
+    overflow: hidden;
     padding: 3rem;
     text-align:center;
     box-shadow: inset 0px -20px 20px 0px rgba(0, 0, 0, 0.27);
@@ -70,17 +71,16 @@ body {
     padding: 1rem;
 }
 .tagline.tagline-hidden{
-    height: 0px;
-    padding: 0px;
-    margin: 0px;
+    height: 7rem;
+    padding: 1rem;
 }
+
 .tagline.tagline-hidden button{
     display: none;
 }
 
-.tagline.tagline-hidden h1,
-.tagline.tagline-hidden h3{
-    display:none;
+.tagline h3 {
+    transition: all .5s;
 }
 
 .container {
