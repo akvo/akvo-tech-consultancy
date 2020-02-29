@@ -21,7 +21,7 @@ start_date = (today_date - timedelta(days=15)).strftime('%d-%m-%Y')
 end_date = today_date.strftime('%d-%m-%Y')
 day = today_date.strftime('%d')
 
-if (day == '1' or day == '15'):
+if (day == '01' or day == '15'):
 
     instanceURI = 'spiceup'
     requestURI = 'https://api.akvo.org/flow/orgs/' + instanceURI
