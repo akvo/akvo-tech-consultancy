@@ -295,7 +295,7 @@ if (day == '29' or day == '15'):
         msg.attach(MIMEText(html_output, 'html'))
 
     try:
-        with smtplib.SMTP('smtp.gmail.com', 587) as s:
+        with smtplib.SMTP('smtp.sendgrid.net', 587) as s:
                 s.ehlo()
                 s.starttls()
                 s.ehlo()
