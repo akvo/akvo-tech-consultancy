@@ -27,8 +27,8 @@ if (day == '29' or day == '15'):
     requestURI = 'https://api.akvo.org/flow/orgs/' + instanceURI
     #EMAIL_RECEPIENTS = ['hatami.nugraha@gmail.com','everschuren@verstegen.nl','joy@akvo.org','f.razi@icco.nl','hatami@cinquer.co.id','dymanohara@gmail.com','aharton2002@yahoo.com','akhmadfa@apps.ipb.ac.id','otihrostiana@gmail.com','ima@akvo.org','deden@akvo.org','wietze.suijker@nelen-schuurmans.nl']
     EMAIL_RECEPIENTS = ['merembablas@gmail.com']
-    EMAIL_SENDER = os.environ['G4AW_EMAIL']
-    EMAIL_PASSWORD = os.environ['G4AW_PWD']
+    EMAIL_SENDER = os.environ['EMAIL_USER']
+    EMAIL_PASSWORD = os.environ['EMAIL_PWD']
 
     apiData = Flow.getResponse(requestURI + '/surveys/227030237')
     forms = apiData.get('forms')
