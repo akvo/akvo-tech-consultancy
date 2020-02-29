@@ -286,7 +286,7 @@ if (day == '1' or day == '15'):
     fout = "./email_v2.html"
 
     msg = MIMEMultipart('alternative')
-    msg['Subject'] = 'TEST. DO NOT REPLY: Demo Plot Notification from ' + formatDate(week_ago) + ' to ' + formatDate(today_date)
+    msg['Subject'] = 'DO NOT REPLY: Demo Plot Notification from ' + formatDate(week_ago) + ' to ' + formatDate(today_date)
     msg['To'] = ', '.join(EMAIL_RECEPIENTS)
     msg['From'] = 'spiceup.g4aw@gmail.com'
 
