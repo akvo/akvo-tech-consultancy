@@ -21,12 +21,12 @@ start_date = (today_date - timedelta(days=15)).strftime('%d-%m-%Y')
 end_date = today_date.strftime('%d-%m-%Y')
 day = today_date.strftime('%d')
 
-if (day == '29' or day == '15'):
+if (day == '1' or day == '15'):
 
     instanceURI = 'spiceup'
     requestURI = 'https://api.akvo.org/flow/orgs/' + instanceURI
-    #EMAIL_RECEPIENTS = ['hatami.nugraha@gmail.com','everschuren@verstegen.nl','joy@akvo.org','f.razi@icco.nl','hatami@cinquer.co.id','dymanohara@gmail.com','aharton2002@yahoo.com','akhmadfa@apps.ipb.ac.id','otihrostiana@gmail.com','ima@akvo.org','deden@akvo.org','wietze.suijker@nelen-schuurmans.nl']
-    EMAIL_RECEPIENTS = ['merembablas@gmail.com']
+    EMAIL_RECEPIENTS = ['hatami@cinquer.co.id','indri@cinquer.nl','yayang@cinquer.nl','d.kurniawati@icco.nl','everschuren@verstegen.nl','aharton2002@yahoo.com','otihrostiana@gmail.com','dyah_manohara@yahoo.com','joy@akvo.org','ima@akvo.org','deden@akvo.org','merembablas@gmail.com']
+    #EMAIL_RECEPIENTS = ['merembablas@gmail.com']
     EMAIL_SENDER = os.environ['EMAIL_USER']
     EMAIL_PASSWORD = os.environ['EMAIL_PWD']
 
@@ -288,7 +288,7 @@ if (day == '29' or day == '15'):
     msg = MIMEMultipart('alternative')
     msg['Subject'] = 'TEST. DO NOT REPLY: Demo Plot Notification from ' + formatDate(week_ago) + ' to ' + formatDate(today_date)
     msg['To'] = ', '.join(EMAIL_RECEPIENTS)
-    msg['From'] = EMAIL_SENDER
+    msg['From'] = 'spiceup.g4aw@gmail.com'
 
     print(checkTime(time.time()) + ' SENDING EMAIL')
     with open(fout) as fp:

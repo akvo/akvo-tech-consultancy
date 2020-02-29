@@ -1,5 +1,5 @@
-numpy==1.14.2
-pandas==0.22.0
+numpy==1.18.1
+pandas==1.0.1
 pandocfilters==1.4.2
 psutil==5.4.5
 ptyprocess==0.5.2
