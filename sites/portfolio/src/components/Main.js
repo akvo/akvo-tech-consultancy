@@ -68,7 +68,6 @@ class Page extends Component {
 
     setPage(page) {
         let captions = this.props.value.captions ? "" : " tagline-hidden";
-        let headerList = this.props.value.captions ? " header-hidden" : "";
         return (
             <Fragment>
                 <div className="mobile-header-image">

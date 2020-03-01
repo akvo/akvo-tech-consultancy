@@ -38,8 +38,8 @@ const initialState = {
     categories:[],
     countries:[],
     selected:{
-        categories:[],
         countries:[],
+        categories:[],
     },
     partners: [
         {
@@ -91,18 +91,38 @@ const filterList = (state, selected, filter, adding) => {
         empty = true;
     }
     let newList = state.map((data) => {
-        let filterLength = 0;
         let active = false;
+        let shouldMatchBoth = true;
+        let filterLength = {
+            countries: {empty: false, count:0},
+            categories: {empty: false, count: 0}
+        };
         for (let selection in selected) {
+            if (selected[selection].length === 0) {
+                filterLength[selection].empty = true;
+            }
             for (let fdata of data[selection]) {
                 if (selected[selection].includes(fdata)) {
-                    filterLength += 1;
+                    filterLength[selection].count += 1;
                 }
             }
         }
-        if (filterLength >= selectedFilters.length) {
-            active = true;
+        if (!filterLength.countries.empty) {
+            active = false;
+            if (filterLength.countries.count > 0) {
+                active = true;
+            }
+            if (!filterLength.categories.empty && filterLength.categories.count === 0) {
+                active = false;
+            }
         }
+        if (filterLength.countries.empty) {
+            active = true;
+            if (!filterLength.categories.empty && filterLength.categories.count === 0) {
+                active = false;
+            }
+        }
+        console.log(filterLength);
         if (empty) {
             active = true;
         }

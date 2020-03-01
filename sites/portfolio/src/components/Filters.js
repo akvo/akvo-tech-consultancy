@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { mapStateToProps, mapDispatchToProps } from "../reducers/actions";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Select from 'react-select';
 
 class Filters extends Component {
