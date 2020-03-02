@@ -42,6 +42,6 @@ sed -e "s/\$TRAVIS_COMMIT/$TRAVIS_COMMIT/" \
   -e "s/\${ENVIRONMENT}/${ENVIRONMENT}/" \
   ci/akvo-ckan.yaml.template > akvo-ckan.yaml
 
-kubectl apply -f akvo-ckan.yaml
+kubectl delete -f akvo-ckan.yaml
 
 log Done
