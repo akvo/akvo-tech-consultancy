@@ -40,6 +40,7 @@ export const appendOption = (state, id, option) => {
 };
 
 export const filterCharts = (state, data) => {
+    console.log(data);
     return {
         ...state,
         active: {

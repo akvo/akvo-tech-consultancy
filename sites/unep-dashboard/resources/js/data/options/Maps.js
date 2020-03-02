@@ -1,6 +1,13 @@
 import { Easing } from '../features/animation.js';
 
 const Maps = (data, title) => {
+    let values = data.map(x => x.value)
+    let max = values.reduce((x,y) => x + y);
+    let min = 0;
+    console.log(values);
+    if (values.length > 1){
+        min = values.sort((x, y) => x - y)[0];
+    }
     let option = {
         title : {
             text: title,
@@ -22,13 +29,13 @@ const Maps = (data, title) => {
         },
         visualMap: {
             left: 'right',
-            min: 500000,
-            max: 38000000,
+            min: min,
+            max: max,
             inRange: {
-                color: ['#c23531', '#007bff']
+                color: ['#fff823', '#007bff']
             },
             text: ['High', 'Low'],
-            calculable: true
+            calculable: true,
         },
         toolbox: {
             show: true,

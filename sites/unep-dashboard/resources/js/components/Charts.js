@@ -24,7 +24,19 @@ class Charts extends Component {
     }
 
     clickEvent(param) {
-        let data = [param.data];
+        let data = [];
+        if (param.componentSubType === 'pie' || 'map') {
+            console.log(param);
+            data = [param.data];
+        }
+        if (param.componentSubType === 'bar') {
+            data = [{
+                id: param.dataIndex,
+                code: "",
+                name: param.name,
+                value: param.value
+            }]
+        }
         this.props.chart.value.filter(data);
     }
 
