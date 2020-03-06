@@ -23,13 +23,31 @@ class Charts extends Component {
     }
 
     doubleClickEvent() {
-        this.setState({ selected: this.state.selected });
-        this.props.chart.value.select(this.state.selected.id);
+        console.log('double-click');
     }
 
     clickEvent(param) {
+        if (this.props.calc === "CATEGORY") {
+            if (param.componentSubType === 'pie') {
+                this.props.chart.value.select(param.data.id);
+                this.props.filter.program.update(param.data.id, param.data.parent_id, param.name, 2);
+                console.log(this.props.value.filters);
+                if (this.props.value.filters.selected.length < 3){
+                    this.props.filter.program.append(param.data.values, 2);
+                };
+                console.log(this.props.value.filters);
+            }
+            if (param.componentSubType === 'bar') {
+                console.log(param);
+            }
+            return;
+        }
+        if (!this.props.value.charts.filtered) {
+            this.props.filter.country.change(param.data.name);
+        }
         if (this.props.value.charts.filtered) {
             this.props.chart.value.reverse();
+            this.props.filter.country.change("World Wide");
         }
         if (!isNaN(param.value) && !this.props.value.charts.filtered) {
             let data = [];
@@ -69,7 +87,27 @@ class Charts extends Component {
             'click': this.clickEvent,
             'dblclick': this.doubleClickEvent
         }
-        let options = generateOptions(this.props.kind, selected.name, data, this.props.calc)
+        if (level === 1) {
+            data = data.map((x) => {
+                let values = x.values;
+                if (this.props.value.filters.country !== "World Wide") {
+                    values = values.filter(c => {
+                        if (c.name === this.props.value.filters.country){
+                            return true;
+                        }
+                        return false;
+                    });
+                }
+                if (values.length > 0){
+                    values = values.map(v => v.value).reduce((a, b) => a + b);
+                } else {
+                    values = 0
+                }
+                x.value = values;
+                return x;
+            });
+        }
+        let options = generateOptions(this.props.kind, selected.name, data, this.props.calc);
         return (
             <Col md={this.props.data.column}>
                 { this.props.value.charts.loading ? (

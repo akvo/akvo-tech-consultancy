@@ -1,9 +1,12 @@
 import { Easing } from '../features/animation.js';
 
 const Pie = (data, title, calc) => {
-    if (calc === "CATEGORY") {
-        console.log(data);
-    }
+    data = data.map((x) => {
+        return {
+            ...x,
+            group: calc
+        }
+    });
     let labels = data.map(x => x.name);
     let option = {
         title: {

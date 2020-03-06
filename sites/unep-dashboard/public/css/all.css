@@ -99,6 +99,10 @@ body {
     margin-bottom: 0px;
     overflow-y: scroll;
 }
+.container .right-dropdowns {
+    float: right;
+    margin-right: 0px;
+}
 /* width */
 ::-webkit-scrollbar {
       width: 4px;

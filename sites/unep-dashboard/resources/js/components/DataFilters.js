@@ -85,7 +85,8 @@ class DataFilters extends Component {
     }
 
     changeActive(id, parent_id, name, depth) {
-        this.props.chart.state.loading(true);
+        let category;
+        let countries;
         this.setState({active: name});
         let current = this.props.data[this.props.depth];
             current = current.find((x) => x.id === id);
@@ -97,12 +98,17 @@ class DataFilters extends Component {
             this.props.filter.program.update(next_id, next_parent_id, next_name, this.props.depth + 1);
         }
         this.props.filter.program.update(id, parent_id, name, this.props.depth);
+        let filter = depth === 2 ? 'id' : 'parent_id';
+            filter = depth === 0 ? false : filter;
         let charts = this.props.value.charts.data;
-        let chartisnew = charts.find((x => x.id === id))
+        let chartisnew = charts.find((x => x[filter] === id))
             chartisnew = chartisnew ? false : true;
-        if (depth === 2 && chartisnew) {
-            this.props.chart.state.loading(true);
-            this.props.chart.value.select(id);
+        if (depth === 0 && chartisnew) {
+            let category = this.props.value.filters.selected[depth + 1];
+            chartisnew = charts.find((x => x.parent_id === category.id));
+            chartisnew = chartisnew ? false : true;
+            depth += 1;
+            id = category.id;
         }
         if (depth === 1 && chartisnew) {
             this.props.chart.state.loading(true);
@@ -113,8 +119,17 @@ class DataFilters extends Component {
                     });
                     return true;
                 })
+                .then(res => {
+                    let countries = this.props.value.filters.selected[depth + 1];
+                    this.props.chart.value.select(countries.id);
+                });
         }
-        if (depth === 2 && !chartisnew) {
+        if (depth === 1 && !chartisnew) {
+            this.props.chart.state.loading(true);
+            countries = this.props.value.filters.selected[depth + 1];
+            this.props.chart.value.select(countries.id);
+        }
+        if (depth === 2) {
             this.props.chart.state.loading(true);
             this.props.chart.value.select(id);
         }

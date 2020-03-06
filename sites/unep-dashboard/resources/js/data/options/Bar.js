@@ -39,10 +39,12 @@ const Bar = (data, title, calc) => {
         xAxis: {
             type: 'value'
         },
-        series: [{
-            data: values,
-            type: 'bar'
-        }],
+        series: [
+            {
+                data: values,
+                type: 'bar'
+            },
+        ],
         ...Easing,
     };
     return option;

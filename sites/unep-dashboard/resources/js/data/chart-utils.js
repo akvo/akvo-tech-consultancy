@@ -32,7 +32,6 @@ export const generateData = (col, line, height) => {
 }
 
 export const generateOptions = (type, title, data, calc) => {
-    console.log(data);
     switch (type) {
         case "MAPS":
             return Maps(data, title, calc);
@@ -42,4 +41,3 @@ export const generateOptions = (type, title, data, calc) => {
             return Bar(data, title, calc);
     }
 }
-

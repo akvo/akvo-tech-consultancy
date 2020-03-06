@@ -10,7 +10,6 @@ import {
     Form,
     Button,
 } from 'react-bootstrap';
-import DataCountries from './DataCountries';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 class Navigation extends Component {
@@ -67,7 +66,6 @@ class Navigation extends Component {
                     <Nav.Link eventKey="funding" active={"funding" === page}>Funding</Nav.Link>
                 </Nav>
                 <Form inline className='nav-right'>
-                    <DataCountries className='dropdown-right' data={this.props.value.filters.countries}/>
                   <a
                       className="btn btn-primary text-white"
                       href="https://github.com/akvo/akvo-tech-consultancy"

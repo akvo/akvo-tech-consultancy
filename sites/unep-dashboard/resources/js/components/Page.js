@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { mapStateToProps, mapDispatchToProps } from '../reducers/actions';
 import Navigation from './Navigation';
 import DataFilters from './DataFilters';
+import DataCountries from './DataCountries';
 import {
     Container
 } from 'react-bootstrap';
@@ -60,6 +61,7 @@ class Page extends Component {
             <Navigation/>
                 <Container className="top-container">
                     {this.getFilters(this.props.value.filters.depth)}
+                    <DataCountries className='dropdown-right' data={this.props.value.filters.countries}/>
                 </Container>
                 <hr/>
                 {page === "home" ? (<Home parent={this.props}/>) : ""}
