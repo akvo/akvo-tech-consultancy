@@ -8,10 +8,10 @@
     <meta name="author" content="Akvo">
     <meta name="keywords" content="2SCALE">
     <title>2SCALE</title>
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
-	<!-- Material Design Bootstrap -->
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.11/css/mdb.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.11/css/mdb.min.css" rel="stylesheet">
     <link href="{{ asset('vendor/font-awesome-4.7/css/font-awesome.min.css') }}" rel="stylesheet" media="all">
     <link href="{{ asset('vendor/font-awesome-5/css/fontawesome-all.min.css') }}" rel="stylesheet" media="all">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/4.6.0/echarts-en.min.js" type="text/javascript"></script>
@@ -101,7 +101,7 @@ h1 {
 
       <footer class="mastfoot mt-auto">
         <div class="inner">
-          <p>The 2SCALE Program with implementing partners:<br><a href="https://ifdc.org" target="_blank">IDFC</a>, < a href="https://www.bopinc.org" target="_blank">Bop Inc</a> <a href="https://snv.org" target="_blank">SNV</a>. </p>
+          <p> The 2SCALE Program with implementing partners:<br><a href="https://ifdc.org" target="_blank">IDFC</a>, < a href="https://www.bopinc.org" target="_blank">Bop Inc</a> <a href="https://snv.org" target="_blank">SNV</a>. </p>
         </div>
       </footer>
     </div>
