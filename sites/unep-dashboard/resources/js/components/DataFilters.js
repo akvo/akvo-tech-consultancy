@@ -52,13 +52,14 @@ class DataFilters extends Component {
         super(props);
         this.state = {
             dropdowns: this.props.data,
-            active: 'Select Program'
+            active: 'Select Program',
+            disabled: true
         };
         this.changeActive = this.changeActive.bind(this);
         this.saveValues = this.saveValues.bind(this);
     }
 
-    saveValues({id, name, units, description, country_values}) {
+    saveValues({id, parent_id, code, name, units, description, country_values, total}) {
         let valuesMap = country_values.map((x) => {
             return {
                 id: x.country.id,
@@ -69,16 +70,22 @@ class DataFilters extends Component {
         });
         let data = {
             id: id,
+            parent_id: parent_id,
+            code: code,
             name: name,
             units: units,
             description: description,
+            value: total.values,
+            countries: total.countries,
             values: valuesMap
         };
+        this.setState({disabled: false});
         this.props.chart.value.append(data);
-        this.props.chart.value.select(id);
+        return true;
     }
 
-    changeActive(name, id, depth) {
+    changeActive(id, parent_id, name, depth) {
+        this.props.chart.state.loading(true);
         this.setState({active: name});
         let current = this.props.data[this.props.depth];
             current = current.find((x) => x.id === id);
@@ -86,19 +93,29 @@ class DataFilters extends Component {
             this.props.filter.program.append(current.childs, this.props.depth);
             let next_name = current.childs[0].name;
             let next_id = current.childs[0].id;
-            this.props.filter.program.update(next_id, next_name, this.props.depth + 1);
+            let next_parent_id = current.childs[0].parent_id;
+            this.props.filter.program.update(next_id, next_parent_id, next_name, this.props.depth + 1);
         }
-        this.props.filter.program.update(id, name, this.props.depth);
+        this.props.filter.program.update(id, parent_id, name, this.props.depth);
         let charts = this.props.value.charts.data;
         let chartisnew = charts.find((x => x.id === id))
             chartisnew = chartisnew ? false : true;
         if (depth === 2 && chartisnew) {
-            axios.get('/api/value/' + id)
+            this.props.chart.state.loading(true);
+            this.props.chart.value.select(id);
+        }
+        if (depth === 1 && chartisnew) {
+            this.props.chart.state.loading(true);
+            axios.get('/api/value/category/' + id)
                 .then(res => {
-                    this.saveValues(res.data);
-            })
+                    res.data.map((data) => {
+                        this.saveValues(data);
+                    });
+                    return true;
+                })
         }
         if (depth === 2 && !chartisnew) {
+            this.props.chart.state.loading(true);
             this.props.chart.value.select(id);
         }
     }
@@ -108,14 +125,15 @@ class DataFilters extends Component {
             <Dropdown.Item
                 key={dd.id}
                 eventKey={dd.id}
-                onClick={e => this.changeActive(dd.name, dd.id, depth)}
+                onClick={
+                    e => this.changeActive(dd.id, dd.parent_id, dd.name, depth)
+                }
                 value={dd.id}
             >
                 {dd.name}
             </Dropdown.Item>
         )
     }
-
 
     render() {
         let depth = this.props.depth;

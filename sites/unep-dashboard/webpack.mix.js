@@ -18,4 +18,4 @@ mix.react('resources/js/app.js', 'public/js')
 mix.copyDirectory('resources/images','public/images')
 // mix.copyDirectory('resources/json','public/json')
 
-// mix.browserSync('unep.localhost');
+mix.browserSync('unep.localhost');

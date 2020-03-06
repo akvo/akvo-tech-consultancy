@@ -26,10 +26,11 @@ export const mapDispatchToProps = dispatch => {
                         list: list,
                         depth: depth
                     }),
-                update: (id, name, depth) =>
+                update: (id, parent_id, name, depth) =>
                     dispatch({
                         type: "FILTERS - PROGRAM SELECT",
                         id: id,
+                        parent_id: parent_id,
                         name: name,
                         depth: depth
                     }),
@@ -50,7 +51,7 @@ export const mapDispatchToProps = dispatch => {
                         type: "FILTERS - COUNTRY CHANGE",
                         country: country
                     })
-            }
+            },
         },
         chart: {
             value: {
@@ -68,6 +69,10 @@ export const mapDispatchToProps = dispatch => {
                     dispatch({
                         type: "CHART - VALUES FILTER",
                         data: data,
+                    }),
+                reverse: () =>
+                    dispatch({
+                        type: "CHART - VALUES REVERSE"
                     })
             },
             option: {
@@ -77,6 +82,16 @@ export const mapDispatchToProps = dispatch => {
                         option: option,
                         id: id
                     })
+            },
+            state: {
+                loading : () =>
+                    dispatch({
+                        type: "CHART - LOADING"
+                    }),
+                filtered: () =>
+                    dispatch({
+                        type: "CHART - STATE CHANGE",
+                    }),
             }
         }
     };

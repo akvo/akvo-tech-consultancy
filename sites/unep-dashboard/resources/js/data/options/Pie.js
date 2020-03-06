@@ -1,6 +1,9 @@
 import { Easing } from '../features/animation.js';
 
-const Pie = (data, title) => {
+const Pie = (data, title, calc) => {
+    if (calc === "CATEGORY") {
+        console.log(data);
+    }
     let labels = data.map(x => x.name);
     let option = {
         title: {
@@ -15,17 +18,29 @@ const Pie = (data, title) => {
             trigger: "item",
             formatter: "{a} <br/>{b}: {c} ({d}%)"
         },
+        toolbox: {
+            show: true,
+            orient: 'vertical',
+            left: 'left',
+            top: 'top',
+            feature: {
+                saveAsImage: {
+                    type: 'jpg',
+                    title: 'Save Image',
+                    backgroundColor: '#ffffff'
+                },
+            }
+        },
         legend: {
-            orient: "vertical",
+            orient: "horizontal",
             left: 10,
-            top: 70,
+            bottom: 'bottom',
             data: labels
         },
         series: [
             {
                 name: title,
                 type: "pie",
-                top: 120,
                 radius: ["40%", "70%"],
                 avoidLabelOverlap: false,
                 label: {

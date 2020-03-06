@@ -1,12 +1,12 @@
 import { Easing } from '../features/animation.js';
 
-const Maps = (data, title) => {
+const Maps = (data, title, calc) => {
     let values = data.map(x => x.value)
-    let max = values.reduce((x,y) => x + y);
+    let max = 1;
     let min = 0;
-    console.log(values);
     if (values.length > 1){
         min = values.sort((x, y) => x - y)[0];
+        max = values.sort((x, y) => y - x)[0];
     }
     let option = {
         title : {
@@ -22,9 +22,12 @@ const Maps = (data, title) => {
             showDelay: 0,
             transitionDuration: 0.2,
             formatter: function (params) {
-                var value = (params.value + '').split('.');
-                value = value[0].replace(/(\d{1,3})(?=(?:\d{3})+(?!\d))/g, '$1,');
-                return params.seriesName + '<br/>' + params.name + ': ' + value;
+                if (params.value) {
+                    var value = (params.value + '').split('.');
+                    value = value[0].replace(/(\d{1,3})(?=(?:\d{3})+(?!\d))/g, '$1,');
+                    return params.seriesName + '<br/>' + params.name + ': ' + value;
+                }
+                return 'No Data';
             }
         },
         visualMap: {
@@ -39,23 +42,22 @@ const Maps = (data, title) => {
         },
         toolbox: {
             show: true,
-            orient: 'vertical',
+            orient: 'horizontal',
             left: 'left',
             top: 'top',
             feature: {
                 dataView: {
-                    title: 'View Data'
-                },
-                restore: {
-                    title: 'Restore'
-                },
-                brush: {
-                    title: 'Brush'
+                    title: 'View Data',
+                    lang: ['Data View', 'Turn Off', 'Refresh'],
+                    buttonColor: '#0478a9'
                 },
                 saveAsImage: {
-                    title: 'Save Image'
+                    type: 'jpg',
+                    title: 'Save Image',
+                    backgroundColor: '#ffffff'
                 },
-            }
+            },
+            z: 202
         },
         series: [
             {
@@ -68,6 +70,11 @@ const Maps = (data, title) => {
                     label: {
                         show: true
                     }
+                },
+                zoom: 1,
+                scaleLimit: {
+                    min:1,
+                    max:7
                 },
                 itemStyle: {
                     areaColor: '#ddd',

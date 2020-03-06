@@ -1,6 +1,6 @@
 import { Easing } from '../features/animation.js';
 
-const Bar = (data, title) => {
+const Bar = (data, title, calc) => {
     let values = data.map((x) => x.value);
     let labels = data.map((x) => x.name);
     let option = {
@@ -12,11 +12,31 @@ const Bar = (data, title) => {
                 color: '#222'
             }
         },
-        xAxis: {
+        grid: {
+            show: true
+        },
+        tooltip: {
+            trigger: "item",
+            formatter: "{b}: {c}"
+        },
+        toolbox: {
+            show: true,
+            orient: 'horizontal',
+            left: 'left',
+            top: 'top',
+            feature: {
+                saveAsImage: {
+                    type: 'jpg',
+                    title: 'Save Image',
+                    backgroundColor: '#ffffff'
+                },
+            }
+        },
+        yAxis: {
             type: 'category',
             data: labels,
         },
-        yAxis: {
+        xAxis: {
             type: 'value'
         },
         series: [{

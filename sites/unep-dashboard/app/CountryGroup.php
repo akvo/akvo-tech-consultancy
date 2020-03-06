@@ -19,4 +19,9 @@ class CountryGroup extends Model
     {
         return $this->belongsTo('App\Group');
     }
+
+    public function values()
+    {
+        return $this->hasMany('App\CountryValue','country_id','country_id');
+    }
 }

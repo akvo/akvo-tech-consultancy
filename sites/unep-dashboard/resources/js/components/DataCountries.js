@@ -46,7 +46,6 @@ const CustomMenu = React.forwardRef(
   },
 );
 
-
 class DataCountries extends Component {
     constructor(props) {
         super(props);

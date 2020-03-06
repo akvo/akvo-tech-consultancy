@@ -14,6 +14,7 @@ import {
     appendOption,
     selectCharts,
     filterCharts,
+    reverseCharts
 } from './states/chart-states.js';
 
 const initialState = {
@@ -46,7 +47,7 @@ export const states = (state = initialState, action) => {
         case 'FILTERS - PROGRAM SELECT':
             return {
                 ...state,
-                filters: updateSelectedFilters(state.filters, action.name, action.id, action.depth)
+                filters: updateSelectedFilters(state.filters, action.id, action.parent_id, action.name, action.depth)
             }
         case 'FILTERS - PROGRAM CHANGE':
             return {
@@ -84,12 +85,33 @@ export const states = (state = initialState, action) => {
                 ...state,
                 charts: filterCharts(state.charts, action.data)
             }
+        case 'CHART - VALUES REVERSE':
+            return {
+                ...state,
+                charts: reverseCharts(state.charts)
+            }
         case 'CHART - OPTIONS APPEND':
             return {
                 ...state,
                 charts: {
                     ...state.charts,
                     options: appendOption(option)
+                }
+            }
+        case 'CHART - LOADING':
+            return {
+                ...state,
+                charts: {
+                    ...state.charts,
+                    loading: true
+                }
+            }
+        case 'CHART - STATE CHANGE':
+            return {
+                ...state,
+                charts: {
+                    ...state.charts,
+                    filtered: state.charts.filtered ? false : true
                 }
             }
         default:

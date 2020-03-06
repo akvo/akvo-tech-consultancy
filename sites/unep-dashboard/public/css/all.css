@@ -348,3 +348,9 @@ h1.title-page {
         float: right;
     }
 }
+
+.loading {
+    position: absolute;
+    top: 45%;
+    right: 50%;
+}

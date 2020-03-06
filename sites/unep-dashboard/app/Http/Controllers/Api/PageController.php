@@ -15,7 +15,8 @@ class PageController extends Controller
     {
         return $values->select('id','parent_id','code','name')
                       ->whereNull('parent_id')
-                      ->with('childs.childs')
+                      ->has('childs.childs.country_values')
+                      ->with('childs.childs.country_values')
                       ->get();
     }
 

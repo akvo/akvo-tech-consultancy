@@ -26,6 +26,7 @@ Route::get('variables', 'Api\SourceController@getVariables');
 Route::get('count/country', 'Api\ChartController@getCountryValues');
 Route::get('count/values', 'Api\ChartController@getAllValues');
 
+Route::get('value/category/{id}', 'Api\ChartController@getValueByCategory');
 Route::get('value/{id}', 'Api\ChartController@getValueById');
 
-Route::get('test', 'Api\TestController@test');
+Route::get('delete', 'Api\ChartController@deleteGroup');

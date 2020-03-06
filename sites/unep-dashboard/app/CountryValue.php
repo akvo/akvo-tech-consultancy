@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class CountryValue extends Model
 {
-    protected $fillable = ['group_id', 'country_id', 'value'];
-    protected $hidden = ['country_id','created_at','updated_at', 'value_id'];
+    protected $fillable = ['value_id', 'country_id', 'value'];
+    protected $hidden = ['created_at','updated_at'];
     public $timestamps = false;
 
     public function country()
@@ -18,6 +18,11 @@ class CountryValue extends Model
     public function value()
     {
         return $this->belongsTo('App\Value');
+    }
+
+    public function group()
+    {
+        return $this->hasMany('App\CountryGroup', 'country_id','country_id');
     }
 
 }

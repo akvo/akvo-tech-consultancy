@@ -34,8 +34,12 @@ class Page extends Component {
     }
 
     repeat(i) {
+        let disabled = false;
+        if (i === 2) {
+            disabled = true;
+        }
         return (
-            <DataFilters key={i} data={this.props.value.filters.list} depth={i}/>
+            <DataFilters key={i} data={this.props.value.filters.list} depth={i} disabled={disabled}/>
         );
     }
 

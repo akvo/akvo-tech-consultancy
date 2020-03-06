@@ -9,6 +9,11 @@ class Value extends Model
     protected $fillable = ['name', 'description', 'color'];
     public $timestamps = false;
 
+    public function destroyMany(array $ids)
+    {
+        return $this->destroy($ids);
+    }
+
     public function countries()
     {
         return $this->belongsToMany('App\Country', 'App\CountryValue');
