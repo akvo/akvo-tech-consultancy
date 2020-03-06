@@ -101,7 +101,7 @@ h1 {
 
       <footer class="mastfoot mt-auto">
         <div class="inner">
-          <p>Funded by: The department of Inclusive Green Growth of the Directorate General of International Cooperation of the Dutch Ministry of Foreign Affairs <strong>DGIS/IGG</strong><br>Partners: <a href="#">IDFC</a>, <a href="">Bop</a> Innovation Center, <a href="#">SNV</a>, <a href="#">Akvo</a>. </p>
+          <p>The 2SCALE Program with implementing partners:<br><a href="https://ifdc.org" target="_blank">IDFC</a>, < a href="https://www.bopinc.org" target="_blank">Bop Inc</a> <a href="https://snv.org" target="_blank">SNV</a>. </p>
         </div>
       </footer>
     </div>
