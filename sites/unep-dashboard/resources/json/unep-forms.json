@@ -1,0 +1,747 @@
+[
+    {
+        "q": "1. I agree to share the information provided in this survey. (Note we will not share your name, role or email address).",
+        "a": ["YES", "NO (Choosing this option means that your work cannot be included in the stocktake exercise. To exit the survey, choose ‘NO’, then click on the NEXT button at the bottom of the page and you will be directed to the debrief page where you will be able to click on finish to exit the survey)."],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "2. I will provide the answers that reflect the best of my knowledge and facts available to me.",
+        "a": ["YES", "NO (Choosing this option means that your work cannot be included in the stocktake exercise. To exit the survey, choose ‘NO’, then click on the NEXT button at the bottom of the page and you will be directed to the debrief page where you will be able to click on finish to exit the survey)."],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "3. I have received adequate information about the survey and about my ethical rights as a participant, including my right to withdraw. I consent to take part in this research",
+        "a": ["YES", "NO (Choosing this option means that your work cannot be included in the stocktake exercise. To exit the survey, choose ‘NO’, then click on the NEXT button at the bottom of the page and you will be directed to the debrief page where you will be able to click on finish to exit the survey)."],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "4. Your name",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "4. Your name",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "4.a. Your role",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "4.b. Contact details (preferably e-mail address)",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "4.c. Second/alternative contact detail.",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "4.c. Second/alternative contact detail.",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "4.d. Your organisation (If you are not affiliated with an organisation, please write 'not applicable').",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "5. Are you reporting as an individual or on behalf of an organisation? (Several reports from the same organisation or individual are welcome)",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "5.a. If you selected Other, please specify:",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "5.b. On behalf of which organisation are you reporting here? (e.g. UNEP, FAO or name your specific private/public/third sector organisation).",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "6. Is this the first time that you have completed this survey?",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "6.a. How many Actions are you intending to tell us about?",
+        "a": [],
+        "t": "NUMBER"
+    },
+    {
+        "q": "7. Please enter a name/title for this action/activity.",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "8. Please provide a very short summary of the action/activity (keywords or bullet points are fine, e.g. change to production, deposit return scheme etc.).",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "9. TYPE OF ACTION: What did the MAIN action/activity focus on? (Please tick ONE which best describes the action you are reporting).",
+        "a": [
+            "LEGISLATION, STANDARDS, RULES: e.g. agreeing new or changing rules or standards that others should comply with, new regulation, agreements, policies, economic instruments etc. including voluntary commitments.",
+            "WORKING WITH PEOPLE: Encouraging or enabling others (e.g., education, training, communication, awareness raising, behaviour change programmes",
+            "TECHNOLOGY and PROCESSES: New technical developments/innovation (e.g., research and development, new product design, new materials, processes etc.) changes in practice, operations, environmental management and planning.",
+            "MONITORING and ANALYSIS: Collecting evidence around plastic discharge to the ocean/waterways? (e.g. monitoring, analysis)"
+        ],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "9.a. You have chosen legislation, standards, rules as the type of action. Specifically, what did the action involve? (Please tick ALL that apply).",
+        "a": ["Official agreements", "Policy change or development", "High-level strategy", "Legislation or regulations Voluntary commitments", "New standard(s) or guideline(s)", "Change in Taxes/Subsidies", "Subsidy/financial incentives", "Ban(s)", "Package of measures combining incentives and infrastructure (e.g. deposit reward schemes)", "Other"],
+        "t": "FREE"
+    },
+    {
+        "q": "9.a.i. If you selected Other, please specify:",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "9.b. You’ve chosen “working with people” as the type of action. Specifically, what did the action involve? (Please tick ALL that apply):",
+        "a": ["Awareness raising and Behaviour change", "Education/Training", "Workshops", "Conferences", "Other"],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "9.b.i. If you selected Other, please specify:",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "9.b.ii. Did the awareness raising and behaviour change action/activity involve: (Please tick ALL that apply).",
+        "a": ["Information campaign", "Behaviour change campaign/programme", "Community Engagement", "Stakeholder", "Engagement", "Citizen Science", "Creative/arts event; exhibition", "Other"],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "9.b.ii. If you selected Other, please specify:",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "9.b.iii. Did the Education/Training action/activity involve: (Please tick ALL that apply)",
+        "a": ["Curriculum development", "Professional skills training", "Other training programmes", "Life-long learning", "Institutional development", "Other"],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "9.b.iii. If you selected Other, please specify:",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "9.b.iii.b. Did the curriculum development involve: (Please tick ALL that apply)",
+        "a": ["Primary school", "Secondary school", "Tertiary higher education", "Other"],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "9.b.iii.b.i. If you selected Other, please specify:",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "9.c. You’ve chosen “technology and processes” as the type of action. Specifically, what did the action involve? (Please tick ALL that apply):",
+        "a": ["New product design", "Change in service provision", "Environmental social planning", "Change in practice", "Change in operations", "Industrial or production standard", "Different environmental management of land based environments", "Different environmental management of aquatic environments", "Research and Development", "New infrastructure", "The use of compostable plastic", "The use of bio-based plastic", "The use of biodegradable plastic", "Other"],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "9.c.i. If you selected Other, please specify:",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "9.c.ii. Did the research and development involve (Please tick ALL that apply):",
+        "a": ["Reducing the environmental impact", "Developing a new material", "Developing a new process", "Manufacturing and Production", "Standards", "Waste Management", "Compostable plastic", "Bio-based plastic", "Bio-degradable pastic", "Other"],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "9.c.ii.a. If you selected Other, please specify:",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "9.d. You’ve chosen “monitoring and analysis” as the type of action. Specifically, what did the action involve? (Please tick ALL that apply and if a specific protocol was used, please state it e.g. OSPAR, NOAA, Beachwatch, EU-MSFD, Clean Seas, UNEP, Ocean Conservancy etc.):",
+        "a": ["Monitoring: On or near ocean surface", "Monitoring: Water column", "Monitoring: On the seafloor", "Monitoring: On the shoreline", "Monitoring: In Biota", "Monitoring: Air", "Review and synthesis :Environmental", "Review and synthesis: Economic", "Review and synthesis: Materials", "Other"],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "9.d.i. If you selected Other, please specify:",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "9.d.ii. For monitoring on or near ocean surfaces, which programme/protocol did you use?",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "9.d.iii. For monitoring of the water column, which programme/protocol did you use?",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "9.d.iv. For monitoring on the seafloor, which programme/protocol did you use?",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "9.d.v. For monitoring on the shoreline, which programme/protocol did you use?",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "9.d.vi. For monitoring in Biota, which programme/protocol did you use?",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "9.d.vii. For air monitoring, which programme/protocol did you use?",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "9.d.viii. How can the data and information from your monitoring programme be accessed?",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "9.d.viii. How can the data and information from your monitoring programme be accessed?",
+        "a": ["It is freely available and open source", "It is available on request", "It is not available"],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "9.d.viii.a. If the monitoring data is available on request, please provide information on how to access the data?",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "9.d.viii.b. Please provide the URL's for any links to the monitoring data and information.",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "10. TYPE OF ACTION: Whilst you already selected the focus of your action/activity in Question 9, did the action/activity also involve other aspects (please tick which ones below):",
+        "a": [
+            "LEGISLATION, STANDARDS, RULES: e.g. agreeing new or changing rules or standards that others should comply with, new regulation, agreements, policies, economic instruments etc. including voluntary commitments",
+            "WORKING WITH PEOPLE: Encouraging or enabling others (e.g., education, training, communication, awareness raising, behaviour change programmes)",
+            "TECHNOLOGY and PROCESSES: New technical developments/innovation (e.g., research and development, new product design, new materials, processes etc.), changes in practice, operations, environmental management and planning",
+            "MONITORING and ANALYSIS: Collecting evidence around plastic discharge to the ocean/waterways? (e.g. monitoring, analysis)"
+        ],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "11. What is the organisation's role regarding this action: [ACTION]",
+        "a": ["We are only reporting it here", "I/We developed it", "I/We are implementing it", "We are the funding body", "Other"],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "11.a. If you selected Other, please specify:",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "12. Who is responsible for the action implementation?",
+        "a": ["PUBLIC ADMINISTRATION (organisations concerned with government policies and programmes)", "PRIVATE SECTOR ORGANISATION (for-profit organisations run by individuals and groups, free from government ownership).", "THIRD SECTOR (e.g. non-governmental and non-profit-making organisations, including charity groups, community groups etc).", "Other"],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "12.a. If you selected Other, please specify:",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "12.b. Is the Public Administration body a........",
+        "a": ["International body", "National ministry/agency", "Sub-national ministry/agency", "Other"],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "12.b.i. If you selected Other, please specify:",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "12.c. Is the Private sector organisation a........",
+        "a": ["Multinational Corporation", "National Corporation", "Small-medium sized enterprise", "Other"],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "12.c.i. If you selected Other, please specify:",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "12.d. Is the third sector organisation a......",
+        "a": ["Non-governmental organisation", "Community based organisation", "Educational sector", "Other"],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "12.d.i. If you selected Other, please specify:",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "13. Reporting and evaluations: Do you report on the action?",
+        "a": ["Yes", "No", "Not applicable"],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "13.a. You answered that you do report on the action. Is this because:",
+        "a": ["There is a mandatory reporting mechanism", "Reporting is voluntary", "Other"],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "13.a.i. If you selected Other, please specify:",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "13.b. You answered that you do not report on the action. Is this because:",
+        "a": ["There is no reporting mechanism", "Reporting is voluntary", "There is not enough resource to support reporting", "Reporting is too effortful", "Other"],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "13.b.i. If you selected Other, please specify:",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "14. Are the actual outcomes and impacts of the action evaluated?",
+        "a": ["Yes", "No", "Other"],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "14.a. If you selected Other, please specify:",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "15. What’s the geographical focus of the action?",
+        "a": ["Global (it covers the whole world)", "Regional (UN Regions)", "Transnational (several countries are involved, including bilateral)", "National (it covers one entire country)", "Sub-national (it covers parts of one country)", "Other"],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "15.a. If you selected Other, please specify:",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "16. In which member state(s) does the action take place?",
+        "a": [
+            "All",
+            "Afghanistan",
+            "Albania",
+            "Algeria",
+            "Andorra",
+            "Angola",
+            "Antigua and Barbuda",
+            "Argentina",
+            "Armenia",
+            "Australia",
+            "Austria",
+            "Azerbaijan",
+            "Bahamas",
+            "Bahrain",
+            "Bangladesh",
+            "Barbados",
+            "Belarus",
+            "Belgium",
+            "Belize",
+            "Benin",
+            "Bhutan",
+            "Bolivia",
+            "Bosnia and Herzegovina",
+            "Botswana",
+            "Brazil",
+            "Brunei Darussalam",
+            "Bulgaria",
+            "Burkina",
+            "Faso",
+            "Burundi",
+            "Cabo",
+            "Verde",
+            "Cambodia",
+            "Cameroon",
+            "Canada",
+            "Central Africa Republic",
+            "Chad",
+            "Chile",
+            "China",
+            "Colombia",
+            "Comoros",
+            "Congo",
+            "Cost Rica",
+            "Cote D'Ivoire",
+            "Croatia",
+            "Cuba",
+            "Cyprus",
+            "Czech Republic",
+            "Democratic People's Republic of Korea",
+            "Democratic Republic of Congo",
+            "Denmark",
+            "Djibouti",
+            "Dominca",
+            "Dominican Republic",
+            "Ecuador",
+            "Egypt",
+            "El Salvador",
+            "Equatorial Guinea",
+            "Eritrea",
+            "Estonia",
+            "Eswatini",
+            "Ethiopia",
+            "Fiji",
+            "Finland",
+            "France",
+            "Gabon",
+            "Gambia (Republic of The)",
+            "Georgia",
+            "Germany",
+            "Ghana",
+            "Greece",
+            "Grenada",
+            "Guatemala",
+            "Guinea",
+            "Guinea Bissau",
+            "Guyana",
+            "Haiti",
+            "Honduras",
+            "Hungary",
+            "Iceland",
+            "India",
+            "Indonesia",
+            "Iran (Islamic Republic of)",
+            "Iraq",
+            "Ireland",
+            "Israel",
+            "Italy",
+            "Jamaica",
+            "Japan",
+            "Jordan",
+            "Kazakhstan",
+            "Kenya",
+            "Kiribati",
+            "Kuwait",
+            "Kyrgyzstan",
+            "Lao People's Democratic Republic",
+            "Latvia",
+            "Lebanon",
+            "Lesotho",
+            "Liberia",
+            "Libya",
+            "Liechtenstein",
+            "Lithuania",
+            "Luxembourg",
+            "Madagascar",
+            "Malawi",
+            "Malaysia",
+            "Maldives",
+            "Mali",
+            "Malta",
+            "Marshall Islands",
+            "Mauritania",
+            "Mauritius",
+            "Mexico Micronesia (Federated States of)",
+            "Monaco",
+            "Mongolia",
+            "Montenegro",
+            "Morocco",
+            "Mazambique",
+            "Myanmar",
+            "Namibia",
+            "Naura",
+            "Nepal",
+            "Netherlands",
+            "New Zealand",
+            "Nicaragua",
+            "Niger",
+            "Nigeria",
+            "North",
+            "Macedonia",
+            "Norway",
+            "Oman",
+            "Pakistan",
+            "Palau",
+            "Panama",
+            "Papua New Guinea",
+            "Paraguay",
+            "Peru",
+            "Philippines",
+            "Poland",
+            "Portugal",
+            "Qatar",
+            "Republic of Korea",
+            "Republic of Moldova",
+            "Romania",
+            "Russian Federation",
+            "Rwanda",
+            "Saint Kitts and Nevis",
+            "Saint Lucia",
+            "Saint Vincent and the Grenadines",
+            "Samoa",
+            "San Marino",
+            "Sao Tome and Principe",
+            "Saudi Arabia",
+            "Senegal",
+            "Serbia",
+            "Seychelles",
+            "Sierra Leone",
+            "Singapore",
+            "Slovakia",
+            "Slovenia",
+            "Solomon Islands",
+            "Somalia",
+            "South Africa",
+            "South Sudan",
+            "Spain",
+            "Sri lanka",
+            "Sudan",
+            "Suriname",
+            "Sweden",
+            "Switzerland",
+            "Syrian Arab Republic",
+            "Tajikstan",
+            "Thailand",
+            "Timor-Leste",
+            "Togo",
+            "Tonga",
+            "Trinidad and Tobago",
+            "Tunisia",
+            "Turkey",
+            "Turkmenistan",
+            "Tuvalu",
+            "Uganda",
+            "Ukraine",
+            "United Arab Emirates",
+            "United Kingdom of Great Britain and Northern Ireland",
+            "United Republic of Tanzania",
+            "United States of America",
+            "Uruguay",
+            "Uzbekistan",
+            "Vanuatu",
+            "Venezuela, Bolivarian Republic of",
+            "Viet Nam",
+            "Yemen",
+            "Zambia",
+            "Zimbabwe",
+            "Other"
+        ],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "16.a. If you selected Other, please specify:",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "17. Which specific place or area is your action targeting? (Please tick all that apply)",
+        "a": ["Source to Sea", "Mountains and upland area", "Agricultural land/soils", "Entire water catchment", "Forests or Mangroves", "Freshwater rivers and lakes", "Urban environment", "Waste disposal sites", "Coastal zone", "Maritime area within national jurisdiction", "Areas beyond national jurisdiction", "Open ocean and high seas", "Air", "All of the above", "Not applicable", "Other"],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "17.a. If you selected Other, please specify:",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "18. Which specific part of the lifecycle/plastic supply chain is your action targeting? (Please tick all that apply)",
+        "a": ["Life Cycle", "Raw materials", "Design", "Production / Manufacture", "Use / consumption", "Collection / sorting of plastics after use", "Management of collected plastics", "Clean-up of plastic from the environment", "All of the above", "Not applicable", "Other"],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "18.a. If you selected Other, please specify:",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "19. Does your action target the following? (Please tick all that apply)",
+        "a": ["Reducing plastics", "Reusing plastic", "Recycling plastics", "Not Applicable", "Other"],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "19.a. If you selected Other, please specify:",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "20. What impacts or harms does the action relate to? (Please tick all that apply)",
+        "a": ["Human health and wellbeing", "Biodiversity", "Marine organisms", "Ecosystem Services", "Food chain", "Economics and Trade", "All of the above", "Not applicable", "Other"],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "20.a. If you selected Other, please specify:",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "21. What types of items or contaminants does the action target?",
+        "a": ["Macroplastic (large, more than 20 mm, e.g. plastic bottles)", "Microplastics (tiny plastic particles less than 5 mm in diameter, e.g., found in personal", "care products/synthetic textiles)", "Additives incorporated into plastic items", "Not applicable", "Other"],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "21.a. If you selected Other, please specify:",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "21.b. What type of macroplastic contaminant does the action target? (Please tick all that apply)",
+        "a": [
+            "Bottles",
+            "Plastic bags",
+            "Food packaging (containers, wrappers etc.)",
+            "Non-food packaging (containers, wrappers etc.)",
+            "Smoking related litter (cigarette butts and packets)",
+            "Fishing related items",
+            "Shipping related items",
+            "Cups (e.g., disposable coffee cups)",
+            "Plastic straws, stirrers, cutlery",
+            "Sewage-related items (this could include cotton bud sticks, feminine hygiene items and",
+            "others disposed of via toilets)",
+            "Natural disaster/hazard related debris",
+            "Polystyrene items",
+            "All of the above",
+            "Not applicable",
+            "Other"
+        ],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "21.b.i. If you selected Other, please specify:",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "21.c. What type of microplastic contaminant does the action target?",
+        "a": ["Microbeads used in cosmetics", "Microplastics used in other products e.g. paints", "All of the above", "Not applicable", "Other"],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "21.c.i. If you selected Other, please specify:",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "22. Does your action target a specific sector? (Please tick all that apply)",
+        "a": ["Packaging", "Textiles", "Transportation", "Building, Construction, Demolition", "Industrial Machinery", "Automotive", "Electrical and Electronics", "Agriculture", "Fisheries", "Aquaculture", "Food & Beverages", "Personal Healthcare", "Medical", "Retail", "Tourism", "Wastewater/Sewage management", "All of the above", "Not applicable", "Other"],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "22.a. If you selected Other, please specify:",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "23. How much money (amount) has been invested in the action so far? (please give us an estimate if you’re unsure and only submit numbers, e.g, 5,000 should be entered as 5000)",
+        "a": [],
+        "t": "NUMBER"
+    },
+    {
+        "q": "24. Please specify the currency.",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "25. Are there in kind contributions as well? (Please tell us the equivalent amount and only submit numbers, e.g, 5,000 should be entered as 5000).",
+        "a": [],
+        "t": "NUMBER"
+    },
+    {
+        "q": "26. Please specify the currency",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "27. What funding sources did you use?",
+        "a": ["Crowdfunded", "Voluntary donations", "Public Financing", "Private Sector", "Mixed", "All of the above", "Not applicable", "Other"],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "27.a. If you selected Other, please specify:",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "27.b. Please name the specific source(s) of funding?",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "28. Is your action a one-off activity or continuous?",
+        "a": ["Duration", "Single event", "Continuous activity less than one year", "Continuous activity 1-3 Years", "Continuous activity more than 3 Years long", "Not applicable", "Other"],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "28.a. If you selected Other, please specify:",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "29. In the boxes below, please provide i.e. copy and paste links, URL's, website links etc to documents about your action. We are interested in websites, reports, images, media articles etc. Please place only one link per box provided. If you have no documents to share, please write 'I have no links to provide' in the first box. You can also email documents and images - as attachments - to marinelitterstocktake@plymouth.ac.uk",
+        "a": [],
+        "t": "LINKS"
+    },
+    {
+        "q": "29.a. Another Link",
+        "a": [],
+        "t": "LINKS"
+    },
+    {
+        "q": "29.b. Another link to information:",
+        "a": [],
+        "t": "LINKS"
+    },
+    {
+        "q": "29.c. Another link to information",
+        "a": [],
+        "t": "LINKS"
+    },
+    {
+        "q": "29.d. Another link to information",
+        "a": [],
+        "t": "LINKS"
+    },
+    {
+        "q": "29.e. Another link to information",
+        "a": [],
+        "t": "LINKS"
+    },
+    {
+        "q": "30. Is there anything more that you would like to tell us about your action/activity? Please use the box below.",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "31. Are you engaging with stakeholders (including groups of the public and other stakeholders) as part of the action?",
+        "a": ["Yes", "No", "Not Applicable"],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "31.a. Does the stakeholder engagement involve (please tick all that apply):",
+        "a": ["Giving information to stakeholders (e.g., leaflets, posters)", "Consulting with stakeholders interactively (e.g., workshops)", "Seeking feedback from stakeholders (e.g. online)", "Co-creating the action with stakeholders from the start", "Other"],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "31.a.i. If you selected Other, please specify:",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "31.b. How many different groups and organisations (e.g. 20 retailers, 150 schools) have you engaged with in total? (Please estimate)",
+        "a": [],
+        "t": "NUMBER"
+    },
+    {
+        "q": "31.c. How many stakeholders (number of individuals) have you engaged in total? (Please estimate)",
+        "a": [],
+        "t": "NUMBER"
+    },
+    {
+        "q": "31.c. How many stakeholders (number of individuals) have you engaged in total? (Please estimate)",
+        "a": [],
+        "t": ""
+    }
+]
