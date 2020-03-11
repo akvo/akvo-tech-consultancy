@@ -101,7 +101,7 @@ h1 {
 
       <footer class="mastfoot mt-auto">
         <div class="inner">
-          <p> The 2SCALE Program with implementing partners:<br><a href="https://ifdc.org" target="_blank">IDFC</a>, <a href="https://www.bopinc.org" target="_blank">Bop Inc</a> <a href="https://snv.org" target="_blank">SNV</a>. </p>
+          <p> The 2SCALE Program with implementing partners:<br><a href="https://ifdc.org" target="_blank">IFDC</a>, <a href="https://www.bopinc.org" target="_blank">Bop Inc</a> <a href="https://snv.org" target="_blank">SNV</a>. </p>
         </div>
       </footer>
     </div>
