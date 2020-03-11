@@ -14,7 +14,7 @@ def write_data(session, input_data, info, log):
         return session.commit()
     except:
         if log:
-            logging.error('ERROR: ABORTING {} '.format(log))
+            print('ERROR: ABORTING {} '.format(log))
         session.rollback()
         raise
 

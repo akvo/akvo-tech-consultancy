@@ -1,5 +1,4 @@
 import requests as r
-import logging
 from os import environ
 from time import time
 from resources.models import Sync
@@ -22,7 +21,7 @@ class flow_api():
         try:
             account = account.json();
         except:
-            logging.error('FAILED: TOKEN ACCESS UNKNOWN')
+            print('FAILED: TOKEN ACCESS UNKNOWN')
             return False
         return {'token': account['id_token'], 'time':time()}
 
@@ -46,11 +45,11 @@ class flow_api():
         header = self.get_header(token)
         response = r.get(url, headers=header)
         url = url.replace(self.data_url, '')
-        logging.warn("FETCH: " + str(response.status_code) + " | " + url)
+        print("FETCH: " + str(response.status_code) + " | " + url)
         if response.status_code == 200:
             response = response.json()
             return response
-        logging.error("ERROR: " + url.replace(self.data_url, ''))
+        print("ERROR: " + url.replace(self.data_url, ''))
         return response
 
     def sync_data(self, session, url, token):
@@ -67,9 +66,9 @@ class flow_api():
         init_url = '{}/sync?initial=true'.format(self.data_url)
         header = self.get_header(token)
         response = r.get(init_url, headers=header)
-        logging.warn(response.status_code)
+        print(response.status_code)
         if response.status_code != 200:
-            logging.warn(response.text)
+            print(response.text)
         data = response.json()
         data.update({'status':response.status_code})
         self.cursor_save(session, data)
