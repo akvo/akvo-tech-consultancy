@@ -53,7 +53,7 @@ class SeedCountryValues extends Command
 
     private function SeedCategory($id, $ncountry) 
     {
-        $url = 'http://geodata.grid.unep.ch/api/countries/#cid/'.'variables/#vid/'.'years/2012';
+        $url = 'http://geodata.grid.unep.ch/api/countries/#cid/'.'variables/#vid/'.'years/2013';
         $countries = \App\Country::select('id','code')->get()->random($ncountry);
         $var = \App\Value::select('id','code')
             ->where('id', $id)->first();

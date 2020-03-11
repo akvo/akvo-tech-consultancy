@@ -68,8 +68,10 @@ class ChartController extends Controller
                       ->first();
     }
 
-    public function deleteGroup(Request $request, Value $values)
+    public function deleteGroup(Request $request, Value $values, Country $countries)
     {
+        return $countries->with('groups')->get();
+
         $ids = $values
             ->whereNotNull('parent_id')
             ->has('childrens')

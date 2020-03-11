@@ -7,6 +7,11 @@ export const mapStateToProps = state => {
 export const mapDispatchToProps = dispatch => {
     return {
         page: {
+            loading: (status) =>
+                dispatch({
+                    type: "PAGE - LOADING PAGE",
+                    status: status
+                }),
             change: page =>
                 dispatch({
                     type: "PAGE - CHANGE PAGE",

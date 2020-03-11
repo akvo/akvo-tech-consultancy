@@ -26,6 +26,14 @@ const initialState = {
 
 export const states = (state = initialState, action) => {
     switch (action.type) {
+        case 'PAGE - LOADING PAGE':
+            return {
+                ...state,
+                page: {
+                    ...state.page,
+                    loading: action.status
+                }
+            }
         case 'PAGE - CHANGE PAGE':
             return {
                 ...state,

@@ -5,7 +5,6 @@ import { mapStateToProps, mapDispatchToProps } from "../reducers/actions.js";
 import { Col } from "react-bootstrap";
 import { loadingChart, generateOptions } from "../data/chart-utils.js";
 import ReactEcharts from "echarts-for-react";
-import ReactLoading from "react-loading";
 
 class Charts extends Component {
     constructor(props) {
@@ -107,12 +106,9 @@ class Charts extends Component {
                 return x;
             });
         }
-        let options = generateOptions(this.props.kind, selected.name, data, this.props.calc);
+        let options = generateOptions(this.props.kind, selected.name, this.props.value.filters.country, data, this.props.calc);
         return (
             <Col md={this.props.data.column}>
-                { this.props.value.charts.loading ? (
-                    <ReactLoading type={'spin'} color={'#009fe2'} height={'20px'} width={'20px'} className={"loading"}/>
-                ) : "" }
                 <ReactEcharts
                     option={options}
                     notMerge={true}

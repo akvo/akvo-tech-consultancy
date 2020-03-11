@@ -9,6 +9,7 @@ import {
     Container
 } from 'react-bootstrap';
 import Home from '../pages/Home';
+import Loading from '../pages/Loading';
 import axios from 'axios';
 
 const prefixPage = process.env.MIX_PUBLIC_URL + "/page/";
@@ -20,7 +21,6 @@ class Page extends Component {
         this.getFilters = this.getFilters.bind(this);
         this.repeat = this.repeat.bind(this);
     }
-
 
     componentDidMount() {
         axios.get(prefixPage + "filters")
@@ -55,7 +55,8 @@ class Page extends Component {
     }
 
     render() {
-        let page = this.props.value.page.name
+        let page = this.props.value.page.name;
+        let loading = this.props.value.page.loading;
         return (
             <Fragment>
             <Navigation/>
@@ -64,6 +65,7 @@ class Page extends Component {
                     <DataCountries className='dropdown-right' data={this.props.value.filters.countries}/>
                 </Container>
                 <hr/>
+                {loading ? (<Loading/>) : ""}
                 {page === "home" ? (<Home parent={this.props}/>) : ""}
             </Fragment>
         );

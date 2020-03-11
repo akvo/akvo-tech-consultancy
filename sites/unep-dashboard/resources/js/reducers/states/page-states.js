@@ -1,5 +1,6 @@
 export const pageState = {
-    name: "home"
+    name: "home",
+    loading: true
 }
 
 export const showPage = (state, page) => {

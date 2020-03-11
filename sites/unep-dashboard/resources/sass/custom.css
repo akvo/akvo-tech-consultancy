@@ -1,6 +1,31 @@
 body {
     font-family: "Assistant", sans-serif;
 }
+.page-loading {
+    position:absolute;
+    min-width: 100%;
+    min-height: 100%;
+    background-color: #ffffff;
+    opacity: .9;
+    z-index: 999;
+    text-align: center;
+}
+
+.page-loading h3 {
+    position:absolute;
+    top: 30%;
+    left: calc(50% - 54.5px);
+    font-family: 'Assistant', sans-serif;
+    font-weight:normal;
+    font-size: 16px;
+}
+
+.page-loading .loading-animation{
+    position: absolute;
+    top: 35%;
+    left: calc(50% - 25px);
+}
+
 .center {
     text-align: center;
 }
@@ -351,10 +376,4 @@ h1.title-page {
     .container .dropdown .btn svg{
         float: right;
     }
-}
-
-.loading {
-    position: absolute;
-    top: 45%;
-    right: 50%;
 }

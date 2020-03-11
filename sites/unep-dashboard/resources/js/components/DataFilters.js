@@ -111,7 +111,7 @@ class DataFilters extends Component {
             id = category.id;
         }
         if (depth === 1 && chartisnew) {
-            this.props.chart.state.loading(true);
+            this.props.page.loading(true);
             axios.get('/api/value/category/' + id)
                 .then(res => {
                     res.data.map((data) => {
@@ -122,17 +122,35 @@ class DataFilters extends Component {
                 .then(res => {
                     let countries = this.props.value.filters.selected[depth + 1];
                     this.props.chart.value.select(countries.id);
+                    this.props.page.loading(false);
                 });
         }
         if (depth === 1 && !chartisnew) {
-            this.props.chart.state.loading(true);
+            this.props.chart.state.loading();
             countries = this.props.value.filters.selected[depth + 1];
             this.props.chart.value.select(countries.id);
         }
         if (depth === 2) {
-            this.props.chart.state.loading(true);
+            this.props.chart.state.loading();
             this.props.chart.value.select(id);
         }
+    }
+
+    loadDefault() {
+        setTimeout(() => {
+            if (this.props.value.filters.list.length === 1){
+                console.log(this.props.data);
+                let selected = this.props.value.filters.list[0][0];
+                console.log(selected);
+                this.changeActive(selected.id, selected.parent_id, selected.name, 0);
+                return true;
+            }
+        }, 3000);
+        return;
+    }
+
+    componentDidMount() {
+        this.loadDefault();
     }
 
     getDropDownItem (dd, depth) {

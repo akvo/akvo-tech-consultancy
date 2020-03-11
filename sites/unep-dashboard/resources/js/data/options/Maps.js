@@ -1,6 +1,6 @@
-import { Easing } from '../features/animation.js';
+import { Easing, TextStyle, backgroundColor, Color, Icons, Graphic } from '../features/animation.js';
 
-const Maps = (data, title, calc) => {
+const Maps = (data, title, subtitle, calc) => {
     let values = data.map(x => x.value)
     let max = 1;
     let min = 0;
@@ -12,10 +12,9 @@ const Maps = (data, title, calc) => {
         title : {
             text: title,
             left: 'center',
-            top: 'top',
-            textStyle: {
-                color: '#222'
-            }
+            top: '20px',
+            subtext: subtitle,
+            ...TextStyle
         },
         tooltip: {
             trigger: 'item',
@@ -28,32 +27,40 @@ const Maps = (data, title, calc) => {
                     return params.seriesName + '<br/>' + params.name + ': ' + value;
                 }
                 return 'No Data';
-            }
+            },
+            backgroundColor: "#ffffff",
+            ...TextStyle
         },
         visualMap: {
-            left: 'right',
+            left: 'left',
             min: min,
             max: max,
+            backgroundColor: '#eee',
+            itemWidth: 10,
             inRange: {
-                color: ['#fff823', '#007bff']
+                color: ['#fff823', '#007bff', '#007bff']
             },
+            itemHeight: '445px',
             text: ['High', 'Low'],
             calculable: true,
+            ...TextStyle
         },
         toolbox: {
             show: true,
             orient: 'horizontal',
-            left: 'left',
+            left: 'right',
             top: 'top',
             feature: {
                 dataView: {
                     title: 'View Data',
                     lang: ['Data View', 'Turn Off', 'Refresh'],
+                    icon: Icons.dataView,
                     buttonColor: '#0478a9'
                 },
                 saveAsImage: {
                     type: 'jpg',
                     title: 'Save Image',
+                    icon: Icons.saveAsImage,
                     backgroundColor: '#ffffff'
                 },
             },
@@ -68,7 +75,7 @@ const Maps = (data, title, calc) => {
                 aspectScale: 1,
                 emphasis: {
                     label: {
-                        show: true
+                        show: false,
                     }
                 },
                 zoom: 1,
@@ -79,13 +86,14 @@ const Maps = (data, title, calc) => {
                 itemStyle: {
                     areaColor: '#ddd',
                     emphasis: {
-                        areaColor: '#eee',
-                        color: '#222',
+                        areaColor: "#ff4444",
+                        color: '#FFF',
                     }
                 },
                 data: data
             }
         ],
+        ...backgroundColor,
         ...Easing,
     };
     return option;

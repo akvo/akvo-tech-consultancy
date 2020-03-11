@@ -1,6 +1,6 @@
-import { Easing } from '../features/animation.js';
+import { Color, Easing, Legend, TextStyle, backgroundColor, Icons } from '../features/animation.js';
 
-const Pie = (data, title, calc) => {
+const Pie = (data, title, subtitle, calc) => {
     data = data.map((x) => {
         return {
             ...x,
@@ -9,36 +9,40 @@ const Pie = (data, title, calc) => {
     });
     let labels = data.map(x => x.name);
     let option = {
+        ...Color,
         title: {
             text: title,
-            left: "center",
-            top: "top",
-            textStyle: {
-                color: "#222"
-            }
+            subtext: subtitle,
+            left: 'center',
+            top: '20px',
+            ...TextStyle,
         },
         tooltip: {
             trigger: "item",
-            formatter: "{a} <br/>{b}: {c} ({d}%)"
+            formatter: "{c} ({d}%)",
+            backgroundColor: "#fff",
+            ...TextStyle
         },
         toolbox: {
             show: true,
-            orient: 'vertical',
-            left: 'left',
+            orient: 'horizontal',
+            left: 'right',
             top: 'top',
             feature: {
+                dataView: {
+                    title: 'View Data',
+                    lang: ['Data View', 'Turn Off', 'Refresh'],
+                    icon: Icons.dataView,
+                    buttonColor: '#0478a9', textAreaBorderColor: '#fff',
+
+                },
                 saveAsImage: {
                     type: 'jpg',
                     title: 'Save Image',
+                    icon: Icons.saveAsImage,
                     backgroundColor: '#ffffff'
                 },
-            }
-        },
-        legend: {
-            orient: "horizontal",
-            left: 10,
-            bottom: 'bottom',
-            data: labels
+            },
         },
         series: [
             {
@@ -52,11 +56,9 @@ const Pie = (data, title, calc) => {
                         position: "center"
                     },
                     emphasis: {
+                        formatter: "{b}",
                         show: true,
-                        textStyle: {
-                            fontSize: "22",
-                            fontWeight: "bold"
-                        }
+                        ...TextStyle
                     }
                 },
                 labelLine: {
@@ -67,6 +69,11 @@ const Pie = (data, title, calc) => {
                 data: data
             }
         ],
+        legend: {
+            ...Legend,
+            data: labels,
+        },
+        ...backgroundColor,
         ...Easing,
     };
     return option;

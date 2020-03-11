@@ -13,11 +13,11 @@ const loadingState = {
 export const loadingChart = (type) => {
     switch (type) {
         case "MAPS":
-            return Maps(loadingState.values, "LOADING..");
+            return Maps(loadingState.values, "LOADING", "loading", "CATEGORY");
         case "PIE":
-            return Pie(loadingState.values, "LOADING...");
+            return Pie(loadingState.values, "LOADING", "loading", "CATEGORY");
         default:
-            return Bar(loadingState.values, "LOADING...");
+            return Bar(loadingState.values, "LOADING", "loading", "CATEGORY");
     }
 };
 
@@ -31,13 +31,13 @@ export const generateData = (col, line, height) => {
     }
 }
 
-export const generateOptions = (type, title, data, calc) => {
+export const generateOptions = (type, title, subtitle, data, calc) => {
     switch (type) {
         case "MAPS":
-            return Maps(data, title, calc);
+            return Maps(data, title, subtitle, calc);
         case "PIE":
-            return Pie(data, title, calc);
+            return Pie(data, title, subtitle, calc);
         default:
-            return Bar(data, title, calc);
+            return Bar(data, title, subtitle, calc);
     }
 }
