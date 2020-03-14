@@ -507,11 +507,11 @@
                                 <tbody>
                                     <tr style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
                                         <td width="40%" class="logo" style="text-align: left;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;mso-table-lspace: 0pt !important;mso-table-rspace: 0pt !important;">
-                                            <h1 style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;font-family: 'Poppins', sans-serif;color: #000000;margin-top: 0;margin: 0;"><a href="#" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;text-decoration: none;color: #000000;font-size: 20px;font-weight: 700;text-transform: uppercase;font-family: 'Poppins', sans-serif;">G4AW - Spice Up</a></h1>
+                                            <h1 style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;font-family: 'Poppins', sans-serif;color: #000000;margin-top: 0;margin: 0;"><a href="#" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;text-decoration: none;color: #000000;font-size: 15px;font-weight: 700;text-transform: uppercase;font-family: 'Poppins', sans-serif;">Demo Plot Bangka</a></h1>
                                         </td>
                                         <td width="60%" class="logo" style="text-align: right;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;mso-table-lspace: 0pt !important;mso-table-rspace: 0pt !important;">
                                             <ul class="navigation" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;padding: 0;">
-                                                <li style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;list-style: none;display: inline-block;margin-left: 5px;font-size: 13px;font-weight: 500;"><a href="#" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;text-decoration: none;color: rgba(0,0,0,.4);">Demo Plot Reports - <span id="date-now">{{ date }}</span></a></li>
+                                                <li style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;list-style: none;display: inline-block;margin-left: 5px;font-size: 13px;font-weight: 500;"><a href="#" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;text-decoration: none;color: rgba(0,0,0,.4);">{{ start_date }} - <span id="date-now">{{ date }}</span></a></li>
                                             </ul>
                                         </td>
                                     </tr>
@@ -568,6 +568,7 @@
                                                                                 <h2 style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;font-family: 'Poppins', sans-serif;color: #000000;margin-top: 0;font-size: 20px;line-height: 1.4;font-weight: 700;text-transform: uppercase;">General
                                                                                     Weather
                                                                                     Condition</h2>
+                                                                                    <span style="color:orange">{{ weather_submission }} Submission</span>
                                                                                 <p style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;" id="temperature-general">{{ weather_label }}</p>
                                                                                 
                                                                                 <h2 id="temperature-weather" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;font-family: 'Poppins', sans-serif;color: #696969;margin-top: 0;font-size: 15px;line-height: 1.4;font-weight: 700;text-transform: uppercase;">{{ weather_temp }}</h2>
@@ -586,6 +587,7 @@
                                         <td class="bg_white email-section" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;background: #ffffff;padding: 2.5em;mso-table-lspace: 0pt !important;mso-table-rspace: 0pt !important;">
                                             <div class="heading-section" style="text-align: center;padding: 0 30px;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
                                                 <h2 style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;font-family: 'Poppins', sans-serif;color: #000000;margin-top: 0;font-size: 20px;line-height: 1.4;font-weight: 700;text-transform: uppercase;">Soil Monitoring</h2>
+                                                <span style="color:orange">{{ soil_submission }} Submission</span>
                                                 <p style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">Soil Conditions</p>
                                             </div>
                                             <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;mso-table-lspace: 0pt !important;mso-table-rspace: 0pt !important;border-spacing: 0 !important;border-collapse: collapse !important;table-layout: fixed !important;margin: 0 auto !important;">
@@ -597,7 +599,7 @@
                                                                     
                                                                     <tr style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
                                                                         <td class="text-services" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;padding: 10px 10px 0;text-align: center;mso-table-lspace: 0pt !important;mso-table-rspace: 0pt !important;">
-                                                                            <h3 style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;font-family: 'Poppins', sans-serif;color: #000000;margin-top: 0;font-size: 16px;font-weight: 600;">Moisture</h3>
+                                                                            <h3 style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;font-family: 'Poppins', sans-serif;color: #000000;margin-top: 0;font-size: 14px;font-weight: 600;">Moisture (VWC)</h3>
                                                                             <p id="moisture" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">{{ soil_moisture }}</p>
                                                                         </td>
                                                                     </tr>
@@ -623,7 +625,7 @@
                                                                     
                                                                     <tr style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
                                                                         <td class="text-services" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;padding: 10px 10px 0;text-align: center;mso-table-lspace: 0pt !important;mso-table-rspace: 0pt !important;">
-                                                                            <h3 style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;font-family: 'Poppins', sans-serif;color: #000000;margin-top: 0;font-size: 16px;font-weight: 600;">Nitrate</h3>
+                                                                            <h3 style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;font-family: 'Poppins', sans-serif;color: #000000;margin-top: 0;font-size: 16px;font-weight: 600;">Nitrate (ppm)</h3>
                                                                             <p id="nitrate" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">{{ soil_nitrate }}</p>
                                                                         </td>
                                                                     </tr>
@@ -655,8 +657,9 @@
                                         <td class="bg_light email-section" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;background: #fafafa;padding: 2.5em;mso-table-lspace: 0pt !important;mso-table-rspace: 0pt !important;">
                                             <div class="heading-section" style="text-align: center;padding: 0 30px;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
                                                 <h2 style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;font-family: 'Poppins', sans-serif;color: #000000;margin-top: 0;font-size: 20px;line-height: 1.4;font-weight: 700;text-transform: uppercase;">Plant Monitoring</h2>
+                                                <span style="color:orange">{{ plant_growth_submission }} Submission</span>
                                                 <p style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
-                                                {{ plant_general_condition }}
+                                                {{ plant_general_condition|safe }}
                                                 </p>
                                             </div>
                                             <table role="presentation" border="0" cellpadding="10" cellspacing="0" width="100%" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;mso-table-lspace: 0pt !important;mso-table-rspace: 0pt !important;border-spacing: 0 !important;border-collapse: collapse !important;table-layout: fixed !important;margin: 0 auto !important;">
@@ -669,9 +672,9 @@
                                                                     <tr style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
                                                                         <td class="text-testimony" style="text-align: center;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;mso-table-lspace: 0pt !important;mso-table-rspace: 0pt !important;">
                                                                             <h3 class="name" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;font-family: 'Poppins', sans-serif;color: #000000;margin-top: 0;margin: 0;">Leaf</h3>
-                                                                            <span class="position" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: rgba(0,0,0,.3);">Avg: <span style='font-weight:bold;' id='leaf-q2'>{{ plant_leaf['mean']|round }}</span></span>
+                                                                            <span class="position" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: rgba(0,0,0,.3);">Avg: <span style='font-weight:bold;' id='leaf-q2'>{{ plant_leaf['mean'] }}</span></span>
                                                                             
-                                                                            <p style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">1st Quartile: <span style='font-weight:bold' id='leaf-q1'>{{ plant_leaf['25%']|round }}</span><br>3rd Quartile: <span style='font-weight:bold' id='leaf-q3'>{{ plant_leaf['75%']|round }}</span></p></td>
+                                                                            <p style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">1st Quartile: <span style='font-weight:bold' id='leaf-q1'>{{ plant_leaf['25%'] }}</span><br>3rd Quartile: <span style='font-weight:bold' id='leaf-q3'>{{ plant_leaf['75%'] }}</span></p></td>
                                                                     </tr>
                                                                 </tbody>
                                                             </table>
@@ -683,8 +686,8 @@
                                                                     <tr style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
                                                                         <td class="text-testimony" style="text-align: center;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;mso-table-lspace: 0pt !important;mso-table-rspace: 0pt !important;">
                                                                             <h3 class="name" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;font-family: 'Poppins', sans-serif;color: #000000;margin-top: 0;margin: 0;">Nodes</h3>
-                                                                            <span class="position" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: rgba(0,0,0,.3);">Avg: <span style='font-weight:bold;' id='nodes-q2'>{{ plant_node['mean']|round }}</span></span>
-                                                                            <p style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">1st Quartile: <span style='font-weight:bold' id='nodes-q1'>{{ plant_node['25%']|round }}</span><br>3rd Quartile: <span style='font-weight:bold' id='nodes-q3'>{{ plant_node['75%']|round }}</span></p></td>
+                                                                            <span class="position" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: rgba(0,0,0,.3);">Avg: <span style='font-weight:bold;' id='nodes-q2'>{{ plant_node['mean'] }}</span></span>
+                                                                            <p style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">1st Quartile: <span style='font-weight:bold' id='nodes-q1'>{{ plant_node['25%'] }}</span><br>3rd Quartile: <span style='font-weight:bold' id='nodes-q3'>{{ plant_node['75%'] }}</span></p></td>
                                                                     
                                                                     </tr>
                                                                 </tbody>
@@ -697,9 +700,9 @@
                                                                     <tr style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
                                                                         <td class="text-testimony" style="text-align: center;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;mso-table-lspace: 0pt !important;mso-table-rspace: 0pt !important;">
                                                                             <h3 class="name" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;font-family: 'Poppins', sans-serif;color: #000000;margin-top: 0;margin: 0;">Height</h3>
-                                                                            <span class="position" id='height-average' style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: rgba(0,0,0,.3);">Avg: {{ plant_height['mean']|round }}</span>
+                                                                            <span class="position" id='height-average' style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: rgba(0,0,0,.3);">Avg: {{ plant_height['mean'] }}</span>
                                                                             
-                                                                            <p style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">1st Quartile: <span style='font-weight:bold' id='height-q1'>{{ plant_height['25%']|round }}</span><br>3rd Quartile: <span style='font-weight:bold' id='height-q3'>{{ plant_height['75%']|round }}</span></p></td>
+                                                                            <p style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">1st Quartile: <span style='font-weight:bold' id='height-q1'>{{ plant_height['25%'] }}</span><br>3rd Quartile: <span style='font-weight:bold' id='height-q3'>{{ plant_height['75%'] }}</span></p></td>
                                                                     </tr>
                                                                 </tbody>
                                                             </table>
@@ -716,44 +719,47 @@
                                             <table style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;mso-table-lspace: 0pt !important;mso-table-rspace: 0pt !important;border-spacing: 0 !important;border-collapse: collapse !important;table-layout: fixed !important;margin: 0 auto !important;">
                                                 <tbody>
                                                     <tr style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
-                                                        <td valign="middle" width="33.333%" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;mso-table-lspace: 0pt !important;mso-table-rspace: 0pt !important;">
+                                                        <td width="33.333%" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;mso-table-lspace: 0pt !important;mso-table-rspace: 0pt !important;">
                                                             <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;mso-table-lspace: 0pt !important;mso-table-rspace: 0pt !important;border-spacing: 0 !important;border-collapse: collapse !important;table-layout: fixed !important;margin: 0 auto !important;">
                                                                 <tbody>
                                                                     <tr style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
                                                                         <td class="counter-text" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;text-align: center;mso-table-lspace: 0pt !important;mso-table-rspace: 0pt !important;">
-                                                                            <span class="num" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;display: block;color: #ffffff;font-size: 20px;font-weight: 700;">
-                                                                            {{ plant_oi_hanging.get('No', 0) }} No<br/>
-                                                                                {{ plant_oi_hanging.get('Yes', 0) }} Yes<br/>
+                                                                            <span class="name" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;display: block;color: rgba(255,255,255,.9);font-size: 15px;font-weight: 700;">Leaves hanging rigidly</span>
+                                                                            <span class="num" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;display: block;color: #ffffff;font-size: 15px;">
+                                                                            No: {{ plant_oi_hanging.get('No', 0) }}<br/>
+                                                                            Yes: {{ plant_oi_hanging.get('Yes', 0) }}<br/>
                                                                             </span>
-                                                                            <span class="name" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;display: block;color: rgba(255,255,255,.9);font-size: 13px;">Leaves hanging rigidly</span>
+                                                                            
                                                                         </td>
                                                                     </tr>
                                                                 </tbody>
                                                             </table>
                                                         </td>
-                                                        <td valign="middle" width="33.333%" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;mso-table-lspace: 0pt !important;mso-table-rspace: 0pt !important;">
+                                                        <td width="33.333%" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;mso-table-lspace: 0pt !important;mso-table-rspace: 0pt !important;">
                                                             <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;mso-table-lspace: 0pt !important;mso-table-rspace: 0pt !important;border-spacing: 0 !important;border-collapse: collapse !important;table-layout: fixed !important;margin: 0 auto !important;">
                                                                 <tbody>
                                                                     <tr style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
                                                                         <td class="counter-text" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;text-align: center;mso-table-lspace: 0pt !important;mso-table-rspace: 0pt !important;">
-                                                                            <span class="num" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;display: block;color: #ffffff;font-size: 18px;font-weight: 700;">
-                                                                            {{ plant_oi_wilting.get('No', 0) }} No<br/>
-                                                                                {{ plant_oi_wilting.get('Yes', 0) }} Yes<br/>
-                                                                                {{ plant_oi_wilting.get('Light Wilting', 0) }} Light Wilting<br/>
+                                                                            <span class="name" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;display: block;color: rgba(255,255,255,.9);font-size: 15px;font-weight: 700;">Wilting Symptoms</span>
+                                                                            <span class="num" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;display: block;color: #ffffff;font-size: 15px;">
+                                                                            No: {{ plant_oi_wilting.get('No', 0) }}<br/>
+                                                                            Yes: {{ plant_oi_wilting.get('Yes', 0) }}<br/>
+                                                                            Light Wilting: {{ plant_oi_wilting.get('Light Wilting', 0) }} <br/>
                                                                             </span>
-                                                                            <span class="name" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;display: block;color: rgba(255,255,255,.9);font-size: 13px;">Wilting Symptoms</span>
+                                                                            
                                                                         </td>
                                                                     </tr>
                                                                 </tbody>
                                                             </table>
                                                         </td>
-                                                        <td valign="middle" width="33.333%" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;mso-table-lspace: 0pt !important;mso-table-rspace: 0pt !important;">
+                                                        <td width="33.333%" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;mso-table-lspace: 0pt !important;mso-table-rspace: 0pt !important;">
                                                             <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;mso-table-lspace: 0pt !important;mso-table-rspace: 0pt !important;border-spacing: 0 !important;border-collapse: collapse !important;table-layout: fixed !important;margin: 0 auto !important;">
                                                                 <tbody>
                                                                     <tr style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
                                                                         <td class="counter-text" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;text-align: center;mso-table-lspace: 0pt !important;mso-table-rspace: 0pt !important;">
-                                                                            <span class="num" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;display: block;color: #ffffff;font-size: 34px;font-weight: 700;">Avg. {{ plant_branch['mean']|round}}</span>
-                                                                            <span class="name" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;display: block;color: rgba(255,255,255,.9);font-size: 13px;">Branches</span>
+                                                                            <span class="name" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;display: block;color: rgba(255,255,255,.9);font-size: 15px;font-weight: 700;">Branches</span>
+                                                                            <span class="num" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;display: block;color: #ffffff;font-size: 15px;">Avg: {{ plant_branch['mean']}}</span>
+                                                                            
                                                                         </td>
                                                                     </tr>
                                                                 </tbody>
@@ -786,6 +792,7 @@
                                                                         <td class="text-services" style="text-align: left;padding-left: 25px;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;padding: 10px 10px 0;mso-table-lspace: 0pt !important;mso-table-rspace: 0pt !important;">
                                                                             <div class="heading-section" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
                                                                                 <h2 style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;font-family: 'Poppins', sans-serif;color: #000000;margin-top: 0;font-size: 20px;line-height: 1.4;font-weight: 700;text-transform: uppercase;">Activities</h2>
+                                                                                <span style="color:orange">{{ activities_submission }} Submission</span>
                                                                             </div>
 <ul>                                                                        
 {% for activity in type_of_activities %}
@@ -825,9 +832,10 @@
                                         </td>
                                     </tr>
                                     <tr style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
-                                        <td class="primary email-section" style="text-align: center;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;background: #3a3a3a;padding: 2.5em;mso-table-lspace: 0pt !important;mso-table-rspace: 0pt !important;">
-                                            <div class="heading-section heading-section-white" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: rgba(255,255,255,.8);">
-                                                <h2 style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;font-family: line-height: 1;color: #ffffff;margin-top: 0;font-size: 20px;line-height: 1.4;font-weight: 700;text-transform: uppercase;padding-bottom: 0;">Akvo Flow</h2>
+                                        <td class="primary email-section" style="text-align: center;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;background: rgb(247,247,247);padding: 2.5em;mso-table-lspace: 0pt !important;mso-table-rspace: 0pt !important;">
+                                            <div class="heading-section heading-section-white" style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: rgba(136, 133, 133, 0.8);text-align:center">
+                                                <img style="margin-left: auto;margin-right: auto;width: 100px;" src="https://akvo.org/wp-content/themes/Akvo-responsive/images/akvo-flow_RGB_logo.png"/>
+                                                
                                                 
                                             </div>
                                         </td>
