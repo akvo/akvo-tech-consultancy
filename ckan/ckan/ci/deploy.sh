@@ -8,7 +8,7 @@ function log {
 
 export PROJECT_NAME=akvo-lumen
 
-if [[ "${TRAVIS_BRANCH}" != "master" ]]; then
+if [[ "${TRAVIS_BRANCH}" != "develop" ]]; then
     exit 0
 fi
 
@@ -42,6 +42,6 @@ sed -e "s/\$TRAVIS_COMMIT/$TRAVIS_COMMIT/" \
   -e "s/\${ENVIRONMENT}/${ENVIRONMENT}/" \
   ci/akvo-ckan.yaml.template > akvo-ckan.yaml
 
-kubectl apply -f akvo-ckan.yaml
+kubectl delete -f akvo-ckan.yaml
 
 log Done
