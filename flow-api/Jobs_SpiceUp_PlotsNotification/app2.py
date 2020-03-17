@@ -28,8 +28,8 @@ if (day == '01' or day == '15'):
 
     instanceURI = 'spiceup'
     requestURI = 'https://api.akvo.org/flow/orgs/' + instanceURI
-    #EMAIL_RECEPIENTS = ['hatami@cinquer.co.id','indri@cinquer.nl','yayang@cinquer.nl','d.kurniawati@icco.nl','everschuren@verstegen.nl','aharton2002@yahoo.com','otihrostiana@gmail.com','dyah_manohara@yahoo.com','joy@akvo.org','ima@akvo.org','deden@akvo.org','merembablas@gmail.com']
-    EMAIL_RECEPIENTS = ['merembablas@gmail.com']
+    EMAIL_RECEPIENTS = ['hatami@cinquer.co.id','indri@cinquer.nl','yayang@cinquer.nl','d.kurniawati@icco.nl','everschuren@verstegen.nl','aharton2002@yahoo.com','otihrostiana@gmail.com','dyah_manohara@yahoo.com','joy@akvo.org','ima@akvo.org','deden@akvo.org','merembablas@gmail.com']
+    #EMAIL_RECEPIENTS = ['merembablas@gmail.com']
     EMAIL_SENDER = os.environ['EMAIL_USER']
     EMAIL_PASSWORD = os.environ['EMAIL_PWD']
 
@@ -335,14 +335,14 @@ if (day == '01' or day == '15'):
     msg = MIMEMultipart('alternative')
     msg['Subject'] = 'DO NOT REPLY: Demo Plot Notification from ' + formatDate(week_ago) + ' to ' + formatDate(today_date)
     msg['To'] = ', '.join(EMAIL_RECEPIENTS)
-    msg['From'] = 'spiceup.g4aw@gmail.com'
+    msg['From'] = 'akvo.tech.consultancy@gmail.com'
 
     print(checkTime(time.time()) + ' SENDING EMAIL')
     with open(fout) as fp:
         msg.attach(MIMEText(html_output, 'html'))
 
     try:
-        with smtplib.SMTP('smtp.sendgrid.net', 587) as s:
+        with smtplib.SMTP('smtp.gmail.com', 587) as s:
                 s.ehlo()
                 s.starttls()
                 s.ehlo()
