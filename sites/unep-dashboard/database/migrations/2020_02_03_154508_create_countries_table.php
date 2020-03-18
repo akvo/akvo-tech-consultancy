@@ -17,6 +17,7 @@ class CreateCountriesTable extends Migration
             $table->bigIncrements('id');
             $table->text('name');
             $table->string('code')->nullable();
+            $table->text('status')->nullable();
         });
     }
 

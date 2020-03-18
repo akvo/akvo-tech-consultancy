@@ -18,6 +18,7 @@ class CreateValuesTable extends Migration
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->string('code')->nullable();
             $table->text('name');
+            $table->text('type')->nullable();
             $table->text('units')->nullable();
             $table->text('description')->nullable();
             $table->text('color')->nullable();
