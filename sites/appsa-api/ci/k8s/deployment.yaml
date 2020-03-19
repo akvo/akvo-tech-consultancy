@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: tech-consultancy-appsa-api
@@ -27,7 +27,7 @@ spec:
             cpu: 1
             memory: 200Mi
         env:
-        - name: RSR_TOKEN 
+        - name: RSR_TOKEN
           valueFrom:
             secretKeyRef:
               name: tech-consultancy-rsr-token
