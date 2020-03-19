@@ -40,7 +40,7 @@ export const updateSelectedFilters = (state, id, parent_id, name, depth) => {
         parent_id: parent_id,
         name:name
     };
-    while(x < 3){
+    while(x < 1){
         let check = depth < x ? true : false;
         if (check){
             id = selected[x - 1].id;
@@ -64,7 +64,7 @@ export const appendFilters = (state, data, depth) => {
     let appends = [];
     let len = state.list.length - 1;
     let i = 0
-    if (state.list.length === 3) {
+    if (state.list.length === 2) {
         appends = false
     }
     let newdata = {

@@ -35,10 +35,10 @@ const Maps = (data, title, subtitle, calc) => {
             left: 'left',
             min: min,
             max: max,
-            backgroundColor: '#eee',
+            backgroundColor: '#eeeeee',
             itemWidth: 10,
             inRange: {
-                color: ['#fff823', '#007bff', '#007bff']
+                color: ['#fff823', '#007bff']
             },
             itemHeight: '445px',
             text: ['High', 'Low'],

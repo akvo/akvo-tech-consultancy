@@ -64,7 +64,7 @@ class ChartController extends Controller
     {
         return $values->where('id', $request->id)
                       ->with('country_values.country')
-                      ->with('parents.parents')
+                      ->with('parents')
                       ->first();
     }
 

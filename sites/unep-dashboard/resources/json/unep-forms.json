@@ -20,22 +20,12 @@
         "t": "FREE"
     },
     {
-        "q": "4. Your name",
-        "a": [],
-        "t": "FREE"
-    },
-    {
         "q": "4.a. Your role",
         "a": [],
         "t": "FREE"
     },
     {
         "q": "4.b. Contact details (preferably e-mail address)",
-        "a": [],
-        "t": "FREE"
-    },
-    {
-        "q": "4.c. Second/alternative contact detail.",
         "a": [],
         "t": "FREE"
     },
@@ -120,7 +110,7 @@
         "t": "OPTIONS"
     },
     {
-        "q": "9.b.ii. If you selected Other, please specify:",
+        "q": "9.b.ii.a If you selected Other, please specify:",
         "a": [],
         "t": "OTHER"
     },
@@ -130,7 +120,7 @@
         "t": "OPTIONS"
     },
     {
-        "q": "9.b.iii. If you selected Other, please specify:",
+        "q": "9.b.iii.a If you selected Other, please specify:",
         "a": [],
         "t": "OTHER"
     },
@@ -738,10 +728,5 @@
         "q": "31.c. How many stakeholders (number of individuals) have you engaged in total? (Please estimate)",
         "a": [],
         "t": "NUMBER"
-    },
-    {
-        "q": "31.c. How many stakeholders (number of individuals) have you engaged in total? (Please estimate)",
-        "a": [],
-        "t": ""
     }
 ]

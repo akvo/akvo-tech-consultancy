@@ -1,0 +1,2347 @@
+[
+    {
+        "q": "1. I agree to share the information provided in this survey. (Note we will not share your name, role or email address).",
+        "s": "Personal Agreements",
+        "a": [
+            {
+                "v": "YES",
+                "s": "Yes"
+            },
+            {
+                "v": "NO (Choosing this option means that your work cannot be included in the stocktake exercise. To exit the survey, choose ‘NO’, then click on the NEXT button at the bottom of the page and you will be directed to the debrief page where you will be able to click on finish to exit the survey).",
+                "s": "No"
+            }
+        ],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "2. I will provide the answers that reflect the best of my knowledge and facts available to me.",
+        "s": "Personal Agreements 2",
+        "a": [
+            {
+                "v": "YES",
+                "s": "Yes"
+            },
+            {
+                "v": "NO (Choosing this option means that your work cannot be included in the stocktake exercise. To exit the survey, choose ‘NO’, then click on the NEXT button at the bottom of the page and you will be directed to the debrief page where you will be able to click on finish to exit the survey).",
+                "s": "No"
+            }
+        ],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "3. I have received adequate information about the survey and about my ethical rights as a participant, including my right to withdraw. I consent to take part in this research",
+        "s": "Personal Agreements 3",
+        "a": [
+            {
+                "v": "YES",
+                "s": "Yes"
+            },
+            {
+                "v": "NO (Choosing this option means that your work cannot be included in the stocktake exercise. To exit the survey, choose ‘NO’, then click on the NEXT button at the bottom of the page and you will be directed to the debrief page where you will be able to click on finish to exit the survey).",
+                "s": "No"
+            }
+        ],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "4. Your name",
+        "s": "Submitter",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "4.a. Your role",
+        "s": "Role",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "4.b. Contact details (preferably e-mail address)",
+        "s": "Submitter Contact",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "4.c. Second/alternative contact detail.",
+        "s": "Submitter Contact II",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "4.d. Your organisation (If you are not affiliated with an organisation, please write 'not applicable').",
+        "s": "Submitter Organisation",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "5. Are you reporting as an individual or on behalf of an organisation? (Several reports from the same organisation or individual are welcome)",
+        "s": "Submitter Reporting",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "5.a. If you selected Other, please specify:",
+        "s": "Submitter Reporting Other",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "5.b. On behalf of which organisation are you reporting here? (e.g. UNEP, FAO or name your specific private/public/third sector organisation).",
+        "s": "Submitter Reporting Organisation",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "6. Is this the first time that you have completed this survey?",
+        "s": "First Reporting",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "6.a. How many Actions are you intending to tell us about?",
+        "s": "Total Actions",
+        "a": [],
+        "t": "NUMBER"
+    },
+    {
+        "q": "7. Please enter a name/title for this action/activity.",
+        "s": "Activity Name",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "8. Please provide a very short summary of the action/activity (keywords or bullet points are fine, e.g. change to production, deposit return scheme etc.).",
+        "s": "Activity Summary",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "9. TYPE OF ACTION: What did the MAIN action/activity focus on? (Please tick ONE which best describes the action you are reporting).",
+        "s": "Activity Type",
+        "a": [
+            {
+                "v": "LEGISLATION, STANDARDS, RULES: e.g. agreeing new or changing rules or standards that others should comply with, new regulation, agreements, policies, economic instruments etc. including voluntary commitments.",
+                "s": "Legislation, Standards, Rules"
+            },
+            {
+                "v": "WORKING WITH PEOPLE: Encouraging or enabling others (e.g., education, training, communication, awareness raising, behaviour change programmes",
+                "s": "Working With People"
+            },
+            {
+                "v": "TECHNOLOGY and PROCESSES: New technical developments/innovation (e.g., research and development, new product design, new materials, processes etc.) changes in practice, operations, environmental management and planning.",
+                "s": "Technology & Processes"
+            },
+            {
+                "v": "MONITORING and ANALYSIS: Collecting evidence around plastic discharge to the ocean/waterways? (e.g. monitoring, analysis)",
+                "s": "Monitoring & Analysis"
+            }
+        ],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "9.a. You have chosen legislation, standards, rules as the type of action. Specifically, what did the action involve? (Please tick ALL that apply).",
+        "s": "Action Type: Legislation, Standards, Rules",
+        "a": [
+            {
+                "v": "Official agreements",
+                "s": "Official Agreements"
+            },
+            {
+                "v": "Policy change or development",
+                "s": "Policy Change / Development"
+            },
+            {
+                "v": "High-level strategy",
+                "s": "High-level Strategy"
+            },
+            {
+                "v": "Legislation or regulations Voluntary commitments",
+                "s": "Legislation / Regulations Voluntary Commitments"
+            },
+            {
+                "v": "New standard(s) or guideline(s)",
+                "s": "New standard's / Guideline's"
+            },
+            {
+                "v": "Change in Taxes/Subsidies",
+                "s": "Change in Taxes / Subsidies"
+            },
+            {
+                "v": "Subsidy/financial incentives",
+                "s": "Subsidy / Financial Incentives"
+            },
+            {
+                "v": "Ban(s)",
+                "s": "Ban's"
+            },
+            {
+                "v": "Package of measures combining incentives and infrastructure (e.g. deposit reward schemes)",
+                "s": "Package of Measures Combining Incentives and Infrastructure"
+            },
+            {
+                "v": "Other",
+                "s": "Other"
+            }
+        ],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "9.a.i. If you selected Other, please specify:",
+        "s": "Action Type: Legislation, Standards, Rules Other",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "9.b. You’ve chosen “working with people” as the type of action. Specifically, what did the action involve? (Please tick ALL that apply):",
+        "s": "Action Type: Working with People",
+        "a": [
+            {
+                "v": "Awareness raising and Behaviour change",
+                "s": "Awareness Raising & Behaviour Change"
+            },
+            {
+                "v": "Education/Training",
+                "s": "Education / Training"
+            },
+            {
+                "v": "Workshops",
+                "s": "Workshops"
+            },
+            {
+                "v": "Conferences",
+                "s": "Conferences"
+            },
+            {
+                "v": "Other",
+                "s": "Other"
+            }
+        ],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "9.b.i. If you selected Other, please specify:",
+        "s": "Action Type: Working with People Other",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "9.b.ii. Did the awareness raising and behaviour change action/activity involve: (Please tick ALL that apply).",
+        "s": "Awarnes Raising & Behaviour Change Action",
+        "a": [
+            {
+                "v": "Information campaign",
+                "s": "Information Campaign"
+            },
+            {
+                "v": "Behaviour change campaign/programme",
+                "s": "Behaviour Change Campaign"
+            },
+            {
+                "v": "Community Engagement",
+                "s": "Community Engagement"
+            },
+            {
+                "v": "Stakeholder",
+                "s": "Stakeholder"
+            },
+            {
+                "v": "Engagement",
+                "s": "Engagement"
+            },
+            {
+                "v": "Citizen Science",
+                "s": "Citizen Science"
+            },
+            {
+                "v": "Creative/arts event; exhibition",
+                "s": "Creative Arts Event / exhibition"
+            },
+            {
+                "v": "Other",
+                "s": "Other"
+            }
+        ],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "9.b.ii.a. If you selected Other, please specify:",
+        "s": "Awarnes Raising & Behaviour Change Action Other",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "9.b.iii. Did the Education/Training action/activity involve: (Please tick ALL that apply)",
+        "s": "Education & Training Activity Involvement",
+        "a": [
+            {
+                "v": "Curriculum development",
+                "s": "Curriculum Development"
+            },
+            {
+                "v": "Professional skills training",
+                "s": "Professional Skills Training"
+            },
+            {
+                "v": "Other training programmes",
+                "s": "Other Training Programmes"
+            },
+            {
+                "v": "Life-long learning",
+                "s": "Life-long Learning"
+            },
+            {
+                "v": "Institutional development",
+                "s": "Institutional development"
+            },
+            {
+                "v": "Other",
+                "s": "Other"
+            }
+        ],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "9.b.iii.a. If you selected Other, please specify:",
+        "s": "Education & Training Activity Involvement Other",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "9.b.iii.b. Did the curriculum development involve: (Please tick ALL that apply)",
+        "s": "Curriculum Develoment Involvement",
+        "a": [
+            {
+                "v": "Primary school",
+                "s": "Primary School"
+            },
+            {
+                "v": "Secondary school",
+                "s": "Secondary School"
+            },
+            {
+                "v": "Tertiary higher education",
+                "s": "Tertiary Higher Education"
+            },
+            {
+                "v": "Other",
+                "s": "Other"
+            }
+        ],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "9.b.iii.b.i. If you selected Other, please specify:",
+        "s": "Curriculum Develoment Involvement Other",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "9.c. You’ve chosen “technology and processes” as the type of action. Specifically, what did the action involve? (Please tick ALL that apply):",
+        "s": "Action Type: Technology and Processes",
+        "a": [
+            {
+                "v": "New product design",
+                "s": "New Product Design"
+            },
+            {
+                "v": "Change in service provision",
+                "s": "Change in Service Provision"
+            },
+            {
+                "v": "Environmental social planning",
+                "s": "Environmental Social Planning"
+            },
+            {
+                "v": "Change in practice",
+                "s": "Change in Practice"
+            },
+            {
+                "v": "Change in operations",
+                "s": "Change in Operations"
+            },
+            {
+                "v": "Industrial or production standard",
+                "s": "Industrial or Production Standard"
+            },
+            {
+                "v": "Different environmental management of land based environments",
+                "s": "Different Land Based Environmental Management"
+            },
+            {
+                "v": "Different environmental management of aquatic environments",
+                "s": "Different Equatic Environmental Management"
+            },
+            {
+                "v": "Research and Development",
+                "s": "Research and Development"
+            },
+            {
+                "v": "New infrastructure",
+                "s": "New Infrastructure"
+            },
+            {
+                "v": "The use of compostable plastic",
+                "s": "Compostable Plastic Usage"
+            },
+            {
+                "v": "The use of bio-based plastic",
+                "s": "Bio-Based Plastic Usage"
+            },
+            {
+                "v": "The use of biodegradable plastic",
+                "s": "Biodegradable Plastic Usage"
+            },
+            {
+                "v": "Other",
+                "s": "Other"
+            }
+        ],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "9.c.i. If you selected Other, please specify:",
+        "s": "Action Type: Technology and Processes Other",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "9.c.ii. Did the research and development involve (Please tick ALL that apply):",
+        "s": "Research Develoment Involvement",
+        "a": [
+            {
+                "v": "Reducing the environmental impact",
+                "s": "Reducing The Environmental Impact"
+            },
+            {
+                "v": "Developing a new material",
+                "s": "Developing A New Material"
+            },
+            {
+                "v": "Developing a new process",
+                "s": "Developing A New Process"
+            },
+            {
+                "v": "Manufacturing and Production",
+                "s": "Manufacturing And Production"
+            },
+            {
+                "v": "Standards",
+                "s": "Standards"
+            },
+            {
+                "v": "Waste Management",
+                "s": "Waste Management"
+            },
+            {
+                "v": "Compostable plastic",
+                "s": "Compostable Plastic"
+            },
+            {
+                "v": "Bio-based plastic",
+                "s": "Bio-Based Plastic"
+            },
+            {
+                "v": "Bio-degradable pastic",
+                "s": "Bio-Degradable Pastic"
+            },
+            {
+                "v": "Other",
+                "s": "Other"
+            }
+        ],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "9.c.ii.a. If you selected Other, please specify:",
+        "s": "Research Develoment Involvement Other",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "9.d. You’ve chosen “monitoring and analysis” as the type of action. Specifically, what did the action involve? (Please tick ALL that apply and if a specific protocol was used, please state it e.g. OSPAR, NOAA, Beachwatch, EU-MSFD, Clean Seas, UNEP, Ocean Conservancy etc.):",
+        "s": "Action Type: Monitoring & Analysis",
+        "a": [
+            {
+                "v": "Monitoring: On or near ocean surface",
+                "s": "Monitoring: On Or Near Ocean Surface"
+            },
+            {
+                "v": "Monitoring: Water column",
+                "s": "Monitoring: Water Column"
+            },
+            {
+                "v": "Monitoring: On the seafloor",
+                "s": "Monitoring: On The Seafloor"
+            },
+            {
+                "v": "Monitoring: On the shoreline",
+                "s": "Monitoring: On The Shoreline"
+            },
+            {
+                "v": "Monitoring: In Biota",
+                "s": "Monitoring: In Biota"
+            },
+            {
+                "v": "Monitoring: Air",
+                "s": "Monitoring: Air"
+            },
+            {
+                "v": "Review and synthesis :Environmental",
+                "s": "Review And Synthesis :Environmental"
+            },
+            {
+                "v": "Review and synthesis: Economic",
+                "s": "Review And Synthesis: Economic"
+            },
+            {
+                "v": "Review and synthesis: Materials",
+                "s": "Review And Synthesis: Materials"
+            },
+            {
+                "v": "Other",
+                "s": "Other"
+            }
+        ],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "9.d.i. If you selected Other, please specify:",
+        "s": "Action Type: Monitoring & Analysis Other",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "9.d.ii. For monitoring on or near ocean surfaces, which programme/protocol did you use?",
+        "s": "Programme / Protocol - Ocean Surfaces",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "9.d.iii. For monitoring of the water column, which programme/protocol did you use?",
+        "s": "Programme / Protocol - Water Column",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "9.d.iv. For monitoring on the seafloor, which programme/protocol did you use?",
+        "s": "Programme / Protocol - Seafloor",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "9.d.v. For monitoring on the shoreline, which programme/protocol did you use?",
+        "s": "Programme / Protocol - Shoreline",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "9.d.vi. For monitoring in Biota, which programme/protocol did you use?",
+        "s": "Programme / Protocol - Biota",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "9.d.vii. For air monitoring, which programme/protocol did you use?",
+        "s": "Programme / Protocol - Air Monitoring",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "9.d.viii. How can the data and information from your monitoring programme be accessed?",
+        "s": "Data Information Access: Monitoring Programme",
+        "a": [
+            {
+                "v": "It is freely available and open source",
+                "s": "It Is Freely Available And Open Source"
+            },
+            {
+                "v": "It is available on request",
+                "s": "It Is Available On Request"
+            },
+            {
+                "v": "It is not available",
+                "s": "It Is Not Available"
+            }
+        ],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "9.d.viii.a. If the monitoring data is available on request, please provide information on how to access the data?",
+        "s": "Monitoring Information Request Access",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "9.d.viii.b. Please provide the URL's for any links to the monitoring data and information.",
+        "s": "Monitoring Information URL",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "10. TYPE OF ACTION: Whilst you already selected the focus of your action/activity in Question 9, did the action/activity also involve other aspects (please tick which ones below):",
+        "s": "Type of Action",
+        "a": [
+            {
+                "v": "LEGISLATION, STANDARDS, RULES: e.g. agreeing new or changing rules or standards that others should comply with, new regulation, agreements, policies, economic instruments etc. including voluntary commitments",
+                "s": "Legislation, Standards, Rules"
+            },
+            {
+                "v": "WORKING WITH PEOPLE: Encouraging or enabling others (e.g., education, training, communication, awareness raising, behaviour change programmes)",
+                "s": "Working With People"
+            },
+            {
+                "v": "TECHNOLOGY and PROCESSES: New technical developments/innovation (e.g., research and development, new product design, new materials, processes etc.), changes in practice, operations, environmental management and planning",
+                "s": "Technology And Processes"
+            },
+            {
+                "v": "MONITORING and ANALYSIS: Collecting evidence around plastic discharge to the ocean/waterways? (e.g. monitoring, analysis)",
+                "s": "Monitoring And Analysis"
+            }
+        ],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "11. What is the organisation's role regarding this action: [ACTION]",
+        "s": "Organisation Role of Action",
+        "a": [
+            {
+                "v": "We are only reporting it here",
+                "s": "Reporting"
+            },
+            {
+                "v": "I/We developed it",
+                "s": "Developing"
+            },
+            {
+                "v": "I/We are implementing it",
+                "s": "Implementing"
+            },
+            {
+                "v": "We are the funding body",
+                "s": "Funding"
+            },
+            {
+                "v": "Other",
+                "s": "Other"
+            }
+        ],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "11.a. If you selected Other, please specify:",
+        "s": "Organisation Role of Action Other",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "12. Who is responsible for the action implementation?",
+        "s": "Action Implementor",
+        "a": [
+            {
+                "v": "PUBLIC ADMINISTRATION (organisations concerned with government policies and programmes)",
+                "s": "Public Administration"
+            },
+            {
+                "v": "PRIVATE SECTOR ORGANISATION (for-profit organisations run by individuals and groups, free from government ownership).",
+                "s": "Private Sector Organisation"
+            },
+            {
+                "v": "THIRD SECTOR (e.g. non-governmental and non-profit-making organisations, including charity groups, community groups etc).",
+                "s": "Third Sector"
+            },
+            {
+                "v": "Other",
+                "s": "Other"
+            }
+        ],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "12.a. If you selected Other, please specify:",
+        "s": "Action Implementor Other",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "12.b. Is the Public Administration body a........",
+        "s": "Public Administration Body",
+        "a": [
+            {
+                "v": "International body",
+                "s": "International Body"
+            },
+            {
+                "v": "National ministry/agency",
+                "s": "National Ministry / Agency"
+            },
+            {
+                "v": "Sub-national ministry/agency",
+                "s": "Sub-National Ministry / Agency"
+            },
+            {
+                "v": "Other",
+                "s": "Other"
+            }
+        ],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "12.b.i. If you selected Other, please specify:",
+        "s": "Public Administration Body Other",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "12.c. Is the Private sector organisation a........",
+        "s": "Private Sector Organisation",
+        "a": [
+            {
+                "v": "Multinational Corporation",
+                "s": "Multinational Corporation"
+            },
+            {
+                "v": "National Corporation",
+                "s": "National Corporation"
+            },
+            {
+                "v": "Small-medium sized enterprise",
+                "s": "Small-Medium Sized Enterprise"
+            },
+            {
+                "v": "Other",
+                "s": "Other"
+            }
+        ],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "12.c.i. If you selected Other, please specify:",
+        "s": "Private Sector Organisation Other",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "12.d. Is the third sector organisation a......",
+        "s": "Third Sector Organisation",
+        "a": [
+            {
+                "v": "Non-governmental organisation",
+                "s": "Non-Governmental Organisation"
+            },
+            {
+                "v": "Community based organisation",
+                "s": "Community Based Organisation"
+            },
+            {
+                "v": "Educational sector",
+                "s": "Educational Sector"
+            },
+            {
+                "v": "Other",
+                "s": "Other"
+            }
+        ],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "12.d.i. If you selected Other, please specify:",
+        "s": "Third Sector Organisation Other",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "13. Reporting and evaluations: Do you report on the action?",
+        "s": "Reporting & Evaluations",
+        "a": [
+            {
+                "v": "Yes",
+                "s": "Yes"
+            },
+            {
+                "v": "No",
+                "s": "No"
+            },
+            {
+                "v": "Not applicable",
+                "s": "Not Applicable"
+            }
+        ],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "13.a. You answered that you do report on the action. Is this because:",
+        "s": "Reporting & Evaluations Reason",
+        "a": [
+            {
+                "v": "There is a mandatory reporting mechanism",
+                "s": "There Is A Mandatory Reporting Mechanism"
+            },
+            {
+                "v": "Reporting is voluntary",
+                "s": "Reporting Is Voluntary"
+            },
+            {
+                "v": "Other",
+                "s": "Other"
+            }
+        ],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "13.a.i. If you selected Other, please specify:",
+        "s": "Reporting & Evaluations Reason Other",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "13.b. You answered that you do not report on the action. Is this because:",
+        "s": "No Reporting & Evaluations Reason",
+        "a": [
+            {
+                "v": "There is no reporting mechanism",
+                "s": "No Reporting Mechanism"
+            },
+            {
+                "v": "Reporting is voluntary",
+                "s": "Voluntary Reporting"
+            },
+            {
+                "v": "There is not enough resource to support reporting",
+                "s": "Not Enough Reporting Resource"
+            },
+            {
+                "v": "Reporting is too effortful",
+                "s": "Too Effortful"
+            },
+            {
+                "v": "Other",
+                "s": "Other"
+            }
+        ],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "13.b.i. If you selected Other, please specify:",
+        "s": "No Reporting & Evaluations Reason Other",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "14. Are the actual outcomes and impacts of the action evaluated?",
+        "s": "Evaluation of Actual Outcomes & Impacts",
+        "a": [
+            {
+                "v": "Yes",
+                "s": "Yes"
+            },
+            {
+                "v": "No",
+                "s": "No"
+            },
+            {
+                "v": "Other",
+                "s": "Other"
+            }
+        ],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "14.a. If you selected Other, please specify:",
+        "s": "Evaluation of Actual Outcomes & Impacts Other",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "15. What’s the geographical focus of the action?",
+        "s": "Geographical Focus",
+        "a": [
+            {
+                "v": "Global (it covers the whole world)",
+                "s": "Global"
+            },
+            {
+                "v": "Regional (UN Regions)",
+                "s": "UN Regions"
+            },
+            {
+                "v": "Transnational (several countries are involved, including bilateral)",
+                "s": "Transnational"
+            },
+            {
+                "v": "National (it covers one entire country)",
+                "s": "National"
+            },
+            {
+                "v": "Sub-national (it covers parts of one country)",
+                "s": "Sub-National"
+            },
+            {
+                "v": "Other",
+                "s": "Other"
+            }
+        ],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "15.a. If you selected Other, please specify:",
+        "s": "Geographical Focus Other",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "16. In which member state(s) does the action take place?",
+        "s": "Country",
+        "a": [
+            {
+                "v": "All",
+                "s": "All"
+            },
+            {
+                "v": "Afghanistan",
+                "s": "Afghanistan"
+            },
+            {
+                "v": "Albania",
+                "s": "Albania"
+            },
+            {
+                "v": "Algeria",
+                "s": "Algeria"
+            },
+            {
+                "v": "Andorra",
+                "s": "Andorra"
+            },
+            {
+                "v": "Angola",
+                "s": "Angola"
+            },
+            {
+                "v": "Antigua and Barbuda",
+                "s": "Antigua and Barbuda"
+            },
+            {
+                "v": "Argentina",
+                "s": "Argentina"
+            },
+            {
+                "v": "Armenia",
+                "s": "Armenia"
+            },
+            {
+                "v": "Australia",
+                "s": "Australia"
+            },
+            {
+                "v": "Austria",
+                "s": "Austria"
+            },
+            {
+                "v": "Azerbaijan",
+                "s": "Azerbaijan"
+            },
+            {
+                "v": "Bahamas",
+                "s": "Bahamas"
+            },
+            {
+                "v": "Bahrain",
+                "s": "Bahrain"
+            },
+            {
+                "v": "Bangladesh",
+                "s": "Bangladesh"
+            },
+            {
+                "v": "Barbados",
+                "s": "Barbados"
+            },
+            {
+                "v": "Belarus",
+                "s": "Belarus"
+            },
+            {
+                "v": "Belgium",
+                "s": "Belgium"
+            },
+            {
+                "v": "Belize",
+                "s": "Belize"
+            },
+            {
+                "v": "Benin",
+                "s": "Benin"
+            },
+            {
+                "v": "Bhutan",
+                "s": "Bhutan"
+            },
+            {
+                "v": "Bolivia",
+                "s": "Bolivia (Plurinational State of)"
+            },
+            {
+                "v": "Bosnia and Herzegovina",
+                "s": "Bosnia and Herzegovina"
+            },
+            {
+                "v": "Botswana",
+                "s": "Botswana"
+            },
+            {
+                "v": "Brazil",
+                "s": "Brazil"
+            },
+            {
+                "v": "Brunei Darussalam",
+                "s": "Brunei Darussalam"
+            },
+            {
+                "v": "Bulgaria",
+                "s": "Bulgaria"
+            },
+            {
+                "v": "Burkina Faso",
+                "s": "Burkina Faso"
+            },
+            {
+                "v": "Burundi",
+                "s": "Burundi"
+            },
+            {
+                "v": "Cabo Verde",
+                "s": "Cabo Verde"
+            },
+            {
+                "v": "Cambodia",
+                "s": "Cambodia"
+            },
+            {
+                "v": "Cameroon",
+                "s": "Cameroon"
+            },
+            {
+                "v": "Canada",
+                "s": "Canada"
+            },
+            {
+                "v": "Central Africa Republic",
+                "s": "Central Africa Republic"
+            },
+            {
+                "v": "Chad",
+                "s": "Chad"
+            },
+            {
+                "v": "Chile",
+                "s": "Chile"
+            },
+            {
+                "v": "China",
+                "s": "China"
+            },
+            {
+                "v": "Colombia",
+                "s": "Colombia"
+            },
+            {
+                "v": "Comoros",
+                "s": "Comoros"
+            },
+            {
+                "v": "Congo",
+                "s": "Congo"
+            },
+            {
+                "v": "Cost Rica",
+                "s": "Costa Rica"
+            },
+            {
+                "v": "Cote D'Ivoire",
+                "s": "Cote D'Ivoire"
+            },
+            {
+                "v": "Croatia",
+                "s": "Croatia"
+            },
+            {
+                "v": "Cuba",
+                "s": "Cuba"
+            },
+            {
+                "v": "Cyprus",
+                "s": "Cyprus"
+            },
+            {
+                "v": "Czech Republic",
+                "s": "Czech Republic"
+            },
+            {
+                "v": "Democratic People's Republic of Korea",
+                "s": "Democratic People's Republic of Korea"
+            },
+            {
+                "v": "Democratic Republic of Congo",
+                "s": "Democratic Republic of the Congo"
+            },
+            {
+                "v": "Denmark",
+                "s": "Denmark"
+            },
+            {
+                "v": "Djibouti",
+                "s": "Djibouti"
+            },
+            {
+                "v": "Dominca",
+                "s": "Dominca"
+            },
+            {
+                "v": "Dominican Republic",
+                "s": "Dominican Republic"
+            },
+            {
+                "v": "Ecuador",
+                "s": "Ecuador"
+            },
+            {
+                "v": "Egypt",
+                "s": "Egypt"
+            },
+            {
+                "v": "El Salvador",
+                "s": "El Salvador"
+            },
+            {
+                "v": "Equatorial Guinea",
+                "s": "Equatorial Guinea"
+            },
+            {
+                "v": "Eritrea",
+                "s": "Eritrea"
+            },
+            {
+                "v": "Estonia",
+                "s": "Estonia"
+            },
+            {
+                "v": "Eswatini",
+                "s": "Eswatini"
+            },
+            {
+                "v": "Ethiopia",
+                "s": "Ethiopia"
+            },
+            {
+                "v": "Fiji",
+                "s": "Fiji"
+            },
+            {
+                "v": "Finland",
+                "s": "Finland"
+            },
+            {
+                "v": "France",
+                "s": "France"
+            },
+            {
+                "v": "Gabon",
+                "s": "Gabon"
+            },
+            {
+                "v": "Gambia (Republic of The)",
+                "s": "Gambia"
+            },
+            {
+                "v": "Georgia",
+                "s": "Georgia"
+            },
+            {
+                "v": "Germany",
+                "s": "Germany"
+            },
+            {
+                "v": "Ghana",
+                "s": "Ghana"
+            },
+            {
+                "v": "Greece",
+                "s": "Greece"
+            },
+            {
+                "v": "Grenada",
+                "s": "Grenada"
+            },
+            {
+                "v": "Guatemala",
+                "s": "Guatemala"
+            },
+            {
+                "v": "Guinea",
+                "s": "Guinea"
+            },
+            {
+                "v": "Guinea Bissau",
+                "s": "Guinea-Bissau"
+            },
+            {
+                "v": "Guyana",
+                "s": "Guyana"
+            },
+            {
+                "v": "Haiti",
+                "s": "Haiti"
+            },
+            {
+                "v": "Honduras",
+                "s": "Honduras"
+            },
+            {
+                "v": "Hungary",
+                "s": "Hungary"
+            },
+            {
+                "v": "Iceland",
+                "s": "Iceland"
+            },
+            {
+                "v": "India",
+                "s": "India"
+            },
+            {
+                "v": "Indonesia",
+                "s": "Indonesia"
+            },
+            {
+                "v": "Iran (Islamic Republic of)",
+                "s": "Iran (Islamic Republic of)"
+            },
+            {
+                "v": "Iraq",
+                "s": "Iraq"
+            },
+            {
+                "v": "Ireland",
+                "s": "Ireland"
+            },
+            {
+                "v": "Israel",
+                "s": "Israel"
+            },
+            {
+                "v": "Italy",
+                "s": "Italy"
+            },
+            {
+                "v": "Jamaica",
+                "s": "Jamaica"
+            },
+            {
+                "v": "Japan",
+                "s": "Japan"
+            },
+            {
+                "v": "Jordan",
+                "s": "Jordan"
+            },
+            {
+                "v": "Kazakhstan",
+                "s": "Kazakhstan"
+            },
+            {
+                "v": "Kenya",
+                "s": "Kenya"
+            },
+            {
+                "v": "Kiribati",
+                "s": "Kiribati"
+            },
+            {
+                "v": "Kuwait",
+                "s": "Kuwait"
+            },
+            {
+                "v": "Kyrgyzstan",
+                "s": "Kyrgyzstan"
+            },
+            {
+                "v": "Lao People's Democratic Republic",
+                "s": "Lao People's Democratic Republic"
+            },
+            {
+                "v": "Latvia",
+                "s": "Latvia"
+            },
+            {
+                "v": "Lebanon",
+                "s": "Lebanon"
+            },
+            {
+                "v": "Lesotho",
+                "s": "Lesotho"
+            },
+            {
+                "v": "Liberia",
+                "s": "Liberia"
+            },
+            {
+                "v": "Libya",
+                "s": "Libya"
+            },
+            {
+                "v": "Liechtenstein",
+                "s": "Liechtenstein"
+            },
+            {
+                "v": "Lithuania",
+                "s": "Lithuania"
+            },
+            {
+                "v": "Luxembourg",
+                "s": "Luxembourg"
+            },
+            {
+                "v": "Madagascar",
+                "s": "Madagascar"
+            },
+            {
+                "v": "Malawi",
+                "s": "Malawi"
+            },
+            {
+                "v": "Malaysia",
+                "s": "Malaysia"
+            },
+            {
+                "v": "Maldives",
+                "s": "Maldives"
+            },
+            {
+                "v": "Mali",
+                "s": "Mali"
+            },
+            {
+                "v": "Malta",
+                "s": "Malta"
+            },
+            {
+                "v": "Marshall Islands",
+                "s": "Marshall Islands"
+            },
+            {
+                "v": "Mauritania",
+                "s": "Mauritania"
+            },
+            {
+                "v": "Mauritius",
+                "s": "Mauritius"
+            },
+            {
+                "v": "Mexico",
+                "s": "Mexico"
+            },
+            {
+                "v": "Micronesia (Federated States of)",
+                "s": "Micronesia (Federated States of)"
+            },
+            {
+                "v": "Monaco",
+                "s": "Monaco"
+            },
+            {
+                "v": "Mongolia",
+                "s": "Mongolia"
+            },
+            {
+                "v": "Montenegro",
+                "s": "Montenegro"
+            },
+            {
+                "v": "Morocco",
+                "s": "Morocco"
+            },
+            {
+                "v": "Mazambique",
+                "s": "Mozambique"
+            },
+            {
+                "v": "Myanmar",
+                "s": "Myanmar"
+            },
+            {
+                "v": "Namibia",
+                "s": "Namibia"
+            },
+            {
+                "v": "Naura",
+                "s": "Nauru"
+            },
+            {
+                "v": "Nepal",
+                "s": "Nepal"
+            },
+            {
+                "v": "Netherlands",
+                "s": "Netherlands"
+            },
+            {
+                "v": "New Zealand",
+                "s": "New Zealand"
+            },
+            {
+                "v": "Nicaragua",
+                "s": "Nicaragua"
+            },
+            {
+                "v": "Niger",
+                "s": "Niger"
+            },
+            {
+                "v": "Nigeria",
+                "s": "Nigeria"
+            },
+            {
+                "v": "North Macedonia",
+                "s": "North Macedonia"
+            },
+            {
+                "v": "Norway",
+                "s": "Norway"
+            },
+            {
+                "v": "Oman",
+                "s": "Oman"
+            },
+            {
+                "v": "Pakistan",
+                "s": "Pakistan"
+            },
+            {
+                "v": "Palau",
+                "s": "Palau"
+            },
+            {
+                "v": "Panama",
+                "s": "Panama"
+            },
+            {
+                "v": "Papua New Guinea",
+                "s": "Papua New Guinea"
+            },
+            {
+                "v": "Paraguay",
+                "s": "Paraguay"
+            },
+            {
+                "v": "Peru",
+                "s": "Peru"
+            },
+            {
+                "v": "Philippines",
+                "s": "Philippines"
+            },
+            {
+                "v": "Poland",
+                "s": "Poland"
+            },
+            {
+                "v": "Portugal",
+                "s": "Portugal"
+            },
+            {
+                "v": "Qatar",
+                "s": "Qatar"
+            },
+            {
+                "v": "Republic of Korea",
+                "s": "Republic of Korea"
+            },
+            {
+                "v": "Republic of Moldova",
+                "s": "Republic of Moldova"
+            },
+            {
+                "v": "Romania",
+                "s": "Romania"
+            },
+            {
+                "v": "Russian Federation",
+                "s": "Russian Federation"
+            },
+            {
+                "v": "Rwanda",
+                "s": "Rwanda"
+            },
+            {
+                "v": "Saint Kitts and Nevis",
+                "s": "Saint Kitts and Nevis"
+            },
+            {
+                "v": "Saint Lucia",
+                "s": "Saint Lucia"
+            },
+            {
+                "v": "Saint Vincent and the Grenadines",
+                "s": "Saint Vincent and the Grenadines"
+            },
+            {
+                "v": "Samoa",
+                "s": "Samoa"
+            },
+            {
+                "v": "San Marino",
+                "s": "San Marino"
+            },
+            {
+                "v": "Sao Tome and Principe",
+                "s": "Sao Tome and Principe"
+            },
+            {
+                "v": "Saudi Arabia",
+                "s": "Saudi Arabia"
+            },
+            {
+                "v": "Senegal",
+                "s": "Senegal"
+            },
+            {
+                "v": "Serbia",
+                "s": "Serbia"
+            },
+            {
+                "v": "Seychelles",
+                "s": "Seychelles"
+            },
+            {
+                "v": "Sierra Leone",
+                "s": "Sierra Leone"
+            },
+            {
+                "v": "Singapore",
+                "s": "Singapore"
+            },
+            {
+                "v": "Slovakia",
+                "s": "Slovakia"
+            },
+            {
+                "v": "Slovenia",
+                "s": "Slovenia"
+            },
+            {
+                "v": "Solomon Islands",
+                "s": "Solomon Islands"
+            },
+            {
+                "v": "Somalia",
+                "s": "Somalia"
+            },
+            {
+                "v": "South Africa",
+                "s": "South Africa"
+            },
+            {
+                "v": "South Sudan",
+                "s": "South Sudan"
+            },
+            {
+                "v": "Spain",
+                "s": "Spain"
+            },
+            {
+                "v": "Sri lanka",
+                "s": "Sri lanka"
+            },
+            {
+                "v": "Sudan",
+                "s": "Sudan"
+            },
+            {
+                "v": "Suriname",
+                "s": "Suriname"
+            },
+            {
+                "v": "Sweden",
+                "s": "Sweden"
+            },
+            {
+                "v": "Switzerland",
+                "s": "Switzerland"
+            },
+            {
+                "v": "Syrian Arab Republic",
+                "s": "Syrian Arab Republic"
+            },
+            {
+                "v": "Tajikstan",
+                "s": "Tajikistan"
+            },
+            {
+                "v": "Thailand",
+                "s": "Thailand"
+            },
+            {
+                "v": "Timor-Leste",
+                "s": "Timor-Leste"
+            },
+            {
+                "v": "Togo",
+                "s": "Togo"
+            },
+            {
+                "v": "Tonga",
+                "s": "Tonga"
+            },
+            {
+                "v": "Trinidad and Tobago",
+                "s": "Trinidad and Tobago"
+            },
+            {
+                "v": "Tunisia",
+                "s": "Tunisia"
+            },
+            {
+                "v": "Turkey",
+                "s": "Turkey"
+            },
+            {
+                "v": "Turkmenistan",
+                "s": "Turkmenistan"
+            },
+            {
+                "v": "Tuvalu",
+                "s": "Tuvalu"
+            },
+            {
+                "v": "Uganda",
+                "s": "Uganda"
+            },
+            {
+                "v": "Ukraine",
+                "s": "Ukraine"
+            },
+            {
+                "v": "United Arab Emirates",
+                "s": "United Arab Emirates"
+            },
+            {
+                "v": "United Kingdom of Great Britain and Northern Ireland",
+                "s": "United Kingdom of Great Britain and Northern Ireland"
+            },
+            {
+                "v": "United Republic of Tanzania",
+                "s": "United Republic of Tanzania"
+            },
+            {
+                "v": "United States of America",
+                "s": "United States of America"
+            },
+            {
+                "v": "Uruguay",
+                "s": "Uruguay"
+            },
+            {
+                "v": "Uzbekistan",
+                "s": "Uzbekistan"
+            },
+            {
+                "v": "Vanuatu",
+                "s": "Vanuatu"
+            },
+            {
+                "v": "Venezuela, Bolivarian Republic of",
+                "s": "Venezuela, Bolivarian Republic of"
+            },
+            {
+                "v": "Viet Nam",
+                "s": "Viet Nam"
+            },
+            {
+                "v": "Yemen",
+                "s": "Yemen"
+            },
+            {
+                "v": "Zambia",
+                "s": "Zambia"
+            },
+            {
+                "v": "Zimbabwe",
+                "s": "Zimbabwe"
+            },
+            {
+                "v": "Other",
+                "s": "Other"
+            }
+        ],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "16.a. If you selected Other, please specify:",
+        "s": "Country Other",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "17. Which specific place or area is your action targeting? (Please tick all that apply)",
+        "s": "Place / Area Target",
+        "a": [
+            {
+                "v": "Source to Sea",
+                "s": "Source to Sea"
+            },
+            {
+                "v": "Mountains and upland area",
+                "s": "Mountains & Upland Area"
+            },
+            {
+                "v": "Agricultural land/soils",
+                "s": "Agricultural Land / Soils"
+            },
+            {
+                "v": "Entire water catchment",
+                "s": "Entire Water Catchment"
+            },
+            {
+                "v": "Forests or Mangroves",
+                "s": "Forests / Mangroves"
+            },
+            {
+                "v": "Freshwater rivers and lakes",
+                "s": "Freshwater Rivers & Lakes"
+            },
+            {
+                "v": "Urban environment",
+                "s": "Urban Environment"
+            },
+            {
+                "v": "Waste disposal sites",
+                "s": "Waste Disposal Sites"
+            },
+            {
+                "v": "Coastal zone",
+                "s": "Coastal Zone"
+            },
+            {
+                "v": "Maritime area within national jurisdiction",
+                "s": "Maritime Area Within National Jurisdiction"
+            },
+            {
+                "v": "Areas beyond national jurisdiction",
+                "s": "Areas Beyond National Jurisdiction"
+            },
+            {
+                "v": "Open ocean and high seas",
+                "s": "Open Ocean & High Seas"
+            },
+            {
+                "v": "Air",
+                "s": "Air"
+            },
+            {
+                "v": "All of the above",
+                "s": "All Of The Above"
+            },
+            {
+                "v": "Not applicable",
+                "s": "Not Applicable"
+            },
+            {
+                "v": "Other",
+                "s": "Other"
+            }
+        ],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "17.a. If you selected Other, please specify:",
+        "s": "Place / Area Target Other",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "18. Which specific part of the lifecycle/plastic supply chain is your action targeting? (Please tick all that apply)",
+        "s": "Lifecylcle / Plastic Supply Chain Target",
+        "a": [
+            {
+                "v": "Life Cycle",
+                "s": "Life Cycle"
+            },
+            {
+                "v": "Raw materials",
+                "s": "Raw materials"
+            },
+            {
+                "v": "Design",
+                "s": "Design"
+            },
+            {
+                "v": "Production / Manufacture",
+                "s": "Production / Manufacture"
+            },
+            {
+                "v": "Use / consumption",
+                "s": "Consumption"
+            },
+            {
+                "v": "Collection / sorting of plastics after use",
+                "s": "Collection / Sorting of Used Plastics"
+            },
+            {
+                "v": "Management of collected plastics",
+                "s": "Management of Collected Plastics"
+            },
+            {
+                "v": "Clean-up of plastic from the environment",
+                "s": "Clean-up of Plastic from the Environment"
+            },
+            {
+                "v": "All of the above",
+                "s": "All of the Above"
+            },
+            {
+                "v": "Not applicable",
+                "s": "Not Applicable"
+            },
+            {
+                "v": "Other",
+                "s": "Other"
+            }
+        ],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "18.a. If you selected Other, please specify:",
+        "s": "Lifecylcle / Plastic Supply Chain Target Other",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "19. Does your action target the following? (Please tick all that apply)",
+        "s": "Action Targets",
+        "a": [
+            {
+                "v": "Reducing plastics",
+                "s": "Reducing Plastics"
+            },
+            {
+                "v": "Reusing plastic",
+                "s": "Reusing Plastic"
+            },
+            {
+                "v": "Recycling plastics",
+                "s": "Recycling Plastics"
+            },
+            {
+                "v": "Not Applicable",
+                "s": "Not Applicable"
+            },
+            {
+                "v": "Other",
+                "s": "Other"
+            }
+        ],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "19.a. If you selected Other, please specify:",
+        "s": "Action Targets Other",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "20. What impacts or harms does the action relate to? (Please tick all that apply)",
+        "s": "Action Impact / Harms Relation",
+        "a": [
+            {
+                "v": "Human health and wellbeing",
+                "s": "Human Health & Wellbeing"
+            },
+            {
+                "v": "Biodiversity",
+                "s": "Biodiversity"
+            },
+            {
+                "v": "Marine organisms",
+                "s": "Marine Organisms"
+            },
+            {
+                "v": "Ecosystem Services",
+                "s": "Ecosystem Services"
+            },
+            {
+                "v": "Food chain",
+                "s": "Food Chain"
+            },
+            {
+                "v": "Economics and Trade",
+                "s": "Economics and Trade"
+            },
+            {
+                "v": "All of the above",
+                "s": "All of the Above"
+            },
+            {
+                "v": "Not applicable",
+                "s": "Not Applicable"
+            },
+            {
+                "v": "Other",
+                "s": "Other"
+            }
+        ],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "20.a. If you selected Other, please specify:",
+        "s": "Action Impact / Harms Relation Other",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "21. What types of items or contaminants does the action target?",
+        "s": "Type of Items / Contaminants Target",
+        "a": [
+            {
+                "v": "Macroplastic (large, more than 20 mm, e.g. plastic bottles)",
+                "s": "Macroplastic"
+            },
+            {
+                "v": "Microplastics (tiny plastic particles less than 5 mm in diameter, e.g., found in personal, care products/synthetic textiles)",
+                "s": "Microplastics"
+            },
+            {
+                "v": "Additives incorporated into plastic items",
+                "s": "Incorporated Additives Plastic"
+            },
+            {
+                "v": "Not applicable",
+                "s": "Not Applicable"
+            },
+            {
+                "v": "Other",
+                "s": "Other"
+            }
+        ],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "21.a. If you selected Other, please specify:",
+        "s": "Type of Items / Contaminants Target Other",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "21.b. What type of macroplastic contaminant does the action target? (Please tick all that apply)",
+        "s": "Type of Macroplastics Contaminants Target",
+        "a": [
+            {
+                "v": "Bottles",
+                "s": "Bottles"
+            },
+            {
+                "v": "Plastic bags",
+                "s": "Plastic Bags"
+            },
+            {
+                "v": "Food packaging (containers, wrappers etc.)",
+                "s": "Food Packaging"
+            },
+            {
+                "v": "Non-food packaging (containers, wrappers etc.)",
+                "s": "Non-food Packaging"
+            },
+            {
+                "v": "Smoking related litter (cigarette butts and packets)",
+                "s": "Smoking Litter"
+            },
+            {
+                "v": "Fishing related items",
+                "s": "Fishing Items"
+            },
+            {
+                "v": "Shipping related items",
+                "s": "Shipping Items"
+            },
+            {
+                "v": "Cups (e.g., disposable coffee cups)",
+                "s": "Cups"
+            },
+            {
+                "v": "Plastic straws, stirrers, cutlery",
+                "s": "Plastic Straws, Stirrers, Cutlery"
+            },
+            {
+                "v": "Sewage-related items (this could include cotton bud sticks, feminine hygiene items and others disposed of via toilets)",
+                "s": "Sewage-related Items"
+            },
+            {
+                "v": "Natural disaster/hazard related debris",
+                "s": "Natural Disaster / Hazard Debris"
+            },
+            {
+                "v": "Polystyrene items",
+                "s": "Polystyrene Items"
+            },
+            {
+                "v": "All of the above",
+                "s": "All of the Above"
+            },
+            {
+                "v": "Not applicable",
+                "s": "Not Applicable"
+            },
+            {
+                "v": "Other",
+                "s": "Other"
+            }
+        ],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "21.b.i. If you selected Other, please specify:",
+        "s": "Type of Macroplastics Contaminants Target Other",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "21.c. What type of microplastic contaminant does the action target?",
+        "s": "Type of Microplastics Contaminants Target",
+        "a": [
+            {
+                "v": "Microbeads used in cosmetics",
+                "s": "Microbeads Used in Cosmetics"
+            },
+            {
+                "v": "Microplastics used in other products e.g. paints",
+                "s": "Microplastics Used in Other Products"
+            },
+            {
+                "v": "All of the above",
+                "s": "All of the Above"
+            },
+            {
+                "v": "Not applicable",
+                "s": "Not Applicable"
+            },
+            {
+                "v": "Other",
+                "s": "Other"
+            }
+        ],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "21.c.i. If you selected Other, please specify:",
+        "s": "Type of Microplastics Contaminants Target Other",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "22. Does your action target a specific sector? (Please tick all that apply)",
+        "s": "Sector Target",
+        "a": [
+            {
+                "v": "Packaging",
+                "s": "Packaging"
+            },
+            {
+                "v": "Textiles",
+                "s": "Textiles"
+            },
+            {
+                "v": "Transportation",
+                "s": "Transportation"
+            },
+            {
+                "v": "Building, Construction, Demolition",
+                "s": "Building, Construction, Demolition"
+            },
+            {
+                "v": "Industrial Machinery",
+                "s": "Industrial Machinery"
+            },
+            {
+                "v": "Automotive",
+                "s": "Automotive"
+            },
+            {
+                "v": "Electrical and Electronics",
+                "s": "Electrical and Electronics"
+            },
+            {
+                "v": "Agriculture",
+                "s": "Agriculture"
+            },
+            {
+                "v": "Fisheries",
+                "s": "Fisheries"
+            },
+            {
+                "v": "Aquaculture",
+                "s": "Aquaculture"
+            },
+            {
+                "v": "Food & Beverages",
+                "s": "Food & Beverages"
+            },
+            {
+                "v": "Personal Healthcare",
+                "s": "Personal Healthcare"
+            },
+            {
+                "v": "Medical",
+                "s": "Medical"
+            },
+            {
+                "v": "Retail",
+                "s": "Retail"
+            },
+            {
+                "v": "Tourism",
+                "s": "Tourism"
+            },
+            {
+                "v": "Wastewater/Sewage management",
+                "s": "Wastewater Management"
+            },
+            {
+                "v": "All of the above",
+                "s": "All of the Above"
+            },
+            {
+                "v": "Not applicable",
+                "s": "Not Applicable"
+            },
+            {
+                "v": "Other",
+                "s": "Other"
+            }
+        ],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "22.a. If you selected Other, please specify:",
+        "s": "Sector Target Other",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "23. How much money (amount) has been invested in the action so far? (please give us an estimate if you’re unsure and only submit numbers, e.g, 5,000 should be entered as 5000)",
+        "s": "Action Invested Value",
+        "a": [],
+        "t": "NUMBER"
+    },
+    {
+        "q": "24. Please specify the currency.",
+        "s": "Action Invested Value Currency",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "25. Are there in kind contributions as well? (Please tell us the equivalent amount and only submit numbers, e.g, 5,000 should be entered as 5000).",
+        "s": "Other Contribution Invested Value",
+        "a": [],
+        "t": "NUMBER"
+    },
+    {
+        "q": "26. Please specify the currency",
+        "s": "Other Contribution Invested Currency",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "27. What funding sources did you use?",
+        "s": "Source Funding",
+        "a": [
+            {
+                "v": "Crowdfunded",
+                "s": "Crowdfunded"
+            },
+            {
+                "v": "Voluntary donations",
+                "s": "Voluntary Donations"
+            },
+            {
+                "v": "Public Financing",
+                "s": "Public Financing"
+            },
+            {
+                "v": "Private Sector",
+                "s": "Private Sector"
+            },
+            {
+                "v": "Mixed",
+                "s": "Mixed"
+            },
+            {
+                "v": "All of the above",
+                "s": "All of the Above"
+            },
+            {
+                "v": "Not applicable",
+                "s": "Not Applicable"
+            },
+            {
+                "v": "Other",
+                "s": "Other"
+            }
+        ],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "27.a. If you selected Other, please specify:",
+        "s": "Source Funding Other",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "27.b. Please name the specific source(s) of funding?",
+        "s": "Source Funding Name",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "28. Is your action a one-off activity or continuous?",
+        "s": "Activity / Action Time",
+        "a": [
+            {
+                "v": "Single event",
+                "s": "Single Event"
+            },
+            {
+                "v": "Continuous activity less than one year",
+                "s": "Less than 1 Year"
+            },
+            {
+                "v": "Continuous activity 1-3 Years",
+                "s": "1-3 Years"
+            },
+            {
+                "v": "Continuous activity more than 3 Years long",
+                "s": "More than 3 Years"
+            },
+            {
+                "v": "Not applicable",
+                "s": "Not Applicable"
+            },
+            {
+                "v": "Other",
+                "s": "Other"
+            }
+        ],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "28.a. If you selected Other, please specify:",
+        "s": "Activity / Action Time Other",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "29. In the boxes below, please provide i.e. copy and paste links, URL's, website links etc to documents about your action. We are interested in websites, reports, images, media articles etc. Please place only one link per box provided. If you have no documents to share, please write 'I have no links to provide' in the first box. You can also email documents and images - as attachments - to marinelitterstocktake@plymouth.ac.uk",
+        "s": "Action Links 1",
+        "a": [],
+        "t": "LINKS"
+    },
+    {
+        "q": "29.a. Another Link",
+        "s": "Action Links 2",
+        "a": [],
+        "t": "LINKS"
+    },
+    {
+        "q": "29.b. Another link to information:",
+        "s": "Action Links 3",
+        "a": [],
+        "t": "LINKS"
+    },
+    {
+        "q": "29.c. Another link to information",
+        "s": "Action Links 4",
+        "a": [],
+        "t": "LINKS"
+    },
+    {
+        "q": "29.d. Another link to information",
+        "s": "Action Links 5",
+        "a": [],
+        "t": "LINKS"
+    },
+    {
+        "q": "29.e. Another link to information",
+        "s": "Action Links 6",
+        "a": [],
+        "t": "LINKS"
+    },
+    {
+        "q": "30. Is there anything more that you would like to tell us about your action/activity? Please use the box below.",
+        "s": "Action / Activity Description",
+        "a": [],
+        "t": "FREE"
+    },
+    {
+        "q": "31. Are you engaging with stakeholders (including groups of the public and other stakeholders) as part of the action?",
+        "s": "Action / Activity Stakeholder Engagement",
+        "a": [
+            {
+                "v": "Yes",
+                "s": "Yes"
+            },
+            {
+                "v": "No",
+                "s": "No"
+            },
+            {
+                "v": "Not Applicable",
+                "s": "Not Applicable"
+            }
+        ],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "31.a. Does the stakeholder engagement involve (please tick all that apply):",
+        "s": "Action / Activity Stakeholder Engagement Involvement",
+        "a": [
+            {
+                "v": "Giving information to stakeholders (e.g., leaflets, posters)",
+                "s": "Giving Information to Stakeholders"
+            },
+            {
+                "v": "Consulting with stakeholders interactively (e.g., workshops)",
+                "s": "Consulting with Stakeholders Interactively"
+            },
+            {
+                "v": "Seeking feedback from stakeholders (e.g. online)",
+                "s": "Seeking Feedback from Stakeholders"
+            },
+            {
+                "v": "Co-creating the action with stakeholders from the start",
+                "s": "Co-creating with Stakeholders from the Start"
+            },
+            {
+                "v": "Other",
+                "s": "Other"
+            }
+        ],
+        "t": "OPTIONS"
+    },
+    {
+        "q": "31.a.i. If you selected Other, please specify:",
+        "s": "Action / Activity Stakeholder Engagement Involvement Other",
+        "a": [],
+        "t": "OTHER"
+    },
+    {
+        "q": "31.b. How many different groups and organisations (e.g. 20 retailers, 150 schools) have you engaged with in total? (Please estimate)",
+        "s": "Number of Groups / Organisation Engagement",
+        "a": [],
+        "t": "NUMBER"
+    },
+    {
+        "q": "31.c. How many stakeholders (number of individuals) have you engaged in total? (Please estimate)",
+        "s": "Number of Stakeholders / Individuals Engagement",
+        "a": [],
+        "t": "NUMBER"
+    }
+]

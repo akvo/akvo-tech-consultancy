@@ -29,12 +29,10 @@ class Charts extends Component {
         if (this.props.calc === "CATEGORY") {
             if (param.componentSubType === 'pie') {
                 this.props.chart.value.select(param.data.id);
-                this.props.filter.program.update(param.data.id, param.data.parent_id, param.name, 2);
-                console.log(this.props.value.filters);
-                if (this.props.value.filters.selected.length < 3){
-                    this.props.filter.program.append(param.data.values, 2);
+                this.props.filter.program.update(param.data.id, param.data.parent_id, param.name, 1);
+                if (this.props.value.filters.selected.length < 2){
+                    this.props.filter.program.append(param.data.values, 1);
                 };
-                console.log(this.props.value.filters);
             }
             if (param.componentSubType === 'bar') {
                 console.log(param);
@@ -73,20 +71,20 @@ class Charts extends Component {
     }
 
     render() {
-        let level = this.props.calc === "CATEGORY" ? 1 : 2;
+        let level = this.props.calc === "CATEGORY" ? 0 : 1;
         let selected = this.props.value.filters.selected;
             selected = selected[level];
         if (selected === undefined) {
             selected = this.props.value.filters.selected;
         }
-        let data = level === 1
+        let data = level === 0
             ? this.props.value.charts.data.filter((x) => x.parent_id === selected.id)
             : this.props.value.charts.active.values
         let onEvents = {
             'click': this.clickEvent,
             'dblclick': this.doubleClickEvent
         }
-        if (level === 1) {
+        if (level === 0) {
             data = data.map((x) => {
                 let values = x.values;
                 if (this.props.value.filters.country !== "World Wide") {

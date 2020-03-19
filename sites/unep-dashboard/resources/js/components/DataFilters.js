@@ -98,20 +98,12 @@ class DataFilters extends Component {
             this.props.filter.program.update(next_id, next_parent_id, next_name, this.props.depth + 1);
         }
         this.props.filter.program.update(id, parent_id, name, this.props.depth);
-        let filter = depth === 2 ? 'id' : 'parent_id';
-            filter = depth === 0 ? false : filter;
+        let filter = depth === 1 ? 'id' : 'parent_id';
         let charts = this.props.value.charts.data;
         let chartisnew = charts.find((x => x[filter] === id))
             chartisnew = chartisnew ? false : true;
         if (depth === 0 && chartisnew) {
-            let category = this.props.value.filters.selected[depth + 1];
-            chartisnew = charts.find((x => x.parent_id === category.id));
-            chartisnew = chartisnew ? false : true;
-            depth += 1;
-            id = category.id;
-        }
-        if (depth === 1 && chartisnew) {
-            this.props.page.loading(true);
+            this.props.chart.state.loading();
             axios.get('/api/value/category/' + id)
                 .then(res => {
                     res.data.map((data) => {
@@ -122,15 +114,10 @@ class DataFilters extends Component {
                 .then(res => {
                     let countries = this.props.value.filters.selected[depth + 1];
                     this.props.chart.value.select(countries.id);
-                    this.props.page.loading(false);
+                    this.props.page.loading();
                 });
         }
-        if (depth === 1 && !chartisnew) {
-            this.props.chart.state.loading();
-            countries = this.props.value.filters.selected[depth + 1];
-            this.props.chart.value.select(countries.id);
-        }
-        if (depth === 2) {
+        if (depth === 1) {
             this.props.chart.state.loading();
             this.props.chart.value.select(id);
         }
@@ -139,9 +126,7 @@ class DataFilters extends Component {
     loadDefault() {
         setTimeout(() => {
             if (this.props.value.filters.list.length === 1){
-                console.log(this.props.data);
                 let selected = this.props.value.filters.list[0][0];
-                console.log(selected);
                 this.changeActive(selected.id, selected.parent_id, selected.name, 0);
                 return true;
             }
