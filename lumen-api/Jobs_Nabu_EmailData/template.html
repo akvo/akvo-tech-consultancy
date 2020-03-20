@@ -12,8 +12,8 @@
                                         <table style="background-color:#363535;color:#ffffff;border-bottom:0;font-weight:bold;line-height:100%;vertical-align:middle;font-family:&quot;Helvetica Neue&quot;,Helvetica,Roboto,Arial,sans-serif;border-radius:3px 3px 0 0" width="600" cellspacing="0" cellpadding="0" border="0">
                                             <tbody>
                                                 <tr>
-                                                    <td style="padding:36px 48px;display:block">
-                                                        <h1 style="font-family:&quot;Helvetica Neue&quot;,Helvetica,Roboto,Arial,sans-serif;font-size:30px;font-weight:300;line-height:150%;margin:0;text-align:left;color:#e2ae46">Nabu Flow</h1>
+                                                    <td style="padding:10px 10px;display:block;text-align:left">
+                                                        <h2 style="font-family:&quot;Helvetica Neue&quot;,Helvetica,Roboto,Arial,sans-serif;font-size:30px;font-weight:300;line-height:150%;margin:0;text-align:left;color:#e2ae46">Nabu {{ group }}</h2>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -32,10 +32,18 @@
                                                         <table width="100%" cellspacing="0" cellpadding="20" border="0">
                                                             <tbody>
                                                                 <tr>
-                                                                    <td style="padding:48px 48px 32px" valign="top">
+                                                                    <td style="padding:10px 10px 10px" valign="top">
                                                                         <div style="color:#636363;font-family:&quot;Helvetica Neue&quot;,Helvetica,Roboto,Arial,sans-serif;font-size:14px;line-height:150%;text-align:left">
+                                                                            <p style="margin:10px">HI,<br/><br/>
 
-                                                                        <p style="margin:0 0 16px">{{ group }} Files</p>                                                                            
+                                                                                Please find attached the data for <i>{{ group }}</i> split by regions as of <i>{{ today_str }}</i>.<br/><br/>
+
+List of contents:</p>
+
+                                                                        <p style="margin:0 0 16px">{{ summary|safe }}</p>                                                                            <p style="margin:10px">
+                                                                            
+                                                                            <i><strong>*To open the zip files, please use the password that has already been provided. If you do not have the password, please contact stefanie.brandes@nabu.de*</strong></i>
+                                                                            </p>
                             
                                                                         </div>
                                                                     </td>

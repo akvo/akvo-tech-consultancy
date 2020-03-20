@@ -25,11 +25,9 @@ POSTGRES_PORT = os.environ['POSTGRES_PORT']
 POSTGRES_USER = os.environ['POSTGRES_USER']
 POSTGRES_PASSWORD = os.environ['POSTGRES_PASSWORD']
 
-#EMAIL_RECEIVER = ['Stefanie.Brandes@NABU.de', 'Svane.Bender@NABU.de', 'Mesfin.Tekle.nabu@gmail.com']
-EMAIL_RECEIVER = ['merembablas@gmail.com']
+EMAIL_RECEIVER = ['Stefanie.Brandes@NABU.de', 'Svane.Bender@NABU.de', 'Mesfin.Tekle.nabu@gmail.com']
 EMAIL_SENDER = 'akvo.tech.consultancy@gmail.com'
-#EMAIL_BCC = ['joy@akvo.org', 'deden@akvo.org']
-EMAIL_BCC = ['mrmrfqlfn@gmail.com', 'akvo.tech.consultancy@gmail.com']
+EMAIL_BCC = ['joy@akvo.org', 'deden@akvo.org']
 
 today = date.today()
 today_str = today.strftime("%d/%m/%Y")
