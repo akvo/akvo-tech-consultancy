@@ -19,6 +19,7 @@ spec:
         metadata:
           labels:
             cronjob: jobs-update-iucn
+            jobowner: tech-consultancy
         spec:
           containers:
           - name: jobs-update-iucn

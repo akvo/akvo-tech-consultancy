@@ -19,6 +19,7 @@ spec:
         metadata:
           labels:
             cronjob: export-csv-mali
+            jobowner: tech-consultancy
         spec:
           containers:
           - name: export-csv-mali
