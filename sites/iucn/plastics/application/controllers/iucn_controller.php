@@ -17,7 +17,7 @@ class Iucn_controller extends CI_Controller {
         $data['project_question_id'] = '245700001';
         $data['projects'] = [
             array(
-                'countries' => ['Mozambique', 'Kenya', 'South Africa', 'Thailand', 'Thailand', 'Global'],
+                'countries' => ['Mozambique', 'Kenya', 'South Africa', 'Thailand', 'Vietnam', 'Global'],
                 'question_id' => '259640001',
                 'project_name' => 'Sida MARPLASTICCs',
             ),
@@ -50,8 +50,18 @@ class Iucn_controller extends CI_Controller {
                     'type' => "pie",
                     'style' => array()
                 ),
-                'subject' => array( //TODO: multiple activity questions (235950001)
-                    'title' => "Subject",
+                'q241810001' => array( //TODO: multiple activity questions (235950001)
+                    'title' => "Link to MAREPLASTICCS result framework",
+                    'type' => "pie",
+                    'style' => array(),
+                    'project' => array(
+                        'sida' => '241810001',
+                        'norad' => '235950001',
+                        'primat' => '235950001'
+                    )
+                ),
+                'q235950001' => array( //TODO: multiple activity questions (235950001)
+                    'title' => "Link to PWFI result framework",
                     'type' => "pie",
                     'style' => array(),
                     'project' => array(
@@ -101,6 +111,16 @@ class Iucn_controller extends CI_Controller {
                 ),
                 'q255740002' => array(
                     'title' => "Type of actor",
+                    'type' => "pie",
+                    'style' => array()
+                ),
+                'q231790004' => array(
+                    'title' => "Link to MAREPLASTICCS result framework",
+                    'type' => "pie",
+                    'style' => array()
+                ),
+                'q259650003' => array(
+                    'title' => "Link to PWFI result framework",
                     'type' => "pie",
                     'style' => array()
                 )
@@ -273,6 +293,8 @@ class Iucn_controller extends CI_Controller {
         $others = array("q233810002","q239490004");
         $q233810002_options = array("Field action","Training","Meeting","Data collection");
         $q239490004_options = array("Local government","National government","CSO","Private sector","NGO","Academia","Media","Traditional authority","Farmer/Community");
+        $q241810001_options = array("Output 1: Understanding the state and impact of plastic pollution in the Indian Ocean and Asia Pacific regions","Output 2: Local and regional capacity building to facilitate national action to control plastic pollution","Output 3: Supporting national and regional policy frameworks and legislative reform processes to address plastics","Output 4: Engaging and mobilising business actors in support of effective management and reduction of plastic pollution","Output 5: Monitoring, evaluation, learning and reporting system operational");
+        $q235950001_options = array("Outcome 1: Improve knowledge of waste generation","Outcome 2: Enhanced adoption of plastic leakage reduction measures","Outcome 3: Development of Plastic Waste Free Island blueprint and endorsement by regional SIDS bodies");
         $subject_options = array(
             "Improve knowledge of waste generation",
             "Enhanced adoption of plastic leakage reduction measures",
@@ -329,9 +351,11 @@ class Iucn_controller extends CI_Controller {
                     ${$field."_options_array"} = array();
 
                     $cols = array();
-                    $subject_cols = array("q241810001", "q235950001");
+                    //$subject_cols = array("q241810001", "q235950001");
+                    $subject_cols = [];
                     if ($field == "subject") {
-                        array_push($cols, "q241810001", "q235950001");
+                        //array_push($cols, "q241810001", "q235950001");
+                        array_push($cols, $field);
                     } else {
                         array_push($cols, $field);
                     }

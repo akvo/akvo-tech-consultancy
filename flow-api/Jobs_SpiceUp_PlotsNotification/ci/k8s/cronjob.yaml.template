@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: spiceup-demplot-notification
 spec:
-  schedule: "0 0 15 * *"
+  schedule: "0 0 * * *"
   startingDeadlineSeconds: 600 # it is ok to start the job 10 minutes late
   concurrencyPolicy: Allow
   failedJobsHistoryLimit: 10 
@@ -19,6 +19,7 @@ spec:
         metadata:
           labels:
             cronjob: spiceup-demplot-notification
+            jobowner: tech-consultancy
         spec:
           containers:
           - name: spiceup-demplot-notification

@@ -17,18 +17,28 @@ jQuery("#dataset-query").on('change', function(){
         jQuery('.dataset-lists').remove();
 		searchdatasets(thisval);
         jQuery(".lds-ellipsis").show();
-	}
+	} else if (thisval.length === 0) {
+        jQuery('.dataset-lists').remove();
+		searchdatasets(thisval);
+        jQuery(".lds-ellipsis").show();
+    }
 });
-
-jQuery(".btn-ckan-search").on('click', function(){
-	let thisval = jQuery(this).val();
+/*
+jQuery(".btn-ckan-search").on('click', function(event){
+	let thisval = jQuery("#dataset-query").val();
 	if (thisval.length > 4) {
         jQuery('.dataset-lists').remove();
 		searchdatasets(thisval);
         jQuery(".lds-ellipsis").show();
-	}
-});
+	} else if (thisval.length === 0) {
+        jQuery('.dataset-lists').remove();
+		searchdatasets(thisval);
+        jQuery(".lds-ellipsis").show();
+    }
 
+    event.preventDefault();
+});
+*/
 function awaitframes(id_collections, id_tables, queue, iterate) {
     if (queue <= iterate) {
         jQuery.get("/wp-json/akvockan/v1?id=" + id_collections[queue], function(data){
@@ -100,7 +110,14 @@ function searchdatasets( q ) {
 		}
         jQuery(".lds-ellipsis").hide();
 		let html = '<article id="post-196" class="dataset-lists card card-blog card-plain post-196 post type-post status-publish format-standard has-post-thumbnail hentry category-all-post"></article>';
-		jQuery("#ckan-container").append(html);
+        jQuery("#ckan-container").append(html);
+        
+        if (data.length === 0) {
+            let html = '';
+            html += "<div class='ckan-files'>Data not Available</div>";
+            jQuery('.dataset-lists').append(html);
+        }
+
 		data.forEach(function(res,index) {
             res.resources.forEach(function(a, x) {
                 let html = '';
@@ -167,6 +184,14 @@ function initakvockan() {
         }
         jQuery(".lds-loading").remove();
     });
+}
+
+let pathArray = window.location.pathname.split('/');
+
+if (pathArray[1] === 'data-library') {
+    jQuery('.dataset-lists').remove();
+    searchdatasets('');
+    jQuery(".lds-ellipsis").show();
 }
 
 })
