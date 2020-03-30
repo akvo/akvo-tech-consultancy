@@ -12,8 +12,8 @@ import pandas.io.sql as psql
 import pyminizip
 from jinja2 import Environment, FileSystemLoader
 
-EMAIL_HOST = os.environ['EMAIL_HOST']
 EMAIL_USER = os.environ['EMAIL_USER']
+EMAIL_HOST = os.environ['EMAIL_HOST']
 EMAIL_PWD = os.environ['EMAIL_PWD']
 
 POSTGRES_DB = os.environ['POSTGRES_DB']
