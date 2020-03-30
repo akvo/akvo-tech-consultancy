@@ -1,6 +1,7 @@
 import Bar from './options/Bar';
 import Maps from './options/Maps';
 import Pie from './options/Pie';
+import TreeMap from './options/TreeMap';
 
 const loadingState = {
         id: 1,
@@ -16,6 +17,8 @@ export const loadingChart = (type) => {
             return Maps(loadingState.values, "LOADING", "loading", "CATEGORY");
         case "PIE":
             return Pie(loadingState.values, "LOADING", "loading", "CATEGORY");
+        case "TREEMAP":
+            return TreeMap(loadingState.values, "LOADING", "loading", "CATEGORY");
         default:
             return Bar(loadingState.values, "LOADING", "loading", "CATEGORY");
     }
@@ -37,6 +40,8 @@ export const generateOptions = (type, title, subtitle, data, calc) => {
             return Maps(data, title, subtitle, calc);
         case "PIE":
             return Pie(data, title, subtitle, calc);
+        case "TREEMAP":
+            return TreeMap(data, title, subtitle, calc);
         default:
             return Bar(data, title, subtitle, calc);
     }

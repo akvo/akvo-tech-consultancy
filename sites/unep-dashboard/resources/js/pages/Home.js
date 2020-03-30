@@ -19,7 +19,7 @@ class Home extends Component {
                     data: generateData(8, true, "500px")
                 },
                 {
-                    kind: "PIE",
+                    kind: "TREEMAP",
                     calc: "CATEGORY",
                     data: generateData(4, false, "500px")
                 },

@@ -37,6 +37,14 @@ class Charts extends Component {
             if (param.componentSubType === 'bar') {
                 console.log(param);
             }
+			if (param.componentSubType === 'treemap') {
+                this.props.chart.value.select(param.data.id);
+                this.props.filter.program.update(param.data.id, param.data.parent_id, param.name, 1);
+                if (this.props.value.filters.selected.length < 2){
+                    this.props.filter.program.append(param.data.values, 1);
+                };
+				console.log('treemap');
+			}
             return;
         }
         if (!this.props.value.charts.filtered) {
