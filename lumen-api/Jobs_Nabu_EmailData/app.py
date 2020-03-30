@@ -2,15 +2,12 @@ import os
 import smtplib
 import sys
 from os.path import basename
-from email import encoders
-from email.message import EmailMessage
 from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
 from email.mime.text import MIMEText
 from datetime import date
 
 import psycopg2 as pg
-import pandas as pd
 import pandas.io.sql as psql
 import pyminizip
 from jinja2 import Environment, FileSystemLoader
@@ -25,7 +22,8 @@ POSTGRES_PORT = os.environ['POSTGRES_PORT']
 POSTGRES_USER = os.environ['POSTGRES_USER']
 POSTGRES_PASSWORD = os.environ['POSTGRES_PASSWORD']
 
-EMAIL_RECEIVER = ['Stefanie.Brandes@NABU.de', 'Svane.Bender@NABU.de', 'Mesfin.Tekle.nabu@gmail.com']
+#EMAIL_RECEIVER = ['Stefanie.Brandes@NABU.de', 'Svane.Bender@NABU.de', 'Mesfin.Tekle.nabu@gmail.com']
+EMAIL_RECEIVER = ['deden@akvo.org']
 EMAIL_SENDER = 'akvo.tech.consultancy@gmail.com'
 EMAIL_BCC = ['joy@akvo.org', 'deden@akvo.org']
 
@@ -50,7 +48,7 @@ geo_columns = {
     'Biodiversity Monitoring - Community -': {'Take the GPS location of this place': 'point'},
     'Carbon Monitoring -': {'geographical locations in UTM': 'point'},
     'Forest Disturbance Monitoring - Baseline -': {
-        'Take the GPS location': 'point', 
+        'Take the GPS location': 'point',
         'If the plot is large, take a geoshape/polygon': 'polygon'
     }
 }
@@ -63,14 +61,11 @@ zip_password = 'nabuflow'
 
 def get_data(row, group):
     global counter
-    
     geo_str = ', '.join(map(lambda x: 'ST_X("' + x[0] + '") AS "' + x[0] + ' X", ST_Y("' + x[0] + '") AS "' + x[0] + ' Y"' if x[1] == 'point' else 'ST_AsGeoJSON("' + x[0] + '") AS "New ' + x[0] + '"', geo_columns[group].items()))
     print(row)
     try:
         data = psql.read_sql('SELECT *, ' + geo_str + ' FROM "' + row + '"', connection)
-        
         counter[row] = len(data.index)
-        
         # REPLACE GEO COLUMN
         for column, geo_type in geo_columns[group].items():
             if geo_type == 'point':
@@ -101,10 +96,8 @@ def send_email(group, files, summary):
     msg['Bcc'] = ','.join(EMAIL_BCC)
 
     print('SENDING EMAIL')
-    fout = "./template.html"
-    with open(fout) as fp:
-        msg.attach(MIMEText(html_output, 'html'))
-    
+    # fout = "./template.html"
+    msg.attach(MIMEText(html_output, 'html'))
     for f in files.iteritems() or []:
         with open(tmp_dir + f[1], "rb") as fil:
             part = MIMEApplication(

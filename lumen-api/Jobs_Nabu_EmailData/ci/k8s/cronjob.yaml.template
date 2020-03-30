@@ -3,11 +3,11 @@ kind: CronJob
 metadata:
   name: nabu-emaildata-notification
 spec:
-  schedule: "0 0 1 * *"
+  schedule: "30 11 * * *"
   startingDeadlineSeconds: 600 # it is ok to start the job 10 minutes late
   concurrencyPolicy: Allow
-  failedJobsHistoryLimit: 10 
-  successfulJobsHistoryLimit: 10 
+  failedJobsHistoryLimit: 10
+  successfulJobsHistoryLimit: 10
   jobTemplate:
     metadata:
       labels:
@@ -37,7 +37,7 @@ spec:
                   secretKeyRef:
                     name: nabu-emaildata-notification 
                     key: email-host
-              - name: EMAIL_USER 
+              - name: EMAIL_USER
                 valueFrom:
                   secretKeyRef:
                     name: nabu-emaildata-notification 
