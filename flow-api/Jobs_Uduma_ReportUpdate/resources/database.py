@@ -2,6 +2,7 @@ import re
 import pandas as pd
 from sqlalchemy import inspect
 import logging
+import json
 from pandas.io import sql
 from collections import ChainMap
 from resources.models import Surveys, Forms, QuestionGroups, Questions, SurveyInstances
@@ -63,7 +64,38 @@ def repeat_marker(x):
     col_name = table_column_regex(x.question.name, x.question.id)
     return {col_name:x.value, 'repeat':repeat}
 
+def check_caddisfly(rows):
+    for row in rows:
+        caddisflies = []
+        deletes = []
+        for key in row:
+            try:
+                caddisfly = row[key].replace("'", "\"")
+                caddisfly = json.loads(caddisfly)
+                if (caddisfly['type'] == "caddisfly"):
+                    deletes.append(key)
+                    for cad in caddisfly['result']:
+                        name = table_column_regex(cad['name'],key.split('_')[0])
+                        if cad['value'] != '':
+                            value = '{} {}'.format(cad['value'],cad['unit'])
+                            caddisflies.append({name: value})
+                    try:
+                        name = '{}_caddisfly_image'.format(key)
+                        caddisflies.append({name:caddisfly['image']})
+                    except:
+                        pass
+            except:
+                pass
+        if len(caddisflies) > 0:
+            for cad in caddisflies:
+                row.update(cad)
+        for delete in deletes:
+            del row[delete]
+    return rows
+
+
 def generate_pandas_sql(data, table_name, engine):
+    data = check_caddisfly(data)
     df = pd.DataFrame(data)
     df = df[sorted(list(df))]
     column_name = dict(ChainMap(*[{x:x.replace('0_','')} for x in list(df)]))
