@@ -8,12 +8,17 @@ import PageDetails from "./PageDetails";
 import Filters from "./Filters";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { BeatLoader } from "react-spinners";
 
 class Page extends Component {
     constructor(props) {
         super(props);
         this.setPage = this.setPage.bind(this);
         this.sendEmail = this.sendEmail.bind(this);
+        this.setFooter = this.setFooter.bind(this);
+        this.state = {
+            isLoading: true
+        }
     }
 
     componentDidMount() {
@@ -34,8 +39,21 @@ class Page extends Component {
                 this.props.setCategories(res.data, "CATEGORIES");
                 this.props.setCategories(res.data, "COUNTRIES");
                 setTimeout(() => {
-                    console.log(this.props.value);
                     resolve(true);
+                    let page = window.location.href.split("#");
+                    let showPage = false;
+                    if (page.length === 2) {
+                        if (page[1] !== "") {
+                            showPage = true;
+                        }
+                    }
+                    if (showPage) {
+                        let category = page[1].split("/")[0];
+                        let id = parseInt(page[1].split("/")[1]);
+                        this.props.showSubPage(id, category.toUpperCase());
+                        this.props.changePage(category);
+                    }
+                    this.setState({isLoading:false});
                 }, 300);
             });
         });
@@ -68,6 +86,18 @@ class Page extends Component {
 
     setPage(page) {
         let captions = this.props.value.captions ? "" : " tagline-hidden";
+        console.log(this.state.isLoading);
+        if (this.state.isLoading) {
+            return (
+                <Container style={{ marginTop: 30 + "px" }}>
+                    <Row>
+                        <Col xs={12}>
+                            <BeatLoader css="margin-top:35%; text-align:center;" size={20} color={"#03ad8c"} />
+                        </Col>
+                    </Row>
+                </Container>
+            )
+        }
         return (
             <Fragment>
                 <div className="mobile-header-image">
@@ -126,20 +156,26 @@ class Page extends Component {
         );
     }
 
+    setFooter() {
+        return (
+            <div className="footer">
+                <Container>
+                    <p>
+                        We apply the principles of open source software, open content and open data to all of our work.
+                        <br />
+                        Find out <a href="https://akvo.org/blog/open-data-content-and-software-at-akvo/">why and how</a>.
+                    </p>
+                </Container>
+            </div>
+        )
+    }
+
     render() {
         return (
             <Fragment>
                 <Navigation />
                 {this.props.value.page === "home" ? this.setPage("main") : this.showPageDetails()}
-                <div className="footer">
-                    <Container>
-                        <p>
-                            We apply the principles of open source software, open content and open data to all of our work.
-                            <br />
-                            Find out <a href="https://akvo.org/blog/open-data-content-and-software-at-akvo/">why and how</a>.
-                        </p>
-                    </Container>
-                </div>
+                {this.state.isLoading ? "" : this.setFooter()}
             </Fragment>
         );
     }

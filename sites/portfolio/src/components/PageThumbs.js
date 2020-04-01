@@ -34,7 +34,6 @@ class PageThumbs extends Component {
     changePage(e) {
         let id = parseInt(e.target.value);
         this.props.changePage(this.props.lists);
-        console.log(this.props.lists);
         this.props.showSubPage(id, this.props.lists.toUpperCase());
     }
 
