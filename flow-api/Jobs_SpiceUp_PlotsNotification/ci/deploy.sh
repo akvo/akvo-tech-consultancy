@@ -32,7 +32,8 @@ gcloud config set container/use_client_certificate True
 ## TODO!!! Change to prod! Decide if we publish to test or not
 if [[ "${TRAVIS_BRANCH}" == "master" ]]; then
     log Environment is production
-    gcloud container clusters get-credentials test
+    log Project not deployed to production cluster. Exiting now.
+    exit 0
 else
     log Environement is test
     gcloud container clusters get-credentials test

@@ -12,6 +12,7 @@ spec:
     metadata:
       labels:
         cronjob: jobs-uduma-report # <-- for monitoring
+        jobowner: tech-consultancy
     spec:
       template:
         metadata:
