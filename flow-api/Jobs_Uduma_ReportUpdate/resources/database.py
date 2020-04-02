@@ -70,7 +70,8 @@ def check_caddisfly(rows):
         deletes = []
         for key in row:
             try:
-                caddisfly = row[key].replace("'", "\"")
+                caddisfly = re.sub(r"([A-Za-z]+)'([A-Za-z]+)", r'', row[key])
+                caddisfly = caddisfly.replace("'", "\"")
                 caddisfly = json.loads(caddisfly)
                 if (caddisfly['type'] == "caddisfly"):
                     deletes.append(key)
