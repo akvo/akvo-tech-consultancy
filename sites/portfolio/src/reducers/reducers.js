@@ -18,6 +18,7 @@ const initialState = {
             show: false
         }
     ],
+    url: "#",
     poc: [
         {
             id: 1,
@@ -51,9 +52,10 @@ const initialState = {
     ],
 };
 
-const getList = list => {
+const getList = (list, pagetype) => {
     return list.map(data => ({
         ...data,
+        url: "#" + pagetype + "/" + data.id + "/" + data.title.replace(/ /g,"-").toLowerCase(),
         active: true,
         show: false
     }));
@@ -79,6 +81,7 @@ const setCategories = (state, list, type) => {
     return state;
 }
 
+
 const filterList = (state, selected, filter, adding) => {
     let empty = false;
     let selectedFilters = [];
@@ -92,7 +95,6 @@ const filterList = (state, selected, filter, adding) => {
     }
     let newList = state.map((data) => {
         let active = false;
-        let shouldMatchBoth = true;
         let filterLength = {
             countries: {empty: false, count:0},
             categories: {empty: false, count: 0}
@@ -122,7 +124,6 @@ const filterList = (state, selected, filter, adding) => {
                 active = false;
             }
         }
-        console.log(filterLength);
         if (empty) {
             active = true;
         }
@@ -133,6 +134,12 @@ const filterList = (state, selected, filter, adding) => {
     });
     return newList;
 };
+
+const changeUrl = (list, id) => {
+    let update = list.find(data => data.id === id)
+    window.location = update.url;
+    return update;
+}
 
 const showSubPage = (list, id) => {
     let update = list.map(data => {
@@ -149,12 +156,12 @@ export const states = (state = initialState, action) => {
         case "GET PORTFOLIO":
             return {
                 ...state,
-                portfolio: getList(action.data)
+                portfolio: getList(action.data, 'portfolio')
             };
         case "GET POC":
             return {
                 ...state,
-                poc: getList(action.data)
+                poc: getList(action.data, 'poc')
             };
         case "CAPTIONS":
             return {
@@ -186,21 +193,26 @@ export const states = (state = initialState, action) => {
                 portfolio: filterList(state.portfolio, state.selected, action.filter, action.adding),
             }
         case "CHANGE PAGE":
+            if (action.page === "home") {
+                window.location = "#";
+            }
             return {
                 ...state,
-                page: action.page
+                page: action.page,
             };
         case "SHOW PORTFOLIO":
             return {
                 ...state,
                 portfolio: showSubPage(state.portfolio, action.id),
-                page: "portfolio"
+                page: "portfolio",
+                url: changeUrl(state.portfolio, action.id),
             };
         case "SHOW POC":
             return {
                 ...state,
                 poc: showSubPage(state.poc, action.id),
-                page: "poc"
+                page: "poc",
+                url: changeUrl(state.poc, action.id),
             };
         case "HIDE PAGES":
             return {
