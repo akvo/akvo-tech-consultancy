@@ -20,7 +20,7 @@ def write_data(session, input_data, info, log):
         raise
 
 def table_column_regex(name, id):
-    regex = re.compile('[,-\.!?()""]')
+    regex = re.compile('[,-\.!?%()""]')
     name = regex.sub('', name).lower()
     name = ' '.join(name.split()).replace(' ','_')
     return '{}_{}'.format(id, name)
