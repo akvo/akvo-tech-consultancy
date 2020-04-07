@@ -11,6 +11,11 @@ class FrameController extends Controller
 		return view('frames.frame-blank');
 	}
 
+	public function undermaintenance()
+	{
+		return view('frames.frame-undermaintenance');
+	}
+
 	public function database(Request $request)
 	{
         $url = '/' . $request->form_id;

@@ -21,6 +21,7 @@ Route::get('/reach-and-react', 'PageController@reachreact')->name('reachreact');
 */
 
 Route::get('/frame-blank', 'FrameController@blank');
+Route::get('/frame-undermaintenance', 'FrameController@undermaintenance');
 Route::get('/frame-home', 'FrameController@home');
 Route::get('/frame-dashboard', 'FrameController@dashboard');
 Route::get('/frame-organisation', 'FrameController@organisation');

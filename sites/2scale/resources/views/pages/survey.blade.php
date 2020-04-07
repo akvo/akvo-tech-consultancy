@@ -3,6 +3,7 @@
 @section ('content')
 
 <div class="bg-white shadow-sm selector-bar">
+<!---
 	<nav class="nav">
         <select data-url="{{ $surveys['url'] }}" id="select-survey" class="selectpicker" data-style="btn-pink" data-live-search="true">
 		  <option>Select Survey</option>
@@ -20,10 +21,11 @@
             @endforeach
 		</select>
 	</nav>
+--!>
 </div>
 
 <main role="main" class="row">
-    <iframe id="akvo-flow-web" src="/frame-blank" frameborder=0 width="100%"></iframe>
+    <iframe id="akvo-flow-web" src="/frame-undermaintenance" frameborder=0 width="100%"></iframe>
 </main>
 
 @endsection
