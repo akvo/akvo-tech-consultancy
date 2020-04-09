@@ -378,6 +378,9 @@ class QuestionType extends Component {
 
     fetchCascade(lv, ix, url, options, cascade) {
         axios.get(url).then((res) =>{
+            if (res.data.length === 0) {
+                return res
+            }
             try {
                 this.setState({
                     [options]: res.data,

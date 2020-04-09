@@ -6,7 +6,7 @@ import ReCAPTCHA from "react-google-recaptcha"
 import axios from 'axios'
 import { Spinner } from 'reactstrap'
 import '../App.css'
-import { PROD_URL } from '../util/Environment'
+import { PROD_URL, USING_PASSWORDS } from '../util/Environment'
 
 const API_ORIGIN = (PROD_URL ? ( window.location.origin + "/" + window.location.pathname.split('/')[1] + "-api/" ) : process.env.REACT_APP_API_URL);
 const SITE_KEY = "6Lejm74UAAAAAA6HkQwn6rkZ7mxGwIjOx_vgNzWC"
@@ -24,7 +24,7 @@ class Submit extends Component {
         this.showSpinner = this.showSpinner.bind(this)
         this.state = {
             _showCaptcha : this.props.value.captcha,
-            _showSpinner : false
+            _showSpinner : false,
         }
 		this._reCaptchaRef = React.createRef();
     }
@@ -67,33 +67,52 @@ class Submit extends Component {
     }
 
     showPassword = () => {
-        return (
-            <Fragment>
-                <label
-                    className="form-password-label"
-                    htmlFor={"submit-username"}>
-                    Username:
-                </label>
-                <input
-                    className="form-control"
-                    type="text"
-                    name="submit-username"
-                    onChange={this.handleUser}
-                />
-                <label
-                    className="form-password-label"
-                    htmlFor={"submit-password"}>
-                    Password:
-                </label>
-                <input
-                    className="form-control"
-                    type="password"
-                    name="submit-password"
-                    onChange={this.handlePassword}
-                />
-                <hr/>
-            </Fragment>
-        )
+        let survey_form = window.location.pathname.split('/');
+		if (survey_form.includes(USING_PASSWORDS)) {
+			return (
+				<Fragment>
+					<label
+						className="form-password-label"
+						htmlFor={"submit-username"}>
+						Username:
+					</label>
+					<input
+						className="form-control"
+						type="text"
+						name="submit-username"
+						onChange={this.handleUser}
+					/>
+					<label
+						className="form-password-label"
+						htmlFor={"submit-password"}>
+						Password:
+					</label>
+					<input
+						className="form-control"
+						type="password"
+						name="submit-password"
+						onChange={this.handlePassword}
+					/>
+					<hr/>
+				</Fragment>
+			)
+		}
+		return (
+			<Fragment>
+				<label
+					className="form-password-label"
+					htmlFor={"submit-username"}>
+					Username:
+				</label>
+				<input
+					className="form-control"
+					type="text"
+					name="submit-username"
+					onChange={this.handleUser}
+				/>
+				<hr/>
+			</Fragment>
+		);
     }
 
     submitForm () {
@@ -144,7 +163,7 @@ class Submit extends Component {
             <Fragment>
                 {this.props.value.captcha ? this.showCaptcha() : false}
                 <div className="submit-block">
-                    {this.props.value.submit? this.showPassword() : false}
+                    {this.props.value.submit ? this.showPassword() : false}
                     <button
                         onClick={this.submitForm}
                         className={"btn btn-block btn-" + ( this.props.value.submit ? "primary" : "secondary")
