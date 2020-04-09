@@ -63,9 +63,18 @@ def survey(instance,surveyId,lang):
         z.extractall(ziploc)
     response = readxml(ziploc + '/' +surveyId + '.xml')
     cascadeList = []
-    for groups in response["questionGroup"]:
+    questionGroupType = type(response["questionGroup"])
+    if questionGroupType is list:
+        for groups in response["questionGroup"]:
+            try:
+                for q in groups["question"]:
+                    if q["type"] == "cascade":
+                        cascadeList.append(endpoint + q["cascadeResource"] + ".zip")
+            except:
+                pass
+    if questionGroupType is dict:
         try:
-            for q in groups["question"]:
+            for q in response["questionGroup"]["question"]:
                 if q["type"] == "cascade":
                     cascadeList.append(endpoint + q["cascadeResource"] + ".zip")
         except:
@@ -73,7 +82,6 @@ def survey(instance,surveyId,lang):
     if len(cascadeList) > 0:
         for cascade in cascadeList:
             cascadefile = ziploc + '/' + cascade.split('/surveys/')[1].replace('.zip','')
-            print(cascadefile)
             download = False
             if lang == 'update':
                 download = True
@@ -248,13 +256,16 @@ def submit():
     _uuid = str(uuid.uuid4())
     submit = False
     if request.method == 'POST':
-        if rec['_password'] == PASSWORD:
+        if '_password' not in rec:
             submit = True
+        if submit == False:
+            if rec['_password'] == PASSWORD:
+                submit = True
         if submit:
             response = submitprocess(rec, _uuid)
             return response
     if request.method == 'OPTIONS':
-            return make_response("Verified", 200)
+        return make_response("Verified", 200)
     resp = make_response("Integrity Error", 400)
     return resp
 
