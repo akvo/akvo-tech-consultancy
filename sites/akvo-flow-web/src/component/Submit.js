@@ -46,12 +46,14 @@ class Submit extends Component {
     }
 
 	handleCaptcha = value => {
-		this.setState({captcha: value});
+        this.setState({captcha: value});
+        this.props.submitState(true);
         if (localStorage.getItem('_username')) {
-            this.props.submitState(true);
             this.setState({'_submitDisabled': false});
         }
-		if (this.state.captcha === null) this.setState({ expired: true });
+        if (this.state.captcha === null) {
+            this.setState({ expired: true });
+        }
 	};
 
     asyncScriptOnLoad = () => {
