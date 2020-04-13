@@ -47,7 +47,10 @@ class Submit extends Component {
 
 	handleCaptcha = value => {
 		this.setState({captcha: value});
-        this.props.submitState(true);
+        if (localStorage.getItem('_username')) {
+            this.props.submitState(true);
+            this.setState({'_submitDisabled': false});
+        }
 		if (this.state.captcha === null) this.setState({ expired: true });
 	};
 
@@ -83,7 +86,6 @@ class Submit extends Component {
 					<label
 						className="form-password-label"
 						htmlFor={"submit-username"}>
-						Username:
 					</label>
 					<input
 						className="form-control"
@@ -112,7 +114,6 @@ class Submit extends Component {
 				<label
 					className="form-password-label"
 					htmlFor={"submit-username"}>
-					Username:
 				</label>
 				<input
 					className="form-control"
@@ -142,7 +143,7 @@ class Submit extends Component {
                 })
                 this.setState({'_showSpinner': false})
                 setTimeout(function(){
-                    username = localStorage.getItem('_username');
+                    let username = localStorage.getItem('_username');
                     localStorage.clear();
                     localStorage.setItem('_username', username);
                     setTimeout(function(){
@@ -196,12 +197,6 @@ class Submit extends Component {
         return (
             <Spinner size="sm" color="light" />
         )
-    }
-
-    componentDidMount() {
-        if (localStorage.getItem('_username')) {
-            this.setState({'_submitDisabled': false});
-        }
     }
 
     render() {
