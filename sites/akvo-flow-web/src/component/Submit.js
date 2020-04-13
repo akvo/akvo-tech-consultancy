@@ -18,6 +18,8 @@ class Submit extends Component {
         this.showCaptcha = this.showCaptcha.bind(this)
         this.showPassword = this.showPassword.bind(this)
         this.submitForm = this.submitForm.bind(this)
+        this.warnSubmission = this.warnSubmission.bind(this)
+        this.sendData = this.sendData.bind(this)
         this.handleCaptcha = this.handleCaptcha.bind(this)
         this.handlePassword = this.handlePassword.bind(this)
         this.handleUser = this.handleUser.bind(this)
@@ -25,6 +27,7 @@ class Submit extends Component {
         this.state = {
             _showCaptcha : this.props.value.captcha,
             _showSpinner : false,
+            _submitDisabled : true
         }
 		this._reCaptchaRef = React.createRef();
     }
@@ -34,7 +37,12 @@ class Submit extends Component {
     }
 
     handleUser (event) {
-        localStorage.setItem("_username",event.target.value)
+        this.setState({'_submitDisabled':false});
+        localStorage.setItem("_username",event.target.value);
+        if (event.target.value === "") {
+            this.setState({'_submitDisabled':true});
+            localStorage.removeItem("_username");
+        }
     }
 
 	handleCaptcha = value => {
@@ -68,6 +76,7 @@ class Submit extends Component {
 
     showPassword = () => {
         let survey_form = window.location.pathname.split('/');
+        let username = localStorage.getItem("_username");
 		if (survey_form.includes(USING_PASSWORDS)) {
 			return (
 				<Fragment>
@@ -81,6 +90,7 @@ class Submit extends Component {
 						type="text"
 						name="submit-username"
 						onChange={this.handleUser}
+                        value={ username ? username : ""}
 					/>
 					<label
 						className="form-password-label"
@@ -108,6 +118,7 @@ class Submit extends Component {
 					className="form-control"
 					type="text"
 					name="submit-username"
+                    value={ username ? username : ""}
 					onChange={this.handleUser}
 				/>
 				<hr/>
@@ -115,17 +126,9 @@ class Submit extends Component {
 		);
     }
 
-    submitForm () {
-        localStorage.setItem("_submissionStop", Date.now())
-        this.setState({'_showSpinner': true})
-        let content_length =  JSON.stringify(localStorage).length.toString()
-        let content = localStorage;
+    sendData(content) {
         axios.post(API_ORIGIN+ 'submit-form',
-                content, { headers: {
-                'Content-Length': content_length,
-                'Content-Type': 'application/json'
-                    }
-                }
+                content, { headers: { 'Content-Type': 'application/json' } }
             )
             .then(res => {
                 swal({
@@ -139,9 +142,11 @@ class Submit extends Component {
                 })
                 this.setState({'_showSpinner': false})
                 setTimeout(function(){
-                     localStorage.clear()
-                     setTimeout(function(){
-                         window.location.replace(window.location.origin + window.location.pathname);
+                    username = localStorage.getItem('_username');
+                    localStorage.clear();
+                    localStorage.setItem('_username', username);
+                    setTimeout(function(){
+                        window.location.replace(window.location.origin + window.location.pathname);
                      }, 3000);
                 }, 500);
                 return res;
@@ -152,10 +157,51 @@ class Submit extends Component {
             })
     }
 
+    warnSubmission(text, store) {
+        swal({
+            text: text,
+            icon:"warning",
+            content: "input",
+            button: {
+                text: "Submit",
+                closeModal: true
+            }
+        })
+        .then(res => {
+            if (res) {
+                localStorage.setItem(store, res);
+                this.sendData(localStorage);
+                return;
+            }
+            if (!res) {
+                return this.warnSubmission(text, store);
+            }
+        })
+    }
+
+    submitForm () {
+        localStorage.setItem("_submissionStop", Date.now())
+        this.setState({'_showSpinner': true})
+        let dpname = localStorage.getItem('_dataPointName');
+        if (!dpname) {
+            this.warnSubmission("This form doesn't have datapoint name. Please add your datapoint name","_dataPointName");
+        }
+        if (dpname) {
+            this.sendData(localStorage);
+        }
+        return true;
+    }
+
     showSpinner = value => {
         return (
             <Spinner size="sm" color="light" />
         )
+    }
+
+    componentDidMount() {
+        if (localStorage.getItem('_username')) {
+            this.setState({'_submitDisabled': false});
+        }
     }
 
     render() {
@@ -168,7 +214,7 @@ class Submit extends Component {
                         onClick={this.submitForm}
                         className={"btn btn-block btn-" + ( this.props.value.submit ? "primary" : "secondary")
                         }
-                        disabled={this.props.value.submit ? false : true}
+                        disabled={this.state._submitDisabled ? true : false}
                     >
                     { this.state._showSpinner ? <Spinner size="sm" color="light" /> : "" }
                     <span>Submit</span>
