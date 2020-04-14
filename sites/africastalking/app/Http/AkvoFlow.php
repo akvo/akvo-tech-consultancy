@@ -15,4 +15,13 @@ class AkvoFlow extends Http
         $form = Http::get($form)->json();
         return $form;
     }
+
+    public function getCascade($cascade_id, $level)
+    {
+        $cascade = Str::of(config('akvoflow.cascade_api'))
+            ->replace('#cascade', $cascade_id)
+            ->replace('#level', $level);
+        $cascade = Http::get($cascade)->json();
+        return $cascade;
+    }
 }

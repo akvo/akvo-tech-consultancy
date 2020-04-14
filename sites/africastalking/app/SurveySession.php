@@ -24,4 +24,8 @@ class SurveySession extends Model
     {
         return $this->hasMany('App\Answer');
     }
+    function pending_answer()
+    {
+        return $this->answers()->where('waiting', 1);
+    }
 }

@@ -7,6 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 class Answer extends Model
 {
     protected $table = 'answers';
+    protected $fillable = [
+        'survey_session_id',
+        'waiting',
+        'question_id',
+        'dependency',
+        'order',
+        'mandatory',
+        'type',
+        'text',
+        'cascade',
+        'cascade_lv',
+        'input'
+    ];
 
     function survey_session()
     {
