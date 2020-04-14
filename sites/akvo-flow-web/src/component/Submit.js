@@ -18,7 +18,6 @@ class Submit extends Component {
         this.showCaptcha = this.showCaptcha.bind(this)
         this.showPassword = this.showPassword.bind(this)
         this.submitForm = this.submitForm.bind(this)
-        this.warnSubmission = this.warnSubmission.bind(this)
         this.sendData = this.sendData.bind(this)
         this.handleCaptcha = this.handleCaptcha.bind(this)
         this.handlePassword = this.handlePassword.bind(this)
@@ -88,6 +87,7 @@ class Submit extends Component {
 					<label
 						className="form-password-label"
 						htmlFor={"submit-username"}>
+                        Submitter
 					</label>
 					<input
 						className="form-control"
@@ -116,6 +116,7 @@ class Submit extends Component {
 				<label
 					className="form-password-label"
 					htmlFor={"submit-username"}>
+                    Submitter
 				</label>
 				<input
 					className="form-control"
@@ -160,36 +161,12 @@ class Submit extends Component {
             })
     }
 
-    warnSubmission(text, store) {
-        swal({
-            text: text,
-            icon:"warning",
-            content: "input",
-            button: {
-                text: "Submit",
-                closeModal: true
-            }
-        })
-        .then(res => {
-            if (res) {
-                localStorage.setItem(store, res);
-                this.sendData(localStorage);
-                return;
-            }
-            if (!res) {
-                return this.warnSubmission(text, store);
-            }
-        })
-    }
-
     submitForm () {
         localStorage.setItem("_submissionStop", Date.now())
         this.setState({'_showSpinner': true})
         let dpname = localStorage.getItem('_dataPointName');
         if (!dpname) {
-            this.warnSubmission("This form doesn't have datapoint name. Please add your datapoint name","_dataPointName");
-        }
-        if (dpname) {
+            localStorage.setItem('_dataPointName','Untitled');
             this.sendData(localStorage);
         }
         return true;

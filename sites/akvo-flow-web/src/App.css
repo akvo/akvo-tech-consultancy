@@ -117,6 +117,12 @@ body {
     transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
 
+.form-password-label {
+    text-align: left;
+    width: 100%;
+    padding-left: 12px;
+}
+
 @media (min-width: 768px) {
     .sidebar-wrapper {
         margin-left: 0;
