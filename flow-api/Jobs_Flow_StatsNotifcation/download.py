@@ -8,8 +8,8 @@ from datetime import datetime
 import os
 
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
-SPREADSHEET_ID = '1Ky2mBIeqan3yhGexwdZAW0c7TRdkK8H2_xyr-cyd7fc'
-RANGE_NAME = 'Notifications!A1:O100'
+SPREADSHEET_ID = '1c0JtibjTgnfwQ1EcVmEVJJiRG9tjFEhSG_Twrj-0WVU'
+RANGE_NAME = 'Notifications!A1:P100'
 FILENAME = datetime.now()
 FILENAME = FILENAME.strftime("%Y-%m-%d")
 FOLDERNAME = "./data"
