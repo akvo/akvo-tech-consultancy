@@ -33,7 +33,7 @@ class GatewayController extends Controller
             $response .= "You haven't finished the ".$session->form_name." survey\n";
             $response .= "Would you like to continue?\n";
             $response .= "Yes (Y) \nNo (N)";
-            return $response;
+            return response($response, 200)->header('Content-Type', 'text/plain');
         }
 
         /*
@@ -56,7 +56,7 @@ class GatewayController extends Controller
             if (count($input_codes) === 1) {
                 $current = $session->pending_answer()->first();
                 $response = $this->formatter($current);
-                return $response;
+                return response($response, 200)->header('Content-Type', 'text/plain');
             }
         }
 
@@ -67,8 +67,9 @@ class GatewayController extends Controller
          */
         if (!$continue && $session) {
             $session->delete();
-            $response .= "Your last session is deleted, please redial the number\n";
-            return $response;
+            $response .= "Your previous incomplete submission has been deleted\n";
+            $response .= "Please redial the number to start a new submission\n";
+            return response($response, 200)->header('Content-Type', 'text/plain');
         }
 
         /*
@@ -83,7 +84,7 @@ class GatewayController extends Controller
                 $option = $index.' '.$option;
                 return $option;
             })->join("\n", "");
-            return $response.$options;
+            return response($response.$options, 200)->header('Content-Type', 'text/plain');
         }
 
         /*
@@ -94,7 +95,7 @@ class GatewayController extends Controller
         if($step_first && !$session){
             $response .= "Instance Name: ".$instance_name."\n";
             $response .= "Please input the Form ID (e.g 293680912)\n";
-            return $response;
+            return response($response, 200)->header('Content-Type', 'text/plain');
         }
 
         /*
@@ -104,7 +105,7 @@ class GatewayController extends Controller
         $step_second = count($input_codes) === 2 ? true : false;
         if($step_second && !$session){
             $response .= "Enumerator Name\n";
-            return $response;
+            return response($response, 200)->header('Content-Type', 'text/plain');
         }
 
         /*
@@ -130,7 +131,8 @@ class GatewayController extends Controller
             $session = $survey_sessions->insert($session);
             $session = $survey_sessions->where('phone_number', $request->phoneNumber)->first();
         }
-        return $this->init_survey($survey, $last_input, $session);
+        $response = $this->init_survey($survey, $last_input, $session);
+        return response($response, 200)->header('Content-Type', 'text/plain');
     }
 
     private function init_survey($survey, $num, $session) {
