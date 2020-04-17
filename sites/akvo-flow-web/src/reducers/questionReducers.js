@@ -170,8 +170,11 @@ const showHideQuestions = (orig, group) => {
                 let current_state = updated_answer.find(u => {
                     return parseInt(u.id) === parseInt(dependent.question)
                 });
-                if (current_state.show === false) {
+                if (typeof current_state === undefined) {
                     show = false
+                }
+                if (current_state) {
+                    show = current_state.show
                 }
             }
         }
@@ -309,4 +312,3 @@ export const questionReducers = (state = initialState, action) => {
             return state;
     }
 }
-
