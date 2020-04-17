@@ -1,3 +1,12 @@
+a:focus, button:focus {
+	outline: 3px solid #000;
+}
+.no-focus a, .no-focus button {
+	outline: none;
+}
+button.bg-light:focus {
+  outline: none;
+}
 div.header-loading {
     width: 100%;
     text-align: center;
