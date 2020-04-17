@@ -11,15 +11,10 @@ class GroupButtons extends Component {
         this.getQuestionList = this.getQuestionList.bind(this)
         this.listClass = "list-group-item list-group-item-action "
         this.anyActive = this.anyActive.bind(this)
-        this.getUrl = this.getUrl.bind(this)
         this.state = {
           _showQuestion: ''
         };
     }
-
-    getUrl = ((group) => (
-        "#" + group.replace(/ /g,"-").toLowerCase()
-    ))
 
     anyActive = ((group) => {
         let questions = this.props.value.questions.filter((x) => {
@@ -39,7 +34,6 @@ class GroupButtons extends Component {
                     key={'group-' + group.index}
                 >
                     <a onClick={() => {this.showQuestion(group.index)}}
-                    href={this.getUrl(group.heading)}
                     className={(group.index === groups.active ?
                             this.listClass + " bg-current" : this.listClass + " bg-light"
                     )}
