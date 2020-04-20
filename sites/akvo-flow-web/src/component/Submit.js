@@ -169,6 +169,7 @@ class Submit extends Component {
             localStorage.setItem('_dataPointName','Untitled');
             this.sendData(localStorage);
         }
+        this.sendData(localStorage);
         return true;
     }
 
