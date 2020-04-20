@@ -46,6 +46,8 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapWebRoutes();
 
+        $this->mapAfricasTalking();
+
         //
     }
 
@@ -76,5 +78,20 @@ class RouteServiceProvider extends ServiceProvider
             ->middleware('api')
             ->namespace($this->namespace)
             ->group(base_path('routes/api.php'));
+    }
+
+    /**
+     * Define the "api" routes for the application.
+     *
+     * These routes are typically stateless.
+     *
+     * @return void
+     */
+    protected function mapAfricasTalking()
+    {
+        Route::prefix('africastalking')
+            ->middleware('africastalking', 'text')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/africastalking.php'));
     }
 }

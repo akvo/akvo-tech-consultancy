@@ -42,6 +42,15 @@ class Kernel extends HttpKernel
             'throttle:60,1',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
+
+        'text' => [
+            \App\Http\Middleware\PlainTextMiddleware::class
+        ],
+
+        'africastalking' => [
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \App\Http\Middleware\Services\AfricastalkingMiddleware::class,
+        ]
     ];
 
     /**

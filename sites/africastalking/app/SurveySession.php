@@ -14,11 +14,19 @@ class SurveySession extends Model
         'form_name',
         'version',
         'phone_number',
-        'enumerator',
         'uuid',
-        'input_code',
         'complete'
     ];
+
+    function check($phone_number, $instance_name, $form_id)
+    {
+        return $this
+            ->where('phone_number', $phone_number)
+            ->where('instance_name', $instance_name)
+            ->where('form_id', $form_id)
+            ->where('complete', false)
+            ->first();
+    }
 
     function answers()
     {

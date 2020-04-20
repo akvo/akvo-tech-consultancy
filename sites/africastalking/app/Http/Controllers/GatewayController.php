@@ -33,6 +33,7 @@ class GatewayController extends Controller
             $response .= "You haven't finished the ".$session->form_name." survey\n";
             $response .= "Would you like to continue?\n";
             $response .= "Yes (Y) \nNo (N)";
+            return $response;
             return response($response, 200)->header('Content-Type', 'text/plain');
         }
 

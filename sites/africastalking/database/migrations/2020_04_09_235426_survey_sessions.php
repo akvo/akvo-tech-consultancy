@@ -16,14 +16,14 @@ class SurveySessions extends Migration
         Schema::create('survey_sessions', function (Blueprint $table) {
             $table->id();
             $table->text('session_id');
+            $table->enum('service', ['africastalking','twillio']);
+            $table->enum('type', ['sms','ussd','wa']);
             $table->text('instance_name');
             $table->bigInteger('form_id');
             $table->text('form_name');
             $table->text('version');
             $table->bigInteger('phone_number');
-            $table->text('enumerator');
             $table->text('uuid')->nullable();
-            $table->text('input_code');
             $table->boolean('complete')->default(0);
             $table->timestamp('created_at', 0)->useCurrent();
             $table->timestamp('updated_at', 0)->useCurrent();
