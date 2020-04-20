@@ -146,9 +146,8 @@ class AfricasTalkingController extends Controller
         }
         if (!$isObject) {
             $questions = collect($survey["questionGroup"])->map(function($group){
-                $heading = $group['heading'];
-                return collect($group["question"])->map(function($question) use ($heading) {
-                    return $this->generate_question($question, $heading);
+                return collect($group["question"])->map(function($question) {
+                    return $this->generate_question($question);
                 })->toArray();
             })->flatten(1);
         }
@@ -160,7 +159,7 @@ class AfricasTalkingController extends Controller
         return $response;
     }
 
-    private function generate_question($question, $heading) {
+    private function generate_question($question) {
         if (Arr::has($question, "validationRule")) {
             $question['type'] = $question['validationRule']['validationType'];
         }
@@ -187,7 +186,7 @@ class AfricasTalkingController extends Controller
             'question_id' => (int) $question['id'],
             'order' => (int) $question['order'],
             'mandatory' => (int) $question['mandatory'],
-            'text' => $heading." - ".$question['text'].$options,
+            'text' => $question['text'].$options,
             'type' => $question['type'],
             'cascade' => $cascade,
             'cascade_lv' => $cascade_lv
