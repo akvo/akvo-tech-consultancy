@@ -51,17 +51,17 @@ class AfricastalkingMiddleware
     private function unify(array $data, $request, $record)
     {
         $data = collect($data)->mapWithKeys(function ($value, $key) {
-            if ($key === "sessionId") {
-                return ["session_id" => $value];
+            if ($key === 'sessionId') {
+                return ['session_id' => $value];
             }
-            if ($key === "text") {
-                return ["answer" => $value];
+            if ($key === 'text') {
+                return ['answer' => $value];
             }
-            if ($key === "phoneNumber") {
-                return ["phone_number" => (int) $value];
+            if ($key === 'phoneNumber') {
+                return ['phone_number' => (int) $value];
             }
             return [$key => $value];
-        })->forget(["serviceCode","networkCode"]);
+        })->forget(['serviceCode','networkCode']);
         $data->put('type', $request->type);
         $data->put('instance_name', $request->instance_name);
         $data->put('form_id', (int) $request->form_id);

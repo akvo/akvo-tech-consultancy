@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "451e14e01fe61938be22a281e8ef68b6",
+    "content-hash": "f522391d5db149e02efa9f50164dee73",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -444,6 +444,44 @@
                 "validator"
             ],
             "time": "2020-02-13T22:36:52+00:00"
+        },
+        {
+            "name": "fawno/wget",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fawno/wget.git",
+                "reference": "851a70a190c14537965d49c9e2b48320682e8cd7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fawno/wget/zipball/851a70a190c14537965d49c9e2b48320682e8cd7",
+                "reference": "851a70a190c14537965d49c9e2b48320682e8cd7",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-openssl": "*",
+                "php": ">=5.6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Fawno\\wget\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fawno",
+                    "homepage": "https://github.com/fawno/wget/graphs/contributors"
+                }
+            ],
+            "description": "PHP Class wget",
+            "time": "2018-01-20T23:07:01+00:00"
         },
         {
             "name": "fideloper/proxy",
@@ -3487,6 +3525,56 @@
             "description": "CssToInlineStyles is a class that enables you to convert HTML-pages/files into HTML-pages/files with inline styles. This is very useful when you're sending emails.",
             "homepage": "https://github.com/tijsverkoyen/CssToInlineStyles",
             "time": "2019-10-24T08:53:34+00:00"
+        },
+        {
+            "name": "twilio/sdk",
+            "version": "6.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twilio/twilio-php.git",
+                "reference": "1c723c7155e5e41bece4f5c4aca0b28d63778b04"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twilio/twilio-php/zipball/1c723c7155e5e41bece4f5c4aca0b28d63778b04",
+                "reference": "1c723c7155e5e41bece4f5c4aca0b28d63778b04",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "require-dev": {
+                "guzzlehttp/guzzle": "^6.3",
+                "phpunit/phpunit": ">=4.5",
+                "theseer/phpdox": "^0.12.0"
+            },
+            "suggest": {
+                "guzzlehttp/guzzle": "An HTTP client to execute the API requests"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Twilio\\": "src/Twilio/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Twilio API Team",
+                    "email": "api@twilio.com"
+                }
+            ],
+            "description": "A PHP wrapper for Twilio's API",
+            "homepage": "http://github.com/twilio/twilio-php",
+            "keywords": [
+                "api",
+                "sms",
+                "twilio"
+            ],
+            "time": "2020-04-15T20:03:03+00:00"
         },
         {
             "name": "vlucas/phpdotenv",

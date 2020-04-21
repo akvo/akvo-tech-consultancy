@@ -50,6 +50,11 @@ class Kernel extends HttpKernel
         'africastalking' => [
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\Services\AfricastalkingMiddleware::class,
+        ],
+
+        'twilio' => [
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \App\Http\Middleware\Services\TwilioMiddleware::class,
         ]
     ];
 

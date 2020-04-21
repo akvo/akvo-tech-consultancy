@@ -10,11 +10,13 @@
     "require": {
         "php": "^7.2.5",
         "barryvdh/laravel-debugbar": "^3.2",
+        "fawno/wget": "^1.0",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^6.5",
         "laravel/framework": "^7.0",
-        "laravel/tinker": "^2.0"
+        "laravel/tinker": "^2.0",
+        "twilio/sdk": "^6.3"
     },
     "require-dev": {
         "facade/ignition": "^2.0",
