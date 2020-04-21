@@ -48,7 +48,7 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapAfricasTalking();
 
-        //
+        $this->mapTwillio();
     }
 
     /**
@@ -92,6 +92,21 @@ class RouteServiceProvider extends ServiceProvider
         Route::prefix('africastalking')
             ->middleware('africastalking', 'text')
             ->namespace($this->namespace)
-            ->group(base_path('routes/africastalking.php'));
+            ->group(base_path('routes/custom/africastalking.php'));
+    }
+
+    /**
+     * Define the "api" routes for the application.
+     *
+     * These routes are typically stateless.
+     *
+     * @return void
+     */
+    protected function mapTwillio()
+    {
+        Route::prefix('twilio')
+            ->middleware('twilio','text')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/custom/twilio.php'));
     }
 }
