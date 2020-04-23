@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+    server:
+        image: composer
+        entrypoint: /bin/sh
+        command: ['-c', 'composer install && php artisan key:generate && php artisan cache:clear && php artisan serve --host 0.0.0.0 --port 8000']
+        working_dir: /home/tcakvo/public_html/unicef-sig-map/
+        volumes:
+          - .:/home/tcakvo/public_html/unicef-sig-map/:delegated
+    client:
+        image: node:8-alpine
+        entrypoint: /bin/sh
+        command: ['-c', 'npm i && npm run prod']
+        working_dir: /home/tcakvo/public_html/unicef-sig-map/
+        volumes:
+          - .:/home/tcakvo/public_html/unicef-sig-map/:delegated

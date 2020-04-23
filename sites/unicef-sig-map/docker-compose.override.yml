@@ -1,0 +1,7 @@
+version: "3"
+
+services:
+    server:
+        ports:
+          - 8000:8000
+
