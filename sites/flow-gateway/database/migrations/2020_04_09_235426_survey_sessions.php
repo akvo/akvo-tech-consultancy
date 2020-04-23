@@ -16,8 +16,8 @@ class SurveySessions extends Migration
         Schema::create('survey_sessions', function (Blueprint $table) {
             $table->id();
             $table->text('session_id');
-            $table->enum('service', ['africastalking','twillio']);
-            $table->enum('type', ['sms','ussd','wa']);
+            $table->enum('service', ['africastalking','twilio']);
+            $table->enum('type', ['sms','ussd','whatsapp']);
             $table->text('instance_name');
             $table->bigInteger('form_id');
             $table->text('form_name');
