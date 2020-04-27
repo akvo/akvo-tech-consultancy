@@ -6,6 +6,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use App\Http\AkvoFlow;
+use App\Interact\Submission;
 
 class Feed
 {
@@ -62,8 +63,8 @@ class Feed
          */
         $next = $session->answers()->find($current->id + 1);
         if (!$next) {
-            $session->complete = true;
-            $session->save();
+            $submission = new Submission();
+            $submission->send($session->id);
             return $this->prefix_end."Thanks for completing the survey!";
         }
         $next->waiting = true;
@@ -109,9 +110,10 @@ class Feed
             $opt = $question["options"]["option"];
             $i = 1;
             do {
-                $icode = $i;
+                $icode = (string) $i;
                 if (Arr::has($opt[$i - 1], "code")) {
                     $icode = $opt[$i - 1]["code"];
+                    $icode = strtoupper($icode);
                 }
                 $options .= "\n".$icode.". ".$opt[$i - 1]["text"];
                 $i++;
@@ -125,6 +127,7 @@ class Feed
             'question_id' => (int) $question['id'],
             'order' => (int) $question['order'],
             'mandatory' => (int) $question['mandatory'],
+            'datapoint' => $question['localeNameFlag'],
             'text' => $question['text'].$options,
             'type' => $question['type'],
             'cascade' => $cascade,

@@ -19,6 +19,7 @@ class Answers extends Migration
             $table->boolean('waiting')->default(0);
             $table->bigInteger('question_id');
             $table->bigInteger('dependency')->nullable();
+            $table->boolean('datapoint')->default(0);
             $table->bigInteger('order');
             $table->boolean('mandatory');
             $table->text('type');

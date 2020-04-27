@@ -19,6 +19,7 @@ class SurveySessions extends Migration
             $table->enum('service', ['africastalking','twilio']);
             $table->enum('type', ['sms','ussd','whatsapp']);
             $table->text('instance_name');
+            $table->text('app');
             $table->bigInteger('form_id');
             $table->text('form_name');
             $table->text('version');

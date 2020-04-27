@@ -12,6 +12,7 @@ class SurveySession extends Model
         'instance_name',
         'form_id',
         'form_name',
+        'app',
         'version',
         'phone_number',
         'uuid',

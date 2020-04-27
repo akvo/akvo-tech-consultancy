@@ -27,6 +27,7 @@ class AfricasTalkingController extends Controller
             $input = collect($request)
                 ->put('form_name', $survey['surveyGroupName'])
                 ->put('version', $survey['version'])
+                ->put('app', $survey['app'])
                 ->forget(['record','answer'])
                 ->toArray();
             $session = $survey_sessions->insertGetId($input);

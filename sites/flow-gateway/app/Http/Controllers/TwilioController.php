@@ -30,7 +30,7 @@ class TwilioController extends Controller
              */
             $response .= "Please reply with the following format to start new survey session:\n\n";
             $response .= "*INSTANCE_NAME#FORM_ID*\n";
-            $response .= "(e.g *seap#293680912)\n";
+            $response .= "(e.g *seap#293680912*)\n";
             return $response;
         }
         if ($init) {
@@ -85,6 +85,7 @@ class TwilioController extends Controller
             $input = collect($request)
                 ->put('form_name', $survey['surveyGroupName'])
                 ->put('version', $survey['version'])
+                ->put('app', $survey['app'])
                 ->put('instance_name', $info[0])
                 ->put('form_id', (int) $info[1])
                 ->forget(['answer','media'])

@@ -7,7 +7,7 @@ use Closure;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
-use Twilio\Rest\Client;
+use Illuminate\Support\Facades\Http;
 
 class TwilioMiddleware
 {
@@ -85,14 +85,24 @@ class TwilioMiddleware
                 $data->forget('answer');
                 $mediaType = Str::afterLast($data['MediaContentType'.$i], '/');
                 $mediaUrl = $data['MediaUrl'.$i];
-                $fileName = "files/";
-                $fileName .= Str::afterLast($data['MediaUrl'.$i], '/');
+                $filePath = "files/";
+                $fileName = Str::afterLast($data['MediaUrl'.$i], '/');
                 $fileName .= '.'.$mediaType;
+                $filePath .= $fileName;
                 $data->forget(['MediaContentType'.$i, 'MediaUrl'.$i]);
                 $i++;
             } while ($i < $data['media']);
-            exec("/usr/local/bin/wget -O ".$fileName." ".$mediaUrl);
-            $data->put('answer', 'https://dedenbangkit.ngrok.io/'.$fileName);
+            $execution = exec("/usr/local/bin/wget -O ".$filePath." ".$mediaUrl);
+            $file = fopen($filePath, 'r');
+            $response = Http::attach('attachment',
+                $file, $fileName)
+                ->withHeaders([
+					'Origin' => config('akvoflow.upload_image'),
+					'Accept' => "*/*",
+					'Accept-Encoding' => 'gzip'
+				])
+                ->post(config('akvoflow.upload_image'));
+            $data->put('answer', $response);
         }
         if (Arr::has($data,'Latitude')) {
             $data->forget('answer');
