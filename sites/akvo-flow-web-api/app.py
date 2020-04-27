@@ -139,7 +139,10 @@ def submitprocess(rec, _uuid):
                             else:
                                 vals.append({"text":"No Answer","isOther":True})
                         else:
-                            vals.append({"text":rc})
+                            try:
+                                vals.append({"text":rc["text"],"code":rc["code"]})
+                            except:
+                                vals.append({"text":rec[ids]})
                     val = json.dumps(vals)
                 except:
                     val = json.dumps([{"text":rec[ids]}])
