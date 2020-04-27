@@ -133,7 +133,6 @@ def submitprocess(rec, _uuid):
                 try:
                     vals = []
                     answerlist = list(ast.literal_eval(rec[ids]))
-                    print(answerlist)
                     for rc in answerlist:
                         if rc["text"] == "Other Option":
                             if(rec["other_" + ids]):
@@ -146,7 +145,6 @@ def submitprocess(rec, _uuid):
                             except:
                                 vals.append({"text":rc["text"]})
                     val = json.dumps(vals)
-                    print(vals)
                 except:
                     val = json.dumps([{"text":rec[ids]}])
             elif answerType[i] == "PHOTO":
@@ -170,7 +168,7 @@ def submitprocess(rec, _uuid):
             form = {
                 "answerType": aType,
                 "iteration": 0,
-                "questionId": ids,
+                "questionId": str(ids).replace("-k",""),
                 "value": val
             }
             data.append(form)
@@ -300,7 +298,6 @@ def upload_file():
         _uuid = str(uuid.uuid4())
         for f in list(files):
             image = files[f]
-            #develop image[0]
             fn = image.filename
             fn = fn.split('.')[-1]
             _uuid += '.' + fn
