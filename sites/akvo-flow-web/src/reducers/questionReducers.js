@@ -124,7 +124,17 @@ const showHideQuestions = (orig, group) => {
                 })
             }
             if (localStorage.getItem(dependent.question) !== null) {
-                answer = localStorage.getItem(dependent.question)
+                answer = localStorage.getItem(dependent.question);
+                if (answer) {
+                    answer = JSON.parse(answer);
+                    answer = answer.map((val) => {
+                        if(typeof val === 'object') {
+                            return val['text'];
+                        }
+                        let parsed = JSON.parse(val);
+                        return parsed['text'];
+                    });
+                }
                 if (isJsonString(answer_value)) {
                     answer = JSON.parse(answer_value)
                 }
@@ -145,15 +155,12 @@ const showHideQuestions = (orig, group) => {
         }
         if (group) {
             if(dependent && answer){
-                if (isJsonString(answer)) {
-                    answer = JSON.parse(answer);
                     answer_value = dependent["answer-value"].split("|");
                     answer_value.forEach((x, i) => {
                         if(answer.includes(x)){
                             show = true;
                         }
                     });
-                }
                 if (answer === answer_value) {
                     show = true
                 }

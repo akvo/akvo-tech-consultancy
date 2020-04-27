@@ -107,14 +107,23 @@ class QuestionType extends Component {
             }
         }
         else if (this.props.data.options && this.props.data.options.allowMultiple)  {
-            let multipleValue = []
+            let multipleValue = [];
+            let existValue = [];
+			value = JSON.parse(value);
             if (localStorage.getItem(id)) {
                 multipleValue = JSON.parse(localStorage.getItem(id))
             }
-            if (multipleValue.indexOf(value) === -1) {
+            if (multipleValue.length > 0) {
+                existValue = multipleValue.map((val) =>{
+                    return val["text"];
+                });
+            }
+            if (existValue.indexOf(value.text) === -1) {
                 multipleValue.push(value)
+                existValue.push(value.text)
             } else {
-				multipleValue.splice(multipleValue.indexOf(value), 1)
+                console.log(existValue.indexOf(value.text));
+				multipleValue.splice(existValue.indexOf(value.text), 1)
             }
 			if (multipleValue.length > 0) {
             	localStorage.setItem(id, JSON.stringify(multipleValue))
@@ -125,16 +134,23 @@ class QuestionType extends Component {
             	this.setState({value: ""})
 			}
             if(this.props.data.options.allowOther) {
-                if (value === "Other Option" && event.target.checked){
+				let otherOpt = JSON.stringify({"text":"Other Option"})
+                if (value === otherOpt && event.target.checked){
                     let otherClass = "other_" + this.props.data.id.toString();
                     this.setState({[otherClass]: true});
                 }
-                if (value === "Other Option" && !event.target.checked){
+                if (value === otherOpt && !event.target.checked){
                     let otherClass = "other_" + this.props.data.id.toString();
                     this.setState({[otherClass]: false});
                 }
             }
             this.handleGlobal(id, value)
+        } else if (this.props.data.options && !this.props.data.options.allowMultiple)  {
+            let optval = [JSON.parse(value)];
+            optval = JSON.stringify(optval);
+            localStorage.setItem(id, optval)
+            this.setState({value: optval})
+            this.handleGlobal(id, optval)
         } else {
             localStorage.setItem(id, value)
             this.setState({value: value})
@@ -152,10 +168,16 @@ class QuestionType extends Component {
                 let c = localStorage.getItem(b)
                 if (c) {
                     if (isJsonString(c) && isNaN(c)) {
-                        let cascade = JSON.parse(c).map(x => x.text)
-                        cascade.forEach(name => {
-                            names.push(name)
-                        });
+                        let opts = JSON.parse(c);
+                        if (opts.length > 1) {
+                            let cascade = opts.map(x => x.text)
+                            cascade.forEach(name => {
+                                names.push(name)
+                            });
+                        }
+                        if (opts.length === 1) {
+                            names.push(opts[0].text);
+                        }
                     } else {
                         names.push(c)
                     }
@@ -223,9 +245,22 @@ class QuestionType extends Component {
     }
 
     renderRadio (o, opt, i, id, radioType, unique) {
-        let checked = () => (localStorage.getItem(id) === opt.value)
-		if (radioType === "checkbox" && this.state.value.indexOf(opt.value) >= 0) {
-			checked = () => (true)
+        let dataval = opt.code !== undefined
+            ? JSON.stringify({"text":opt.value,"code":opt.code})
+            : JSON.stringify({"text":opt.value})
+        let storage = JSON.parse(localStorage.getItem(id));
+        let checked = () => (false);
+		if (storage) {
+			storage = storage.map((val) => {
+				if(typeof val === 'object') {
+					return val['text'];
+				}
+				let parsed = JSON.parse(val);
+				return parsed['text'];
+			});
+			if (storage.indexOf(opt.value) >= 0) {
+				checked = () => (true)
+			}
 		}
         if (o) {
             let oname = "other_"+id.toString();
@@ -237,7 +272,7 @@ class QuestionType extends Component {
                             className="form-check-input"
                             type={radioType}
                             name={id}
-                            value={opt.value}
+                            value={dataval}
                             onChange={this.handleChange}
                             checked={checked()}
                         />
@@ -276,7 +311,7 @@ class QuestionType extends Component {
                     className="form-check-input"
                     type={radioType}
                     name={id}
-                    value={opt.value}
+                    value={dataval}
                     onChange={this.handleChange}
                     checked={checked()}
             />
