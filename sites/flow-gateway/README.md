@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://raw.githubusercontent.com/akvo/akvo-tech-consultancy/develop/sites/flow-gateway/public/images/cover-image.jpg" width="400">
+<img src="https://raw.githubusercontent.com/akvo/akvo-tech-consultancy/develop/sites/flow-gateway/public/images/cover-image.jpg" width="800">
 </p>
 
 ## Context
