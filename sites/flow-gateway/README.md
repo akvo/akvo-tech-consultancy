@@ -1,10 +1,10 @@
 <p align="center">
-<img src="https://miro.medium.com/max/1076/1*k9poV1f4zjhkNS93jo2QTg@2x.png" width="400">
+<img src="https://raw.githubusercontent.com/akvo/akvo-tech-consultancy/develop/sites/flow-gateway/public/images/cover-image.jpg" width="400">
 </p>
 
 ## Context
 
-- Create a webhook using [Laravel Framework](https://laravel.com/docs) to interact with [Africastalking](https://africastalking.com)
+- Create a webhook using [Laravel Framework](https://laravel.com/docs) to interact with [Africastalking](https://africastalking.com) and [Twilio](https://twilio)
 - Fetch forms from Akvo Flow and convert it to the webhook responses message.
 - Store the complete responses to database.
 - Create cronjob to sync database to Akvo Flow.
