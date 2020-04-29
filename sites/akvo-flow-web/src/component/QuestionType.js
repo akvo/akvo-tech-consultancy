@@ -146,8 +146,21 @@ class QuestionType extends Component {
             }
             this.handleGlobal(id, value)
         } else if (this.props.data.options && !this.props.data.options.allowMultiple)  {
-            let optval = [JSON.parse(value)];
-            optval = JSON.stringify(optval);
+            let parsedValue = [JSON.parse(value)];
+            let optval = JSON.stringify(parsedValue);
+
+            let childs = this.props.value.questions.filter(x => x.dependency !== undefined);
+            let dependentValue = false;
+            let match = false;
+            childs = childs.find(x => parseInt(x.dependency.question) === id);
+            if (childs) {
+                dependentValue = childs.dependency["answer-value"].split("|");
+                parsedValue = parsedValue.map(x => x.text);
+                match = dependentValue.some(r=> parsedValue.includes(r))
+                if (!match) {
+                    localStorage.removeItem(childs.id);
+                }
+            }
             localStorage.setItem(id, optval)
             this.setState({value: optval})
             this.handleGlobal(id, optval)
@@ -329,14 +342,22 @@ class QuestionType extends Component {
             let l = opts.levels.level.length - 1
             return opts.levels.level.map((opt, i) => {
                 this.limitCascade = i + 1
-                return this.renderCascade(opt, i, l, unique)
+                return this.renderCascade(opt, i, l, unique, opts.id)
             });
         }
         this.limitCascade = 1;
-        return this.renderCascade(opts.levels.level, 0, 0, unique);
+        return this.renderCascade(opts.levels.level, 0, 0, unique, opts.id);
     }
 
-    renderCascade (opt, i, l, unique) {
+    renderCascade (opt, i, l, unique, id) {
+        /*
+        let selected = localStorage.getItem(id);
+        if (selected) {
+            selected = JSON.parse(selected);
+            selected = selected.length > i ? selected[i].option : false;
+            let selected_value = selected ? selected : "";
+        }
+        */
         let cascades = []
         let choose_options = "cascade_" + i
         let dropdown = this.state[this.state[choose_options]]

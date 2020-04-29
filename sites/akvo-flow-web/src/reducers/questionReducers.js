@@ -155,12 +155,12 @@ const showHideQuestions = (orig, group) => {
         }
         if (group) {
             if(dependent && answer){
-                    answer_value = dependent["answer-value"].split("|");
-                    answer_value.forEach((x, i) => {
-                        if(answer.includes(x)){
-                            show = true;
-                        }
-                    });
+                answer_value = dependent["answer-value"].split("|");
+                answer_value.forEach((x, i) => {
+                    if(answer.includes(x)){
+                        show = true;
+                    }
+                });
                 if (answer === answer_value) {
                     show = true
                 }
@@ -171,7 +171,7 @@ const showHideQuestions = (orig, group) => {
         }
         if (!group && !show) {
             if (!dependent) {
-                localStorage.removeItem(x.id)
+                localStorage.removeItem(x.id.toString())
             }
             if (dependent) {
                 let current_state = updated_answer.find(u => {
@@ -225,19 +225,42 @@ const generateUUID = () => {
     return id.join('-');
 }
 
-const checkSubmission = (answers, questions) => {
-    let activelist = showHideQuestions(questions, false).filter(x => x.show);
-    answers = answers.filter(x => x.mandatory).filter(x => x.answer !== null);
-    let active_mandatory = activelist.map(x => {
-        let answered = answers.filter(y => y.id === x.id).map(y => y.answer);
-        answered = (answered.length < 1 ? false : true)
-        return {
-            ...x,
-            answered: answered
+const getValidAnswers = (answers, questions) => {
+    let i = 0;
+    let valid = [];
+    let mandatory = answers.filter(x => x.mandatory);
+    do {
+        let match = false;
+        let dependent = false;
+        let dependent_value = false;
+        let answered = false;
+        let q;
+        q = questions[i];
+        if (q.dependency !== undefined) {
+            dependent = q.dependency["answer-value"];
+            dependent_value = dependent.split("|");
+            answered = localStorage.getItem(q.dependency.question);
+            answered = JSON.parse(answered);
+        } else {
+            valid = [...valid, q];
         }
-    }).filter(x => x.mandatory);
-    let answered_mandatory = active_mandatory.filter(x => x.answered)
-    let captcha = (answered_mandatory.length >= active_mandatory.length)
+        if (answered) {
+            match = dependent_value.some(opt =>
+                answered.find(val => val.text === opt)
+            );
+        }
+        if (match) {
+            valid = [...valid, q];
+        }
+        i++;
+    } while(i < questions.length);
+    return mandatory.filter(x => valid.find(z => x.id === z.id));
+}
+
+const checkSubmission = (answers, questions) => {
+    let validAnswers = getValidAnswers(answers, questions);
+    let mandatory = validAnswers.filter(x => x.answer === null);
+    let captcha = mandatory <= 0;
     return captcha
 }
 
