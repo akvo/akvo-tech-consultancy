@@ -3,19 +3,17 @@ kind: CronJob
 metadata:
   name: jobs-update-iucn
 spec:
-  schedule: "30 18 * * *"
-  startingDeadlineSeconds: 600 # it is ok to start the job 10 minutes late
+  schedule: "45 17 * * *"
+  startingDeadlineSeconds: 600
   concurrencyPolicy: Allow
-  failedJobsHistoryLimit: 10
-  successfulJobsHistoryLimit: 10
+  failedJobsHistoryLimit: 1
+  successfulJobsHistoryLimit: 3
   jobTemplate:
     metadata:
       labels:
         cronjob: jobs-update-iucn # <-- for monitoring
         jobowner: tech-consultancy
     spec:
-      backoffLimit: 6 # default
-      activeDeadlineSeconds: 900 # Fail job if it takes more than 15 mins
       template:
         metadata:
           labels:
