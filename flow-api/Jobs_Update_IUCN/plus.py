@@ -9,7 +9,7 @@ import pprint
 
 pp = pprint.PrettyPrinter(indent=4)
 
-APIKEY='&api_key='+os.environ['CARTOKEY']
+APIKEY='&api_key='+os.environ['CARTO_KEY']
 CARTOURL='https://akvo.cartodb.com/api/v2/sql?q='
 #DATABASEID = "test_iucn_tof"
 DATABASEID = "iucn_7160001"
@@ -23,11 +23,6 @@ formURI = 'https://api.akvo.org/flow/orgs/' + INSTANCE + '/form_instances?survey
 
 
 FlowToken = Flow.getAccessToken()
-
-
-def query(table):
-    insert = "INSERT INTO " + table + " "
-    return insert
 
 def getTime(x):
     return int(datetime.strptime(x, '%Y-%m-%dT%H:%M:%SZ').strftime("%s%f")) / 1000
@@ -54,7 +49,7 @@ def download():
     mt = pd.DataFrame(meta)
     groupID = mt['id'][0]
     metadata = mt['questions'][0]
-    datapoints = getAll(formURI)
+    getAll(formURI)
     output = pd.DataFrame(dataPoints)
     number_columns = []
     for qst in metadata:

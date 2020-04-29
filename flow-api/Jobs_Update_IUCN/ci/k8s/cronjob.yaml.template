@@ -3,11 +3,11 @@ kind: CronJob
 metadata:
   name: jobs-update-iucn
 spec:
-  schedule: "40 7 * * *"
+  schedule: "30 18 * * *"
   startingDeadlineSeconds: 600 # it is ok to start the job 10 minutes late
   concurrencyPolicy: Allow
-  failedJobsHistoryLimit: 10 
-  successfulJobsHistoryLimit: 10 
+  failedJobsHistoryLimit: 10
+  successfulJobsHistoryLimit: 10
   jobTemplate:
     metadata:
       labels:
@@ -35,21 +35,21 @@ spec:
               - name: KEYCLOAK_USER
                 valueFrom:
                   secretKeyRef:
-                    name: jobs-update-iucn 
+                    name: jobs-update-iucn
                     key: keycloak-user
               - name: KEYCLOAK_PWD
                 valueFrom:
                   secretKeyRef:
-                    name: jobs-update-iucn 
+                    name: jobs-update-iucn
                     key: keycloak-pwd
               - name: CARTO_KEY
                 valueFrom:
                   secretKeyRef:
-                    name: jobs-update-iucn 
+                    name: jobs-update-iucn
                     key: carto-key
-              - name: CARTO_DB 
+              - name: CARTO_DB
                 valueFrom:
                   secretKeyRef:
-                    name: jobs-update-iucn 
+                    name: jobs-update-iucn
                     key: carto-db
           restartPolicy: Never
