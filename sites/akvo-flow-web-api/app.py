@@ -20,6 +20,8 @@ CORS(app)
 instance_list = './data/flow-survey-amazon-aws.csv'
 BASE_URL="https://flow-services.akvotest.org/upload"
 PASSWORD="2SCALE"
+DEFAULT_PASSWORD="webform"
+DEVEL=False
 
 UPLOAD_FOLDER='./tmp/images'
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
@@ -254,24 +256,20 @@ def sendZip(payload, _uuid, instance_id, imagelist):
         os.rename(combined, './tmp/ ' + combined)
     return result
 
-@app.route('/submit-form', methods=['POST', 'OPTIONS'])
+@app.route('/submit-form', methods=['POST'])
 def submit():
     rec = request.get_json()
     _uuid = str(uuid.uuid4())
     submit = False
-    if request.method == 'POST':
-        if '_password' not in rec:
-            submit = True
-        if submit == False:
-            if rec['_password'] == PASSWORD:
-                submit = True
-        if submit:
-            response = submitprocess(rec, _uuid)
-            return response
-    if request.method == 'OPTIONS':
-        return make_response("Verified", 200)
-    resp = make_response("Integrity Error", 400)
-    return resp
+    default_pass = rec['_default_password'] if '_default_password' in rec else False
+    password = rec['_password'] if '_password' in rec else False
+    if default_pass == DEFAULT_PASSWORD:
+        submit = True
+    if password == PASSWORD:
+        submit = True
+    if submit:
+        return submitprocess(rec, _uuid)
+    return make_response("Password is Wrong", 400)
 
 @app.route('/fetch-image', methods=['GET'])
 def fetch_file():
@@ -298,6 +296,8 @@ def upload_file():
         _uuid = str(uuid.uuid4())
         for f in list(files):
             image = files[f]
+            if DEVEL:
+                image = image[0]
             fn = image.filename
             fn = fn.split('.')[-1]
             _uuid += '.' + fn

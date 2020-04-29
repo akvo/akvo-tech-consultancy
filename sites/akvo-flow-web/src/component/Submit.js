@@ -32,7 +32,9 @@ class Submit extends Component {
     }
 
     handlePassword (event) {
-        localStorage.setItem("_password",event.target.value)
+        let survey_form = window.location.pathname.split('/');
+        const passvar = survey_form.includes(USING_PASSWORDS) ? "_password" : "_default_password";
+        localStorage.setItem(passvar,event.target.value)
     }
 
     handleUser (event) {
@@ -79,55 +81,35 @@ class Submit extends Component {
     }
 
     showPassword = () => {
-        let survey_form = window.location.pathname.split('/');
         let username = localStorage.getItem("_username");
-		if (survey_form.includes(USING_PASSWORDS)) {
-			return (
-				<Fragment>
-					<label
-						className="form-password-label"
-						htmlFor={"submit-username"}>
-                        Submitter
-					</label>
-					<input
-						className="form-control"
-						type="text"
-						name="submit-username"
-						onChange={this.handleUser}
-                        value={ username ? username : ""}
-					/>
-					<label
-						className="form-password-label"
-						htmlFor={"submit-password"}>
-						Password:
-					</label>
-					<input
-						className="form-control"
-						type="password"
-						name="submit-password"
-						onChange={this.handlePassword}
-					/>
-					<hr/>
-				</Fragment>
-			)
-		}
-		return (
-			<Fragment>
-				<label
-					className="form-password-label"
-					htmlFor={"submit-username"}>
+        return (
+            <Fragment>
+                <label
+                    className="form-password-label"
+                    htmlFor={"submit-username"}>
                     Submitter
-				</label>
-				<input
-					className="form-control"
-					type="text"
-					name="submit-username"
+                </label>
+                <input
+                    className="form-control"
+                    type="text"
+                    name="submit-username"
+                    onChange={this.handleUser}
                     value={ username ? username : ""}
-					onChange={this.handleUser}
-				/>
-				<hr/>
-			</Fragment>
-		);
+                />
+                <label
+                    className="form-password-label"
+                    htmlFor={"submit-password"}>
+                    Password:
+                </label>
+                <input
+                    className="form-control"
+                    type="password"
+                    name="submit-password"
+                    onChange={this.handlePassword}
+                />
+                <hr/>
+            </Fragment>
+        )
     }
 
     sendData(content) {
