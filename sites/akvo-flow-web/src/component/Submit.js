@@ -95,9 +95,9 @@ class Submit extends Component {
         let dpname = localStorage.getItem('_dataPointName');
         if (!dpname) {
             localStorage.setItem('_dataPointName','Untitled');
-            this.sendData(localStorage);
         }
         this.sendData(localStorage);
+        return false;
     }
 
     render() {
