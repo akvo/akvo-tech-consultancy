@@ -148,8 +148,15 @@ img.responsive-image {
 
 /* Leaflet */
 
+.map-container {
+    width: 100%;
+    height: 400px;
+}
+
 .leaflet-container {
     height: 400px;
     width: 100%; 
     margin: 0 auto;
 }
+
+/* Leaflet */

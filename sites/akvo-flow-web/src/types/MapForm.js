@@ -100,21 +100,8 @@ class MapForm extends Component {
         this.updateAddress();
     }
 
-    componentDidMount() {
-		let newstate = {
-            center: this.props.center,
-            marker: this.props.center,
-            zoom: 4,
-			draggable: true,
-            address: false,
-            value:'',
-        };
-        const map = this.refs.map.leafletElement;
-        setTimeout(() => {
-            map.invalidateSize();
-            this.setState(newstate);
-            this.updateAddress();
-        }, 3000);
+    componentDidUpdate() {
+        this.refs.map.leafletElement.invalidateSize();
     }
 
     getSpanAddress = () => {
@@ -152,6 +139,7 @@ class MapForm extends Component {
                 </div>
             </div>
             <br/>
+            <div className="map-container">
             <Map
                 onClick={this.handleClick}
                 center={this.state.center}
@@ -176,15 +164,16 @@ class MapForm extends Component {
                     </Popup>
                 </Marker>
             </Map>
-                <div className="row">
-                    <div className="col-md-12 text-center">
-                        <hr/>
-                        { this.state.address ? this.getSpanAddress() : "" }
-                        <span className="badge badge-success">
-                            lat: {this.state.marker.lat}, lng: {this.state.marker.lng}
-                        </span>
-                    </div>
+            </div>
+            <div className="row">
+                <div className="col-md-12 text-center">
+                    <hr/>
+                    { this.state.address ? this.getSpanAddress() : "" }
+                    <span className="badge badge-success">
+                        lat: {this.state.marker.lat}, lng: {this.state.marker.lng}
+                    </span>
                 </div>
+            </div>
             </Fragment>
         )
     }
