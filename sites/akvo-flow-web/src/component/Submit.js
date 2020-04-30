@@ -88,7 +88,8 @@ class Submit extends Component {
             })
     }
 
-    submitForm () {
+    submitForm (e) {
+        e.stopPropagation();
         localStorage.setItem("_submissionStop", Date.now())
         this.setState({'_showSpinner': true})
         let dpname = localStorage.getItem('_dataPointName');
@@ -144,7 +145,7 @@ class Submit extends Component {
                         <hr/>
                     </div>
                     <button
-                        onClick={this.submitForm}
+                        onClick={e => this.submitForm(e)}
                         className={"btn btn-block btn-" + ( this.props.value.submit ? "primary" : "secondary")}
                         disabled={this.props.value.submit ? false : true}
                     >
