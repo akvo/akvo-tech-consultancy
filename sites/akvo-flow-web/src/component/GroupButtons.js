@@ -33,7 +33,7 @@ class GroupButtons extends Component {
                     className={"list-group list-group-flush"}
                     key={'group-' + group.index}
                 >
-                    <button
+                    <div
                         onClick={(e) => {this.showQuestion(group.index)}}
                         className={(group.index === groups.active
                             ?  this.listClass + " bg-current"
@@ -46,7 +46,7 @@ class GroupButtons extends Component {
                         >
                             {this.anyActive(group)}
                         </span>
-                    </button>
+                    </div>
                 </div>
         ))
     }

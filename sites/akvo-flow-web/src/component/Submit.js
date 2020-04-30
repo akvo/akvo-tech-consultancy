@@ -15,18 +15,14 @@ class Submit extends Component {
 
     constructor(props) {
         super(props);
-        this.showCaptcha = this.showCaptcha.bind(this)
-        this.showPassword = this.showPassword.bind(this)
         this.submitForm = this.submitForm.bind(this)
         this.sendData = this.sendData.bind(this)
         this.handleCaptcha = this.handleCaptcha.bind(this)
         this.handlePassword = this.handlePassword.bind(this)
         this.handleUser = this.handleUser.bind(this)
-        this.showSpinner = this.showSpinner.bind(this)
         this.state = {
             _showCaptcha : this.props.value.captcha,
             _showSpinner : false,
-            _submitDisabled : true
         }
 		this._reCaptchaRef = React.createRef();
     }
@@ -39,7 +35,7 @@ class Submit extends Component {
 
     handleUser (event) {
         this.setState({'_submitDisabled':false});
-        localStorage.setItem("_username",event.target.value);
+        localStorage.setItem("_username", event.target.value);
         if (event.target.value === "") {
             this.setState({'_submitDisabled':true});
             localStorage.removeItem("_username");
@@ -60,57 +56,6 @@ class Submit extends Component {
     asyncScriptOnLoad = () => {
         this.setState({ callback: "called!" });
     };
-
-    showCaptcha = () => {
-        return (
-            <ReCAPTCHA
-                style={{
-                    'display': 'block',
-                    'overflow': 'hidden',
-                    'borderBottom': '1px solid #ddd',
-                    'padding': '8px',
-                }}
-                size="normal"
-                theme="light"
-                ref={this._reCaptchaRef}
-                sitekey={SITE_KEY}
-                onChange={this.handleCaptcha}
-                asyncScriptOnLoad={this.asyncScriptOnLoad}
-            />
-        )
-    }
-
-    showPassword = () => {
-        let username = localStorage.getItem("_username");
-        return (
-            <Fragment>
-                <label
-                    className="form-password-label"
-                    htmlFor={"submit-username"}>
-                    Submitter
-                </label>
-                <input
-                    className="form-control"
-                    type="text"
-                    name="submit-username"
-                    onChange={this.handleUser}
-                    value={ username ? username : ""}
-                />
-                <label
-                    className="form-password-label"
-                    htmlFor={"submit-password"}>
-                    Password:
-                </label>
-                <input
-                    className="form-control"
-                    type="password"
-                    name="submit-password"
-                    onChange={this.handlePassword}
-                />
-                <hr/>
-            </Fragment>
-        )
-    }
 
     sendData(content) {
         axios.post(API_ORIGIN+ 'submit-form',
@@ -155,26 +100,56 @@ class Submit extends Component {
         return true;
     }
 
-    showSpinner = value => {
-        return (
-            <Spinner size="sm" color="light" />
-        )
-    }
-
     render() {
         return (
             <Fragment>
-                {this.props.value.captcha ? this.showCaptcha() : false}
+                <ReCAPTCHA
+                    style={{
+                        'display': this.props.value.captcha ? 'block' : 'none',
+                        'overflow': 'hidden',
+                        'borderBottom': '1px solid #ddd',
+                        'padding': '8px',
+                    }}
+                    size="normal"
+                    theme="light"
+                    ref={this._reCaptchaRef}
+                    sitekey={SITE_KEY}
+                    onChange={this.handleCaptcha}
+                    asyncScriptOnLoad={this.asyncScriptOnLoad}
+                />
                 <div className="submit-block">
-                    {this.props.value.submit ? this.showPassword() : false}
+                    <div style={{ 'display': this.props.value.submit ? 'block' : 'none' }} >
+                        <label
+                            className="form-password-label"
+                            htmlFor={"submit-username"}>
+                            Submitter
+                        </label>
+                        <input
+                            className="form-control"
+                            type="text"
+                            name="submit-username"
+                            onChange={this.handleUser}
+                        />
+                        <label
+                            className="form-password-label"
+                            htmlFor={"submit-password"}>
+                            Password:
+                        </label>
+                        <input
+                            className="form-control"
+                            type="password"
+                            name="submit-password"
+                            onChange={this.handlePassword}
+                        />
+                        <hr/>
+                    </div>
                     <button
                         onClick={this.submitForm}
-                        className={"btn btn-block btn-" + ( this.props.value.submit ? "primary" : "secondary")
-                        }
-                        disabled={this.state._submitDisabled ? true : false}
+                        className={"btn btn-block btn-" + ( this.props.value.submit ? "primary" : "secondary")}
+                        disabled={this.props.value.submit ? false : true}
                     >
-                    { this.state._showSpinner ? <Spinner size="sm" color="light" /> : "" }
-                    <span>Submit</span>
+                        { this.state._showSpinner ? <Spinner size="sm" color="light" /> : "" }
+                        Submit
                     </button>
                 </div>
             </Fragment>
