@@ -98,7 +98,6 @@ class Submit extends Component {
             this.sendData(localStorage);
         }
         this.sendData(localStorage);
-        return true;
     }
 
     render() {
