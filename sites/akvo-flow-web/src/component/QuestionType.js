@@ -51,6 +51,7 @@ class QuestionType extends Component {
             this.props.restoreAnswers(this.props.value.questions)
         }
         this.props.changeGroup(this.props.value.groups.active)
+        this.props.reduceGroups()
         this.props.checkSubmission()
     }
 
@@ -201,6 +202,7 @@ class QuestionType extends Component {
             localStorage.setItem("_dataPointName", edited)
             this.props.reduceDataPoint(localStorage.getItem('_dataPointName'))
         }
+        this.props.reduceGroups();
     }
 
     handleOther(target, value) {
@@ -573,7 +575,9 @@ class QuestionType extends Component {
         }
         if (localStorage.getItem(this.props.data.id) !== null){
             this.props.checkSubmission();
+            this.props.reduceGroups();
         };
+
     }
 
     render() {

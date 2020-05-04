@@ -7,6 +7,10 @@ body {
     overflow: hidden;
 }
 
+nav.navbar-group {
+    background-color:#ffffff!important;
+}
+
 .sidebar-wrapper {
     min-width:334px !important;
     min-height: 100vh;
@@ -62,7 +66,7 @@ body {
 .fixed-container {
     height: 100%;
     overflow: scroll;
-    padding-bottom: 50px;
+    padding-bottom: 140px;
 }
 
 .wrapper.toggled .sidebar-wrapper {
@@ -73,8 +77,14 @@ body {
     background-color: #dae0e5 !important;
 }
 
+.row-header {
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
 .card {
-    margin-bottom: 1.5rem !important;
+    margin-bottom: 1rem !important;
+    margin-top: 1rem !important;
 }
 
 .card-body {
@@ -93,6 +103,45 @@ body {
     width: 20px;
     line-height: 10px;
     border: 2px solid #FFF;
+}
+
+.badge-header {
+    display:inline-block;
+    margin-right:10px;
+    cursor: pointer;
+}
+.badge-header .badge-left,
+.badge-header .badge-right {
+    line-height: 16px;
+    font-weight:400!important;
+    color:#ffffff;
+} 
+
+.badge-green{
+    background-color:#4b2!important;
+    color: #ffffff!important;
+}
+.badge-red{
+    background-color:#c34242!important;
+    color: #ffffff!important;
+}
+
+.badge-header .badge-left {
+    border-right:.5px solid #ddd;
+}
+.badge-left{
+    border-radius: .25rem 0 0 .25rem!important;
+}
+
+.badge-right {
+    border-radius: 0 .25rem .25rem 0!important;
+}
+
+.badge-group.badge-right {
+    right:24px!important;
+}
+.badge-group.badge-left {
+    right:45px!important;
 }
 
 .swal-button-container {
@@ -133,7 +182,7 @@ body {
         width: 100%;
     }
     .wrapper.toggled .sidebar-wrapper {
-        margin-left: -400px;
+        margin-left: -333px;
     }
 }
 

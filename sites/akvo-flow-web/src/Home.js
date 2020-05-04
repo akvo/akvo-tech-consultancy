@@ -39,7 +39,9 @@ class Home extends Component {
 
     updateData = (data) => {
         this.props.loadQuestions(data)
+        this.props.loadGroups(data)
         this.props.restoreAnswers(this.props.value.questions)
+        this.props.reduceGroups()
         if (localStorage.getItem("_dataPointName")){
             this.props.reduceDataPoint(localStorage.getItem('_dataPointName'))
         }
@@ -140,8 +142,8 @@ class Home extends Component {
                         {( this.props.value.questions.length === 1 ? "" : (<DataPoint />) )}
                         <Pagination />
                     </nav>
+                    <GroupHeaders />
                     <div className="container-fluid fixed-container" key={'div-group-'+this.state.surveyId}>
-                        <GroupHeaders />
                         {this.state._rendered ? this.renderQuestions() : ""}
                     </div>
                 </div>
