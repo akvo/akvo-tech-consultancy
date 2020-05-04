@@ -53,6 +53,7 @@ class Home extends Component {
             data.questionGroup = [data.questionGroup];
         }
         data.questionGroup.forEach((g) => {
+            g.question = Array.isArray(g.question) ? g.question : [g.question];
             g.question.forEach((q, i) => {
                 questionId.push(q.id)
                 answerType.push(q.type.toUpperCase())

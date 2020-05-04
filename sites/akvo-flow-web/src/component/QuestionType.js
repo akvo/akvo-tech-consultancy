@@ -231,14 +231,18 @@ class QuestionType extends Component {
     }
 
     getRadio (data, unique) {
-        let opts = data.options
+        let arrayOpt = Array.isArray(data.options.option) ? data.options.option : [data.options.option];
+        let opts = {
+            ...data.options,
+            option: arrayOpt
+        }
         if (opts.allowMultiple === undefined) {
             opts = {...opts, allowMultiple: false}
         }
         let radioType = (opts.allowMultiple ? "checkbox" : "radio")
         let ao = opts.allowOther;
         if (ao) {
-            if ( opts.option.length > 1 ) {
+            if ( opts.option.length > 0 ) {
                 let oi = opts.option.length + 1;
                 let main = opts.option.map((opt, i) => this.renderRadio(false, opt, i, data.id, radioType, unique))
                 let other = this.renderRadio(true, {text: "Other", value:"Other Option"}, oi, data.id, radioType, unique)

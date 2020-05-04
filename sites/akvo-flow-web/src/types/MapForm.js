@@ -80,6 +80,7 @@ class MapForm extends Component {
             .then( res => {
                 const newpos= res.data.results[0]['geometry']['location'];
                 const newaddress= res.data.results[0]['formatted_address'];
+                this.props.update(newpos);
                 this.setState({marker:newpos});
                 const map = this.refs.map.leafletElement;
                 map.panTo(newpos);
