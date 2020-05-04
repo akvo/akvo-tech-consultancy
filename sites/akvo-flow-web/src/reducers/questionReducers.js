@@ -29,7 +29,14 @@ const initialState = {
     groups: {
         list: [{
             index:1,
-            heading:"Loading Questions"
+            heading:"Loading Questions",
+            attributes: {
+                answers: 0,
+                questions: 0,
+                mandatories: 0,
+                hiddens: 0,
+                badge: "badge-secondary"
+            }
         }],
         active: 1,
     },
@@ -37,6 +44,62 @@ const initialState = {
     },
     cascade:[]
 }
+
+const getGroupAttributes = ((group, questions, answers) => {
+        questions = questions.filter((x) => {
+            return x.group === group.index;
+        });
+        answers = answers.filter((x) => {
+            return x.answer;
+        });
+        let qgroup = questions;
+        let hidden_questions = questions.filter((x) => x.dependency);
+        questions = questions.filter((x) => {
+            let show = true;
+            if (x.dependency) {
+                let dependency_values = x.dependency["answer-value"].split("|");
+                let answer_dependency = localStorage.getItem(x.dependency.question)
+                    ? JSON.parse(localStorage.getItem(x.dependency.question))
+                    : false;
+                answer_dependency = answer_dependency ? answer_dependency.map(x => x.text) : answer_dependency;
+                show = answer_dependency
+                    ? answer_dependency.some(r=> dependency_values.indexOf(r) >= 0)
+                    : false;
+            };
+            return show;
+        });
+        answers = answers.filter((x) => {
+            return questions.find(q => q.id === x.id);
+        });
+        let mandatories = answers.filter(x => x.mandatory);
+        mandatories = mandatories.length === 0
+            ? 0 : (mandatories.length - questions.length) * - 1;
+        hidden_questions = hidden_questions.length === 0
+            ? 0 : (
+                hidden_questions.length > questions.length
+                ? (questions.length - hidden_questions.length) * - 1
+                : qgroup.length - questions.length
+            )
+
+        if (answers.length === 0) {
+            mandatories = qgroup.filter(x => x.mandatory).length;
+            if (hidden_questions !== 0) {
+                mandatories = questions.filter(x => x.mandatory).length;
+            }
+        }
+
+        let badge = "badge-secondary";
+        badge = questions.length >= answers.length ? badge : "badge-success";
+        badge = mandatories > 0 ? "badge-red" : "badge-success";
+
+        return {
+            answers: answers.length,
+            questions: questions.length,
+            mandatories: mandatories,
+            hiddens: hidden_questions,
+            badge:badge
+        };
+    })
 
 const validateGroup = (data) => {
     if (Array.isArray(data)) {
@@ -89,12 +152,18 @@ const listDatapoints = (data) => {
     return addQuestions(groups).filter(x => x.localeNameFlag).map(q => q.id)
 }
 
-const listGroups = (data) => {
+const listGroups = (data, questions, answers) => {
 
-	const groups = validateGroup(data.questionGroup);
-    const group = groups.map((x,i) => {return { index: (i + 1), heading: x.heading}});
+	let groups = validateGroup(data.questionGroup);
+    groups = groups.map((x,i) => {
+        return {
+            index: (i + 1),
+            heading: x.heading,
+            attributes: getGroupAttributes(x, questions, answers)
+        }
+    });
     return {
-        list: group,
+        list: groups,
         active: 1
     }
 }
@@ -157,9 +226,11 @@ const showHideQuestions = (orig, group) => {
         if (group) {
             if(dependent && answer){
                 answer_value = dependent["answer-value"].split("|");
-                answer_value.forEach((x, i) => {
-                    if(answer.includes(x)){
+                answer_value.forEach((a, i) => {
+                    if(answer.includes(a)){
                         show = true;
+                    } else {
+                        localStorage.removeItem(x.id)
                     }
                 });
                 if (answer === answer_value) {
@@ -172,7 +243,7 @@ const showHideQuestions = (orig, group) => {
         }
         if (!group && !show) {
             if (!dependent) {
-                localStorage.removeItem(x.id.toString())
+                localStorage.removeItem(x.id)
             }
             if (dependent) {
                 let current_state = updated_answer.find(u => {
@@ -215,6 +286,13 @@ const replaceAnswers = (questions, data, restore) => {
         }
     });
     return question;
+}
+
+const replaceGroups = (groups, questions, answers) => {
+    return groups.map(x => {
+        let attributes = getGroupAttributes(x, questions, answers);
+        return {...x, attributes: attributes}
+    });
 }
 
 const generateUUID = () => {
@@ -289,18 +367,25 @@ export const questionReducers = (state = initialState, action) => {
                 version: action.data.version,
                 questions: addQuestions(action.data),
                 datapoints: listDatapoints(action.data),
-                groups: listGroups(action.data),
-                mandatory: listMandatory(action.data)
+                mandatory: listMandatory(action.data),
+            }
+        case 'LOAD GROUPS':
+            return {
+                ...state,
+                groups: listGroups(action.data, state.questions, state.answers),
             }
         case 'RESTORE ANSWERS':
             return {
                 ...state,
                 answers: replaceAnswers(action.data, localStorage, true)
             }
-        case 'REDUCE ANSWER':
+        case 'REDUCE GROUPS':
             return {
                 ...state,
-                answers: replaceAnswers(state.answers, action.answer, false),
+                groups: {
+                    ...state.groups,
+                    list: replaceGroups(state.groups.list, state.questions, state.answers)
+                }
             }
         case 'REDUCE DATAPOINT':
             return {

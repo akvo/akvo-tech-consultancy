@@ -7,9 +7,10 @@ export const mapStateToProps = (state) => {
 export const mapDispatchToProps = (dispatch) => {
     return {
         loadQuestions: (data) => dispatch({type:"LOAD QUESTIONS", data:data}),
+        loadGroups: (data) => dispatch({type:"LOAD GROUPS", data:data}),
         changeGroup: (data) => dispatch({type:"CHANGE GROUP", group:data}),
         restoreAnswers: (data) => dispatch({type:"RESTORE ANSWERS", data:data}),
-        reduceAnswer: (data) => dispatch({type:"REDUCE ANSWER", answer:data}),
+        reduceGroups: () => dispatch({type:"REDUCE GROUPS"}),
         reduceDataPoint: (data) => dispatch({type:"REDUCE DATAPOINT", data:data}),
         checkSubmission: () => dispatch({type:"CHECK SUBMISSION"}),
         submitState: (data) => dispatch({type:"SUBMIT STATE", data:data}),
@@ -18,4 +19,3 @@ export const mapDispatchToProps = (dispatch) => {
         storeCascade: (data) => dispatch({type:"STORE CASCADE", data:data})
     }
 }
-
