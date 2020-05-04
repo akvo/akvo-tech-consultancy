@@ -67,6 +67,7 @@ const addQuestions = (data) => {
         }
     }
     const mapgroup = (q, g) => {
+        q = Array.isArray(q) ? q : [q];
         return q.map(q => relable(q,g))
     }
 
