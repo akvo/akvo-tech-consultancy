@@ -13,19 +13,33 @@ import json
 import os
 import ast
 import logging
+from flask_httpauth import HTTPBasicAuth
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 logging.basicConfig(level=logging.DEBUG)
 CORS(app)
+
+auth = HTTPBasicAuth()
+DEFAULT_PASSWORD=os.environ["BASIC_PWD"]
+users = {
+    os.environ["BASIC_ADMIN"]: generate_password_hash(DEFAULT_PASSWORD),
+}
+
 instance_list = './data/flow-survey-amazon-aws.csv'
 BASE_URL="https://flow-services.akvotest.org/upload"
 PASSWORD="2SCALE"
-DEFAULT_PASSWORD="webform"
 DEVEL=False
 
 UPLOAD_FOLDER='./tmp/images'
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+@auth.verify_password
+def verify_password(username, password):
+    if username in users and \
+            check_password_hash(users.get(username), password):
+        return username
 
 def readxml(xmlpath):
     with open(xmlpath) as survey:
@@ -37,14 +51,39 @@ def readxml(xmlpath):
         response = survey['survey']
     return response
 
-@app.route('/')
-def index():
-    instances = pd.read_csv(instance_list)
-    instances = instances.to_dict("records")
-    return render_template('index.html', instances=instances)
+def make_tree(path):
+    tree = dict(name=os.path.basename(path), children=[])
+    try: lst = os.listdir(path)
+    except OSError:
+        pass #ignore errors
+    else:
+        for name in lst:
+            fn = os.path.join(path, name)
+            if os.path.isdir(fn):
+                tree['children'].append(make_tree(fn))
+            else:
+                tree['children'].append(dict(name=name, parent=tree))
+    return tree
 
-@app.route('/<instance>/<surveyId>/<lang>')
-def survey(instance,surveyId,lang):
+@app.route('/')
+@auth.login_required
+def index():
+    path = os.path.expanduser('./static/xml')
+    return render_template('index.html', tree=make_tree(path))
+
+@app.route('/<folder>/<file>')
+def openxml(folder, file):
+    path = './static/xml/'+ folder + '/' + file
+    if ".sqlite" in file:
+        conn = sqlite3.connect(path)
+        table = pd.read_sql_query("SELECT * FROM nodes;", conn)
+        data = table.to_dict('records');
+        return jsonify(data)
+    data = readxml(path)
+    return data
+
+@app.route('/<instance>/<surveyId>/<check>')
+def survey(instance,surveyId,check):
     ziploc = './static/xml/'+ instance
     if not os.path.exists(ziploc):
         os.mkdir(ziploc)
@@ -52,7 +91,7 @@ def survey(instance,surveyId,lang):
     instances = pd.read_csv(instance_list)
     endpoint = list(instances[instances['instances'] == instance]['names'])[0]
     download = False
-    if lang == 'update':
+    if check == 'update':
         download = True
     if not os.path.exists(xmlpath):
         download = True
@@ -85,7 +124,7 @@ def survey(instance,surveyId,lang):
         for cascade in cascadeList:
             cascadefile = ziploc + '/' + cascade.split('/surveys/')[1].replace('.zip','')
             download = False
-            if lang == 'update':
+            if check == 'update':
                 download = True
             if not os.path.exists(cascadefile):
                 download = True

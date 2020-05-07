@@ -1,23 +1,55 @@
 {% extends 'template/main.html' %}
 {% block body %}
-    <div class="map-container">
-        <div id="map"></div>
-        <div id="detail-info" class="jumbotron mt-3">
-            <div class="row">
-            <div class="col-md-8">
-            <h1></h1>
-            <p class="lead">
-                <span class="address"></span><br>
-                <span class="victim"></span><br>
-            </p>
-            <p class="lead">
-            Reported at: <span class="reported"></span></br>
-            Occured: <span class="occured"></span>
-            </p>
+    <div class="sidenav">
+    <div class="accordion" id="detail">
+        <div class="card">
+            <div class="card-header" id="heading-info">
+                <button class="btn btn-block btn-link text-center" type="button" data-toggle="collapse" data-target="#info" aria-expanded="true" aria-controls="heading-info">
+                    Cached Resources
+                </button>
             </div>
-            <div class="col-md-4"><div id="pano" style="width:100%;height:200px;"></div></div>
-            </div>
-            <a class="btn btn-sm btn-primary" href="#" target="_blank" role="button">Find Article »</a>
+        <div id="info" class="collapse" aria-labelledby="heading-info" data-parent="#detail">
+        <div class="card-body card-body-info">
+        Akvo Flow Web will store the resources when you open a new webform, to open webform visit:
+        <div class="inline-link">
+            <pre>https://tech-consultancy.akvo.org/akvo-flow-web/[instance-name]/[form-id]</pre>
         </div>
+        </div>
+        </div>
+        </div>
+    </div>
+    </hr>
+    <div class="btn-group btn-block btn-block-view">
+      <button class="btn btn-primary" onclick="showMain('xml','json')" id="toggle-json">XML</button>
+      <button class="btn btn-secondary" onclick="showMain('json','xml')" id="toggle-xml">Json</button>
+    </div>
+    <div class="accordion" id="forms">
+    {%- for item in tree.children recursive %}
+        {%- if ".gitignore" not in item.name -%}
+        {%- endif %}
+        {%- if ".xml" in item.name or ".sqlite" in item.name -%}
+        <li class="list-group-item">
+            <button class="btn btn-link btn-block text-left" onclick="getXML(this)" data-xml="{{item.parent.name}}/{{ item.name }}">{{ item.name }}</button>
+        </li>
+        {%- endif %}
+        {%- if item.children -%}
+        <div class="card">
+            <div class="card-header" id="heading-form-{{ item.name }}">
+                <button class="btn btn-block btn-link text-left" type="button" data-toggle="collapse" data-target="#form-{{item.name}}" aria-expanded="true" aria-controls="form-{{ item.name }}">
+            {{item.name}}
+                </button>
+            </div>
+            <div id="form-{{item.name}}" class="collapse" aria-labelledby="heading-form-{{item.name}}" data-parent="#forms">
+                <ul class="list-group list-group-flush">{{ loop(item.children) }}</ul>
+            </div>
+        </div>
+        {%- endif %}
+    {%- endfor %}
+    </div>
+    </div>
+
+    <div class="main" id="output-xml">
+    </div>
+    <div class="main" id="output-json">
     </div>
 {% endblock %}
