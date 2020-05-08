@@ -44,7 +44,7 @@ const initialState = {
     pages:{
     },
     lang: {
-        active: "en",
+        active: ["en"],
         list: [{id:"en",name:"Loading..."}]
     },
     cascade:[]

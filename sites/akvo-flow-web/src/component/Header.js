@@ -12,7 +12,10 @@ class Header extends Component {
     }
 
     handleChange(data) {
-        this.props.changeLang(data.target.value);
+        let value = data.target.value;
+        let active = this.props.value.lang.active;
+        let current = data.target.checked ? [...active, value] : active.filter(x => x !== value);
+        this.props.changeLang(current);
     }
 
     renderLangOption() {
@@ -21,11 +24,11 @@ class Header extends Component {
             <div key={'lang-' + i + '-' + x.id} className="form-check localization">
                 <input
                     className="form-check-input"
-                    type="radio"
+                    type="checkbox"
                     name={"lang"}
                     value={x.id}
                     onChange={this.handleChange}
-                    checked={x.id === langprop.active ? "selected" : ""}
+                    checked={langprop.active.includes(x.id) ? "selected" : ""}
                 />
                 <label
                     className="form-check-label"
@@ -36,6 +39,7 @@ class Header extends Component {
             )
         );
     }
+
     render() {
         return (
             <div className='sidebar-heading'>

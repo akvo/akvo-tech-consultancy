@@ -264,7 +264,11 @@ class QuestionType extends Component {
 
     renderRadio (o, lang, opt, i, id, radioType, unique) {
         let localization = this.props.value.lang.active;
-        localization = lang[localization] === undefined ? opt.text : lang[localization];
+        localization = localization.map((x) => {
+            let active = lang[x] === undefined ? "" : lang[x];
+            return active;
+        });
+        localization = localization.join(' / ');
         let dataval = opt.code !== undefined
             ? JSON.stringify({"text":opt.value,"code":opt.code})
             : JSON.stringify({"text":opt.value})
