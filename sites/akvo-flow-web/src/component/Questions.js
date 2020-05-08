@@ -57,12 +57,16 @@ class Questions extends Component {
             );
         }
         return questions.map(question => {
+            let localization = this.props.value.lang.active;
+            localization = question.lang[localization] === undefined
+                ? question.text
+                : question.lang[localization];
             let qid = question.id.toString();
             return (
                 <Card key={"card-" + qid} className={question.show === false ? "d-none" : ""}>
                     <CardBody key={"card-body-" + qid} id={"card-body-" + qid}>
                         <CardTitle key={"card-title-" + qid}>
-                            {question.order.toString() + ". " + question.text}
+                            {question.order.toString() + ". " + localization}
                             {question.mandatory ? this.renderMandatoryIcon(qid) : ""}
                         </CardTitle>
                         {this.renderQuestion(qid, question)}

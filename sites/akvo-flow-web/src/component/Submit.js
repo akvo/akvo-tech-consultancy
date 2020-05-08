@@ -82,7 +82,6 @@ class Submit extends Component {
                 }, 500);
                 return res;
             }).catch((res, error) => {
-                console.log(res, error)
                 this.setState({'_showSpinner': false})
                 swal("Oops!", "Something went wrong!", "error")
             })

@@ -26,6 +26,10 @@ nav.navbar-group {
     font-size: 1.2rem;
 }
 
+.form-check.localization {
+    padding-top: 0rem;
+}
+
 .sidebar-wrapper .list-group {
     width: 20rem;
     cursor: pointer;

@@ -123,7 +123,6 @@ class QuestionType extends Component {
                 multipleValue.push(value)
                 existValue.push(value.text)
             } else {
-                console.log(existValue.indexOf(value.text));
 				multipleValue.splice(existValue.indexOf(value.text), 1)
             }
 			if (multipleValue.length > 0) {
@@ -243,27 +242,29 @@ class QuestionType extends Component {
         }
         let radioType = (opts.allowMultiple ? "checkbox" : "radio")
         let ao = opts.allowOther;
+        let other = {text: "Other", value:"Other Option"};
+        let olang = {"en":"other"};
         if (ao) {
             if ( opts.option.length > 0 ) {
                 let oi = opts.option.length + 1;
-                let main = opts.option.map((opt, i) => this.renderRadio(false, opt, i, data.id, radioType, unique))
-                let other = this.renderRadio(true, {text: "Other", value:"Other Option"}, oi, data.id, radioType, unique)
+                let main = opts.option.map((opt, i) =>
+                    this.renderRadio(false, opts.lang[i], opt, i, data.id, radioType, unique)
+                )
+                other = this.renderRadio(true, olang , other, oi, data.id, radioType, unique)
                 return [...main, other];
             }
-            let main = this.renderRadio(false, opts.option, 0, data.id, radioType, unique)
-            let other = this.renderRadio(true, {text: "Other", value:"Other Option"}, 1 , data.id, radioType, unique)
+            let main = this.renderRadio(false, opts.lang[0], opts.option, 0, data.id, radioType, unique)
+            other = this.renderRadio(true, olang, other, 1 , data.id, radioType, unique)
             return [...main, other];
         }
         return (
-            opts.option.length > 1
-            ?
-            (opts.option.map((opt, i) => this.renderRadio(false, opt, i, data.id, radioType, unique)))
-            :
-            (this.renderRadio(false, opts.option, 0, data.id, radioType, unique))
+            (opts.option.map((opt, i) => this.renderRadio(false, opts.lang[i], opt, i, data.id, radioType, unique)))
         )
     }
 
-    renderRadio (o, opt, i, id, radioType, unique) {
+    renderRadio (o, lang, opt, i, id, radioType, unique) {
+        let localization = this.props.value.lang.active;
+        localization = lang[localization] === undefined ? opt.text : lang[localization];
         let dataval = opt.code !== undefined
             ? JSON.stringify({"text":opt.value,"code":opt.code})
             : JSON.stringify({"text":opt.value})
@@ -298,7 +299,7 @@ class QuestionType extends Component {
                         <label
                             className="form-check-label badge badge-secondary"
                             htmlFor={"input-" + (id).toString()}>
-                            {opt.text}
+                            {localization}
                         </label>
                     </div>
                 <hr/>
@@ -337,7 +338,7 @@ class QuestionType extends Component {
                 <label
                     className="form-check-label"
                     htmlFor={"input-" + (id+i).toString()}>
-                    {opt.text}
+                    {localization}
                 </label>
             </div>
         )
