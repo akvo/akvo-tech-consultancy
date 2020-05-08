@@ -62,7 +62,8 @@ class Questions extends Component {
                 let active = question.lang[x] === undefined ? "" : question.lang[x];
                 return active;
             });
-            localization = localization.join(' / ');
+            localization = localization.filter(x => x !== "");
+            localization = localization.length === 0 ? question.lang.en : localization.join(" / ");
             let qid = question.id.toString();
             return (
                 <Card key={"card-" + qid} className={question.show === false ? "d-none" : ""}>

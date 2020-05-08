@@ -268,7 +268,8 @@ class QuestionType extends Component {
             let active = lang[x] === undefined ? "" : lang[x];
             return active;
         });
-        localization = localization.join(' / ');
+        localization = localization.filter(x => x !== "");
+        localization = localization.length === 0 ? lang.en : localization.join(' / ');
         let dataval = opt.code !== undefined
             ? JSON.stringify({"text":opt.value,"code":opt.code})
             : JSON.stringify({"text":opt.value})

@@ -15,6 +15,7 @@ class Header extends Component {
         let value = data.target.value;
         let active = this.props.value.lang.active;
         let current = data.target.checked ? [...active, value] : active.filter(x => x !== value);
+        current = current.length === 0 ? this.props.value.lang.active : current;
         this.props.changeLang(current);
     }
 
