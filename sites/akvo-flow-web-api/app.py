@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template, request, make_response
+from flask import Flask, jsonify, render_template, request, make_response, send_file
 from flask_cors import CORS
 from lxml import etree
 from io import BytesIO
@@ -97,6 +97,8 @@ def survey(instance,surveyId,check):
         download = True
     if download:
         zipurl = r.get(endpoint+surveyId+'.zip', allow_redirects=True)
+        if zipurl.status_code == 403:
+            return jsonify({"message":"Form is not available"}), 403
         z = ZipFile(BytesIO(zipurl.content))
         z.extractall(ziploc)
         zipurl = r.get(endpoint+surveyId+'.zip', allow_redirects=True)
@@ -308,11 +310,15 @@ def submit():
         submit = True
     if submit:
         return submitprocess(rec, _uuid)
-    return make_response("Password is Wrong", 400)
+    return jsonify({"message":"Password is wrong"}), 400
 
-@app.route('/fetch-image', methods=['GET'])
-def fetch_file():
-    return jsonify(request.headers)
+@app.route('/fetch-image/<image_file>', methods=['GET'])
+def fetch_file(image_file):
+    image_path = './tmp/images/' + image_file
+    filetype = image_file.rsplit('.', 1)[1].lower()
+    if os.path.exists(image_path):
+        return send_file(image_path, mimetype="image/"+filetype)
+    return jsonify({"message":"Asset is deleted"}), 400
 
 @app.route('/delete-image/<image_file>')
 def delete_file(image_file):
@@ -321,8 +327,7 @@ def delete_file(image_file):
         os.remove(image_path)
         return jsonify({'file': image_file, 'status': 'removed'})
     else:
-        return make_response("Image is Expired", 204)
-
+        return jsonify({"message":"File has been removed"}), 204
 
 @app.route('/upload-image', methods=['GET', 'POST', 'DELETE', 'OPTIONS'])
 def upload_file():
@@ -361,7 +366,7 @@ def upload_file():
         response = delete_file(request.text)
         return response
     else:
-        return make_response("Failed", 400)
+        return jsonify({"message":"Failed to send"}), 400
 
 if __name__ == '__main__':
     app.jinja_env.auto_reload = True
