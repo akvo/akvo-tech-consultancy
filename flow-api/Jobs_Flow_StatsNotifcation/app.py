@@ -77,7 +77,7 @@ data['contract_notif_date'] = pd.to_datetime(data['contract_notif_date'], format
 data['lumen'] = data['lumen'].apply(lambda x: x if x == x else None)
 notification = data[data['contract_notif_date'] == today]
 notification = notification.dropna(subset=['name', 'email'])
-test = ["Deden Bangkit","Jana (Janka) Gombitova"]
+test = ["Deden Bangkit","Jana (Janka) Gombitova", "Kathelyne van den Berg"]
 notification["send"] = notification.apply(lambda x: True if x["name"] in test else False, axis=1)
 test = notification[notification["send"] == True].to_dict("records")
 
