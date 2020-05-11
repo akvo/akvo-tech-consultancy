@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: jobs-update-iucn
 spec:
-  schedule: "* 19 * * *"
+  schedule: "30 19 * * *"
   concurrencyPolicy: Allow
   failedJobsHistoryLimit: 10
   successfulJobsHistoryLimit: 10
