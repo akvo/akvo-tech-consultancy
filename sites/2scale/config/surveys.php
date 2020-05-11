@@ -1,21 +1,24 @@
 <?php
 
+$INSTANCE = env('AKVO_INSTANCE', '');
+$FORM_URL = env('FORM_URL', 'http://localhost:3000') . '/' . $INSTANCE;
+
 return [
-    "url" => "https://tech-consultancy.akvo.org/akvo-flow-web/2scale",
-    "cascade" => "cascade-30100013-v6.sqlite",
+    "url" => $FORM_URL,
+    "cascade" => "cascade-30100013-v13.sqlite",
     "forms" => array(
         [
         "name" => "M&E Tools",
         "list" => array(
                 [
                     "form_id" => 28150013,
-                    "name" => "Baseline Forms",
+                    "name" => "D&D Baseline Forms",
                     "survey_id" => 22120008,
                     "partner_qid"=> 30200015
                 ],
                 [
                     "form_id" => 20020001,
-                    "name" => "Reach and React",
+                    "name" => "Reach and Reaction Form",
                     "survey_id" => 24020001,
                     "partner_qid" => 80001
                 ]
@@ -38,20 +41,20 @@ return [
             ],
             [
                 "form_id" => 30200004,
-                "name" => "Micro-Enterprise and Small/Medium Scale Enterprises",
+                "name" => "Micro, Small and Medium Scale Enterprises",
                 "survey_id" => 34120004,
                 "partner_qid" => 36120005
             ],
             [
                 "form_id" => 14170009,
-                "name" => "Producer Organization",
+                "name" => "Producer Organization Form",
                 "survey_id" => 6120005,
                 "partner_qid"=> 36100005
             ]
             )
         ],
     ),
-    "country_cascade" => "cascade-30100013-v2.sqlite",
+    "country_cascade" => "cascade-30100013-v13.sqlite",
     "countries" => array(
         [
             "id" => 1,
