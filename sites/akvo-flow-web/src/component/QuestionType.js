@@ -517,7 +517,7 @@ class QuestionType extends Component {
                             }
                         },
                         patch: {
-                            url: '.upload-image',
+                            url: 'fetch-image',
                             method: 'GET',
                             onload: (response) => {
                                 this.handlePhoto(response)
@@ -528,10 +528,11 @@ class QuestionType extends Component {
                             }
                         },
                         revert: {
-                            url: '.delete-image/' + localStorage.getItem(data.id),
+                            url: 'delete-image/' + localStorage.getItem(data.id),
                             method: 'GET',
                             onload: (response) => {
                                 localStorage.removeItem(data.id)
+                                this.handleGlobal(data.id, "")
                             }
                         }
                     }

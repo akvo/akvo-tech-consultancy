@@ -11,6 +11,7 @@ nav.navbar-group {
     background-color:#ffffff!important;
 }
 
+
 .sidebar-wrapper {
     min-width:334px !important;
     min-height: 100vh;
@@ -195,8 +196,62 @@ img.responsive-image {
     padding: 20px;
 }
 
+.display-cache-image{
+    display:inline-block;
+    color:#6c757d;
+    font-weight:bold;
+    font-size:.825rem;
+}
+
 .hidden {
     display: none !important;
+}
+
+/* Tooltip */
+.help-tooltip{
+    cursor:pointer;
+    padding-left: 5px;
+}
+
+.tooltips{
+    font-size: 1rem !important;
+    pointer-events: auto !important;
+}
+.tooltips:hover{
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Swall*/
+.fade-in {
+  animation: fadeIn ease 10s;
+  -webkit-animation: fadeIn ease 10s;
+  -moz-animation: fadeIn ease 10s;
+  -o-animation: fadeIn ease 10s;
+  -ms-animation: fadeIn ease 10s;
+}
+.fade-out {
+  animation: fadeOut ease 8s;
+  -webkit-animation: fadeOut ease 8s;
+  -moz-animation: fadeOut ease 8s;
+  -o-animation: fadeOut ease 8s;
+  -ms-animation: fadeOut ease 8s;
+}
+
+@keyframes fadeIn,
+@-moz-keyframes fadeIn,
+@-o-keyframes fadeIn,
+@-ms-keyframes fadeIn {
+  0% { opacity:0; }
+  100% { opacity:1; }
+}
+
+@keyframes fadeOut,
+@-moz-keyframes fadeOut,
+@-o-keyframes fadeOut,
+@-ms-keyframes fadeOut {
+  0% { opacity:1; }
+  100% { opacity:0; }
 }
 
 /* Leaflet */

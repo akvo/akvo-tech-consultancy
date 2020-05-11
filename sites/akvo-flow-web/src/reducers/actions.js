@@ -17,6 +17,7 @@ export const mapDispatchToProps = (dispatch) => {
         submitState: (data) => dispatch({type:"SUBMIT STATE", data:data}),
         generateUUID: (data) => dispatch({type:"GENERATE UUID", data:data}),
         changeSettings: (data) => dispatch({type:"PAGES SETTINGS", data:data}),
-        storeCascade: (data) => dispatch({type:"STORE CASCADE", data:data})
+        storeCascade: (data) => dispatch({type:"STORE CASCADE", data:data}),
+        showError: () => dispatch({type:"SHOW ERROR"})
     }
 }

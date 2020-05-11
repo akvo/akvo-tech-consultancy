@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import { mapStateToProps, mapDispatchToProps } from './reducers/actions.js'
-import swal from '@sweetalert/with-react'
 import './App.css'
 import 'filepond/dist/filepond.min.css';
 import GroupButtons from './component/GroupButtons'
@@ -16,11 +15,11 @@ import {
     FaArrowLeft,
     FaArrowRight
 } from 'react-icons/fa'
+import { PopupError } from './util/Popup.js'
 import { PROD_URL } from './util/Environment.js'
 
 const API_URL = (PROD_URL ? window.location.href.replace("flow-web","flow-web-api") : process.env.REACT_APP_API_URL)
 const CACHE_URL = (PROD_URL ? "update" : "fetch")
-const DELAY = 10000000;
 
 class Home extends Component {
 
@@ -106,12 +105,16 @@ class Home extends Component {
                 this.setState({ _rendered:true });
             })
             .catch(error => {
-                console.log(error)
-                swal("Oops!", "Something went wrong!", "error")
-            })
-		setTimeout(() => {
-                  this.setState({ load: true });
-        }, DELAY);
+                if (error.response.status === 403) {
+                    this.props.showError();
+                    setTimeout(() => {
+                        this.setState({_fullscreen: true});
+                    }, 3000);
+                } else {
+                    PopupError("Network Error");
+                    this.props.showError();
+                }
+            });
     }
 
     renderQuestions() {
@@ -151,7 +154,4 @@ class Home extends Component {
         )
     };
 }
-//<Questions />
-//<Pagination />
-
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

@@ -4,6 +4,7 @@ import uuid from 'uuid/v4'
 import isoLangs from '../util/Languages.js'
 
 const initialState = {
+    error: false,
     surveyName:"Loading..",
     surveyId:"Loading..",
     version:"Loading..",
@@ -18,6 +19,16 @@ const initialState = {
         text: "Loading",
         type: "text",
         validation: false,
+        altText: [{
+            language:"en",
+            text:"Loading",
+            type:"translation"
+        }],
+        help: {
+            altText:null,
+            text:"Loading",
+            type: "tip"
+        }
     }],
     active: [],
     answers: [],
@@ -513,6 +524,18 @@ export const questionReducers = (state = initialState, action) => {
             return {
                 ...state,
                 cascade: storeCascade(state.cascade, action.data)
+            }
+        case 'SHOW ERROR':
+            return {
+                ...state,
+                surveyName:"Error",
+                surveyId:"Error",
+                version:"Error",
+                lang: {
+                    ...state.lang,
+                    list: [{id:"en",name:"Error"}]
+                },
+                error: true
             }
         default:
             return state;
