@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: jobs-update-iucn
 spec:
-  schedule: "30 18 * * *"
+  schedule: "* 19 * * *"
   concurrencyPolicy: Allow
   failedJobsHistoryLimit: 10
   successfulJobsHistoryLimit: 10
@@ -31,16 +31,21 @@ spec:
                 cpu: "1000m"
                 memory: "256Mi"
             env:
-              - name: KEYCLOAK_USER
+              - name: AUTH0_CLIENT
                 valueFrom:
                   secretKeyRef:
                     name: jobs-update-iucn
-                    key: keycloak-user
-              - name: KEYCLOAK_PWD
+                    key: auth0-client-id-prod
+              - name: AUTH0_USER
                 valueFrom:
                   secretKeyRef:
                     name: jobs-update-iucn
-                    key: keycloak-pwd
+                    key: auth0-email
+              - name: AUTH0_PWD
+                valueFrom:
+                  secretKeyRef:
+                    name: jobs-update-iucn
+                    key: auth0-pwd
               - name: CARTO_KEY
                 valueFrom:
                   secretKeyRef:

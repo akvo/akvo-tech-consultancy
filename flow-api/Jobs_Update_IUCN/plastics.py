@@ -2,6 +2,7 @@ import requests as r
 import pandas as pd
 import time
 import os
+import sys
 from datetime import datetime
 from Akvo import Flow
 from FlowHandler import FlowHandler
@@ -18,11 +19,13 @@ SURVEYID='239480001'
 FORMID='249830001'
 
 
-requestURI = 'https://api.akvo.org/flow/orgs/' + INSTANCE + '/surveys/' + SURVEYID
-formURI = 'https://api.akvo.org/flow/orgs/' + INSTANCE + '/form_instances?survey_id=' + SURVEYID + '&form_id=' + FORMID
+requestURI = 'https://api-auth0.akvo.org/flow/orgs/' + INSTANCE + '/surveys/' + SURVEYID
+formURI = 'https://api-auth0.akvo.org/flow/orgs/' + INSTANCE + '/form_instances?survey_id=' + SURVEYID + '&form_id=' + FORMID
 
-
-FlowToken = Flow.getAccessToken()
+FlowToken = Flow.getToken()
+if FlowToken == "Error":
+    print("TOKEN ERROR");
+    sys.exit(1);
 
 def getTime(x):
     return int(datetime.strptime(x, '%Y-%m-%dT%H:%M:%SZ').strftime("%s%f")) / 1000
