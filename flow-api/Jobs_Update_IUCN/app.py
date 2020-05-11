@@ -15,9 +15,8 @@ SURVEYID='550001'
 FORMID='28030003'
 
 
-requestURI = 'https://api.akvo.org/flow/orgs/' + INSTANCE + '/surveys/' + SURVEYID
-formURI = 'https://api.akvo.org/flow/orgs/' + INSTANCE + '/form_instances?survey_id=' + SURVEYID + '&form_id=' + FORMID
-
+requestURI = 'https://api-auth0.akvo.org/flow/orgs/' + INSTANCE + '/surveys/' + SURVEYID
+formURI = 'https://api-auth0.akvo.org/flow/orgs/' + INSTANCE + '/form_instances?survey_id=' + SURVEYID + '&form_id=' + FORMID
 
 FlowToken = Flow.getAccessToken()
 
