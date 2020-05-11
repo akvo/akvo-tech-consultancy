@@ -1,0 +1,36 @@
+html {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#xmlTree ul,
+#jsonTree ul {
+    list-style: none;
+    margin: 5px;
+    padding: 0;
+    cursor: default;
+}
+
+#xmlTree li,
+#jsonTree li {
+    list-style: none;
+    padding-left: 14px;
+}
+#jsonTree li {
+    padding-left: 20px;
+}
+
+#xmlTree li.expandable,
+#jsonTree li.expandable {
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' fill='%23909090' width='10' height='10'><path d='M0 0 L8 0 L4 7 Z'/></svg>");
+    background-size: 10px;
+    background-position: 0px 7px;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
+#xmlTree li.expanded,
+#jsonTree li.expanded {
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' fill='%23909090' width='10' height='10'><path d='M0 0 L0 8 L7 4 Z'/></svg>");
+    background-size: 10px;
+    background-position: 0px 10px;
+}

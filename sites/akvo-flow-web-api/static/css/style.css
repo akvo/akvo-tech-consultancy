@@ -1,0 +1,123 @@
+html,
+body {
+    height: 100%;
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+pre{
+    color: rgb(136, 18, 128);
+    padding-left: 10px;
+    padding-bottom: 6px;
+}
+.inline-link{
+    font-size: 13px;
+    color: rgb(136, 18, 128);
+    font-family: monospace;
+    display: block;
+    padding: 8px 0px;
+    border: solid #ddd 1px;
+    border-radius: 5px;
+    margin-top: 10px;
+    height: 48px;
+    overflow: hidden;
+}
+.card,
+.btn-group .btn {
+    border-radius: 0px;
+}
+.card-body-info{
+    background: #f7f7f7;
+    font-size: 14px;
+    border-top: 1px solid #ddd;
+}
+.card-header,
+.list-group-item {
+    padding: 0.1rem 0.1rem;
+}
+.btn-link.focus,
+.btn-link:focus,
+.btn-link:hover {
+    text-decoration: none;
+}
+.btn-link.focus,
+.btn-link:focus {
+    font-weight: bold;
+}
+.btn-group.btn-block.btn-block-view {
+    margin-top: 0px;
+}
+.list-group-item .btn.btn-link {
+    font-size: 12px;
+    color: #000;
+}
+.main-container {
+    max-width: 100%;
+    max-height: 100%;
+}
+.sidebar,
+.main-bar {
+    max-height: 100%;
+    width: 100%;
+}
+.sidenav {
+    height: 100%;
+    width: 300px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #f7f7f7;
+    overflow-x: hidden;
+    border-right: solid #ddd 0.5px;
+}
+.main {
+    margin-left: 300px;
+    padding: 0px 0px 10px 10px;
+}
+.main .xml-headers {
+    display: block;
+    border-bottom: 2px solid black;
+    padding-bottom: 5px;
+    margin: 10px;
+}
+.json,
+.xml {
+    display: inline-block;
+}
+.json-array,
+.xml.xml-tag,
+.xml.xml-value {
+    color: rgb(136, 18, 128);
+    font-size: 13px;
+    font-family: monospace;
+}
+.xml.xml-tag .json-object-value{
+    color: green;
+}
+.json-array,
+.xml.xml-value {
+    color: #000;
+}
+.xml.xml-tag.num-key{
+    color:green;
+}
+.json-object-value,
+.json-object-name{
+    display:inline-block;
+}
+.json-boolean{
+    color: blue,
+}
+.json-array-hide{
+    display:none;
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {
+        padding-top: 15px;
+    }
+    .sidenav a {
+        font-size: 18px;
+    }
+}

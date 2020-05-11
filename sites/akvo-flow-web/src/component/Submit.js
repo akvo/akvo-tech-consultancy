@@ -1,11 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux'
 import { mapStateToProps, mapDispatchToProps } from '../reducers/actions.js'
-import swal from '@sweetalert/with-react'
 import ReCAPTCHA from "react-google-recaptcha"
 import axios from 'axios'
 import { Spinner } from 'reactstrap'
 import '../App.css'
+import { PopupSuccess, PopupError } from '../util/Popup'
 import { PROD_URL, USING_PASSWORDS } from '../util/Environment'
 
 const API_ORIGIN = (PROD_URL ? ( window.location.origin + "/" + window.location.pathname.split('/')[1] + "-api/" ) : process.env.REACT_APP_API_URL);
@@ -62,15 +62,7 @@ class Submit extends Component {
                 content, { headers: { 'Content-Type': 'application/json' } }
             )
             .then(res => {
-                swal({
-                    icon: "success",
-                    title: "Success!",
-                    text: "New datapoint is sent! clearing form...",
-                    closeOnClickOutside: false,
-                    closeOnEsc: false,
-                    button: false,
-                    timer: 3200
-                })
+                PopupSuccess("New datapoint is sent! clearing form...");
                 this.setState({'_showSpinner': false})
                 setTimeout(function(){
                     let username = localStorage.getItem('_username');
@@ -81,10 +73,9 @@ class Submit extends Component {
                      }, 3000);
                 }, 500);
                 return res;
-            }).catch((res, error) => {
-                console.log(res, error)
+            }).catch((error) => {
+                PopupError(error.response.data.message);
                 this.setState({'_showSpinner': false})
-                swal("Oops!", "Something went wrong!", "error")
             })
     }
 

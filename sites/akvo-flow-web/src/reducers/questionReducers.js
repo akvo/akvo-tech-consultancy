@@ -1,8 +1,10 @@
 import { getQuestionType } from '../util/QuestionHandler.js'
 import { isJsonString } from '../util/QuestionHandler.js'
 import uuid from 'uuid/v4'
+import isoLangs from '../util/Languages.js'
 
 const initialState = {
+    error: false,
     surveyName:"Loading..",
     surveyId:"Loading..",
     version:"Loading..",
@@ -17,6 +19,16 @@ const initialState = {
         text: "Loading",
         type: "text",
         validation: false,
+        altText: [{
+            language:"en",
+            text:"Loading",
+            type:"translation"
+        }],
+        help: {
+            altText:null,
+            text:"Loading",
+            type: "tip"
+        }
     }],
     active: [],
     answers: [],
@@ -42,8 +54,83 @@ const initialState = {
     },
     pages:{
     },
+    lang: {
+        active: ["en"],
+        list: [{id:"en",name:"Loading..."}]
+    },
     cascade:[]
 }
+
+const generateLang = (questions) => {
+    let list = ["en"];
+    questions = questions.map((x) => {
+        let lang = {en:x.text};
+        if (x.altText !== undefined) {
+            let listLang = Array.isArray(x.altText)
+                ? false
+                : {[x.altText.language]:x.altText.text}
+            if (listLang) {
+                if(!list.includes(x.altText.language)){
+                    list.push(x.altText.language);
+                }
+                lang = {...lang,...listLang}
+            } else {
+                let i = 0;
+                do {
+                    lang = {
+                        ...lang,
+                        [x.altText[i].language]:x.altText[i].text
+                    }
+                    if(!list.includes(x.altText[i].language)){
+                        list.push(x.altText[i].language);
+                    }
+                    i++;
+                } while (i < x.altText.length)
+            }
+        }
+        if (x.type === "option") {
+            let listOpt = Array.isArray(x.options.option)
+                ? x.options.option
+                : [x.options.option]
+            listOpt = listOpt.map((c, oi) => {
+                let langopt = {en:c.text};
+                if (c.altText !== undefined) {
+                    let listLangOpt = Array.isArray(c.altText)
+                        ? false
+                        : {[c.altText.language]:c.altText.text}
+                    if (listLangOpt) {
+                        if(!list.includes(c.altText.language)){
+                            list.push(c.altText.language);
+                        }
+                        langopt = {...langopt,...listLangOpt}
+                    } else {
+                        let ix = 0;
+                        do {
+                            langopt = {
+                                ...langopt,
+                                [c.altText[ix].language]:c.altText[ix].text
+                            }
+                            if(!list.includes(c.altText[ix].language)){
+                                list.push(c.altText[ix].language);
+                            }
+                            ix++;
+                        } while (ix < c.altText.length)
+                    }
+                }
+                return langopt;
+            })
+            x.options.lang = listOpt;
+        }
+        x.lang = lang;
+        return x;
+    });
+    list = list.map(x => {
+        let langname = isoLangs[x].name + " / " + isoLangs[x].nativeName;
+        return {id:x, name:langname};
+    });
+    return { questions:questions, list:list };
+}
+
 
 const getGroupAttributes = ((group, questions, answers) => {
         questions = questions.filter((x) => {
@@ -360,14 +447,20 @@ const storeCascade = (current, cascade) => {
 export const questionReducers = (state = initialState, action) => {
     switch(action.type){
         case 'LOAD QUESTIONS':
+            const questions = addQuestions(action.data);
+            const langQuestions = generateLang(questions);
             return {
                 ...state,
                 surveyName: action.data.name,
                 surveyId: action.data.surveyId,
                 version: action.data.version,
-                questions: addQuestions(action.data),
+                questions: questions,
                 datapoints: listDatapoints(action.data),
                 mandatory: listMandatory(action.data),
+                lang: {
+                    active: state.lang.active,
+                    list: langQuestions.list
+                }
             }
         case 'LOAD GROUPS':
             return {
@@ -398,6 +491,14 @@ export const questionReducers = (state = initialState, action) => {
                 questions: showHideQuestions(state.questions, action.group),
                 groups: {...state.groups, active: action.group}
             }
+        case 'CHANGE LOCALIZATION':
+            return {
+                ...state,
+                lang : {
+                    ...state.lang,
+                    active: action.active,
+                }
+            }
         case 'CHECK SUBMISSION':
             return {
                 ...state,
@@ -423,6 +524,18 @@ export const questionReducers = (state = initialState, action) => {
             return {
                 ...state,
                 cascade: storeCascade(state.cascade, action.data)
+            }
+        case 'SHOW ERROR':
+            return {
+                ...state,
+                surveyName:"Error",
+                surveyId:"Error",
+                version:"Error",
+                lang: {
+                    ...state.lang,
+                    list: [{id:"en",name:"Error"}]
+                },
+                error: true
             }
         default:
             return state;

@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template, request, make_response
+from flask import Flask, jsonify, render_template, request, make_response, send_file
 from flask_cors import CORS
 from lxml import etree
 from io import BytesIO
@@ -13,19 +13,33 @@ import json
 import os
 import ast
 import logging
+from flask_httpauth import HTTPBasicAuth
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 logging.basicConfig(level=logging.DEBUG)
 CORS(app)
+
+auth = HTTPBasicAuth()
+DEFAULT_PASSWORD=os.environ["BASIC_PWD"]
+users = {
+    os.environ["BASIC_ADMIN"]: generate_password_hash(DEFAULT_PASSWORD),
+}
+
 instance_list = './data/flow-survey-amazon-aws.csv'
 BASE_URL="https://flow-services.akvotest.org/upload"
 PASSWORD="2SCALE"
-DEFAULT_PASSWORD="webform"
 DEVEL=False
 
 UPLOAD_FOLDER='./tmp/images'
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+@auth.verify_password
+def verify_password(username, password):
+    if username in users and \
+            check_password_hash(users.get(username), password):
+        return username
 
 def readxml(xmlpath):
     with open(xmlpath) as survey:
@@ -37,14 +51,39 @@ def readxml(xmlpath):
         response = survey['survey']
     return response
 
-@app.route('/')
-def index():
-    instances = pd.read_csv(instance_list)
-    instances = instances.to_dict("records")
-    return render_template('index.html', instances=instances)
+def make_tree(path):
+    tree = dict(name=os.path.basename(path), children=[])
+    try: lst = os.listdir(path)
+    except OSError:
+        pass #ignore errors
+    else:
+        for name in lst:
+            fn = os.path.join(path, name)
+            if os.path.isdir(fn):
+                tree['children'].append(make_tree(fn))
+            else:
+                tree['children'].append(dict(name=name, parent=tree))
+    return tree
 
-@app.route('/<instance>/<surveyId>/<lang>')
-def survey(instance,surveyId,lang):
+@app.route('/')
+@auth.login_required
+def index():
+    path = os.path.expanduser('./static/xml')
+    return render_template('index.html', tree=make_tree(path))
+
+@app.route('/<folder>/<file>')
+def openxml(folder, file):
+    path = './static/xml/'+ folder + '/' + file
+    if ".sqlite" in file:
+        conn = sqlite3.connect(path)
+        table = pd.read_sql_query("SELECT * FROM nodes;", conn)
+        data = table.to_dict('records');
+        return jsonify(data)
+    data = readxml(path)
+    return data
+
+@app.route('/<instance>/<surveyId>/<check>')
+def survey(instance,surveyId,check):
     ziploc = './static/xml/'+ instance
     if not os.path.exists(ziploc):
         os.mkdir(ziploc)
@@ -52,12 +91,14 @@ def survey(instance,surveyId,lang):
     instances = pd.read_csv(instance_list)
     endpoint = list(instances[instances['instances'] == instance]['names'])[0]
     download = False
-    if lang == 'update':
+    if check == 'update':
         download = True
     if not os.path.exists(xmlpath):
         download = True
     if download:
         zipurl = r.get(endpoint+surveyId+'.zip', allow_redirects=True)
+        if zipurl.status_code == 403:
+            return jsonify({"message":"Form is not available"}), 403
         z = ZipFile(BytesIO(zipurl.content))
         z.extractall(ziploc)
         zipurl = r.get(endpoint+surveyId+'.zip', allow_redirects=True)
@@ -85,7 +126,7 @@ def survey(instance,surveyId,lang):
         for cascade in cascadeList:
             cascadefile = ziploc + '/' + cascade.split('/surveys/')[1].replace('.zip','')
             download = False
-            if lang == 'update':
+            if check == 'update':
                 download = True
             if not os.path.exists(cascadefile):
                 download = True
@@ -269,11 +310,15 @@ def submit():
         submit = True
     if submit:
         return submitprocess(rec, _uuid)
-    return make_response("Password is Wrong", 400)
+    return jsonify({"message":"Password is wrong"}), 400
 
-@app.route('/fetch-image', methods=['GET'])
-def fetch_file():
-    return jsonify(request.headers)
+@app.route('/fetch-image/<image_file>', methods=['GET'])
+def fetch_file(image_file):
+    image_path = './tmp/images/' + image_file
+    filetype = image_file.rsplit('.', 1)[1].lower()
+    if os.path.exists(image_path):
+        return send_file(image_path, mimetype="image/"+filetype)
+    return jsonify({"message":"Asset is deleted"}), 400
 
 @app.route('/delete-image/<image_file>')
 def delete_file(image_file):
@@ -282,8 +327,7 @@ def delete_file(image_file):
         os.remove(image_path)
         return jsonify({'file': image_file, 'status': 'removed'})
     else:
-        return make_response("Image is Expired", 204)
-
+        return jsonify({"message":"File has been removed"}), 204
 
 @app.route('/upload-image', methods=['GET', 'POST', 'DELETE', 'OPTIONS'])
 def upload_file():
@@ -322,7 +366,7 @@ def upload_file():
         response = delete_file(request.text)
         return response
     else:
-        return make_response("Failed", 400)
+        return jsonify({"message":"Failed to send"}), 400
 
 if __name__ == '__main__':
     app.jinja_env.auto_reload = True

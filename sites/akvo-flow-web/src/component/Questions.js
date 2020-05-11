@@ -1,10 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { mapStateToProps } from "../reducers/actions.js";
+import { PROD_URL } from '../util/Environment'
 import QuestionType from "./QuestionType.js";
-import { Mandatory } from "../util/Badges";
+import { Mandatory, ToolTip } from "../util/Badges";
 import { Card, CardBody, CardTitle } from "reactstrap";
 import "../App.css";
+
+const API_ORIGIN = (PROD_URL ? ( window.location.origin + "/" + window.location.pathname.split('/')[1] + "-api/" ) : process.env.REACT_APP_API_URL);
 
 class Questions extends Component {
     constructor(props) {
@@ -12,6 +15,7 @@ class Questions extends Component {
         this.getForms = this.getForms.bind(this);
         this.isJsonString = this.isJsonString.bind(this);
         this.renderMandatoryIcon = this.renderMandatoryIcon.bind(this);
+        this.renderCachedImage = this.renderCachedImage.bind(this);
         this.renderQuestion = this.renderQuestion.bind(this);
     }
 
@@ -28,9 +32,24 @@ class Questions extends Component {
         return <QuestionType key={"question-type-" + qid} data={question} />;
     }
 
+    renderCachedImage(qid) {
+        let cached = false;
+        if (localStorage.getItem(qid) !== null){
+            cached = API_ORIGIN + "fetch-image/" + localStorage.getItem(qid);
+            return (
+            <div className="d-block display-cache-image">
+                Cached file:
+                <a href={cached} rel="noopener noreferrer" target="_blank"> {localStorage.getItem(qid)}</a>
+            </div>
+            )
+        }
+        return ""
+    }
+
     renderMandatoryIcon(qid) {
         let answered = false;
         if (localStorage.getItem(qid)) {
+            console.log(qid);
             answered = true;
         }
         return Mandatory(answered);
@@ -57,13 +76,22 @@ class Questions extends Component {
             );
         }
         return questions.map(question => {
+            let localization = this.props.value.lang.active;
+            localization = localization.map((x) => {
+                let active = question.lang[x] === undefined ? "" : question.lang[x];
+                return active;
+            });
+            localization = localization.filter(x => x !== "");
+            localization = localization.length === 0 ? question.lang.en : localization.join(" / ");
             let qid = question.id.toString();
             return (
                 <Card key={"card-" + qid} className={question.show === false ? "d-none" : ""}>
                     <CardBody key={"card-body-" + qid} id={"card-body-" + qid}>
                         <CardTitle key={"card-title-" + qid}>
-                            {question.order.toString() + ". " + question.text}
+                            {question.order.toString() + ". " + localization}
                             {question.mandatory ? this.renderMandatoryIcon(qid) : ""}
+                            {question.help !== undefined ? ToolTip(question) : ""}
+                            {question.type === "photo" ? this.renderCachedImage(qid) : ""}
                         </CardTitle>
                         {this.renderQuestion(qid, question)}
                     </CardBody>

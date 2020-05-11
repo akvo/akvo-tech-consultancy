@@ -2,17 +2,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Flow Web</title>
+    <title>Flow Web API</title>
+    <link href="./static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./static/css/JsonTreeBuilder.css" rel="stylesheet">
+    <link href="./static/css/style.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
     {% block body %}{% endblock %}
-    </div>
-    {% include 'include/_navbar.html' %}
-    {% include 'include/_modal.html' %}
-    <script src="/static/js/main.js" type="text/javascript" type="text/javascript"></script>
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIv2SUL6gt0gOgr8M9XLGpGIpEVwaR4A0&callback=initMap">
-    </script>
 </body>
+    <script src="./static/js/jquery-3.5.1.min.js"></script>
+    <script src="./static/js/bootstrap.bundle.min.js""></script>
+    <script src="./static/js/JsonTreeBuilder.js"></script>
+    <script type="text/javascript">
+        function getXML(button) {
+            var treeBuilder = new JsonTreeBuilder();
+            var source = $(button).attr("data-xml");
+            $.get(source, function(data){
+                var span = $('<span class="xml-headers">');
+                $("#output-xml").html("");
+                $("#output-json").html("");
+                $("#output-xml").append(span
+                    .text(
+                        "This XML file does not appear to have any style information associated with it. The document tree is shown below."
+                    )
+                );
+                var xml = treeBuilder.build(data, "xml");
+                var json = treeBuilder.build(data, "json");
+                $("#output-xml").append(xml);
+                $("#output-json").append(json);
+            })
+        }
+        function showMain(show, hide) {
+            $('#output-' + show).show();
+            $('#output-' + hide).hide();
+            $('#toggle-' + show).removeClass("btn-primary").addClass("btn-secondary");
+            $('#toggle-' + hide).removeClass("btn-secondary").addClass("btn-primary");
+        }
+        $("#output-json").hide();
+    </script>
 </html>

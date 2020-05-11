@@ -2,6 +2,7 @@ import { connect } from "react-redux";
 import { mapStateToProps } from "../reducers/actions.js";
 import React, { Component } from "react";
 import Loading from "../util/Loading";
+import Error from "../util/Error";
 import { FaEye, FaQuestion, FaExclamationTriangle, FaCheckCircle } from "react-icons/fa";
 
 class GroupHeaders extends Component {
@@ -48,7 +49,12 @@ class GroupHeaders extends Component {
         ));
     };
 
-    getLoading = () => <Loading styles={"header-loading"} />;
+    getLoading = () => {
+        if (this.props.value.error) {
+            return (<Error styles={"header-loading"} />);
+        }
+        return (<Loading styles={"header-loading"} />);
+    }
 
     render() {
         return this.props.value.questions.length === 1 ? this.getLoading() : this.getHeader(this.props.value.groups);
