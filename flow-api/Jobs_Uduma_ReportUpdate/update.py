@@ -18,9 +18,8 @@ formInstanceUrls = []
 
 def collectSync(url, formChanged=[], formInstanceChanged=[], formInstanceDeleted=[], surveyDeleted=[]):
     data = api.sync_data(session, url, token)
-    print(url)
-    nextUrl = data['nextSyncUrl']
     if data['status'] == 200:
+        nextUrl = data['nextSyncUrl']
         formChanged = formChanged + data['changes']['formChanged']
         formInstanceChanged = formInstanceChanged + data['changes']['formInstanceChanged']
         formInstanceDeleted = formInstanceDeleted + data['changes']['formInstanceDeleted']
@@ -32,7 +31,7 @@ def collectSync(url, formChanged=[], formInstanceChanged=[], formInstanceDeleted
              )
         return collectSync(nextUrl, formChanged, formInstanceChanged, formInstanceDeleted, surveyDeleted)
     else:
-        results = {'nextSyncUrl': nextUrl}
+        results = {'nextSyncUrl': url}
         if len(formChanged) > 0:
             results.update({'formChanged':formChanged})
         if len(formInstanceChanged) > 0:
