@@ -80,7 +80,8 @@ def send_email(data):
         name = "Hi {},".format(data['name'].split(" ")[0]),
         summary = summary,
         flow = flow,
-        lumen = lumen
+        lumen = lumen,
+        now = datetime.strftime(datetime.now(),"%Y%m%d")
     )
     email = {
         'Messages': [{
