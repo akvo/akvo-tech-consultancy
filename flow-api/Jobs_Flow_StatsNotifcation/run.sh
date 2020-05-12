@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-set -eu
-echo $TOKEN_PICKLE | base64 -d > token.pickle
 python app.py --limit
