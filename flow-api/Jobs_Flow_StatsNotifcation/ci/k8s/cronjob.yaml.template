@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: jobs-flow-contract-notification
 spec:
-  schedule: "30 18 * * *"
+  schedule: "45 18 * * *"
   startingDeadlineSeconds: 600
   concurrencyPolicy: Allow
   failedJobsHistoryLimit: 1
