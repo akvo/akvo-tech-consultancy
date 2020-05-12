@@ -21,7 +21,7 @@ MAILJET_SECRET = os.environ["MAILJET_SECRET"]
 GOOGLE_TOKEN = 'token.pickle'
 
 mailjet = Client(auth=(MAILJET_SECRET, MAILJET_APIKEY), version='v3.1')
-notification_test = ["Deden Bangkit","Jana (Janka) Gombitova", "Kathelyne van den Berg"]
+notification_test = ["Deden Bangkit"]
 production = False
 command = False
 
