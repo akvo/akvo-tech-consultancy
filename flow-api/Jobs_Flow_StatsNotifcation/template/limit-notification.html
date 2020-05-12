@@ -1,0 +1,401 @@
+<html xmlns="http://www.w3.org/1999/xhtml" style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;">
+
+<head style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;">
+    <meta name="viewport" content="width=device-width" style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;">
+    <title style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;">Template</title>
+	<link href="https://fonts.googleapis.com/css2?family=Assistant&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&display=swap" rel="stylesheet">
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    * {
+		font-family: 'Assistant', sans-serif;
+    }
+
+    img {
+        max-width: 100%;
+    }
+
+    .collapse {
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        -webkit-font-smoothing: antialiased;
+        -webkit-text-size-adjust: none;
+        width: 100% !important;
+        height: 100%;
+    }
+
+    a {
+        color: #2BA6CB;
+    }
+
+    .btn {
+        text-decoration: none;
+        color: #FFF;
+        background-color: #666;
+        padding: 10px 16px;
+        font-weight: bold;
+        margin-right: 10px;
+        text-align: center;
+        cursor: pointer;
+        display: inline-block;
+    }
+
+    p.callout {
+        padding: 15px;
+        background-color: #ECF8FF;
+        margin-bottom: 15px;
+    }
+
+    .callout a {
+        font-weight: bold;
+        color: #2BA6CB;
+    }
+
+    table.social {
+        /*  padding:15px; */
+        background-color: #ebebeb;
+    }
+
+    .social .soc-btn {
+        padding: 3px 7px;
+        font-size: 12px;
+        margin-bottom: 10px;
+        text-decoration: none;
+        color: #FFF;
+        font-weight: bold;
+        display: block;
+        text-align: center;
+    }
+
+    a.fb {
+        background-color: #3B5998 !important;
+    }
+
+    a.tw {
+        background-color: #1daced !important;
+    }
+
+    a.gp {
+        background-color: #DB4A39 !important;
+    }
+
+    a.ms {
+        background-color: #000 !important;
+    }
+
+    .sidebar .soc-btn {
+        display: block;
+        width: 100%;
+    }
+
+    table.head-wrap {
+        width: 100%;
+    }
+
+    .header.container table td.logo {
+        padding: 15px;
+    }
+
+    .header.container table td.label {
+        padding: 15px;
+        padding-left: 0px;
+    }
+
+    table.body-wrap {
+        width: 100%;
+    }
+
+    table.footer-wrap {
+        width: 100%;
+        clear: both !important;
+    }
+
+    .footer-wrap .container td.content p {
+        border-top: 1px solid rgb(215, 215, 215);
+        padding-top: 15px;
+    }
+
+    .footer-wrap .container td.content p {
+        font-size: 10px;
+        font-weight: bold;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-family: "Roboto-Condensed", sans-serif;
+        line-height: 1.1;
+        margin-bottom: 15px;
+        color: #000;
+    }
+
+    h1 small,
+    h2 small,
+    h3 small,
+    h4 small,
+    h5 small,
+    h6 small {
+        font-size: 60%;
+        color: #FFF;
+        line-height: 0;
+        text-transform: none;
+    }
+
+    h1 {
+        font-weight: 200;
+        font-size: 44px;
+    }
+
+    h2 {
+        font-weight: 200;
+        font-size: 37px;
+    }
+
+    h3 {
+        font-weight: 500;
+        font-size: 27px;
+    }
+
+    h4 {
+        font-weight: 500;
+        font-size: 23px;
+    }
+
+    h5 {
+        font-weight: 900;
+        font-size: 17px;
+    }
+
+    h6 {
+        font-weight: 900;
+        font-size: 14px;
+        text-transform: uppercase;
+        color: #ffffff;
+    }
+
+    .collapse {
+        margin: 0 !important;
+    }
+
+    p,
+    ul {
+        margin-bottom: 10px;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    p.lead {
+        font-size: 17px;
+    }
+
+    p.last {
+        margin-bottom: 0px;
+    }
+
+    ul li {
+        margin-left: 5px;
+        list-style-position: inside;
+    }
+
+    ul.sidebar {
+        background: #ebebeb;
+        display: block;
+        list-style-type: none;
+    }
+
+    ul.sidebar li {
+        display: block;
+        margin: 0;
+    }
+
+    ul.sidebar li a {
+        text-decoration: none;
+        color: #666;
+        padding: 10px 16px;
+        /*  font-weight:bold; */
+        margin-right: 10px;
+        /*  text-align:center; */
+        cursor: pointer;
+        border-bottom: 1px solid #777777;
+        border-top: 1px solid #FFFFFF;
+        display: block;
+        margin: 0;
+    }
+
+    ul.sidebar li a.last {
+        border-bottom-width: 0px;
+    }
+
+    ul.sidebar li a h1,
+    ul.sidebar li a h2,
+    ul.sidebar li a h3,
+    ul.sidebar li a h4,
+    ul.sidebar li a h5,
+    ul.sidebar li a h6,
+    ul.sidebar li a p {
+        margin-bottom: 0 !important;
+    }
+
+    .container {
+        display: block !important;
+        max-width: 600px !important;
+        margin: 0 auto !important;
+        /* makes it centered */
+        clear: both !important;
+    }
+
+    .content {
+        padding: 15px;
+        max-width: 600px;
+        margin: 0 auto;
+        display: block;
+    }
+
+    .content table {
+        width: 100%;
+    }
+
+    .column {
+        width: 300px;
+        float: left;
+    }
+
+    .column tr td {
+        padding: 15px;
+    }
+
+    .column-wrap {
+        padding: 0 !important;
+        margin: 0 auto;
+        max-width: 600px !important;
+    }
+
+    .column table {
+        width: 100%;
+    }
+
+    .social .column {
+        width: 280px;
+        min-width: 279px;
+        float: left;
+    }
+
+    .clear {
+        display: block;
+        clear: both;
+    }
+
+    @media only screen and (max-width: 600px) {
+        a[class="btn"] {
+            display: block !important;
+            margin-bottom: 10px !important;
+            background-image: none !important;
+            margin-right: 0 !important;
+        }
+        div[class="column"] {
+            width: auto !important;
+            float: none !important;
+        }
+        table.social div[class="column"] {
+            width: auto !important;
+        }
+    }
+</style>
+
+<body bgcolor="#FFFFFF" style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;-webkit-font-smoothing: antialiased;-webkit-text-size-adjust: none;height: 100%;width: 100%!important;">
+    <table class="head-wrap" bgcolor="#080808" style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;width: 100%;">
+        <tr style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;">
+            <td style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;"></td>
+            <td class="header container" style="margin: 0 auto!important;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;display: block!important;max-width: 600px!important;clear: both!important;">
+                <div class="content" style="margin: 0 auto;padding: 15px;font-family:'Assistant',sans-serif; font-weight:400;max-width: 600px;display: block;">
+                    <table bgcolor="#080808" style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;width: 100%;">
+                        <tr style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;">
+                            <td style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;"><img src="https://akvo.org/wp-content/themes/Akvo-Theme/images/logos/random/logo2.png"
+                                    width="105" style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;max-width: 100%;"></td>
+                            <td align="right" style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;">
+                                <h6 class="collapse" style="margin: 0!important;padding: 0;font-family: 'Roboto Condensed', sans-serif;margin-bottom: 15px;color: #ffffff;font-weight: 700;font-size: 14px;text-transform: uppercase;">DO NOT REPLY</h6>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+            <td style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;"></td>
+        </tr>
+    </table>
+    <table class="body-wrap" style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;width: 100%;">
+        <tr style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;">
+            <td style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;"></td>
+            <td class="container" bgcolor="#FFFFFF" style="margin: 0 auto!important;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;display: block!important;max-width: 600px!important;clear: both!important;">
+			<div class="content" style="margin: 0 auto;padding: 15px;font-family:'Assistant',sans-serif; font-weight:400;max-width: 600px;display: block;">
+				<table style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;width: 100%;">
+					<tr style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;">
+						<td style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;">
+							<h3 style="margin: 0;padding: 0;font-family: 'Roboto Condensed', sans-serif;line-height: 1.1;margin-bottom: 15px;color: #000;font-weight: 500;font-size: 27px;">{{name}}</h3>
+							<p style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;margin-bottom: 0px;font-weight: normal;font-size: 14px;line-height: 1.6;">{{summary.intro}}</p>
+					<table
+						class="social" width="100%" style="margin: 0;margin-top:10px; padding: 20px;font-family:'Assistant',sans-serif; font-weight:400;background-color: #f2f2f2;width: 100%;">
+						<tr style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;">
+							<td style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;">
+								<table align="left" style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;width:100%">
+									<tr style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;">
+										<td colspan={{instances}} style="margin: 0;font-family:'Assistant',sans-serif; font-weight:400;">
+                                            <p class="" style="margin: 0;padding: 10px 10px 10px;font-family: 'Assistant', sans-serif; margin-bottom: 10px;color: #000;font-size: 14px; border-bottom:solid 1px #ddd;">
+                                            {{summary.summary}}
+                                            </p>
+											<h5 class="" style="margin: 0;padding: 10px;font-family: 'Roboto-Condensed',sans-serif;margin-bottom:0px;color:#03ad8c;font-weight: 800;font-size: 15px;text-decoration:none;">Intance Name: {{flow.name}}</h5>
+											<p class="" style="margin: 0;padding: 10px 10px 0px;font-family: 'Assistant', sans-serif; margin-bottom: 0px;color: #000;font-size: 14px;">
+                                                Akvo Lumen: {% if lumen %} {{lumen | title}} {% else %} None {% endif %}<br>
+												Datapoints Limit: {{flow.datapoints}} Datapoints<br>
+												Usage: {{flow.usage}} % ({{flow.limit}})<br>
+												Remaining: {{flow.remaining}} Datapoints<br>
+											</p>
+										</td>
+									</tr>
+								</table>
+					<span class="clear" style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;display: block;clear: both;"></span></td></tr>
+                	</table>
+							<p style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;margin-bottom: 10px;font-weight: normal;font-size: 14px;line-height: 1.6;margin-top:10px;">{{summary.outro}}</p>
+							<p style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;margin-bottom: 10px;font-weight: normal;font-size: 14px;line-height: 1.6;margin-top:10px;margin-bottom:40px">Kind Regards,</p>
+							<p style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;margin-top: 10px;font-weight: normal;font-size: 14px;line-height: 1.6;">Kathelyne</p>
+							<p style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;margin-bottom: 10px;font-weight: normal;font-size: 14px;line-height: 1.6;margin-bottom:20px;">
+<strong style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;"><a href="emailto:kathelyne@akvo.org" style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;text-decoration:none;">kathelyne@akvo.org</a></strong>
+</p>
+				</td></tr>
+				</table>
+			</div>
+	</td>
+    </tr>
+    </table>
+    <table class="footer-wrap" style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;width: 100%;clear: both!important;background:#080808;position:absolute;bottom:0px;">
+        <tr style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;">
+            <td style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;"></td>
+            <td class="container" style="margin: 0 auto!important;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;display: block!important;max-width: 600px!important;clear: both!important;">
+                <div class="content" style="margin: 0 auto;padding: 15px;font-family:'Assistant',sans-serif; font-weight:400;max-width: 600px;display: block;">
+                    <table style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;width: 100%;">
+                        <tr style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;">
+                            <td align="center" style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;">
+                                <p style="font-family:'Assistant',sans-serif;margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;margin-bottom: 10px;font-weight: normal;font-size: 14px;line-height:1.6;color:#ffffff;">This is an automated email</p>
+							</td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+            <td style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;"></td>
+        </tr>
+    </table>
+</body>
+
+</html>

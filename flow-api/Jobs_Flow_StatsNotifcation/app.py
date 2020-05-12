@@ -7,6 +7,7 @@ from datetime import datetime
 from mailjet_rest import Client
 from jinja2 import Environment, FileSystemLoader
 from googleapiclient.discovery import build
+from google.auth.transport.requests import Request
 
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
 SPREADSHEET_ID = '1c0JtibjTgnfwQ1EcVmEVJJiRG9tjFEhSG_Twrj-0WVU'
@@ -22,6 +23,27 @@ GOOGLE_TOKEN = 'token.pickle'
 mailjet = Client(auth=(MAILJET_SECRET, MAILJET_APIKEY), version='v3.1')
 notification_test = ["Deden Bangkit","Jana (Janka) Gombitova", "Kathelyne van den Berg"]
 production = False
+command = False
+
+def get_args(cmd):
+    if cmd == "--limit":
+        return "limit"
+    if cmd == "--contract":
+        return "contract"
+    return False
+
+def error_args():
+    print("\nUSAGE:\n")
+    print("python app.py --limit")
+    print("python app.py --contract\n")
+    sys.exit(0)
+
+if len(sys.argv) == 2:
+    command = get_args(sys.argv[1])
+if command == False:
+    error_args()
+if len(sys.argv) < 2 or len(sys.argv) > 2:
+    error_args()
 
 def send_email(data):
     project = data["project_name"].lower().title()
@@ -88,6 +110,8 @@ creds = None
 if os.path.exists(GOOGLE_TOKEN):
     with open(GOOGLE_TOKEN, 'rb') as token:
         creds = pickle.load(token)
+if creds and creds.expired and creds.refresh_token:
+        creds.refresh(Request())
 if not creds or not creds.valid:
     print("GDrive: Token Error")
     sys.exit(1)
