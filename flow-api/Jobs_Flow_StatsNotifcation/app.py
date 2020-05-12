@@ -114,7 +114,7 @@ if creds and creds.expired and creds.refresh_token:
         creds.refresh(Request())
 if not creds or not creds.valid:
     print("GDrive: Token Error")
-    sys.exit(1)
+    sys.exit(0)
 
 service = build('sheets', 'v4', credentials=creds)
 sheet = service.spreadsheets()
@@ -157,7 +157,7 @@ else:
 notifications = notifications.to_dict("records")
 if (len(notifications) == 0):
     print("NO NOTIFICATION FOR TODAY ... EXITING")
-    sys.exit()
+    sys.exit(0)
 
 for notification in notifications:
     send_email(notification)
