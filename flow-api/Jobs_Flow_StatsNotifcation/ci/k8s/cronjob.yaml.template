@@ -1,21 +1,35 @@
-apiVersion: batch/v1
-kind: Job
+apiVersion: batch/v1beta1
+kind: CronJob
 metadata:
   name: jobs-flow-contract-notification
 spec:
-  template:
+  schedule: "45 22 * * *"
+  startingDeadlineSeconds: 600
+  concurrencyPolicy: Allow
+  failedJobsHistoryLimit: 1
+  successfulJobsHistoryLimit: 2
+  jobTemplate:
+    metadata:
+      labels:
+        cronjob: jobs-flow-contract-notification # <-- for monitoring
+        jobowner: tech-consultancy
     spec:
-      containers:
-        - name: jobs-flow-contract-notification
-          image: eu.gcr.io/akvo-lumen/jobs-contract-notification:${TRAVIS_COMMIT}
-          resources:
+      template:
+        metadata:
+          labels:
+            cronjob: jobs-flow-contract-notification
+        spec:
+          containers:
+          - name: jobs-flow-contract-notification
+            image: eu.gcr.io/akvo-lumen/jobs-flow-contract-notification:${TRAVIS_COMMIT}
+            resources:
               requests:
                 cpu: "50m"
                 memory: "256Mi"
               limits:
                 cpu: "1000m"
                 memory: "768Mi"
-          env:
+            env:
               - name: MAILJET_APIKEY
                 valueFrom:
                   secretKeyRef:
@@ -31,5 +45,4 @@ spec:
                   secretKeyRef:
                     name: jobs-flow-contract-notification
                     key: token-pickle
-      restartPolicy: Never
-  backoffLimit: 0
+          restartPolicy: Never
