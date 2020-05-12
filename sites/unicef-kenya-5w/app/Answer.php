@@ -21,11 +21,11 @@ class Answer extends Model
 
     public function options()
     {
-        return $this->belongsToMany('App\Option');
+        return $this->belongsToMany('App\Option', 'answer_options');
     }
 
     public function cascades()
     {
-        return $this->belongsToMany('App\Cascade');
+        return $this->belongsToMany('App\Cascade', 'answer_cascades');
     }
 }

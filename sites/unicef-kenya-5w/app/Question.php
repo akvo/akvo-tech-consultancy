@@ -10,7 +10,7 @@ class Question extends Model
     public $incrementing = false;
 
     protected $hidden = ['created_at', 'updated_at'];
-    protected $fillable = ['id', 'form_id', 'question_group_id', 'cascade_id', 'name', 'type'];
+    protected $fillable = ['id', 'form_id', 'question_group_id', 'cascade_id', 'name', 'type', 'dependency'];
 
     public function form()
     {
@@ -36,5 +36,15 @@ class Question extends Model
     public function cascade()
     {
         return $this->belongsTo('App\Cascade');
+    }
+
+    public function dependencyChilds()
+    {
+        return $this->hasMany('App\Question', 'dependency', 'id');
+    }
+
+    public function dependencyParent()
+    {
+        return $this->belongsTo('App\Question', 'id', 'dependency');
     }
 }

@@ -14,14 +14,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-Route::get('/data', 'Api\DataController@index');
-Route::get('/data/datapoints', 'Api\DataController@getDataPoints');
-Route::get('/cascades', 'Api\DataController@getCascades');
-Route::get('/options', 'Api\DataController@getOptions');
-
-Route::get('/coordinations/{option_id}', 'Api\DataController@getCoordinations');
-
+Route::get('wash-domain', 'Api\QueryController@getWashDomain');

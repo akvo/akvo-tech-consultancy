@@ -16,6 +16,21 @@ class Cascade extends Model
 
     public function answers()
     {
-        return $this->belongsToMany('App\Answer');
+        return $this->belongsToMany('App\Answer', 'answer_cascades');
+    }
+
+    public function childrens()
+    {
+        return $this->hasMany('App\Cascade', 'parent_id', 'id');
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo('App\Cascade', 'id', 'parent_id');
+    }
+
+    public function childrenNested()
+    {
+        return $this->childrens();
     }
 }

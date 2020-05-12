@@ -221,9 +221,16 @@ class InitController extends Controller
                     if ($type === 'free' && isset($search['validationRule'])) {
                         $type = $search['validationRule']['validationType'];
                     }
+
+                    $dependency = NULL;
+                    if (isset($search['dependency'])) {
+                        $dependency = (int) $search['dependency']['question'];
+                    }
+
                     $postQuestions = new Question([
                         'id' => (int) $question['id'],
                         'form_id' => (int) $formId,
+                        'dependency' => $dependency,
                         'question_group_id' => (int) $results['id'],
                         'cascade_id' => $parentId,
                         'name' => $search['text'],
@@ -455,15 +462,14 @@ class InitController extends Controller
     {
         echo('Collecting Data Point...'.PHP_EOL);
         $dataPoints = collect($results['dataPoints'])->each(function ($dataPoint) use ($collections, $surveyId) {
+            $position = new Point($dataPoint['latitude'], $dataPoint['longitude']);
             $post = [
                 'id' => (int) $dataPoint['id'],
                 'survey_id' => (int) $surveyId,
                 'display_name' => $dataPoint['displayName'],
-                'position' => new Point($dataPoint['latitude'], $dataPoint['longitude'])
+                'position' => $position
             ]; 
-
             $collections->push($post);
-
             return $collections;
         });
 

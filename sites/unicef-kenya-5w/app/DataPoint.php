@@ -13,7 +13,7 @@ class DataPoint extends Model
     public $incrementing = false;
 
     protected $hidden = ['created_at', 'updated_at'];
-    protected $fillable = ['id', 'survey_id', 'display_name'];
+    protected $fillable = ['id', 'survey_id', 'display_name', 'position'];
     protected $spatialFields = ['position'];
 
     public function survey()

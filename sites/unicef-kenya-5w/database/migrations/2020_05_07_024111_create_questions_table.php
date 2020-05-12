@@ -27,6 +27,7 @@ class CreateQuestionsTable extends Migration
             $table->unsignedBigInteger('id');
             $table->unsignedBigInteger('form_id');
             $table->unsignedBigInteger('question_group_id');
+            $table->unsignedBigInteger('dependency')->nullable();
             $table->foreignId('cascade_id')->nullable();
             $table->text('name');
             $table->enum('type', $type);
@@ -46,6 +47,11 @@ class CreateQuestionsTable extends Migration
             $table->foreign('cascade_id')
                   ->references('id')
                   ->on('cascades')
+                  ->onDelete('cascade');
+
+            $table->foreign('dependency')
+                  ->references('id')
+                  ->on('questions')
                   ->onDelete('cascade');
         });
     }
