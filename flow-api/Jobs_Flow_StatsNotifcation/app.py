@@ -111,7 +111,9 @@ if os.path.exists(GOOGLE_TOKEN):
     with open(GOOGLE_TOKEN, 'rb') as token:
         creds = pickle.load(token)
 if creds and creds.expired and creds.refresh_token:
-        creds.refresh(Request())
+    creds.refresh(Request())
+    with open('token.pickle', 'wb') as token:
+        pickle.dump(creds, token)
 if not creds or not creds.valid:
     print("GDrive: Token Error")
     sys.exit(0)
