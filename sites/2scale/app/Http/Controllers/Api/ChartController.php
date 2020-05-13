@@ -118,7 +118,7 @@ class ChartController extends Controller
                 return $dt->makeHidden('datapoints');
             });
         }
-        $legends = ["Female > 35", "Female < 35", "Male > 35", "Male < 35"];
+        $legends = ["Female > 35", "Female ≤ 35", "Male > 35", "Male ≤ 35"];
         $all = collect($all)->groupBy('country')->map(function($countries) 
             use ($femaleold, $femaleyoung, $maleold, $maleyoung)
         {
@@ -130,13 +130,13 @@ class ChartController extends Controller
                     $country->participant = "Female > 35";
                 }
                 if (collect($femaleyoung)->contains($country->question_id)){
-                    $country->participant = "Female < 35";
+                    $country->participant = "Female ≤ 35";
                 }
                 if (collect($maleold)->contains($country->question_id)){
                     $country->participant = "Male > 35";
                 }
                 if (collect($maleyoung)->contains($country->question_id)){
-                    $country->participant = "Male < 35";
+                    $country->participant = "Male ≤ 35";
                 }
                 return $country;
             });
@@ -158,13 +158,13 @@ class ChartController extends Controller
                     if ($key === "Female > 35"){
                         $femaleold->push($dt);
                     }
-                    if ($key === "Female < 35"){
+                    if ($key === "Female ≤ 35"){
                         $femaleyoung->push($dt);
                     }
                     if ($key === "Male > 35"){
                         $maleold->push($dt);
                     }
-                    if ($key === "Male < 35"){
+                    if ($key === "Male ≤ 35"){
                         $maleyoung->push($dt);
                     }
                 return $dt;
@@ -177,13 +177,13 @@ class ChartController extends Controller
                 if ($legend === "Female > 35"){
                     $values = $femaleold;
                 }
-                if ($legend === "Female < 35"){
+                if ($legend === "Female ≤ 35"){
                     $values = $femaleyoung;
                 }
                 if ($legend === "Male > 35"){
                     $values = $maleold;
                 }
-                if ($legend === "Male < 35"){
+                if ($legend === "Male ≤ 35"){
                     $values = $maleyoung;
                 }
             return array(
@@ -208,7 +208,7 @@ class ChartController extends Controller
             $all = $all->whereIn('datapoint_id',$datapoints_id);
         }
         $all = $all->get();
-        $legends = ["Female > 35", "Female < 35", "Male > 35", "Male < 35"];
+        $legends = ["Female > 35", "Female ≤ 35", "Male > 35", "Male ≤ 35"];
         $series = collect($all)->map(function($dt)
             use ($femaleold, $femaleyoung, $maleold, $maleyoung ){
                 $dt->answer = (int) $dt->answer;
@@ -216,13 +216,13 @@ class ChartController extends Controller
                     $dt->participant = "Female > 35";
                 }
                 if (collect($femaleyoung)->contains($dt->question_id)){
-                    $dt->participant = "Female < 35";
+                    $dt->participant = "Female ≤ 35";
                 }
                 if (collect($maleold)->contains($dt->question_id)){
                     $dt->participant = "Male > 35";
                 }
                 if (collect($maleyoung)->contains($dt->question_id)){
-                    $dt->participant = "Male < 35";
+                    $dt->participant = "Male ≤ 35";
                 }
                 return $dt;
             })->groupBy('participant')->map(function($part, $key){
