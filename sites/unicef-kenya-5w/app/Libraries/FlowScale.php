@@ -8,7 +8,7 @@ class FlowScale
     public function getQuestions($surveyId) 
     {
         $client = new \GuzzleHttp\Client();
-        $path = '/' . $surveyId . '/update';
+        $path = '/' . $surveyId . '/' . env(AKVO_CASCADE_METHOD);
         $url = config('akvo.endpoints.questions') . $path;
 
         try {
