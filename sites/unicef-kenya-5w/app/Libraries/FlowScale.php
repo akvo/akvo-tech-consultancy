@@ -5,10 +5,10 @@ use GuzzleHttp\Exception\RequestException;
 
 class FlowScale
 {
-    public function getQuestions($surveyId) 
+    public function getQuestions($formId) 
     {
         $client = new \GuzzleHttp\Client();
-        $path = '/' . $surveyId . '/update';
+        $path = '/' . $formId . '/update';
         $url = config('akvo.endpoints.questions') . $path;
 
         try {

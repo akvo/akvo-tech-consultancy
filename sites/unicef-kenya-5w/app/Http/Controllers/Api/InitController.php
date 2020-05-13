@@ -204,7 +204,8 @@ class InitController extends Controller
                         $postParent = new Cascade([
                             'parent_id' => NULL,
                             'code' => NULL,
-                            'name' => $search['cascadeResource']
+                            'name' => $search['cascadeResource'],
+                            'level' => NULL
                         ]);
                         $postParent->save();
                         $parentId = $postParent->id;
@@ -293,7 +294,7 @@ class InitController extends Controller
                             }
 
                             if ($results['repeatable']) {
-                                $repeatIndex++;
+                                $repeatIndex = $repeatIndex + 1;
                             }
 
                             $responses = collect($item)->map(function ($item) use ($results, $question, $repeatIndex, $formInstanceId, $search) {
@@ -399,12 +400,12 @@ class InitController extends Controller
         return $questions;
     }
 
-    private function seedCascades($flowScale, $resource, $parent, $parentId)
+    private function seedCascades($flowScale, $resource, $parent, $parentId, $level = 0)
     {
         $cascades = collect($flowScale->getCascades($resource, $parent));
         if ($cascades->count() !== 0) {
             echo('Seeding Cascades Table...'.PHP_EOL);
-            $post = $cascades->each(function ($cascade) use ($flowScale, $resource, $parentId) {
+            $post = $cascades->each(function ($cascade) use ($flowScale, $resource, $parentId, $level) {
                 $checkCascades = Cascade::where('name', Str::lower($cascade['name']))->get();
                 if (collect($checkCascades)->count() !== 0) {
                     return null;
@@ -415,10 +416,12 @@ class InitController extends Controller
                 $postCascades = new Cascade([
                     'parent_id' => $parentId,
                     'code' => Str::lower($code),
-                    'name' => Str::lower($name)
+                    'name' => Str::lower($name),
+                    'level' => $level
                 ]);
                 $postCascades->save();
-                $this->seedCascades($flowScale, $resource, $cascade['id'], $postCascades->id);
+                $nextLevel = $level + 1;
+                $this->seedCascades($flowScale, $resource, $cascade['id'], $postCascades->id, $nextLevel);
             });
             return $post;
         }

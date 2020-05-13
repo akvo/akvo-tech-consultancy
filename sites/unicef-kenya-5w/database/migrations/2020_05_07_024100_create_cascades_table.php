@@ -18,6 +18,7 @@ class CreateCascadesTable extends Migration
             $table->foreignId('parent_id')->nullable();
             $table->string('code')->nullable();
             $table->text('name');
+            $table->unsignedTinyInteger('level')->nullable();
             $table->timestamps();
 
             $table->foreign('parent_id')

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Cascade extends Model
 {
     protected $hidden = ['created_at', 'updated_at'];
-    protected $fillable = ['parent_id', 'code', 'name'];
+    protected $fillable = ['parent_id', 'code', 'name', 'level'];
 
     public function questions()
     {
