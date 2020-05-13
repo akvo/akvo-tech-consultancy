@@ -65,7 +65,7 @@ class QueryController extends Controller
             //$item = $item->makeHidden('id', 'question_id', 'other', 'code', 'question');
             $data['activity'] = Str::afterLast($item['name'], $config.' - ');
             $data['answers'] = $values;
-            return $data;
+            return $item;
         });
 
         return $transformData;

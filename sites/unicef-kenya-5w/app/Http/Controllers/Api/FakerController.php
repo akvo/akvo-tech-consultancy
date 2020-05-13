@@ -90,18 +90,16 @@ class FakerController extends Controller
         $formInstancesData = $formInstances->doesntHave('answers')->get();
     
         $postAnswers = $formInstancesData->each(function ($formInstance) use ($faker, $washDomainId, $locations) {
-            // seed wash domain
-            $this->seedWashDomainAnswers($faker, $formInstance, $washDomainId);
-
-
-            $questions = Question::where([
-                            ['form_id', '=', $formInstance->form_id],
-                            ['id', '!=', $washDomainId],
-                            ['dependency', '!=', $washDomainId],
-                        ])->get();
-
-            $questions->each(function ($question) use ($faker, $formInstance, $locations) {
-                $this->seedNotWashDomainAnswers($faker, $formInstance, $locations, $question);
+            $questions = Question::where('form_id',$formInstance->form_id)->get();
+            $questions->each(function ($question) use ($faker, $formInstance, $locations, $washDomainId) {
+                if ($question->id === $washDomainId) {
+                    // seed wash domain
+                    $this->seedWashDomainAnswers($faker, $formInstance, $washDomainId);
+                }
+                
+                if ($question->id !== $washDomainId && $question->dependency !== $washDomainId) {
+                    $this->seedNotWashDomainAnswers($faker, $formInstance, $locations, $question);
+                }
             });
 
             return $questions;
@@ -112,6 +110,7 @@ class FakerController extends Controller
 
     private function seedWashDomainAnswers($faker, $formInstance, $washDomainId)
     {
+        echo("======> Preparing Seeding Wash Domain...".PHP_EOL);
         $flowScale = new FlowScale();
         $questionScale = collect($flowScale->getQuestions($formInstance->form_id));
         $questionGroups = collect($questionScale->get('questionGroup'));
@@ -161,29 +160,39 @@ class FakerController extends Controller
                         return Str::lower($val);
                     });
 
-                    $text = $item['text'];
-                    $answerValue = $dependency['answer-value'];
-
-                    $coordinationMeeting = Str::contains($answerValue, 'coordination - meetings');
-                    $value = $this->setValues($coordinationMeeting, $text, $faker, 15, 25);
-
-                    $coordinationTraining = Str::contains($answerValue, 'coordination - capacity');
-                    $value = $this->setValues($coordinationTraining, $text, $faker, 50, 200);
-
-                    $hygiene = Str::contains($answerValue, 'hygiene');
-                    $value = $this->setValues($hygiene, $text, $faker, 100, 500);
-
-                    $water = Str::contains($answerValue, 'water');
-                    $value = $this->setValues($water, $text, $faker, 100, 500);
-
-                    $health = Str::contains($answerValue, 'health');
-                    $value = $this->setValues($health, $text, $faker, 100, 500);
-
-                    $sanitation = Str::contains($answerValue, 'sanitation');
-                    $other = Str::contains($answerValue, 'other');
-
                     if ($dependency->contains($option->name)) {
                         $question = Question::find((int) $item['id']);
+                        $text = $question->name;
+                        $answerValue = $option->name;
+
+                        $coordinationMeeting = Str::contains($answerValue, 'coordination - meetings');
+                        if ($coordinationMeeting) {
+                            $value = $this->setValues($text, $faker, 15, 25);
+                        }
+
+                        $coordinationTraining = Str::contains($answerValue, 'coordination - capacity');
+                        if ($coordinationTraining) {
+                            $value = $this->setValues($text, $faker, 50, 200);
+                        } 
+
+                        $hygiene = Str::contains($answerValue, 'hygiene');
+                        if ($hygiene) {
+                            $value = $this->setValues($text, $faker, 100, 500);
+                        }
+
+                        $water = Str::contains($answerValue, 'water');
+                        if ($water) {
+                            $value = $this->setValues($text, $faker, 100, 500);
+                        }
+
+                        $health = Str::contains($answerValue, 'health');
+                        if ($health) {
+                            $value = $this->setValues($text, $faker, 100, 500);
+                        }
+
+                        $sanitation = Str::contains($answerValue, 'sanitation');
+                        $other = Str::contains($answerValue, 'other');
+
                         $name = $faker->word;
                         if ($question->type === 'free') {
                             $value = NULL;
@@ -205,26 +214,27 @@ class FakerController extends Controller
                 }
             });
         });
+
+        return $domainQuestion;
     }
 
-    private function setValues($condition, $text, $faker, $start, $end)
+    private function setValues($text, $faker, $start, $end)
     {
         $value = 0;
-        $planned = Str::contains($text, 'Quantity Planned');
-        $achived = Str::contains($text, 'Quantity Archived');
-        if ($condition) {
-            if ($planned) {
-                $value = $faker->numberBetween($min = $start, $max = $end);     
-            }
+        $planned = Str::contains($text, '- Quantity Planned');
+        $achived = Str::contains($text, '- Quantity Archived');
+        if ($planned) {
+            $value = $faker->numberBetween($min = $start, $max = $end);     
+        }
 
-            if ($achived) {
-                $value = $faker->numberBetween($min = 1, $max = $start);     
-            }
+        if ($achived) {
+            $value = $faker->numberBetween($min = 1, $max = $start);     
         }
         return $value;
     }
 
     private function seedNotWashDomainAnswers($faker, $formInstance, $locations, $question) {
+        echo("======> Preparing Seeding Answers...".PHP_EOL);
         echo("Check Question Type...".PHP_EOL);
         // if type === 'free'
         $name = $faker->sentence($nbWords = 6, $variableNbWords = true);
@@ -244,7 +254,7 @@ class FakerController extends Controller
 
         if ($question->type === 'numeric') {
             $name = NULL;
-            $value = 10; 
+            $value = $faker->numberBetween($min = 50, $max = 150); 
         }
 
         if ($question->type === 'geo') {

@@ -21,6 +21,7 @@ class Option extends Model
 
     public function dependencyAnswers($ids)
     {
+        // question.dependencychilds otomatis return semua question dependency, bukan sesuai yang di option;
         return $this->whereIn('id', $ids)
                     ->has('answers')
                     ->has('question.dependencyChilds.answers')
