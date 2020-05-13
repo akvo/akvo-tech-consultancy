@@ -151,9 +151,9 @@ class FakerController extends Controller
         }
         
         echo("Check Dependency...".PHP_EOL);
-        $domainQuestion->map(function ($question) use ($option, $faker, $formInstance) {
+        $domainQuestion->map(function ($question) use ($option, $faker, $formInstance, $value, $name) {
             $questions = collect($question['question']);
-            $questions->map(function ($item) use ($option, $faker, $formInstance) {
+            $questions->map(function ($item) use ($option, $faker, $formInstance, $value, $name) {
                 if (isset($item['dependency'])) {
                     $dependencies = collect($item['dependency']);
                     $dependency = $dependencies->map(function ($val) {

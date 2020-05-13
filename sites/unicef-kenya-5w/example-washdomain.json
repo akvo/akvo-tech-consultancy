@@ -1,0 +1,26 @@
+[
+    {
+        "name" : "hygiene",
+        "count" : "? (total aktivitas)",
+        "activities" : [
+            {
+                "name" : ?
+                "count" : "total per aktivitas",
+                "values" : {
+                    "quantity" : {
+                        "planned" : "sum",
+                        "achived" : "sum"
+                    },
+                    "beneficiaries" : {
+                        "planned" : "sum",
+                        "achived" : "sum",
+                        "girl" : "sum",
+                        "boy" : "sum",
+                        "man" : "sum",
+                        "woman" : "sum"
+                    }
+                }
+            }
+        ]
+    }
+]
