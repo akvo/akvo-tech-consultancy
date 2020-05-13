@@ -12,7 +12,6 @@ return [
     'password' => env('AKVO_PASSWORD'),
     'grantType' => 'password',
     'scope' => 'openid email',
-    
     'endpoints' => [
         'login' => $BASE_AUTH_URL,
         'surveys' => $BASE_API_URL . '/surveys',
@@ -22,4 +21,5 @@ return [
         'questions' => $BASE_API_FLOW_WEB . '/' . $INSTANCE, /* /surveyID/update */
         'cascades' => $BASE_API_FLOW_WEB . '/cascade/' .$INSTANCE, /* /sqlite/{parentId} */
     ],
+    'cascadeMethod' => env('AKVO_CASCADE_METHOD', 'update')
 ];
