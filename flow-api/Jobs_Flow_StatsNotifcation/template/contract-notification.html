@@ -359,8 +359,8 @@
 											<p class="" style="margin: 0;padding: 10px 10px 0px;font-family: 'Assistant', sans-serif; margin-bottom:0px;color:#000;font-size:14px;color:#000;">
                                                 Akvo Lumen: {% if lumen %} {{lumen | title}} {% else %} None {% endif %}<br>
 												Datapoints Limit: {{flow.datapoints}} Datapoints<br>
-												Usage: {{flow.usage}} % ({{flow.limit}})<br>
-												Remaining: {{flow.remaining}} Datapoints<br>
+												Usage: {{flow.usage}} %<br>
+												Remaining: {{flow.remaining}} Datapoints ({{flow.limit}})<br>
 											</p>
 										</td>
 									</tr>
@@ -369,10 +369,7 @@
                 	</table>
 							<p style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;margin-bottom: 10px;font-weight: normal;font-size: 14px;line-height: 1.6;margin-top:10px;color:#000;">{{summary.outro}}</p>
 							<p style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;margin-bottom: 10px;font-weight: normal;font-size: 14px;line-height: 1.6;margin-top:10px;margin-bottom:40px;color:#000;">Kind Regards,</p>
-							<p style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;margin-top: 10px;font-weight: normal;font-size: 14px;line-height: 1.6;color:#000;">Kathelyne</p>
-							<p style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;margin-bottom: 10px;font-weight: normal;font-size: 14px;line-height: 1.6;margin-bottom:20px;">
-<strong style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;"><a href="emailto:kathelyne@akvo.org" style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;text-decoration:none;">kathelyne@akvo.org</a></strong>
-</p>
+							<p style="margin: 0;padding: 0;font-family:'Assistant',sans-serif; font-weight:400;margin-top: 10px;font-weight: normal;font-size: 14px;line-height: 1.6;color:#000;margin-bottom:20px;">Kathelyne</p>
 				</td></tr>
 				</table>
 			</div>
