@@ -4,7 +4,7 @@
         "count" : "? (total aktivitas)",
         "activities" : [
             {
-                "name" : ?
+                "name" : "?",
                 "count" : "total per aktivitas",
                 "values" : {
                     "quantity" : {

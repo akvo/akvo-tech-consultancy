@@ -42,7 +42,7 @@ class Auth
         try {
             $response = $client->post(config('akvo.endpoints.login'), $auth);
         } catch(RequestException $e) {
-            if ($e->hasResponse) {
+            if ($e->hasResponse()) {
                 $response = $e->getResponse();
             }
         }
