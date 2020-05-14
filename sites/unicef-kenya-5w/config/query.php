@@ -11,11 +11,19 @@ return [
             'health' => [26],
             'other' => [27],
         ],
+        'domains' => [
+            'coordination' => ['id' => 1],
+            'hygiene' => ['id' => 2],
+            'sanitation' => ['id' => 3],
+            'water' => ['id' => 4],
+            'health' => ['id' => 5],
+            'other' => ['id'=> 6],
+        ],
     ],
     'cascade' => [
-        'donor' => 318021009,
-        'organisation' => 306070913,
+        'donors' => 318021009,
+        'organisations' => 306070913,
         'implementing' => 303990912,
-        'location' => 288160912,
+        'locations' => 288160912,
     ]
 ];

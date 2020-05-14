@@ -23,15 +23,16 @@ class Page extends Component {
     }
 
     componentDidMount() {
-        axios.get(prefixPage + "filters")
+        axios.get(prefixPage + "domains")
             .then(res => {
                 this.props.filter.program.init(res.data);
             });
-        axios.get(prefixPage + "countries")
+        axios.get(prefixPage + "locations")
             .then(res => {
                 this.props.filter.country.init(res.data);
             });
         this.props.page.change('home');
+        console.log(this.props.value);
     }
 
     repeat(i) {

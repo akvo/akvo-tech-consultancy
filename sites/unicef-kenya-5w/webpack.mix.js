@@ -18,4 +18,10 @@ mix.react('resources/js/app.js', 'public/js')
 mix.copyDirectory('resources/images', 'public/images');
 // mix.copyDirectory('resources/json/kenya.json','public/json/kenya.json')
 
-mix.browserSync('covid-kenya.localhost');
+/*
+mix.browserSync({
+    proxy: 'covid-kenya.localhost',
+    files: ['public/css/*.css','public/js/*.js'],
+    notify: false
+});
+*/

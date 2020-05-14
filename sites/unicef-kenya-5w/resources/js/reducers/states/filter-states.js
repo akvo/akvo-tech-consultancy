@@ -18,11 +18,11 @@ export const filterState = {
     }],
     active: false,
     countries: [{
-        name: 'World Wide',
+        name: 'Select Counties',
         code: 'Loading',
         id: 1,
     }],
-    country: 'World Wide',
+    country: 'Select Counties',
 }
 
 export const showFilters = (state, data) => {

@@ -47,7 +47,7 @@ class Navigation extends Component {
               <Container>
               <Navbar.Brand href="#home">
                   <Image
-                      src={`${process.env.MIX_PUBLIC_URL}/images/logo-unep.png`}
+                      src={`${process.env.MIX_PUBLIC_URL}/images/logo-unicef.jpg`}
                       height="38px"
                   />
               </Navbar.Brand>
@@ -71,7 +71,7 @@ class Navigation extends Component {
                       href="https://github.com/akvo/akvo-tech-consultancy"
                       target="_blank"
                   >
-                      <FontAwesomeIcon icon={["fas", "arrow-circle-down"]} /> Resources
+                      <FontAwesomeIcon icon={["fas", "arrow-circle-down"]} /> Download
                   </a>
                 </Form>
               </Navbar.Collapse>
