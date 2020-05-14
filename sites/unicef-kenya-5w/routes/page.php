@@ -14,5 +14,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('filters', 'Api\PageController@getDropdownFilters');
-Route::get('countries', 'Api\PageController@getDropdownCountries');
+Route::get('domains', 'Api\PageController@getDomains');
+Route::get('locations', 'Api\PageController@getLocations');

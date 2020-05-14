@@ -24,4 +24,4 @@ Route::get('/cascades', 'Api\DataController@getCascades');
 Route::get('/options', 'Api\DataController@getOptions');
 
 Route::get('/coordinations/{option_id}', 'Api\DataController@getCoordinations');
-
+Route::get('/value/category/{id}', 'Api\QueryController@getValueById');

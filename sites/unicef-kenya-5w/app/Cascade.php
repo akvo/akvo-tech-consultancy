@@ -24,9 +24,9 @@ class Cascade extends Model
         return $this->hasMany('App\Cascade', 'parent_id', 'id');
     }
 
-    public function parent()
+    public function parents()
     {
-        return $this->belongsTo('App\Cascade', 'id', 'parent_id');
+        return $this->belongsTo('App\Cascade', 'parent_id', 'id');
     }
 
     public function childrenNested()

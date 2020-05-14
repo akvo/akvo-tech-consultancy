@@ -51,7 +51,7 @@ class DataCountries extends Component {
         super(props);
         this.state = {
             dropdowns: this.props.data,
-            active: 'Select Country'
+            active: 'Select Countries'
         };
         this.changeActive = this.changeActive.bind(this);
     }
