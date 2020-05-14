@@ -3,24 +3,23 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Http\Controllers\Api\FakerController;
-use Faker;
+use App\Http\Controllers\Api\BridgeController;
 
-class FlowFakerCommand extends Command
+class FlowBridgeCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'flow:faker {total}';
+    protected $signature = 'flow:bridge';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Seed fake survey data (run after flow:init)';
+    protected $description = 'Run seed for additional table (bridges table)';
 
     /**
      * Create a new command instance.
@@ -39,11 +38,9 @@ class FlowFakerCommand extends Command
      */
     public function handle()
     {
-        $this->info("Preparing for faker data seed process");
-        $seed = new FakerController();
-        $faker = Faker\Factory::create();
-        $seed->seedFakeSurveyData($faker, (int) $this->argument('total'));
-        $seed->seedFakeAnswers($faker);
-        $this->info("Seeding fake data complete");
+        $this->info("Preparing data");
+        $seed = new BridgeController();
+        $seed->startSeed();
+        $this->info("Seed additional table (bridges table) done");
     }
 }

@@ -25,5 +25,16 @@ return [
         'organisations' => 306070913,
         'implementing' => 303990912,
         'locations' => 288160912,
-    ]
+    ],
+    'groups' => [318060926, 310381071],
+    'for_whom' => [
+        'total' => [
+            'planned' => 288160991,
+            'achived' => 302220989, 
+        ],
+        'girl' => 294121009,
+        'boy' => 302201014,
+        'woman' => 302220990,
+        'man' => 318050993,
+    ],
 ];

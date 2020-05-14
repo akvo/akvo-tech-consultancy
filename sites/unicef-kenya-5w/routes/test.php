@@ -15,3 +15,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('wash-domain', 'Api\TestController@getTest');
+Route::get('domains', 'Api\TestController@getDomains');
+Route::get('value/domain/{domain_id}', 'Api\TestController@getDomain');
