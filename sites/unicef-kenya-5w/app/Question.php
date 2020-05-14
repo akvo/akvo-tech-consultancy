@@ -31,7 +31,7 @@ class Question extends Model
         return $this->belongsTo('App\Form');
     }
 
-    public function questioGroup()
+    public function questionGroup()
     {
         return $this->belongsTo('App\QuestionGroup');
     }
