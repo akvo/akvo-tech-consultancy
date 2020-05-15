@@ -17,7 +17,8 @@ class CreateDataPointsTable extends Migration
             $table->unsignedBigInteger('id');
             $table->unsignedBigInteger('survey_id');
             $table->text('display_name');
-            $table->point('position')->nullable();
+            //$table->point('position')->nullable();
+            $table->text('position')->nullable();
             $table->timestamps();
 
             $table->primary('id');

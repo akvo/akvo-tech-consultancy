@@ -12,90 +12,67 @@ use App\Cascade;
 
 class PageController extends Controller {
 
-    public function getDomains(Request $requests, FormInstance $forminstances, Cascade $cascades){
-        $data = $forminstances->has('answers.options')->get();
-        $data = collect($data)->map(function($item) use ($cascades) {
-            $domain = collect();
-            $values = collect();
-            $resuts = collect();
-            collect($item->answers)->each(function($answer) use ($domain , $values){
-                if($answer->question_id === config('query.wash_domain.id')){
-                    $domain["parent"] = Str::beforeLast($answer->name, ' - ');
-                    $domain["children"] = Str::afterLast($answer->name, ' - ');
-                    $domain["option_id"] = $answer->options->first()->id;
-                }
-                if($answer->question_id === config('query.cascade.locations')){
-                    $domain["county"] = $answer->cascades->first()->parent_id;
-                    $domain["county_id"] = $answer->cascades->first()->id;
-                };
-                $name = Str::lower($answer->question->name);
-                $numeric = $answer->question->type === "numeric";
-                if (Str::contains($name, ' - quantity')){
-                    $name = Str::afterLast($name, ' - quantity ');
-                }
-                if($numeric){
-                    $values[$name] = $answer->value;
-                }
-            });
-            return [
-                "name"=> $domain["parent"],
-                "county_id"=> $domain["county_id"],
-                "county"=> $domain["county"],
-                "child"=> $domain["children"],
-                "child_id"=> $domain["option_id"],
-                "parent_id"=> NULL,
-                "details"=> $values,
-            ];
-        });
-        $data = $data->groupBy("name")->map(function($groups, $key) {
-            $parent_id = config('query.wash_domain.domains.'.$key.'.id');
-            $childs= $groups->groupBy("child")->map(function($child, $key) use ($parent_id) {
-                $id = $child->first()["child_id"];
-                $values = $child->groupBy("county")->map(function($value, $key) use ($id) {
-                    $sums = collect();
-                    $country_id = $value->first()["county_id"];
-                    $value = $value->map(function($d) use ($sums) {
-                        collect($d["details"])->each(function($v, $k) use ($sums){
-                            $name = Str::replaceFirst(' beneficiaries ', '_' , $k);
-                            if (!isset($sums[$name])) {
-                                $sums[$name] = $v;
-                            }
-                            if (isset($sums[$name])) {
-                                $sums[$name] += $v;
-                            }
-                        });
-                        return $d["details"];
-                    });
-                    return [
-                        "id" => $key,
-                        "value_id" => $id,
-                        "country_id" => $country_id,
-                        "value" => isset($sums["archived"]) ? $sums["archived"] : NULL,
-                        "description" => NULL,
-                        // "origin" => $value,
-                    ];
-                })->values();
-                return [
-                    "id" => $id,
-                    "parent_id" => $parent_id,
-                    "name" => $key,
-                    "country_values" => $values,
+    public function getDomains(Request $requests)
+    {
+        $bridges = new \App\Bridge ();
+        $domainConfig = collect(config('query.wash_domain.domains'));
+        $domains = collect();
+        $domainConfig->each(function ($item, $index) use ($domains, $bridges) {
+            $domainData = $bridges->where('domain', $item['id'])->get();
+            $subDomainIds = $domainData->pluck('sub_domain');
+            $subDomains = \App\Option::whereIn('id', $subDomainIds)->get();
+            $domainTotal = $this->setAnswerValue($domainData);
+
+            $subDomains->map(function ($subDomain) use ($domainData, $domainTotal) {
+                $subDomainData = $domainData->where('sub_domain', $subDomain->id)->values();
+                $countyIds = $subDomainData->pluck('county');
+                $counties = \App\Cascade::whereIn('id', $countyIds)->get();
+                $subDomain['county_values'] = $counties;
+                $answers = $this->setAnswerValue($subDomainData);
+
+                $subDomain['quantity'] = ['planned' => $answers['qp'], 'achived' => $answers['qa']];
+                $subDomain['beneficiaries'] = [
+                    'planned' => $answers['bp'], 
+                    'achived' => $answers['ba'], 
+                    'girl' => $answers['girl'], 
+                    'boy' => $answers['boy'],
+                    'woman' => $answers['woman'],
+                    'man' => $answers['man']
                 ];
-            })->values();
-            $childs = $childs->map(function($item, $index) use ($parent_id){
-                $index = (string) $index;
-                $item["code"] = (string) $parent_id."#".$index;
-                return $item;
+
+                $counties->map(function ($county) use ($subDomainData) {
+                    $countyData = $subDomainData->where('county', $county->id)->values();
+                    $subCountyIds = $countyData->pluck('sub_county');
+                    $subCounties = \App\Cascade::whereIn('id', $subCountyIds)->get();
+                    $county['sub_county_values'] = $subCounties;
+
+                    return $county; 
+                });
+
+                return $subDomain;
             });
-            return [
-                "id" => $parent_id,
-                "code" => (string) $parent_id,
-                "name"=>$key,
-                "parent_id"=>NULL,
-                "childs"=>$childs,
-            ];
-        })->values();
-        return $data;
+
+            $domains->push([
+                'id' => $item['id'], 
+                'name' => $index, 
+                'text' => Str::title($index), 
+                'sub_domains' => $subDomains,
+                'quantity' => [
+                    'planned' => $domainTotal['qp'],
+                    'achived' => $domainTotal['qa'],
+                ],
+                'beneficiaries' => [
+                    'planned' => $domainTotal['bp'], 
+                    'achived' => $domainTotal['ba'], 
+                    'girl' => $domainTotal['girl'], 
+                    'boy' => $domainTotal['boy'],
+                    'woman' => $domainTotal['woman'],
+                    'man' => $domainTotal['man']
+                ],
+            ]); 
+        }); 
+
+        return $domains;
     }
 
     public function getLocations(Question $questions) {
@@ -103,10 +80,106 @@ class PageController extends Controller {
                              ->with('cascade.childrens')
                              ->first();
         return $question->cascade->childrens->transform(function($county){
-            $county->code = Str::upper($county->code);
+            $county->code = $county->code;
             $county->name = Str::title($county->name);
             return $county->makeHidden(['level','parent_id']);
         });
     }
 
+    private function setAnswerValue($collection)
+    {
+        return [
+            'qp' => $this->getAnswerValue($collection, 'value_planned'),
+            'qa' => $this->getAnswerValue($collection, 'value_achived'),
+            'bp' => $this->getAnswerValue($collection, 'beneficiaries_planned'),
+            'ba' => $this->getAnswerValue($collection, 'beneficiaries_achived'),
+            'girl' => $this->getAnswerValue($collection, 'girl_achived'),
+            'boy' => $this->getAnswerValue($collection, 'boy_achived'),
+            'woman' => $this->getAnswerValue($collection, 'woman_achived'),
+            'man' => $this->getAnswerValue($collection, 'man_achived')
+        ];
+    }
+
+    private function getAnswerValue($collection, $value) 
+    {
+        $ids = $collection->whereNotNull($value)->pluck($value);
+        $data = \App\Answer::whereIn('id', $ids)->get();
+        if ($ids->count() === 1) {
+            $values = $data->first();
+            return $values['value']; 
+        }
+
+        $value = $data->reduce(function ($total, $value) {
+            return $total + $value['value'];
+        });
+        return $value;
+    }
+
+    public function getDomain(Request $requests)
+    {
+        $bridges = new \App\Bridge ();
+        $subDomainData = $bridges->where('domain', $requests->domain_id)->get();
+        $subDomainIds = $subDomainData->pluck('sub_domain');
+
+        $results = collect();
+        $subDomains = \App\Option::whereIn('id', $subDomainIds)->get();
+        $subDomains->map(function ($subDomain) use ($results, $subDomainData) {
+            $countyIds = $subDomainData->where('sub_domain', $subDomain->id)->pluck('county');
+            $counties = \App\Cascade::whereIn('id', $countyIds)->get();
+            $subDomain['county_values'] = $counties;
+
+            $answers = $this->setAnswerValue($subDomainData);
+
+            $subDomain['quantity'] = ['planned' => $answers['qp'], 'achived' => $answers['qa']];
+            $subDomain['beneficiaries'] = [
+                'planned' => $answers['bp'], 
+                'achived' => $answers['ba'], 
+                'girl' => $answers['girl'], 
+                'boy' => $answers['boy'],
+                'woman' => $answers['woman'],
+                'man' => $answers['man']
+            ];
+
+            $counties->map(function ($county) use ($subDomainData) {
+                $countyData = $subDomainData->where('county', $county->id)->values();
+                $subCountyIds = $countyData->pluck('sub_county');
+                $subCounties = \App\Cascade::whereIn('id', $subCountyIds)->get();
+                $answers = $this->setAnswerValue($countyData);
+
+                $county['quantity'] = ['planned' => $answers['qp'], 'achived' => $answers['qa']];
+                $county['beneficiaries'] = [
+                    'planned' => $answers['bp'], 
+                    'achived' => $answers['ba'], 
+                    'girl' => $answers['girl'], 
+                    'boy' => $answers['boy'],
+                    'woman' => $answers['woman'],
+                    'man' => $answers['man']
+                ];
+                $county['sub_county_values'] = $subCounties;
+
+                $subCounties->map(function ($subCounty) use ($countyData) {
+                    $subCountyData = $countyData->where('sub_county', $subCounty->id)->values();
+                    $answers = $this->setAnswerValue($subCountyData);
+
+                    $subCounty['quantity'] = ['planned' => $answers['qp'], 'achived' => $answers['qa']];
+                    $subCounty['beneficiaries'] = [
+                        'planned' => $answers['bp'], 
+                        'achived' => $answers['ba'], 
+                        'girl' => $answers['girl'], 
+                        'boy' => $answers['boy'],
+                        'woman' => $answers['woman'],
+                        'man' => $answers['man']
+                    ];
+
+                    return $subCounty;
+                });
+
+                return $county; 
+            });
+            return $subDomain;
+        });
+        $results->push($subDomains);
+
+        return $subDomains;
+    }
 }

@@ -12,7 +12,7 @@ class FlowBridgeCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'flow:bridge';
+    protected $signature = 'flow:bridge {--empty : Truncate bridges table}'; 
 
     /**
      * The console command description.
@@ -38,9 +38,18 @@ class FlowBridgeCommand extends Command
      */
     public function handle()
     {
-        $this->info("Preparing data");
         $seed = new BridgeController();
-        $seed->startSeed();
-        $this->info("Seed additional table (bridges table) done");
+        if (!$this->option('empty')) {
+            $this->info("Preparing data");
+            $seed->startSeed();
+            $this->info("Seed additional table (bridges table) done");
+        }
+
+        if ($this->option('empty')) {
+            $this->info("Truncating bridges table");
+            $seed->truncateTable();
+            $this->info("Truncate bridges table done");
+        }
+
     }
 }

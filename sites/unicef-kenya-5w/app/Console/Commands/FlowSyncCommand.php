@@ -40,10 +40,11 @@ class FlowSyncCommand extends Command
      */
     public function handle()
     {
+        $this->info("Preparing sync process");
         $sync = new SyncController();
         $auth = new Auth();
         $flow = new Flow($auth);
         $sync->syncData($flow);
-        $this->warning("Flow Sync function not done yet");
+        $this->info("Flow Sync function not done yet");
     }
 }

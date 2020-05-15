@@ -16,3 +16,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('domains', 'Api\PageController@getDomains');
 Route::get('locations', 'Api\PageController@getLocations');
+Route::get('domain/{domain_id}', 'Api\PageController@getDomain');

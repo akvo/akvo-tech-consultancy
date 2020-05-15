@@ -47,7 +47,8 @@ class FakerController extends Controller
             echo("Seeding Data Point...".PHP_EOL);
             $fakeId = $faker->unique()->randomNumber($nbDigits = 9, $strict = true);
             $displayName = $faker->state.' - '.$faker->stateAbbr.' - '.$faker->city.' - '.$faker->company; 
-            $position = new Point($location->lat, $location->lng);
+            //$position = new Point($location->lat, $location->lng);
+            $position = $location->lat.', '.$location->lng;
             $postDataPoint = new DataPoint([
                 'id' => $fakeId,
                 'survey_id' => (int) $surveyId,

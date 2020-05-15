@@ -3,11 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Cascade extends Model
 {
     protected $hidden = ['created_at', 'updated_at'];
     protected $fillable = ['parent_id', 'code', 'name', 'level'];
+    protected $appends = ['text'];
 
     public function questions()
     {
@@ -32,5 +34,10 @@ class Cascade extends Model
     public function childrenNested()
     {
         return $this->childrens();
+    }
+
+    public function getTextAttribute()
+    {
+        return Str::title($this->name);
     }
 }

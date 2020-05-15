@@ -406,10 +406,10 @@ class InitController extends Controller
         if ($cascades->count() !== 0) {
             echo('Seeding Cascades Table...'.PHP_EOL);
             $post = $cascades->each(function ($cascade) use ($flowScale, $resource, $parentId, $level) {
-                $checkCascades = Cascade::where('name', Str::lower($cascade['name']))->get();
-                if (collect($checkCascades)->count() !== 0) {
-                    return null;
-                }
+                //$checkCascades = Cascade::where('name', Str::lower($cascade['name']))->get();
+                //if (collect($checkCascades)->count() !== 0) {
+                //    return null;
+                //}
 
                 $code = Str::of($cascade['code'])->ltrim();
                 $name = Str::of($cascade['name'])->ltrim();
@@ -465,7 +465,8 @@ class InitController extends Controller
     {
         echo('Collecting Data Point...'.PHP_EOL);
         $dataPoints = collect($results['dataPoints'])->each(function ($dataPoint) use ($collections, $surveyId) {
-            $position = new Point($dataPoint['latitude'], $dataPoint['longitude']);
+            //$position = new Point($dataPoint['latitude'], $dataPoint['longitude']);
+            $position = $dataPoint['latitude'].', '.$dataPoint['longitude'];
             $post = [
                 'id' => (int) $dataPoint['id'],
                 'survey_id' => (int) $surveyId,

@@ -3,11 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Option extends Model
 {
     protected $hidden = ['created_at', 'updated_at'];
     protected $fillable = ['question_id', 'code', 'name', 'other'];
+    protected $appends = ['text'];
 
     public function question()
     {
@@ -27,5 +29,11 @@ class Option extends Model
                     ->has('question.dependencyChilds.answers')
                     ->with('question.dependencyChilds.answers')
                     ->get();
+    }
+
+    public function getTextAttribute()
+    {
+        $text = Str::afterLast($this->name, ' - ');
+        return Str::title($text);
     }
 }

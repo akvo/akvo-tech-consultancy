@@ -110,4 +110,9 @@ class BridgeController extends Controller
 
         return $results;
     }
+
+    public function truncateTable()
+    {
+        return \App\Bridge::truncate();
+    }
 }

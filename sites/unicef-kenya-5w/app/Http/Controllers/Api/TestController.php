@@ -136,41 +136,7 @@ class TestController extends Controller
                     $countyData = $subDomainData->where('county', $county->id)->values();
                     $subCountyIds = $countyData->pluck('sub_county');
                     $subCounties = \App\Cascade::whereIn('id', $subCountyIds)->get();
-
-                    /*
-                    $answers = $this->setAnswerValue($countyData);
-                    $county['quantity'] = ['planned' => $answers['qp'], 'achived' => $answers['qa']];
-                    $county['beneficiaries'] = [
-                        'planned' => $answers['bp'], 
-                        'achived' => $answers['ba'], 
-                        'girl' => $answers['girl'], 
-                        'boy' => $answers['boy'],
-                        'woman' => $answers['woman'],
-                        'man' => $answers['man']
-                    ];
-                     */
-
                     $county['sub_county_values'] = $subCounties;
-
-                    /*
-                    $subCounties->map(function ($subCounty) use ($countyData) {
-                        $subCountyData = $countyData->where('sub_county', $subCounty->id)->values();
-                        $answers = $this->setAnswerValue($subCountyData);
-
-                        $subCounty['quantity'] = ['planned' => $answers['qp'], 'achived' => $answers['qa']];
-                        $subCounty['beneficiaries'] = [
-                            'planned' => $answers['bp'], 
-                            'achived' => $answers['ba'], 
-                            'girl' => $answers['girl'], 
-                            'boy' => $answers['boy'],
-                            'woman' => $answers['woman'],
-                            'man' => $answers['man']
-                        ];
-
-
-                        return $subCounty;
-                    });
-                     */
 
                     return $county; 
                 });
@@ -229,6 +195,18 @@ class TestController extends Controller
             $countyIds = $subDomainData->where('sub_domain', $subDomain->id)->pluck('county');
             $counties = \App\Cascade::whereIn('id', $countyIds)->get();
             $subDomain['county_values'] = $counties;
+
+            $answers = $this->setAnswerValue($subDomainData);
+
+            $subDomain['quantity'] = ['planned' => $answers['qp'], 'achived' => $answers['qa']];
+            $subDomain['beneficiaries'] = [
+                'planned' => $answers['bp'], 
+                'achived' => $answers['ba'], 
+                'girl' => $answers['girl'], 
+                'boy' => $answers['boy'],
+                'woman' => $answers['woman'],
+                'man' => $answers['man']
+            ];
 
             $counties->map(function ($county) use ($subDomainData) {
                 $countyData = $subDomainData->where('county', $county->id)->values();
