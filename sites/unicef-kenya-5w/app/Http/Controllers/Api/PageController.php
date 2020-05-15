@@ -182,4 +182,88 @@ class PageController extends Controller {
 
         return $subDomains;
     }
+
+    public function getLocation(Request $requests)
+    {
+        $bridges = new \App\Bridge ();
+        $column = 'county';
+        $locationId = $requests->county;
+        if (isset($requests->sub_county)) {
+            $column = 'sub_county';
+            $locationId = $requests->sub_county;
+        }
+
+        $locationData = $bridges->where($column, $locationId)->get();
+        $locationIds = $locationData->pluck($column);
+        $locations = \App\Cascade::whereIn('id', $locationIds)->get();
+
+        $domainConfig = config('query.wash_domain.domains');
+        $domainData = collect();
+        $test = collect($domainConfig)->each(function ($item, $index) use ($domainData) {
+            $domainData->push([
+                'id' => $item['id'], 
+                'name' => $index,
+                'text' => Str::title($index)
+            ]);
+        });
+
+        $results = $locations->map(function ($location) use ($locationData, $column, $domainData) {
+            $domainBridge = $locationData->where($column, $location->id)->values();
+            $domainIds = $domainBridge->pluck('domain')->unique();
+            $domains = $domainData->whereIn('id', $domainIds)->values();
+
+            $domainWithSub = $domains->map(function ($domain) use ($domainBridge) {
+                $subDomainData = $domainBridge->where('domain', $domain['id'])->values();
+                $subDomainIds = $subDomainData->pluck('sub_domain'); 
+                $subDomains = \App\Option::whereIn('id', $subDomainIds)->get();
+
+                $subDomainWithTotal = $subDomains->map(function ($subDomain) use ($subDomainData) {
+                    $answers = $this->setAnswerValue($subDomainData->where('sub_domain', $subDomain->id)->values());
+
+                    $subDomain['quantity'] = ['planned' => $answers['qp'], 'achived' => $answers['qa']];
+                    $subDomain['beneficiaries'] = [
+                        'planned' => $answers['bp'], 
+                        'achived' => $answers['ba'], 
+                        'girl' => $answers['girl'], 
+                        'boy' => $answers['boy'],
+                        'woman' => $answers['woman'],
+                        'man' => $answers['man']
+                    ];
+                    return $subDomain;
+                });
+
+                $answers = $this->setAnswerValue($domainBridge->where('domain', $domain['id'])->values());
+
+                $domain['quantity'] = ['planned' => $answers['qp'], 'achived' => $answers['qa']];
+                $domain['beneficiaries'] = [
+                    'planned' => $answers['bp'], 
+                    'achived' => $answers['ba'], 
+                    'girl' => $answers['girl'], 
+                    'boy' => $answers['boy'],
+                    'woman' => $answers['woman'],
+                    'man' => $answers['man']
+                ];
+
+                $domain['sub_domains'] = $subDomainWithTotal;
+                return $domain;
+            });
+
+            $answers = $this->setAnswerValue($domainBridge);
+
+            $location['quantity'] = ['planned' => $answers['qp'], 'achived' => $answers['qa']];
+            $location['beneficiaries'] = [
+                'planned' => $answers['bp'], 
+                'achived' => $answers['ba'], 
+                'girl' => $answers['girl'], 
+                'boy' => $answers['boy'],
+                'woman' => $answers['woman'],
+                'man' => $answers['man']
+            ];
+
+            $location['domains'] = $domainWithSub;
+            return $location;
+        });
+
+        return $results;
+    }
 }
