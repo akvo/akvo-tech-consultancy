@@ -37,4 +37,5 @@ return [
         'woman' => 302220990,
         'man' => 318050993,
     ],
+    'values' => ["achived", "planned"]
 ];

@@ -1,28 +1,24 @@
 export const filterState = {
-    list: [[
-        {
-            name:'loading',
-            code:'loading',
-            id:1,
-            parent_id: 0,
-            values:[{ id: 1, name: "Loading", value: 0 }],
-            disabled: true
-        }
-    ]],
-    depth: 1,
-    selected: [{
+    filter: [{
         id: 1,
-        name: 'Select Programs',
-        parent_id: 0,
-        values:[{ id: 1, name: "Loading", value: 0 }]
+        name: 'Loading...',
+        parent_id: null,
+        values: [],
+    }],
+    filters: [
+    ],
+    location: [{
+        id: 1,
+        name: 'Loading...',
+        parent_id: null,
+        values: [],
     }],
     active: false,
-    countries: [{
-        name: 'Select Counties',
-        code: 'Loading',
+    locations: [{
         id: 1,
+        name: 'Loading...',
+        code: 'Loading...',
     }],
-    country: 'Select Counties',
 }
 
 export const showFilters = (state, data) => {
@@ -36,13 +32,13 @@ export const updateSelectedFilters = (state, id, parent_id, name, depth) => {
     let selected = state.selected;
     let x = depth;
     selected[depth] = {
-        id:id,
+        id: id,
         parent_id: parent_id,
-        name:name
+        name: name
     };
-    while(x < 1){
+    while (x < 1) {
         let check = depth < x ? true : false;
-        if (check){
+        if (check) {
             id = selected[x - 1].id;
             let next_selected = state.list[x - 1].find((data) => data.id === id).childs[0];
             selected[x] = {
