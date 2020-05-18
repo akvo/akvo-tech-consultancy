@@ -1,0 +1,24 @@
+@import '~bootstrap/scss/bootstrap';
+
+#main {
+    width: 100%;
+    height: 400px;
+}
+
+.title {
+	font-weight: bold;
+	margin-top:1em;
+}
+
+.paragraph {
+	column-width: 20em;
+	column-rule: transparent;
+	padding: 1em;
+	border-bottom: 1px solid #ddd;
+	margin-bottom: 2em;
+}
+.paragraph p {
+    text-indent: 2em;
+	text-align: justify;
+	padding: 0 1em;
+}
