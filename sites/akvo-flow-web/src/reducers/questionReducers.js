@@ -316,8 +316,6 @@ const showHideQuestions = (orig, group) => {
                 answer_value.forEach((a, i) => {
                     if(answer.includes(a)){
                         show = true;
-                    } else {
-                        localStorage.removeItem(x.id)
                     }
                 });
                 if (answer === answer_value) {
