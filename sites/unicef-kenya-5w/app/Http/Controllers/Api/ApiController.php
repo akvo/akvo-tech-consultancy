@@ -46,7 +46,7 @@ class ApiController extends Controller
         return $this->collection;
     }
 
-    public function counties(Request $request)
+    public function locations(Request $request)
     {
         collect($this->bridges)
             ->unique('county')
@@ -83,7 +83,7 @@ class ApiController extends Controller
         $name = $meta['name'];
         $name = $subject === 'sub_domain' ? Str::afterLast($name, $parent['name'].' - ') : $name;
         $name = Str::beforeLast(Str::title($name), ' (');
-        $values = collect(['id' => $meta['id'],'subject' => $subject,'name' => $name]);
+        $values = collect(['id' => $meta['id'], 'parent_id' => $parent['id'], 'subject' => $subject,'name' => $name]);
         $data = collect($data)->where($subject, $meta['id'])->values();
         $this->value_names->each(function($keyval) use ($data, $values) {
             $values[$keyval] = $data->sum($keyval);
@@ -91,4 +91,40 @@ class ApiController extends Controller
         return $values;
     }
 
+    public function locationValues(Request $requests)
+    {
+        $id = $requests->domain;
+        $value = 'domain';
+        if ($requests->subdomain) {
+            $id = $requests->subdomain;
+            $value = 'sub_domain';
+        }
+        $filter = $this->bridges->where($value, $id)->values();
+
+        collect($filter)
+            ->unique('county')
+            ->each(function($county) use ($requests, $filter) {
+                $county = \App\Cascade::where('id', $county["county"])->first();
+                    $county = collect($county);
+                    collect(config('query.wash_domain.domains'))
+                        ->each(function($parent, $key) use ($county, $requests, $filter) {
+                            if ($parent["id"] === (int) $requests->domain) {
+                                $parent = ["id" => $parent["id"], "name" => $key];
+                                $data = collect($filter)->where('county', $county['id']);
+                                if ($data && !isset($requests->subdomain)) {
+                                    $county["values"] = collect($this->getValues($data, $parent, 'domain'));
+                                }
+                                if ($data && isset($requests->subdomain)) {
+                                    $groups = \App\Option::whereIn('id', $data->pluck('sub_domain'))->get();
+                                    collect($groups)->unique('id')->each(
+                                        function($meta) use ($parent, $data, $county) {
+                                            $county["values"] = $this->getValues($data, $meta, 'sub_domain', $parent);
+                                        });
+                                }
+                            }
+                        });
+                    $this->collection->push($county);
+            });
+        return $this->collection;
+    }
 }

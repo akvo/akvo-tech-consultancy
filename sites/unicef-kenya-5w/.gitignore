@@ -4,7 +4,6 @@
 /storage/*.key
 !/storage/app/ke.json
 /vendor
-/public
 /bkp
 .DS_Store
 .env
