@@ -34,14 +34,14 @@ class ApiController extends Controller
         collect(config('query.wash_domain.domains'))
             ->each(function($parent, $key) {
             $parent = ["id" => $parent["id"], "name" => $key];
-            $this->collection->push($this->getValues($this->bridges, $parent, 'domain'));
+            $this->collection->push($this->getValues($this->bridges, $parent, 'domain', null, true));
 
             /* Populate Subdomain Values */
             $childs = collect($this->bridges)->where('domain', $parent['id'])->values();
             $groups = \App\Option::whereIn('id', $childs->pluck('sub_domain'))->get();
             collect($groups)->unique('id')->each(
                 function($meta) use ($parent, $childs) {
-                $this->collection->push($this->getValues($childs, $meta, 'sub_domain', $parent));
+                $this->collection->push($this->getValues($childs, $meta, 'sub_domain', $parent, true));
             });
         });
         return $this->collection;
@@ -88,7 +88,7 @@ class ApiController extends Controller
         return $this->collection;
     }
 
-    private function getValues($data, $meta, $subject, $parent=["id" => null])
+    private function getValues($data, $meta, $subject, $parent=["id" => null], $details = false)
     {
         $name = $meta['name'];
         $name = $subject === 'sub_domain' ? Str::afterLast($name, $parent['name'].' - ') : $name;
@@ -99,20 +99,25 @@ class ApiController extends Controller
             $values[$keyval] = $data->sum($keyval);
         });
 
-        $details = collect(config('query.cascade'))->keys();
-        $cascade = config('query.cascade');
+        if ($details) {
+            $details = collect(config('query.cascade'))->keys();
+            $cascade = config('query.cascade');
 
-        $details->each(function($name) use ($data, $values, $cascade){
-            $values[$name] = collect();
-            $data->each(function($dt) use ($values, $cascade, $name){
+            $details->each(function($name) use ($data, $values, $cascade){
+                $values[$name] = collect();
+                $data->each(function($dt) use ($values, $cascade, $name){
                     $list = \App\Answer::where('form_instance_id', $dt["form_instance_id"])
                         ->where('question_id', $cascade[$name])
                         ->with('cascades')
                         ->get()->pluck('name');
                     $values[$name]->push($list);
+                });
+                $values[$name] = [
+                    'count' => $values[$name]->flatten()->unique()->count(),
+                    'list' => $values[$name]->flatten()->unique()->values(),
+                ];
             });
-            $values[$name] = $values[$name]->flatten()->unique()->values();
-        });
+        }
         return $values;
     }
 
@@ -159,12 +164,99 @@ class ApiController extends Controller
                             }
                             $county["details"] = collect();
                             $details->each(function($name) use ($data, $county){
-                                $county["details"][$name] = $data->groupBy($name)->keys();
+                                $val = $data->groupBy($name)->keys();
+                                $county["details"][$name] = ['count' => $val->count(), 'list' => $val];
                             });
                         }
                     });
                 $this->collection->push($county);
             });
         return $this->collection;
+    }
+
+    public function domainValues(Request $requests)
+    {
+        $bridges = new \App\Bridge ();
+        $domainConfig = collect(config('query.wash_domain.domains'));
+        $domains = collect();
+        $domainConfig->each(function ($item, $index) use ($domains, $bridges) {
+            $domainData = $bridges->where('domain', $item['id'])->get();
+            $subDomainIds = $domainData->pluck('sub_domain');
+            $subDomains = \App\Option::whereIn('id', $subDomainIds)->get();
+            $domainTotal = $this->setAnswerValue($domainData);
+
+            $subDomains->map(function ($subDomain) use ($domainData, $domainTotal) {
+                $subDomainData = $domainData->where('sub_domain', $subDomain->id)->values();
+                $answers = $this->setAnswerValue($subDomainData);
+                $subDomain['quantity'] = ['planned' => $answers['qp'], 'achived' => $answers['qa']];
+                $subDomain['details'] = $this->getDetails($subDomainData);
+                return $subDomain;
+            });
+
+            $domains->push([
+                'id' => $item['id'], 
+                'text' => Str::title($index), 
+                'sub_domains' => $subDomains->makeHidden(['code', 'name', 'other', 'question_id']),
+                'quantity' => [
+                    'planned' => $domainTotal['qp'],
+                    'achived' => $domainTotal['qa'],
+                ],
+                'details' => $this->getDetails($domainData),
+            ]); 
+        }); 
+
+        return $domains;
+    }
+
+    private function getDetails($data)
+    {
+        $details = collect(config('query.cascade'))->keys();
+        $cascade = config('query.cascade');
+        $tempDetail = collect();
+        $details->each(function($name) use ($data, $cascade, $tempDetail){
+            $temp[$name] = collect();
+            $data->each(function($dt) use ($temp, $cascade, $name){
+                $list = \App\Answer::where('form_instance_id', $dt["form_instance_id"])
+                    ->where('question_id', $cascade[$name])
+                    ->with('cascades')
+                    ->get()->pluck('name');
+                $temp[$name]->push($list);
+            });
+            $tempDetail->put($name, [
+                'count' => $temp[$name]->flatten()->unique()->count(),
+                'list' => $temp[$name]->flatten()->unique()->values(),
+            ]); 
+        });
+
+        return $tempDetail;
+    }
+
+    private function setAnswerValue($collection)
+    {
+        return [
+            'qp' => $this->getAnswerValue($collection, 'value_planned'),
+            'qa' => $this->getAnswerValue($collection, 'value_achived'),
+            'bp' => $this->getAnswerValue($collection, 'beneficiaries_planned'),
+            'ba' => $this->getAnswerValue($collection, 'beneficiaries_achived'),
+            'girl' => $this->getAnswerValue($collection, 'girl_achived'),
+            'boy' => $this->getAnswerValue($collection, 'boy_achived'),
+            'woman' => $this->getAnswerValue($collection, 'woman_achived'),
+            'man' => $this->getAnswerValue($collection, 'man_achived')
+        ];
+    }
+
+    private function getAnswerValue($collection, $value) 
+    {
+        $ids = $collection->whereNotNull($value)->pluck($value);
+        $data = \App\Answer::whereIn('id', $ids)->get();
+        if ($ids->count() === 1) {
+            $values = $data->first();
+            return $values['value']; 
+        }
+
+        $value = $data->reduce(function ($total, $value) {
+            return $total + $value['value'];
+        });
+        return $value;
     }
 }
