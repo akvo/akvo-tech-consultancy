@@ -1,15 +1,19 @@
 import { Easing, Color, TextStyle, backgroundColor, Icons } from '../features/animation.js';
 
 const Bar = (data, subtitle, valtype, locations) => {
+    console.log(locations);
     let labels = [];
     let values = [];
-    valtype = "_" + valtype;
-    for (let k in data) {
-        if (k.includes(valtype)){
-            labels = [...labels, k.replace(valtype, "").toUpperCase()];
-            values = [...values, data[k]];
-        };
-    }
+    valtype = "value_" + valtype;
+    let i = 0;
+    do {
+        console.log(values);
+        if (locations[i].values!== undefined) {
+            labels = [...labels, locations[i].text];
+            values = [...values, locations[i].values[valtype]];
+        }
+        i++;
+    } while (i < locations.length);
     let option = {
         ...Color,
         title : {
@@ -20,7 +24,7 @@ const Bar = (data, subtitle, valtype, locations) => {
             ...TextStyle
         },
         grid: {
-            top: "20%",
+            top: "30%",
             show: true
         },
         tooltip: {

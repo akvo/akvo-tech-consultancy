@@ -64,10 +64,10 @@ const Maps = (data, subtitle, valtype, locations) => {
             backgroundColor: '#eeeeee',
             itemWidth: 10,
             inRange: {
-                color: ['#fff823', '#007bff']
+                color: ['#007bff','#9262b7','#254464']
             },
             itemHeight: '445px',
-            text: ['High', 'Low'],
+            text: ['Max', 'Min'],
             calculable: true,
             ...TextStyle
         },

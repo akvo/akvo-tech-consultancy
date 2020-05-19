@@ -23,7 +23,7 @@ class Home extends Component {
                 },
                 {
                     kind: "BAR",
-                    data: generateData(12, true, "500px")
+                    data: generateData(12, true, "320px")
                 }
             ]
         }

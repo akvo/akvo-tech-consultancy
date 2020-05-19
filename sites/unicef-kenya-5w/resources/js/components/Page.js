@@ -9,6 +9,7 @@ import {
     Container
 } from 'react-bootstrap';
 import Home from '../pages/Home';
+import Overviews from './Overviews';
 import Loading from '../pages/Loading';
 import axios from 'axios';
 
@@ -36,7 +37,7 @@ class Page extends Component {
             .then(res => {
                 this.props.filter.location.init(res.data);
             });
-        this.props.page.change('planned');
+        this.props.page.change('achived');
     }
 
     render() {
@@ -52,6 +53,9 @@ class Page extends Component {
                 </Container>
                 <hr/>
                 {loading ? (<Loading/>) : ""}
+                <Container>
+                <Overviews/>
+                </Container>
                 {page === "planned" ? (<Home parent={this.props} valtype={'planned'}/>) : ""}
                 {page === "achived" ? (<Home parent={this.props} valtype={'achived'}/>) : ""}
             </Fragment>

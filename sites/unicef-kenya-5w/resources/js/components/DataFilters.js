@@ -66,8 +66,10 @@ class DataFilters extends Component {
             parent_id = id
             id = this.props.value.filters.selected.filter;
         }
+        this.props.page.loading(true);
         axios.get(prefixPage + "locations/values/" + parent_id + "/" + id)
             .then(res => {
+                this.props.page.loading(false);
                 this.props.filter.location.push(res.data);
             });
     }

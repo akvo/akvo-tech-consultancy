@@ -56,10 +56,8 @@ class DataLocations extends Component {
     }
 
     changeActive(name, id) {
-        this.props.filter.location.change(id);
+        // this.props.filter.location.change(id);
         let location = this.props.value.filters.location_values.filter(x => x.id === id);
-        console.log(location);
-        this.props.filter.location.push(location);
     }
 
     getDropDownItem (dd) {

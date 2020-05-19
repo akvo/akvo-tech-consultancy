@@ -10,8 +10,8 @@ import {
 const mapData = (name, path) => {
     return {
         value: 1,
-        name: name,
-        path: path + '/' + name
+        name: name.toProperCase(),
+        path: path + '/' + name.toProperCase()
     }
 }
 
@@ -42,26 +42,26 @@ const TreeMap = (data, subtitle, valtype, locations) => {
     let list = [
         {
             name: "Reporting Donors",
-            path: "Donors",
+            path: "Reporting Donors",
             value: data.donors.length,
             children: data.donors.map(x => {
-                return mapData(x, "Donors")
+                return mapData(x, "Reporting Donors")
             })
         },
         {
             name: "Reporting Organisations",
-            path: "Organisations",
+            path: "Reporting Organisations",
             value: data.organisations.length,
             children: data.organisations.map(x => {
-                return mapData(x, "Organisations")
+                return mapData(x, "Reporting Organisations")
             })
         },
         {
             name: "Implementing Partners",
-            path: "Implementing",
+            path: "Implementing Partners",
             value: data.implementing.length,
             children: data.implementing.map(x => {
-                return mapData(x, "Implementing")
+                return mapData(x, "Implementing Partners")
             })
         },
         {
@@ -114,11 +114,11 @@ const TreeMap = (data, subtitle, valtype, locations) => {
                 name: data.name,
                 type: "treemap",
                 top: 100,
-                visibleMin:300,
+                visibleMin:250,
                 itemStyle: {
                     normal: {
                         gapWidth: 2,
-                        borderColor: "rgba(0,0,0,0.5)"
+                        borderColor: "rgba(37, 64, 97, .5)"
                     }
                 },
                 breadcrumb: {
@@ -156,7 +156,7 @@ const TreeMap = (data, subtitle, valtype, locations) => {
                                 borderColor: "rgba(255,255,255,0.2)",
                                 borderWidth: 0.5,
                                 height: 0,
-                                lineHeight: 10
+                                lineHeight: 5
                             }
                         },
                         formatter: function(params) {
@@ -169,10 +169,18 @@ const TreeMap = (data, subtitle, valtype, locations) => {
                         position: "insideTopLeft"
                     }
                 },
+                height: "70%",
                 upperLabel: {
-                    show: true,
-                    height: 30,
-                    padding: [2,4]
+                    normal : {
+                        show: true,
+                        height: 40,
+                        padding: [2,4],
+                        fontFamily: TextStyle.fontFamily,
+                        fontSize: 12
+                    },
+                    formatter: function(params) {
+                        return params.name + " [" + params.value + "]";
+                    },
                 },
                 labelLine: {
                     normal: {
