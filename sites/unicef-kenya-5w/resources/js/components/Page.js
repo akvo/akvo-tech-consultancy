@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { mapStateToProps, mapDispatchToProps } from '../reducers/actions';
 import Navigation from './Navigation';
 import DataFilters from './DataFilters';
-import DataCountries from './DataCountries';
+import DataLocations from './DataLocations';
 import {
     Container
 } from 'react-bootstrap';
@@ -12,47 +12,31 @@ import Home from '../pages/Home';
 import Loading from '../pages/Loading';
 import axios from 'axios';
 
-const prefixPage = process.env.MIX_PUBLIC_URL + "/page/";
+const prefixPage = process.env.MIX_PUBLIC_URL + "/api/";
 
 class Page extends Component {
 
     constructor(props) {
         super(props);
-        this.getFilters = this.getFilters.bind(this);
-        this.repeat = this.repeat.bind(this);
     }
 
     componentDidMount() {
-        axios.get(prefixPage + "domains")
+        axios.get(prefixPage + "filters")
             .then(res => {
-                this.props.filter.program.init(res.data);
+                this.props.filter.category.init(res.data);
+                let selected = this.props.value.filters.selected.filter;
+                selected = this.props.value.filters.list.find(x => x.id === selected);
+                axios.get(prefixPage + "locations/values/" + selected.parent_id + "/" + selected.id)
+                    .then(res => {
+                        this.props.filter.location.push(res.data);
+                        this.props.page.loading(false);
+                    });
             });
         axios.get(prefixPage + "locations")
             .then(res => {
-                this.props.filter.country.init(res.data);
+                this.props.filter.location.init(res.data);
             });
-        this.props.page.change('home');
-        console.log(this.props.value);
-    }
-
-    repeat(i) {
-        let disabled = false;
-        if (i === 2) {
-            disabled = true;
-        }
-        return (
-            <DataFilters key={i} data={this.props.value.filters.list} depth={i} disabled={disabled}/>
-        );
-    }
-
-    getFilters(i) {
-        let dropdowns = [];
-        let r = 0;
-        while (r < i) {
-            dropdowns = [...dropdowns, this.repeat(r)];
-            r++;
-        }
-        return dropdowns.map(x => {return x});
+        this.props.page.change('planned');
     }
 
     render() {
@@ -62,12 +46,14 @@ class Page extends Component {
             <Fragment>
             <Navigation/>
                 <Container className="top-container">
-                    {this.getFilters(this.props.value.filters.depth)}
-                    <DataCountries className='dropdown-right' data={this.props.value.filters.countries}/>
+                    <DataFilters className='dropdown-left' depth={1}/>
+                    <DataFilters className='dropdown-left' depth={2}/>
+                    <DataLocations className='dropdown-right'/>
                 </Container>
                 <hr/>
                 {loading ? (<Loading/>) : ""}
-                {page === "home" ? (<Home parent={this.props}/>) : ""}
+                {page === "planned" ? (<Home parent={this.props} valtype={'planned'}/>) : ""}
+                {page === "achived" ? (<Home parent={this.props} valtype={'achived'}/>) : ""}
             </Fragment>
         );
     }

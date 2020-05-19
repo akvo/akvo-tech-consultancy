@@ -1,12 +1,19 @@
 import { Easing, Color, TextStyle, backgroundColor, Icons } from '../features/animation.js';
 
-const Bar = (data, title, subtitle, calc) => {
-    let values = data.map((x) => x.value);
-    let labels = data.map((x) => x.name);
+const Bar = (data, subtitle, valtype, locations) => {
+    let labels = [];
+    let values = [];
+    valtype = "_" + valtype;
+    for (let k in data) {
+        if (k.includes(valtype)){
+            labels = [...labels, k.replace(valtype, "").toUpperCase()];
+            values = [...values, data[k]];
+        };
+    }
     let option = {
         ...Color,
         title : {
-            text: title,
+            text: data.name,
             subtext: subtitle,
             left: 'center',
             top: '20px',

@@ -34,15 +34,15 @@ export const generateData = (col, line, height) => {
     }
 }
 
-export const generateOptions = (type, title, subtitle, data, calc) => {
+export const generateOptions = (type, data, subtitle, valtype, locations) => {
     switch (type) {
         case "MAPS":
-            return Maps(data, title, subtitle, calc);
+            return Maps(data,subtitle, valtype, locations);
         case "PIE":
-            return Pie(data, title, subtitle, calc);
+            return Pie(data, subtitle, valtype, locations);
         case "TREEMAP":
-            return TreeMap(data, title, subtitle, calc);
+            return TreeMap(data, subtitle, valtype, locations);
         default:
-            return Bar(data, title, subtitle, calc);
+            return Bar(data, subtitle, valtype, locations);
     }
 }

@@ -7,6 +7,9 @@ import {
     FormControl
 } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import axios from 'axios';
+
+const prefixPage = process.env.MIX_PUBLIC_URL + "/api/";
 
 const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
     <a className="btn btn-primary"
@@ -51,86 +54,25 @@ class DataFilters extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            dropdowns: this.props.data,
             active: 'Select Program',
             disabled: true
         };
         this.changeActive = this.changeActive.bind(this);
-        this.saveValues = this.saveValues.bind(this);
     }
 
-    saveValues({id, parent_id, code, name, units, description, country_values, total}) {
-        let valuesMap = country_values.map((x) => {
-            return {
-                id: x.country.id,
-                code: x.country.code,
-                name: x.country.name,
-                value: x.value,
-            }
-        });
-        let data = {
-            id: id,
-            parent_id: parent_id,
-            code: code,
-            name: name,
-            units: units,
-            description: description,
-            value: total.values,
-            countries: total.countries,
-            values: valuesMap
-        };
-        this.setState({disabled: false});
-        this.props.chart.value.append(data);
-        return true;
-    }
-
-    changeActive(id, parent_id, name, depth) {
-        let category;
-        let countries;
-        this.setState({active: name});
-        let current = this.props.data[this.props.depth];
-            current = current.find((x) => x.id === id);
-        if (current.hasOwnProperty('childs')){
-            this.props.filter.program.append(current.childs, this.props.depth);
-            let next_name = current.childs[0].name;
-            let next_id = current.childs[0].id;
-            let next_parent_id = current.childs[0].parent_id;
-            this.props.filter.program.update(next_id, next_parent_id, next_name, this.props.depth + 1);
+    changeActive(id, parent_id, depth) {
+        this.props.filter.category.change(id, depth);
+        if (parent_id === null) {
+            parent_id = id
+            id = this.props.value.filters.selected.filter;
         }
-        this.props.filter.program.update(id, parent_id, name, this.props.depth);
-        let filter = depth === 1 ? 'id' : 'parent_id';
-        let charts = this.props.value.charts.data;
-        let chartisnew = charts.find((x => x[filter] === id))
-            chartisnew = chartisnew ? false : true;
-        if (depth === 0 && chartisnew) {
-            this.props.chart.state.loading();
-            axios.get('/api/value/category/' + id)
-                .then(res => {
-                    res.data.map((data) => {
-                        this.saveValues(data);
-                    });
-                    return true;
-                })
-                .then(res => {
-                    let countries = this.props.value.filters.selected[depth + 1];
-                    this.props.chart.value.select(countries.id);
-                    this.props.page.loading();
-                });
-        }
-        if (depth === 1) {
-            this.props.chart.state.loading();
-            this.props.chart.value.select(id);
-        }
+        axios.get(prefixPage + "locations/values/" + parent_id + "/" + id)
+            .then(res => {
+                this.props.filter.location.push(res.data);
+            });
     }
 
     loadDefault() {
-        setTimeout(() => {
-            if (this.props.value.filters.list.length === 1){
-                let selected = this.props.value.filters.list[0][0];
-                this.changeActive(selected.id, selected.parent_id, selected.name, 0);
-                return true;
-            }
-        }, 3000);
         return;
     }
 
@@ -144,7 +86,7 @@ class DataFilters extends Component {
                 key={dd.id}
                 eventKey={dd.id}
                 onClick={
-                    e => this.changeActive(dd.id, dd.parent_id, dd.name, depth)
+                    e => this.changeActive(dd.id, dd.parent_id, depth)
                 }
                 value={dd.id}
             >
@@ -155,14 +97,24 @@ class DataFilters extends Component {
 
     render() {
         let depth = this.props.depth;
-        let filters = this.props.data[depth];
-        let selected = this.props.value.filters.selected[depth];
-        selected = selected ? selected : this.state.active;
+        let filters = this.props.value.filters.list;
+        let active = this.props.value.filters.selected.filter;
+        active = filters.find(x => x.id === active);
+        filters = depth === 1
+            ? filters.filter(x => x.parent_id === null)
+            : filters.filter(x => x.parent_id !== null);
+        let selected = depth === 1
+            ? filters.find(x => x.id === active.parent_id)
+            : active;
+        filters = depth === 2
+            ? filters.filter(x => x.parent_id === selected.parent_id)
+            : filters;
+        selected = selected.name;
         return (
             <Dropdown>
                 <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
                     <div className="dropdown-fix">
-                    { selected.name }
+                    { selected }
                     </div>
                 </Dropdown.Toggle>
                 <Dropdown.Menu as={CustomMenu}

@@ -15,17 +15,14 @@ class Home extends Component {
             charts: [
                 {
                     kind: "MAPS",
-                    calc: "VALUES",
                     data: generateData(8, true, "500px")
                 },
                 {
                     kind: "TREEMAP",
-                    calc: "CATEGORY",
                     data: generateData(4, false, "500px")
                 },
                 {
                     kind: "BAR",
-                    calc: "CATEGORY",
                     data: generateData(12, true, "500px")
                 }
             ]
@@ -38,14 +35,13 @@ class Home extends Component {
                 key={index}
                 kind={list.kind}
                 data={list.data}
-                calc={list.calc}
             />
         )
     }
 
     render() {
         let chart = this.state.charts.map((list, index) => {
-                return this.getCharts(list, index)
+            return this.getCharts(list, index)
         });
         return (
             <Container>
