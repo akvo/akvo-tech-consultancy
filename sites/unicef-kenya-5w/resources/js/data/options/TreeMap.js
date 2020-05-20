@@ -43,16 +43,16 @@ const TreeMap = (data, subtitle, valtype, locations) => {
         {
             name: "Reporting Donors",
             path: "Reporting Donors",
-            value: data.donors.length,
-            children: data.donors.map(x => {
+            value: data.donors.count,
+            children: data.donors.list.map(x => {
                 return mapData(x, "Reporting Donors")
             })
         },
         {
             name: "Reporting Organisations",
             path: "Reporting Organisations",
-            value: data.organisations.length,
-            children: data.organisations.map(x => {
+            value: data.organisations.count,
+            children: data.organisations.list.map(x => {
                 return mapData(x, "Reporting Organisations")
             })
         },
@@ -60,15 +60,15 @@ const TreeMap = (data, subtitle, valtype, locations) => {
             name: "Implementing Partners",
             path: "Implementing Partners",
             value: data.implementing.length,
-            children: data.implementing.map(x => {
+            children: data.implementing.list.map(x => {
                 return mapData(x, "Implementing Partners")
             })
         },
         {
             name: "Counties",
             path: "Counties",
-            value: data.locations.length,
-            children: data.locations.map(x => {
+            value: data.locations.count,
+            children: data.locations.list.map(x => {
                 return mapData(x, "Counties")
             })
         }

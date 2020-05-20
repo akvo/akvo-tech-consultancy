@@ -47,7 +47,7 @@ const Maps = (data, subtitle, valtype, locations) => {
                     for (let k in params.data.details) {
                         details = [
                             ...details,
-                            k.toUpperCase() + ": " + params.data.details[k]
+                            k.toUpperCase() + ": " + params.data.details[k].list
                         ];
                     }
                     return params.seriesName + '<br/>' + params.name + ': ' + value + '<hr/>' + list.join('<br/>') + '<hr/>' + details.join('<br/>') ;

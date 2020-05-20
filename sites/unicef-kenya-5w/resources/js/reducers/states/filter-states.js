@@ -4,25 +4,91 @@ export const filterState = {
         name: 'Loading...',
         parent_id: null,
         values: [],
-        donors: [],
-        organisations: [],
-        implementing: [],
-        locations: [],
-    },{
+        donors: {
+            count: 1,
+            list: []
+        },
+        organisations: {
+            count: 1,
+            list: []
+        },
+        implementing: {
+            count: 1,
+            list: []
+        },
+        locations: {
+            count: 1,
+            list: []
+        },
+    }, {
         id: 2,
         name: 'Loading...',
         parent_id: 1,
         values: [],
+        donors: {
+            count: 1,
+            list: []
+        },
+        organisations: {
+            count: 1,
+            list: []
+        },
+        implementing: {
+            count: 1,
+            list: []
+        },
+        locations: {
+            count: 1,
+            list: []
+        },
+    }],
+    location_values: [{
+        id: 2,
+        parent_id: null,
+        code: "ke33",
+        name: "narok",
+        level: 0,
+        text: "Loading",
+        values: {
+            id: 2,
+            parent_id: 1,
+            subject: "sub_domain",
+            name: "Loading",
+            value_planned: 0,
+            value_achived: 0,
+            beneficiaries_planned: 0,
+            beneficiaries_achived: 0,
+            girl_achived: 0,
+            boy_achived: 0,
+            woman_achived: 0,
+            man_achived: 0
+        },
+        details: {
+            donors: {
+                count: 1,
+                list: ["Loading"]
+            },
+            organisations: {
+                count: 1,
+                list: ["Loading"]
+            },
+            implementing: {
+                count: 1,
+                list: ["Loading"]
+            },
+            locations: {
+                count: 1,
+                list: ["Loading"]
+            }
+        }
+    }],
+    overviews: {
         donors: [],
         organisations: [],
         implementing: [],
         locations: [],
-    }],
-    location_values: [{
-        id: 1,
-        name: 'KENYA',
-        values: [],
-    }],
+        all: []
+    },
     locations: [{
         id: 1,
         name: 'All Counties',
@@ -46,4 +112,24 @@ export const changeFilters = (state, id, depth) => {
         id = childs[0].id;
     }
     return id;
+}
+
+export const getOverviews = (state) => {
+    let details = state.map(x => x.details);
+    let i = 0;
+    let overviews = {
+        donors: [],
+        organisations: [],
+        implementing: [],
+        all:[]
+    }
+    do {
+        overviews.donors = [...overviews.donors, ...details[i].donors.list];
+        overviews.organisations = [...overviews.organisations, ...details[i].organisations.list];
+        overviews.implementing = [...overviews.implementing, ...details[i].implementing.list];
+        i++;
+    } while (i < details.length);
+    overviews.all = [...overviews.donors, ...overviews.organisations, ...overviews.implementing];
+    console.log(overviews);
+    return overviews;
 }

@@ -44,11 +44,9 @@ class Home extends Component {
             return this.getCharts(list, index)
         });
         return (
-            <Container>
-                <Row>
-                    {chart}
-                </Row>
-            </Container>
+            <Row>
+                {chart}
+            </Row>
         );
     }
 }

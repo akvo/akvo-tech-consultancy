@@ -1,13 +1,11 @@
 import { Easing, Color, TextStyle, backgroundColor, Icons } from '../features/animation.js';
 
 const Bar = (data, subtitle, valtype, locations) => {
-    console.log(locations);
     let labels = [];
     let values = [];
     valtype = "value_" + valtype;
     let i = 0;
     do {
-        console.log(values);
         if (locations[i].values!== undefined) {
             labels = [...labels, locations[i].text];
             values = [...values, locations[i].values[valtype]];

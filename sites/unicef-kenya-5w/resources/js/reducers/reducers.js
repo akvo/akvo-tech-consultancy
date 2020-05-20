@@ -5,6 +5,7 @@ import {
 import {
     filterState,
     changeFilters,
+    getOverviews
 } from './states/filter-states.js';
 import {
     chartState,
@@ -74,7 +75,8 @@ export const states = (state = initialState, action) => {
                 ...state,
                 filters: {
                     ...state.filters,
-                    location_values: action.data
+                    location_values: action.data,
+                    overviews: getOverviews(action.data)
                 }
             }
         case 'FILTERS - LOCATION CHANGE':

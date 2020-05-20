@@ -6,7 +6,8 @@ import Navigation from './Navigation';
 import DataFilters from './DataFilters';
 import DataLocations from './DataLocations';
 import {
-    Container
+    Container,
+    Row
 } from 'react-bootstrap';
 import Home from '../pages/Home';
 import Overviews from './Overviews';
@@ -55,9 +56,9 @@ class Page extends Component {
                 {loading ? (<Loading/>) : ""}
                 <Container>
                 <Overviews/>
-                </Container>
                 {page === "planned" ? (<Home parent={this.props} valtype={'planned'}/>) : ""}
                 {page === "achived" ? (<Home parent={this.props} valtype={'achived'}/>) : ""}
+                </Container>
             </Fragment>
         );
     }
