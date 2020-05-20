@@ -54,19 +54,9 @@ class Feed
         }
 
         /*
-         * Get option text from question text 
-         */
-        if ($current->type === "option") {
-            $options = Str::of($current->text)->explode(PHP_EOL);
-            $current->input = Str::afterLast($options[$value], '. ');
-            $current->waiting = false;
-            $current->save();
-        }
-
-        /*
          * Update Current Answer
          */
-        if ($current->type !== "cascade" && $current->type !== "option") {
+        if ($current->type !== "cascade") {
             $current->input = $value;
             $current->waiting = false;
             $current->save();
