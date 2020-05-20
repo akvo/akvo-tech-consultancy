@@ -7,168 +7,331 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Option;
 use App\Question;
+use Illuminate\Database\Eloquent\Builder;
 
 class TestController extends Controller
 {
-    public function getWashDomain(Request $requests, Option $options, Question $questions)
+    public function getTest()
+    {
+        $questions = new \App\Question ();
+        $groups = $questions->whereIn('question_group_id', config('query.groups'))->pluck('id');
+        $groups->push(config('query.cascade.locations')); // location questions
+
+        $formInstances = new \App\FormInstance ();
+        $results = $formInstances->with(['answers' => function ($query) use ($groups) {
+           $query->whereIn('question_id', $groups); 
+           $query->with(['question', 'options', 'cascades']);
+        }],)->get();
+
+        return $results;
+
+        /*
+        $domains = config('query.wash_domain.domains');
+        $results->each(function ($item) use ($domains) {
+            $postData = collect();
+            $item->answers->each(function ($answer) use ($domains, $postData) {
+                $qlocId = config('query.cascade.locations');
+                $washId = config('query.wash_domain.id');
+                $whom = config('query.for_whom');
+
+                if ($answer->question->id === $qlocId) {
+                    $cascades = $answer->cascades->first();
+                    $postData['county'] = $cascades->parent_id;
+                    $postData['sub_county'] = $cascades->id;
+                }
+
+                $domainName = Str::beforeLast($answer->name, ' - ');
+                if ($answer->question->id === $washId) {
+                    $options = $answer->options->first();
+                    $postData['domain'] = $domains[$domainName]['id'];
+                    $postData['sub_domain'] = $options->id; 
+                }
+
+                if ($answer->question->id === $washId && ($domainName === 'sanitation' || $domainName === 'health' || $domainName === 'other')) {
+                    $postData['other_status'] = true;
+                } 
+
+                if ($answer->question->dependency === $washId && isset($postData['other_status']) == true) {
+                    $postData['other'] = $answer->id;
+                }
+
+                if ($answer->question->dependency === $washId && Str::contains($answer->question->name, '- Quantity Planned')) {
+                    $postData['value_planned'] = $answer->id;
+                }
+
+                if ($answer->question->dependency === $washId && Str::contains($answer->question->name, '- Quantity Archived')) {
+                    $postData['value_achived'] = $answer->id;
+                }
+
+                if ($answer->question->id === $whom['total']['planned']) {
+                    $postData['beneficiaries_planned'] = $answer->id; 
+                }
+
+                if ($answer->question->id === $whom['total']['achived']) {
+                    $postData['beneficiaries_achived'] = $answer->id; 
+                }
+
+                if ($answer->question->id === $whom['girl']) {
+                    $postData['girl_achived'] = $answer->id; 
+
+                }
+
+                if ($answer->question->id === $whom['boy']) {
+                    $postData['boy_achived'] = $answer->id; 
+                }
+
+                if ($answer->question->id === $whom['woman']) {
+                    $postData['woman_achived'] = $answer->id; 
+                }
+
+                if ($answer->question->id === $whom['man']) {
+                    $postData['man_achived'] = $answer->id; 
+                }
+            });
+
+            $valuePlanned = isset($postData['value_planned']) ? $postData['value_planned'] : NULL;
+            $valueAchived = isset($postData['value_achived']) ? $postData['value_achived'] : NULL;
+            $other = isset($postData['other']) ? $postData['other'] : NULL;
+
+            $postBridges = new \App\Bridge ([
+                'form_instance_id' => $item->id,
+                'county' => $postData['county'],
+                'sub_county' => $postData['sub_county'], 
+                'domain' => $postData['domain'],
+                'sub_domain' => $postData['sub_domain'], 
+                'value_planned' => $valuePlanned,
+                'value_achived' => $valueAchived,
+                'other' => $other,
+                'beneficiaries_planned' => $postData['beneficiaries_planned'],
+                'beneficiaries_achived' => $postData['beneficiaries_achived'],
+                'girl_achived' => $postData['girl_achived'],
+                'boy_achived' => $postData['boy_achived'],
+                'woman_achived' => $postData['woman_achived'],
+                'man_achived' => $postData['man_achived'],
+            ]);
+            $postBridges->save();
+        });
+
+        return $results;
+         */
+    }
+
+    public function getDomains(Request $requests)
+    {
+        $bridges = new \App\Bridge ();
+        $domainConfig = collect(config('query.wash_domain.domains'));
+        $domains = collect();
+        $domainConfig->each(function ($item, $index) use ($domains, $bridges) {
+            $domainData = $bridges->where('domain', $item['id'])->get();
+            $subDomainIds = $domainData->pluck('sub_domain');
+            $subDomains = \App\Option::whereIn('id', $subDomainIds)->get();
+
+            $subDomains->map(function ($subDomain) use ($domainData) {
+                $subDomainData = $domainData->where('sub_domain', $subDomain->id)->values();
+                $countyIds = $subDomainData->pluck('county');
+                $counties = \App\Cascade::whereIn('id', $countyIds)->get();
+                $subDomain['county_values'] = $counties;
+
+                $counties->map(function ($county) use ($subDomainData) {
+                    $countyData = $subDomainData->where('county', $county->id)->values();
+                    $subCountyIds = $countyData->pluck('sub_county');
+                    $subCounties = \App\Cascade::whereIn('id', $subCountyIds)->get();
+                    $county['sub_county_values'] = $subCounties;
+
+                    return $county; 
+                });
+
+                return $subDomain;
+            });
+
+            $domains->push([
+                'id' => $item['id'], 
+                'name' => $index, 
+                'sub_domains' => $subDomains
+            ]); 
+        }); 
+
+        return $domains;
+    }
+
+    private function setAnswerValue($collection)
     {
         return [
-            'wash_domain' => [
-                'id' => config('query.wash_domain.id'),
-                'childrens' => [
-                    'coordination' => $this->transformWashDomain($options, 'coordination'),
-                    'hygiene' => $this->transformWashDomain($options, 'hygiene'),
-                    'sanitation' => $this->transformWashDomain($options, 'sanitation'),
-                    'water' => $this->transformWashDomain($options, 'water'),
-                    'health' => $this->transformWashDomain($options, 'health'),
-                    'other' => $this->transformWashDomain($options, 'other'),
-                ],
-               // 'values' => [
-               //     $questions->where('dependency', config('query.wash_domain'))->with('answers')->get()
-               // ],
-            ],
+            'qp' => $this->getAnswerValue($collection, 'value_planned'),
+            'qa' => $this->getAnswerValue($collection, 'value_achived'),
+            'bp' => $this->getAnswerValue($collection, 'beneficiaries_planned'),
+            'ba' => $this->getAnswerValue($collection, 'beneficiaries_achived'),
+            'girl' => $this->getAnswerValue($collection, 'girl_achived'),
+            'boy' => $this->getAnswerValue($collection, 'boy_achived'),
+            'woman' => $this->getAnswerValue($collection, 'woman_achived'),
+            'man' => $this->getAnswerValue($collection, 'man_achived')
         ];
     }
 
-    private function dependencyAnswers($options, $ids)
+    private function getAnswerValue($collection, $value) 
     {
-        // question.dependencychilds otomatis return semua question dependency, bukan sesuai yang di option;
-        return $options->whereIn('id', $ids)
-                    ->has('answers')
-                    ->with('answers.formInstance')
-                    ->has('question.dependencyChilds.answers')
-                    ->with('question.dependencyChilds.answers')
-                    ->get();
-    }
-
-    private function transformWashDomain($options, $config)
-    {
-        $washDomainConfig = 'query.wash_domain.opt_id.';
-        $results = $this->dependencyAnswers($options, config($washDomainConfig.$config)); 
-        return $results;
-        if($results->isEmpty()) {
-            $results['activity'] = null;
-            $results['answers'] = [
-                'indicator' => null,
-                'achived' => 0,
-                'plannend' => 0
-            ];
-            return $results;
+        $ids = $collection->whereNotNull($value)->pluck($value);
+        $data = \App\Answer::whereIn('id', $ids)->get();
+        if ($ids->count() === 1) {
+            $values = $data->first();
+            return $values['value']; 
         }
 
-        $transformData = $results->map(function ($item) use ($config) {
-            $values = collect();
-            $questions = collect($item['question']);
-            $dependencies = collect($questions->get('dependency_childs'))->each(function ($dependency) use ($values) {
-                if (collect($dependency['answers'])->isNotEmpty() && $dependency['type'] === 'numeric') {
-                    $name = Str::contains($dependency['name'], 'Quantity Archived') ? 'achived' : 'planned';
-                    $separator = ($name === 'achived') ? ' - Quantity Archived' : ' - Quantity Planned';
-                    $values['indicator'] = Str::beforeLast($dependency['name'], $separator);
-                    $values[$name] = collect($dependency['answers'])->reduce(function ($total, $value) {
-                        return $total + $value['value']; 
-                    });
-                }
-
-                if (collect($dependency['answers'])->isNotEmpty() && $dependency['type'] === 'free') {
-                    $values['answers'] = collect($dependency['answers'])->pluck('name');
-                }
-            });
-            
-            //$item = $item->makeHidden('id', 'question_id', 'other', 'code', 'question');
-            $data['activity'] = Str::afterLast($item['name'], $config.' - ');
-            $data['answers'] = $values;
-            return $item;
+        $value = $data->reduce(function ($total, $value) {
+            return $total + $value['value'];
         });
-
-        return $transformData;
+        return $value;
     }
 
-    public function getValueById(
-        Request $request,
-        AnswerOption $answerOption,
-        Answer $answers,
-        Cascade $cascades
-    ) {
-        $domains = collect(config('query.wash_domain.domains'))->map(function($data, $key){
-            return [
-                "id" => $data["id"],
-                "name" => $key
+    public function getDomain(Request $requests)
+    {
+        $bridges = new \App\Bridge ();
+        $subDomainData = $bridges->where('domain', $requests->domain_id)->get();
+        $subDomainIds = $subDomainData->pluck('sub_domain');
+
+        $results = collect();
+        $subDomains = \App\Option::whereIn('id', $subDomainIds)->get();
+        $subDomains->map(function ($subDomain) use ($results, $subDomainData) {
+            $countyIds = $subDomainData->where('sub_domain', $subDomain->id)->pluck('county');
+            $counties = \App\Cascade::whereIn('id', $countyIds)->get();
+            $subDomain['county_values'] = $counties;
+
+            $answers = $this->setAnswerValue($subDomainData);
+
+            $subDomain['quantity'] = ['planned' => $answers['qp'], 'achived' => $answers['qa']];
+            $subDomain['beneficiaries'] = [
+                'planned' => $answers['bp'], 
+                'achived' => $answers['ba'], 
+                'girl' => $answers['girl'], 
+                'boy' => $answers['boy'],
+                'woman' => $answers['woman'],
+                'man' => $answers['man']
             ];
-        })->values()->where('id', $request->id)->first()["name"];
-        $options = config('query.wash_domain.opt_id.'.$domains);
-        $data = $answerOption->whereIn('option_id',$options)
-                             ->with('answer')->get()->transform(function($data){
-                                 return [
-                                     "name" => Str::afterLast($data->answer->name, " - "),
-                                     "form_instance_id" => $data->answer->form_instance_id,
-                                     "id" => $data->option_id
-                                 ];
-                             });
-        $data = $data->mapToGroups(function($item, $key){
-            return [$item["name"] => [$item["form_instance_id"], $item["id"]]];
-        });
-        $data = $data->map(function($item, $key) use ($answers, $cascades) {
-            $answers = $answers->whereIn("form_instance_id", $item["0"])
-                               ->with('question')->get();
-            $base = collect();
-            $country = collect();
-            $values = collect();
-            $answers = $answers->transform(function($answer) use ($cascades, $base, $country, $values) {
-                $value = $answer->value;
-                if ($value === null) {
-                    $value = false;
-                }
-                if ($answer->question->type === "cascade"){
-                    $value = $answer->cascades->first();
-                    $cascade = $cascades->where('id', $value->id)->with('parents')->first();
-                    $parent_name = $cascade->parents->name;
-                    if ($answer->question->name === "Location") {
-                        $base["country"] = [
-                            "id" => $cascade->parents->id,
-                            "name" => $cascade->parents->name,
-                        ];
-                        return false;
-                    }
-                }
-                if ($answer->question->type === "numeric") {
-                    $country = $base->values()->first();
-                    $values[$answer->question->name] = [
-                        "id" => $answer->form_instance_id,
-                        "name" => $answer->name,
-                        "value" => $answer->value,
-                        "country" => $country,
-                    ];
-                    return false;
-                }
-                return false;
-            })->values();
-            $values = $values->map(function($item, $key){
-                return [
-                    "name" => $key,
-                    "value" => $item
+
+            $counties->map(function ($county) use ($subDomainData) {
+                $countyData = $subDomainData->where('county', $county->id)->values();
+                $subCountyIds = $countyData->pluck('sub_county');
+                $subCounties = \App\Cascade::whereIn('id', $subCountyIds)->get();
+                $answers = $this->setAnswerValue($countyData);
+
+                $county['quantity'] = ['planned' => $answers['qp'], 'achived' => $answers['qa']];
+                $county['beneficiaries'] = [
+                    'planned' => $answers['bp'], 
+                    'achived' => $answers['ba'], 
+                    'girl' => $answers['girl'], 
+                    'boy' => $answers['boy'],
+                    'woman' => $answers['woman'],
+                    'man' => $answers['man']
                 ];
-            })->values()->map(function($data){
-                if (isset($data["value"]["country"])){
-                    $name = Str::lower($data["name"]);
-                    if (Str::contains($name, ' - quantity')){
-                        $name = Str::afterLast($name, ' - quantity ');
-                    }
-                    $name = Str::replaceFirst(' beneficiaries ', '_' , $name);
-                    return [
-                        "name" => $name,
-                        "country_id" => $data["value"]["country"]["id"],
-                        "country_name" => Str::title($data["value"]["country"]["name"]),
-                        "value" => $data["value"]["value"]
+                $county['sub_county_values'] = $subCounties;
+
+                $subCounties->map(function ($subCounty) use ($countyData) {
+                    $subCountyData = $countyData->where('sub_county', $subCounty->id)->values();
+                    $answers = $this->setAnswerValue($subCountyData);
+
+                    $subCounty['quantity'] = ['planned' => $answers['qp'], 'achived' => $answers['qa']];
+                    $subCounty['beneficiaries'] = [
+                        'planned' => $answers['bp'], 
+                        'achived' => $answers['ba'], 
+                        'girl' => $answers['girl'], 
+                        'boy' => $answers['boy'],
+                        'woman' => $answers['woman'],
+                        'man' => $answers['man']
                     ];
-                }
-                return false;
-            })->filter()->groupBy("country_name");
-            return [
-                "id" => $item[1][1],
-                "name" => $key,
-                "country_values" => $values
+
+                    return $subCounty;
+                });
+
+                return $county; 
+            });
+            return $subDomain;
+        });
+        $results->push($subDomains);
+
+        return $subDomains;
+    }
+
+    public function getLocation(Request $requests)
+    {
+        $bridges = new \App\Bridge ();
+        $column = 'county';
+        $locationId = $requests->county;
+        if (isset($requests->sub_county)) {
+            $column = 'sub_county';
+            $locationId = $requests->sub_county;
+        }
+
+        $locationData = $bridges->where($column, $locationId)->get();
+        $locationIds = $locationData->pluck($column);
+        $locations = \App\Cascade::whereIn('id', $locationIds)->get();
+
+        $domainConfig = config('query.wash_domain.domains');
+        $domainData = collect();
+        $test = collect($domainConfig)->each(function ($item, $index) use ($domainData) {
+            $domainData->push([
+                'id' => $item['id'], 
+                'name' => $index,
+                'text' => Str::title($index)
+            ]);
+        });
+
+        $results = $locations->map(function ($location) use ($locationData, $column, $domainData) {
+            $domainBridge = $locationData->where($column, $location->id)->values();
+            $domainIds = $domainBridge->pluck('domain')->unique();
+            $domains = $domainData->whereIn('id', $domainIds)->values();
+
+            $domainWithSub = $domains->map(function ($domain) use ($domainBridge) {
+                $subDomainData = $domainBridge->where('domain', $domain['id'])->values();
+                $subDomainIds = $subDomainData->pluck('sub_domain'); 
+                $subDomains = \App\Option::whereIn('id', $subDomainIds)->get();
+
+                $subDomainWithTotal = $subDomains->map(function ($subDomain) use ($subDomainData) {
+                    $answers = $this->setAnswerValue($subDomainData->where('sub_domain', $subDomain->id)->values());
+
+                    $subDomain['quantity'] = ['planned' => $answers['qp'], 'achived' => $answers['qa']];
+                    $subDomain['beneficiaries'] = [
+                        'planned' => $answers['bp'], 
+                        'achived' => $answers['ba'], 
+                        'girl' => $answers['girl'], 
+                        'boy' => $answers['boy'],
+                        'woman' => $answers['woman'],
+                        'man' => $answers['man']
+                    ];
+                    return $subDomain;
+                });
+
+                $answers = $this->setAnswerValue($domainBridge->where('domain', $domain['id'])->values());
+
+                $domain['quantity'] = ['planned' => $answers['qp'], 'achived' => $answers['qa']];
+                $domain['beneficiaries'] = [
+                    'planned' => $answers['bp'], 
+                    'achived' => $answers['ba'], 
+                    'girl' => $answers['girl'], 
+                    'boy' => $answers['boy'],
+                    'woman' => $answers['woman'],
+                    'man' => $answers['man']
+                ];
+
+                $domain['sub_domains'] = $subDomainWithTotal;
+                return $domain;
+            });
+
+            $answers = $this->setAnswerValue($domainBridge);
+
+            $location['quantity'] = ['planned' => $answers['qp'], 'achived' => $answers['qa']];
+            $location['beneficiaries'] = [
+                'planned' => $answers['bp'], 
+                'achived' => $answers['ba'], 
+                'girl' => $answers['girl'], 
+                'boy' => $answers['boy'],
+                'woman' => $answers['woman'],
+                'man' => $answers['man']
             ];
-        })->values();
-        return $data;
+
+            $location['domains'] = $domainWithSub;
+            return $location;
+        });
+
+        return $results;
     }
 }

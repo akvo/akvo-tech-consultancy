@@ -27,6 +27,10 @@ class Feed
         /*
          * $validator = $this->validator($current, $value);
          */
+        $validator = $this->validator($current, $value);
+        if ($validator) {
+            return $this->formatter($current, true);
+        }
 
         /*
          * Don't Update to the Next if it's cascade
@@ -163,7 +167,7 @@ class Feed
         return $response;
     }
 
-    public function formatter($question)
+    public function formatter($question, $repeat=false)
     {
         $text = $this->prefix.$question->text;
         if ($question->cascade) {
@@ -179,6 +183,35 @@ class Feed
                 $i++;
             } while($i < count($cascade));
         }
+        if ($repeat) {
+            $text .= "\nPlease insert the correct answer";
+        }
         return $text;
+    }
+
+    public function validator($question, $answer)
+    {
+        $validate = false;
+        if (Str::lower($question->type) === 'numeric') {
+            $validate = ((int)$answer <= 0) ? true : false;
+            return $validate;
+        }
+
+        if (Str::lower($question->type) === 'option') {
+            $options = Str::of($question->text)->explode(PHP_EOL);
+            $count = $options->count() - 1;
+            $validate = ((int)$answer < $count-1 || (int)$answer > $count) ? true : false;
+            return $validate;
+        }
+
+        if ($question->cascade) {
+            $level = $question->input ? Arr::last(explode('|', $question->input)) : 0;
+            $flow = new AkvoFlow();
+            $cascade = collect($flow->getCascade($question->cascade, $level));
+            $validate = $cascade->contains('id', (int) $answer);
+            return !$validate;
+        }
+
+        return $validate;
     }
 }

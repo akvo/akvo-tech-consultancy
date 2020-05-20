@@ -1,16 +1,26 @@
 import { Easing, TextStyle, backgroundColor, Color, Icons, Graphic } from '../features/animation.js';
 
-const Maps = (data, title, subtitle, calc) => {
-    let values = data.map(x => x.value)
+const Maps = (data, subtitle, valtype, locations) => {
+    valtype = "value_" + valtype;
+    let list = locations.map((x) => {
+        return {
+            name: x.text,
+            code: x.code,
+            value: x.values[valtype] === 0 ? 1 : x.values[valtype],
+            values: x.values,
+            details: x.details
+        }
+    });
     let max = 1;
     let min = 0;
-    if (values.length > 1){
+    let values = list.map(x => x.value);
+    if (list.length > 1){
         min = values.sort((x, y) => x - y)[0];
         max = values.sort((x, y) => y - x)[0];
     }
     let option = {
         title : {
-            text: title,
+            text: data.name,
             left: 'center',
             top: '20px',
             subtext: subtitle,
@@ -24,9 +34,25 @@ const Maps = (data, title, subtitle, calc) => {
                 if (params.value) {
                     var value = (params.value + '').split('.');
                     value = value[0].replace(/(\d{1,3})(?=(?:\d{3})+(?!\d))/g, '$1,');
-                    return params.seriesName + '<br/>' + params.name + ': ' + value;
+                    let list = [];
+                    for (let k in params.data.values) {
+                        if (k.includes("_achived")){
+                            list = [
+                                ...list,
+                                k.replace("_achived", "").toUpperCase() + ": " + params.data.values[k]
+                            ];
+                        };
+                    }
+                    let details = [];
+                    for (let k in params.data.details) {
+                        details = [
+                            ...details,
+                            k.toUpperCase() + ": " + params.data.details[k].list
+                        ];
+                    }
+                    return params.seriesName + '<br/>' + params.name + ': ' + value + '<hr/>' + list.join('<br/>') + '<hr/>' + details.join('<br/>') ;
                 }
-                return 'No Data';
+                return params.seriesName + '<br/>' + params.name + ': No Data';
             },
             backgroundColor: "#ffffff",
             ...TextStyle
@@ -38,10 +64,10 @@ const Maps = (data, title, subtitle, calc) => {
             backgroundColor: '#eeeeee',
             itemWidth: 10,
             inRange: {
-                color: ['#fff823', '#007bff']
+                color: ['#007bff','#9262b7','#254464']
             },
             itemHeight: '445px',
-            text: ['High', 'Low'],
+            text: ['Max', 'Min'],
             calculable: true,
             ...TextStyle
         },
@@ -68,7 +94,7 @@ const Maps = (data, title, subtitle, calc) => {
         },
         series: [
             {
-                name: title,
+                name: data.name,
                 type: 'map',
                 roam: true,
                 map: 'kenya',
@@ -90,7 +116,7 @@ const Maps = (data, title, subtitle, calc) => {
                         color: '#FFF',
                     }
                 },
-                data: data
+                data: list
             }
         ],
         ...backgroundColor,

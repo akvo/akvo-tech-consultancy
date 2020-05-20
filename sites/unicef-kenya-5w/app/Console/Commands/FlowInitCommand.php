@@ -41,6 +41,7 @@ class FlowInitCommand extends Command
      */
     public function handle()
     {
+        $this->info("Preparing for initial seed process");
         $init = new InitController();
         $surveys = new Survey();
         $auth = new Auth();

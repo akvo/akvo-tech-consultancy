@@ -4,9 +4,8 @@ import {
 } from './states/page-states.js';
 import {
     filterState,
-    appendFilters,
-    updateSelectedFilters,
-    showFilters,
+    changeFilters,
+    getOverviews
 } from './states/filter-states.js';
 import {
     chartState,
@@ -39,43 +38,56 @@ export const states = (state = initialState, action) => {
                 ...state,
                 page: showPage(state.page, action.page)
             }
-        case 'FILTERS - PROGRAM INIT':
+        case 'FILTERS - CATEGORY INIT':
+            let childs = action.list.filter(x => x.parent_id !== null);
             return {
                 ...state,
                 filters: {
                     ...state.filters,
-                    list: [action.list]
+                    list: action.list,
+                    selected: {
+                        ...state.filters.selected,
+                        filter: childs[0].id
+                    }
                 }
             }
-        case 'FILTERS - PROGRAM APPEND':
+        case 'FILTERS - CATEGORY CHANGE':
             return {
                 ...state,
-                filters: appendFilters(state.filters, action.list, action.depth)
+                filters: {
+                    ...state.filters,
+                    selected: {
+                        ...state.filters.selected,
+                        filter: changeFilters(state.filters.list, action.id, action.depth)
+                    }
+                }
             }
-        case 'FILTERS - PROGRAM SELECT':
-            return {
-                ...state,
-                filters: updateSelectedFilters(state.filters, action.id, action.parent_id, action.name, action.depth)
-            }
-        case 'FILTERS - PROGRAM CHANGE':
-            return {
-                ...state,
-                filters: showFilters(state.filters, action.list)
-            }
-        case 'FILTERS - COUNTRY INIT':
+        case 'FILTERS - LOCATION INIT':
             return {
                 ...state,
                 filters : {
                     ...state.filters,
-                    countries: action.countries
+                    locations: [...state.filters.locations, ...action.locations]
                 }
             }
-        case 'FILTERS - COUNTRY CHANGE':
+        case 'FILTERS - LOCATION VALUES':
             return {
                 ...state,
                 filters: {
                     ...state.filters,
-                    country: action.country
+                    location_values: action.data,
+                    overviews: getOverviews(action.data)
+                }
+            }
+        case 'FILTERS - LOCATION CHANGE':
+            return {
+                ...state,
+                filters: {
+                    ...state.filters,
+                    selected: {
+                        ...state.filters.selected,
+                        location: action.id
+                    }
                 }
             }
         case 'CHART - VALUES APPEND':

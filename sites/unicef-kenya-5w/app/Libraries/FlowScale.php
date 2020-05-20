@@ -13,14 +13,13 @@ class FlowScale
 
         try {
             $response = $client->get($url);
+            if ($response->getStatusCode() === 200) {
+                return json_decode($response->getBody(), true);
+            }
         } catch(RequestException $e) {
             if ($e->hasResponse()) {
                 $response = $e->getResponse();
             }
-        }
-
-        if ($response->getStatusCode() === 200) {
-            return json_decode($response->getBody(), true);
         }
 
         return null;
@@ -34,14 +33,13 @@ class FlowScale
 
         try {
             $response = $client->get($url);
+            if ($response->getStatusCode() === 200) {
+                return json_decode($response->getBody(), true);
+            }
         } catch(RequestException $e) {
             if ($e->hasResponse()) {
                 $response = $e->getResponse();
             }
-        }
-
-        if ($response->getStatusCode() === 200) {
-            return json_decode($response->getBody(), true);
         }
 
         return null;

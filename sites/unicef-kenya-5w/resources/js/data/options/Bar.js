@@ -1,19 +1,28 @@
 import { Easing, Color, TextStyle, backgroundColor, Icons } from '../features/animation.js';
 
-const Bar = (data, title, subtitle, calc) => {
-    let values = data.map((x) => x.value);
-    let labels = data.map((x) => x.name);
+const Bar = (data, subtitle, valtype, locations) => {
+    let labels = [];
+    let values = [];
+    valtype = "value_" + valtype;
+    let i = 0;
+    do {
+        if (locations[i].values!== undefined) {
+            labels = [...labels, locations[i].text];
+            values = [...values, locations[i].values[valtype]];
+        }
+        i++;
+    } while (i < locations.length);
     let option = {
         ...Color,
         title : {
-            text: title,
+            text: data.name,
             subtext: subtitle,
             left: 'center',
             top: '20px',
             ...TextStyle
         },
         grid: {
-            top: "20%",
+            top: "30%",
             show: true
         },
         tooltip: {

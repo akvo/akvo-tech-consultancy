@@ -1,6 +1,6 @@
 import { Color, Easing, Legend, TextStyle, backgroundColor, Icons } from '../features/animation.js';
 
-const Pie = (data, title, subtitle, calc) => {
+const Pie = (data, title, subtitle, valtype, calc) => {
     data = data.map((x) => {
         return {
             ...x,

@@ -39,6 +39,7 @@ class FlowFakerCommand extends Command
      */
     public function handle()
     {
+        $this->info("Preparing for faker data seed process");
         $seed = new FakerController();
         $faker = Faker\Factory::create();
         $seed->seedFakeSurveyData($faker, (int) $this->argument('total'));

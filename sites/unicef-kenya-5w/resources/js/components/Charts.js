@@ -26,50 +26,7 @@ class Charts extends Component {
     }
 
     clickEvent(param) {
-        if (this.props.calc === "CATEGORY") {
-            if (param.componentSubType === 'pie') {
-                this.props.chart.value.select(param.data.id);
-                this.props.filter.program.update(param.data.id, param.data.parent_id, param.name, 1);
-                if (this.props.value.filters.selected.length < 2){
-                    this.props.filter.program.append(param.data.values, 1);
-                };
-            }
-            if (param.componentSubType === 'bar') {
-                console.log(param);
-            }
-			if (param.componentSubType === 'treemap') {
-                this.props.chart.value.select(param.data.id);
-                this.props.filter.program.update(param.data.id, param.data.parent_id, param.name, 1);
-                if (this.props.value.filters.selected.length < 2){
-                    this.props.filter.program.append(param.data.values, 1);
-                };
-				console.log('treemap');
-			}
-            return;
-        }
-        if (!this.props.value.charts.filtered) {
-            this.props.filter.country.change(param.data.name);
-        }
-        if (this.props.value.charts.filtered) {
-            this.props.chart.value.reverse();
-            this.props.filter.country.change("World Wide");
-        }
-        if (!isNaN(param.value) && !this.props.value.charts.filtered) {
-            let data = [];
-            if (param.componentSubType === 'pie' || 'map') {
-                data = [param.data];
-            }
-            if (param.componentSubType === 'bar') {
-                data = [{
-                    id: param.dataIndex,
-                    code: "",
-                    name: param.name,
-                    value: param.value
-                }]
-            }
-            this.props.chart.value.filter(data);
-        };
-        return this.props.chart.state.filtered();
+        // console.log(param);
     }
 
     componentDidMount() {
@@ -79,40 +36,21 @@ class Charts extends Component {
     }
 
     render() {
-        let level = this.props.calc === "CATEGORY" ? 0 : 1;
-        let selected = this.props.value.filters.selected;
-            selected = selected[level];
-        if (selected === undefined) {
-            selected = this.props.value.filters.selected;
-        }
-        let data = level === 0
-            ? this.props.value.charts.data.filter((x) => x.parent_id === selected.id)
-            : this.props.value.charts.active.values
+        let valtype = this.props.value.page;
+        let selected = this.props.value.filters.selected.filter;
+        selected = this.props.value.filters.list.find(x => x.id === selected);
         let onEvents = {
             'click': this.clickEvent,
             'dblclick': this.doubleClickEvent
         }
-        if (level === 0) {
-            data = data.map((x) => {
-                let values = x.values;
-                if (this.props.value.filters.country !== "World Wide") {
-                    values = values.filter(c => {
-                        if (c.name === this.props.value.filters.country){
-                            return true;
-                        }
-                        return false;
-                    });
-                }
-                if (values.length > 0){
-                    values = values.map(v => v.value).reduce((a, b) => a + b);
-                } else {
-                    values = 0
-                }
-                x.value = values;
-                return x;
-            });
-        }
-        let options = generateOptions(this.props.kind, selected.name, this.props.value.filters.country, data, this.props.calc);
+        let location = this.props.value.filters.locations;
+        let location_values = this.props.value.filters.location_values;
+        let selected_location = this.props.value.filters.selected.location;
+        location = location.find(x => x.id === selected_location);
+        location = location.code === "KENYA"
+            ? location
+            : location_values.find(x => x.id === location.id);
+        let options = generateOptions(this.props.kind, selected, location.name, valtype.name, location_values);
         return (
             <Col md={this.props.data.column}>
                 <ReactEcharts

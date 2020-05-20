@@ -14,4 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('wash-domain', 'Api\TestController@getWashDomain');
+Route::get('wash-domain', 'Api\TestController@getTest');
+Route::get('domains', 'Api\TestController@getDomains');
+Route::get('domain/{domain_id}', 'Api\TestController@getDomain');
+Route::get('location/{county}', 'Api\TestController@getLocation');
+Route::get('location/{county}/{sub_county}', 'Api\TestController@getLocation');

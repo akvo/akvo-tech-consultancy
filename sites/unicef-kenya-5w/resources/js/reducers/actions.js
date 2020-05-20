@@ -19,42 +19,34 @@ export const mapDispatchToProps = dispatch => {
                 })
         },
         filter: {
-            program: {
+            category: {
                 init: list =>
                     dispatch({
-                        type: "FILTERS - PROGRAM INIT",
+                        type: "FILTERS - CATEGORY INIT",
                         list: list
                     }),
-                append: (list, depth) =>
+                change: (id, depth)=>
                     dispatch({
-                        type: "FILTERS - PROGRAM APPEND",
-                        list: list,
-                        depth: depth
-                    }),
-                update: (id, parent_id, name, depth) =>
-                    dispatch({
-                        type: "FILTERS - PROGRAM SELECT",
+                        type: "FILTERS - CATEGORY CHANGE",
                         id: id,
-                        parent_id: parent_id,
-                        name: name,
                         depth: depth
-                    }),
-                change: list =>
-                    dispatch({
-                        type: "FILTERS - PROGRAM CHANGE",
-                        list: list
                     })
             },
-            country: {
-                init: countries =>
+            location: {
+                init: locations =>
                     dispatch({
-                        type: "FILTERS - COUNTRY INIT",
-                        countries: countries
+                        type: "FILTERS - LOCATION INIT",
+                        locations: locations
                     }),
-                change: country =>
+                push: data =>
                     dispatch({
-                        type: "FILTERS - COUNTRY CHANGE",
-                        country: country
+                        type: "FILTERS - LOCATION VALUES",
+                        data: data
+                    }),
+                change: id =>
+                    dispatch({
+                        type: "FILTERS - LOCATION CHANGE",
+                        id: id
                     })
             },
         },

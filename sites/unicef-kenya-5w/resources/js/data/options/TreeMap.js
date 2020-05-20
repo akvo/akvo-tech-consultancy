@@ -7,18 +7,76 @@ import {
     Icons
 } from "../features/animation.js";
 
-const TreeMap = (data, title, subtitle, calc) => {
-    data = data.map(x => {
-        return {
-            ...x,
-            group: calc
-        };
-    });
-    let labels = data.map(x => x.name);
+const mapData = (name, path) => {
+    return {
+        value: 1,
+        name: name.toProperCase(),
+        path: path + '/' + name.toProperCase()
+    }
+}
+
+const getLevelOption = () => {
+    return [
+        {
+            itemStyle: {
+                borderWidth: 0,
+                gapWidth: 5
+            }
+        },
+        {
+            itemStyle: {
+                gapWidth: 1
+            }
+        },
+        {
+            colorSaturation: [0.35, 0.5],
+            itemStyle: {
+                gapWidth: 1,
+                borderColorSaturation: 0.6
+            }
+        }
+    ];
+}
+
+const TreeMap = (data, subtitle, valtype, locations) => {
+    let list = [
+        {
+            name: "Reporting Donors",
+            path: "Reporting Donors",
+            value: data.donors.count,
+            children: data.donors.list.map(x => {
+                return mapData(x, "Reporting Donors")
+            })
+        },
+        {
+            name: "Reporting Organisations",
+            path: "Reporting Organisations",
+            value: data.organisations.count,
+            children: data.organisations.list.map(x => {
+                return mapData(x, "Reporting Organisations")
+            })
+        },
+        {
+            name: "Implementing Partners",
+            path: "Implementing Partners",
+            value: data.implementing.length,
+            children: data.implementing.list.map(x => {
+                return mapData(x, "Implementing Partners")
+            })
+        },
+        {
+            name: "Counties",
+            path: "Counties",
+            value: data.locations.count,
+            children: data.locations.list.map(x => {
+                return mapData(x, "Counties")
+            })
+        }
+    ];
     let option = {
         ...Color,
         title: {
-            text: title,
+            text: data.name,
             subtext: subtitle,
             left: "center",
             top: "20px",
@@ -53,19 +111,20 @@ const TreeMap = (data, title, subtitle, calc) => {
         },
         series: [
             {
-                name: title,
+                name: data.name,
                 type: "treemap",
-                avoidLabelOverlap: false,
                 top: 100,
+                visibleMin:250,
                 itemStyle: {
                     normal: {
                         gapWidth: 2,
-                        borderColor: "#eeeeee"
+                        borderColor: "rgba(37, 64, 97, .5)"
                     }
                 },
                 breadcrumb: {
                     show: false
                 },
+                levels: getLevelOption(list),
                 label: {
                     normal: {
                         show: true,
@@ -74,11 +133,6 @@ const TreeMap = (data, title, subtitle, calc) => {
                                 fontFamily: TextStyle.fontFamily,
                                 fontSize: 22,
                                 lineHeight: 30,
-                                color: "#fff"
-                            },
-                            countries: {
-                                fontFamily: TextStyle.fontFamily,
-                                fontSize: 14,
                                 color: "#fff"
                             },
                             label: {
@@ -102,29 +156,38 @@ const TreeMap = (data, title, subtitle, calc) => {
                                 borderColor: "rgba(255,255,255,0.2)",
                                 borderWidth: 0.5,
                                 height: 0,
-                                lineHeight: 10
+                                lineHeight: 5
                             }
                         },
                         formatter: function(params) {
                             const arr = [
                                 "{name|" + params.name + "}",
                                 "{hr|}",
-                                "{total|" + params.value + "} {label|counts}",
-                                "{countries|" +
-                                    params.data.countries +
-                                    "} {label|countries}"
                             ];
                             return arr.join("\n");
                         },
                         position: "insideTopLeft"
                     }
                 },
+                height: "70%",
+                upperLabel: {
+                    normal : {
+                        show: true,
+                        height: 40,
+                        padding: [2,4],
+                        fontFamily: TextStyle.fontFamily,
+                        fontSize: 12
+                    },
+                    formatter: function(params) {
+                        return params.name + " [" + params.value + "]";
+                    },
+                },
                 labelLine: {
                     normal: {
                         show: false
                     }
                 },
-                data: data
+                data: list
             }
         ],
         ...backgroundColor,
