@@ -1,5 +1,5 @@
 export const pageState = {
-    name: "planned",
+    name: "home",
     loading: true
 }
 

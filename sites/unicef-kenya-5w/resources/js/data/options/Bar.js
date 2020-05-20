@@ -1,21 +1,10 @@
 import { Easing, Color, TextStyle, backgroundColor, Icons } from '../features/animation.js';
 
-const Bar = (data, subtitle, valtype, locations) => {
-    let labels = [];
-    let values = [];
-    valtype = "value_" + valtype;
-    let i = 0;
-    do {
-        if (locations[i].values!== undefined) {
-            labels = [...labels, locations[i].text];
-            values = [...values, locations[i].values[valtype]];
-        }
-        i++;
-    } while (i < locations.length);
+const Bar = (title, subtitle, list) => {
     let option = {
         ...Color,
         title : {
-            text: data.name,
+            text: title,
             subtext: subtitle,
             left: 'center',
             top: '20px',
@@ -53,14 +42,14 @@ const Bar = (data, subtitle, valtype, locations) => {
         },
         yAxis: {
             type: 'category',
-            data: labels,
+            data: list.labels,
         },
         xAxis: {
             type: 'value'
         },
         series: [
             {
-                data: values,
+                data: list.values,
                 type: 'bar'
             },
         ],

@@ -5,6 +5,7 @@ import {
 import {
     filterState,
     changeFilters,
+    getOrganisations,
     getOverviews
 } from './states/filter-states.js';
 import {
@@ -90,6 +91,15 @@ export const states = (state = initialState, action) => {
                     }
                 }
             }
+        case 'FILTERS - ORGANISATION INIT':
+            return {
+                ...state,
+                filters : {
+                    ...state.filters,
+                    organisations: getOrganisations(action.org),
+                    organisation_values: action.org
+                }
+            }
         case 'CHART - VALUES APPEND':
             return {
                 ...state,
@@ -134,6 +144,8 @@ export const states = (state = initialState, action) => {
                     filtered: state.charts.filtered ? false : true
                 }
             }
+        case 'CACHE - RESTORE':
+            return action.data;
         default:
             return state;
     }

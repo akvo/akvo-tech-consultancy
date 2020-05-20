@@ -24,8 +24,23 @@ class Bridge extends Model
         return $this->belongsTo('App\Option');
     }
 
+    public function location()
+    {
+        return $this->hasOne('App\Cascade','id','county');
+    }
+
+    public function subdomain()
+    {
+        return $this->hasOne('App\Option','id','sub_domain');
+    }
+
     public function answer()
     {
         return $this->belongsTo('App\Answer');
+    }
+
+    public function answers()
+    {
+        return $this->hasMany('App\Answer','form_instance_id', 'form_instance_id');
     }
 }
