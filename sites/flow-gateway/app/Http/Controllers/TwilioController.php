@@ -22,14 +22,14 @@ class TwilioController extends Controller
         $info = false;
         $session = false;
         $first = in_array(strtolower($text),config('twilio.welcome'));
-        $response = "Welcome to Akvo Flow Survey\n\n";
+        $response = trans('text.welcome')."\n\n";
 
         if ($first) {
             /*
              * User first message
              */
-            $response .= "Please reply with the following format to start new survey session:\n\n";
-            $response .= "*INSTANCE_NAME#FORM_ID*\n";
+            $response .= trans('text.start.info')."\n\n";
+            $response .= trans('text.start.format')."\n";
             $response .= "(e.g *seap#293680912*)\n";
             return $response;
         }
@@ -48,9 +48,11 @@ class TwilioController extends Controller
             );
         }
         if ($session && $init) {
-            $response .= "You have the unfinished session, ";
-            $response .= "If you wish to remove the session, please type:\n\n*DELETE SESSION*\n\n";
-            $response .= "If you want to show the last question from the last session, please type:\n\n*SHOW QUESTION*\n";
+            $response .= trans('text.session.info');
+            $response .= trans('text.session.remove');
+            $response .= "\n\n*DELETE SESSION*\n\n";
+            $response .= trans('text.session.show');
+            $response .= "\n\n*SHOW QUESTION*\n";
             return $response;
         }
 
@@ -62,9 +64,9 @@ class TwilioController extends Controller
             /*
              * User decide to remove the session
              */
-            $response .= "Your session restarted, ";
-            $response .= "please reply with the following format to start new survey session:\n\n";
-            $response .= "*INSTANCE_NAME#FORM_ID*\n";
+            $response .= trans('text.session.restart');
+            $response .= trans('text.start.info')."\n\n";
+            $response .= trans('text.start.format')."\n";
             $response .= "(e.g *seap#293680912)\n";
             return $response;
         }

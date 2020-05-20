@@ -63,7 +63,7 @@ class AfricasTalkingController extends Controller
             $value = Arr::last($codes);
             return $feed->continue_survey($value, $session);
         }
-        return $this->prefix."error input, please recheck your input";
+        return $this->prefix.trans('text.error');
     }
 
 }
