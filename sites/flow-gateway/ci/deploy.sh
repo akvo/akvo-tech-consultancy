@@ -39,7 +39,7 @@ ssh -i "${SITES_SSH_KEY}" \
     -p 18765 \
     -o UserKnownHostsFile=/dev/null \
     -o StrictHostKeyChecking=no \
-    tcakvo@109.73.232.40 'cp ~/etc/tc.akvo.org/flow-gateway.env.prod ~/public_html/2scale/.env'
+    tcakvo@109.73.232.40 'cp ~/etc/tc.akvo.org/flow-gateway.env.prod ~/public_html/flow-gateway/.env'
 
 echo "Clearing cache..."
 
