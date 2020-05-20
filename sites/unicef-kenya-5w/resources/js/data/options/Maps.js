@@ -56,7 +56,7 @@ const Maps = (title, subtitle, list) => {
             {
                 name: title,
                 type: 'map',
-                roam: true,
+                roam: false,
                 map: 'kenya',
                 aspectScale: 1,
                 emphasis: {
@@ -72,7 +72,7 @@ const Maps = (title, subtitle, list) => {
                 itemStyle: {
                     areaColor: '#ddd',
                     emphasis: {
-                        areaColor: "#ff4444",
+                        areaColor: "#cdb62c",
                         color: '#FFF',
                     }
                 },

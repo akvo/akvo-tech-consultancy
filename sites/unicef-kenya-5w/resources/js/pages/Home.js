@@ -13,35 +13,51 @@ import Bar from '../data/options/Bar';
 import Maps from '../data/options/Maps';
 import Pie from '../data/options/Pie';
 import TreeMap from '../data/options/TreeMap';
+import { TextStyle } from '../data/features/animation.js';
 
 const MapsFormatter = (params) => {
     if (params.value) {
-        let orgs = params.data.details.map((x) => x.name);
-        let html = params.seriesName + '<br/>' + params.name + ': ' + params.value + '<hr/>';
-        html += orgs.join();
-        return html;
+        let orgs = params.data.details.map((x, i) => {return (i + 1) + '. ' + x.name});
+        let html = '<h4>' + params.name + '</h4><br/>' + params.value + ' Organisations<hr/>';
+        html += 'Organisation List: <br/>' + orgs.join('<br/>');
+        return '<div class="tooltip-maps">' + html + '</div>';
     }
-    return params.seriesName + '<br/>' + params.name + ': No Data';
+    return '<div class="tooltip-maps">' + params.seriesName + '<br/>' + params.name + ': No Data</div>';
 }
 const MapsOverride = {
     dataRange: {
     x: 40,
     y: 40,
     splitList: [
-        {start: 10},
+        {start: 10, label:'Above 10'},
         {start: 8, end: 9},
         {start: 6, end: 7},
         {start: 3, end: 5},
         {start: 1, end: 2},
-        {end: 0},
+        {end: 0, label:'No Organisations', icon:'circle'},
     ],
     color: ['#085fa6', '#567ba9', '#40a4dc','#bde2f2','#b6c4da'],
+    },
+    legend: {
+        orient: 'vertical',
+        left: 'left',
+        data: []
     },
     markArea: {
         label: {
             show:true,
             distance:5
         }
+    },
+    tooltip: {
+        trigger: 'item',
+        showDelay: 0,
+        padding:10,
+        transitionDuration: 0.2,
+        formatter: MapsFormatter,
+        backgroundColor: "#f8f9fa",
+        position: [40,'30%'],
+        ...TextStyle,
     }
 }
 
@@ -89,7 +105,7 @@ class Home extends Component {
 
     getOptions(list) {
         let data = this.props.value.filters.organisation_values;
-        let title = "Reporting Organisations";
+        let title = "WASH Partners Presence for COVID-19 Response";
         switch (list.kind) {
             case "MAPS":
                 return Maps(title, "Total Organisations", this.getMaps(data));
