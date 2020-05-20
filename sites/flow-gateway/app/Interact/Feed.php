@@ -69,7 +69,7 @@ class Feed
         if (!$next) {
             $submission = new Submission();
             $submission->send($session->id);
-            return $this->prefix_end."Thanks for completing the survey!";
+            return $this->prefix_end.trans('text.end');
         }
         $next->waiting = true;
         $next->save();
@@ -142,9 +142,9 @@ class Feed
 
     public function ask($session, $options=false)
     {
-        $response = $this->prefix."Hi ".$session->phone_number."\n";
-        $response .= "You haven't finished the ".$session->form_name." survey\n";
-        $response .= "Would you like to continue?\n";
+        $response = $this->prefix.trans('text.ask.hi', ['phone' => $session->phone_number])."\n";
+        $response .= trans('text.ask.info', ['name' => $session->form_name])."\n";
+        $response .= trans('text.ask.continue')."\n";
         if ($options) {
             $i = 0;
             $response .= "\n";
@@ -154,7 +154,7 @@ class Feed
             } while ($i < count($options));
             return $response;
         }
-        $response .= "Yes (Y) \nNo (N)";
+        $response .= trans('text.ask.response.y')."\n".trans('text.ask.response.n');
         return $response;
     }
 
@@ -162,16 +162,20 @@ class Feed
     public function destroy($session)
     {
         $session->delete();
-        $response = $this->prefix_end."Your previous incomplete submission has been deleted\n";
-        $response .= "Please redial the number to start a new submission\n";
+        $response = $this->prefix_end.trans('text.destroy.success')."\n";
+        $response .= trans('text.destroy.info')."\n";
         return $response;
     }
 
     public function formatter($question, $repeat=false)
     {
         $text = $this->prefix.$question->text;
+        if ($repeat) {
+            $temp = (Str::lower($question->type) === 'numeric') ? 'numeric' : 'options';
+            $text .= "\n".trans('text.validate.'.$temp);
+        }
         if ($question->cascade) {
-            $text .= "\nType the code inside the Bracket";
+            $text .= "\n".trans('text.cascade');
             $level = $question->input ? Arr::last(explode('|', $question->input)) : 0;
             $flow = new AkvoFlow();
             $cascade = $flow->getCascade($question->cascade, $level);
@@ -183,9 +187,6 @@ class Feed
                 $i++;
             } while($i < count($cascade));
         }
-        if ($repeat) {
-            $text .= "\nPlease insert the correct answer";
-        }
         return $text;
     }
 
@@ -193,15 +194,17 @@ class Feed
     {
         $validate = false;
         if (Str::lower($question->type) === 'numeric') {
-            $validate = ((int)$answer <= 0) ? true : false;
-            return $validate;
+            $validate = is_numeric($answer);
+            return !$validate;
         }
 
         if (Str::lower($question->type) === 'option') {
+            if (!is_numeric($answer) || $answer === "0") {
+                return true;
+            }
             $options = Str::of($question->text)->explode(PHP_EOL);
-            $count = $options->count() - 1;
-            $validate = ((int)$answer < $count-1 || (int)$answer > $count) ? true : false;
-            return $validate;
+            $validate = isset($options[$answer]);
+            return !$validate;
         }
 
         if ($question->cascade) {

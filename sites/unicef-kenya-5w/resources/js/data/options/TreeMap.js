@@ -7,14 +7,6 @@ import {
     Icons
 } from "../features/animation.js";
 
-const mapData = (name, path) => {
-    return {
-        value: 1,
-        name: name.toProperCase(),
-        path: path + '/' + name.toProperCase()
-    }
-}
-
 const getLevelOption = () => {
     return [
         {
@@ -38,45 +30,11 @@ const getLevelOption = () => {
     ];
 }
 
-const TreeMap = (data, subtitle, valtype, locations) => {
-    let list = [
-        {
-            name: "Reporting Donors",
-            path: "Reporting Donors",
-            value: data.donors.count,
-            children: data.donors.list.map(x => {
-                return mapData(x, "Reporting Donors")
-            })
-        },
-        {
-            name: "Reporting Organisations",
-            path: "Reporting Organisations",
-            value: data.organisations.count,
-            children: data.organisations.list.map(x => {
-                return mapData(x, "Reporting Organisations")
-            })
-        },
-        {
-            name: "Implementing Partners",
-            path: "Implementing Partners",
-            value: data.implementing.length,
-            children: data.implementing.list.map(x => {
-                return mapData(x, "Implementing Partners")
-            })
-        },
-        {
-            name: "Counties",
-            path: "Counties",
-            value: data.locations.count,
-            children: data.locations.list.map(x => {
-                return mapData(x, "Counties")
-            })
-        }
-    ];
+const TreeMap = (title, subtitle, list) => {
     let option = {
         ...Color,
         title: {
-            text: data.name,
+            text: title,
             subtext: subtitle,
             left: "center",
             top: "20px",
@@ -111,7 +69,7 @@ const TreeMap = (data, subtitle, valtype, locations) => {
         },
         series: [
             {
-                name: data.name,
+                name: title,
                 type: "treemap",
                 top: 100,
                 visibleMin:250,

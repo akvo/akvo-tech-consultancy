@@ -31,4 +31,4 @@ Route::get('/locations', 'Api\ApiController@locations');
 Route::get('/locations/values/{domain}', 'Api\ApiController@locationValues');
 Route::get('/locations/values/{domain}/{subdomain}', 'Api\ApiController@locationValues');
 Route::get('/domains/values', 'Api\ApiController@domainValues');
-
+Route::get('/locations/organisations', 'Api\ApiController@locationOrganisations');

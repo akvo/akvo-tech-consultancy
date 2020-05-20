@@ -49,6 +49,13 @@ export const mapDispatchToProps = dispatch => {
                         id: id
                     })
             },
+            organisation: {
+                init: org =>
+                    dispatch({
+                        type: "FILTERS - ORGANISATION INIT",
+                        org : org
+                    }),
+            }
         },
         chart: {
             value: {
@@ -89,6 +96,14 @@ export const mapDispatchToProps = dispatch => {
                     dispatch({
                         type: "CHART - STATE CHANGE",
                     }),
+            }
+        },
+        cache: {
+            restore: (data) => {
+                dispatch({
+                    type: "CACHE - RESTORE",
+                    data: data
+                });
             }
         }
     };

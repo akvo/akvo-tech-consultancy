@@ -174,6 +174,68 @@ class ApiController extends Controller
         return $this->collection;
     }
 
+    public function locationOrganisations(Request $requests)
+    {
+        $bridges = new \App\Bridge ();
+        $cascades = collect(config('query.cascade'))->except('locations')->values();
+        $domains = collect(config('query.wash_domain.domains'))->map(function($d, $k){
+            $d['name'] = $k;
+            return $d;
+        })->values();
+        $bridges = $bridges
+            ->whereNotNull('value_achived')
+            ->select('form_instance_id','value_achived as value','county','domain','sub_domain')
+            ->with(['location' => function($query) {$query->select('id','name');},
+                    'subdomain'=> function($query) {$query->select('id','name');},
+                    'answers' => function($query) use ($cascades){
+            $query->whereIn('question_id', $cascades)
+                  ->with('cascades.parents')
+                  ->with('question');
+        }],)->get();
+        $bridges = $bridges->transform(function($data) use ($domains){
+            $org = collect();
+            $data->domain = $domains->where('id',$data->domain)->first();
+            collect($data->answers)->each(function($answer) use ($org) {
+                    $org[$answer->question->name] = Str::upper($answer->cascades->first()->text);
+            });
+            $data->domains = $data->domain["name"];
+            $data->subdomains = $data->subdomain["text"];
+            $data->subdomain = $data->subdomain["text"];
+            $data->locations = $data->location["text"];
+            $data->organisations = $org;
+            return $data->makeHidden('answers','sub_domain','location');
+        });
+        $bridges = collect($bridges)->groupBy(['locations'])->values();
+        $county_values = $bridges->map(function($data){
+            $county = $data->first();
+            $organisations = collect();
+            $organisations["list"] = collect();
+            $organisations["domains"] = collect();
+            $organisations["subdomains"] = collect();
+            $data->map(function($d) use ($organisations){
+                $d["organisations"]->map(function($org, $as) use ($organisations, $d){
+                    $organisations["list"]->push([
+                        "name" => $org,
+                        "partner" => $as,
+                        "domain" => Str::title($d["domain"]["name"]),
+                        "subdomain" => Str::title($d["subdomains"])
+                    ]);
+                    $organisations["domains"]->push(Str::title($d["domain"]["name"]));
+                    $organisations["subdomains"]->push(Str::title($d["subdomains"]));
+                });
+            });
+            $organisations["count"] = $organisations["list"]->count();
+            $organisations["domains"] = $organisations["domains"]->unique()->values();
+            $organisations["subdomains"] = $organisations["subdomains"]->unique()->values();
+            return [
+                "id" => $county["county"],
+                "name" => $county["locations"],
+                "organisations" => $organisations,
+            ];
+        });
+        return $county_values;
+    }
+
     public function domainValues(Request $requests)
     {
         $bridges = new \App\Bridge ();

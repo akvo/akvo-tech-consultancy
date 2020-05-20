@@ -9,7 +9,7 @@
         <link href="{{mix('/css/all.css')}}" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
-        <link rel="icon" type="image/png" href="{{asset('/images/favico.ico')}}">
+        <link rel="icon" type="image/png" href="{{asset('/images/favicon.ico')}}">
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
     </head>
 	<style>

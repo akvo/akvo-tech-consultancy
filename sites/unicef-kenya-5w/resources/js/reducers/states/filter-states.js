@@ -82,12 +82,29 @@ export const filterState = {
             }
         }
     }],
+    organisations: ["Loading..."],
+    organisation_values: [{
+        id: 1,
+        name: "Loading",
+        organisations: {
+            list :[
+                {
+                    name:"Loading...",
+                    partner: "Loading...",
+                    domain: "Loading...",
+                    subdomain: "Loading..."
+                }
+            ],
+            domains: ["Loading..."],
+            subdomains: ["Loading..."],
+            count: 1
+        }
+    }],
     overviews: {
         donors: [],
         organisations: [],
         implementing: [],
         locations: [],
-        all: []
     },
     locations: [{
         id: 1,
@@ -97,6 +114,7 @@ export const filterState = {
     selected: {
         location: 1,
         filter: 2,
+        type: "planned"
     }
 }
 
@@ -130,6 +148,21 @@ export const getOverviews = (state) => {
         i++;
     } while (i < details.length);
     overviews.all = [...overviews.donors, ...overviews.organisations, ...overviews.implementing];
-    console.log(overviews);
     return overviews;
+}
+
+export const getOrganisations = (state) => {
+    let orgs = state.map(x => {
+        let location = x.name;
+        return x.organisations.list.map(z => {
+            return {...z,location: location}
+        });
+    });
+    let data = [];
+    let i = 0;
+    do {
+        data = [...data, ...orgs[i]]
+        i++;
+    }while(i < orgs.length)
+    return data;
 }
