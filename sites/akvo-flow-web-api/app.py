@@ -21,19 +21,20 @@ logging.basicConfig(level=logging.DEBUG)
 CORS(app)
 
 auth = HTTPBasicAuth()
-DEFAULT_PASSWORD=os.environ["BASIC_PWD"]
+DEFAULT_PASSWORD = os.environ["BASIC_PWD"]
 users = {
     os.environ["BASIC_ADMIN"]: generate_password_hash(DEFAULT_PASSWORD),
 }
 
 instance_list = './data/flow-survey-amazon-aws.csv'
-BASE_URL="https://flow-services.akvotest.org/upload"
-PASSWORD="2SCALE"
-DEVEL=False
+BASE_URL = "https://flow-services.akvotest.org/upload"
+PASSWORD = "2SCALE"
+DEVEL = False
 
-UPLOAD_FOLDER='./tmp/images'
-ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
+UPLOAD_FOLDER = './tmp/images'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
 
 @auth.verify_password
 def verify_password(username, password):
@@ -41,21 +42,24 @@ def verify_password(username, password):
             check_password_hash(users.get(username), password):
         return username
 
+
 def readxml(xmlpath):
     with open(xmlpath) as survey:
         encoding = etree.parse(survey)
         encoding = encoding.docinfo.encoding
     with open(xmlpath) as survey:
-        survey = xmltodict.parse(survey.read(),encoding=encoding,attr_prefix='',cdata_key='text')
-        survey = json.loads(json.dumps(survey).replace('"true"','true').replace('"false"','false'))
+        survey = xmltodict.parse(survey.read(), encoding=encoding, attr_prefix='', cdata_key='text')
+        survey = json.loads(json.dumps(survey).replace('"true"', 'true').replace('"false"', 'false'))
         response = survey['survey']
     return response
 
+
 def make_tree(path):
     tree = dict(name=os.path.basename(path), children=[])
-    try: lst = os.listdir(path)
+    try:
+        lst = os.listdir(path)
     except OSError:
-        pass #ignore errors
+        pass  # ignore errors
     else:
         for name in lst:
             fn = os.path.join(path, name)
@@ -65,29 +69,32 @@ def make_tree(path):
                 tree['children'].append(dict(name=name, parent=tree))
     return tree
 
+
 @app.route('/')
 @auth.login_required
 def index():
     path = os.path.expanduser('./static/xml')
     return render_template('index.html', tree=make_tree(path))
 
+
 @app.route('/<folder>/<file>')
 def openxml(folder, file):
-    path = './static/xml/'+ folder + '/' + file
+    path = './static/xml/' + folder + '/' + file
     if ".sqlite" in file:
         conn = sqlite3.connect(path)
         table = pd.read_sql_query("SELECT * FROM nodes;", conn)
-        data = table.to_dict('records');
+        data = table.to_dict('records')
         return jsonify(data)
     data = readxml(path)
     return data
 
-@app.route('/<instance>/<surveyId>/<check>')
-def survey(instance,surveyId,check):
-    ziploc = './static/xml/'+ instance
+
+@app.route('/<instance>/<survey_id>/<check>')
+def survey(instance, survey_id, check):
+    ziploc = './static/xml/' + instance
     if not os.path.exists(ziploc):
         os.mkdir(ziploc)
-    xmlpath = ziploc + '/' + surveyId + '.xml'
+    xmlpath = ziploc + '/' + survey_id + '.xml'
     instances = pd.read_csv(instance_list)
     endpoint = list(instances[instances['instances'] == instance]['names'])[0]
     download = False
@@ -96,15 +103,15 @@ def survey(instance,surveyId,check):
     if not os.path.exists(xmlpath):
         download = True
     if download:
-        zipurl = r.get(endpoint+surveyId+'.zip', allow_redirects=True)
+        zipurl = r.get(endpoint + survey_id + '.zip', allow_redirects=True)
         if zipurl.status_code == 403:
-            return jsonify({"message":"Form is not available"}), 403
+            return jsonify({"message": "Form is not available"}), 403
         z = ZipFile(BytesIO(zipurl.content))
         z.extractall(ziploc)
-        zipurl = r.get(endpoint+surveyId+'.zip', allow_redirects=True)
+        zipurl = r.get(endpoint + survey_id + '.zip', allow_redirects=True)
         z = ZipFile(BytesIO(zipurl.content))
         z.extractall(ziploc)
-    response = readxml(ziploc + '/' +surveyId + '.xml')
+    response = readxml(ziploc + '/' + survey_id + '.xml')
     cascadeList = []
     questionGroupType = type(response["questionGroup"])
     if questionGroupType is list:
@@ -124,7 +131,7 @@ def survey(instance,surveyId,check):
             pass
     if len(cascadeList) > 0:
         for cascade in cascadeList:
-            cascadefile = ziploc + '/' + cascade.split('/surveys/')[1].replace('.zip','')
+            cascadefile = ziploc + '/' + cascade.split('/surveys/')[1].replace('.zip', '')
             download = False
             if check == 'update':
                 download = True
@@ -136,13 +143,15 @@ def survey(instance,surveyId,check):
                 z.extractall(ziploc)
     return jsonify(response)
 
+
 @app.route('/cascade/<instance>/<sqlite>/<lv>')
-def cascade(instance,sqlite,lv):
-    casloc = './static/xml/'+ instance +'/'+ sqlite
+def cascade(instance, sqlite, lv):
+    casloc = './static/xml/' + instance + '/' + sqlite
     conn = sqlite3.connect(casloc)
     table = pd.read_sql_query("SELECT * FROM nodes;", conn)
     result = table[table['parent'] == int(lv)].sort_values(by="name").to_dict('records')
     return jsonify(result)
+
 
 def submitprocess(rec, _uuid):
     rec = request.get_json()
@@ -178,25 +187,25 @@ def submitprocess(rec, _uuid):
                     answerlist = list(ast.literal_eval(rec[ids]))
                     for rc in answerlist:
                         if rc["text"] == "Other Option":
-                            if(rec["other_" + ids]):
-                                vals.append({"text":rec["other_" + ids],"isOther":True})
+                            if (rec["other_" + ids]):
+                                vals.append({"text": rec["other_" + ids], "isOther": True})
                             else:
-                                vals.append({"text":"No Answer","isOther":True})
+                                vals.append({"text": "No Answer", "isOther": True})
                         else:
                             try:
-                                vals.append({"text":rc["text"],"code":rc["code"]})
+                                vals.append({"text": rc["text"], "code": rc["code"]})
                             except:
-                                vals.append({"text":rc["text"]})
+                                vals.append({"text": rc["text"]})
                     val = json.dumps(vals)
                 except:
-                    val = json.dumps([{"text":rec[ids]}])
+                    val = json.dumps([{"text": rec[ids]}])
             elif answerType[i] == "PHOTO":
-                val = json.dumps({"filename":rec[ids]})
+                val = json.dumps({"filename": rec[ids]})
                 imagelist.append(rec[ids])
             elif answerType[i] == "CASCADE":
                 vals = []
                 for rc in list(ast.literal_eval(rec[ids])):
-                    vals.append({"code":rc["text"], "name":rc["text"]})
+                    vals.append({"code": rc["text"], "name": rc["text"]})
                 val = json.dumps(vals)
             elif answerType[i] == "DATE":
                 objDate = datetime.strptime(rec[ids], "%Y-%m-%d")
@@ -211,14 +220,14 @@ def submitprocess(rec, _uuid):
             form = {
                 "answerType": aType,
                 "iteration": 0,
-                "questionId": str(ids).replace("-k",""),
+                "questionId": str(ids).replace("-k", ""),
                 "value": val
             }
             data.append(form)
         except:
             pass
-    startdate = datetime.fromtimestamp(int(rec["_submissionStart"])/1000)
-    enddate = datetime.fromtimestamp(int(rec["_submissionStop"])/1000)
+    startdate = datetime.fromtimestamp(int(rec["_submissionStart"]) / 1000)
+    enddate = datetime.fromtimestamp(int(rec["_submissionStop"]) / 1000)
     duration = enddate - startdate
     duration = round(duration.total_seconds())
     version = float(rec['_version'])
@@ -236,22 +245,24 @@ def submitprocess(rec, _uuid):
     sendZip(payload, _uuid, rec['_instanceId'], imagelist)
     return jsonify(payload)
 
+
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+
 def sendZip(payload, _uuid, instance_id, imagelist):
-    with open('data.json','w') as f:
+    with open('data.json', 'w') as f:
         json.dump(payload, f)
     zip_name = _uuid + '.zip'
     zip_file = ZipFile(zip_name, 'w')
     zip_file.write('data.json', compress_type=ZIP_DEFLATED)
     zip_file.close()
     os.rename(zip_name, zip_name)
-    combined="all-{}.zip".format(round(datetime.today().timestamp()))
+    combined = "all-{}.zip".format(round(datetime.today().timestamp()))
     with ZipFile(combined, 'w') as all_zip:
         all_zip.write(zip_name)
         for image in imagelist:
-            if os.path.isfile('./tmp/images/' + image ):
+            if os.path.isfile('./tmp/images/' + image):
                 os.rename('./tmp/images/' + image, image)
                 all_zip.write(image)
                 os.remove(image)
@@ -273,7 +284,7 @@ def sendZip(payload, _uuid, instance_id, imagelist):
     files = {
         'file': (combined, open(combined, 'rb'), 'application/zip')
     }
-    result = r.post(BASE_URL, files= files, data=params)
+    result = r.post(BASE_URL, files=files, data=params)
     bucket = instance_id + '.s3.amazonaws.com'
     instances = pd.read_csv(instance_list)
     bucket_url = 'https://' + bucket + '/surveys/'
@@ -297,6 +308,7 @@ def sendZip(payload, _uuid, instance_id, imagelist):
         os.rename(combined, './tmp/ ' + combined)
     return result
 
+
 @app.route('/submit-form', methods=['POST'])
 def submit():
     rec = request.get_json()
@@ -310,15 +322,17 @@ def submit():
         submit = True
     if submit:
         return submitprocess(rec, _uuid)
-    return jsonify({"message":"Password is wrong"}), 400
+    return jsonify({"message": "Password is wrong"}), 400
+
 
 @app.route('/fetch-image/<image_file>', methods=['GET'])
 def fetch_file(image_file):
     image_path = './tmp/images/' + image_file
     filetype = image_file.rsplit('.', 1)[1].lower()
     if os.path.exists(image_path):
-        return send_file(image_path, mimetype="image/"+filetype)
-    return jsonify({"message":"Asset is deleted"}), 400
+        return send_file(image_path, mimetype="image/" + filetype)
+    return jsonify({"message": "Asset is deleted"}), 400
+
 
 @app.route('/delete-image/<image_file>')
 def delete_file(image_file):
@@ -327,7 +341,8 @@ def delete_file(image_file):
         os.remove(image_path)
         return jsonify({'file': image_file, 'status': 'removed'})
     else:
-        return jsonify({"message":"File has been removed"}), 204
+        return jsonify({"message": "File has been removed"}), 204
+
 
 @app.route('/upload-image', methods=['GET', 'POST', 'DELETE', 'OPTIONS'])
 def upload_file():
@@ -366,7 +381,8 @@ def upload_file():
         response = delete_file(request.text)
         return response
     else:
-        return jsonify({"message":"Failed to send"}), 400
+        return jsonify({"message": "Failed to send"}), 400
+
 
 if __name__ == '__main__':
     app.jinja_env.auto_reload = True
