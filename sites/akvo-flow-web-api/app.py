@@ -272,13 +272,13 @@ def send_zip(payload, _uuid, instance_id, imagelist):
                 all_zip.write(image)
                 os.remove(image)
 
-    fsize = os.path.getsize(combined)
+    file_size = os.path.getsize(combined)
     uid = str(uuid.uuid4())
     params = {
         'resumableChunkNumber': 1,
-        'resumableChunkSize': fsize,
-        'resumableCurrentChunkSize': fsize,
-        'resumableTotalSize': fsize,
+        'resumableChunkSize': file_size,
+        'resumableCurrentChunkSize': file_size,
+        'resumableTotalSize': file_size,
         'resumableType': 'application/zip',
         'resumableIdentifier': uid,
         'resumableFilename': combined,
