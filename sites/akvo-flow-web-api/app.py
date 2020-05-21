@@ -153,9 +153,7 @@ def cascade(instance, sqlite, lv):
     return jsonify(result)
 
 
-def submit_process(rec, _uuid):
-    rec = request.get_json()
-    _uuid = str(uuid.uuid4())
+def get_payload(rec, _uuid):
     question_id = rec['question_id'].split(',')
     answer_type = rec['answer_type'].split(',')
     data = []
@@ -242,8 +240,15 @@ def submit_process(rec, _uuid):
         "username": rec['_username'],
         "uuid": _uuid
     }
-    send_zip(payload, _uuid, rec['_instanceId'], images)
-    return jsonify(payload)
+    return {"payload": payload, "images": images}
+
+
+def submit_process(rec, _uuid):
+    rec = request.get_json()
+    _uuid = str(uuid.uuid4())
+    data = get_payload(rec, _uuid)
+    send_zip(data['payload'], _uuid, rec['_instanceId'], data['images'])
+    return jsonify(data['payload'])
 
 
 def allowed_file(filename):
@@ -309,19 +314,32 @@ def send_zip(payload, _uuid, instance_id, imagelist):
     return result
 
 
+def check_password(rec):
+    default_pass = rec['_default_password'] if '_default_password' in rec else False
+    password = rec['_password'] if '_password' in rec else False
+    if default_pass == DEFAULT_PASSWORD:
+        return True
+    if password == PASSWORD:
+        return True
+    return False
+
+
 @app.route('/submit-form', methods=['POST'])
 def submit():
     rec = request.get_json()
     _uuid = str(uuid.uuid4())
-    valid = False
-    default_pass = rec['_default_password'] if '_default_password' in rec else False
-    password = rec['_password'] if '_password' in rec else False
-    if default_pass == DEFAULT_PASSWORD:
-        valid = True
-    if password == PASSWORD:
-        valid = True
+    valid = check_password(rec)
     if valid:
         return submit_process(rec, _uuid)
+    return jsonify({"message": "Password is wrong"}), 400
+
+
+@app.route('/upload-data', methods=['POST'])
+def upload_data():
+    rec = request.get_json()
+    valid = check_password(rec)
+    if valid:
+        return jsonify({})  # TODO
     return jsonify({"message": "Password is wrong"}), 400
 
 
