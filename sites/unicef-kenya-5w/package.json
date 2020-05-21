@@ -40,7 +40,6 @@
         "@fortawesome/react-fontawesome": "^0.1.8",
         "echarts": "^4.6.0",
         "echarts-for-react": "^2.0.15-beta.1",
-        "jspdf": "^1.5.3",
         "react-bootstrap": "^1.0.0-beta.16",
         "react-loading": "^2.0.3",
         "react-redux": "^7.2.0",
