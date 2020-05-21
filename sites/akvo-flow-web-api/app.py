@@ -154,13 +154,13 @@ def cascade(instance, sqlite, lv):
 
 
 def get_payload(rec, _uuid):
-    question_id = rec['question_id'].split(',')
-    answer_type = rec['answer_type'].split(',')
+    question_id = rec['questionId'].split(',')
+    answer_type = rec['answerType'].split(',')
     data = []
     meta_name = {
-        "answer_type": "META_NAME",
+        "answerType": "META_NAME",
         "iteration": 0,
-        "question_id": "-1",
+        "questionId": "-1",
         "value": rec['_dataPointName']
     }
     data_point_location = "-8.6764779|115.236364|0"
@@ -169,9 +169,9 @@ def get_payload(rec, _uuid):
     except:
         pass
     meta_geo = {
-        "answer_type": "META_GEO",
+        "answerType": "META_GEO",
         "iteration": 0,
-        "question_id": "-2",
+        "questionId": "-2",
         "value": data_point_location
     }
     data.append(meta_name)
@@ -216,9 +216,9 @@ def get_payload(rec, _uuid):
             if answer_type[i] in ["PHOTO"]:
                 a_type = "IMAGE"
             form = {
-                "answer_type": a_type,
+                "answerType": a_type,
                 "iteration": 0,
-                "question_id": str(ids).replace("-k", ""),
+                "questionId": str(ids).replace("-k", ""),
                 "value": val
             }
             data.append(form)
@@ -240,7 +240,8 @@ def get_payload(rec, _uuid):
         "username": rec['_username'],
         "uuid": _uuid
     }
-    return {"payload": payload, "images": images}
+    return {"payload": payload,
+            "images": images}
 
 
 def submit_process(rec, _uuid):
@@ -324,6 +325,18 @@ def check_password(rec):
     return False
 
 
+def aws_s3_parameters(instance):
+    url = "http://localhost:3000/sign"
+    return r.get(url, params={"instance": instance}).json()
+
+
+def upload_parameters(rec, _uuid):
+    data = get_payload(rec, _uuid)
+    s3 = aws_s3_parameters(rec["_instanceId"])
+    return {"data": data["payload"],
+            "policy": s3}
+
+
 @app.route('/submit-form', methods=['POST'])
 def submit():
     rec = request.get_json()
@@ -337,9 +350,10 @@ def submit():
 @app.route('/upload-data', methods=['POST'])
 def upload_data():
     rec = request.get_json()
+    _uuid = str(uuid.uuid4())
     valid = check_password(rec)
     if valid:
-        return jsonify({})  # TODO
+        return upload_parameters(rec, _uuid)
     return jsonify({"message": "Password is wrong"}), 400
 
 
