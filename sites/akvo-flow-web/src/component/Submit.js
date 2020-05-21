@@ -7,6 +7,7 @@ import { Spinner } from 'reactstrap'
 import '../App.css'
 import { PopupSuccess, PopupError } from '../util/Popup'
 import { PROD_URL, USING_PASSWORDS } from '../util/Environment'
+import JSZip from 'jszip'
 
 const API_ORIGIN = (PROD_URL ? ( window.location.origin + "/" + window.location.pathname.split('/')[1] + "-api/" ) : process.env.REACT_APP_API_URL);
 const SITE_KEY = "6Lejm74UAAAAAA6HkQwn6rkZ7mxGwIjOx_vgNzWC"
@@ -24,7 +25,8 @@ class Submit extends Component {
             _showCaptcha : this.props.value.captcha,
             _showSpinner : false,
         }
-		this._reCaptchaRef = React.createRef();
+        this._reCaptchaRef = React.createRef();
+        this.uppy = props.uppy;
     }
 
     handlePassword (event) {
@@ -58,20 +60,82 @@ class Submit extends Component {
     };
 
     sendData(content) {
-        axios.post(API_ORIGIN+ 'submit-form',
+        const uppy = this.uppy;
+
+        axios.post(API_ORIGIN + 'upload-data',
                 content, { headers: { 'Content-Type': 'application/json' } }
             )
             .then(res => {
-                PopupSuccess("New datapoint is sent! clearing form...");
-                this.setState({'_showSpinner': false})
-                setTimeout(function(){
-                    let username = localStorage.getItem('_username');
-                    localStorage.clear();
-                    localStorage.setItem('_username', username);
-                    setTimeout(function(){
-                        window.location.replace(window.location.origin + window.location.pathname);
-                     }, 3000);
-                }, 500);
+
+                const zip = new JSZip();
+                const formInstance = res.data.data;
+
+                zip.file('data.json', JSON.stringify(formInstance));
+
+                zip.generateAsync({type: 'blob'})
+                .then(blob => {
+
+                    uppy.addFile({
+                        name: res.data.data.uuid + '.zip',
+                        type: 'application/zip',
+                        data: blob,
+                        source: 'Local',
+                        isRemote: false
+                    });
+
+                    let zipFileName;
+
+                    uppy.getFiles().forEach((f) => {
+                        f.postUrl = 'https://akvoflow-uat1.s3.amazonaws.com';
+                        if (f.type.indexOf('image/') !== -1) {
+                            f.policy = res.data.policy.image;
+                        } else {
+                            zipFileName = f.name;
+                            f.policy = res.data.policy.zip;
+                        }
+                    });
+
+                    uppy.upload().then((result) => {
+
+                        console.info('Successful uploads:', result.successful)
+                        if (result.failed.length > 0) {
+                            console.error('Errors:')
+                            result.failed.forEach((file) => {
+                                console.error(file.error)
+                            })
+                        }
+
+                        axios.get('https://uat1.akvoflow.org/processor', {
+                            params: {
+                                action: 'submit',
+                                formID: formInstance.formId,
+                                fileName: zipFileName,
+                                devId: formInstance.devId
+                            }
+                        })
+                        .then(res => {
+                            PopupSuccess("New datapoint is sent! clearing form...");
+                            this.setState({ '_showSpinner': false })
+                            setTimeout(function () {
+                                let username = localStorage.getItem('_username');
+                                localStorage.clear();
+                                localStorage.setItem('_username', username);
+                                setTimeout(function(){
+                                    window.location.replace(window.location.origin + window.location.pathname);
+                                }, 3000);
+                            }, 500);
+                        })
+                        .catch(e => {
+                            console.error(e);
+                            //PopupError(error.response.data.message);
+                            //this.setState({'_showSpinner': false})
+                        })
+                    });
+
+                })
+                .catch(e => {
+                    console.error(e);
+                });
                 return res;
             }).catch((error) => {
                 PopupError(error.response.data.message);

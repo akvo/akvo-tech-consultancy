@@ -4,15 +4,11 @@ import { mapStateToProps, mapDispatchToProps } from '../reducers/actions.js'
 import axios from 'axios';
 import { isJsonString } from  '../util/QuestionHandler.js'
 import { PROD_URL } from '../util/Environment'
-import { FilePond, registerPlugin } from 'react-filepond';
-import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
-import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css';
 import MapForm from '../types/MapForm.js'
 
 const API_ORIGIN = (PROD_URL ? ( window.location.origin + "/" + window.location.pathname.split('/')[1] + "-api/" ) : process.env.REACT_APP_API_URL);
 const pathurl = (PROD_URL ? 2 : 1);
 
-registerPlugin(FilePondPluginImagePreview);
 
 class QuestionType extends Component {
 
@@ -42,6 +38,7 @@ class QuestionType extends Component {
         this.handleCascadeChange = this.handleCascadeChange.bind(this);
         this.handleMapChange = this.handleMapChange.bind(this);
         this.handleGlobal = this.handleGlobal.bind(this);
+        this.uppy = props.uppy;
     }
 
     handleGlobal(questionid, qval){
@@ -72,11 +69,27 @@ class QuestionType extends Component {
         return true
     }
 
-    handlePhoto(image) {
+    handlePhoto(event) {
         let id = this.props.data.id
-        localStorage.setItem(id, image)
-        this.setState({value: image})
-        this.handleGlobal(id, image)
+        const image = event.target.files[0];
+        try {
+            this.uppy.addFile({
+                source: 'file input',
+                name: image.name,
+                type: image.type,
+                data: image
+            });
+        }
+        catch (e) {
+            if (e.isRestriction) {
+                console.log('Restriction error:', e)
+            } else {
+                console.log(e);
+            }
+        }
+        localStorage.setItem(id, image.name)
+        this.setState({ value: image.name })
+        this.handleGlobal(id, image.name)
     }
 
     handleMapChange(value) {
@@ -497,50 +510,14 @@ class QuestionType extends Component {
 
     getPhoto(data, unique, answered, type) {
         return (
-            <FilePond
-                server={(
-                    {
-                        url: API_ORIGIN,
-                        process: {
-                            url: 'upload-image',
-                            method: 'POST',
-                            onload: (response) => {
-                                this.handlePhoto(response)
-                                return response.key
-                            },
-                            onerror: (response) => {
-                                return response.data
-                            },
-                            ondata: (formData) => {
-                                formData.append('Status', 'Uploaded');
-                                return formData;
-                            }
-                        },
-                        patch: {
-                            url: 'fetch-image',
-                            method: 'GET',
-                            onload: (response) => {
-                                this.handlePhoto(response)
-                                return response.key
-                            },
-                            onerror: (response) => {
-                                return response.data
-                            }
-                        },
-                        revert: {
-                            url: 'delete-image/' + localStorage.getItem(data.id),
-                            method: 'GET',
-                            onload: (response) => {
-                                localStorage.removeItem(data.id)
-                                this.handleGlobal(data.id, "")
-                            }
-                        }
-                    }
-                )}
-                key={unique}
-                allowMultiple={false}
-                name={'Q-' + data.id.toString()}
-                data-max-file-size="500kb"
+            <input
+            className="form-control"
+            type="file"
+            key={unique}
+            accept="image/*"
+            name={'Q-' + data.id.toString()}
+            onChange={this.handlePhoto}
+            multiple={false}
             />
         )
     }
