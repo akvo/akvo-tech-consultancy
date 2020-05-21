@@ -33,7 +33,7 @@ ssh -i "${SITES_SSH_KEY}" \
     -o StrictHostKeyChecking=no \
     tcakvo@109.73.232.40 'find ~/public_html/unicef-kenya-5w/ -type d -print0 | xargs -0 -n1 chmod 755'
 
-echo "Copy the config..."
+echo "Copy the config...."
 
 ssh -i "${SITES_SSH_KEY}" \
     -p 18765 \
