@@ -21,6 +21,6 @@ docker run \
 docker run \
        --rm \
        --volume "$(pwd):/home/tcakvo/public_html/unicef-kenya-5w" \
-       --workdir "/home/tcakvo/public_html/unicef-kenya-5w" \
+       --workdir /home/tcakvo/public_html/unicef-kenya-5w\
        --entrypoint /bin/sh \
        node:8-alpine -c 'npm i && npm run prod'
