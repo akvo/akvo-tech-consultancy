@@ -5,12 +5,17 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Artisan;
 
 class BridgeController extends Controller
 {
     public function startSeed()
     {
+        echo("Migrate brigdes table".PHP_EOL);
+        Artisan::call('migrate', ['--path' => 'database/migrations/bridge/2020_05_14_052411_create_bridges_table.php']);
+
         echo("Getting data from database".PHP_EOL);
+        \App\Bridge::truncate();
         $questions = new \App\Question ();
         $groups = $questions->whereIn('question_group_id', config('query.groups'))->pluck('id');
         $groups->push(config('query.cascade.locations')); // location questions
