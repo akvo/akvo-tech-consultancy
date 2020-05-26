@@ -1,4 +1,5 @@
 const initialState = {
+    login: false,
     page: "home",
     captions: true,
     portfolio: [
@@ -219,6 +220,11 @@ export const states = (state = initialState, action) => {
                 ...state,
                 page: false
             };
+        case "LOGIN":
+            return {
+                ...state,
+                login: action.status
+            }
         default:
             return state;
     }

@@ -46,6 +46,11 @@ export const mapDispatchToProps = dispatch => {
             dispatch({
                 type: "CHANGE PAGE",
                 page: page
+            }),
+        login: status =>
+            dispatch({
+                type: "LOGIN",
+                status: status
             })
     };
 };
