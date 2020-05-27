@@ -169,11 +169,11 @@ class Feed
 
     public function formatter($question, $repeat=false)
     {
-        $text = $this->prefix.$question->text;
         if ($repeat) {
             $temp = (Str::lower($question->type) === 'numeric') ? 'numeric' : 'options';
             $text .= "\n".trans('text.validate.'.$temp);
         }
+        $text = $this->prefix.$question->text;
         if ($question->cascade) {
             $text .= "\n".trans('text.cascade');
             $level = $question->input ? Arr::last(explode('|', $question->input)) : 0;
