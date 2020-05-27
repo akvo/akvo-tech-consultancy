@@ -16,7 +16,7 @@ class TwilioController extends Controller
 {
     public function index(Request $request, AkvoFlow $flow, SurveySession $survey_sessions)
     {
-        $feed = new Feed("","");
+        $feed = new Feed("","", "Twilio");
         $text = $request->answer;
         $init = Str::contains($text,'#');
         $info = false;

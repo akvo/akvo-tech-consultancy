@@ -22,7 +22,7 @@ class AfricasTalkingController extends Controller
 
     public function index(Request $request, SurveySession $survey_sessions, AkvoFlow $flow)
     {
-        $feed = new Feed($this->prefix,$this->prefix_end);
+        $feed = new Feed($this->prefix,$this->prefix_end, $this->kind);
         if (!$request->record) {
             $survey = $flow->getForm($request->instance_name, $request->form_id);
             $input = collect($request)
