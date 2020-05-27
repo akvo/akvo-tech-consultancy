@@ -17,12 +17,13 @@ class AfricasTalkingController extends Controller
         $this->prefix = "CON ";
         $this->prefix_end = "END ";
         $this->kind = "Africas Talking USSD - ";
+        $this->log = Log::channel('africas_talking');
         $destroy = false;
     }
 
     public function index(Request $request, SurveySession $survey_sessions, AkvoFlow $flow)
     {
-        $feed = new Feed($this->prefix,$this->prefix_end, $this->kind);
+        $feed = new Feed($this->prefix,$this->prefix_end, $this->kind, $this->log);
         if (!$request->record) {
             $survey = $flow->getForm($request->instance_name, $request->form_id);
             $input = collect($request)
@@ -33,11 +34,11 @@ class AfricasTalkingController extends Controller
                 ->toArray();
             $session = $survey_sessions->insertGetId($input);
             $session = $survey_sessions->find($session);
-            Log::info($this->kind.$request->phone_number.": Init");
+            $this->log->info($this->kind.$request->phone_number.": Init");
             return $feed->store_questions($survey, $session);
         }
         if ($request->record && !$request->answer) {
-            Log::info($this->kind.$request->phone_number.": Info");
+            $this->log->info($this->kind.$request->phone_number.": Info");
             return $feed->ask($request->record);
         }
 
@@ -50,12 +51,12 @@ class AfricasTalkingController extends Controller
             ->where('complete', false)
             ->first();
         if ($request->record && strtolower($request->answer) === "n") {
-            Log::info($this->kind.$request->phone_number.": Destroy");
+            $this->log->info($this->kind.$request->phone_number.": Destroy");
             return $feed->destroy($session);
         }
         if ($request->record && strtolower($request->answer) === "y") {
             $question = $session->pending_answer()->first();
-            Log::info($this->kind.$request->phone_number.": Continue Survey");
+            $this->log->info($this->kind.$request->phone_number.": Continue Survey");
             return $feed->formatter($question);
         }
 
@@ -66,11 +67,11 @@ class AfricasTalkingController extends Controller
         if ($request->record) {
             $codes = explode('*', $request->answer);
             $value = Arr::last($codes);
-            Log::info($this->kind.$request->phone_number.": Next Question");
+            $this->log->info($this->kind.$request->phone_number.": Next Question");
             return $feed->continue_survey($value, $session);
         }
 
-        Log::info($this->kind.$request->phone_number.": ".$this->prefix.trans('text.error'));
+        $this->log->info($this->kind.$request->phone_number.": ".$this->prefix.trans('text.error'));
         return $this->prefix.trans('text.error');
     }
 

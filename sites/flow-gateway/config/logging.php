@@ -99,6 +99,18 @@ return [
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
+
+        'africas_talking' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/africas_talking.log'),
+            'level' => 'info',
+        ],
+
+        'twilio' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/twilio.log'),
+            'level' => 'info',
+        ],
     ],
 
 ];

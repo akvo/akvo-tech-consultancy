@@ -7,15 +7,15 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use App\Http\AkvoFlow;
 use App\Interact\Submission;
-use Illuminate\Support\Facades\Log;
 
 class Feed
 {
-    function __construct($prefix, $prefix_end, $kind) 
+    function __construct($prefix, $prefix_end, $kind, $log) 
     {
         $this->prefix = $prefix;
         $this->prefix_end = $prefix_end;
         $this->kind = $kind;
+        $this->log = $log;
     }
 
     public function show_last_question($session) {
@@ -71,7 +71,7 @@ class Feed
         if (!$next) {
             $submission = new Submission();
             $submission->send($session->id);
-            Log::info($this->kind.$session->phone_number.": End of Survey");
+            $this->log->info($this->kind.$session->phone_number.": End of Survey");
             return $this->prefix_end.trans('text.end');
         }
         $next->waiting = true;
@@ -176,7 +176,7 @@ class Feed
         if ($repeat) {
             $temp = (Str::lower($question->type) === 'numeric') ? 'numeric' : 'options';
             $text .= "\n".trans('text.validate.'.$temp)."\n";
-            Log::info("Repeat Question");
+            $this->log->info("Repeat Question");
         }
         $text .= $question->text;
         if ($question->cascade) {
