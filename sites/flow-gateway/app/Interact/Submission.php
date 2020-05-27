@@ -24,14 +24,16 @@ class Submission
         $faker = Faker::create();
         $uuid = $faker->uuid();
         $uuid = explode("-", $uuid);
+        $subStart = Carbon::parse($session->created_at);
+        $subStop = Carbon::now();
 		$data = collect([
 			'_version'=> $session->version,
 			'_username'=> $session->type.'-'.$session->phone_number,
 			'_formId'=> (string) $session->form_id,
 			'_deviceId'=> $session->type.'-'.$session->phone_number,
 			'_instanceId'=> $session->app,
-			'_submissionStart'=> Carbon::parse($session->created_at)->timestamp,
-			'_submissionStop'=> Carbon::now()->timestamp,
+			'_submissionStart'=> $subStart->timestamp . $subStart->milli,
+			'_submissionStop'=> $subStop->timestamp . $subStop->milli,
             '_dataPointId' => $uuid[1]."-".$uuid[2]."-".$uuid[3],
         ]);
 		$answerType = collect($session->answers)->map(function($val) use ($data, $questions, $dataPointName, $flow, $questionId) {
