@@ -127,4 +127,10 @@ class ApiController extends Controller
         }
         return collect($questions);
     }
+
+    public function log(Request $request)
+    {
+        $path = base_path()."/storage/logs/".$request->type.".log"; 
+        return response()->download($path); 
+    }
 }
