@@ -10,7 +10,7 @@ use Carbon\Carbon;
 use Faker\Factory as Faker;
 use App\Http\AkvoFlow;
 use App\SurveySession;
-
+use Illuminate\Support\Facades\Log;
 
 class Submission
 {
@@ -90,11 +90,17 @@ class Submission
 		})->toArray();
 		$data['answerType'] = join(",",$answerType);
         $data['_dataPointName'] = join("-", $dataPointName->toArray());
+        $data['_default_password'] = env("FLOW_PWD");
         $data['questionId'] = join(",", $questionId->toArray());
         $response = Http::withHeaders([
             'Origin' => config('akvoflow.submit'),
             'Content-Type' => 'application/json'
           ])->post(config('akvoflow.submit'), $data->all());
+
+        Log::info(config('akvoflow.submit'));
+        Log::info($data->all());
+        Log::info($response);
+
         if ($response->status() === 200) {
             $session->synced_at = now();
             $session->uuid = $data['_dataPointId'];
