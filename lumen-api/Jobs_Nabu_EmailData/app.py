@@ -1,20 +1,15 @@
 import os
-import smtplib
 import sys
+
 from os.path import basename
-from email.mime.multipart import MIMEMultipart
-from email.mime.application import MIMEApplication
-from email.mime.text import MIMEText
 from datetime import date
 
 import psycopg2 as pg
 import pandas.io.sql as psql
 import pyminizip
 from jinja2 import Environment, FileSystemLoader
-
-EMAIL_USER = os.environ['EMAIL_USER']
-EMAIL_HOST = os.environ['EMAIL_HOST']
-EMAIL_PWD = os.environ['EMAIL_PWD']
+from mailjet_rest import Client
+import base64
 
 POSTGRES_DB = os.environ['POSTGRES_DB']
 POSTGRES_HOST = os.environ['POSTGRES_HOST']
@@ -22,9 +17,14 @@ POSTGRES_PORT = os.environ['POSTGRES_PORT']
 POSTGRES_USER = os.environ['POSTGRES_USER']
 POSTGRES_PASSWORD = os.environ['POSTGRES_PASSWORD']
 
+MAILJET_APIKEY = os.environ['MAILJET_APIKEY']
+MAILJET_SECRET = os.environ['MAILJET_SECRET']
+
 EMAIL_RECEIVER = ['Stefanie.Brandes@NABU.de', 'Svane.Bender@NABU.de', 'Mesfin.Tekle.nabu@gmail.com']
-#EMAIL_RECEIVER = ['deden@akvo.org']
+#EMAIL_RECEIVER = ['galih@akvo.org']
 EMAIL_BCC = ['joy@akvo.org','deden@akvo.org']
+
+mailjet = Client(auth=(MAILJET_SECRET, MAILJET_APIKEY), version='v3.1')
 
 today = date.today()
 today_str = today.strftime("%d/%m/%Y")
@@ -88,37 +88,40 @@ def send_email(group, files, summary):
         summary = summary
     )
 
-    msg = MIMEMultipart('alternative')
-    msg['Subject'] = 'Nabu Data - ' + group[:-2] + ' - ' + today_str
-    msg['To'] = ', '.join(EMAIL_RECEIVER)
-    msg['From'] = EMAIL_USER
-    msg['Bcc'] = ','.join(EMAIL_BCC)
-
-    print('SENDING EMAIL')
-    # fout = "./template.html"
-    msg.attach(MIMEText(html_output, 'html'))
+    attach = []
     for f in files.iteritems() or []:
-        with open(tmp_dir + f[1], "rb") as fil:
-            part = MIMEApplication(
-                fil.read(),
-                Name=basename(f[1])
-            )
-        # After the file is closed
-        part['Content-Disposition'] = 'attachment; filename="%s"' % basename(f[1])
-        msg.attach(part)
+        with open(tmp_dir + f[1], "rb") as fil,  open(tmp_dir + f[1] + ".b64", 'wb') as fout:
+            base64.encode(fil, fout)
 
-    try:
-        with smtplib.SMTP(EMAIL_HOST, 587) as s:
-                s.ehlo()
-                s.starttls()
-                s.ehlo()
-                s.login(EMAIL_USER, EMAIL_PWD)
-                s.send_message(msg)
-                s.quit()
-        print('EMAIL SENT')
-    except:
-        print('UNABLE TO SEND THE EMAIL. ERROR:', sys.exc_info()[0])
-        raise
+        with open(tmp_dir + f[1] + ".b64", 'r') as fout:
+            attach.append({
+                "ContentType": "application/zip",
+                "Filename": basename(f[1]),
+                "Base64Content": fout.read().rstrip("\n")
+            })
+
+    receiver = []
+    for email in EMAIL_RECEIVER:
+        receiver.append({"Email": email})
+
+    bcc = []
+    for email in EMAIL_BCC:
+        bcc.append({"Email": email})
+
+    email = {
+        'Messages': [{
+                    "From": {"Email": "noreply@akvo.org", "Name": "noreply@akvo.org"},
+                    "To": receiver,
+                    "Bcc": bcc,
+                    "Subject": 'Nabu Data - ' + group[:-2] + ' - ' + today_str,
+                    "HTMLPart": html_output,
+                    "Attachments": attach
+                }]
+        }
+
+    result = mailjet.send.create(data=email)
+    print('SENDING EMAIL TO {}'.format(', '.join(EMAIL_RECEIVER)))
+    print('STATUS: {}\n'.format(result.status_code))
 
 for item in groups:
     data = psql.read_sql("SELECT table_name FROM INFORMATION_SCHEMA.views WHERE table_name LIKE '" + item + "%' ORDER BY table_name ASC", connection)
