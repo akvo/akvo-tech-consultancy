@@ -48,7 +48,8 @@ const initialState = {
                 mandatories: 0,
                 hiddens: 0,
                 badge: "badge-secondary"
-            }
+            },
+            repeatable: false
         }],
         active: 1,
     },
@@ -204,6 +205,7 @@ const validateGroup = (data) => {
 }
 
 const addQuestions = (data) => {
+    console.log(data);
     const relable = (q,g) => {
         return {
             ...q,
@@ -246,7 +248,8 @@ const listGroups = (data, questions, answers) => {
         return {
             index: (i + 1),
             heading: x.heading,
-            attributes: getGroupAttributes(x, questions, answers)
+            attributes: getGroupAttributes(x, questions, answers),
+            repeatable: x.repeatable
         }
     });
     return {

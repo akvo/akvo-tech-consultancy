@@ -36,6 +36,11 @@ nav.navbar-group {
     cursor: pointer;
 }
 
+button.btn-repeatable{
+    line-height: 9px;
+    font-size: 12px;
+}
+
 .submit-block {
     text-align: center;
     padding: 8px;
