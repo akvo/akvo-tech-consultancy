@@ -189,7 +189,6 @@ const getGroupAttributes = ((group, questions, answers) => {
     })
 
 const validateGroup = (data, sumber) => {
-    console.log(sumber, data);
     if (Array.isArray(data)) {
         return data;
     }
@@ -223,7 +222,6 @@ const addQuestions = (data) => {
         return q.map(q => relable(q,g))
     }
 
-    console.log(data);
 	const groups = validateGroup(data.questionGroup,'aq');
 
 	let questionGroup = groups.map((g,i) => {
