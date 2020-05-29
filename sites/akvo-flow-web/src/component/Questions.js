@@ -49,7 +49,6 @@ class Questions extends Component {
     renderMandatoryIcon(qid) {
         let answered = false;
         if (localStorage.getItem(qid)) {
-            console.log(qid);
             answered = true;
         }
         return Mandatory(answered);
