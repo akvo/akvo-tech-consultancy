@@ -151,7 +151,6 @@ def survey(instance, survey_id, check):
                 z.extractall(ziploc)
     return jsonify(response)
 
-
 @app.route('/cascade/<instance>/<sqlite>/<lv>')
 def cascade(instance, sqlite, lv):
     casloc = './static/xml/' + instance + '/' + sqlite
