@@ -117,24 +117,16 @@ def survey(instance, survey_id, check):
     if questionGroupType is list:
         for groups in response["questionGroup"]:
             try:
-                if groups is list:
-                    for q in groups["question"]:
-                        if q["type"] == "cascade":
-                            cascadeList.append(endpoint + q["cascadeResource"] + ".zip")
-                else:
-                    if groups["question"]["type"] == "cascade":
-                        cascadeList.append(endpoint + groups["question"]["cascadeResource"] + ".zip")
+                for q in groups["question"]:
+                    if q["type"] == "cascade":
+                        cascadeList.append(endpoint + q["cascadeResource"] + ".zip")
             except:
                 pass
     if questionGroupType is dict:
         try:
-            if q is list:
-                for q in response["questionGroup"]["question"]:
-                    if q["type"] == "cascade":
-                        cascadeList.append(endpoint + q["cascadeResource"] + ".zip")
-            else:
-                if response["questionGroup"]["question"]["type"] == "cascade":
-                    cascadeList.append(endpoint + response["questionGroup"]["question"]["cascadeResource"] + ".zip")
+            for q in response["questionGroup"]["question"]:
+                if q["type"] == "cascade":
+                    cascadeList.append(endpoint + q["cascadeResource"] + ".zip")
         except:
             pass
     if len(cascadeList) > 0:
@@ -150,6 +142,7 @@ def survey(instance, survey_id, check):
                 z = ZipFile(BytesIO(zipurl.content))
                 z.extractall(ziploc)
     return jsonify(response)
+
 
 @app.route('/cascade/<instance>/<sqlite>/<lv>')
 def cascade(instance, sqlite, lv):
