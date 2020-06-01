@@ -189,18 +189,19 @@ const getGroupAttributes = ((group, questions, answers) => {
         };
     })
 
-const validateGroup = (data) => {
+const validateGroup = (data, sumber) => {
     if (Array.isArray(data)) {
         return data;
     }
 	let groups = [];
-	if ( typeof data === "object" ) {
-		groups.push({
-			index:0,
-			heading:data.heading,
-			question:data.question
-		});
-	}
+    if (typeof data === "object") {
+        let question = Array.isArray(data.question) ? data.question : [data.question];
+        groups.push({
+            index:0,
+            heading:data.heading,
+            question:question
+        });
+    }
 	return groups;
 }
 
@@ -223,7 +224,7 @@ const addQuestions = (data) => {
         return q.map(q => relable(q,g))
     }
 
-	const groups = validateGroup(data.questionGroup);
+	const groups = validateGroup(data.questionGroup,'aq');
 
 	let questionGroup = groups.map((g,i) => {
 		return {
@@ -237,13 +238,13 @@ const addQuestions = (data) => {
 
 const listDatapoints = (data) => {
 
-	const groups = validateGroup(data.questionGroup);
+	const groups = validateGroup(data.questionGroup, 'ld');
     return addQuestions(groups).filter(x => x.localeNameFlag).map(q => q.id)
 }
 
 const listGroups = (data, questions, answers) => {
 
-	let groups = validateGroup(data.questionGroup);
+	let groups = validateGroup(data.questionGroup,'lg');
     groups = groups.map((x,i) => {
         return {
             index: (i + 1),
@@ -259,7 +260,8 @@ const listGroups = (data, questions, answers) => {
 }
 
 const listMandatory = (data) => {
-    return addQuestions(data).filter(x => x.mandatory).map(x => x.id);
+	let groups = validateGroup(data.questionGroup, 'lm');
+    return addQuestions(groups).filter(x => x.mandatory).map(x => x.id);
 }
 
 const showHideQuestions = (orig, group) => {

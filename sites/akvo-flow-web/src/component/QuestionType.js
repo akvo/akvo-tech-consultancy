@@ -364,15 +364,16 @@ class QuestionType extends Component {
     renderCascade (opt, i, l, unique, id) {
         /*
         let selected = localStorage.getItem(id);
+        let selected_value = '';
         if (selected) {
             selected = JSON.parse(selected);
             selected = selected.length > i ? selected[i].option : false;
-            let selected_value = selected ? selected : "";
+            selected_value = selected ? selected : '';
         }
         */
         let cascades = []
         let choose_options = "cascade_" + i
-        let dropdown = this.state[this.state[choose_options]]
+        let dropdown = this.state[this.state[choose_options]];
         let cascade = (
             <div key={unique + '-dropdown-' + i}>
             <div>{opt.text}</div>
@@ -401,7 +402,7 @@ class QuestionType extends Component {
                 let options = (
                     <option
                         key={unique + '-cascade-options-' + i}
-                        value={x.id}
+                        value={parseInt(x.id)}
                     >
                         {x.name}
                     </option>
@@ -412,6 +413,7 @@ class QuestionType extends Component {
     }
 
     getCascadeDropdown(lv, ix) {
+        let optlev = this.props.data.levels.level;
         if (this.props.data.type === "cascade") {
             let url = API_ORIGIN + 'cascade/' + this.instanceUrl + '/' + this.props.data.cascadeResource + '/' + lv
             let options = "options_" + lv
@@ -423,28 +425,30 @@ class QuestionType extends Component {
                 isavailable = true;
             }
             if (isavailable) {
-                res = availcasc.filter(x => {
+                res = availcasc.find(x => {
                     return x.url === url;
-                })[0];
+                });
             }
             if (res) {
                 try {
                     this.setState({
                         [options]: res.data,
                         [cascade]: [options],
-                        value: res.data[ix]['id']
+                        value: (res.data[ix] === undefined) ? res.data[0]['id'] : res.data[ix]['id'],
+                        levels: Array.isArray(optlev) ? optlev.length - 1 : 0
                     })
                 } catch (err) {
                     localStorage.removeItem(this.props.data.id)
                 }
             }
-            if (!res) {
+            if (res === undefined) {
                 this.fetchCascade(lv, ix, url, options, cascade);
             }
         }
     }
 
     fetchCascade(lv, ix, url, options, cascade) {
+        let optlev = this.props.data.levels.level;
         axios.get(url).then((res) =>{
             if (res.data.length === 0) {
                 return res
@@ -453,7 +457,8 @@ class QuestionType extends Component {
                 this.setState({
                     [options]: res.data,
                     [cascade]: [options],
-                    value: res.data[ix]['id']
+                    value: (res.data[ix] === undefined) ? res.data[0]['id'] : res.data[ix]['id'],
+                    levels: Array.isArray(optlev) ? optlev.length - 1 : 0
                 })
             } catch (err) {
                 localStorage.removeItem(this.props.data.id)
