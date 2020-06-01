@@ -27,7 +27,9 @@ users = {
 }
 
 instance_list = './data/flow-survey-amazon-aws.csv'
-BASE_URL = "https://flow-services.akvotest.org/upload"
+FLOW_SERVICE_URL = os.environ['FLOW_SERVICE_URL']
+AUTH0_URL = "{}/token".format(os.environ['AUTH0_URL'])
+BASE_URL = "{}/upload".format(FLOW_SERVICE_URL)
 PASSWORD = "2SCALE"
 DEVEL = False
 
@@ -324,11 +326,27 @@ def check_password(rec):
         return True
     return False
 
+def get_token():
+    data = {
+            'client_id': os.environ['AUTH0_CLIENT_FLOW'],
+            'username': os.environ['AUTH0_USER'],
+            'password': os.environ['AUTH0_PWD'],
+            'grant_type':'password',
+            'scope':'openid email'
+    }
+    account = r.post(AUTH0_URL, data);
+    try:
+        account = account.json();
+    except:
+        print('FAILED: TOKEN ACCESS UNKNOWN')
+        return False
+    return account['id_token']
+
 
 def aws_s3_parameters(instance):
-    url = "http://localhost:3000/sign"
-    return r.get(url, params={"instance": instance}).json()
-
+    url = "{}/sign".format(FLOW_SERVICE_URL)
+    token = get_token()
+    return r.get(url, params={"instance": instance}, headers={'Authorization': 'Bearer {}'.format(token)}).json()
 
 def upload_parameters(rec, _uuid):
     data = get_payload(rec, _uuid)
