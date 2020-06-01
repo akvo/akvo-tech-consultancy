@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { mapStateToProps } from "../reducers/actions.js";
+import { mapStateToProps, mapDispatchToProps } from "../reducers/actions.js";
 import React, { Component } from "react";
 import Loading from "../util/Loading";
 import Error from "../util/Error";
@@ -11,13 +11,20 @@ class GroupHeaders extends Component {
         this.getHeader = this.getHeader.bind(this);
         this.getLoading = this.getLoading.bind(this);
         this.getRepeatButton = this.getRepeatButton.bind(this);
+        this.cloneGroup = this.cloneGroup.bind(this);
+    }
+
+    cloneGroup = (group) => {
+        this.props.cloneGroup(group.index)
+        console.log(this.props);
+        //this.props.cloneGroup(group.index)
     }
 
     getRepeatButton = (group) => {
-        console.log(group);
         return (
             <button
                 className={"btn btn-primary btn-repeatable"}
+                onClick={e => this.cloneGroup(group)}
             >
                 Repeat Group <FaPlus />
             </button>
@@ -56,4 +63,4 @@ class GroupHeaders extends Component {
     }
 }
 
-export default connect(mapStateToProps)(GroupHeaders);
+export default connect(mapStateToProps, mapDispatchToProps)(GroupHeaders);

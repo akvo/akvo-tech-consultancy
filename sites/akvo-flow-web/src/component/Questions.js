@@ -57,6 +57,7 @@ class Questions extends Component {
     }
 
     getForms(questions) {
+        console.log(questions);
         let total_active = questions.reduce((a, x, i) => {
             let z = 0;
             if (i === 1) {

@@ -8,6 +8,7 @@ export const mapDispatchToProps = (dispatch) => {
     return {
         loadQuestions: (data) => dispatch({type:"LOAD QUESTIONS", data:data}),
         loadGroups: (data) => dispatch({type:"LOAD GROUPS", data:data}),
+        cloneGroup: (id) => dispatch({type:"CLONE GROUP", id:id}),
         changeGroup: (data) => dispatch({type:"CHANGE GROUP", group:data}),
         changeLang: (active) => dispatch({type:"CHANGE LOCALIZATION", active:active}),
         restoreAnswers: (data) => dispatch({type:"RESTORE ANSWERS", data:data}),

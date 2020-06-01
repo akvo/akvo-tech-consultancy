@@ -208,7 +208,6 @@ const validateGroup = (data, sumber) => {
 }
 
 const addQuestions = (data) => {
-    console.log(data);
     const relable = (q,g) => {
         return {
             ...q,
@@ -449,6 +448,14 @@ const storeCascade = (current, cascade) => {
     return [...current, cascade];
 }
 
+const cloneQuestions = (current, group_id) => {
+    let new_questions = current.filter(x => x.group === group_id);
+    return [
+        ...current,
+        ...new_questions
+    ];
+}
+
 export const questionReducers = (state = initialState, action) => {
     switch(action.type){
         case 'LOAD QUESTIONS':
@@ -497,6 +504,11 @@ export const questionReducers = (state = initialState, action) => {
                 ...state,
                 questions: showHideQuestions(state.questions, action.group),
                 groups: {...state.groups, active: action.group}
+            }
+        case 'CLONE GROUP':
+            return {
+                ...state,
+                questions: cloneQuestions(state.questions, action.id),
             }
         case 'CHANGE LOCALIZATION':
             return {
