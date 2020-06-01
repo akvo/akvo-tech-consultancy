@@ -479,7 +479,7 @@ def form_instance(form_instance_id):
         if instance is None:
             return jsonify({"message": "Instance {} not found".format(form_instance_id)}), 400
         params = request.get_json()
-        if params['state'] is None:
+        if params is None or params['state'] is None:
             return jsonify({"message": "Bad request, state parameter is required"}), 400
         instance.updated = datetime.now()
         instance.state = params['state']
