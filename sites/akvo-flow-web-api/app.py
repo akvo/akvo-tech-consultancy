@@ -49,7 +49,7 @@ migrate.init_app(app, db)
 
 
 class FormInstance(db.Model):
-    id = db.Column(db.String, primary_key=True, server_default='gen_random_uuid()')
+    id = db.Column(db.String, primary_key=True, server_default=text('gen_random_uuid()::varchar'))
     state = db.Column(db.String, unique=True, nullable=False)
     created = db.Column(db.DateTime, nullable=False, server_default=text('now()'))
     updated = db.Column(db.DateTime, nullable=False, server_default=text('now()'))
@@ -451,6 +451,21 @@ def upload_file():
         return response
     else:
         return jsonify({"message": "Failed to send"}), 400
+
+
+@app.route('/form-instance', defaults={'form_instance_id': None}, methods=['POST'])
+@app.route('/form-instance/<form_instance_id>', methods=['GET', 'PUT'])
+def form_instance(form_instance_id):
+    if request.method == 'GET':
+        print('get')
+    if request.method == 'POST':
+        fi = FormInstance(state='"{}"'.format(datetime.now()));
+        db.session.add(fi)
+        db.session.commit()
+        return jsonify(fi.id)
+    if request.method == 'PUT':
+        print('put')
+    return jsonify({})
 
 
 if __name__ == '__main__':
