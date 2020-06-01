@@ -37,6 +37,31 @@ spec:
             secretKeyRef:
               name: akvo-tech-consultancy
               key: flow-web-admin-pwd
+        - name: AUTH0_CLIENT_FLOW
+          valueFrom:
+            secretKeyRef:
+              name: akvo-tech-consultancy
+              key: auth0-client-id-flow
+        - name: AUTH0_USER
+          valueFrom:
+            secretKeyRef:
+              name: akvo-tech-consultancy
+              key: auth0-email
+        - name: AUTH0_PWD
+          valueFrom:
+            secretKeyRef:
+              name: akvo-tech-consultancy
+              key: auth0-pwd
+        - name: AUTH0_URL
+          valueFrom:
+            secretKeyRef:
+              name: akvo-tech-consultancy
+              key: auth0-url
+        - name: FLOW_SERVICE_URL
+          valueFrom:
+            secretKeyRef:
+              name: akvo-tech-consultancy
+              key: flow-service-url
 ---
 apiVersion: v1
 kind: Service
