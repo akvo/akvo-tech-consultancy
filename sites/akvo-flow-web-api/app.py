@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from flask import Flask, jsonify, render_template, request, make_response, send_file
 from flask_cors import CORS
 from lxml import etree
@@ -48,7 +49,11 @@ db.init_app(app)
 migrate.init_app(app, db)
 
 
+@dataclass
 class FormInstance(db.Model):
+    id: str
+    state: str
+
     id = db.Column(db.String, primary_key=True, server_default=text('gen_random_uuid()::varchar'))
     state = db.Column(db.String, unique=True, nullable=False)
     created = db.Column(db.DateTime, nullable=False, server_default=text('now()'))
@@ -457,15 +462,31 @@ def upload_file():
 @app.route('/form-instance/<form_instance_id>', methods=['GET', 'PUT'])
 def form_instance(form_instance_id):
     if request.method == 'GET':
-        print('get')
+        instance = FormInstance.query.get(form_instance_id)
+        if instance is None:
+            return jsonify({"message": "Not found"}), 404
+        return jsonify(instance)
     if request.method == 'POST':
-        fi = FormInstance(state='"{}"'.format(datetime.now()));
-        db.session.add(fi)
+        params = request.get_json()
+        if params['id'] is None or params['state'] is None:
+            return jsonify({"message": "Bad request, id and state parameters are required"}), 400
+        instance = FormInstance(id=params['id'], state=params['state']);
+        db.session.add(instance)
         db.session.commit()
-        return jsonify(fi.id)
+        return jsonify(instance)
     if request.method == 'PUT':
-        print('put')
-    return jsonify({})
+        instance = FormInstance.query.get(form_instance_id)
+        if instance is None:
+            return jsonify({"message": "Instance {} not found".format(form_instance_id)}), 400
+        params = request.get_json()
+        if params['state'] is None:
+            return jsonify({"message": "Bad request, state parameter is required"}), 400
+        instance.updated = datetime.now()
+        instance.state = params['state']
+        db.session.add(instance)
+        db.session.commit()
+        return jsonify(instance)
+    return jsonify({"message": "Bad request"}), 400
 
 
 if __name__ == '__main__':
