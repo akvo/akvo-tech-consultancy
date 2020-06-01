@@ -9,6 +9,7 @@ import Filters from "./Filters";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { BeatLoader } from "react-spinners";
+import Login from "./Login";
 
 class Page extends Component {
     constructor(props) {
@@ -22,6 +23,7 @@ class Page extends Component {
     }
 
     componentDidMount() {
+        this.checkToken();        
         const fetchPortfolio = new Promise((resolve, reject) => {
             axios.get("./data/portfolio.json").then(res => {
                 this.props.getList(res.data, "PORTFOLIO");
@@ -170,12 +172,36 @@ class Page extends Component {
         )
     }
 
+    checkToken = () => {
+        const itemStr = localStorage.getItem('token');
+        if (!itemStr) {
+            this.props.login(false);
+            return null;
+        }
+        const item = JSON.parse(itemStr);
+        const now = new Date();
+        if (now.getTime() > item.expiry) {
+            localStorage.removeItem('token');
+            this.props.login(false);
+            return null;
+        }
+
+        this.props.login(item.login);
+        return item.login;
+    }
+
     render() {
         return (
             <Fragment>
-                <Navigation />
-                {this.props.value.page === "home" ? this.setPage("main") : this.showPageDetails()}
-                {this.state.isLoading ? "" : this.setFooter()}
+                {
+                    (this.props.value.login) 
+                        ? <Fragment>
+                            <Navigation />
+                            {this.props.value.page === "home" ? this.setPage("main") : this.showPageDetails()}
+                            {this.state.isLoading ? "" : this.setFooter()}
+                        </Fragment>
+                        : <Login />
+                }
             </Fragment>
         );
     }

@@ -46,7 +46,7 @@ class FlowBridgeCommand extends Command
         }
 
         if ($this->option('empty')) {
-            $this->info("Truncating bridges table");
+            $this->info("Truncate bridges table start");
             $seed->truncateTable();
             $this->info("Truncate bridges table done");
         }

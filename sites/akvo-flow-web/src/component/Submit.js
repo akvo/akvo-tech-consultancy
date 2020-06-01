@@ -66,7 +66,6 @@ class Submit extends Component {
                 content, { headers: { 'Content-Type': 'application/json' } }
             )
             .then(res => {
-
                 const zip = new JSZip();
                 const formInstance = res.data.data;
 
@@ -86,7 +85,7 @@ class Submit extends Component {
                     let zipFileName;
 
                     uppy.getFiles().forEach((f) => {
-                        f.postUrl = 'https://akvoflow-uat1.s3.amazonaws.com';
+                        f.postUrl = 'https://'+this.props.value.instanceId+'.s3.amazonaws.com';
                         if (f.type.indexOf('image/') !== -1) {
                             f.policy = res.data.policy.image;
                         } else {
@@ -105,7 +104,7 @@ class Submit extends Component {
                             })
                         }
 
-                        axios.get('https://uat1.akvoflow.org/processor', {
+                        axios.get('https://'+this.props.value.instanceName+'.akvoflow.org/processor', {
                             params: {
                                 action: 'submit',
                                 formID: formInstance.formId,
@@ -127,8 +126,8 @@ class Submit extends Component {
                         })
                         .catch(e => {
                             console.error(e);
-                            //PopupError(error.response.data.message);
-                            //this.setState({'_showSpinner': false})
+                            PopupError("Something went wrong");
+                            this.setState({'_showSpinner': false})
                         })
                     });
 
@@ -137,8 +136,9 @@ class Submit extends Component {
                     console.error(e);
                 });
                 return res;
-            }).catch((error) => {
-                PopupError(error.response.data.message);
+            }).catch((e) => {
+                console.log(e)
+                PopupError(e.response.data.message);
                 this.setState({'_showSpinner': false})
             })
     }

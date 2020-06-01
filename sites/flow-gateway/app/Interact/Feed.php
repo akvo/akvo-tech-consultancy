@@ -10,10 +10,12 @@ use App\Interact\Submission;
 
 class Feed
 {
-    function __construct($prefix, $prefix_end) 
+    function __construct($prefix, $prefix_end, $kind, $log) 
     {
         $this->prefix = $prefix;
         $this->prefix_end = $prefix_end;
+        $this->kind = $kind;
+        $this->log = $log;
     }
 
     public function show_last_question($session) {
@@ -69,6 +71,7 @@ class Feed
         if (!$next) {
             $submission = new Submission();
             $submission->send($session->id);
+            $this->log->info($this->kind.$session->phone_number.": End of Survey");
             return $this->prefix_end.trans('text.end');
         }
         $next->waiting = true;
@@ -169,11 +172,13 @@ class Feed
 
     public function formatter($question, $repeat=false)
     {
-        $text = $this->prefix.$question->text;
+        $text = $this->prefix;
         if ($repeat) {
             $temp = (Str::lower($question->type) === 'numeric') ? 'numeric' : 'options';
-            $text .= "\n".trans('text.validate.'.$temp);
+            $text .= "\n".trans('text.validate.'.$temp)."\n";
+            $this->log->info("Repeat Question");
         }
+        $text .= $question->text;
         if ($question->cascade) {
             $text .= "\n".trans('text.cascade');
             $level = $question->input ? Arr::last(explode('|', $question->input)) : 0;

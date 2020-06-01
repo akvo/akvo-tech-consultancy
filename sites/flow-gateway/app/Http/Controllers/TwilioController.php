@@ -16,7 +16,9 @@ class TwilioController extends Controller
 {
     public function index(Request $request, AkvoFlow $flow, SurveySession $survey_sessions)
     {
-        $feed = new Feed("","");
+        $kind = "Twilio - ";
+        $log = Log::channel('twilio');
+        $feed = new Feed("","", $kind, $log);
         $text = $request->answer;
         $init = Str::contains($text,'#');
         $info = false;
@@ -31,6 +33,7 @@ class TwilioController extends Controller
             $response .= trans('text.start.info')."\n\n";
             $response .= trans('text.start.format')."\n";
             $response .= "(e.g *seap#293680912*)\n";
+            $log->info($kind.$request->phone_number.": Welcome");
             return $response;
         }
         if ($init) {
@@ -53,6 +56,7 @@ class TwilioController extends Controller
             $response .= "\n\n*DELETE SESSION*\n\n";
             $response .= trans('text.session.show');
             $response .= "\n\n*SHOW QUESTION*\n";
+            $log->info($kind.$request->phone_number.": Info");
             return $response;
         }
 
@@ -68,18 +72,21 @@ class TwilioController extends Controller
             $response .= trans('text.start.info')."\n\n";
             $response .= trans('text.start.format')."\n";
             $response .= "(e.g *seap#293680912)\n";
+            $log->info($kind.$request->phone_number.": Destroy");
             return $response;
         }
         if ($session && strtolower($text) === "show question") {
             /*
              * User want to show the last question
              */
+            $log->info($kind.$request->phone_number.": Continue Survey");
             return $feed->show_last_question($session);
         }
         if ($session) {
             /*
              * User answering question;
              */
+            $log->info($kind.$request->phone_number.": Next Question");
             return $feed->continue_survey($text, $session);
         }
         if (!$session) {
@@ -94,8 +101,10 @@ class TwilioController extends Controller
                 ->toArray();
             $session = $survey_sessions->insertGetId($input);
             $session = $survey_sessions->find($session);
+            $log->info($kind.$request->phone_number.": Init");
             return $feed->store_questions($survey, $session);
         }
+        $log->info($kind.$request->phone_number.": Error Input");
         return $text;
     }
 }

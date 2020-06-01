@@ -10,7 +10,7 @@ use Carbon\Carbon;
 use Faker\Factory as Faker;
 use App\Http\AkvoFlow;
 use App\SurveySession;
-
+use Illuminate\Support\Facades\Log;
 
 class Submission
 {
@@ -24,14 +24,16 @@ class Submission
         $faker = Faker::create();
         $uuid = $faker->uuid();
         $uuid = explode("-", $uuid);
+        $subStart = Carbon::parse($session->created_at);
+        $subStop = Carbon::now();
 		$data = collect([
 			'_version'=> $session->version,
 			'_username'=> $session->type.'-'.$session->phone_number,
 			'_formId'=> (string) $session->form_id,
 			'_deviceId'=> $session->type.'-'.$session->phone_number,
 			'_instanceId'=> $session->app,
-			'_submissionStart'=> Carbon::parse($session->created_at)->timestamp,
-			'_submissionStop'=> Carbon::now()->timestamp,
+			'_submissionStart'=> $subStart->timestamp . $subStart->milli,
+			'_submissionStop'=> $subStop->timestamp . $subStop->milli,
             '_dataPointId' => $uuid[1]."-".$uuid[2]."-".$uuid[3],
         ]);
 		$answerType = collect($session->answers)->map(function($val) use ($data, $questions, $dataPointName, $flow, $questionId) {
@@ -90,11 +92,17 @@ class Submission
 		})->toArray();
 		$data['answerType'] = join(",",$answerType);
         $data['_dataPointName'] = join("-", $dataPointName->toArray());
+        $data['_default_password'] = env("FLOW_PWD");
         $data['questionId'] = join(",", $questionId->toArray());
         $response = Http::withHeaders([
             'Origin' => config('akvoflow.submit'),
             'Content-Type' => 'application/json'
           ])->post(config('akvoflow.submit'), $data->all());
+
+        Log::info(config('akvoflow.submit'));
+        Log::info($data->all());
+        Log::info($response);
+
         if ($response->status() === 200) {
             $session->synced_at = now();
             $session->uuid = $data['_dataPointId'];

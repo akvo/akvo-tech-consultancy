@@ -54,6 +54,7 @@ class Home extends Component {
     }
 
     updateData = (data) => {
+        data = {...data, instanceName: this.props.match.params.instance};
         this.props.loadQuestions(data)
         this.props.loadGroups(data)
         this.props.restoreAnswers(this.props.value.questions)

@@ -121,5 +121,31 @@
         "stacks": ["Akvo Flow"],
         "partners": "UNEP",
         "countries": ["Global"]
+    },
+    {
+        "id": 10,
+        "title": "USSD Forms",
+        "description": ["AkvoFlow USSD Integration"],
+        "objective": "Send form submission via USSD",
+        "project": "KAWASANET",
+        "link": false,
+        "categories": ["Webhook", "Data Integration"],
+        "galleries": ["portfolio-flow-gateway-02.jpg"],
+        "stacks": ["Akvo Flow", "AfricasTalking"],
+        "partners": "Akvo",
+        "countries": ["Kenya"]
+    },
+    {
+        "id": 11,
+        "title": "AkvoFlow Whatsapp Forms",
+        "description": ["AkvoFlow Whatsapp Integration"],
+        "objective": "Bring Akvo Flow Survey to Whatsapp using Twillio",
+        "project": "Akvo Flow Webhook",
+        "link": false,
+        "categories": ["Webhook", "Data Integration"],
+        "galleries": ["portfolio-flow-gateway-01.jpg"],
+        "stacks": ["Akvo Flow"],
+        "partners": "Akvo",
+        "countries": ["Kenya", "Global"]
     }
 ]

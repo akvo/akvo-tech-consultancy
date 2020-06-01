@@ -20,3 +20,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('/','Api\ApiController@index');
 Route::get('/submit/{id}','Api\ApiController@submit');
+
+Route::get('/log/{type}', 'Api\ApiController@log');
