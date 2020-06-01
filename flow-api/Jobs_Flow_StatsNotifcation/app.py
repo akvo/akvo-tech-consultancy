@@ -22,7 +22,7 @@ GOOGLE_TOKEN = 'token.pickle'
 
 mailjet = Client(auth=(MAILJET_SECRET, MAILJET_APIKEY), version='v3.1')
 notification_test = ["Deden Bangkit"]
-production = False
+production = True
 command = False
 
 def get_args(cmd):
