@@ -14,7 +14,10 @@ import os
 import ast
 import logging
 from flask_httpauth import HTTPBasicAuth
+from sqlalchemy import text
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 
 app = Flask(__name__)
 logging.basicConfig(level=logging.DEBUG)
@@ -36,6 +39,17 @@ DEVEL = False
 UPLOAD_FOLDER = './tmp/images'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['SQLALCHEMY_DATABASE_URI']
+
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)
+
+
+class FormInstance(db.Model):
+    id = db.Column(db.String, primary_key=True, server_default='gen_random_uuid()')
+    state = db.Column(db.String, unique=True, nullable=False)
+    created = db.Column(db.DateTime, nullable=False, server_default=text('now()'))
+    updated = db.Column(db.DateTime, nullable=False, server_default=text('now()'))
 
 
 @auth.verify_password
