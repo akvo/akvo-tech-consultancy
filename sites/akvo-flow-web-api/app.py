@@ -326,17 +326,18 @@ def check_password(rec):
         return True
     return False
 
+
 def get_token():
     data = {
-            'client_id': os.environ['AUTH0_CLIENT_FLOW'],
-            'username': os.environ['AUTH0_USER'],
-            'password': os.environ['AUTH0_PWD'],
-            'grant_type':'password',
-            'scope':'openid email'
+        'client_id': os.environ['AUTH0_CLIENT_FLOW'],
+        'username': os.environ['AUTH0_USER'],
+        'password': os.environ['AUTH0_PWD'],
+        'grant_type': 'password',
+        'scope': 'openid email'
     }
-    account = r.post(AUTH0_URL, data);
+    account = r.post(AUTH0_URL, data)
     try:
-        account = account.json();
+        account = account.json()
     except:
         print('FAILED: TOKEN ACCESS UNKNOWN')
         return False
@@ -347,6 +348,7 @@ def aws_s3_parameters(instance):
     url = "{}/sign".format(FLOW_SERVICE_URL)
     token = get_token()
     return r.get(url, params={"instance": instance}, headers={'Authorization': 'Bearer {}'.format(token)}).json()
+
 
 def upload_parameters(rec, _uuid):
     data = get_payload(rec, _uuid)
