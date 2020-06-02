@@ -58,11 +58,9 @@ class GroupHeaders extends Component {
 
     componentDidUpdate() {
         this.props.value.groups.list.forEach(x => {
-            console.log(x);
             if (localStorage.getItem('G'+x.index)) {
                 let clone = parseInt(localStorage.getItem('G'+x.index));
                 if (x.repeat !== clone) {
-                    console.log(clone);
                     this.cloneGroup(x)
                 }
                 return clone;
