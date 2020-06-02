@@ -59,6 +59,15 @@ class Submit extends Component {
         this.setState({ callback: "called!" });
     };
 
+    saveData(content) {
+        axios.post(API_ORIGIN + 'form-instance',
+            content, {headers: {'Content-Type': 'application/json'}})
+        .then(res => {
+            console.log(res);
+        })
+        .catch(e => {console.error(e)})
+    }
+
     sendData(content) {
         const uppy = this.uppy;
 
@@ -155,6 +164,15 @@ class Submit extends Component {
         return false;
     }
 
+    saveForm (e) {
+        e.stopPropagation();
+        let dpname = localStorage.getItem('_dataPointName');
+        if (!dpname) {
+            localStorage.setItem('_dataPointName','Untitled');
+        }
+        this.saveData(localStorage);
+    }
+
     render() {
         return (
             <Fragment>
@@ -198,6 +216,12 @@ class Submit extends Component {
                         />
                         <hr/>
                     </div>
+                    <button
+                        onClick={e => this.saveForm(e)}
+                        className={"btn btn-block btn-primary"}
+                        disabled={this.props.value.submit}>
+                        Save
+                    </button>
                     <button
                         onClick={e => this.submitForm(e)}
                         className={"btn btn-block btn-" + ( this.props.value.submit ? "primary" : "secondary")}

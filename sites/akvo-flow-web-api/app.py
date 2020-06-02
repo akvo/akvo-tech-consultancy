@@ -468,9 +468,9 @@ def form_instance(form_instance_id):
         return jsonify(instance)
     if request.method == 'POST':
         params = request.get_json()
-        if params.get('id') is None or params.get('state') is None:
-            return jsonify({"message": "Bad request, id and state parameters are required"}), 400
-        instance = FormInstance(id=params['id'], state=params['state']);
+        if params.get('_formId') is None or params.get('_dataPointId') is None:
+            return jsonify({"message": "Bad request, _formId and _dataPointId parameters are required"}), 400
+        instance = FormInstance(state=request.get_data(as_text=True));
         db.session.add(instance)
         db.session.commit()
         return jsonify(instance)
