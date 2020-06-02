@@ -12,6 +12,8 @@ const initialState = {
     version:"Loading..",
     questions: [{
         group: 1,
+        groupIndex: true,
+        repeat: true,
         heading: null,
         id: 1,
         localeNameFlag: false,
@@ -208,11 +210,17 @@ const validateGroup = (data, sumber) => {
 }
 
 const addQuestions = (data) => {
-    const relable = (q,g) => {
+    const relable = (q,g, i) => {
+        let groupIndex = false;
+        if (i === 0) {
+            groupIndex = true;
+        }
         return {
             ...q,
             id: parseInt(q.id),
             order: parseInt(q.order),
+            groupIndex: groupIndex,
+            repeat: g.repeat,
             type: getQuestionType(q),
             group: (g.index + 1),
             heading: g.heading,
@@ -222,7 +230,7 @@ const addQuestions = (data) => {
     }
     const mapgroup = (q, g) => {
         q = Array.isArray(q) ? q : [q];
-        return q.map(q => relable(q,g))
+        return q.map((q,ig) => relable(q,g,ig))
     }
 
 	const groups = validateGroup(data.questionGroup,'aq');
@@ -230,7 +238,7 @@ const addQuestions = (data) => {
 	let questionGroup = groups.map((g,i) => {
 		return {
 			...g,
-			question: mapgroup(g.question, {heading:g.heading, index: i})
+            question: mapgroup(g.question, {heading:g.heading, index: i, repeat: g.repeatable})
 		}
 	}).map(g => g.question)
 

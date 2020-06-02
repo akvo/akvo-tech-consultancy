@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { mapStateToProps } from "../reducers/actions.js";
 //import { PROD_URL } from '../util/Environment'
 import QuestionType from "./QuestionType.js";
+import GroupPanels from "./GroupPanels.js";
 import { Mandatory, ToolTip } from "../util/Badges";
 import { Card, CardBody, CardTitle } from "reactstrap";
 import "../App.css";
@@ -57,7 +58,6 @@ class Questions extends Component {
     }
 
     getForms(questions) {
-        console.log(questions);
         let total_active = questions.reduce((a, x, i) => {
             let z = 0;
             if (i === 1) {
@@ -86,8 +86,11 @@ class Questions extends Component {
             localization = localization.filter(x => x !== "");
             localization = localization.length === 0 ? question.lang.en : localization.join(" / ");
             let qid = question.id.toString();
+            console.log(question);
             return (
-                <Card key={"card-" + qid} className={question.show === false ? "d-none" : ""}>
+                <div key={"card-" + qid}>
+                    {question.groupIndex && question.repeat ? (<GroupPanels/>) : ""}
+                <Card className={question.show === false ? "d-none" : ""}>
                     <CardBody key={"card-body-" + qid} id={"card-body-" + qid}>
                         <CardTitle key={"card-title-" + qid}>
                             {question.order.toString() + ". " + localization}
@@ -98,6 +101,7 @@ class Questions extends Component {
                         {this.renderQuestion(qid, question, this.uppy)}
                     </CardBody>
                 </Card>
+                </div>
             );
         });
     }

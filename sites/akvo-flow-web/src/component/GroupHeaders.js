@@ -1,34 +1,15 @@
 import { connect } from "react-redux";
-import { mapStateToProps, mapDispatchToProps } from "../reducers/actions.js";
+import { mapStateToProps } from "../reducers/actions.js";
 import React, { Component } from "react";
 import Loading from "../util/Loading";
 import Error from "../util/Error";
-import { FaEye, FaQuestion, FaExclamationTriangle, FaCheckCircle, FaPlus } from "react-icons/fa";
+import { FaEye, FaQuestion, FaExclamationTriangle, FaCheckCircle } from "react-icons/fa";
 
 class GroupHeaders extends Component {
     constructor(props) {
         super(props);
         this.getHeader = this.getHeader.bind(this);
         this.getLoading = this.getLoading.bind(this);
-        this.getRepeatButton = this.getRepeatButton.bind(this);
-        this.cloneGroup = this.cloneGroup.bind(this);
-    }
-
-    cloneGroup = (group) => {
-        this.props.cloneGroup(group.index)
-        console.log(this.props);
-        //this.props.cloneGroup(group.index)
-    }
-
-    getRepeatButton = (group) => {
-        return (
-            <button
-                className={"btn btn-primary btn-repeatable"}
-                onClick={e => this.cloneGroup(group)}
-            >
-                Repeat Group <FaPlus />
-            </button>
-        )
     }
 
     getHeader = groups => {
@@ -41,11 +22,28 @@ class GroupHeaders extends Component {
                 <div className="col-md-8 text-right">
                     <div className="badge-header">
                         <div className={"badge badge-left badge-secondary"}>
+                            <FaQuestion /> Questions
+                        </div>
+                        <div className={"badge badge-right badge-primary"}>{group.attributes.questions}</div>
+                    </div>
+                    <div className="badge-header">
+                        <div className={"badge badge-left badge-secondary"}>
+                            <FaCheckCircle /> Answers
+                        </div>
+                        <div className={"badge badge-right badge-green"}>{group.attributes.answers}</div>
+                    </div>
+                    <div className="badge-header">
+                        <div className={"badge badge-left badge-secondary"}>
                             <FaExclamationTriangle /> Mandatory
                         </div>
                         <div className={"badge badge-right badge-red"}>{group.attributes.mandatories}</div>
                     </div>
-                    {group.repeatable ? this.getRepeatButton(group) : ""}
+                    <div className="badge-header">
+                        <div className={"badge badge-left badge-secondary"}>
+                            <FaEye /> Hiddens
+                        </div>
+                        <div className={"badge badge-right badge-info"}>{group.attributes.hiddens}</div>
+                    </div>
                 </div>
             </nav>
         ));
@@ -63,4 +61,4 @@ class GroupHeaders extends Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(GroupHeaders);
+export default connect(mapStateToProps)(GroupHeaders);
