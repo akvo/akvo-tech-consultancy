@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  db:
+    image: postgres:11-alpine
+    environment:
+    - POSTGRES_PASSWORD=akvo
+    volumes:
+    - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:ro
+    - pg-data:/var/lib/postgresql/data
+    ports:
+    - 5432:5432
+  migrator:
+    build:
+      context: .
+    command: ["./migrate.sh"]
+    environment:
+      - BASIC_PWD=password
+      - BASIC_ADMIN=admin
+      - FLOW_SERVICE_URL=https://flow-services.akvotest.org
+      - AUTH0_URL=https://akvotest.eu.auth0.com
+      - SQLALCHEMY_DATABASE_URI=postgresql://akvotc:password@db:5432/webforms
+    volumes:
+      - .:/usr/src/app:ro
+    depends_on:
+      - db
+volumes:
+  pg-data:
