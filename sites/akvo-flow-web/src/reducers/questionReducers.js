@@ -5,6 +5,8 @@ import isoLangs from '../util/Languages.js'
 
 const initialState = {
     error: false,
+    instanceName:"Loading...",
+    instanceId:"Loading...",
     surveyName:"Loading..",
     surveyId:"Loading..",
     version:"Loading..",
@@ -451,6 +453,8 @@ export const questionReducers = (state = initialState, action) => {
             const langQuestions = generateLang(questions);
             return {
                 ...state,
+                instanceName: action.data.instanceName,
+                instanceId: action.data.app,
                 surveyName: action.data.name,
                 surveyId: action.data.surveyId,
                 version: action.data.version,

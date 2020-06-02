@@ -27,6 +27,31 @@ spec:
             cpu: 1
             memory: 200Mi
         env:
+        - name: AUTH0_USER
+          valueFrom:
+            secretKeyRef:
+              name: akvo-tech-consultancy
+              key: auth0-email
+        - name: AUTH0_PWD
+          valueFrom:
+            secretKeyRef:
+              name: akvo-tech-consultancy
+              key: auth0-pwd
+        - name: AUTH0_URL
+          valueFrom:
+            secretKeyRef:
+              name: akvo-tech-consultancy
+              key: auth0-url
+        - name: AUTH0_CLIENT_FLOW
+          valueFrom:
+            secretKeyRef:
+              name: akvo-tech-consultancy
+              key: auth0-client-id-flow
+        - name: FLOW_SERVICE_URL
+          valueFrom:
+            secretKeyRef:
+              name: akvo-tech-consultancy
+              key: flow-service-url
         - name: BASIC_ADMIN
           valueFrom:
             secretKeyRef:
