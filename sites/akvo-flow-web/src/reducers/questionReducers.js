@@ -57,7 +57,7 @@ const initialState = {
             },
             questions: [1],
             repeatable: false,
-            repeat:1
+            repeat:0
         }],
         active: 1,
     },
@@ -214,7 +214,7 @@ const validateGroup = (data, sumber) => {
 }
 
 const addQuestions = (data) => {
-    const relable = (q, l, g, i) => {
+    const relable = (q, l, g, iq, gi, it) => {
         if (q.dependency) {
             q.dependency = {
                 ...q.dependency,
@@ -223,15 +223,15 @@ const addQuestions = (data) => {
         }
         return {
             ...q,
-            id: q.id.toString() + '-0',
+            id: q.id.toString() + '-' + it,
             order: parseInt(q.order),
-            groupIndex: i === 0,
-            last: i === l,
-            repeat: g.repeat,
-            iteration: 0,
+            groupIndex: iq === 0,
+            last: iq === l,
+            repeat: g.r,
+            iteration: it,
             type: getQuestionType(q),
-            group: (g.index + 1),
-            heading: g.heading,
+            group: gi,
+            heading: g.h,
             validation: (q.validationRule ? q.validationRule : false),
             show: false
         }
@@ -239,15 +239,15 @@ const addQuestions = (data) => {
     const mapgroup = (q, g) => {
         let l = q.length - 1;
         q = Array.isArray(q) ? q : [q];
-        return q.map((q,ig) => relable(q,l,g,ig))
+        let gi = g.i + 1;
+        return q.map((q,iq) => relable(q,l,g,iq,gi,0));
     }
-
 	const groups = validateGroup(data.questionGroup,'aq');
 
 	let questionGroup = groups.map((g,i) => {
 		return {
 			...g,
-            question: mapgroup(g.question, {heading:g.heading, index: i, repeat: g.repeatable})
+            question: mapgroup(g.question, {h:g.heading, i: i, r: g.repeatable})
 		}
 	}).map(g => g.question)
 
@@ -337,7 +337,6 @@ const showHideQuestions = (orig, group) => {
             }
             if (localStorage.getItem(dependent.question) === null) {
                 show = false
-                console.log(x.id, dependent.question);
                 localStorage.removeItem(x.id);
             }
         }
@@ -493,10 +492,18 @@ const cloneQuestions = (questions, groups, group_id) => {
     } while(i < group.questions.length);
     const all_questions = [...questions, ...qgroup];
     updateLocalStorage(all_questions);
-    return all_questions;
+
+    let newgroup = groups.list.map(g => {
+        if (g.index === group_id) {
+            g.repeat = g.repeat + 1;
+            localStorage.setItem('G'+group_id,g.repeat);
+        }
+        return g;
+    });
+    return {questions: all_questions, groups: {...groups, list: newgroup}};
 }
 
-const removeQuestions = (questions, data) => {
+const removeQuestions = (questions, groups, data) => {
     const reduced_questions = questions.filter(x => {
         if (x.group === data.group) {
             return false;
@@ -530,7 +537,18 @@ const removeQuestions = (questions, data) => {
     });
     const all_questions = [...reduced_questions, ...new_questions];
     updateLocalStorage(all_questions);
-    return all_questions;
+
+    let newgroup = groups.list.map(g => {
+        if (g.index === data.group) {
+            g.repeat = g.repeat - 1;
+            localStorage.setItem('G'+data.group,g.repeat);
+            if (g.repeat === 1) {
+                localStorage.removeItem('G'+data.group);
+            }
+        }
+        return g;
+    });
+    return {questions: all_questions, groups: {...groups, list: newgroup}};
 }
 
 const updateLocalStorage = (questions) => {
@@ -589,14 +607,18 @@ export const questionReducers = (state = initialState, action) => {
                 groups: {...state.groups, active: action.group}
             }
         case 'CLONE GROUP':
+            const cloned = cloneQuestions(state.questions, state.groups, action.id);
             return {
                 ...state,
-                questions: cloneQuestions(state.questions, state.groups, action.id),
+                questions: cloned.questions,
+                groups: cloned.groups
             }
         case 'REMOVE GROUP':
+            const uncloned = removeQuestions(state.questions, state.groups, action.data);
             return {
                 ...state,
-                questions: removeQuestions(state.questions, action.data)
+                questions: uncloned.questions,
+                groups: uncloned.groups
             }
         case 'CHANGE LOCALIZATION':
             return {

@@ -6,6 +6,15 @@ import { FaTrash } from "react-icons/fa";
 
 class GroupPanels extends Component {
 
+    constructor(props) {
+        super(props);
+        this.removeGroup = this.removeGroup.bind(this);
+    }
+
+    removeGroup(data) {
+        this.props.removeGroup(data);
+    }
+
     render() {
         let data = this.props.data;
         let active = this.props.value.groups.active === data.group;
@@ -24,7 +33,7 @@ class GroupPanels extends Component {
                 <div key={data.iteration} className={"text-center"}>
                     <button
                         className="btn btn-danger btn-repeatable"
-                        onClick={e => this.props.removeGroup(data)}
+                        onClick={e => this.removeGroup(data)}
                     >
                         <FaTrash/> Delete Repeat Group {i}
                     </button>
