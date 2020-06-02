@@ -1,40 +1,41 @@
 import { connect } from "react-redux";
 import { mapStateToProps, mapDispatchToProps } from "../reducers/actions.js";
 import React, { Component } from "react";
-import { FaPlus } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa";
 
 
 class GroupPanels extends Component {
 
     constructor(props) {
         super(props);
-        this.cloneGroup = this.cloneGroup.bind(this);
-    }
-
-    cloneGroup = (group) => {
-        this.props.cloneGroup(group.index)
-        console.log(this.props);
-        //this.props.cloneGroup(group.index)
     }
 
     render() {
-        const groups = this.props.value.groups;
-        let group = groups.list
-            .filter(x => x.index === groups.active)
-            .filter(x => x.repeatable);
-        if (group.length === 0) {
-            return "";
+        let data = this.props.data;
+        let active = this.props.value.groups.active === data.group;
+        let i = data.iteration + 1;
+        if (active && data.groupIndex) {
+            return (
+                <div key={data.iteration} className={"text-center row"}>
+                    <div className="col-md-5 repeat-group-line"><hr/></div>
+                    <div className="col-md-2 repeat-group-header"> Repeat Group {i} </div>
+                    <div className="col-md-5 repeat-group-line"><hr/></div>
+                </div>
+            )
         }
-        return (
-            <div className={"align-center"}>
-            <button
-                className={"btn btn-primary btn-repeatable"}
-                onClick={e => this.cloneGroup(group[0])}
-            >
-                Repeat Group <FaPlus />
-            </button>
-            </div>
-        )
+        if (active && data.last && i !== 1) {
+            return (
+                <div key={data.iteration} className={"text-center"}>
+                    <button
+                        className="btn btn-danger btn-repeatable"
+                        onClick={e => this.props.removeGroup(data)}
+                    >
+                        <FaTrash/> Delete Repeat Group {i}
+                    </button>
+                </div>
+            )
+        }
+        return "";
     }
 }
 

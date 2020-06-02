@@ -86,10 +86,10 @@ class Questions extends Component {
             localization = localization.filter(x => x !== "");
             localization = localization.length === 0 ? question.lang.en : localization.join(" / ");
             let qid = question.id.toString();
-            console.log(question);
+            let qi = question.iteration.toString();
             return (
-                <div key={"card-" + qid}>
-                    {question.groupIndex && question.repeat ? (<GroupPanels/>) : ""}
+                <div key={"card-" + qid + "-" + qi}>
+                    {question.groupIndex && question.repeat ? (<GroupPanels data={question}/>) : ""}
                 <Card className={question.show === false ? "d-none" : ""}>
                     <CardBody key={"card-body-" + qid} id={"card-body-" + qid}>
                         <CardTitle key={"card-title-" + qid}>
@@ -101,6 +101,7 @@ class Questions extends Component {
                         {this.renderQuestion(qid, question, this.uppy)}
                     </CardBody>
                 </Card>
+                    {question.last && question.repeat ? (<GroupPanels data={question}/>) : ""}
                 </div>
             );
         });

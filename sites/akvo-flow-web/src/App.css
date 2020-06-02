@@ -273,3 +273,12 @@ img.responsive-image {
 }
 
 /* Leaflet */
+
+/* RepatGroup */
+.repeat-group-line{
+    padding: 30px 0;
+}
+.repeat-group-header{
+    padding: 30px 0 20px;
+}
+/* RepatGroup */

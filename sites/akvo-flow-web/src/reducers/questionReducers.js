@@ -13,9 +13,10 @@ const initialState = {
     questions: [{
         group: 1,
         groupIndex: true,
+        last: true,
         repeat: true,
         heading: null,
-        id: 1,
+        id: "1-0",
         localeNameFlag: false,
         mandatory: false ,
         order: 1,
@@ -23,6 +24,7 @@ const initialState = {
         text: "Loading",
         type: "text",
         validation: false,
+        iteration: 0,
         altText: [{
             language:"en",
             text:"Loading",
@@ -53,7 +55,9 @@ const initialState = {
                 hiddens: 0,
                 badge: "badge-secondary"
             },
-            repeatable: false
+            questions: [1],
+            repeatable: false,
+            repeat:1
         }],
         active: 1,
     },
@@ -210,17 +214,15 @@ const validateGroup = (data, sumber) => {
 }
 
 const addQuestions = (data) => {
-    const relable = (q,g, i) => {
-        let groupIndex = false;
-        if (i === 0) {
-            groupIndex = true;
-        }
+    const relable = (q, l, g, i) => {
         return {
             ...q,
-            id: parseInt(q.id),
+            id: q.id.toString() + '-' + 0,
             order: parseInt(q.order),
-            groupIndex: groupIndex,
+            groupIndex: i === 0,
+            last: i === l,
             repeat: g.repeat,
+            iteration: 0,
             type: getQuestionType(q),
             group: (g.index + 1),
             heading: g.heading,
@@ -229,8 +231,9 @@ const addQuestions = (data) => {
         }
     }
     const mapgroup = (q, g) => {
+        let l = q.length - 1;
         q = Array.isArray(q) ? q : [q];
-        return q.map((q,ig) => relable(q,g,ig))
+        return q.map((q,ig) => relable(q,l,g,ig))
     }
 
 	const groups = validateGroup(data.questionGroup,'aq');
@@ -255,11 +258,14 @@ const listGroups = (data, questions, answers) => {
 
 	let groups = validateGroup(data.questionGroup,'lg');
     groups = groups.map((x,i) => {
+        let qgroup = questions.filter(q => q.group === i + 1).map(q => q.id);
         return {
             index: (i + 1),
             heading: x.heading,
             attributes: getGroupAttributes(x, questions, answers),
-            repeatable: x.repeatable
+            questions: qgroup,
+            repeatable: x.repeatable,
+            repeat: x.repeatable ? 1 : 0
         }
     });
     return {
@@ -456,12 +462,71 @@ const storeCascade = (current, cascade) => {
     return [...current, cascade];
 }
 
-const cloneQuestions = (current, group_id) => {
-    let new_questions = current.filter(x => x.group === group_id);
-    return [
-        ...current,
-        ...new_questions
-    ];
+const cloneQuestions = (questions, groups, group_id) => {
+    let group = groups.list.find(x => x.index === group_id);
+    let new_questions = questions.filter(x => {
+        let id = x.id.split('-')[0] + '-0';
+        return group.questions.includes(id);
+    });
+    let new_iteration = new_questions.slice(-1)[0].iteration + 1;
+    /* Should be Unique */
+    let qgroup = [];
+    let i = 0;
+    do {
+        let new_id = new_questions[i].id.split('-')[0] + '-' + new_iteration;
+        qgroup = [
+            ...qgroup,
+            {...new_questions[i], id: new_id, iteration: new_iteration}
+        ];
+        i++;
+    } while(i < group.questions.length);
+    let all_questions = [...questions, ...qgroup];
+    updateLocalStorage(all_questions);
+    return all_questions;
+}
+
+const removeQuestions = (questions, data) => {
+    const reduced_questions = questions.filter(x => {
+        if (x.group === data.group) {
+            return false;
+        }
+        return true;
+    });
+    const selected_questions = questions.filter(x => {
+        if (x.group === data.group) {
+            if (x.iteration === data.iteration) {
+                localStorage.removeItem(x.id);
+            }
+            return x.iteration !== data.iteration;
+        }
+        return false;
+    });
+    let new_iterated = selected_questions.reduce(
+        (h, obj) => Object.assign(h, { [obj.iteration]:( h[obj.iteration] || [] )
+            .concat(obj) }),{}
+    );
+    let new_questions = [];
+    Object.keys(new_iterated).forEach(function(k, ix) {
+        new_iterated[k].forEach(q => {
+            let answer = localStorage.getItem(q.id);
+            console.log(q.id, answer);
+            let new_id = q.id.split('-')[0] + '-' + ix;
+            new_questions.push({...q, id: new_id, iteration: ix})
+            if (q.id !== new_id && answer !== null) {
+                localStorage.setItem(new_id, answer);
+                localStorage.removeItem(q.id);
+            }
+        });
+    });
+    let all_questions = [...reduced_questions, ...new_questions];
+    updateLocalStorage(all_questions);
+    return all_questions;
+}
+
+const updateLocalStorage = (questions) => {
+    localStorage.setItem("questionId", questions.map(x => x.id));
+    localStorage.setItem("answerType", questions.map(x => x.type.toUpperCase()));
+    return true;
 }
 
 export const questionReducers = (state = initialState, action) => {
@@ -516,7 +581,12 @@ export const questionReducers = (state = initialState, action) => {
         case 'CLONE GROUP':
             return {
                 ...state,
-                questions: cloneQuestions(state.questions, action.id),
+                questions: cloneQuestions(state.questions, state.groups, action.id),
+            }
+        case 'REMOVE GROUP':
+            return {
+                ...state,
+                questions: removeQuestions(state.questions, action.data)
             }
         case 'CHANGE LOCALIZATION':
             return {
@@ -563,6 +633,11 @@ export const questionReducers = (state = initialState, action) => {
                     list: [{id:"en",name:"Error"}]
                 },
                 error: true
+            }
+        case 'STORAGE UPDATE':
+            updateLocalStorage(state.questions);
+            return {
+                ...state,
             }
         default:
             return state;
