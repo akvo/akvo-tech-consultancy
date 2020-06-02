@@ -27,21 +27,6 @@ spec:
             cpu: 1
             memory: 200Mi
         env:
-        - name: BASIC_ADMIN
-          valueFrom:
-            secretKeyRef:
-              name: akvo-tech-consultancy
-              key: flow-web-admin-user
-        - name: BASIC_PWD
-          valueFrom:
-            secretKeyRef:
-              name: akvo-tech-consultancy
-              key: flow-web-admin-pwd
-        - name: AUTH0_CLIENT_FLOW
-          valueFrom:
-            secretKeyRef:
-              name: akvo-tech-consultancy
-              key: auth0-client-id-flow
         - name: AUTH0_USER
           valueFrom:
             secretKeyRef:
@@ -57,11 +42,26 @@ spec:
             secretKeyRef:
               name: akvo-tech-consultancy
               key: auth0-url
+        - name: AUTH0_CLIENT_FLOW
+          valueFrom:
+            secretKeyRef:
+              name: akvo-tech-consultancy
+              key: auth0-client-id-flow
         - name: FLOW_SERVICE_URL
           valueFrom:
             secretKeyRef:
               name: akvo-tech-consultancy
               key: flow-service-url
+        - name: BASIC_ADMIN
+          valueFrom:
+            secretKeyRef:
+              name: akvo-tech-consultancy
+              key: flow-web-admin-user
+        - name: BASIC_PWD
+          valueFrom:
+            secretKeyRef:
+              name: akvo-tech-consultancy
+              key: flow-web-admin-pwd
 ---
 apiVersion: v1
 kind: Service
