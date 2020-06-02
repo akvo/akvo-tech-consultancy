@@ -37,7 +37,6 @@ UPLOAD_FOLDER = './tmp/images'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-
 @auth.verify_password
 def verify_password(username, password):
     if username in users and \
