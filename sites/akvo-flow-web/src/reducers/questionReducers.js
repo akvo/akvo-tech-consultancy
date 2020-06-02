@@ -215,9 +215,15 @@ const validateGroup = (data, sumber) => {
 
 const addQuestions = (data) => {
     const relable = (q, l, g, i) => {
+        if (q.dependency) {
+            q.dependency = {
+                ...q.dependency,
+                question: q.dependency.question + '-0'
+            }
+        }
         return {
             ...q,
-            id: q.id.toString() + '-' + 0,
+            id: q.id.toString() + '-0',
             order: parseInt(q.order),
             groupIndex: i === 0,
             last: i === l,
@@ -318,16 +324,21 @@ const showHideQuestions = (orig, group) => {
                 if (!isNaN(answer_value)) {
                     answer = answer.toString()
                 }
-                if (answer_value.includes(answer)){
+                if (answer.filter(a => answer_value.includes(a)).length > 0){
                     show = true
                 }
                 if (answer === answer_value) {
                     show = true
                 }
+                if (answer.filter(a => answer_value.includes(a)).length === 0){
+                    localStorage.removeItem(x.id);
+                    show = false
+                }
             }
-            if (localStorage.getItem(parseInt(dependent.question)) === null) {
+            if (localStorage.getItem(dependent.question) === null) {
                 show = false
-                localStorage.removeItem(x.id)
+                console.log(x.id, dependent.question);
+                localStorage.removeItem(x.id);
             }
         }
         if (group) {
@@ -352,7 +363,7 @@ const showHideQuestions = (orig, group) => {
             }
             if (dependent) {
                 let current_state = updated_answer.find(u => {
-                    return parseInt(u.id) === parseInt(dependent.question)
+                    return u.id === dependent.question
                 });
                 if (typeof current_state === undefined) {
                     show = false
@@ -480,7 +491,7 @@ const cloneQuestions = (questions, groups, group_id) => {
         ];
         i++;
     } while(i < group.questions.length);
-    let all_questions = [...questions, ...qgroup];
+    const all_questions = [...questions, ...qgroup];
     updateLocalStorage(all_questions);
     return all_questions;
 }
@@ -509,7 +520,6 @@ const removeQuestions = (questions, data) => {
     Object.keys(new_iterated).forEach(function(k, ix) {
         new_iterated[k].forEach(q => {
             let answer = localStorage.getItem(q.id);
-            console.log(q.id, answer);
             let new_id = q.id.split('-')[0] + '-' + ix;
             new_questions.push({...q, id: new_id, iteration: ix})
             if (q.id !== new_id && answer !== null) {
@@ -518,7 +528,7 @@ const removeQuestions = (questions, data) => {
             }
         });
     });
-    let all_questions = [...reduced_questions, ...new_questions];
+    const all_questions = [...reduced_questions, ...new_questions];
     updateLocalStorage(all_questions);
     return all_questions;
 }

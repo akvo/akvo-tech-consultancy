@@ -6,10 +6,6 @@ import { FaTrash } from "react-icons/fa";
 
 class GroupPanels extends Component {
 
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         let data = this.props.data;
         let active = this.props.value.groups.active === data.group;

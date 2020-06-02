@@ -11,6 +11,9 @@ nav.navbar-group {
     background-color:#ffffff!important;
 }
 
+input {
+    font-size: 12px;
+}
 
 .sidebar-wrapper {
     min-width:334px !important;

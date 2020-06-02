@@ -3,7 +3,7 @@ import { mapStateToProps, mapDispatchToProps } from "../reducers/actions.js";
 import React, { Component } from "react";
 import Loading from "../util/Loading";
 import Error from "../util/Error";
-import { FaPlus, FaEye, FaQuestion, FaExclamationTriangle, FaCheckCircle } from "react-icons/fa";
+import { FaPlus, FaExclamationTriangle } from "react-icons/fa";
 
 class GroupHeaders extends Component {
     constructor(props) {
