@@ -30,7 +30,7 @@ class GroupPanels extends Component {
         }
         if (active && data.last && i !== 1) {
             return (
-                <div key={data.iteration} className={"text-center"}>
+                <div key={data.iteration} className={"text-center repeat-group-delete"}>
                     <button
                         className="btn btn-danger btn-repeatable"
                         onClick={e => this.removeGroup(data)}
