@@ -9,6 +9,7 @@ export const getQuestionType = (props) => {
     switch (qtype) {
         case "signature": break
         case "photo": return "photo"
+        case "video": return "video"
         case "number": return "number"
         case "option": return "option"
         case "cascade": return "cascade"
@@ -28,4 +29,3 @@ export const isJsonString = (str) => {
     }
     return true;
 }
-

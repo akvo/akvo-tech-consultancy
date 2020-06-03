@@ -59,7 +59,6 @@ class FormInstance(db.Model):
     created = db.Column(db.DateTime, nullable=False, server_default=text('now()'))
     updated = db.Column(db.DateTime, nullable=False, server_default=text('now()'))
 
-
 @auth.verify_password
 def verify_password(username, password):
     if username in users and \
@@ -177,7 +176,7 @@ def cascade(instance, sqlite, lv):
     return jsonify(result)
 
 
-def get_payload(rec, _uuid):
+def get_payload(rec, _uuid, webform=False):
     question_id = rec['questionId'].split(',')
     answer_type = rec['answerType'].split(',')
     data = []
@@ -202,6 +201,9 @@ def get_payload(rec, _uuid):
     data.append(meta_geo)
     images = []
     for i, ids in enumerate(question_id):
+        iteration = 0
+        if (webform):
+            iteration = ids.split('-')[1]
         try:
             if answer_type[i] == "OPTION":
                 try:
@@ -239,10 +241,11 @@ def get_payload(rec, _uuid):
                 a_type = "VALUE"
             if answer_type[i] in ["PHOTO"]:
                 a_type = "IMAGE"
+            question_id = ids.split('-')[0]
             form = {
                 "answerType": a_type,
-                "iteration": 0,
-                "questionId": str(ids).replace("-k", ""),
+                "iteration": iteration,
+                "questionId": question_id,
                 "value": val
             }
             data.append(form)
@@ -373,7 +376,7 @@ def aws_s3_parameters(instance):
 
 
 def upload_parameters(rec, _uuid):
-    data = get_payload(rec, _uuid)
+    data = get_payload(rec, _uuid, True)
     s3 = aws_s3_parameters(rec["_instanceId"])
     return {"data": data["payload"],
             "policy": s3}
