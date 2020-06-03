@@ -5,6 +5,8 @@ import axios from 'axios';
 import { isJsonString } from  '../util/QuestionHandler.js'
 import { PROD_URL } from '../util/Environment'
 import MapForm from '../types/MapForm.js'
+import Dexie from 'dexie';
+import uuid from 'uuid/v4';
 
 const API_ORIGIN = (PROD_URL ? ( window.location.origin + "/" + window.location.pathname.split('/')[1] + "-api/" ) : process.env.REACT_APP_API_URL);
 const pathurl = (PROD_URL ? 2 : 1);
@@ -70,26 +72,48 @@ class QuestionType extends Component {
     }
 
     handleFile(event) {
-        let id = this.props.data.id
         const image = event.target.files[0];
-        try {
-            this.uppy.addFile({
-                source: 'file input',
-                name: image.name,
-                type: image.type,
-                data: image
+        const id = this.props.data.id
+        const fileId = uuid();
+
+        const db = new Dexie('akvoflow');
+        db.version(1).stores({files: 'id'});
+
+        const reader = new FileReader();
+
+        reader.addEventListener('load', () => {
+            db.files.put({id: fileId, name: image.name, blob: reader.result})
+            .then((file) => {
+                db.files.get(fileId, function (foundImage) {
+                    console.log(foundImage);
+                });
+            })
+            .catch((e) => {
+                console.error(e);
             });
-        }
-        catch (e) {
-            if (e.isRestriction) {
-                console.log('Restriction error:', e)
-            } else {
-                console.log(e);
-            }
-        }
-        localStorage.setItem(id, image.name)
-        this.setState({ value: image.name })
-        this.handleGlobal(id, image.name)
+        });
+
+        reader.readAsDataURL(image);
+
+        //try {
+        //    this.uppy.addFile({
+        //        source: 'file input',
+        //        name: image.name,
+        //        type: image.type,
+        //        data: image
+        //    });
+        //}
+        //catch (e) {
+        //    if (e.isRestriction) {
+        //        console.log('Restriction error:', e)
+        //    } else {
+        //        console.log(e);
+        //    }
+        //}
+
+        localStorage.setItem(id, fileId)
+        this.setState({ value: fileId })
+        this.handleGlobal(id, fileId)
     }
 
     handleMapChange(value) {
