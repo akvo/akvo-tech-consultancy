@@ -4,15 +4,11 @@ import { mapStateToProps, mapDispatchToProps } from '../reducers/actions.js'
 import axios from 'axios';
 import { isJsonString } from  '../util/QuestionHandler.js'
 import { PROD_URL } from '../util/Environment'
-import { FilePond, registerPlugin } from 'react-filepond';
-import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
-import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css';
 import MapForm from '../types/MapForm.js'
 
 const API_ORIGIN = (PROD_URL ? ( window.location.origin + "/" + window.location.pathname.split('/')[1] + "-api/" ) : process.env.REACT_APP_API_URL);
 const pathurl = (PROD_URL ? 2 : 1);
 
-registerPlugin(FilePondPluginImagePreview);
 
 class QuestionType extends Component {
 
@@ -28,7 +24,7 @@ class QuestionType extends Component {
         this.setDpStorage = this.setDpStorage.bind(this);
         this.setDplStorage = this.setDplStorage.bind(this);
         this.getRadio = this.getRadio.bind(this);
-        this.getPhoto = this.getPhoto.bind(this);
+        this.getFile = this.getFile.bind(this);
         this.getGeo = this.getGeo.bind(this);
         this.renderRadio = this.renderRadio.bind(this);
         this.getCascadeDropdown = this.getCascadeDropdown.bind(this);
@@ -38,10 +34,11 @@ class QuestionType extends Component {
         this.limitCascade = 0;
         this.handleChange = this.handleChange.bind(this);
         this.handleOther = this.handleOther.bind(this);
-        this.handlePhoto = this.handlePhoto.bind(this);
+        this.handleFile = this.handleFile.bind(this);
         this.handleCascadeChange = this.handleCascadeChange.bind(this);
         this.handleMapChange = this.handleMapChange.bind(this);
         this.handleGlobal = this.handleGlobal.bind(this);
+        this.uppy = props.uppy;
     }
 
     handleGlobal(questionid, qval){
@@ -58,7 +55,7 @@ class QuestionType extends Component {
     handleCascadeChange(targetLevel, text, id, value) {
         let vals;
         let storage = {id:targetLevel,text:text, option:parseInt(value)}
-        if (localStorage.getItem(id)) {
+        if (localStorage.getItem(id) !== null) {
             let multipleValue = JSON.parse(localStorage.getItem(id))
             let current = multipleValue.filter(x => x.id < targetLevel);
             vals = JSON.stringify([...current, storage])
@@ -72,11 +69,27 @@ class QuestionType extends Component {
         return true
     }
 
-    handlePhoto(image) {
+    handleFile(event) {
         let id = this.props.data.id
-        localStorage.setItem(id, image)
-        this.setState({value: image})
-        this.handleGlobal(id, image)
+        const image = event.target.files[0];
+        try {
+            this.uppy.addFile({
+                source: 'file input',
+                name: image.name,
+                type: image.type,
+                data: image
+            });
+        }
+        catch (e) {
+            if (e.isRestriction) {
+                console.log('Restriction error:', e)
+            } else {
+                console.log(e);
+            }
+        }
+        localStorage.setItem(id, image.name)
+        this.setState({ value: image.name })
+        this.handleGlobal(id, image.name)
     }
 
     handleMapChange(value) {
@@ -101,7 +114,7 @@ class QuestionType extends Component {
         if (this.props.data.type === "cascade") {
             let ddindex = event.target.selectedIndex
             let text = event.target[ddindex].text
-            let targetLevel = parseInt(event.target.name.split('-')[1]) + 1
+            let targetLevel = parseInt(event.target.name.split('-')[2]) + 1
             this.handleCascadeChange(targetLevel, text, id, value)
             if (this.limitCascade > targetLevel) {
                 this.getCascadeDropdown(value, targetLevel)
@@ -111,7 +124,7 @@ class QuestionType extends Component {
             let multipleValue = [];
             let existValue = [];
 			value = JSON.parse(value);
-            if (localStorage.getItem(id)) {
+            if (localStorage.getItem(id) !== null) {
                 multipleValue = JSON.parse(localStorage.getItem(id))
             }
             if (multipleValue.length > 0) {
@@ -364,15 +377,16 @@ class QuestionType extends Component {
     renderCascade (opt, i, l, unique, id) {
         /*
         let selected = localStorage.getItem(id);
+        let selected_value = '';
         if (selected) {
             selected = JSON.parse(selected);
             selected = selected.length > i ? selected[i].option : false;
-            let selected_value = selected ? selected : "";
+            selected_value = selected ? selected : '';
         }
         */
         let cascades = []
         let choose_options = "cascade_" + i
-        let dropdown = this.state[this.state[choose_options]]
+        let dropdown = this.state[this.state[choose_options]];
         let cascade = (
             <div key={unique + '-dropdown-' + i}>
             <div>{opt.text}</div>
@@ -401,7 +415,7 @@ class QuestionType extends Component {
                 let options = (
                     <option
                         key={unique + '-cascade-options-' + i}
-                        value={x.id}
+                        value={parseInt(x.id)}
                     >
                         {x.name}
                     </option>
@@ -412,6 +426,7 @@ class QuestionType extends Component {
     }
 
     getCascadeDropdown(lv, ix) {
+        let optlev = this.props.data.levels.level;
         if (this.props.data.type === "cascade") {
             let url = API_ORIGIN + 'cascade/' + this.instanceUrl + '/' + this.props.data.cascadeResource + '/' + lv
             let options = "options_" + lv
@@ -423,28 +438,30 @@ class QuestionType extends Component {
                 isavailable = true;
             }
             if (isavailable) {
-                res = availcasc.filter(x => {
+                res = availcasc.find(x => {
                     return x.url === url;
-                })[0];
+                });
             }
             if (res) {
                 try {
                     this.setState({
                         [options]: res.data,
                         [cascade]: [options],
-                        value: res.data[ix]['id']
+                        value: (res.data[ix] === undefined) ? res.data[0]['id'] : res.data[ix]['id'],
+                        levels: Array.isArray(optlev) ? optlev.length - 1 : 0
                     })
                 } catch (err) {
                     localStorage.removeItem(this.props.data.id)
                 }
             }
-            if (!res) {
+            if (res === undefined) {
                 this.fetchCascade(lv, ix, url, options, cascade);
             }
         }
     }
 
     fetchCascade(lv, ix, url, options, cascade) {
+        let optlev = this.props.data.levels.level;
         axios.get(url).then((res) =>{
             if (res.data.length === 0) {
                 return res
@@ -453,7 +470,8 @@ class QuestionType extends Component {
                 this.setState({
                     [options]: res.data,
                     [cascade]: [options],
-                    value: res.data[ix]['id']
+                    value: (res.data[ix] === undefined) ? res.data[0]['id'] : res.data[ix]['id'],
+                    levels: Array.isArray(optlev) ? optlev.length - 1 : 0
                 })
             } catch (err) {
                 localStorage.removeItem(this.props.data.id)
@@ -495,53 +513,18 @@ class QuestionType extends Component {
         )
     }
 
-    getPhoto(data, unique, answered, type) {
+    getFile(data, unique, answered, type) {
         return (
-            <FilePond
-                server={(
-                    {
-                        url: API_ORIGIN,
-                        process: {
-                            url: 'upload-image',
-                            method: 'POST',
-                            onload: (response) => {
-                                this.handlePhoto(response)
-                                return response.key
-                            },
-                            onerror: (response) => {
-                                return response.data
-                            },
-                            ondata: (formData) => {
-                                formData.append('Status', 'Uploaded');
-                                return formData;
-                            }
-                        },
-                        patch: {
-                            url: 'fetch-image',
-                            method: 'GET',
-                            onload: (response) => {
-                                this.handlePhoto(response)
-                                return response.key
-                            },
-                            onerror: (response) => {
-                                return response.data
-                            }
-                        },
-                        revert: {
-                            url: 'delete-image/' + localStorage.getItem(data.id),
-                            method: 'GET',
-                            onload: (response) => {
-                                localStorage.removeItem(data.id)
-                                this.handleGlobal(data.id, "")
-                            }
-                        }
-                    }
-                )}
-                key={unique}
-                allowMultiple={false}
-                name={'Q-' + data.id.toString()}
-                data-max-file-size="500kb"
-            />
+          <input
+              key={unique}
+              type="file"
+              className="form-control-file"
+              aria-label="Upload File"
+              accept={type + '/*'}
+              name={'Q-' + data.id.toString()}
+              onChange={this.handlePhoto}
+              multiple={false}
+          />
         )
     }
 
@@ -606,7 +589,9 @@ class QuestionType extends Component {
             case "number":
                 return this.getInput(data, key, data.validationRule, answered, formtype)
             case "photo":
-                return this.getPhoto(data, key, answered, "file")
+                return this.getFile(data, key, answered, "image")
+            case "video":
+                return this.getFile(data, key, answered, "video")
             case "date":
                 return this.getInputOther(data, key, answered, formtype)
             case "geo":

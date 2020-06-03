@@ -11,6 +11,9 @@ nav.navbar-group {
     background-color:#ffffff!important;
 }
 
+input {
+    font-size: 12px;
+}
 
 .sidebar-wrapper {
     min-width:334px !important;
@@ -34,6 +37,11 @@ nav.navbar-group {
 .sidebar-wrapper .list-group {
     width: 20rem;
     cursor: pointer;
+}
+
+button.btn-repeatable{
+    line-height: 9px;
+    font-size: 12px;
 }
 
 .submit-block {
@@ -268,3 +276,12 @@ img.responsive-image {
 }
 
 /* Leaflet */
+
+/* RepatGroup */
+.repeat-group-line{
+    padding: 5px 0;
+}
+.repeat-group-header{
+    padding: 10px 0 0px;
+}
+/* RepatGroup */

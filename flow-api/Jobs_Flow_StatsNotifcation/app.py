@@ -22,7 +22,7 @@ GOOGLE_TOKEN = 'token.pickle'
 
 mailjet = Client(auth=(MAILJET_SECRET, MAILJET_APIKEY), version='v3.1')
 notification_test = ["Deden Bangkit"]
-production = False
+production = True
 command = False
 
 def get_args(cmd):
@@ -153,6 +153,8 @@ data['lumen'] = data['lumen'].apply(lambda x: x if x == x else None)
 data = data.dropna(subset=['name', 'email'])
 if production:
     notifications = data[data['contract_notif_date'] == today]
+    # second
+    notifications = data[data['days_left'] > 0]]
 else:
     data["send"] = data.apply(lambda x: True if x["name"] in notification_test else False, axis=1)
     notifications = data[data["send"] == True]

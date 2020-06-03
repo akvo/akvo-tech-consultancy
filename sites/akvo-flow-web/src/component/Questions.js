@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { mapStateToProps } from "../reducers/actions.js";
-import { PROD_URL } from '../util/Environment'
+//import { PROD_URL } from '../util/Environment'
 import QuestionType from "./QuestionType.js";
+import GroupPanels from "./GroupPanels.js";
 import { Mandatory, ToolTip } from "../util/Badges";
 import { Card, CardBody, CardTitle } from "reactstrap";
 import "../App.css";
 
-const API_ORIGIN = (PROD_URL ? ( window.location.origin + "/" + window.location.pathname.split('/')[1] + "-api/" ) : process.env.REACT_APP_API_URL);
+//const API_ORIGIN = (PROD_URL ? ( window.location.origin + "/" + window.location.pathname.split('/')[1] + "-api/" ) : process.env.REACT_APP_API_URL);
 
 class Questions extends Component {
     constructor(props) {
@@ -17,6 +18,7 @@ class Questions extends Component {
         this.renderMandatoryIcon = this.renderMandatoryIcon.bind(this);
         this.renderCachedImage = this.renderCachedImage.bind(this);
         this.renderQuestion = this.renderQuestion.bind(this);
+        this.uppy = props.uppy;
     }
 
     isJsonString(str) {
@@ -28,20 +30,21 @@ class Questions extends Component {
         return true;
     }
 
-    renderQuestion(qid, question) {
-        return <QuestionType key={"question-type-" + qid} data={question} />;
+    renderQuestion(qid, question, uppy) {
+        return <QuestionType key={"question-type-" + qid} data={question} uppy={uppy} />;
     }
 
     renderCachedImage(qid) {
-        let cached = false;
+        //let cached = false;
         if (localStorage.getItem(qid) !== null){
-            cached = API_ORIGIN + "fetch-image/" + localStorage.getItem(qid);
-            return (
-            <div className="d-block display-cache-image">
-                Cached file:
-                <a href={cached} rel="noopener noreferrer" target="_blank"> {localStorage.getItem(qid)}</a>
-            </div>
-            )
+         //   cached = API_ORIGIN + "fetch-image/" + localStorage.getItem(qid);
+         //   return (
+         //   <div className="d-block display-cache-image">
+         //       Cached file:
+         //       <a href={cached} rel="noopener noreferrer" target="_blank"> {localStorage.getItem(qid)}</a>
+         //   </div>
+         //   )
+         console.log(localStorage.getItem(qid))
         }
         return ""
     }
@@ -49,7 +52,6 @@ class Questions extends Component {
     renderMandatoryIcon(qid) {
         let answered = false;
         if (localStorage.getItem(qid)) {
-            console.log(qid);
             answered = true;
         }
         return Mandatory(answered);
@@ -84,8 +86,11 @@ class Questions extends Component {
             localization = localization.filter(x => x !== "");
             localization = localization.length === 0 ? question.lang.en : localization.join(" / ");
             let qid = question.id.toString();
+            let qi = question.iteration.toString();
             return (
-                <Card key={"card-" + qid} className={question.show === false ? "d-none" : ""}>
+                <div key={"card-" + qid + "-" + qi}>
+                    {question.groupIndex && question.repeat ? (<GroupPanels data={question}/>) : ""}
+                <Card className={question.show === false ? "d-none" : ""}>
                     <CardBody key={"card-body-" + qid} id={"card-body-" + qid}>
                         <CardTitle key={"card-title-" + qid}>
                             {question.order.toString() + ". " + localization}
@@ -93,9 +98,11 @@ class Questions extends Component {
                             {question.help !== undefined ? ToolTip(question) : ""}
                             {question.type === "photo" ? this.renderCachedImage(qid) : ""}
                         </CardTitle>
-                        {this.renderQuestion(qid, question)}
+                        {this.renderQuestion(qid, question, this.uppy)}
                     </CardBody>
                 </Card>
+                    {question.last && question.repeat ? (<GroupPanels data={question}/>) : ""}
+                </div>
             );
         });
     }
