@@ -3,12 +3,12 @@ import os
 import time
 
 wait_in_seconds = 2
-i = 0
-max_attempts = 10
+i = 1
+max_attempts = 5
 success = False
 
-while i < max_attempts:
-    time.sleep(wait_in_seconds)
+while i <= max_attempts:
+    time.sleep(wait_in_seconds * i)
     try:
         conn = psycopg2.connect(os.environ['SQLALCHEMY_DATABASE_URI'])
         if conn:
