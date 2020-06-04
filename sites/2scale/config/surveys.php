@@ -41,13 +41,13 @@ return [
             ],
             [
                 "form_id" => 30200004,
-                "name" => "Micro, Small and Medium Scale Enterprises",
+                "name" => "Enterprise Information Form",
                 "survey_id" => 34120004,
                 "partner_qid" => 36120005
             ],
             [
                 "form_id" => 14170009,
-                "name" => "Producer Organization Form",
+                "name" => "Producer Organization Information Form",
                 "survey_id" => 6120005,
                 "partner_qid"=> 36100005
             ]
