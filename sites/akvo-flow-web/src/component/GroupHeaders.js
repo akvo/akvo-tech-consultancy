@@ -15,6 +15,7 @@ class GroupHeaders extends Component {
     }
 
     cloneGroup(group, restoring){
+        console.log(this.props);
         if (!this.props.value.pages.data._isLoading) {
             this.props.cloneGroup(group.index, restoring);
         }

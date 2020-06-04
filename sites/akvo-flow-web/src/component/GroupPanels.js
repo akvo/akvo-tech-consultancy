@@ -17,9 +17,11 @@ class GroupPanels extends Component {
 
     render() {
         let data = this.props.data;
+        console.log(data);
         let active = this.props.value.groups.active === data.group;
         let i = data.iteration + 1;
-        if (active && data.groupIndex) {
+        console.log(i);
+        if (this.props.type === "header" && active && data.groupIndex) {
             return (
                 <div key={data.iteration} className={"text-center row"}>
                     <div className="col-md-5 repeat-group-line"><hr/></div>
@@ -28,7 +30,7 @@ class GroupPanels extends Component {
                 </div>
             )
         }
-        if (active && data.last && i !== 1) {
+        if (this.props.type === "footer" && active && data.last && i !== 1) {
             return (
                 <div key={data.iteration} className={"text-center repeat-group-delete"}>
                     <button
