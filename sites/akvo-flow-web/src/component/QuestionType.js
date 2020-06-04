@@ -37,6 +37,7 @@ class QuestionType extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleOther = this.handleOther.bind(this);
         this.handleFile = this.handleFile.bind(this);
+        this.handleFileUndo = this.handleFileUndo.bind(this);
         this.handleCascadeChange = this.handleCascadeChange.bind(this);
         this.handleMapChange = this.handleMapChange.bind(this);
         this.handleGlobal = this.handleGlobal.bind(this);
@@ -82,7 +83,7 @@ class QuestionType extends Component {
         const reader = new FileReader();
 
         reader.addEventListener('load', () => {
-            db.files.put({id: fileId, name: image.name, blob: reader.result})
+            db.files.put({id: fileId, fileName: image.name, blob: reader.result})
             .then((file) => {
                 db.files.get(fileId, function (foundImage) {
                     console.log(foundImage);
@@ -112,8 +113,30 @@ class QuestionType extends Component {
         //}
 
         localStorage.setItem(id, fileId)
+        localStorage.setItem(fileId, image.name)
         this.setState({ value: fileId })
         this.handleGlobal(id, fileId)
+    }
+
+    handleFileUndo(event) {
+        const id = this.props.data.id
+        const fileId = this.state.value
+        const that = this;
+
+        const db = new Dexie('akvoflow');
+        db.version(1).stores({files: 'id'});
+
+        db.files.delete(fileId)
+        .then((result) => {
+            localStorage.removeItem(id)
+            localStorage.removeItem(fileId)
+            that.setState({ value: null })
+            that.handleGlobal(id, fileId)
+        })
+        .catch((error) => {
+            console.error(error);
+        })
+
     }
 
     handleMapChange(value) {
@@ -538,6 +561,25 @@ class QuestionType extends Component {
     }
 
     getFile(data, unique, answered, type) {
+
+        if (answered) {
+            const fileName = localStorage.getItem(answered)
+            return (
+                <div>
+                    <span className="mr-2">
+                        {fileName}
+                    </span>
+                    <input
+                        key={answered}
+                        type="button"
+                        name={'Q-' + data.id.toString() + '-undo'}
+                        className="btn btn-danger btn-sm"
+                        value="Undo"
+                        onClick={this.handleFileUndo} />
+                </div>
+            )
+        }
+
         return (
           <input
               key={unique}
