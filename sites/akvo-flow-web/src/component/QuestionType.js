@@ -41,7 +41,6 @@ class QuestionType extends Component {
         this.handleCascadeChange = this.handleCascadeChange.bind(this);
         this.handleMapChange = this.handleMapChange.bind(this);
         this.handleGlobal = this.handleGlobal.bind(this);
-        this.uppy = props.uppy;
     }
 
     handleGlobal(questionid, qval){
@@ -75,7 +74,8 @@ class QuestionType extends Component {
     handleFile(event) {
         const file = event.target.files[0];
         const id = this.props.data.id
-        const fileId = uuid();
+        const ext = file.name.substring(file.name.lastIndexOf('.'))
+        const fileId = uuid() + ext;
         const that = this;
 
         const db = new Dexie('akvoflow');
@@ -87,8 +87,7 @@ class QuestionType extends Component {
             db.files.put({id: fileId, fileName: file.name, blob: reader.result})
             .then(() => {
 
-                let files = localStorage.getItem('__files__') || '{}';
-                files = JSON.parse(files);
+                let files = JSON.parse(localStorage.getItem('__files__') || '{}');
                 files[fileId] = file.name;
 
                 localStorage.setItem(id, fileId);
