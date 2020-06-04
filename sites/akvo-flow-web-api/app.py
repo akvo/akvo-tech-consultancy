@@ -55,7 +55,7 @@ class FormInstance(db.Model):
     state: str
 
     id = db.Column(db.String, primary_key=True, server_default=text('gen_random_uuid()::varchar'))
-    state = db.Column(db.String, unique=True, nullable=False)
+    state = db.Column(db.String, nullable=False)
     created = db.Column(db.DateTime, nullable=False, server_default=text('now()'))
     updated = db.Column(db.DateTime, nullable=False, server_default=text('now()'))
 
