@@ -15,7 +15,6 @@ class GroupHeaders extends Component {
     }
 
     cloneGroup(group, restoring){
-        console.log(this.props);
         if (!this.props.value.pages.data._isLoading) {
             this.props.cloneGroup(group.index, restoring);
         }
@@ -63,7 +62,6 @@ class GroupHeaders extends Component {
         this.props.value.groups.list.forEach(x => {
             if (localStorage.getItem('G'+x.index)) {
                 let clone = parseInt(localStorage.getItem('G'+x.index));
-                console.log(clone);
                 if (x.repeat !== clone) {
                     this.cloneGroup(x, true)
                 }

@@ -223,7 +223,6 @@ const addQuestions = (data) => {
                 question: q.dependency.question + '-0'
             }
         }
-        console.log(iq, l);
         return {
             ...q,
             id: q.id.toString() + '-' + it,

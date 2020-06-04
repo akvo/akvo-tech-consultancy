@@ -17,10 +17,8 @@ class GroupPanels extends Component {
 
     render() {
         let data = this.props.data;
-        console.log(data);
         let active = this.props.value.groups.active === data.group;
         let i = data.iteration + 1;
-        console.log(i);
         if (this.props.type === "header" && active && data.groupIndex) {
             return (
                 <div key={data.iteration} className={"text-center row"}>
