@@ -20,7 +20,6 @@ class QuestionHandler {
             default:
                 return "text"
         }
-        console.log(qtype)
         return qtype
     }
 

@@ -115,6 +115,7 @@ class Home extends Component {
             .then(res => {
                 this.updateData(res.data)
                 this.setState({ _rendered:true });
+                this.props.changeSettings({_isLoading:false})
             })
             .catch(error => {
                 if (error.response.status === 403) {

@@ -154,7 +154,7 @@ data = data.dropna(subset=['name', 'email'])
 if production:
     notifications = data[data['contract_notif_date'] == today]
     # second
-    notifications = data[data['days_left'] > 0]]
+    notifications = data[data['days_left'] > 0]
 else:
     data["send"] = data.apply(lambda x: True if x["name"] in notification_test else False, axis=1)
     notifications = data[data["send"] == True]

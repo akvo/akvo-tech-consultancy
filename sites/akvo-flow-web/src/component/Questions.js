@@ -89,7 +89,7 @@ class Questions extends Component {
             let qi = question.iteration.toString();
             return (
                 <div key={"card-" + qid + "-" + qi}>
-                    {question.groupIndex && question.repeat ? (<GroupPanels data={question}/>) : ""}
+                    {question.groupIndex && question.repeat ? (<GroupPanels data={question} type="header"/>) : ""}
                 <Card className={question.show === false ? "d-none" : ""}>
                     <CardBody key={"card-body-" + qid} id={"card-body-" + qid}>
                         <CardTitle key={"card-title-" + qid}>
@@ -101,7 +101,7 @@ class Questions extends Component {
                         {this.renderQuestion(qid, question, this.uppy)}
                     </CardBody>
                 </Card>
-                    {question.last && question.repeat ? (<GroupPanels data={question}/>) : ""}
+                    {question.last && question.repeat ? (<GroupPanels data={question} type={"footer"}/>) : ""}
                 </div>
             );
         });
