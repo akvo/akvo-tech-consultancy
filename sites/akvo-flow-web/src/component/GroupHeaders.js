@@ -14,15 +14,17 @@ class GroupHeaders extends Component {
         this.cloneGroup = this.cloneGroup.bind(this);
     }
 
-    cloneGroup(group, e){
-        this.props.cloneGroup(group.index);
+    cloneGroup(group, restoring){
+        if (!this.props.value.pages.data._isLoading) {
+            this.props.cloneGroup(group.index, restoring);
+        }
     }
 
     getRepeatButton = (group) => {
         return (
             <button
                 className={"btn btn-primary btn-repeatable"}
-                onClick={(e => this.cloneGroup(group))}
+                onClick={(e => this.cloneGroup(group, false))}
             >
                 Repeat Group <FaPlus/>
             </button>
@@ -60,8 +62,9 @@ class GroupHeaders extends Component {
         this.props.value.groups.list.forEach(x => {
             if (localStorage.getItem('G'+x.index)) {
                 let clone = parseInt(localStorage.getItem('G'+x.index));
+                console.log(clone);
                 if (x.repeat !== clone) {
-                    this.cloneGroup(x)
+                    this.cloneGroup(x, true)
                 }
                 return clone;
             }
