@@ -8,6 +8,7 @@ import '../App.css'
 import { PopupSuccess, PopupError } from '../util/Popup'
 import { PROD_URL, USING_PASSWORDS } from '../util/Environment'
 import JSZip from 'jszip'
+import Dexie from 'dexie';
 
 const API_ORIGIN = (PROD_URL ? ( window.location.origin + "/" + window.location.pathname.split('/')[1] + "-api/" ) : process.env.REACT_APP_API_URL);
 const SITE_KEY = "6Lejm74UAAAAAA6HkQwn6rkZ7mxGwIjOx_vgNzWC"
@@ -60,12 +61,67 @@ class Submit extends Component {
     };
 
     saveData(content) {
-        axios.post(API_ORIGIN + 'form-instance',
-            content, {headers: {'Content-Type': 'application/json'}})
-        .then(res => {
-            console.log(res);
-        })
-        .catch(e => {console.error(e)})
+        let files = localStorage.getItem('__files__') || '{}';
+        files = JSON.parse(files);
+        const fileIds = Object.keys(files);
+
+        if (fileIds.length === 0) {
+
+            // TODO: extract the POST handling to a different method to avoid duplication
+
+            axios.post(API_ORIGIN + 'form-instance',
+                content, { headers: { 'Content-Type': 'application/json' } })
+                .then(res => {
+                    console.log(res); //FIXME: remove
+                    PopupSuccess("New datapoint saved! clearing form..."); //FIXME: provide a meaningful way of copy/paste url
+                    setTimeout(function () {
+                        let username = localStorage.getItem('_username');
+                        localStorage.clear();
+                        localStorage.setItem('_username', username);
+                        setTimeout(function () {
+                            window.location.replace(window.location.origin + window.location.pathname); //FIXME: pathname may contain an instance-id
+                        }, 3000);
+                    }, 500);
+                })
+                .catch(e => {
+                    console.error(e);
+                    PopupError("Something went wrong");
+                 });
+
+        } else {
+
+            const db = new Dexie('akvoflow');
+            db.version(1).stores({ files: 'id' });
+
+            db.files.bulkGet(fileIds)
+                .then((result) => {
+                    const postData = Object.assign({}, content, { __files__: result });
+
+                    // TODO: extract the POST handling to a different method to avoid duplication
+                    axios.post(API_ORIGIN + 'form-instance',
+                        postData, { headers: { 'Content-Type': 'application/json' } })
+                        .then(res => {
+                            PopupSuccess("New datapoint saved! clearing form...");
+                            setTimeout(function () {
+                                let username = localStorage.getItem('_username');
+                                localStorage.clear();
+                                localStorage.setItem('_username', username);
+                                setTimeout(function () {
+                                    window.location.replace(window.location.origin + window.location.pathname); //FIXME: pathname may contain an instance-id
+                                }, 3000);
+                            }, 500);
+                        })
+                        .catch(e => {
+                            console.error(e);
+                            PopupError("Something went wrong");
+                        })
+
+                })
+                .catch(e => {
+                    console.error(e);
+                    PopupError("Something went wrong");
+                })
+        }
     }
 
     sendData(content) {
@@ -219,7 +275,7 @@ class Submit extends Component {
                     <button
                         onClick={e => this.saveForm(e)}
                         className={"btn btn-block btn-primary"}
-                        disabled={this.props.value.submit}>
+                        disabled={this.props.value.submit ? false : true}>
                         Save
                     </button>
                     <button

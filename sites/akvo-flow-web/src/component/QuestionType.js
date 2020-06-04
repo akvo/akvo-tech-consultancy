@@ -73,9 +73,10 @@ class QuestionType extends Component {
     }
 
     handleFile(event) {
-        const image = event.target.files[0];
+        const file = event.target.files[0];
         const id = this.props.data.id
         const fileId = uuid();
+        const that = this;
 
         const db = new Dexie('akvoflow');
         db.version(1).stores({files: 'id'});
@@ -83,39 +84,26 @@ class QuestionType extends Component {
         const reader = new FileReader();
 
         reader.addEventListener('load', () => {
-            db.files.put({id: fileId, fileName: image.name, blob: reader.result})
-            .then((file) => {
-                db.files.get(fileId, function (foundImage) {
-                    console.log(foundImage);
-                });
+            db.files.put({id: fileId, fileName: file.name, blob: reader.result})
+            .then(() => {
+
+                let files = localStorage.getItem('__files__') || '{}';
+                files = JSON.parse(files);
+                files[fileId] = file.name;
+
+                localStorage.setItem(id, fileId);
+                localStorage.setItem(fileId, file.name);
+                localStorage.setItem('__files__', JSON.stringify(files));
+
+                that.setState({ value: fileId })
+                that.handleGlobal(id, fileId)
             })
             .catch((e) => {
                 console.error(e);
             });
         });
 
-        reader.readAsDataURL(image);
-
-        //try {
-        //    this.uppy.addFile({
-        //        source: 'file input',
-        //        name: image.name,
-        //        type: image.type,
-        //        data: image
-        //    });
-        //}
-        //catch (e) {
-        //    if (e.isRestriction) {
-        //        console.log('Restriction error:', e)
-        //    } else {
-        //        console.log(e);
-        //    }
-        //}
-
-        localStorage.setItem(id, fileId)
-        localStorage.setItem(fileId, image.name)
-        this.setState({ value: fileId })
-        this.handleGlobal(id, fileId)
+        reader.readAsDataURL(file);
     }
 
     handleFileUndo(event) {

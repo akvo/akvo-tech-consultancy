@@ -35,17 +35,6 @@ class Questions extends Component {
     }
 
     renderCachedImage(qid) {
-        //let cached = false;
-        if (localStorage.getItem(qid) !== null){
-         //   cached = API_ORIGIN + "fetch-image/" + localStorage.getItem(qid);
-         //   return (
-         //   <div className="d-block display-cache-image">
-         //       Cached file:
-         //       <a href={cached} rel="noopener noreferrer" target="_blank"> {localStorage.getItem(qid)}</a>
-         //   </div>
-         //   )
-         console.log(localStorage.getItem(qid))
-        }
         return ""
     }
 
