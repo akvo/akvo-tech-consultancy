@@ -20,6 +20,8 @@ div.sidebar-loading {
 div.sidebar-wrapper {
     min-width: 320px;
     overflow-y: scroll;
+    min-width:0;
+    min-height:0;
     overflow-x: hidden;
 }
 .list-group.list-group-flush {

@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { mapStateToProps } from "../reducers/actions.js";
 //import { PROD_URL } from '../util/Environment'
 import QuestionType from "./QuestionType.js";
+import GroupPanels from "./GroupPanels.js";
 import { Mandatory, ToolTip } from "../util/Badges";
 import { Card, CardBody, CardTitle } from "reactstrap";
 import "../App.css";
@@ -85,8 +86,11 @@ class Questions extends Component {
             localization = localization.filter(x => x !== "");
             localization = localization.length === 0 ? question.lang.en : localization.join(" / ");
             let qid = question.id.toString();
+            let qi = question.iteration.toString();
             return (
-                <Card key={"card-" + qid} className={question.show === false ? "d-none" : ""}>
+                <div key={"card-" + qid + "-" + qi}>
+                    {question.groupIndex && question.repeat ? (<GroupPanels data={question} type="header"/>) : ""}
+                <Card className={question.show === false ? "d-none" : ""}>
                     <CardBody key={"card-body-" + qid} id={"card-body-" + qid}>
                         <CardTitle key={"card-title-" + qid}>
                             {question.order.toString() + ". " + localization}
@@ -97,6 +101,8 @@ class Questions extends Component {
                         {this.renderQuestion(qid, question, this.uppy)}
                     </CardBody>
                 </Card>
+                    {question.last && question.repeat ? (<GroupPanels data={question} type={"footer"}/>) : ""}
+                </div>
             );
         });
     }

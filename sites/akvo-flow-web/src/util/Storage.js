@@ -10,6 +10,8 @@ class QuestionHandler {
             case "signature":
             case "photo":
                 return "file"
+            case "video":
+                return "file"
             case "number":
                 return "number"
             case "cascade":
@@ -18,7 +20,6 @@ class QuestionHandler {
             default:
                 return "text"
         }
-        console.log(qtype)
         return qtype
     }
 

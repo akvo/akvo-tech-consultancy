@@ -65,21 +65,11 @@ class Home extends Component {
         this.props.changeGroup(1)
         localStorage.setItem("_version", data.version)
         localStorage.setItem("_instanceId", data.app)
-        let questionId = []
-        let answerType = []
         let questionGroupArray = Array.isArray(data.questionGroup)
         if (!questionGroupArray) {
             data.questionGroup = [data.questionGroup];
         }
-        data.questionGroup.forEach((g) => {
-            g.question = Array.isArray(g.question) ? g.question : [g.question];
-            g.question.forEach((q, i) => {
-                questionId.push(q.id)
-                answerType.push(q.type.toUpperCase())
-            })
-        })
-        localStorage.setItem("questionId", questionId)
-        localStorage.setItem("answerType", answerType)
+        this.props.updateLocalStorage();
         this.setState({
             ...data,
         })
@@ -125,6 +115,7 @@ class Home extends Component {
             .then(res => {
                 this.updateData(res.data)
                 this.setState({ _rendered:true });
+                this.props.changeSettings({_isLoading:false})
             })
             .catch(error => {
                 if (error.response.status === 403) {

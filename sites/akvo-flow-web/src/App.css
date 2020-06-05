@@ -1,9 +1,14 @@
+html,
 body {
     overflow-x: hidden;
+    min-width:0;
+    min-height:0;
 }
 
 .wrapper {
     height: 100%;
+    min-width:0;
+    min-height:0;
     overflow: hidden;
 }
 
@@ -11,6 +16,9 @@ nav.navbar-group {
     background-color:#ffffff!important;
 }
 
+input {
+    font-size: 12px;
+}
 
 .sidebar-wrapper {
     min-width:334px !important;
@@ -34,6 +42,11 @@ nav.navbar-group {
 .sidebar-wrapper .list-group {
     width: 20rem;
     cursor: pointer;
+}
+
+button.btn-repeatable{
+    line-height: 9px;
+    font-size: 12px;
 }
 
 .submit-block {
@@ -69,9 +82,10 @@ nav.navbar-group {
 }
 
 .fixed-container {
-    height: 100%;
-    overflow: scroll;
-    padding-bottom: 140px;
+    height: calc(100% - 135px);
+    min-height:0px;
+    overflow-y: scroll;
+    min-height: 0;
 }
 
 .wrapper.toggled .sidebar-wrapper {
@@ -268,3 +282,15 @@ img.responsive-image {
 }
 
 /* Leaflet */
+
+/* RepatGroup */
+.repeat-group-line{
+    padding: 5px 0;
+}
+.repeat-group-header{
+    padding: 10px 0 0px;
+}
+.repeat-group-delete{
+    margin-bottom: 20px;
+}
+/* RepatGroup */

@@ -24,7 +24,7 @@ class QuestionType extends Component {
         this.setDpStorage = this.setDpStorage.bind(this);
         this.setDplStorage = this.setDplStorage.bind(this);
         this.getRadio = this.getRadio.bind(this);
-        this.getPhoto = this.getPhoto.bind(this);
+        this.getFile = this.getFile.bind(this);
         this.getGeo = this.getGeo.bind(this);
         this.renderRadio = this.renderRadio.bind(this);
         this.getCascadeDropdown = this.getCascadeDropdown.bind(this);
@@ -34,7 +34,7 @@ class QuestionType extends Component {
         this.limitCascade = 0;
         this.handleChange = this.handleChange.bind(this);
         this.handleOther = this.handleOther.bind(this);
-        this.handlePhoto = this.handlePhoto.bind(this);
+        this.handleFile = this.handleFile.bind(this);
         this.handleCascadeChange = this.handleCascadeChange.bind(this);
         this.handleMapChange = this.handleMapChange.bind(this);
         this.handleGlobal = this.handleGlobal.bind(this);
@@ -55,7 +55,7 @@ class QuestionType extends Component {
     handleCascadeChange(targetLevel, text, id, value) {
         let vals;
         let storage = {id:targetLevel,text:text, option:parseInt(value)}
-        if (localStorage.getItem(id)) {
+        if (localStorage.getItem(id) !== null) {
             let multipleValue = JSON.parse(localStorage.getItem(id))
             let current = multipleValue.filter(x => x.id < targetLevel);
             vals = JSON.stringify([...current, storage])
@@ -69,7 +69,7 @@ class QuestionType extends Component {
         return true
     }
 
-    handlePhoto(event) {
+    handleFile(event) {
         let id = this.props.data.id
         const image = event.target.files[0];
         try {
@@ -114,7 +114,7 @@ class QuestionType extends Component {
         if (this.props.data.type === "cascade") {
             let ddindex = event.target.selectedIndex
             let text = event.target[ddindex].text
-            let targetLevel = parseInt(event.target.name.split('-')[1]) + 1
+            let targetLevel = parseInt(event.target.name.split('-')[2]) + 1
             this.handleCascadeChange(targetLevel, text, id, value)
             if (this.limitCascade > targetLevel) {
                 this.getCascadeDropdown(value, targetLevel)
@@ -124,7 +124,7 @@ class QuestionType extends Component {
             let multipleValue = [];
             let existValue = [];
 			value = JSON.parse(value);
-            if (localStorage.getItem(id)) {
+            if (localStorage.getItem(id) !== null) {
                 multipleValue = JSON.parse(localStorage.getItem(id))
             }
             if (multipleValue.length > 0) {
@@ -513,17 +513,18 @@ class QuestionType extends Component {
         )
     }
 
-    getPhoto(data, unique, answered, type) {
+    getFile(data, unique, answered, type) {
         return (
-            <input
-            className="form-control"
-            type="file"
-            key={unique}
-            accept="image/*"
-            name={'Q-' + data.id.toString()}
-            onChange={this.handlePhoto}
-            multiple={false}
-            />
+          <input
+              key={unique}
+              type="file"
+              className="form-control-file"
+              aria-label="Upload File"
+              accept={type + '/*'}
+              name={'Q-' + data.id.toString()}
+              onChange={this.handleFile}
+              multiple={false}
+          />
         )
     }
 
@@ -588,7 +589,9 @@ class QuestionType extends Component {
             case "number":
                 return this.getInput(data, key, data.validationRule, answered, formtype)
             case "photo":
-                return this.getPhoto(data, key, answered, "file")
+                return this.getFile(data, key, answered, "image")
+            case "video":
+                return this.getFile(data, key, answered, "video")
             case "date":
                 return this.getInputOther(data, key, answered, formtype)
             case "geo":
