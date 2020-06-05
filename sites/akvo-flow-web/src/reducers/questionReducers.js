@@ -207,7 +207,9 @@ const validateGroup = (data, sumber) => {
         groups.push({
             index:0,
             heading:data.heading,
-            question:question
+            question:question,
+            repeatable: data.repeatable,
+            repeat: data.repeatable ? 1 : 0
         });
     }
 	return groups;
@@ -237,8 +239,8 @@ const addQuestions = (data) => {
         }
     }
     const mapgroup = (q, g) => {
-        let l = q.length - 1;
         q = Array.isArray(q) ? q : [q];
+        let l = q.length - 1;
         let gi = g.i + 1;
         return q.map((q,iq) => relable(q,l,g,iq,gi,0));
     }
@@ -255,13 +257,11 @@ const addQuestions = (data) => {
 }
 
 const listDatapoints = (data) => {
-
 	const groups = validateGroup(data.questionGroup, 'ld');
     return addQuestions(groups).filter(x => x.localeNameFlag).map(q => q.id)
 }
 
 const listGroups = (data, questions, answers) => {
-
 	let groups = validateGroup(data.questionGroup,'lg');
     groups = groups.map((x,i) => {
         let qgroup = questions.filter(q => q.group === i + 1).map(q => q.id);
@@ -472,7 +472,7 @@ const storeCascade = (current, cascade) => {
     return [...current, cascade];
 }
 
-const cloneQuestions = (questions, groups, group_id) => {
+const cloneQuestions = (questions, groups, group_id, restoring=false) => {
     let group = groups.list.find(x => x.index === group_id);
     let new_questions = questions.filter(x => {
         let id = x.id.split('-')[0] + '-0';
@@ -496,7 +496,9 @@ const cloneQuestions = (questions, groups, group_id) => {
     let newgroup = groups.list.map(g => {
         if (g.index === group_id) {
             g.repeat = g.repeat + 1;
-            localStorage.setItem('G'+group_id,g.repeat);
+            if (!restoring) {
+                localStorage.setItem('G'+group_id,g.repeat);
+            }
         }
         return g;
     });
@@ -607,7 +609,7 @@ export const questionReducers = (state = initialState, action) => {
                 groups: {...state.groups, active: action.group}
             }
         case 'CLONE GROUP':
-            const cloned = cloneQuestions(state.questions, state.groups, action.id);
+            const cloned = cloneQuestions(state.questions, state.groups, action.id, action.restoring);
             return {
                 ...state,
                 questions: cloned.questions,

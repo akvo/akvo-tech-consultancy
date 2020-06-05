@@ -522,7 +522,7 @@ class QuestionType extends Component {
               aria-label="Upload File"
               accept={type + '/*'}
               name={'Q-' + data.id.toString()}
-              onChange={this.handlePhoto}
+              onChange={this.handleFile}
               multiple={false}
           />
         )

@@ -13,10 +13,12 @@ Route::get('/organisation', 'PageController@organisation')->name('organisation')
 Route::get('/partnership', 'PageController@partnership')->name('partnership');
 Route::get('/reach-and-react', 'PageController@reachreact')->name('reachreact');
 
-
+Route::get( '/auth0/callback', '\Auth0\Login\Auth0Controller@callback' )->name('auth0-callback');
+Route::get( '/login', 'Auth\Auth0IndexController@login' )->name('login');
+Route::get( '/logout', 'Auth\Auth0IndexController@logout' )->name('logout')->middleware('auth');
 /*
 |--------------------------------------------------------------------------
-| Frames 
+| Frames
 |--------------------------------------------------------------------------
 */
 
