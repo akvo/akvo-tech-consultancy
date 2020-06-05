@@ -5,6 +5,8 @@ import axios from 'axios';
 import { isJsonString } from  '../util/QuestionHandler.js'
 import { PROD_URL } from '../util/Environment'
 import MapForm from '../types/MapForm.js'
+import Dexie from 'dexie';
+import uuid from 'uuid/v4';
 
 const API_ORIGIN = (PROD_URL ? ( window.location.origin + "/" + window.location.pathname.split('/')[1] + "-api/" ) : process.env.REACT_APP_API_URL);
 const pathurl = (PROD_URL ? 2 : 1);
@@ -35,10 +37,10 @@ class QuestionType extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleOther = this.handleOther.bind(this);
         this.handleFile = this.handleFile.bind(this);
+        this.handleFileUndo = this.handleFileUndo.bind(this);
         this.handleCascadeChange = this.handleCascadeChange.bind(this);
         this.handleMapChange = this.handleMapChange.bind(this);
         this.handleGlobal = this.handleGlobal.bind(this);
-        this.uppy = props.uppy;
     }
 
     handleGlobal(questionid, qval){
@@ -70,26 +72,58 @@ class QuestionType extends Component {
     }
 
     handleFile(event) {
-        let id = this.props.data.id
-        const image = event.target.files[0];
-        try {
-            this.uppy.addFile({
-                source: 'file input',
-                name: image.name,
-                type: image.type,
-                data: image
+        const file = event.target.files[0];
+        const id = this.props.data.id
+        const ext = file.name.substring(file.name.lastIndexOf('.'))
+        const fileId = uuid() + ext;
+        const that = this;
+
+        const db = new Dexie('akvoflow');
+        db.version(1).stores({files: 'id'});
+
+        const reader = new FileReader();
+
+        reader.addEventListener('load', () => {
+            db.files.put({id: fileId, fileName: file.name, blob: reader.result})
+            .then(() => {
+
+                let files = JSON.parse(localStorage.getItem('__files__') || '{}');
+                files[fileId] = file.name;
+
+                localStorage.setItem(id, fileId);
+                localStorage.setItem(fileId, file.name);
+                localStorage.setItem('__files__', JSON.stringify(files));
+
+                that.setState({ value: fileId })
+                that.handleGlobal(id, fileId)
+            })
+            .catch((e) => {
+                console.error(e);
             });
-        }
-        catch (e) {
-            if (e.isRestriction) {
-                console.log('Restriction error:', e)
-            } else {
-                console.log(e);
-            }
-        }
-        localStorage.setItem(id, image.name)
-        this.setState({ value: image.name })
-        this.handleGlobal(id, image.name)
+        });
+
+        reader.readAsDataURL(file);
+    }
+
+    handleFileUndo(event) {
+        const id = this.props.data.id
+        const fileId = this.state.value
+        const that = this;
+
+        const db = new Dexie('akvoflow');
+        db.version(1).stores({files: 'id'});
+
+        db.files.delete(fileId)
+        .then((result) => {
+            localStorage.removeItem(id)
+            localStorage.removeItem(fileId)
+            that.setState({ value: null })
+            that.handleGlobal(id, fileId)
+        })
+        .catch((error) => {
+            console.error(error);
+        })
+
     }
 
     handleMapChange(value) {
@@ -514,6 +548,25 @@ class QuestionType extends Component {
     }
 
     getFile(data, unique, answered, type) {
+
+        if (answered) {
+            const fileName = localStorage.getItem(answered)
+            return (
+                <div>
+                    <span className="mr-2">
+                        {fileName}
+                    </span>
+                    <input
+                        key={answered}
+                        type="button"
+                        name={'Q-' + data.id.toString() + '-undo'}
+                        className="btn btn-danger btn-sm"
+                        value="Undo"
+                        onClick={this.handleFileUndo} />
+                </div>
+            )
+        }
+
         return (
           <input
               key={unique}

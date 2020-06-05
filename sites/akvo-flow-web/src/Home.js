@@ -17,8 +17,6 @@ import {
 } from 'react-icons/fa'
 import { PopupError } from './util/Popup.js'
 import { PROD_URL } from './util/Environment.js'
-import Uppy from '@uppy/core'
-import AwsS3 from '@uppy/aws-s3'
 
 const API_URL = (PROD_URL ? window.location.href.replace("flow-web","flow-web-api") : process.env.REACT_APP_API_URL)
 const CACHE_URL = (PROD_URL ? "update" : "fetch")
@@ -36,21 +34,6 @@ class Home extends Component {
             _fullScreen: false,
             _rendered: false
         }
-        this.uppy = Uppy({ debug: true })
-            .use(AwsS3, {
-                getUploadParameters: function (file) {
-                    const folder = file.type === 'application/zip' ? 'devicezip' : 'images';
-                    console.log(file);
-                    return {
-                        method: 'POST',
-                        url: file.postUrl,
-                        fields: Object.assign({
-                            key: folder + '/' + file.name,
-                            'content-type': file.type
-                        }, file.policy)
-                    }
-                }
-            });
     }
 
     updateData = (data) => {
@@ -96,10 +79,6 @@ class Home extends Component {
         })
     }
 
-    componentWillUnmount() {
-        this.uppy.close();
-    }
-
     componentDidMount() {
         this.props.generateUUID({})
         this.props.changeSettings({_isLoading:true})
@@ -130,9 +109,9 @@ class Home extends Component {
             });
     }
 
-    renderQuestions(uppy) {
+    renderQuestions() {
         return (
-            <Questions uppy={uppy} />
+            <Questions />
         )
     }
 
@@ -148,7 +127,7 @@ class Home extends Component {
                 <div className="sidebar-wrapper bg-light border-right">
                     <Header/>
                     {this.state._rendered ? this.renderGroups() : ""}
-                    {( this.props.value.questions.length === 1 ? "" : (<Submit uppy={this.uppy} />) )}
+                    {( this.props.value.questions.length === 1 ? "" : (<Submit />) )}
                 </div>
                 <div className="page-content-wrapper">
                     <nav className="navbar navbar-expand-lg navbar-light bg-light border-bottom">
@@ -160,7 +139,7 @@ class Home extends Component {
                     </nav>
                     <GroupHeaders />
                     <div className="container-fluid fixed-container" key={'div-group-'+this.state.surveyId}>
-                        {this.state._rendered ? this.renderQuestions(this.uppy) : ""}
+                        {this.state._rendered ? this.renderQuestions() : ""}
                     </div>
                 </div>
             </div>

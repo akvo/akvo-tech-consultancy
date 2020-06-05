@@ -8,6 +8,11 @@ import '../App.css'
 import { PopupSuccess, PopupError } from '../util/Popup'
 import { PROD_URL, USING_PASSWORDS } from '../util/Environment'
 import JSZip from 'jszip'
+import Dexie from 'dexie';
+import Uppy from '@uppy/core';
+import AwsS3 from '@uppy/aws-s3';
+import dataURItoBlob from 'datauritoblob';
+
 
 const API_ORIGIN = (PROD_URL ? ( window.location.origin + "/" + window.location.pathname.split('/')[1] + "-api/" ) : process.env.REACT_APP_API_URL);
 const SITE_KEY = "6Lejm74UAAAAAA6HkQwn6rkZ7mxGwIjOx_vgNzWC"
@@ -26,7 +31,6 @@ class Submit extends Component {
             _showSpinner : false,
         }
         this._reCaptchaRef = React.createRef();
-        this.uppy = props.uppy;
     }
 
     handlePassword (event) {
@@ -59,87 +63,165 @@ class Submit extends Component {
         this.setState({ callback: "called!" });
     };
 
+    saveData(content) {
+        const files = JSON.parse(localStorage.getItem('__files__') || '{}');
+        const fileIds = Object.keys(files);
+        const db = new Dexie('akvoflow');
+        db.version(1).stores({ files: 'id' });
+
+        db.files.bulkGet(fileIds)
+            .then((result) => {
+                let postData;
+                if (result.length === 0) {
+                    postData = content;
+                }
+                else {
+                    postData = Object.assign({}, content, { __files__: result });
+                }
+                axios.post(API_ORIGIN + 'form-instance',
+                    postData, { headers: { 'Content-Type': 'application/json' } })
+                    .then(res => {
+                        PopupSuccess("New datapoint saved! clearing form...");
+                        setTimeout(function () {
+                            let username = localStorage.getItem('_username');
+                            localStorage.clear();
+                            localStorage.setItem('_username', username);
+                            setTimeout(function () {
+                                window.location.replace(window.location.origin + window.location.pathname); //FIXME: pathname may contain an instance-id
+                            }, 3000);
+                        }, 500);
+                    })
+                    .catch(e => {
+                        console.error(e);
+                        PopupError("Something went wrong");
+                    })
+
+            })
+            .catch(e => {
+                console.error(e);
+                PopupError("Something went wrong");
+            })
+    }
+
     sendData(content) {
-        const uppy = this.uppy;
+        const uppy = Uppy({ debug: true })
+            .use(AwsS3, {
+                getUploadParameters: function (file) {
+                    const folder = file.type === 'application/zip' ? 'devicezip' : 'images';
+                    console.log(file);
+                    return {
+                        method: 'POST',
+                        url: file.postUrl,
+                        fields: Object.assign({
+                            key: folder + '/' + file.name,
+                            'content-type': file.type
+                        }, file.policy)
+                    }
+                }
+            });
 
         axios.post(API_ORIGIN + 'upload-data',
-                content, { headers: { 'Content-Type': 'application/json' } }
-            )
+            content, { headers: { 'Content-Type': 'application/json' } }
+        )
             .then(res => {
                 const zip = new JSZip();
                 const formInstance = res.data.data;
 
                 zip.file('data.json', JSON.stringify(formInstance));
 
-                zip.generateAsync({type: 'blob'})
-                .then(blob => {
+                zip.generateAsync({ type: 'blob' })
+                    .then(blob => {
 
-                    uppy.addFile({
-                        name: res.data.data.uuid + '.zip',
-                        type: 'application/zip',
-                        data: blob,
-                        source: 'Local',
-                        isRemote: false
-                    });
+                        uppy.addFile({
+                            name: res.data.data.uuid + '.zip',
+                            type: 'application/zip',
+                            data: blob,
+                            source: 'Local',
+                            isRemote: false
+                        });
 
-                    let zipFileName;
+                        const files = JSON.parse(localStorage.getItem('__files__') || '{}');
+                        const fileIds = Object.keys(files);
+                        const db = new Dexie('akvoflow');
+                        db.version(1).stores({ files: 'id' });
 
-                    uppy.getFiles().forEach((f) => {
-                        f.postUrl = 'https://'+this.props.value.instanceId+'.s3.amazonaws.com';
-                        if (f.type.indexOf('image/') !== -1) {
-                            f.policy = res.data.policy.image;
-                        } else {
-                            zipFileName = f.name;
-                            f.policy = res.data.policy.zip;
-                        }
-                    });
+                        db.files.bulkGet(fileIds)
+                            .then((result) => {
 
-                    uppy.upload().then((result) => {
+                                result.forEach((f) => {
+                                    const mimeType = f.blob.split(',')[0].split(':')[1].split(';')[0];
+                                    uppy.addFile({
+                                        name: f.id,
+                                        type: mimeType,
+                                        data: dataURItoBlob(f.blob),
+                                        source: 'Local',
+                                        isRemote: false
+                                    });
+                                });
 
-                        console.info('Successful uploads:', result.successful)
-                        if (result.failed.length > 0) {
-                            console.error('Errors:')
-                            result.failed.forEach((file) => {
-                                console.error(file.error)
+                                let zipFileName;
+
+                                uppy.getFiles().forEach((f) => {
+                                    f.postUrl = 'https://' + this.props.value.instanceId + '.s3.amazonaws.com';
+                                    if (f.type.indexOf('image/') !== -1) {
+                                        f.policy = res.data.policy.image;
+                                    } else {
+                                        zipFileName = f.name;
+                                        f.policy = res.data.policy.zip;
+                                    }
+                                });
+
+                                uppy.upload().then((result) => {
+
+                                    console.info('Successful uploads:', result.successful)
+                                    if (result.failed.length > 0) {
+                                        console.error('Errors:')
+                                        result.failed.forEach((file) => {
+                                            console.error(file.error)
+                                        })
+                                    }
+
+                                    axios.get('https://' + this.props.value.instanceName + '.akvoflow.org/processor', {
+                                        params: {
+                                            action: 'submit',
+                                            formID: formInstance.formId,
+                                            fileName: zipFileName,
+                                            devId: formInstance.devId
+                                        }
+                                    })
+                                        .then(res => {
+                                            PopupSuccess("New datapoint is sent! clearing form...");
+                                            this.setState({ '_showSpinner': false })
+                                            setTimeout(function () {
+                                                // TODO: Clear files in IndexedDB
+                                                let username = localStorage.getItem('_username');
+                                                localStorage.clear();
+                                                localStorage.setItem('_username', username);
+                                                setTimeout(function () {
+                                                    window.location.replace(window.location.origin + window.location.pathname);
+                                                }, 3000);
+                                            }, 500);
+                                        })
+                                        .catch(e => {
+                                            console.error(e);
+                                            PopupError("Something went wrong");
+                                            this.setState({ '_showSpinner': false })
+                                        })
+                                });
+
                             })
-                        }
-
-                        axios.get('https://'+this.props.value.instanceName+'.akvoflow.org/processor', {
-                            params: {
-                                action: 'submit',
-                                formID: formInstance.formId,
-                                fileName: zipFileName,
-                                devId: formInstance.devId
-                            }
-                        })
-                        .then(res => {
-                            PopupSuccess("New datapoint is sent! clearing form...");
-                            this.setState({ '_showSpinner': false })
-                            setTimeout(function () {
-                                let username = localStorage.getItem('_username');
-                                localStorage.clear();
-                                localStorage.setItem('_username', username);
-                                setTimeout(function(){
-                                    window.location.replace(window.location.origin + window.location.pathname);
-                                }, 3000);
-                            }, 500);
-                        })
-                        .catch(e => {
-                            console.error(e);
-                            PopupError("Something went wrong");
-                            this.setState({'_showSpinner': false})
-                        })
+                            .catch((e) => {
+                                console.error(e);
+                            })
+                    })
+                    .catch(e => {
+                        console.error(e);
                     });
-
-                })
-                .catch(e => {
-                    console.error(e);
-                });
                 return res;
             }).catch((e) => {
                 console.log(e)
                 PopupError(e.response.data.message);
-                this.setState({'_showSpinner': false})
+                this.setState({ '_showSpinner': false })
             })
     }
 
@@ -153,6 +235,15 @@ class Submit extends Component {
         }
         this.sendData(localStorage);
         return false;
+    }
+
+    saveForm (e) {
+        e.stopPropagation();
+        let dpname = localStorage.getItem('_dataPointName');
+        if (!dpname) {
+            localStorage.setItem('_dataPointName','Untitled');
+        }
+        this.saveData(localStorage);
     }
 
     render() {
@@ -198,6 +289,12 @@ class Submit extends Component {
                         />
                         <hr/>
                     </div>
+                    <button
+                        onClick={e => this.saveForm(e)}
+                        className={"btn btn-block btn-primary"}
+                        disabled={this.props.value.submit ? false : true}>
+                        Save
+                    </button>
                     <button
                         onClick={e => this.submitForm(e)}
                         className={"btn btn-block btn-" + ( this.props.value.submit ? "primary" : "secondary")}

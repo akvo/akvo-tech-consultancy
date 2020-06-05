@@ -18,7 +18,6 @@ class Questions extends Component {
         this.renderMandatoryIcon = this.renderMandatoryIcon.bind(this);
         this.renderCachedImage = this.renderCachedImage.bind(this);
         this.renderQuestion = this.renderQuestion.bind(this);
-        this.uppy = props.uppy;
     }
 
     isJsonString(str) {
@@ -30,22 +29,11 @@ class Questions extends Component {
         return true;
     }
 
-    renderQuestion(qid, question, uppy) {
-        return <QuestionType key={"question-type-" + qid} data={question} uppy={uppy} />;
+    renderQuestion(qid, question) {
+        return <QuestionType key={"question-type-" + qid} data={question} />;
     }
 
     renderCachedImage(qid) {
-        //let cached = false;
-        if (localStorage.getItem(qid) !== null){
-         //   cached = API_ORIGIN + "fetch-image/" + localStorage.getItem(qid);
-         //   return (
-         //   <div className="d-block display-cache-image">
-         //       Cached file:
-         //       <a href={cached} rel="noopener noreferrer" target="_blank"> {localStorage.getItem(qid)}</a>
-         //   </div>
-         //   )
-         console.log(localStorage.getItem(qid))
-        }
         return ""
     }
 
@@ -98,7 +86,7 @@ class Questions extends Component {
                             {question.help !== undefined ? ToolTip(question) : ""}
                             {question.type === "photo" ? this.renderCachedImage(qid) : ""}
                         </CardTitle>
-                        {this.renderQuestion(qid, question, this.uppy)}
+                        {this.renderQuestion(qid, question)}
                     </CardBody>
                 </Card>
                     {question.last && question.repeat ? (<GroupPanels data={question} type={"footer"}/>) : ""}
