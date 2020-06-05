@@ -27,6 +27,11 @@ spec:
             cpu: 1
             memory: 200Mi
         env:
+        - name: SQLALCHEMY_DATABASE_URI
+          valueFrom:
+            secretKeyRef:
+              name: tc-akvo-webforms
+              key: sqlalchemy-database-uri
         - name: AUTH0_USER
           valueFrom:
             secretKeyRef:
