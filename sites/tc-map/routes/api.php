@@ -21,3 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('/source','MapController@getSources');
 Route::get('/data/{source}','MapController@getData');
 Route::get('/config/{source}','MapController@getConfig');
+
+Route::get('/custom', function() {
+    return config('custom');
+});

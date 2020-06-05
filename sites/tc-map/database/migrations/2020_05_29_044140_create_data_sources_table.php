@@ -19,6 +19,8 @@ class CreateDataSourcesTable extends Migration
             $table->json('config');
             $table->json('categories');
             $table->json('data');
+            $table->string('html')->nullable();
+            $table->string('js')->nullable();
             $table->timestamp('created_at')->useCurrent();
         });
     }

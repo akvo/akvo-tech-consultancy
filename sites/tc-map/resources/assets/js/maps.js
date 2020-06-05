@@ -66,7 +66,7 @@ let setConfig = axios.get('/api/config/' + defaultSelect).then(
     }
 );
 
-
+/* set category selected based on data load */
 let fetchdata = sourcefetch.then(
     (a) => {
         a.forEach((x, i) => {
@@ -131,7 +131,6 @@ function startRenderMap() {
         d3.select('body').append('div').attr('id', 'main-filter-list');
     }
     map.addLayer(markerclusters);
-
 }
 
 //Ready to go, load the geojson
@@ -218,12 +217,13 @@ function defineFeature(feature, latlng) {
     return;
 }
 
+// Pop up when point clicked
 function defineFeaturePopup(feature, layer) {
     let props = feature.properties,
         fields = metadata.fields,
         popupContent = '';
     popupContent = '<span class="attribute"><span class="label">Name:</span> ' + props[popupFields] + '</span>';
-    popupContent = '<div class="map-popup">' + popupContent + '<hr><button href="#" class="btn btn-primary btn-block" onclick="getDetails(this,0)" data="' + props[popupFields] + '"><i class=""></i> View Details</button></div>';
+    popupContent = '<div class="map-popup">' + popupContent + '<hr><button href="#" class="btn btn-primary btn-block" onclick="getDetails(this, 0)" data="' + props[popupFields] + '"><i class=""></i> View Details</button></div>';
     layer.bindPopup(popupContent, {
         offset: L.point(1, -2)
     });
@@ -373,7 +373,7 @@ function renderLegend(database) {
             $('#bar-legend').remove();
             localStorage.removeItem('chartPos');
             localStorage.removeItem('filterPos');
-            if (dbs.properties.attribution.type === 'list') {
+            if (dbs.properties.attribution.type === 'list' || dbs.properties.attribution.type === 'multiple') {
                 legenddiv.remove();
                 categoryField = selectedVal;
                 iconField = categoryField;
