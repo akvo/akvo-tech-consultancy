@@ -6,7 +6,7 @@ import axios from 'axios'
 import { Spinner } from 'reactstrap'
 import '../App.css'
 import { PopupSuccess, PopupError, PopupToast } from '../util/Popup'
-import { PROD_URL, USING_PASSWORDS } from '../util/Environment'
+import { PROD_URL, PARENT_URL, USING_PASSWORDS } from '../util/Environment'
 import JSZip from 'jszip'
 import Dexie from 'dexie';
 import Uppy from '@uppy/core';
@@ -29,6 +29,7 @@ class Submit extends Component {
         this.state = {
             _showCaptcha : this.props.value.captcha,
             _showSpinner : false,
+            _saveButton : true
         }
         this._reCaptchaRef = React.createRef();
     }
@@ -66,14 +67,17 @@ class Submit extends Component {
     saveResult(newId) {
         const redirect = window.location.href + '/' + newId;
         PopupSuccess("New datapoint saved! clearing form...");
-        setTimeout(function () {
-            let username = localStorage.getItem('_username');
-            localStorage.clear();
-            localStorage.setItem('_username', username);
+        this.props.updateDomain(this.props.value.domain + '/' + newId);
+        if (!PARENT_URL) {
             setTimeout(function () {
-                window.location.replace(redirect);
-            }, 3000);
-        }, 500);
+                let username = localStorage.getItem('_username');
+                localStorage.clear();
+                localStorage.setItem('_username', username);
+                setTimeout(function () {
+                    window.location.replace(redirect);
+                }, 3000);
+            }, 500);
+        }
     }
 
     saveData(content) {
@@ -81,7 +85,6 @@ class Submit extends Component {
         const fileIds = Object.keys(files);
         const db = new Dexie('akvoflow');
         db.version(1).stores({ files: 'id' });
-
         db.files.bulkGet(fileIds)
             .then((result) => {
                 let postData;
@@ -96,10 +99,12 @@ class Submit extends Component {
                         postData, { headers: { 'Content-Type': 'application/json' } })
                         .then(res => {
                             PopupToast("Datapoint Updated!", "success");
+                            this.setState({_saveButton: true});
                         })
                         .catch(e => {
                             console.error(e);
                             PopupError("Something went wrong");
+                            this.setState({_saveButton: true});
                         })
                 }
                 else {
@@ -107,10 +112,12 @@ class Submit extends Component {
                         postData, { headers: { 'Content-Type': 'application/json' } })
                         .then(res => {
                             this.saveResult(res.data.id);
+                            this.setState({_saveButton: true});
                         })
                         .catch(e => {
                             console.error(e);
                             PopupError("Something went wrong");
+                            this.setState({_saveButton: true});
                         })
                     }
 
@@ -260,7 +267,7 @@ class Submit extends Component {
         if (!dpname) {
             localStorage.setItem('_dataPointName','Untitled');
         }
-        console.log(this.props.value);
+        this.setState({_saveButton: false});
         this.saveData(localStorage);
     }
 
@@ -309,7 +316,8 @@ class Submit extends Component {
                     </div>
                     <button
                         onClick={e => this.saveForm(e)}
-                        className={"btn btn-block btn-primary"}>
+                        className={"btn btn-block btn-primary"}
+                        disabled={this.state._saveButton ? false : true}>
                         Save
                     </button>
                     <button

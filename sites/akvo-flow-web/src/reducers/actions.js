@@ -21,6 +21,7 @@ export const mapDispatchToProps = (dispatch) => {
         changeSettings: (data) => dispatch({type:"PAGES SETTINGS", data:data}),
         storeCascade: (data) => dispatch({type:"STORE CASCADE", data:data}),
         showError: () => dispatch({type:"SHOW ERROR"}),
-        updateLocalStorage: () => dispatch({type:"STORAGE UPDATE"})
+        updateLocalStorage: () => dispatch({type:"STORAGE UPDATE"}),
+        updateDomain: (domain) => dispatch({type:"UPDATE DOMAIN", domain:domain})
     }
 }

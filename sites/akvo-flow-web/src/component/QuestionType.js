@@ -4,13 +4,13 @@ import { mapStateToProps, mapDispatchToProps } from '../reducers/actions.js'
 import axios from 'axios';
 import { isJsonString } from  '../util/QuestionHandler.js'
 import { PROD_URL } from '../util/Environment'
+import { PopupImage } from '../util/Popup'
 import MapForm from '../types/MapForm.js'
 import Dexie from 'dexie';
 import uuid from 'uuid/v4';
 
 const API_ORIGIN = (PROD_URL ? ( window.location.origin + "/" + window.location.pathname.split('/')[1] + "-api/" ) : process.env.REACT_APP_API_URL);
 const pathurl = (PROD_URL ? 2 : 1);
-
 
 class QuestionType extends Component {
 
@@ -86,7 +86,6 @@ class QuestionType extends Component {
         reader.addEventListener('load', () => {
             db.files.put({id: fileId, fileName: file.name, blob: reader.result, qid:id})
             .then(() => {
-
                 let files = JSON.parse(localStorage.getItem('__files__') || '{}');
                 files[fileId] = file.name;
                 localStorage.setItem(id, fileId);
@@ -94,6 +93,7 @@ class QuestionType extends Component {
                 localStorage.setItem('__files__', JSON.stringify(files));
                 that.setState({ value: fileId })
                 that.handleGlobal(id, fileId)
+                that.setState({blob:reader.result});
             })
             .catch((e) => {
                 console.error(e);
@@ -567,6 +567,13 @@ class QuestionType extends Component {
                         className="btn btn-danger btn-sm"
                         value="Undo"
                         onClick={this.handleFileUndo} />
+                    <button
+                        className="ml-2 btn btn-secondary btn-sm"
+                        onClick={e => PopupImage(fileName, unique, this.state.blob)}
+                    >
+                    View Image
+                    </button>
+                    <img className="hidden" id={unique} src={this.state.blob}/>
                 </div>
             )
         }
@@ -623,6 +630,13 @@ class QuestionType extends Component {
         if (localStorage.getItem(this.props.data.id) !== null){
             this.props.checkSubmission();
             this.props.reduceGroups();
+            if (this.props.data.type === "photo") {
+                const db = new Dexie('akvoflow');
+                db.version(1).stores({files: 'id'});
+                db.files.get(this.state.value).then(value => {
+                    this.setState({'blob':value.blob});
+                });
+            }
         };
 
     }

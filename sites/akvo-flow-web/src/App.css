@@ -294,3 +294,14 @@ img.responsive-image {
     margin-bottom: 20px;
 }
 /* RepatGroup */
+
+/* Exif */
+.exif-detail {
+    text-align: left;
+    font-size: initial;
+}
+.exif-detail strong {
+    font-weight: 500;
+    font-size: 15px;
+}
+/* Exif */

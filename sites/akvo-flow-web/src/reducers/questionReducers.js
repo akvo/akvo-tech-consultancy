@@ -2,9 +2,11 @@ import { getQuestionType } from '../util/QuestionHandler.js'
 import { isJsonString } from '../util/QuestionHandler.js'
 import uuid from 'uuid/v4'
 import isoLangs from '../util/Languages.js'
+import { PARENT_URL } from '../util/Environment'
 
 const initialState = {
     error: false,
+    domain: document.referrer,
     instanceName:"Loading...",
     instanceId:"Loading...",
     surveyName:"Loading..",
@@ -673,6 +675,11 @@ export const questionReducers = (state = initialState, action) => {
             updateLocalStorage(state.questions);
             return {
                 ...state,
+            }
+        case 'UPDATE DOMAIN':
+            return {
+                ...state,
+                domain: action.domain
             }
         default:
             return state;

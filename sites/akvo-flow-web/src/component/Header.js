@@ -2,13 +2,16 @@ import React, { Component } from 'react'
 import {connect } from 'react-redux';
 import { mapStateToProps, mapDispatchToProps } from '../reducers/actions.js'
 import { Toast, ToastHeader, ToastBody } from 'reactstrap'
+import { CopyToClipboard } from '../util/Utilities.js'
 
 class Header extends Component {
 
     constructor(props) {
         super(props);
         this.renderLangOption = this.renderLangOption.bind(this);
+        this.renderHeaderInfo = this.renderHeaderInfo.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.copyUrl = this.copyUrl.bind(this);
     }
 
     handleChange(data) {
@@ -41,24 +44,48 @@ class Header extends Component {
         );
     }
 
+    renderHeaderInfo(info) {
+        return info.map((x, i) => (
+            <div key={i}> {x} </div>
+        ));
+    }
+
+    copyUrl() {
+        CopyToClipboard(this.props.value.domain)
+    }
+
+
     render() {
+        let info = [
+            "Survey ID: " + this.props.value.surveyId,
+            "Version: " + this.props.value.version,
+        ]
         return (
             <div className='sidebar-heading'>
-                <div className="mt-2">
+                <div>
                 <Toast>
                   <ToastHeader>
-                    {this.props.value.surveyName}
+                      {this.props.value.surveyName}
                   </ToastHeader>
                   <ToastBody>
-                    Survey ID: {this.props.value.surveyId}
-                    <br/>
-                    Version: {this.props.value.version}
+                      {this.renderHeaderInfo(info)}
                   </ToastBody>
                   <ToastHeader>
-                    Localization:
+                      Saved Links:
                   </ToastHeader>
                   <ToastBody>
-                    {this.renderLangOption()}
+                      <button
+                          className="btn btn-repeatable btn-warning"
+                          onClick={e => this.copyUrl()}
+                      >
+                          Copy URL to Clipboard
+                      </button>
+                  </ToastBody>
+                  <ToastHeader>
+                      Localization:
+                  </ToastHeader>
+                  <ToastBody>
+                      {this.renderLangOption()}
                   </ToastBody>
                 </Toast>
                 </div>
