@@ -17,16 +17,22 @@ import {
 } from 'react-icons/fa'
 import { PopupError } from './util/Popup.js'
 import { PROD_URL } from './util/Environment.js'
+import Dexie from 'dexie';
 
 const API_URL = (PROD_URL ? window.location.href.replace("flow-web","flow-web-api") : process.env.REACT_APP_API_URL)
 const CACHE_URL = (PROD_URL ? "update" : "fetch")
 
 class Home extends Component {
+    _isMounted = false;
 
     constructor(props) {
         super(props);
         this.instance = this.props.match.params.instance;
         this.surveyId = this.props.match.params.surveyid;
+        this.cacheId = this.props.match.params.cacheid === undefined ? false : this.props.match.params.cacheid;
+        this.getSurvey = this.getSurvey.bind(this);
+        this.getCachedSurvey = this.getCachedSurvey.bind(this);
+        this.restoreCached = this.restoreCached.bind(this);
         this.setFullscreen = this.setFullscreen.bind(this);
         this.renderQuestions = this.renderQuestions.bind(this);
         this.renderGroups = this.renderGroups.bind(this);
@@ -38,32 +44,34 @@ class Home extends Component {
 
     updateData = (data) => {
         data = {...data, instanceName: this.props.match.params.instance};
-        this.props.loadQuestions(data)
-        this.props.loadGroups(data)
-        this.props.restoreAnswers(this.props.value.questions)
-        this.props.reduceGroups()
+        this.props.loadQuestions(data);
+        this.props.loadGroups(data);
+        this.props.replaceAnswers(this.props.value.questions);
+        this.props.reduceGroups();
         if (localStorage.getItem("_dataPointName")){
             this.props.reduceDataPoint(localStorage.getItem('_dataPointName'))
         }
-        this.props.changeGroup(1)
-        localStorage.setItem("_version", data.version)
-        localStorage.setItem("_instanceId", data.app)
-        let questionGroupArray = Array.isArray(data.questionGroup)
+        this.props.changeGroup(1);
+        let questionGroupArray = Array.isArray(data.questionGroup);
         if (!questionGroupArray) {
             data.questionGroup = [data.questionGroup];
         }
-        this.props.updateLocalStorage();
         this.setState({
             ...data,
         })
-        let dataPointId = [
-            Math.random().toString(36).slice(2).substring(1, 5),
-            Math.random().toString(36).slice(2).substring(1, 5),
-            Math.random().toString(36).slice(2).substring(1, 5)
-        ]
-        localStorage.setItem("_dataPointId", dataPointId.join("-"))
-        localStorage.setItem("_submissionStart", Date.now())
-        localStorage.setItem("_deviceId", "Akvo Flow Web")
+        if (!this.cacheId) {
+            let dataPointId = [
+                Math.random().toString(36).slice(2).substring(1, 5),
+                Math.random().toString(36).slice(2).substring(1, 5),
+                Math.random().toString(36).slice(2).substring(1, 5)
+            ]
+            this.props.updateLocalStorage();
+            localStorage.setItem("_dataPointId", dataPointId.join("-"));
+            localStorage.setItem("_submissionStart", Date.now());
+            localStorage.setItem("_deviceId", "Akvo Flow Web");
+            localStorage.setItem("_version", data.version);
+            localStorage.setItem("_instanceId", data.app);
+        }
     }
 
     updateQuestions = (index) => {
@@ -79,16 +87,7 @@ class Home extends Component {
         })
     }
 
-    componentDidMount() {
-        this.props.generateUUID({})
-        this.props.changeSettings({_isLoading:true})
-        if (localStorage.getItem("_formId")) {
-            if (localStorage.getItem("_formId") !== this.surveyId){
-                localStorage.clear();
-            }
-        }
-        localStorage.setItem("_formId", this.surveyId)
-        localStorage.setItem("_instanceId", this.instance)
+    getSurvey() {
         let SURVEY_API = (PROD_URL ? API_URL : API_URL + this.instance + '/' + this.surveyId);
         axios.get(SURVEY_API + '/' + CACHE_URL)
             .then(res => {
@@ -107,6 +106,102 @@ class Home extends Component {
                     this.props.showError();
                 }
             });
+    }
+
+    restoreCached(cached) {
+        localStorage.clear();
+        for (let c in cached) {
+            if (c === "__files__") {
+                let file = cached[c].filter(f => f!== null);
+                let filelist = {};
+                file.forEach((f) => {
+                    const db = new Dexie('akvoflow');
+                    db.version(1).stores({files: 'id'});
+                    db.files.put({id: f.id, fileName: f.fileName, blob: f.blob, qid: f.qid})
+                    filelist = {
+                        ...filelist,
+                        [f.id]: f.fileName
+                    };
+                })
+                localStorage.setItem('__files__', JSON.stringify(filelist));
+            }
+            if (Array.isArray(cached[c])) {
+                if (c !== "__files__") {
+                    localStorage.setItem(c, JSON.stringify(cached[c]));
+                }
+            } else {
+                localStorage.setItem(c, cached[c]);
+            }
+        }
+    }
+
+    redirectError() {
+        PopupError("URL is not available, redirecting page")
+            .then(res => {
+                const redirect = window.location.href.replace('/'+this.cacheId, '');
+                window.location.replace(redirect);
+            });
+    }
+
+    getCachedSurvey() {
+        axios.get(API_URL + 'form-instance/' + this.cacheId)
+            .then(res => {
+                let stored = JSON.parse(res.data.state);
+                if (stored._formId !== this.surveyId) {
+                    this.redirectError();
+                    return false;
+                }
+                let formChanged = localStorage.getItem('_cache') === this.cacheId ? true : false;
+                let changes = [];
+                if (formChanged){
+                    let questions = stored.questionId.split(',');
+                    let answers = JSON.parse(JSON.stringify(localStorage));
+                    questions.forEach((id) => {
+                        if (stored[id] !== undefined && answers[id] !== undefined) {
+                            changes = [
+                                ...changes,
+                                stored[id] !== answers[id]
+                            ];
+                        }
+                    });
+                }
+                changes = changes.filter(x => x).length > 0;
+                if(changes && formChanged) {
+                    this.getSurvey();
+                } else {
+                    this.getSurvey();
+                    this.restoreCached(stored);
+                    localStorage.setItem("_cache",this.cacheId);
+                }
+                return true;
+            })
+            .catch(res => {
+                this.redirectError();
+            });
+    }
+
+    componentDidMount() {
+        this._isMounted = true;
+        if (this._isMounted) {
+            this.props.generateUUID({})
+            this.props.changeSettings({_isLoading:true})
+            if (localStorage.getItem("_formId")) {
+                if (localStorage.getItem("_formId") !== this.surveyId){
+                    localStorage.clear();
+                }
+            }
+            localStorage.setItem("_formId", this.surveyId)
+            localStorage.setItem("_instanceId", this.instance)
+            if (this.cacheId) {
+                this.getCachedSurvey();
+            } else {
+                this.getSurvey();
+            }
+        }
+    }
+
+    componentWillUnmount() {
+        this._isMounted=false;
     }
 
     renderQuestions() {

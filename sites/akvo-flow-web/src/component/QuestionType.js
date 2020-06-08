@@ -45,9 +45,9 @@ class QuestionType extends Component {
 
     handleGlobal(questionid, qval){
         if (qval === "" || qval === null){
-            this.props.restoreAnswers(this.props.value.questions)
+            this.props.replaceAnswers(this.props.value.questions)
         } else {
-            this.props.restoreAnswers(this.props.value.questions)
+            this.props.replaceAnswers(this.props.value.questions)
         }
         this.props.changeGroup(this.props.value.groups.active)
         this.props.reduceGroups()
@@ -84,16 +84,14 @@ class QuestionType extends Component {
         const reader = new FileReader();
 
         reader.addEventListener('load', () => {
-            db.files.put({id: fileId, fileName: file.name, blob: reader.result})
+            db.files.put({id: fileId, fileName: file.name, blob: reader.result, qid:id})
             .then(() => {
 
                 let files = JSON.parse(localStorage.getItem('__files__') || '{}');
                 files[fileId] = file.name;
-
                 localStorage.setItem(id, fileId);
                 localStorage.setItem(fileId, file.name);
                 localStorage.setItem('__files__', JSON.stringify(files));
-
                 that.setState({ value: fileId })
                 that.handleGlobal(id, fileId)
             })
@@ -109,10 +107,16 @@ class QuestionType extends Component {
         const id = this.props.data.id
         const fileId = this.state.value
         const that = this;
-
+        let fileList = JSON.parse(localStorage.getItem('__files__'));
+        let newFiles = {};
+        for (let f in fileList) {
+            if (f !==  fileId) {
+                newFiles = {...newFiles, [f]: fileList[f]}
+            }
+        }
+        localStorage.setItem('__files__', JSON.stringify(newFiles));
         const db = new Dexie('akvoflow');
         db.version(1).stores({files: 'id'});
-
         db.files.delete(fileId)
         .then((result) => {
             localStorage.removeItem(id)

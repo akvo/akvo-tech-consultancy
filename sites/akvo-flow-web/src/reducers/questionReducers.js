@@ -584,7 +584,7 @@ export const questionReducers = (state = initialState, action) => {
                 ...state,
                 groups: listGroups(action.data, state.questions, state.answers),
             }
-        case 'RESTORE ANSWERS':
+        case 'REPLACE ANSWERS':
             return {
                 ...state,
                 answers: replaceAnswers(action.data, localStorage, true)
@@ -613,7 +613,8 @@ export const questionReducers = (state = initialState, action) => {
             return {
                 ...state,
                 questions: cloned.questions,
-                groups: cloned.groups
+                answers: replaceAnswers(cloned.questions, localStorage, true),
+                groups: cloned.groups,
             }
         case 'REMOVE GROUP':
             const uncloned = removeQuestions(state.questions, state.groups, action.data);

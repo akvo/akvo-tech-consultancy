@@ -5,7 +5,7 @@ import ReCAPTCHA from "react-google-recaptcha"
 import axios from 'axios'
 import { Spinner } from 'reactstrap'
 import '../App.css'
-import { PopupSuccess, PopupError } from '../util/Popup'
+import { PopupSuccess, PopupError, PopupToast } from '../util/Popup'
 import { PROD_URL, USING_PASSWORDS } from '../util/Environment'
 import JSZip from 'jszip'
 import Dexie from 'dexie';
@@ -63,6 +63,19 @@ class Submit extends Component {
         this.setState({ callback: "called!" });
     };
 
+    saveResult(newId) {
+        const redirect = window.location.href + '/' + newId;
+        PopupSuccess("New datapoint saved! clearing form...");
+        setTimeout(function () {
+            let username = localStorage.getItem('_username');
+            localStorage.clear();
+            localStorage.setItem('_username', username);
+            setTimeout(function () {
+                window.location.replace(redirect);
+            }, 3000);
+        }, 500);
+    }
+
     saveData(content) {
         const files = JSON.parse(localStorage.getItem('__files__') || '{}');
         const fileIds = Object.keys(files);
@@ -78,23 +91,28 @@ class Submit extends Component {
                 else {
                     postData = Object.assign({}, content, { __files__: result });
                 }
-                axios.post(API_ORIGIN + 'form-instance',
-                    postData, { headers: { 'Content-Type': 'application/json' } })
-                    .then(res => {
-                        PopupSuccess("New datapoint saved! clearing form...");
-                        setTimeout(function () {
-                            let username = localStorage.getItem('_username');
-                            localStorage.clear();
-                            localStorage.setItem('_username', username);
-                            setTimeout(function () {
-                                window.location.replace(window.location.origin + window.location.pathname); //FIXME: pathname may contain an instance-id
-                            }, 3000);
-                        }, 500);
-                    })
-                    .catch(e => {
-                        console.error(e);
-                        PopupError("Something went wrong");
-                    })
+                if (localStorage.getItem('_cache') !== null) {
+                    axios.put(API_ORIGIN + 'form-instance/' + localStorage.getItem('_cache'),
+                        postData, { headers: { 'Content-Type': 'application/json' } })
+                        .then(res => {
+                            PopupToast("Datapoint Updated!", "success");
+                        })
+                        .catch(e => {
+                            console.error(e);
+                            PopupError("Something went wrong");
+                        })
+                }
+                else {
+                    axios.post(API_ORIGIN + 'form-instance',
+                        postData, { headers: { 'Content-Type': 'application/json' } })
+                        .then(res => {
+                            this.saveResult(res.data.id);
+                        })
+                        .catch(e => {
+                            console.error(e);
+                            PopupError("Something went wrong");
+                        })
+                    }
 
             })
             .catch(e => {
@@ -144,7 +162,6 @@ class Submit extends Component {
                         const fileIds = Object.keys(files);
                         const db = new Dexie('akvoflow');
                         db.version(1).stores({ files: 'id' });
-
                         db.files.bulkGet(fileIds)
                             .then((result) => {
 
@@ -243,6 +260,7 @@ class Submit extends Component {
         if (!dpname) {
             localStorage.setItem('_dataPointName','Untitled');
         }
+        console.log(this.props.value);
         this.saveData(localStorage);
     }
 
@@ -291,8 +309,7 @@ class Submit extends Component {
                     </div>
                     <button
                         onClick={e => this.saveForm(e)}
-                        className={"btn btn-block btn-primary"}
-                        disabled={this.props.value.submit ? false : true}>
+                        className={"btn btn-block btn-primary"}>
                         Save
                     </button>
                     <button

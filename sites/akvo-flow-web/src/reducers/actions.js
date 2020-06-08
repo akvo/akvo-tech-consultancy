@@ -12,7 +12,7 @@ export const mapDispatchToProps = (dispatch) => {
         removeGroup: (data) => dispatch({type:"REMOVE GROUP", data:data}),
         changeGroup: (data) => dispatch({type:"CHANGE GROUP", group:data}),
         changeLang: (active) => dispatch({type:"CHANGE LOCALIZATION", active:active}),
-        restoreAnswers: (data) => dispatch({type:"RESTORE ANSWERS", data:data}),
+        replaceAnswers: (data) => dispatch({type:"REPLACE ANSWERS", data:data}),
         reduceGroups: () => dispatch({type:"REDUCE GROUPS"}),
         reduceDataPoint: (data) => dispatch({type:"REDUCE DATAPOINT", data:data}),
         checkSubmission: () => dispatch({type:"CHECK SUBMISSION"}),
