@@ -108,8 +108,8 @@ class Page extends Component {
                 </div>
                 <div className={"tagline" + captions}>
                     <Container>
-                        <h1 className="text-center">Portfolios</h1>
-                        <h3>With building something on-top, the solutions are built with robust products like Akvo’s as the core workhorse, and then a layer of customisations which goes sufficiently close to aligning with the partner requirements.</h3>
+                        <h1 className="text-center">Akvo Tech Consultancy Portfolio</h1>
+                        <h3>The Tech Consultancy team builds custom solutions on top of Akvo’s core products to meet a partner’s specific needs. Below, you’ll find the solutions and proof of concepts we’ve developed so far</h3>
                     </Container>
                 </div>
                 { this.props.value.captions ? "" : (
