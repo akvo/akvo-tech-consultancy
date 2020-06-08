@@ -9,12 +9,12 @@ export const AuthParams = {
 			password: password,
 			grant_type: "password",
 			scope: "openid email",
-		}
+		};
 	},
 	url: () => {
-		return process.env.AUTH0_URL
+		return process.env.AUTH0_URL;
 	}
-}
+};
 
 export const Auth = async (data) => {
     return await axios.post(AuthParams.url, data);
