@@ -16,6 +16,7 @@
     "datauritoblob": "^1.0.0",
     "dexie": "^3.0.1",
     "dotenv": "^8.2.0",
+    "exif-js": "^2.3.0",
     "filepond-plugin-image-preview": "^4.5.0",
     "jszip": "^3.4.0",
     "leaflet": "^1.6.0",

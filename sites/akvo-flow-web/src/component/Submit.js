@@ -5,8 +5,8 @@ import ReCAPTCHA from "react-google-recaptcha"
 import axios from 'axios'
 import { Spinner } from 'reactstrap'
 import '../App.css'
-import { PopupSuccess, PopupError } from '../util/Popup'
-import { PROD_URL, USING_PASSWORDS } from '../util/Environment'
+import { PopupSuccess, PopupError, PopupToast } from '../util/Popup'
+import { PROD_URL, PARENT_URL, USING_PASSWORDS } from '../util/Environment'
 import JSZip from 'jszip'
 import Dexie from 'dexie';
 import Uppy from '@uppy/core';
@@ -29,6 +29,7 @@ class Submit extends Component {
         this.state = {
             _showCaptcha : this.props.value.captcha,
             _showSpinner : false,
+            _saveButton : true
         }
         this._reCaptchaRef = React.createRef();
     }
@@ -63,12 +64,27 @@ class Submit extends Component {
         this.setState({ callback: "called!" });
     };
 
+    saveResult(newId) {
+        const redirect = window.location.href + '/' + newId;
+        PopupSuccess("New datapoint saved! clearing form...");
+        this.props.updateDomain(this.props.value.domain + '/' + newId);
+        if (!PARENT_URL) {
+            setTimeout(function () {
+                let username = localStorage.getItem('_username');
+                localStorage.clear();
+                localStorage.setItem('_username', username);
+                setTimeout(function () {
+                    window.location.replace(redirect);
+                }, 3000);
+            }, 500);
+        }
+    }
+
     saveData(content) {
         const files = JSON.parse(localStorage.getItem('__files__') || '{}');
         const fileIds = Object.keys(files);
         const db = new Dexie('akvoflow');
         db.version(1).stores({ files: 'id' });
-
         db.files.bulkGet(fileIds)
             .then((result) => {
                 let postData;
@@ -78,23 +94,32 @@ class Submit extends Component {
                 else {
                     postData = Object.assign({}, content, { __files__: result });
                 }
-                axios.post(API_ORIGIN + 'form-instance',
-                    postData, { headers: { 'Content-Type': 'application/json' } })
-                    .then(res => {
-                        PopupSuccess("New datapoint saved! clearing form...");
-                        setTimeout(function () {
-                            let username = localStorage.getItem('_username');
-                            localStorage.clear();
-                            localStorage.setItem('_username', username);
-                            setTimeout(function () {
-                                window.location.replace(window.location.origin + window.location.pathname); //FIXME: pathname may contain an instance-id
-                            }, 3000);
-                        }, 500);
-                    })
-                    .catch(e => {
-                        console.error(e);
-                        PopupError("Something went wrong");
-                    })
+                if (localStorage.getItem('_cache') !== null) {
+                    axios.put(API_ORIGIN + 'form-instance/' + localStorage.getItem('_cache'),
+                        postData, { headers: { 'Content-Type': 'application/json' } })
+                        .then(res => {
+                            PopupToast("Datapoint Updated!", "success");
+                            this.setState({_saveButton: true});
+                        })
+                        .catch(e => {
+                            console.error(e);
+                            PopupError("Something went wrong");
+                            this.setState({_saveButton: true});
+                        })
+                }
+                else {
+                    axios.post(API_ORIGIN + 'form-instance',
+                        postData, { headers: { 'Content-Type': 'application/json' } })
+                        .then(res => {
+                            this.saveResult(res.data.id);
+                            this.setState({_saveButton: true});
+                        })
+                        .catch(e => {
+                            console.error(e);
+                            PopupError("Something went wrong");
+                            this.setState({_saveButton: true});
+                        })
+                    }
 
             })
             .catch(e => {
@@ -144,7 +169,6 @@ class Submit extends Component {
                         const fileIds = Object.keys(files);
                         const db = new Dexie('akvoflow');
                         db.version(1).stores({ files: 'id' });
-
                         db.files.bulkGet(fileIds)
                             .then((result) => {
 
@@ -243,6 +267,7 @@ class Submit extends Component {
         if (!dpname) {
             localStorage.setItem('_dataPointName','Untitled');
         }
+        this.setState({_saveButton: false});
         this.saveData(localStorage);
     }
 
@@ -292,7 +317,7 @@ class Submit extends Component {
                     <button
                         onClick={e => this.saveForm(e)}
                         className={"btn btn-block btn-primary"}
-                        disabled={this.props.value.submit ? false : true}>
+                        disabled={this.state._saveButton ? false : true}>
                         Save
                     </button>
                     <button

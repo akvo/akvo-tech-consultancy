@@ -5,6 +5,7 @@ import isoLangs from '../util/Languages.js'
 
 const initialState = {
     error: false,
+    domain: document.referrer,
     instanceName:"Loading...",
     instanceId:"Loading...",
     surveyName:"Loading..",
@@ -584,7 +585,7 @@ export const questionReducers = (state = initialState, action) => {
                 ...state,
                 groups: listGroups(action.data, state.questions, state.answers),
             }
-        case 'RESTORE ANSWERS':
+        case 'REPLACE ANSWERS':
             return {
                 ...state,
                 answers: replaceAnswers(action.data, localStorage, true)
@@ -613,7 +614,8 @@ export const questionReducers = (state = initialState, action) => {
             return {
                 ...state,
                 questions: cloned.questions,
-                groups: cloned.groups
+                answers: replaceAnswers(cloned.questions, localStorage, true),
+                groups: cloned.groups,
             }
         case 'REMOVE GROUP':
             const uncloned = removeQuestions(state.questions, state.groups, action.data);
@@ -672,6 +674,11 @@ export const questionReducers = (state = initialState, action) => {
             updateLocalStorage(state.questions);
             return {
                 ...state,
+            }
+        case 'UPDATE DOMAIN':
+            return {
+                ...state,
+                domain: action.domain
             }
         default:
             return state;
