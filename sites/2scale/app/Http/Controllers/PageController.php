@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use ResponseCache;
 use App\Partnership;
+use App\Libraries\Flow;
 
 class PageController extends Controller
 {
@@ -40,9 +41,19 @@ class PageController extends Controller
 		return view('pages.database', ['surveys' => config('surveys')]);
     }
 
-	public function survey()
+	public function surveys()
 	{
 		return view('pages.survey', ['surveys' => config('surveys')]);
+	}
+
+	public function survey(Request $request, Flow $flow)
+	{
+        $survey = $flow->forminstance($request->id);
+        $survey = json_decode($survey['state']);
+        $url = config('surveys.url') . '/' . $survey->_formId . '/' . $request->id;
+        return view('pages.survey', 
+            ['surveys' => config('surveys'), 'saved_survey' => $url]
+        );
 	}
 
 	public function organisation()

@@ -2066,7 +2066,8 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 
 var selectorbar = $(".selector-bar").length === 1 ? 60 : 0;
-var iframeheight = window.innerHeight - (56 + selectorbar);
+var navbar = $("nav.nav").length === 1 ? 56 : 3;
+var iframeheight = window.innerHeight - (navbar + selectorbar);
 
 var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 

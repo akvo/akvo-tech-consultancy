@@ -97,4 +97,23 @@ class Flow
         return $data;
     }
 
+    public function forminstance($id) {
+        $client = new \GuzzleHttp\Client();
+        $url = config('akvo.form_instance') . '/' . $id;
+        try {
+            $response = $client->get($url);
+        } catch(RequestException $e) {
+            if ($e->hasResponse()) {
+                $response = $e->getResponse();
+            }
+        }
+        if ($response->getStatusCode() === 200) {
+            $data = json_decode($response->getBody(), true);
+        }
+        if (empty($data)) {
+            return null;
+        }
+        return $data;
+    }
+
 }
