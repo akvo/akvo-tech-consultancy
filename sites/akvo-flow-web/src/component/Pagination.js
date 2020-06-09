@@ -20,7 +20,7 @@ class Pagination extends Component {
         const prev_target = this.props.value.groups.active - 1;
         const next_target = this.props.value.groups.active + 1;
         return (
-            <div className="btn btn-group ml-auto mt-2 mt-lg-0">
+            <div className="btn btn-group mt-2 mt-lg-0">
                 <button
                     className={"btn " + prev_class}
                     onClick={() => {this.showGroup(prev_target)}}

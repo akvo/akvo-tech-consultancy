@@ -9,6 +9,7 @@ import GroupHeaders from './component/GroupHeaders'
 import DataPoint from './component/DataPoint'
 import Questions from './component/Questions'
 import Pagination from './component/Pagination'
+import Clear from './component/Clear'
 import Header from './component/Header'
 import Submit from './component/Submit'
 import {
@@ -19,8 +20,8 @@ import { PopupError } from './util/Popup.js'
 import { PROD_URL } from './util/Environment.js'
 import Dexie from 'dexie';
 
-const API_URL = (PROD_URL ? window.location.href.replace("flow-web","flow-web-api") : process.env.REACT_APP_API_URL)
-const CACHE_URL = (PROD_URL ? "update" : "fetch")
+const API_URL = (PROD_URL ? window.location.href.replace("flow-web","flow-web-api") : process.env.REACT_APP_API_URL);
+const CACHE_URL = (PROD_URL ? "update" : "fetch");
 
 class Home extends Component {
     _isMounted = false;
@@ -88,6 +89,8 @@ class Home extends Component {
     }
 
     getSurvey() {
+        localStorage.setItem("_formId", this.surveyId)
+        localStorage.setItem("_instanceId", this.instance)
         let SURVEY_API = (PROD_URL ? API_URL : API_URL + this.instance + '/' + this.surveyId);
         axios.get(SURVEY_API + '/' + CACHE_URL)
             .then(res => {
@@ -147,6 +150,7 @@ class Home extends Component {
         axios.get(API_URL + 'form-instance/' + this.cacheId)
             .then(res => {
                 let stored = JSON.parse(res.data.state);
+                this.props.urlState(true);
                 if (stored._formId !== this.surveyId) {
                     this.redirectError();
                     return false;
@@ -190,11 +194,12 @@ class Home extends Component {
                     localStorage.clear();
                 }
             }
-            localStorage.setItem("_formId", this.surveyId)
-            localStorage.setItem("_instanceId", this.instance)
             if (this.cacheId) {
                 this.getCachedSurvey();
             } else {
+                if (localStorage.getItem('_cache') !== null) {
+                    this.props.urlState(true);
+                }
                 this.getSurvey();
             }
         }
@@ -230,6 +235,7 @@ class Home extends Component {
                             {this.state._fullscreen ? <FaArrowRight /> : <FaArrowLeft />}
                         </button>
                         {( this.props.value.questions.length === 1 ? "" : (<DataPoint />) )}
+                        <Clear reloadhome={this.getSurvey}/>
                         <Pagination />
                     </nav>
                     <GroupHeaders />

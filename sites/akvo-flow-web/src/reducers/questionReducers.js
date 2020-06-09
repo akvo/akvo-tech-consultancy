@@ -2,10 +2,14 @@ import { getQuestionType } from '../util/QuestionHandler.js'
 import { isJsonString } from '../util/QuestionHandler.js'
 import uuid from 'uuid/v4'
 import isoLangs from '../util/Languages.js'
+import { PARENT_URL } from '../util/Environment.js'
+
+const DOMAIN_ID = localStorage.getItem('_cache') !== null ? localStorage.getItem('_cache') : false;
+const DOMAIN = DOMAIN_ID ? document.referrer + '/' + DOMAIN_ID : document.referrer;
 
 const initialState = {
     error: false,
-    domain: document.referrer,
+    domain: PARENT_URL ? DOMAIN : window.location.href,
     instanceName:"Loading...",
     instanceId:"Loading...",
     surveyName:"Loading..",
@@ -64,6 +68,7 @@ const initialState = {
     },
     pages:{
     },
+    savedUrl: false,
     lang: {
         active: ["en"],
         list: [{id:"en",name:"Loading..."}]
@@ -643,6 +648,11 @@ export const questionReducers = (state = initialState, action) => {
                 ...state,
                 submit: action.data
             }
+        case 'URL STATE':
+            return {
+                ...state,
+                savedUrl: action.show
+            }
         case 'GENERATE UUID':
             return {
                 ...state,
@@ -678,7 +688,7 @@ export const questionReducers = (state = initialState, action) => {
         case 'UPDATE DOMAIN':
             return {
                 ...state,
-                domain: action.domain
+                domain: action.url
             }
         default:
             return state;

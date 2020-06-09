@@ -3,8 +3,8 @@ import EXIF from 'exif-js';
 
 const SwalOption = Swal.mixin({
     customClass: {
-        confirmButton: 'btn btn-danger',
-        cancelButton: 'btn btn-primary'
+        confirmButton: 'btn btn-danger btn-block ml-auto',
+        cancelButton: 'btn btn-primary btn-block mr-auto'
     },
     buttonsStyling: false
 });
@@ -34,6 +34,7 @@ export const PopupError = (message) => {
         showConfirmButton: false,
         allowEscapeKey: true,
         timerProgressBar: true,
+        heightAuto: false,
         timer: 6000,
     });
 }
@@ -53,6 +54,7 @@ export const PopupSuccess = (message) => {
         allowOutsideClick: false,
         allowEscapeKey: false,
         timerProgressBar: true,
+        heightAuto: false,
         timer: 3000,
     });
 };
@@ -62,6 +64,7 @@ export const PopupInfo = (message) => {
         text: message,
         showConfirmButton: false,
         scrollbarPadding: false,
+        heightAuto: false,
         allowEscapeKey: true,
     });
 }
@@ -74,7 +77,8 @@ export const PopupAsk = (message, options) => {
         showCancelButton: true,
         confirmButtonText: options.confirm.opt,
         cancelButtonText: options.cancel.opt,
-        reverseButtons: true
+        reverseButtons: true,
+        heightAuto: false
     });
 }
 
@@ -117,6 +121,7 @@ export const PopupImage = (filename, unique, imageUrl) => {
             imageUrl: imageUrl,
             imageAlt: unique,
             showConfirmButton: false,
+            heightAuto: false
         })
       });
 }

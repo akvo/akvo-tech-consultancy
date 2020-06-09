@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import {connect } from 'react-redux';
 import { mapStateToProps, mapDispatchToProps } from '../reducers/actions.js'
 import { Toast, ToastHeader, ToastBody } from 'reactstrap'
@@ -12,6 +12,7 @@ class Header extends Component {
         this.renderHeaderInfo = this.renderHeaderInfo.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.copyUrl = this.copyUrl.bind(this);
+        this.getExtraHeader = this.getExtraHeader.bind(this);
     }
 
     handleChange(data) {
@@ -50,10 +51,28 @@ class Header extends Component {
         ));
     }
 
+    getExtraHeader() {
+        return (
+            <Fragment>
+              <ToastHeader>
+                  Saved Links:
+              </ToastHeader>
+              <ToastBody>
+                  <pre>{this.props.value.domain}</pre>
+                  <button
+                      className="btn btn-repeatable btn-warning"
+                      onClick={e => this.copyUrl()}
+                  >
+                      Copy URL to Clipboard
+                  </button>
+              </ToastBody>
+            </Fragment>
+        )
+    }
+
     copyUrl() {
         CopyToClipboard(this.props.value.domain)
     }
-
 
     render() {
         let info = [
@@ -70,17 +89,7 @@ class Header extends Component {
                   <ToastBody>
                       {this.renderHeaderInfo(info)}
                   </ToastBody>
-                  <ToastHeader>
-                      Saved Links:
-                  </ToastHeader>
-                  <ToastBody>
-                      <button
-                          className="btn btn-repeatable btn-warning"
-                          onClick={e => this.copyUrl()}
-                      >
-                          Copy URL to Clipboard
-                      </button>
-                  </ToastBody>
+                      {this.props.value.savedUrl ? this.getExtraHeader() : ""}
                   <ToastHeader>
                       Localization:
                   </ToastHeader>

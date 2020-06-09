@@ -647,7 +647,7 @@ class QuestionType extends Component {
         let formtype = data.type
         let answered = localStorage.getItem(data.id)
         if (data.localeNameFlag) {
-            this.setDpStorage()
+            this.setDpStorage();
         }
         if ('localeLocationFlag' in data){
             this.setDplStorage()

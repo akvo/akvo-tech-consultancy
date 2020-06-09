@@ -65,19 +65,11 @@ class Submit extends Component {
     };
 
     saveResult(newId) {
-        const redirect = window.location.href + '/' + newId;
         PopupSuccess("New datapoint saved! clearing form...");
-        this.props.updateDomain(this.props.value.domain + '/' + newId);
-        if (!PARENT_URL) {
-            setTimeout(function () {
-                let username = localStorage.getItem('_username');
-                localStorage.clear();
-                localStorage.setItem('_username', username);
-                setTimeout(function () {
-                    window.location.replace(redirect);
-                }, 3000);
-            }, 500);
-        }
+        this.props.urlState(true);
+        localStorage.setItem('_cache', newId);
+        let url = PARENT_URL ? document.referrer : window.location.href;
+        this.props.updateDomain(url + '/' + newId);
     }
 
     saveData(content) {
@@ -133,7 +125,6 @@ class Submit extends Component {
             .use(AwsS3, {
                 getUploadParameters: function (file) {
                     const folder = file.type === 'application/zip' ? 'devicezip' : 'images';
-                    console.log(file);
                     return {
                         method: 'POST',
                         url: file.postUrl,
@@ -243,7 +234,6 @@ class Submit extends Component {
                     });
                 return res;
             }).catch((e) => {
-                console.log(e)
                 PopupError(e.response.data.message);
                 this.setState({ '_showSpinner': false })
             })

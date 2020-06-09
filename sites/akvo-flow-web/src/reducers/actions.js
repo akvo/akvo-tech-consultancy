@@ -17,11 +17,12 @@ export const mapDispatchToProps = (dispatch) => {
         reduceDataPoint: (data) => dispatch({type:"REDUCE DATAPOINT", data:data}),
         checkSubmission: () => dispatch({type:"CHECK SUBMISSION"}),
         submitState: (data) => dispatch({type:"SUBMIT STATE", data:data}),
+        urlState: (show) => dispatch({type:"URL STATE", show:show}),
         generateUUID: (data) => dispatch({type:"GENERATE UUID", data:data}),
         changeSettings: (data) => dispatch({type:"PAGES SETTINGS", data:data}),
         storeCascade: (data) => dispatch({type:"STORE CASCADE", data:data}),
         showError: () => dispatch({type:"SHOW ERROR"}),
         updateLocalStorage: () => dispatch({type:"STORAGE UPDATE"}),
-        updateDomain: (domain) => dispatch({type:"UPDATE DOMAIN", domain:domain})
+        updateDomain: (url) => dispatch({type:"UPDATE DOMAIN", url:url})
     }
 }
