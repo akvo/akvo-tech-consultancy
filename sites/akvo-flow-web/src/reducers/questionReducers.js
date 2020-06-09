@@ -2,7 +2,6 @@ import { getQuestionType } from '../util/QuestionHandler.js'
 import { isJsonString } from '../util/QuestionHandler.js'
 import uuid from 'uuid/v4'
 import isoLangs from '../util/Languages.js'
-import { PARENT_URL } from '../util/Environment'
 
 const initialState = {
     error: false,

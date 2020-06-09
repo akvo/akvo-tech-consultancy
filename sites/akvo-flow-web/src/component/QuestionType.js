@@ -573,7 +573,7 @@ class QuestionType extends Component {
                     >
                     View Image
                     </button>
-                    <img className="hidden" id={unique} src={this.state.blob}/>
+                    <img alt={fileName} className="hidden" id={unique} src={this.state.blob}/>
                 </div>
             )
         }
