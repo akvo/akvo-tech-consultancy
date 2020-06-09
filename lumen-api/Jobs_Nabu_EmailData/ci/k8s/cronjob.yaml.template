@@ -32,21 +32,6 @@ spec:
                 cpu: "1000m"
                 memory: "256Mi"
             env:
-              - name: EMAIL_HOST
-                valueFrom:
-                  secretKeyRef:
-                    name: nabu-emaildata-notification 
-                    key: email-host
-              - name: EMAIL_USER
-                valueFrom:
-                  secretKeyRef:
-                    name: nabu-emaildata-notification 
-                    key: email-user
-              - name: EMAIL_PWD
-                valueFrom:
-                  secretKeyRef:
-                    name: nabu-emaildata-notification 
-                    key: email-pwd
               - name: POSTGRES_DB
                 valueFrom:
                   secretKeyRef:
@@ -72,4 +57,14 @@ spec:
                   secretKeyRef:
                     name: nabu-emaildata-notification
                     key: postgres-pwd
+              - name: MAILJET_APIKEY
+                valueFrom:
+                  secretKeyRef:
+                    name: nabu-emaildata-notification
+                    key: mailjet-apikey
+              - name: MAILJET_SECRET
+                valueFrom:
+                  secretKeyRef:
+                    name: nabu-emaildata-notification
+                    key: mailjet-secret
           restartPolicy: Never

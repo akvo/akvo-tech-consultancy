@@ -19,3 +19,5 @@ yarn-error.log
 deploy.sh
 .env
 .phpunit.result.cache
+*.xlsx
+/__pycache__

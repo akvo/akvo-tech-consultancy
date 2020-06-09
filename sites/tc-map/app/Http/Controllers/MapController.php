@@ -21,7 +21,10 @@ class MapController extends Controller
 
     public function getConfig(Request $request, DS $ds)
     {
-        $data = $ds->select('config', 'source', 'id')->where('id',$request->source)->first();
+        $data = $ds->select('config', 'source', 'id')
+                   ->where('id',$request->source)
+                   ->first();
+
         return $data->config;
     }
 }

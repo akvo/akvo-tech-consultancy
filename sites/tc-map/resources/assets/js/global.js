@@ -25,8 +25,10 @@ var nainclude = [
     'duration'
 ];
 
+// pop up details
 function getDetails(a, atype) {
     console.log(a);
+    console.log(a.getAttribute('data'));
     $('#profile-menu').click();
     $('#detail_modal').modal('show');
 }

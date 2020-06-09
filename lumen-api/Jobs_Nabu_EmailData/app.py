@@ -1,130 +1,135 @@
 import os
-import smtplib
 import sys
+
 from os.path import basename
-from email.mime.multipart import MIMEMultipart
-from email.mime.application import MIMEApplication
-from email.mime.text import MIMEText
 from datetime import date
 
 import psycopg2 as pg
 import pandas.io.sql as psql
 import pyminizip
 from jinja2 import Environment, FileSystemLoader
-
-EMAIL_USER = os.environ['EMAIL_USER']
-EMAIL_HOST = os.environ['EMAIL_HOST']
-EMAIL_PWD = os.environ['EMAIL_PWD']
-
-POSTGRES_DB = os.environ['POSTGRES_DB']
-POSTGRES_HOST = os.environ['POSTGRES_HOST']
-POSTGRES_PORT = os.environ['POSTGRES_PORT']
-POSTGRES_USER = os.environ['POSTGRES_USER']
-POSTGRES_PASSWORD = os.environ['POSTGRES_PASSWORD']
-
-EMAIL_RECEIVER = ['Stefanie.Brandes@NABU.de', 'Svane.Bender@NABU.de', 'Mesfin.Tekle.nabu@gmail.com']
-#EMAIL_RECEIVER = ['deden@akvo.org']
-EMAIL_BCC = ['joy@akvo.org','deden@akvo.org']
+from mailjet_rest import Client
+import base64
 
 today = date.today()
 today_str = today.strftime("%d/%m/%Y")
+day = today.strftime('%d')
 
-try:
-    connection = pg.connect("dbname='" + POSTGRES_DB + "' user='" + POSTGRES_USER + "' host='" + POSTGRES_HOST + "' password='" + POSTGRES_PASSWORD + "'")
-except:
-    print('Unable to connect to the database')
+if (day == '01'):
+    POSTGRES_DB = os.environ['POSTGRES_DB']
+    POSTGRES_HOST = os.environ['POSTGRES_HOST']
+    POSTGRES_PORT = os.environ['POSTGRES_PORT']
+    POSTGRES_USER = os.environ['POSTGRES_USER']
+    POSTGRES_PASSWORD = os.environ['POSTGRES_PASSWORD']
+
+    MAILJET_APIKEY = os.environ['MAILJET_APIKEY']
+    MAILJET_SECRET = os.environ['MAILJET_SECRET']
+
+    EMAIL_RECEIVER = ['Stefanie.Brandes@NABU.de', 'Svane.Bender@NABU.de', 'Mesfin.Tekle.nabu@gmail.com']
+    #EMAIL_RECEIVER = ['galih@akvo.org']
+    EMAIL_BCC = ['joy@akvo.org', 'deden@akvo.org', 'galih@akvo.org']
+
+    mailjet = Client(auth=(MAILJET_SECRET, MAILJET_APIKEY), version='v3.1')
+
+    try:
+        connection = pg.connect("dbname='" + POSTGRES_DB + "' user='" + POSTGRES_USER + "' host='" + POSTGRES_HOST + "' password='" + POSTGRES_PASSWORD + "'")
+    except:
+        print('Unable to connect to the database')
 
 
-groups = [
-    'Biodiversity Monitoring - Baseline -',
-    'Biodiversity Monitoring - Community -',
-    'Carbon Monitoring -',
-    'Forest Disturbance Monitoring - Baseline -'
-]
+    groups = [
+        'Biodiversity Monitoring - Baseline -',
+        'Biodiversity Monitoring - Community -',
+        'Carbon Monitoring -',
+        'Forest Disturbance Monitoring - Baseline -'
+    ]
 
-geo_columns = {
-    'Biodiversity Monitoring - Baseline -': {'Take the GPS location': 'point'},
-    'Biodiversity Monitoring - Community -': {'Take the GPS location of this place': 'point'},
-    'Carbon Monitoring -': {'geographical locations in UTM': 'point'},
-    'Forest Disturbance Monitoring - Baseline -': {
-        'Take the GPS location': 'point',
-        'If the plot is large, take a geoshape/polygon': 'polygon'
+    geo_columns = {
+        'Biodiversity Monitoring - Baseline -': {'Take the GPS location': 'point'},
+        'Biodiversity Monitoring - Community -': {'Take the GPS location of this place': 'point'},
+        'Carbon Monitoring -': {'geographical locations in UTM': 'point'},
+        'Forest Disturbance Monitoring - Baseline -': {
+            'Take the GPS location': 'point',
+            'If the plot is large, take a geoshape/polygon': 'polygon'
+        }
     }
-}
 
-views = {}
-counter = {}
+    views = {}
+    counter = {}
 
-tmp_dir = './tmp/'
-zip_password = 'nabuflow'
+    tmp_dir = './tmp/'
+    zip_password = 'nabuflow'
 
-def get_data(row, group):
-    global counter
-    geo_str = ', '.join(map(lambda x: 'ST_X("' + x[0] + '") AS "' + x[0] + ' X", ST_Y("' + x[0] + '") AS "' + x[0] + ' Y"' if x[1] == 'point' else 'ST_AsGeoJSON("' + x[0] + '") AS "New ' + x[0] + '"', geo_columns[group].items()))
-    print(row)
-    try:
-        data = psql.read_sql('SELECT *, ' + geo_str + ' FROM "' + row + '"', connection)
-        counter[row] = len(data.index)
-        # REPLACE GEO COLUMN
-        for column, geo_type in geo_columns[group].items():
-            if geo_type == 'point':
-                data = data.drop(columns=[column])
-            else:
-                data[column] = data['New ' + column]
-                data = data.drop(columns=['New ' + column])
+    def get_data(row, group):
+        global counter
+        geo_str = ', '.join(map(lambda x: 'ST_X("' + x[0] + '") AS "' + x[0] + ' X", ST_Y("' + x[0] + '") AS "' + x[0] + ' Y"' if x[1] == 'point' else 'ST_AsGeoJSON("' + x[0] + '") AS "New ' + x[0] + '"', geo_columns[group].items()))
+        print(row)
+        try:
+            data = psql.read_sql('SELECT *, ' + geo_str + ' FROM "' + row + '"', connection)
+            counter[row] = len(data.index)
+            # REPLACE GEO COLUMN
+            for column, geo_type in geo_columns[group].items():
+                if geo_type == 'point':
+                    data = data.drop(columns=[column])
+                else:
+                    data[column] = data['New ' + column]
+                    data = data.drop(columns=['New ' + column])
 
-        data.to_csv(tmp_dir + row + '.csv', index=False)
-        pyminizip.compress(tmp_dir + row + '.csv', None, tmp_dir + row + '.zip', zip_password, 5)
-    except:
-        print('Query failed from ' + row, sys.exc_info())
+            data.to_csv(tmp_dir + row + '.csv', index=False)
+            pyminizip.compress(tmp_dir + row + '.csv', None, tmp_dir + row + '.zip', zip_password, 5)
+        except:
+            print('Query failed from ' + row, sys.exc_info())
 
-def send_email(group, files, summary):
-    file_loader = FileSystemLoader('.')
-    env = Environment(loader=file_loader)
-    template = env.get_template('template.html')
-    html_output = template.render(
-        group = group[:-2],
-        today_str = today_str,
-        summary = summary
-    )
+    def send_email(group, files, summary):
+        file_loader = FileSystemLoader('.')
+        env = Environment(loader=file_loader)
+        template = env.get_template('template.html')
+        html_output = template.render(
+            group = group[:-2],
+            today_str = today_str,
+            summary = summary
+        )
 
-    msg = MIMEMultipart('alternative')
-    msg['Subject'] = 'Nabu Data - ' + group[:-2] + ' - ' + today_str
-    msg['To'] = ', '.join(EMAIL_RECEIVER)
-    msg['From'] = EMAIL_USER
-    msg['Bcc'] = ','.join(EMAIL_BCC)
+        attach = []
+        for f in files.iteritems() or []:
+            with open(tmp_dir + f[1], "rb") as fil,  open(tmp_dir + f[1] + ".b64", 'wb') as fout:
+                base64.encode(fil, fout)
 
-    print('SENDING EMAIL')
-    # fout = "./template.html"
-    msg.attach(MIMEText(html_output, 'html'))
-    for f in files.iteritems() or []:
-        with open(tmp_dir + f[1], "rb") as fil:
-            part = MIMEApplication(
-                fil.read(),
-                Name=basename(f[1])
-            )
-        # After the file is closed
-        part['Content-Disposition'] = 'attachment; filename="%s"' % basename(f[1])
-        msg.attach(part)
+            with open(tmp_dir + f[1] + ".b64", 'r') as fout:
+                attach.append({
+                    "ContentType": "application/zip",
+                    "Filename": basename(f[1]),
+                    "Base64Content": fout.read().rstrip("\n")
+                })
 
-    try:
-        with smtplib.SMTP(EMAIL_HOST, 587) as s:
-                s.ehlo()
-                s.starttls()
-                s.ehlo()
-                s.login(EMAIL_USER, EMAIL_PWD)
-                s.send_message(msg)
-                s.quit()
-        print('EMAIL SENT')
-    except:
-        print('UNABLE TO SEND THE EMAIL. ERROR:', sys.exc_info()[0])
-        raise
+        receiver = []
+        for email in EMAIL_RECEIVER:
+            receiver.append({"Email": email})
 
-for item in groups:
-    data = psql.read_sql("SELECT table_name FROM INFORMATION_SCHEMA.views WHERE table_name LIKE '" + item + "%' ORDER BY table_name ASC", connection)
-    data['table_name'].apply(get_data, args=[item])
-    files = data['table_name'].apply(lambda x: x + '.zip')
-    counter_txt = data['table_name'].apply(lambda x: '<li>' + x + ' : ' + str(counter.get(x, 0)) + ' submission</li>')
-    summary = '<ul>' + ''.join(counter_txt) + '</ul>'
+        bcc = []
+        for email in EMAIL_BCC:
+            bcc.append({"Email": email})
 
-    send_email(item, files, summary)
+        email = {
+            'Messages': [{
+                        "From": {"Email": "noreply@akvo.org", "Name": "noreply@akvo.org"},
+                        "To": receiver,
+                        "Bcc": bcc,
+                        "Subject": 'Nabu Data - ' + group[:-2] + ' - ' + today_str,
+                        "HTMLPart": html_output,
+                        "Attachments": attach
+                    }]
+            }
+
+        result = mailjet.send.create(data=email)
+        print('SENDING EMAIL TO {}'.format(', '.join(EMAIL_RECEIVER)))
+        print('STATUS: {}\n'.format(result.status_code))
+
+    for item in groups:
+        data = psql.read_sql("SELECT table_name FROM INFORMATION_SCHEMA.views WHERE table_name LIKE '" + item + "%' ORDER BY table_name ASC", connection)
+        data['table_name'].apply(get_data, args=[item])
+        files = data['table_name'].apply(lambda x: x + '.zip')
+        counter_txt = data['table_name'].apply(lambda x: '<li>' + x + ' : ' + str(counter.get(x, 0)) + ' submission</li>')
+        summary = '<ul>' + ''.join(counter_txt) + '</ul>'
+
+        send_email(item, files, summary)
