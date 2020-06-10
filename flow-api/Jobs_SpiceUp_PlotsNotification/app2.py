@@ -17,7 +17,7 @@ day = today_date.strftime('%d')
 if (day == '01' or day == '15'):
     instanceURI = 'spiceup'
     requestURI = "https://api-auth0.akvo.org/flow/orgs/{}".format(instanceURI)
-    EMAIL_RECEPIENTS = ['hatami@cinquer.co.id','indri@cinquer.nl','yayang@cinquer.nl','d.kurniawati@icco.nl','everschuren@verstegen.nl','aharton2002@yahoo.com','otihrostiana@gmail.com','dyah_manohara@yahoo.com','joy@akvo.org','ima@akvo.org','deden@akvo.org','merembablas@gmail.com']
+    EMAIL_RECEPIENTS = ['hatami.nugraha@gmail.com','everschuren@verstegen.nl','joy@akvo.org','hatami@cinquer.co.id','d.kurniawati@icco.nl','dymanohara@gmail.com','aharton2002@yahoo.com','akhmadfa@apps.ipb.ac.id','otihrostiana@gmail.com','ima@akvo.org','deden@akvo.org','galih@akvo.org', 'wietze.suijker@nelen-schuurmans.nl']
     #EMAIL_RECEPIENTS = ['galih@akvo.org', 'deden@akvo.org', 'joy@akvo.org']
 
     MAILJET_APIKEY = os.environ['MAILJET_APIKEY']
