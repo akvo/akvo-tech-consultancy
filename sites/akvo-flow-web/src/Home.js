@@ -8,10 +8,12 @@ import GroupButtons from './component/GroupButtons'
 import GroupHeaders from './component/GroupHeaders'
 import DataPoint from './component/DataPoint'
 import Questions from './component/Questions'
+import QuestionOverview from './component/QuestionOverview'
 import Pagination from './component/Pagination'
 import Clear from './component/Clear'
 import Header from './component/Header'
 import Submit from './component/Submit'
+import Overview from './component/Overview'
 import {
     FaArrowLeft,
     FaArrowRight
@@ -211,7 +213,7 @@ class Home extends Component {
 
     renderQuestions() {
         return (
-            <Questions />
+            <Questions/>
         )
     }
 
@@ -227,6 +229,7 @@ class Home extends Component {
                 <div className="sidebar-wrapper bg-light border-right">
                     <Header/>
                     {this.state._rendered ? this.renderGroups() : ""}
+                    <Overview />
                     {( this.props.value.questions.length === 1 ? "" : (<Submit />) )}
                 </div>
                 <div className="page-content-wrapper">
@@ -238,10 +241,16 @@ class Home extends Component {
                         <Clear reloadhome={this.getSurvey}/>
                         <Pagination />
                     </nav>
-                    <GroupHeaders />
-                    <div className="container-fluid fixed-container" key={'div-group-'+this.state.surveyId}>
+                    {( this.props.value.overview ? (<QuestionOverview/>) : (<GroupHeaders />))}
+                    {( this.props.value.overview
+                    ? ""
+                    : (<div
+                        className="container-fluid fixed-container"
+                        id="form-container"
+                        key={'div-group-'+this.state.surveyId}>
                         {this.state._rendered ? this.renderQuestions() : ""}
-                    </div>
+                        </div>)
+                    )}
                 </div>
             </div>
         )

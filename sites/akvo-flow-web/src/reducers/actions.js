@@ -21,6 +21,7 @@ export const mapDispatchToProps = (dispatch) => {
         generateUUID: (data) => dispatch({type:"GENERATE UUID", data:data}),
         changeSettings: (data) => dispatch({type:"PAGES SETTINGS", data:data}),
         storeCascade: (data) => dispatch({type:"STORE CASCADE", data:data}),
+        showOverview: (show) => dispatch({type:"SHOW OVERVIEW", show:show}),
         showError: () => dispatch({type:"SHOW ERROR"}),
         updateLocalStorage: () => dispatch({type:"STORAGE UPDATE"}),
         updateDomain: (url) => dispatch({type:"UPDATE DOMAIN", url:url})
