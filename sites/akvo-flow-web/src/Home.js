@@ -25,6 +25,7 @@ import Dexie from 'dexie';
 const API_URL = (PROD_URL ? window.location.href.replace("flow-web","flow-web-api") : process.env.REACT_APP_API_URL);
 const CACHE_URL = (PROD_URL ? "update" : "fetch");
 const INSTANCE = (PROD_URL ? window.location.host + "/flow-web-api/form-instance/" : process.env.REACT_APP_API_URL + "form-instance/");
+console.log(process.env.REACT_APP_API_URL);
 
 class Home extends Component {
     _isMounted = false;
