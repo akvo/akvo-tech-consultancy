@@ -2,7 +2,10 @@
 
 namespace App\Http\Middleware;
 
+use Closure;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
+use App\Repositories\CustomUserRepository;
+use App\Http\Controllers\Auth\Auth0IndexController;
 
 class Authenticate extends Middleware
 {
@@ -17,5 +20,23 @@ class Authenticate extends Middleware
         if (! $request->expectsJson()) {
             return route('login');
         }
+    }
+
+    public function handle($request, Closure $next, ...$guards)
+    {
+        // if ($request->requestUri === '/login') {
+        //     \Auth::logout();
+        //     return redirect()->back();
+        // }
+
+        $this->authenticate($request, $guards);
+        $fetch = new CustomUserRepository();
+        if (\Auth::check() && !$fetch->fetchFlowUser()) {
+            return $next($request);
+        }
+
+        $auth = new Auth0IndexController();
+        return $auth->logout(true);
+        //return redirect()->back()->withErrors("error");
     }
 }
