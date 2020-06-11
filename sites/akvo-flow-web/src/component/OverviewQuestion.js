@@ -49,7 +49,7 @@ class OverviewQuestion extends Component {
         )
     }
 
-    renderAnswer(answer, type) {
+    renderAnswer(qid, answer, type) {
         switch(type){
             case "cascade":
                 let cascade = [];
@@ -59,7 +59,13 @@ class OverviewQuestion extends Component {
             case "option":
                 let options = [];
                 answer = JSON.parse(answer);
-                answer.forEach(x => options.push(x.text));
+                answer.forEach((x,i) => {
+                    let text = x.text;
+                    if (x.text === "Other Option") {
+                        text = localStorage.getItem("other_" + qid);
+                    }
+                    options[i] = text;
+                });
                 return options.length === 1 ? options[0] : options.join(', ');
             case "photo":
                 const db = new Dexie('akvoflow');
@@ -68,34 +74,48 @@ class OverviewQuestion extends Component {
                     document.getElementById("img-ov-" + answer).src = value.blob;
                 });
                 return (<img className="img img-fluid" id={"img-ov-" + answer} alt={answer}/>);
+            case "geo":
+                answer = answer.split('|')
+                return (<div>Latitude: {answer[0]}<br/>Longitude: {answer[0]}</div>);
             default:
                 return answer;
         }
     }
 
     render() {
-        let index = this.props.group.index + 1;
         let qid = this.props.qid.replace('-0', this.props.iter);
         let question = this.props.value.questions.find(q => q.id === qid);
+
+        let localization = this.props.value.lang.active;
+        localization = localization.map((x) => {
+            let active = question.lang[x] === undefined ? "" : question.lang[x];
+            return active;
+        });
+        localization = localization.filter(x => x !== "");
+        localization = localization.length === 0 ? question.lang.en : localization.join(" / ");
+
         let answer = localStorage.getItem(qid);
         let divclass = answer === null ? "text-red" : "";
-        answer = answer === null ? false : this.renderAnswer(answer, question.type);
+        answer = answer === null ? false : this.renderAnswer(qid, answer, question.type);
         if (question === undefined) {
             return (<div key="oq-loading"><p>Loading...</p></div>)
         }
-        return (
-            <div className="row ov-list" key={"oq-" + this.props.group.index + qid}>
-                <div className="col-md-6 ov-question">
-                    <span className="mr-2">{index}</span>
-                    {question.text}
+        if (question.overview) {
+            return (
+                <div className="row ov-list" key={"oq-" + this.props.group.index + qid}>
+                    <div className="col-md-8 ov-question">
+                        <span className="mr-2">{this.props.index + 1}</span>
+                            {localization}
+                    </div>
+                            <div className="col-md-4">
+                        { answer ? (
+                            <div className={"ov-answer" + divclass}>{answer}</div>
+                        ) : this.renderEdit(qid, this.props.group)}
+                    </div>
                 </div>
-                <div className={"col-md-6"}>
-                    { answer ? (
-                        <div className={"ov-answer" + divclass}>{answer}</div>
-                    ) : this.renderEdit(qid, this.props.group)}
-                </div>
-            </div>
-        );
+            );
+        }
+        return "";
     }
 }
 

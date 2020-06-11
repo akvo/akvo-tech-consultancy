@@ -145,7 +145,6 @@ class Home extends Component {
     }
 
     getCachedSurvey() {
-        console.log(API_URL)
         axios.get(API_URL + 'form-instance/' + this.cacheId)
             .then(res => {
                 let stored = JSON.parse(res.data.state);

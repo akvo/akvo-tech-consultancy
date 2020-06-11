@@ -9,6 +9,7 @@ class Overview extends Component {
     constructor(props) {
         super(props);
         this.renderGroups = this.renderGroups.bind(this);
+        this.renderRepeatGroup = this.renderRepeatGroup.bind(this);
         this.renderRepeatHeading = this.renderRepeatHeading.bind(this);
         this.renderQuestions = this.renderQuestions.bind(this);
         this.printOverview = this.printOverview.bind(this);
@@ -22,36 +23,41 @@ class Overview extends Component {
         return (<div><strong>{name + "-" + (it + 1)}</strong></div>);
     }
 
+    renderRepeatGroup(group) {
+        let groups = [];
+        let repeat_ix = 0;
+        let iter;
+        do {
+            iter = '-' + repeat_ix;
+            let qgroup = [];
+            for (let ix = 0; ix < group.questions.length; ix++) {
+                qgroup[ix] = <OverviewQuestion key={group.questions[ix]} index={ix} group={group} iter={iter} qid={group.questions[ix]}/>;
+            }
+            groups.push({
+                heading: this.renderRepeatHeading(group.heading, repeat_ix),
+                content: qgroup
+            });
+            repeat_ix ++;
+        } while(repeat_ix < group.repeat);
+        return groups.map((x,i) => {
+            if (i === groups.length - 1) {
+                return (
+                    <div key={i}>{x.heading}{x.content}</div>
+                )
+            }
+            return (
+                <div key={i}>{x.heading}{x.content}<hr/></div>
+            )
+        });
+    }
+
     renderQuestions(group) {
         let iter = '-0'
         if (group.repeatable) {
-            let groups = [];
-            let repeat_ix = 0;
-            do {
-                iter = '-' + repeat_ix;
-                let qgroup = [];
-                group.questions.forEach((qid, ix) => {
-                    qgroup[ix] = <OverviewQuestion key={qid} group={group} iter={iter} qid={qid}/>;
-                });
-                groups.push({
-                    heading: this.renderRepeatHeading(group.heading, repeat_ix),
-                    content: qgroup
-                });
-                repeat_ix ++;
-            } while(repeat_ix < group.repeat);
-            return groups.map((x,i) => {
-                if (i === groups.length - 1) {
-                    return (
-                        <div key={i}>{x.heading}{x.content}</div>
-                    )
-                }
-                return (
-                    <div key={i}>{x.heading}{x.content}<hr/></div>
-                )
-            });
+            return this.renderRepeatGroup(group);
         }
         return group.questions.map((qid, ix) => {
-            return (<OverviewQuestion key={qid} group={group} iter={iter} qid={qid}/>)
+            return (<OverviewQuestion index={ix} key={qid} group={group} iter={iter} qid={qid}/>)
         });
     }
 
