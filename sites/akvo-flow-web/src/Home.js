@@ -24,6 +24,7 @@ import Dexie from 'dexie';
 
 const API_URL = (PROD_URL ? window.location.href.replace("flow-web","flow-web-api") : process.env.REACT_APP_API_URL);
 const CACHE_URL = (PROD_URL ? "update" : "fetch");
+const INSTANCE = (PROD_URL ? window.location.host + "/flow-web-api/form-instance/" : process.env.REACT_APP_API_URL + "form-instance/");
 
 class Home extends Component {
     _isMounted = false;
@@ -149,7 +150,7 @@ class Home extends Component {
     }
 
     getCachedSurvey() {
-        axios.get(API_URL + 'form-instance/' + this.cacheId)
+        axios.get(INSTANCE + this.cacheId)
             .then(res => {
                 let stored = JSON.parse(res.data.state);
                 this.props.urlState(true);
