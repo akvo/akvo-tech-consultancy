@@ -3,20 +3,17 @@ import { connect } from 'react-redux'
 import { mapStateToProps, mapDispatchToProps } from '../reducers/actions.js'
 import axios from 'axios';
 import { isJsonString } from  '../util/QuestionHandler.js'
-import { PROD_URL } from '../util/Environment'
+import { API_URL } from '../util/Environment'
 import { PopupImage } from '../util/Popup'
 import MapForm from '../types/MapForm.js'
 import Dexie from 'dexie';
 import uuid from 'uuid/v4';
 
-const API_ORIGIN = (PROD_URL ? ( window.location.origin + "/" + window.location.pathname.split('/')[1] + "-api/" ) : process.env.REACT_APP_API_URL);
-const pathurl = (PROD_URL ? 2 : 1);
-
 class QuestionType extends Component {
 
     constructor(props) {
         super(props)
-        this.instanceUrl = window.location.pathname.split('/')[pathurl]
+        this.instanceUrl = window.location.pathname.split('/')[1]
         this.value = localStorage.getItem(this.props.data.id)
         this.other = localStorage.getItem("other_" + this.props.data.id)
         this.state = {
@@ -466,7 +463,7 @@ class QuestionType extends Component {
     getCascadeDropdown(lv, ix) {
         let optlev = this.props.data.levels.level;
         if (this.props.data.type === "cascade") {
-            let url = API_ORIGIN + 'cascade/' + this.instanceUrl + '/' + this.props.data.cascadeResource + '/' + lv
+            let url = API_URL + 'cascade/' + this.instanceUrl + '/' + this.props.data.cascadeResource + '/' + lv
             let options = "options_" + lv
             let cascade = "cascade_" + ix
             let availcasc = this.props.value.cascade;

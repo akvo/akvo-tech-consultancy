@@ -3,6 +3,7 @@ import {connect } from 'react-redux';
 import { mapStateToProps, mapDispatchToProps } from '../reducers/actions.js'
 import { Toast, ToastHeader, ToastBody } from 'reactstrap'
 import { CopyToClipboard } from '../util/Utilities.js'
+import { PopupToast } from '../util/Popup'
 
 class Header extends Component {
 
@@ -72,6 +73,7 @@ class Header extends Component {
 
     copyUrl() {
         CopyToClipboard(this.props.value.domain)
+        PopupToast("Copied to Clipboard!", "info");
     }
 
     render() {

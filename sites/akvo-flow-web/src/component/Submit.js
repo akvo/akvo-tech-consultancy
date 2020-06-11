@@ -6,16 +6,12 @@ import axios from 'axios'
 import { Spinner } from 'reactstrap'
 import '../App.css'
 import { PopupSuccess, PopupError, PopupToast } from '../util/Popup'
-import { PROD_URL, PARENT_URL, USING_PASSWORDS } from '../util/Environment'
+import { API_URL, CAPTCHA_KEY , PARENT_URL, USING_PASSWORDS} from '../util/Environment'
 import JSZip from 'jszip'
 import Dexie from 'dexie';
 import Uppy from '@uppy/core';
 import AwsS3 from '@uppy/aws-s3';
 import dataURItoBlob from 'datauritoblob';
-
-
-const API_ORIGIN = (PROD_URL ? ( window.location.origin + "/" + window.location.pathname.split('/')[1] + "-api/" ) : process.env.REACT_APP_API_URL);
-const SITE_KEY = "6Lejm74UAAAAAA6HkQwn6rkZ7mxGwIjOx_vgNzWC"
 
 class Submit extends Component {
 
@@ -87,7 +83,7 @@ class Submit extends Component {
                     postData = Object.assign({}, content, { __files__: result });
                 }
                 if (localStorage.getItem('_cache') !== null) {
-                    axios.put(API_ORIGIN + 'form-instance/' + localStorage.getItem('_cache'),
+                    axios.put(API_URL + 'form-instance/' + localStorage.getItem('_cache'),
                         postData, { headers: { 'Content-Type': 'application/json' } })
                         .then(res => {
                             PopupToast("Datapoint Updated!", "success");
@@ -100,7 +96,7 @@ class Submit extends Component {
                         })
                 }
                 else {
-                    axios.post(API_ORIGIN + 'form-instance',
+                    axios.post(API_URL + 'form-instance',
                         postData, { headers: { 'Content-Type': 'application/json' } })
                         .then(res => {
                             this.saveResult(res.data.id);
@@ -121,6 +117,7 @@ class Submit extends Component {
     }
 
     sendData(content) {
+        const cacheId = this.props.cacheId ? '/' + this.props.cacheId : this.props.cacheId;
         const uppy = Uppy({ debug: true })
             .use(AwsS3, {
                 getUploadParameters: function (file) {
@@ -136,7 +133,7 @@ class Submit extends Component {
                 }
             });
 
-        axios.post(API_ORIGIN + 'upload-data',
+        axios.post(API_URL + 'upload-data',
             content, { headers: { 'Content-Type': 'application/json' } }
         )
             .then(res => {
@@ -208,12 +205,16 @@ class Submit extends Component {
                                             PopupSuccess("New datapoint is sent! clearing form...");
                                             this.setState({ '_showSpinner': false })
                                             setTimeout(function () {
-                                                // TODO: Clear files in IndexedDB
+                                                db.delete()
                                                 let username = localStorage.getItem('_username');
                                                 localStorage.clear();
                                                 localStorage.setItem('_username', username);
                                                 setTimeout(function () {
-                                                    window.location.replace(window.location.origin + window.location.pathname);
+                                                    let redirect_url = window.location.origin + window.location.pathname;
+                                                    if (cacheId) {
+                                                        redirect_url = redirect_url.replace(cacheId, '')
+                                                    }
+                                                    window.location.replace(redirect_url);
                                                 }, 3000);
                                             }, 500);
                                         })
@@ -274,7 +275,7 @@ class Submit extends Component {
                     size="normal"
                     theme="light"
                     ref={this._reCaptchaRef}
-                    sitekey={SITE_KEY}
+                    sitekey={CAPTCHA_KEY}
                     onChange={this.handleCaptcha}
                     asyncScriptOnLoad={this.asyncScriptOnLoad}
                 />

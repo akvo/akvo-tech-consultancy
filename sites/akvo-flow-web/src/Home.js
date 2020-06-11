@@ -8,28 +8,22 @@ import GroupButtons from './component/GroupButtons'
 import GroupHeaders from './component/GroupHeaders'
 import DataPoint from './component/DataPoint'
 import Questions from './component/Questions'
-import QuestionOverview from './component/QuestionOverview'
 import Pagination from './component/Pagination'
 import Clear from './component/Clear'
 import Header from './component/Header'
 import Submit from './component/Submit'
 import Overview from './component/Overview'
+import OverviewButton from './component/OverviewButton'
 import {
     FaArrowLeft,
     FaArrowRight
 } from 'react-icons/fa'
 import { PopupError } from './util/Popup.js'
-import { PROD_URL } from './util/Environment.js'
+import { API_URL, READ_CACHE } from './util/Environment.js'
 import Dexie from 'dexie';
-
-const API_URL = (PROD_URL ? window.location.href.replace("flow-web","flow-web-api") : process.env.REACT_APP_API_URL);
-const CACHE_URL = (PROD_URL ? "update" : "fetch");
-const INSTANCE = (PROD_URL ? window.location.host + "/flow-web-api/form-instance/" : process.env.REACT_APP_API_URL + "form-instance/");
-console.log(process.env.REACT_APP_API_URL);
 
 class Home extends Component {
     _isMounted = false;
-
     constructor(props) {
         super(props);
         this.instance = this.props.match.params.instance;
@@ -95,8 +89,8 @@ class Home extends Component {
     getSurvey() {
         localStorage.setItem("_formId", this.surveyId)
         localStorage.setItem("_instanceId", this.instance)
-        let SURVEY_API = (PROD_URL ? API_URL : API_URL + this.instance + '/' + this.surveyId);
-        axios.get(SURVEY_API + '/' + CACHE_URL)
+        let SURVEY_API = API_URL + this.instance + '/' + this.surveyId + '/' + READ_CACHE;
+        axios.get(SURVEY_API)
             .then(res => {
                 this.updateData(res.data)
                 this.setState({ _rendered:true });
@@ -151,7 +145,8 @@ class Home extends Component {
     }
 
     getCachedSurvey() {
-        axios.get(INSTANCE + this.cacheId)
+        console.log(API_URL)
+        axios.get(API_URL + 'form-instance/' + this.cacheId)
             .then(res => {
                 let stored = JSON.parse(res.data.state);
                 this.props.urlState(true);
@@ -231,8 +226,8 @@ class Home extends Component {
                 <div className="sidebar-wrapper bg-light border-right">
                     <Header/>
                     {this.state._rendered ? this.renderGroups() : ""}
-                    <Overview />
-                    {( this.props.value.questions.length === 1 ? "" : (<Submit />) )}
+                    <OverviewButton />
+                    {( this.props.value.questions.length === 1 ? "" : (<Submit cacheId={this.cacheId}/>) )}
                 </div>
                 <div className="page-content-wrapper">
                     <nav className="navbar navbar-expand-lg navbar-light bg-light border-bottom">
@@ -243,7 +238,7 @@ class Home extends Component {
                         <Clear reloadhome={this.getSurvey}/>
                         <Pagination />
                     </nav>
-                    {( this.props.value.overview ? (<QuestionOverview/>) : (<GroupHeaders />))}
+                    {( this.props.value.overview ? (<Overview/>) : (<GroupHeaders />))}
                     {( this.props.value.overview
                     ? ""
                     : (<div
