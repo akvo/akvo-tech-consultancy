@@ -15,6 +15,7 @@ class GroupButtons extends Component {
     }
 
     showQuestion(group) {
+        this.props.showOverview(false);
         this.props.changeGroup(group);
     }
 
@@ -25,7 +26,10 @@ class GroupButtons extends Component {
                     onClick={e => {
                         this.showQuestion(group.index);
                     }}
-                    className={group.index === groups.active ? this.listClass + " bg-current" : this.listClass + " bg-light"}
+                    className={group.index === groups.active && !this.props.value.overview
+                        ? this.listClass + " bg-current"
+                        : this.listClass + " bg-light"
+                    }
                 >
                     <span className="question-group-button">{group.heading} </span>
                     <span className={"badge badge-group badge-left badge-secondary"}>{this.props.value.groups.list[i].attributes.answers}</span>
@@ -36,7 +40,6 @@ class GroupButtons extends Component {
     }
 
     getLoading = () => <Loading styles={"sidebar-loading"} />;
-
     render() {
         return this.props.value.questions.length === 1 ? this.getLoading() : this.getQuestionList(this.props.value.groups);
     }

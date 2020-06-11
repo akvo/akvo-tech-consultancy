@@ -1,8 +1,13 @@
 html,
 body {
+    scroll-behavior: smooth;
     overflow-x: hidden;
     min-width:0;
     min-height:0;
+}
+
+h5 {
+    font-size: 1.2rem!important;
 }
 
 .wrapper {
@@ -221,6 +226,10 @@ img.responsive-image {
     display: none !important;
 }
 
+.text-red {
+    color: #c34242;
+}
+
 /* Tooltip */
 .help-tooltip{
     cursor:pointer;
@@ -305,3 +314,38 @@ img.responsive-image {
     font-size: 15px;
 }
 /* Exif */
+
+/* Overview */
+.badge-overview {
+    display:inline-block;
+    margin-right:10px;
+    cursor: pointer;
+}
+.badge-overview .badge-left,
+.badge-overview .badge-right {
+    line-height: 16px;
+    font-weight:400!important;
+    color:#ffffff;
+} 
+.ov-list{
+    padding: 1em;
+}
+.ov-answer {
+    display: block;
+}
+
+.ov-alerts {
+    background: #ffd0d0;
+    animation: blink 1s;
+    animation-iteration-count: 2;
+}
+.card-body {
+    -webkit-transition: background .25s ease-in;
+    -moz-transition: background .25s ease-in;  
+    -o-transition: background .25s ease-in;  
+    transition: background .25s ease-in;
+}
+
+@keyframes blink { 50% { background:#f8f9fa ; }  }
+
+/* Overview */

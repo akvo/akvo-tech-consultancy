@@ -30,6 +30,7 @@ const initialState = {
         type: "text",
         validation: false,
         iteration: 0,
+        overview: false,
         altText: [{
             language:"en",
             text:"Loading",
@@ -44,6 +45,7 @@ const initialState = {
     active: [],
     answers: [],
     mandatory: [],
+    overview: false,
     submit: false,
     captcha: false,
     datapoint: null,
@@ -241,6 +243,7 @@ const addQuestions = (data) => {
             group: gi,
             heading: g.h,
             validation: (q.validationRule ? q.validationRule : false),
+            overview: false,
             show: false
         }
     }
@@ -295,6 +298,7 @@ const showHideQuestions = (orig, group) => {
     let updated_answer = []
     let active = orig.map(x => {
         let show = true
+        let overview = true
         let dependent = false
         let answer_value;
         let answer;
@@ -358,6 +362,7 @@ const showHideQuestions = (orig, group) => {
                     show = true
                 }
             }
+            overview = show
             if(x.group !== group){
                 show = false
             }
@@ -379,7 +384,7 @@ const showHideQuestions = (orig, group) => {
             }
         }
         updated_answer.push({...x, show:show, type: getQuestionType(x)})
-        return { ...x, show:show, type: getQuestionType(x)}
+        return { ...x, show:show, overview: overview, type: getQuestionType(x)}
     });
     return active;
 }
@@ -667,6 +672,11 @@ export const questionReducers = (state = initialState, action) => {
             return {
                 ...state,
                 cascade: storeCascade(state.cascade, action.data)
+            }
+        case 'SHOW OVERVIEW':
+            return {
+                ...state,
+                overview: action.show
             }
         case 'SHOW ERROR':
             return {
