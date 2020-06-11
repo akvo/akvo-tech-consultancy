@@ -100,3 +100,13 @@ $("#partnership-country").on('change', (data) =>{
     $("#partnership-code").selectpicker("refresh");
     return;
 });
+
+const authMessage = () => {
+    let authModal = $("#authError").attr('data');
+    if (authModal) {
+        $("#myModalAuthTitle").text("Not Authorized");
+        $("#myModalAuth").modal('toggle');
+        $("#myModalAuthBody").text("You're not authorized, please contact your organization to request an access!");
+    }
+};
+authMessage();

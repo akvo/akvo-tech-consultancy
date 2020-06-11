@@ -6,10 +6,18 @@ return [
         "survey_id" => 289690916,
         "form_id" => 287510916,
         "data_source_name" => "National Secondary School WASH Assessment 2020",
+        "lat_long" => "263570942|Please take the schools geo-location", # questionId|question  string
+        "selected_category" => "What is the name of the school?", # question string
     ], 
 
     "categories" => [
         "list" => [
+            // Scholl Profile
+            [
+                "question_id" => 263540919,
+                "name" => "What is the name of the school?",
+                "type" => "option",
+            ],
             [
                 "question_id" => 257680916,
                 "name" => "Type of school?",
@@ -70,6 +78,9 @@ return [
                 "name" => "How many staff houses in the school?",
                 "type" => "number",
             ],
+            // EOL Scholl Profile
+
+            // Water Supply
             [
                 "question_id" => 261580917,
                 "name" => "What is the type of water point?",
@@ -78,7 +89,7 @@ return [
             [
                 "question_id" => 283620916,
                 "name" => "Type of improved water point",
-                "type" => "option",
+                "type" => "multiple",
             ],
             [
                 "question_id" => 289710927,
@@ -88,7 +99,7 @@ return [
             [
                 "question_id" => 279690919,
                 "name" => "What is your primary source of drinking water?",
-                "type" => "option",
+                "type" => "multiple",
             ],
             [
                 "question_id" => 283580950,
@@ -103,7 +114,7 @@ return [
             [
                 "question_id" => 277670919,
                 "name" => "What other sources of water does the school rely on during times where your primary source has run out?",
-                "type" => "option",
+                "type" => "multiple",
             ],
             [
                 "question_id" => 277670919,
@@ -120,10 +131,18 @@ return [
                 "name" => "Does the school have water conservation measures?",
                 "type" => "option",
             ],
+            // EOL Water Supply
+
+            // Sanitation
+            [
+                "question_id" => 275550943,
+                "name" => "Does the school have improved toilets?",
+                "type" => "option",
+            ],
             [
                 "question_id" => 263570918,
                 "name" => "What type of toilets does the school have?",
-                "type" => "option",
+                "type" => "multiple",
             ],
             [
                 "question_id" => 263520938,
@@ -148,7 +167,7 @@ return [
             [
                 "question_id" => 263540923,
                 "name" => "Are the boys toilets attached or detached to a school building?",
-                "type" => "option",
+                "type" => "multiple",
             ],
             [
                 "question_id" => 263540924,
@@ -183,7 +202,7 @@ return [
             [
                 "question_id" => 267580920,
                 "name" => "Are the girls toilets attached or detached to a school building?",
-                "type" => "option",
+                "type" => "multiple",
             ],
             [
                 "question_id" => 263560924,
@@ -199,11 +218,6 @@ return [
                 "question_id" => 257680923,
                 "name" => "Do the girls toilets provide adequate privacy?",
                 "type" => "option",
-            ],
-            [
-                "question_id" => 263560925,
-                "name" => "Please specify how?",
-                "type" => "multiple",
             ],
             [
                 "question_id" => 263560925,
@@ -293,11 +307,16 @@ return [
             [
                 "question_id" => 263540934,
                 "name" => "Who cleans the toilets?",
-                "type" => "option",
+                "type" => "multiple",
             ],
             [
                 "question_id" => 285640931,
                 "name" => "Does the school provide cleaning materials?",
+                "type" => "option",
+            ],
+            [
+                "question_id" => 285650939,
+                "name" => "Please specify?",
                 "type" => "multiple",
             ],
             [
@@ -308,6 +327,11 @@ return [
             [
                 "question_id" => 291570926,
                 "name" => "Is the cleaning rostered?",
+                "type" => "option",
+            ],
+            [
+                "question_id" => 263520946,
+                "name" => "How frequently is the school compound cleaned?",
                 "type" => "option",
             ],
             [
@@ -330,6 +354,9 @@ return [
                 "name" => "How many toilets are available for staff houses?",
                 "type" => "number",
             ],
+            // EOL Sanitation
+
+            // Hygiene
             [
                 "question_id" => 261580934,
                 "name" => "Does the school supply soap?",
@@ -358,7 +385,7 @@ return [
             [
                 "question_id" => 255720970,
                 "name" => "Where are they located?",
-                "type" => "multiple",
+                "type" => "option",
             ],
             [
                 "question_id" => 291560937,
@@ -380,11 +407,9 @@ return [
                 "name" => "Do children bring their own drinking water bottles?",
                 "type" => "option",
             ],
-            [
-                "question_id" => 291570932,
-                "name" => "Do children bring their own drinking water bottles?",
-                "type" => "option",
-            ],
+            // EOL Hygiene
+
+            // WASH Governance
             [
                 "question_id" => 263540939,
                 "name" => "Are WASH programs included in any key documents for the school such as strategic/annual work plan?",
@@ -455,6 +480,9 @@ return [
                 "name" => "Have teachers been trained in WASH promotion?",
                 "type" => "option",
             ],
+            // EOL WASH Governance
+
+            // School Resilience to Emergencies
             [
                 "question_id" => 283580979,
                 "name" => "Is the school a designated evacuation centre?",
@@ -498,16 +526,22 @@ return [
             [
                 "question_id" => 289700945,
                 "name" => "What caused the water cut?",
-                "type" => "option",
+                "type" => "multiple",
             ],
             [
                 "question_id" => 287530944,
                 "name" => "Has the school’s toilets been out of function at given point in time?",
                 "type" => "option",
             ],
+            // EOL School Resilience to Emergencies
         ],
 
         "color" => [
+            [
+                "question_id" =>  287530944,
+                "code" => "",
+                "color" => "",
+            ],
             [
                 "keyword" => "Yes",
                 "color" => "#28a745",

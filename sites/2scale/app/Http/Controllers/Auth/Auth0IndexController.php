@@ -19,7 +19,8 @@ class Auth0IndexController extends Controller
             // Use the key below to get an access token for your API.
             // 'audience' => config('laravel-auth0.api_identifier'),
         ];
-        return \App::make('auth0')->login(null, null, $authorize_params);
+        $results = \App::make('auth0')->login(null, null, $authorize_params);
+        return $results;
     }
 
     /**
@@ -27,7 +28,7 @@ class Auth0IndexController extends Controller
      *
      * @return mixed
      */
-    public function logout()
+    public function logout($error = false)
     {
         \Auth::logout();
         $logoutUrl = sprintf(
@@ -36,6 +37,10 @@ class Auth0IndexController extends Controller
             config('laravel-auth0.client_id'),
             url('/')
         );
-        return  \Redirect::intended($logoutUrl);
+
+        if ($error) {
+            return \Redirect::intended($logoutUrl)->withErrors("error");
+        }
+        return \Redirect::intended($logoutUrl);
     }
 }

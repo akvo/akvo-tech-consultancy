@@ -22,6 +22,7 @@ Route::get('/source','MapController@getSources');
 Route::get('/data/{source}','MapController@getData');
 Route::get('/config/{source}','MapController@getConfig');
 
-Route::get('/custom', function() {
-    return config('custom');
+Route::get('/custom/{survey_id}', function(Request $request) {
+    $surveyId = $request->survey_id;
+    return config("$surveyId");
 });

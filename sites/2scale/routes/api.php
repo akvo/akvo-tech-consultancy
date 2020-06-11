@@ -61,7 +61,7 @@ Route::get('/chart/{id}', 'Api\ChartController@chartsById');
 
 /*
 |
-| DATATABLES API 
+| DATATABLES API
 |
 */
 
@@ -88,7 +88,7 @@ Route::get('/charts/partnership/gender-total/{country_id}/{partnership_id}', 'Ap
 
 /*
 |
-| PAGE INTERACTION API 
+| PAGE INTERACTION API
 |
 */
 

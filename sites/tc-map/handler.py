@@ -74,12 +74,13 @@ def handleGeoshape(data):
     return data
 
 def handleGeolocation(data):
-    response = []
+    #response = []
     lat = data.get('lat')
     long = data.get('long')
-    response.append(round(long,3))
-    response.append(round(lat,3))
-    return response
+    #response.append(long)
+    #response.append(lat)
+    #return response
+    return "{},{}".format(lat, long)
 
 def handleCaddisfly(data):
     return data

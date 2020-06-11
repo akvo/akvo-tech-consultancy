@@ -15,6 +15,7 @@ class CreateDataSourcesTable extends Migration
     {
         Schema::create('data_sources', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('parent_id')->nullable();
             $table->string('source');
             $table->json('config');
             $table->json('categories');
@@ -22,6 +23,8 @@ class CreateDataSourcesTable extends Migration
             $table->string('html')->nullable();
             $table->string('js')->nullable();
             $table->timestamp('created_at')->useCurrent();
+        
+            $table->foreign('parent_id')->references('id')->on('data_sources')->onDelete('cascade');
         });
     }
 
