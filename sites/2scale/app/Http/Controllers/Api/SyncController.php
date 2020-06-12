@@ -20,20 +20,20 @@ class SyncController extends Controller
     public function syncPartnerships(Flow $flow, Partnership $partnerships)
     {
        $id = 0;
-       $cascades = $flow->cascade($id); 
+       $cascades = $flow->cascade($id);
        $cascades = $this->breakCascade($cascades);
        $insert = $partnerships->insert($cascades);
-       $childs = $partnerships->get(); 
+       $childs = $partnerships->get();
        $childs = collect($childs)->map(function($child) use ($flow, $partnerships) {
             $partnership = $partnerships->find($child->id);
-            $cascades = $flow->cascade($partnership->cascade_id); 
+            $cascades = $flow->cascade($partnership->cascade_id);
             $cascades = $this->breakCascade($cascades);
             if (!empty($cascades)) {
                 $cascades = collect($cascades)->map(function($cascade) {
                     $cascade = new Partnership($cascade);
                     return $cascade;
                 });
-                $insert = $partnership->childrens()->saveMany($cascades); 
+                $insert = $partnership->childrens()->saveMany($cascades);
                 return [$child->id => $insert];
             }
             return [$child->id => 'no-childrens'];
@@ -101,11 +101,11 @@ class SyncController extends Controller
             $groups = collect($flow->questions($form_id));
             $isObject = Arr::isAssoc($groups['questionGroup']);
             if($isObject){
-                $questionlist = collect($groups['questionGroup']['question'])->map(function($question) 
+                $questionlist = collect($groups['questionGroup']['question'])->map(function($question)
                     use ($questions, $form_id) {
                     return $this->breakQuestions($form_id, $question);
                 })->toArray();
-                $insert = $questions->insert($questionlist); 
+                $insert = $questions->insert($questionlist);
                 return ['status' => $insert];
             };
             $groupList = collect($groups['questionGroup'])->map(function($group)
@@ -114,7 +114,7 @@ class SyncController extends Controller
                     use ($form_id) {
                     return $this->breakQuestions($form_id, $question);
                 })->toArray();
-                $insert = $questions->insert($questionlist); 
+                $insert = $questions->insert($questionlist);
                 return ['status' => $insert];
             });
             return $groupList;
@@ -151,7 +151,7 @@ class SyncController extends Controller
             $insert = $questions->find($question->id)->options()->saveMany($opts);
             return [$question->id => $insert];
         });
-        return $forms; 
+        return $forms;
     }
 
     public function syncDataPoints(Flow $flow, Form $forms, Partnership $partnerships, DataPoint $datapoints)
@@ -159,10 +159,13 @@ class SyncController extends Controller
         $forms = $forms->load('surveygroup')->all();
         $collections = collect();
 		$forms = collect($forms)->each(function($form) use ($flow, $collections, $partnerships) {
-			$results = $flow->get('forminstances', $form->survey_id, $form->form_id);
+            $results = $flow->get('forminstances', $form->survey_id, $form->form_id);
+            if($results === null){
+                return "No data";
+            }
 			if($results === 500){
 				return "Internal Server Error";
-			};
+			}
 			$collections = $this->groupDataPoint($collections, $results, $form, $partnerships);
 			$next_page = false;
 			if (isset($result['nextPageUrl'])) {
@@ -202,8 +205,8 @@ class SyncController extends Controller
                     $answers = collect($data)->map(function($answer, $question_id) use ($datapoint_id, $form, $partner) {
                         if ($question_id === $form['partner_qid']) {
                             $partnership_name = isset($answer[1]) ? $answer[1]['name'] : '';
-                            $partner->put('country', $answer[0]['name']); 
-                            $partner->put('partnership', $partnership_name); 
+                            $partner->put('country', $answer[0]['name']);
+                            $partner->put('partnership', $partnership_name);
                         };
                         $text = $answer;
                         $value = null;
@@ -216,13 +219,13 @@ class SyncController extends Controller
                             }
                             else {
                                 for($i=0; $i < count($answer); $i++) {
-                                    $isOption = Arr::has($answer[$i], 'text') 
-                                        ? true 
+                                    $isOption = Arr::has($answer[$i], 'text')
+                                        ? true
                                         : false;
                                     if (Arr::has($answer[$i], 'isOther')) {
                                         if ($answer[$i]['isOther']){
                                             $answer[$i]['name'] = "Choose Other Options";
-                                        } 
+                                        }
                                     }
                                     $cascade .= ($isOption)
                                         ? $answer[$i]['text']
@@ -272,6 +275,6 @@ class SyncController extends Controller
             }
         });
         return $collections;
-    } 
+    }
 
 }

@@ -11,6 +11,7 @@ $("#data-frame").attr("height", iframeheight);
 
 $("#select-survey").on("change.bs.select", (e) => {
     let url = e.target.attributes["data-url"].value + "/" + e.target.value;
+    console.log(url);
     $("#akvo-flow-web").attr("src", url);
 });
 
