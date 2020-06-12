@@ -33,11 +33,12 @@ This repository contains Akvo Tools custom integration pack development.
 
 ### Contacts
 
-- Joy Ghosh, [Akvo SEAP][spHub].
-- Daniel Lebrero Berna, [DevOps][euHub].
+- Joy Ghosh, [Tech Consultancy,Akvo][euHub].
+- Deden Bangkit[Tech Consultancy,Akvo][euHub]
+- Ivan Perdomo, [DevOps][euHub].
 
 
    [spHub]: <https://akvo.org/south-east-asia-pacific/>
-   [euHub]: <https://akvo.org/europe/>
+   [euHub]: <https://akvo.org/>
    [liZ]:<https://www.lizard.net/>
 
