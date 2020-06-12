@@ -20,14 +20,14 @@ This repository contains Akvo Tools custom integration pack development.
 | ANU | Lumen Trigger Updates. | Jobs | Python, Selenium |Joy|
 | General | Lumen Data Downloader. | Tools | Python, Pandas |Joy|
 | General | Akvo Flow Web. | Website & API | Python, Flask, Javascripts, ReactJS |Joy|
-| APPSA | [Custom Report Generator Site](https://tech-consultancy.akvotest.org/appsa-api/) from Akvo RSR.| Website & API | Python, Flask, Javascripts, ReactJS, Redux |Annabelle|
+| APPSA | [Custom Report Generator Site](https://tech-consultancy.akvotest.org/appsa-api/) from Akvo RSR.| Website & API | Python, Flask, Javascripts, ReactJS, Redux |Mercy|
 | Watershed | Plugins for AkvoSite. | Wordpress Plugins | PHP, Javascripts |Joy|
 | Watershed | Custom Data Visualisation for [India Baseline](https://tc.akvo.org/watershedchart/indiabaseline/). | Website | PHP, Javascripts |Joy|
-| 2 Scale | 2Scale [Data portal](http://2scale.tc.akvo.org/). | Website | PHP, Laravel,Python, Javascripts| Annabelle |
-| NABU | A regular job setup to update a postgres database which will be accessed via the qgis app. The job updates the Lumen dataset, fetches the data and imports it into postgres | Jobs | Python |Annabelle|
+| 2 Scale | 2Scale [Data portal](http://2scale.tc.akvo.org/). | Website | PHP, Laravel,Python, Javascripts| Mercy |
+| NABU | A regular job setup to update a postgres database which will be accessed via the qgis app. The job updates the Lumen dataset, fetches the data and imports it into postgres | Jobs | Python |Irene|
 | IUCN | 3 dashboards [plastics](https://iucn.tc.akvo.org/plastics),[TOF](https://iucn.tc.akvo.org/tof),[Plus](https://iucn.tc.akvo.org/plus) |Website | PHP, Javascript |Irene|
-| UNEP | Data Portal |Website | PHP, Javascript |Joy|
-| UDUMA | Update Postres Jobs |Website | Python, Migrations |Joy|
+| UNEP | Data Portal |Website | PHP, Javascript |Irene|
+| UDUMA | Update Postres Jobs |Website | Python, Migrations |Banzou|
 
 -------
 
