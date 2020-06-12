@@ -206,7 +206,7 @@ button.btn-repeatable{
         width: 100%;
     }
     .wrapper.toggled .sidebar-wrapper {
-        margin-left: -333px;
+        margin-left: -404px;
     }
 }
 
@@ -318,8 +318,8 @@ img.responsive-image {
 /* Overview */
 .badge-overview {
     display:inline-block;
-    margin-right:10px;
     cursor: pointer;
+    float: right;
 }
 .badge-overview .badge-left,
 .badge-overview .badge-right {
@@ -330,7 +330,12 @@ img.responsive-image {
 .ov-list{
     padding: 1em;
 }
+.ov-list:hover{
+    background-color:#dae0e5;
+}
+
 .ov-answer {
+    float:right;
     display: block;
 }
 

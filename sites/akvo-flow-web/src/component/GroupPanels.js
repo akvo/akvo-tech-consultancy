@@ -13,6 +13,8 @@ class GroupPanels extends Component {
 
     removeGroup(data) {
         this.props.removeGroup(data);
+        this.props.reduceGroups()
+        this.props.checkSubmission()
     }
 
     render() {

@@ -3,25 +3,23 @@ import { connect } from 'react-redux'
 import { mapStateToProps, mapDispatchToProps } from '../reducers/actions.js'
 import axios from 'axios';
 import { isJsonString } from  '../util/QuestionHandler.js'
-import { PROD_URL } from '../util/Environment'
+import { API_URL } from '../util/Environment'
 import { PopupImage } from '../util/Popup'
 import MapForm from '../types/MapForm.js'
 import Dexie from 'dexie';
 import uuid from 'uuid/v4';
 
-const API_ORIGIN = (PROD_URL ? ( window.location.origin + "/" + window.location.pathname.split('/')[1] + "-api/" ) : process.env.REACT_APP_API_URL);
-const pathurl = (PROD_URL ? 2 : 1);
-
 class QuestionType extends Component {
 
     constructor(props) {
         super(props)
-        this.instanceUrl = window.location.pathname.split('/')[pathurl]
         this.value = localStorage.getItem(this.props.data.id)
         this.other = localStorage.getItem("other_" + this.props.data.id)
         this.state = {
             value: this.value ? this.value : '',
             other: this.other ? this.other : '',
+            cascade_selected: [],
+            cascade_levels: 0
         }
         this.setDpStorage = this.setDpStorage.bind(this);
         this.setDplStorage = this.setDplStorage.bind(this);
@@ -153,9 +151,17 @@ class QuestionType extends Component {
             let ddindex = event.target.selectedIndex
             let text = event.target[ddindex].text
             let targetLevel = parseInt(event.target.name.split('-')[2]) + 1
-            this.handleCascadeChange(targetLevel, text, id, value)
+            this.handleCascadeChange(targetLevel, text, id, value);
+            let selected = this.state.cascade_selected;
+            let iterate_cascade = targetLevel;
+            do {
+                selected[iterate_cascade] = 0;
+                iterate_cascade++
+            } while (iterate_cascade < this.state.cascade_levels)
+            selected[targetLevel - 1] = parseInt(value);
+            this.setState({cascade_selected: selected})
             if (this.limitCascade > targetLevel) {
-                this.getCascadeDropdown(value, targetLevel)
+                this.getCascadeDropdown(value, targetLevel, 0, false)
             }
         }
         else if (this.props.data.options && this.props.data.options.allowMultiple)  {
@@ -326,18 +332,18 @@ class QuestionType extends Component {
             : JSON.stringify({"text":opt.value})
         let storage = JSON.parse(localStorage.getItem(id));
         let checked = () => (false);
-		if (storage) {
-			storage = storage.map((val) => {
-				if(typeof val === 'object') {
-					return val['text'];
-				}
-				let parsed = JSON.parse(val);
-				return parsed['text'];
-			});
-			if (storage.indexOf(opt.value) >= 0) {
-				checked = () => (true)
-			}
-		}
+        if (storage) {
+            storage = storage.map((val) => {
+                if(typeof val === 'object') {
+                    return val['text'];
+                }
+                let parsed = JSON.parse(val);
+                return parsed['text'];
+            });
+            if (storage.indexOf(opt.value) >= 0) {
+                checked = () => (true)
+            }
+        }
         if (o) {
             let oname = "other_"+id.toString();
             return (
@@ -413,25 +419,16 @@ class QuestionType extends Component {
     }
 
     renderCascade (opt, i, l, unique, id) {
-        /*
-        let selected = localStorage.getItem(id);
-        let selected_value = '';
-        if (selected) {
-            selected = JSON.parse(selected);
-            selected = selected.length > i ? selected[i].option : false;
-            selected_value = selected ? selected : '';
-        }
-        */
         let cascades = []
         let choose_options = "cascade_" + i
         let dropdown = this.state[this.state[choose_options]];
-        let cascade = (
+        let cascade = dropdown !== undefined ? (
             <div key={unique + '-dropdown-' + i}>
             <div>{opt.text}</div>
             <select
                 className="form-control"
-                value={this.state.selected}
                 type="select"
+                value={this.state.cascade_selected[i]}
                 name={ this.props.data.id.toString() + '-' + i}
                 onChange={this.handleChange}
             >
@@ -439,8 +436,27 @@ class QuestionType extends Component {
                 {this.renderCascadeOption(dropdown,(i+1),opt.text, unique)}
             </select>
             </div>
+        ) : (
+            <div key={unique + '-dropdown-' + i}>
+            <div>{opt.text}</div>
+            <select
+                className="form-control"
+                type="select"
+                name={ this.props.data.id.toString() + '-' + i}
+                onChange={this.handleChange}
+            >
+                <option key={unique + '-cascade-options-' + 0} value=''>Please Select</option>
+            </select>
+            </div>
         );
-        cascades.push(cascade)
+        if (dropdown === undefined && this.state.cascade_selected[i - 1] !== undefined) {
+            if (this.state["options_" + this.state.cascade_selected[i - 1].toString()] === undefined) {
+                setTimeout(() => {
+                    this.getCascadeDropdown(this.state.cascade_selected[i - 1], i, 0, true);
+                }, 1000)
+            }
+        }
+        cascades.push(cascade);
         if (this.limitCascade <= i) {
             this.handleChange()
         }
@@ -463,10 +479,10 @@ class QuestionType extends Component {
         }
     }
 
-    getCascadeDropdown(lv, ix) {
+    getCascadeDropdown(lv, ix, selected_value, init) {
         let optlev = this.props.data.levels.level;
         if (this.props.data.type === "cascade") {
-            let url = API_ORIGIN + 'cascade/' + this.instanceUrl + '/' + this.props.data.cascadeResource + '/' + lv
+            let url = API_URL + 'cascade/' + this.props.value.instanceName + '/' + this.props.data.cascadeResource + '/' + lv
             let options = "options_" + lv
             let cascade = "cascade_" + ix
             let availcasc = this.props.value.cascade;
@@ -493,12 +509,12 @@ class QuestionType extends Component {
                 }
             }
             if (res === undefined) {
-                this.fetchCascade(lv, ix, url, options, cascade);
+                this.fetchCascade(lv, ix, url, options, cascade, selected_value, init);
             }
         }
     }
 
-    fetchCascade(lv, ix, url, options, cascade) {
+    fetchCascade(lv, ix, url, options, cascade, selected_value, init) {
         let optlev = this.props.data.levels.level;
         axios.get(url).then((res) =>{
             if (res.data.length === 0) {
@@ -520,6 +536,11 @@ class QuestionType extends Component {
                 url:url,
                 data:res.data
             })
+            if (init) {
+                let selected = this.state.cascade_selected;
+                selected[ix] = selected_value;
+                this.setState({cascade_selected: selected})
+            }
         })
     }
 
@@ -625,7 +646,33 @@ class QuestionType extends Component {
 
     componentDidMount () {
         if (this.props.data.type === "cascade"){
-            this.getCascadeDropdown(0, 0)
+            let cascade_selected = [];
+            if (this.props.data.levels.level.text !== undefined) {
+                this.setState({cascade_levels: 1});
+                this.setState({cascade_selected: [0]});
+            } else {
+                this.setState({cascade_levels: this.props.data.levels.level.length});
+                for (let i=0; i < this.props.data.levels.level.length; i++) {
+                    cascade_selected = [...cascade_selected, 0]
+                }
+                this.setState({cascade_selected: cascade_selected});
+            }
+            let selected_cascade = localStorage.getItem(this.props.data.id)
+            selected_cascade = selected_cascade !== null ? JSON.parse(selected_cascade) : false;
+            if (selected_cascade) {
+                selected_cascade.forEach((sc, i) => {
+                    cascade_selected[i] = sc.option;
+                    if (i === 0) {
+                        this.getCascadeDropdown(i, i, sc.option, true);
+                        return;
+                    }
+                    this.getCascadeDropdown(selected_cascade[i - 1].option, i, sc.option, true);
+                    return;
+                });
+                this.setState({cascade_selected: cascade_selected});
+            } else {
+                this.getCascadeDropdown(0, 0, 0, true)
+            }
         }
         if (localStorage.getItem(this.props.data.id) !== null){
             this.props.checkSubmission();
@@ -638,7 +685,6 @@ class QuestionType extends Component {
                 });
             }
         };
-
     }
 
     render() {

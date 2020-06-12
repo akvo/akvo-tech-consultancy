@@ -4,10 +4,7 @@ import Home from './Home'
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { questionReducers } from './reducers/questionReducers.js'
-import { PROD_URL } from './util/Environment.js'
-
-const BASE_URL = ( PROD_URL ? "/akvo-flow-web" : process.env.REACT_APP_BASE_URL);
-const READ_CACHE = window.location.href.split('/').splice(-1)[0].split('-').length === 1 ? false : true;
+import { BASE_URL, CACHE_URL } from './util/Environment.js'
 
 const store = createStore(questionReducers)
 
@@ -15,7 +12,7 @@ class App extends Component {
 
     render () {
         let path = "/:instance/:surveyid"
-        if (READ_CACHE) {
+        if (CACHE_URL) {
             path = path + "/:cacheid";
         }
         return (
