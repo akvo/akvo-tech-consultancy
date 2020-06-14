@@ -10,7 +10,7 @@ use Auth0\Login\Auth0JWTUser;
 use Auth0\Login\Repository\Auth0UserRepository;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Auth0\Login\Auth0Service;
-use App\Libraries\AuthFlow;
+use App\Libraries\AuthorizedUser;
 
 class CustomUserRepository extends Auth0UserRepository
 {
@@ -63,8 +63,8 @@ class CustomUserRepository extends Auth0UserRepository
     {
         $auth0 = new Auth0Service(config('laravel-auth0'));
         $id_token = $auth0->getIdToken();
-        $authFLow = new AuthFlow($id_token);
-        return $authFLow->fetchFlow();
+        $authUser = new AuthorizedUser($id_token);
+        return $authUser->fetchFlow();
     }
 }
 

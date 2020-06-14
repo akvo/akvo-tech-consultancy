@@ -2,9 +2,8 @@
 
 namespace App\Libraries;
 use GuzzleHttp\Exception\RequestException;
-use Illuminate\Support\Facades\Cache;
 
-class AuthFlow
+class AuthorizedUser
 {
     public function __construct($token)
     {

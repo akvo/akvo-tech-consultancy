@@ -22,9 +22,9 @@ class DatabaseSeeder extends Seeder
         $this->call(SurveyFormsTableSeeder::class);
         $this->call(QuestionsTableSeeder::class);
         $this->call(QuestionOptionTableSeeder::class);
-        // $this->call(DatapointsTableSeeder::class);
+        $this->call(DatapointsTableSeeder::class);
 
         /* Faker Test Datapoint */
-        $this->call(TestDatapointsTableSeeder::class);
+        // $this->call(TestDatapointsTableSeeder::class);
     }
 }

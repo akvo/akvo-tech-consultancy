@@ -2,8 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\Http\Controllers\Api\SyncController;
-use App\Libraries\Flow;
-use App\Libraries\Keycloak;
+use App\Libraries\FlowApi;
 use App\Question;
 use App\Form;
 
@@ -17,10 +16,9 @@ class QuestionsTableSeeder extends Seeder
     public function run()
     {
         $sync = new SyncController();
-        $keycloak = new Keycloak();
         $form = new Form();
         $questions = new Question();
-        $flow = new Flow($keycloak);
+        $flow = new FlowApi();
         $sync->syncQuestions($flow, $form, $questions);
     }
 }

@@ -31,16 +31,16 @@ class AkvoAuth0
         $client = new \GuzzleHttp\Client();
         $auth = [
             'form_params' => [
-                'client_id' => config('akvo.clientID'),
-                'username' => config('akvo.username'),
-                'password' => config('akvo.password'),
-                'grant_type' => config('akvo.grantType'),
-                'scope' => config('akvo.scope')
+                'client_id' => config('akvo-auth0.clientID'),
+                'username' => config('akvo-auth0.username'),
+                'password' => config('akvo-auth0.password'),
+                'grant_type' => config('akvo-auth0.grantType'),
+                'scope' => config('akvo-auth0.scope')
             ]
         ];
 
         try {
-            $response = $client->post(config('akvo.endpoints.login'), $auth);
+            $response = $client->post(config('akvo-auth0.endpoints.login'), $auth);
         } catch(RequestException $e) {
             if ($e->hasResponse()) {
                 $response = $e->getResponse();
@@ -50,7 +50,6 @@ class AkvoAuth0
         if($response->getStatusCode() === 200) {
             $result = json_decode($response->getBody(), true);
             Cache::put('token', $result['id_token'], 4);
-
             return $result['id_token'];
         }
 

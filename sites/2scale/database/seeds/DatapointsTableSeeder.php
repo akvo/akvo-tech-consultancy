@@ -2,8 +2,8 @@
 
 use Illuminate\Database\Seeder;
 use App\Http\Controllers\Api\SyncController;
-use App\Libraries\Flow;
-use App\Libraries\Keycloak;
+use App\Libraries\FlowAuth0;
+use App\Libraries\AkvoAuth0;
 use App\Form;
 use App\Datapoint;
 use App\Partnership;
@@ -18,8 +18,8 @@ class DatapointsTableSeeder extends Seeder
     public function run()
     {
         $sync = new SyncController();
-        $keycloak = new Keycloak();
-        $flow = new Flow($keycloak);
+        $auth0 = new AkvoAuth0();
+        $flow = new FlowAuth0($auth0);
 
         $forms = new Form();
         $partnerships = new Partnership();

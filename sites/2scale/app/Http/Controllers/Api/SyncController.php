@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Arr;
-use App\Libraries\Flow;
+use App\Libraries\FlowApi;
+use App\Libraries\FlowAuth0;
 use App\SurveyGroup;
 use App\Partnership;
 use App\Form;
@@ -17,7 +16,7 @@ use App\Answer;
 
 class SyncController extends Controller
 {
-    public function syncPartnerships(Flow $flow, Partnership $partnerships)
+    public function syncPartnerships(FlowApi $flow, Partnership $partnerships)
     {
        $id = 0;
        $cascades = $flow->cascade($id);
@@ -93,7 +92,7 @@ class SyncController extends Controller
         );
     }
 
-    public function syncQuestions(Flow $flow, Form $forms, Question $questions)
+    public function syncQuestions(FlowApi $flow, Form $forms, Question $questions)
     {
         $formlist = $forms->get();
         $all_forms = collect($formlist)->map(function($form) use ($flow, $questions) {
@@ -122,7 +121,7 @@ class SyncController extends Controller
         return $all_forms;
     }
 
-    public function syncQuestionOptions(Flow $flow, Option $options, Form $forms, Question $questions)
+    public function syncQuestionOptions(FlowApi $flow, Option $options, Form $forms, Question $questions)
     {
         $forms = collect($forms->get())->map(function($form) use ($flow) {
                 $survey_form = collect($flow->questions($form['form_id']))->get('questionGroup');
@@ -154,7 +153,7 @@ class SyncController extends Controller
         return $forms;
     }
 
-    public function syncDataPoints(Flow $flow, Form $forms, Partnership $partnerships, DataPoint $datapoints)
+    public function syncDataPoints(FlowAuth0 $flow, Form $forms, Partnership $partnerships, DataPoint $datapoints)
     {
         $forms = $forms->load('surveygroup')->all();
         $collections = collect();
@@ -232,7 +231,9 @@ class SyncController extends Controller
                                         : $answer[$i]['name'];
                                     if($isOption) {
                                         $option = \App\Option::where('text', $answer[$i]['text'])->first();
-                                        $options->push($option['id']);
+                                        if ($option !== null) {
+                                            $options->push($option['id']);
+                                        }
                                     }
                                     if ($i < count($answer) - 1) {
                                         $cascade .= '|';
