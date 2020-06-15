@@ -74,6 +74,7 @@ class SyncController extends Controller
     private function breakQuestions($form_id, $question) {
         $questiontype = $question['type'];
         $cascade = null;
+        $personalData = false;
         if (isset($question['validationRule'])){
             $validation = $question['validationRule']['validationType'];
             if ($validation === "numeric") {
@@ -83,10 +84,14 @@ class SyncController extends Controller
         if (isset($question['cascadeResource'])){
             $cascade = $question['cascadeResource'];
         }
+        if (isset($question['personalData'])){
+            $personalData = $question['personalData'];
+        }
         return array(
             'question_id' => (int) $question['id'],
             'type' => $questiontype,
             'text' => $question['text'],
+            'personal_data' => $personalData,
             'resource' => $cascade,
             'form_id' => $form_id,
         );
