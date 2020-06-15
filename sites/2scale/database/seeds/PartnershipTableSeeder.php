@@ -2,8 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\Http\Controllers\Api\SyncController;
-use App\Libraries\Flow;
-use App\Libraries\Keycloak;
+use App\Libraries\FlowApi;
 use App\Partnership;
 
 class PartnershipTableSeeder extends Seeder
@@ -16,9 +15,8 @@ class PartnershipTableSeeder extends Seeder
     public function run()
     {
         $sync = new SyncController();
-        $keycloak = new Keycloak();
         $partnership = new Partnership();
-        $flow = new Flow($keycloak);
+        $flow = new FlowApi();
         $sync->syncPartnerships($flow, $partnership);
     }
 }

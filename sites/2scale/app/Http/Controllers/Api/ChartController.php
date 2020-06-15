@@ -33,7 +33,7 @@ class ChartController extends Controller
             );
         })->groupBy('country');
         $answers = $answers->map(function($data, $key){
-            $list = collect(); 
+            $list = collect();
             $data->each(function($d) use ($list) {
                 $list->push($d['values']);
             });
@@ -69,8 +69,8 @@ class ChartController extends Controller
                        });
         $projects = $data->groupBy('form_name');
         $series = collect($projects)
-            ->map(function($data, $key){ 
-                return $data->countBy('country_name'); 
+            ->map(function($data, $key){
+                return $data->countBy('country_name');
             })
             ->map(function($data, $key) use ($countries) {
                 $count = collect();
@@ -119,10 +119,10 @@ class ChartController extends Controller
             });
         }
         $legends = ["Female > 35", "Female ≤ 35", "Male > 35", "Male ≤ 35"];
-        $all = collect($all)->groupBy('country')->map(function($countries) 
+        $all = collect($all)->groupBy('country')->map(function($countries)
             use ($femaleold, $femaleyoung, $maleold, $maleyoung)
         {
-            $countries = $countries->map(function($country) 
+            $countries = $countries->map(function($country)
                 use ($femaleold, $femaleyoung, $maleold, $maleyoung)
             {
                 $country->total = (int) $country->value;
@@ -151,9 +151,9 @@ class ChartController extends Controller
         $femaleyoung = collect();
         $maleold = collect();
         $maleyoung = collect();
-        $all = $all->map(function($data) 
+        $all = $all->map(function($data)
             use ($femaleold, $femaleyoung, $maleold, $maleyoung ){
-                $data->map(function($dt, $key) 
+                $data->map(function($dt, $key)
                 use ($femaleold, $femaleyoung, $maleold, $maleyoung ){
                     if ($key === "Female > 35"){
                         $femaleold->push($dt);
@@ -319,7 +319,7 @@ class ChartController extends Controller
             $partnership_dp = collect($partners['partnership_datapoints'])->filter(function($dp) use ($survey_codes) {
                 return collect($survey_codes)->contains($dp['form_id']);
             })->count();
-            $res['country'] = $partners['parents']['name'];
+            $res['country'] = ($partners['parents'] === null) ? null : $partners['parents']['name'];
             $res['commodity'] = Str::before($partners['name'],'_');
             $res['project'] = Str::after($partners['name'],'_');
             $res['value'] = $partnership_dp;
@@ -444,7 +444,7 @@ class ChartController extends Controller
                 $partnership_dp = collect($partners['partnership_datapoints'])->filter(function($dp) use ($survey_codes) {
                     return collect($survey_codes)->contains($dp['form_id']);
                 })->count();
-                $res['country'] = $partners['parents']['name'];
+                $res['country'] = ($partners['parents'] === null) ? null : $partners['parents']['name'];
                 $res['commodity'] = Str::before($partners['name'],'_');
                 $res['project'] = Str::after($partners['name'],'_');
                 $res['value'] = $partnership_dp;
@@ -454,11 +454,11 @@ class ChartController extends Controller
                 return $partners['value'] === 0;
             })->values();
             $results = $results->sortByDesc('value')->values();
-            $partners = $results->take(3); 
+            $partners = $results->take(3);
             $total = [
                 'country'=> $results->groupBy('country')->count()." Countries",
-                'commodity' => $results->groupBy('commodity')->count(). " Partnerships", 
-                'project' => $results->groupBy('project')->count(). " Projects", 
+                'commodity' => $results->groupBy('commodity')->count(). " Partnerships",
+                'project' => $results->groupBy('project')->count(). " Projects",
                 'value' => $results->countBy('value')->flatten()->sum()
             ];
             $partners->push($total);
@@ -473,7 +473,7 @@ class ChartController extends Controller
         return $results;
     }
 
-    public function mapCharts(Request $request, Partnership $partnerships, Datapoint $datapoints) 
+    public function mapCharts(Request $request, Partnership $partnerships, Datapoint $datapoints)
     {
         $data = $partnerships
             ->has('country_datapoints')
@@ -534,7 +534,7 @@ class ChartController extends Controller
             return array(
                 "name" => $country,
                 "value" => "countries",
-                "children" => $partnership, 
+                "children" => $partnership,
                 "itemStyle" => array("color" => "#33b5e5"),
                 "label" => array("fontSize" =>  15),
             );

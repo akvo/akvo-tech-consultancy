@@ -19,6 +19,7 @@ class CreateQuestionsTable extends Migration
             $table->unsignedBigInteger('form_id');
             $table->char('type', 12);
             $table->text('text');
+            $table->boolean('personal_data');
             $table->text('resource')->nullable();
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();

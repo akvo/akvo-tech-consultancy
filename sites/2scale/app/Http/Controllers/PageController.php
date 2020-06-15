@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use ResponseCache;
 use App\Partnership;
-use App\Libraries\Flow;
+use App\Libraries\FlowApi as Flow;
 use App\Repositories\CustomUserRepository;
 use App\Http\Controllers\Auth\Auth0IndexController;
 

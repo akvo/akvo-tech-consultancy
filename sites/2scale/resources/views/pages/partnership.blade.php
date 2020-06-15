@@ -4,11 +4,11 @@
 @section ('content')
 
 <div class="bg-white shadow-sm flex-display selector-bar">
-	<nav class="nav nav-md-6 nav-selector">
+	<nav class="nav nav-selector">
         <select id="partnership-country" class="selectpicker" data-style="btn-pink" data-live-search="true">
 		  <option value="0">Select Country</option>
             @foreach($countries as $country)
-            <option 
+            <option
                 data-tokens="{{ $country['name'] }}"
                 data-id="{{ $country['id'] }}"
                 value="{{ Str::title($country['id']) }}">
@@ -33,7 +33,7 @@
 </div>
 
 <main role="main" class="row">
-    <iframe id="data-frame" src="/frame-partnership/0/0" frameborder=0 width="100%"></iframe>
+    <iframe id="data-frame" src="/frame/partnership/0/0" frameborder=0 width="100%"></iframe>
 </main>
 
 <!--Modal: modalCookie-->

@@ -29,7 +29,7 @@
     @if(isset($saved_survey))
         <iframe id="akvo-flow-web" src="{{ $saved_survey }}" frameborder=0 width="100%" ></iframe>
     @else
-        <iframe id="akvo-flow-web" src="/frame-blank" frameborder=0 width="100%"></iframe>
+        <iframe id="akvo-flow-web" src="/frame/blank" frameborder=0 width="100%"></iframe>
     @endif
     </div>
 </main>

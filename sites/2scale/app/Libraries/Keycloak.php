@@ -9,7 +9,7 @@ use App\Question;
 use App\Form;
 use App\Option;
 
-class Keycloak 
+class Keycloak
 {
     public function __construct() {
         $token = Cache::get('access_token');
@@ -21,7 +21,7 @@ class Keycloak
 
     public function getHeaders()
     {
-        return array('headers' => 
+        return array('headers' =>
             array(
                 'Authorization' => 'Bearer ' . $this->token,
                 'Accept' => 'application/vnd.akvo.flow.v2+json',
@@ -30,7 +30,7 @@ class Keycloak
         );
     }
 
-    public static function getToken() 
+    public static function getToken()
     {
         $client = new \GuzzleHttp\Client();
         try {
@@ -48,7 +48,6 @@ class Keycloak
                 $response = $e->getResponse();
             }
         }
-
         if ($response->getStatusCode() == 200) {
             $result = json_decode($response->getBody(), true);
             Cache::put('access_token', $result['access_token'], 4);
