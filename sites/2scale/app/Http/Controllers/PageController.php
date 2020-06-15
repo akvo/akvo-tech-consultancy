@@ -74,9 +74,10 @@ class PageController extends Controller
 		return view('pages.organisation');
 	}
 
-	public function reachreact()
+	public function reachreact(Partnership $partnerships, Request $request)
 	{
-		return view('pages.reachreact', ['surveys' => config('surveys')]);
+        $countries = $partnerships->has('childrens')->get();
+		return view('pages.reachreact', ['surveys' => config('surveys'), 'countries' => $countries]);
 	}
 
 	public function partnership(Partnership $partnerships, Request $request)

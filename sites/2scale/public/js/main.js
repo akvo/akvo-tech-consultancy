@@ -2150,6 +2150,21 @@ $("#generate-partnership-page").on('click', function () {
   params = params.join("/");
   $("#data-frame").attr("src", "/frame/partnership/" + params);
 });
+$("#generate-reachreact-page").on('click', function () {
+  var params = [];
+  $(".selectpicker").each(function (d, i) {
+    var value = $(i).val();
+
+    if (value === undefined || value === "") {
+      value = 0;
+    }
+
+    params = [].concat(_toConsumableArray(params), [value]);
+  });
+  params = params.join("/");
+  console.log(params);
+  $("#data-frame").attr("src", "/frame/reachreact/" + params);
+});
 $("#partnership-country").on('change', function (data) {
   if (data.target.value !== "") {
     axios.get("/api/partnership/" + data.target.value).then(function (res) {

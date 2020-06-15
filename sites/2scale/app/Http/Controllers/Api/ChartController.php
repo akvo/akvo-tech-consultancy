@@ -255,7 +255,7 @@ class ChartController extends Controller
         if ($hasCountry) {
             $answers = $answers->with('datapoints.partnership')->get()->transform(function($data){
                 return [
-                    'name' => $data->datapoints->partnership->name,
+                    'name' => Str::before($data->datapoints->partnership->name, '_'),
                     'value' => $data->value,
                 ];
             });
@@ -395,6 +395,43 @@ class ChartController extends Controller
             return $d['value'];
 		});
 		return $this->echarts->generateSimpleBarCharts($legends, $values);
+    }
+
+    public function genderCount(Request $request, Answer $answers)
+    {
+        $femaleold = ['36030007'];
+        $femaleyoung = ['24030004'];
+        $maleold = ['20030002'];
+        $maleyoung = ['24030005'];
+        $question_id = collect([$femaleold, $femaleyoung, $maleold, $maleyoung])->flatten(0);
+        $all = $answers->whereIn('question_id', $question_id);
+        if (isset($request->country_id)) {
+            $datapoints_id = $this->filterQuery($request);
+            $all = $all->whereIn('datapoint_id',$datapoints_id);
+        }
+        $all = collect($all->get())->map(function($dt, $key) 
+            use ($femaleold, $femaleyoung, $maleold, $maleyoung ){
+                $dt->answer = (int) $dt->answer;
+                if (collect($femaleold)->contains($dt->question_id)){
+                    $dt->participant = "Female > 35";
+                }
+                if (collect($femaleyoung)->contains($dt->question_id)){
+                    $dt->participant = "Female ≤ 35";
+                }
+                if (collect($maleold)->contains($dt->question_id)){
+                    $dt->participant = "Male > 35";
+                }
+                if (collect($maleyoung)->contains($dt->question_id)){
+                    $dt->participant = "Male ≤ 35";
+                }
+                return $dt;
+            })->groupBy('participant')->map(function($dt, $key){
+                return [
+                    "country" => $key,
+                    "value" => $dt->sum('value'),
+                ];
+            })->values();
+        return $all;
     }
 
     public function topThree(Request $request, Partnership $partnerships, Datapoint $datapoints)

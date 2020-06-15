@@ -89,6 +89,20 @@ $("#generate-partnership-page").on('click', () => {
     $("#data-frame").attr("src", "/frame/partnership/" + params);
 });
 
+$("#generate-reachreact-page").on('click', () => {
+    let params = [];
+    $(".selectpicker").each((d, i) => {
+        let value = $(i).val();
+        if (value === undefined || value === "") {
+            value = 0;
+        }
+        params = [...params, value];
+    });
+    params = params.join("/");
+    console.log(params);
+    $("#data-frame").attr("src", "/frame/reachreact/" + params);
+});
+
 $("#partnership-country").on('change', (data) =>{
     if (data.target.value !== "") {
         axios.get("/api/partnership/" + data.target.value)

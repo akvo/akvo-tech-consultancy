@@ -29,6 +29,12 @@ const generateCards = (info, color, rank) => {
         }
         return rank;
     }
+    if (info.project === undefined) {
+        info.project = ""
+    }
+    if (info.commodity === undefined) {
+        info.commodity = ""
+    }
     let html = `<div class="col-md-3">
                     <div class="card card-cascade wider">
                         <div class="view view-cascade gradient-card-header ` + color + `-gradient">

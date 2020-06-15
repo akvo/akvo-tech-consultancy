@@ -22,4 +22,3 @@ getCharts('partnership/commodities/' + endpoints, 'first-row', info, "12");
 $("main").append("<hr><div class='row' id='second-row'></div>");
 getCharts('partnership/countries-total/' + endpoints, 'second-row', info, "6");
 getCharts('partnership/project-total/' + endpoints, 'second-row', info, "6");
-
