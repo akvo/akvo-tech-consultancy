@@ -105,6 +105,10 @@ export const getCharts = (chart, row, info, md, color) => {
                 myChart.setOption(res.data);
             }, 1000);
         })
+        .catch(e => {
+            $("#loader-" + chartname).remove();
+            myChart.setOption({title: {text:"No Data available for this request"}});
+        });
 }
 
 export const getMaps = () => {

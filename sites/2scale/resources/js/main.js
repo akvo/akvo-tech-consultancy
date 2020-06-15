@@ -11,7 +11,6 @@ $("#data-frame").attr("height", iframeheight);
 
 $("#select-survey").on("change.bs.select", (e) => {
     let url = e.target.attributes["data-url"].value + "/" + e.target.value;
-    console.log(url);
     $("#akvo-flow-web").attr("src", url);
 });
 
@@ -34,7 +33,6 @@ $(function() {
     }, function(start, end, label) {
         const start_date = start.format('YYYY-MM-DD');
         const end_date = start.format('YYYY-MM-DD');
-        console.log(start_date, end_date);
     });
 });
 
@@ -45,7 +43,6 @@ $(".btn.dropdown-toggle.btn-light").addClass("btn-primary");
 
 $("#btn-data-inspect").click(() => {
     const form_select = $("#select-database-survey").val();
-	console.log(form_select);
     let url = window.location.origin + '/frame/database/' + form_select;
 
     const country_select = $("#select-country-survey").val();
@@ -99,7 +96,6 @@ $("#generate-reachreact-page").on('click', () => {
         params = [...params, value];
     });
     params = params.join("/");
-    console.log(params);
     $("#data-frame").attr("src", "/frame/reachreact/" + params);
 });
 

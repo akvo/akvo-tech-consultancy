@@ -32,6 +32,9 @@ class ChartController extends Controller
                 'values' => explode('|', $answer->text)
             );
         })->groupBy('country');
+        if (count($answers) === 0) {
+            return response('no data available', 503);
+        };
         $answers = $answers->map(function($data, $key){
             $list = collect();
             $data->each(function($d) use ($list) {
@@ -67,6 +70,9 @@ class ChartController extends Controller
                            $dt->country_name = $dt->country->name;
                            return $dt->makeHidden(['forms','country']);
                        });
+        if (count($data) === 0) {
+            return response('no data available', 503);
+        };
         $projects = $data->groupBy('form_name');
         $series = collect($projects)
             ->map(function($data, $key){
@@ -118,6 +124,9 @@ class ChartController extends Controller
                 return $dt->makeHidden('datapoints');
             });
         }
+        if (count($all) === 0) {
+            return response('no data available', 503);
+        };
         $legends = ["Female > 35", "Female ≤ 35", "Male > 35", "Male ≤ 35"];
         $all = collect($all)->groupBy('country')->map(function($countries)
             use ($femaleold, $femaleyoung, $maleold, $maleyoung)
@@ -208,6 +217,9 @@ class ChartController extends Controller
             $all = $all->whereIn('datapoint_id',$datapoints_id);
         }
         $all = $all->get();
+        if (count($all) === 0) {
+            return response('no data available', 503);
+        };
         $legends = ["Female > 35", "Female ≤ 35", "Male > 35", "Male ≤ 35"];
         $series = collect($all)->map(function($dt)
             use ($femaleold, $femaleyoung, $maleold, $maleyoung ){
@@ -268,6 +280,9 @@ class ChartController extends Controller
                 ];
             });
         }
+        if (count($answers) === 0) {
+            return response('no data available', 503);
+        };
         $answers = $answers->groupBy('name')->map(function($dt, $key) {
                 return $dt->map(function($d){return $d['value'];})->sum();
         });
@@ -315,6 +330,10 @@ class ChartController extends Controller
             $results = $results->where('id', $request->partnership_id);
         }
         $results = $results->with('partnership_datapoints')->with('parents')->get();
+        if (count($results) === 0) {
+            return response('no data available', 503);
+        };
+
         $results = collect($results)->map(function($partners) use ($survey_codes) {
             $partnership_dp = collect($partners['partnership_datapoints'])->filter(function($dp) use ($survey_codes) {
                 return collect($survey_codes)->contains($dp['form_id']);
@@ -333,6 +352,9 @@ class ChartController extends Controller
 
     public function partnershipCharts(Request $request, Partnership $partnerships, Datapoint $datapoints) {
         $results = $this->filterPartnership($request, $partnerships);
+        if (count($results) === 0) {
+            return response('no data available', 503);
+        };
         $results = $results->sortByDesc('value')->values();
         $categories = $results->groupBy('country')->keys();
         $series = $results->groupBy('project')->map(function($countries, $key) use ($results, $categories) {

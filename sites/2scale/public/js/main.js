@@ -2077,7 +2077,6 @@ $("#data-frame").attr("height", iframeheight);
 
 $("#select-survey").on("change.bs.select", function (e) {
   var url = e.target.attributes["data-url"].value + "/" + e.target.value;
-  console.log(url);
   $("#akvo-flow-web").attr("src", url);
 });
 var startdate = moment().subtract(29, 'days');
@@ -2098,7 +2097,6 @@ $(function () {
   }, function (start, end, label) {
     var start_date = start.format('YYYY-MM-DD');
     var end_date = start.format('YYYY-MM-DD');
-    console.log(start_date, end_date);
   });
 });
 /* DataTables API */
@@ -2107,7 +2105,6 @@ $(".btn.dropdown-toggle.btn-light").removeClass("btn-light");
 $(".btn.dropdown-toggle.btn-light").addClass("btn-primary");
 $("#btn-data-inspect").click(function () {
   var form_select = $("#select-database-survey").val();
-  console.log(form_select);
   var url = window.location.origin + '/frame/database/' + form_select;
   var country_select = $("#select-country-survey").val();
 
@@ -2162,7 +2159,6 @@ $("#generate-reachreact-page").on('click', function () {
     params = [].concat(_toConsumableArray(params), [value]);
   });
   params = params.join("/");
-  console.log(params);
   $("#data-frame").attr("src", "/frame/reachreact/" + params);
 });
 $("#partnership-country").on('change', function (data) {
