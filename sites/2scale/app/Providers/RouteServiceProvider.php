@@ -39,7 +39,8 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapWebRoutes();
 
-        //
+        $this->mapChartRoutes();
+
     }
 
     /**
@@ -69,5 +70,21 @@ class RouteServiceProvider extends ServiceProvider
              ->middleware('api')
              ->namespace($this->namespace)
              ->group(base_path('routes/api.php'));
+    }
+
+
+    /**
+     * Define the "chart" routes for the application.
+     *
+     * These routes are typically stateless.
+     *
+     * @return void
+     */
+    protected function mapChartRoutes()
+    {
+        Route::prefix('charts')
+             ->middleware('api')
+             ->namespace($this->namespace)
+             ->group(base_path('routes/charts.php'));
     }
 }

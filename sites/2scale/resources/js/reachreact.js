@@ -15,4 +15,3 @@ getCharts('reachreact/gender', 'first-row', info, "12");
 $("main").append("<hr><div class='row' id='second-row'></div>");
 getCharts('reachreact/gender-total', 'second-row', info, "6");
 getCharts('reachreact/country-total', 'second-row', info, "6");
-

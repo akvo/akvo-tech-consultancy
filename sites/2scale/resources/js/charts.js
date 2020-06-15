@@ -13,7 +13,7 @@ const popupFormatter = (params) => {
 };
 
 const mapOption = new Promise((resolve, reject) => {
-    axios.get('/api/charts/home/map')
+    axios.get('/charts/home/map')
         .then(res => {
             resolve(res.data);
         })
@@ -51,7 +51,7 @@ const generateCards = (info, color, rank) => {
 
 export const getCards = (cards) => {
     const topThree = new Promise((resolve, reject) => {
-        axios.get('/api/charts/' + cards)
+        axios.get('/charts/' + cards)
             .then(res => {
                 resolve(res.data);
             })
@@ -92,7 +92,7 @@ export const getCharts = (chart, row, info, md, color) => {
     $("#" + row).append(html);
     var element = document.getElementById(chartname);
     var myChart = echarts.init(element);
-    axios.get('/api/charts/' + chart)
+    axios.get('/charts/' + chart)
         .then(res => {
             setTimeout(function() {
                 $("#loader-" + chartname).remove();

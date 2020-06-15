@@ -16,7 +16,7 @@ const titleCase = (str) => {
     return str.join(' ');
 }
 
-axios.get('api/charts/organisation/hierarchy')
+axios.get('/charts/organisation/hierarchy')
     .then(res => {
         const element = document.getElementById('hierarchy');
         const myChart = echarts.init(element);

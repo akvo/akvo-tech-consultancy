@@ -69,22 +69,6 @@ Route::get('/datatables/{form_id}','Api\DataTableController@getDataPoints');
 Route::get('/datatables/{form_id}/{country}','Api\DataTableController@getDataPoints');
 Route::get('/datatables/{form_id}/{country}/{datestart}/{dateend}','Api\DataTableController@getDataPoints');
 
-Route::get('/charts/home/workstream','Api\ChartController@workStream');
-Route::get('/charts/home/top-three','Api\ChartController@topThree');
-Route::get('/charts/home/organisation-forms','Api\ChartController@organisationForms');
-Route::get('/charts/home/map','Api\ChartController@mapCharts');
-Route::get('/charts/organisation/hierarchy','Api\ChartController@hierarchy');
-Route::get('/charts/reachreact/gender', 'Api\ChartController@rnrGender');
-Route::get('/charts/reachreact/gender-total', 'Api\ChartController@genderTotal');
-Route::get('/charts/reachreact/country-total', 'Api\ChartController@countryTotal');
-Route::get('/charts/reachreact/top-three','Api\ChartController@topThree');
-
-Route::get('/charts/partnership/datapoints','Api\ChartController@totalDatapoints');
-Route::get('/charts/partnership/top-three/{country_id}/{partnership_id}','Api\ChartController@topThree');
-Route::get('/charts/partnership/commodities/{country_id}/{partnership_id}', 'Api\ChartController@partnershipCharts');
-Route::get('/charts/partnership/countries-total/{country_id}/{partnership_id}', 'Api\ChartController@partnershipTotalCharts');
-Route::get('/charts/partnership/project-total/{country_id}/{partnership_id}', 'Api\ChartController@partnershipCommodityCharts');
-Route::get('/charts/partnership/gender-total/{country_id}/{partnership_id}', 'Api\ChartController@genderTotal');
 
 /*
 |
