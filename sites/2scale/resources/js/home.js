@@ -12,7 +12,7 @@ getMaps();
 
 /* First Row */
 $("main").append("<div class='row' id='first-row'></div>");
-getCharts('reachreact/country-total', 'zero-row', info, "6", "purple");
+getCharts('reachreact/country-total/0/0', 'zero-row', info, "6", "purple");
 
 /* Second Row */
 getCharts('home/workstream', 'first-row', info, "7", "blue");

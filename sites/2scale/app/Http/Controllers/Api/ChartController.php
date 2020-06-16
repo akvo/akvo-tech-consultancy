@@ -32,6 +32,9 @@ class ChartController extends Controller
                 'values' => explode('|', $answer->text)
             );
         })->groupBy('country');
+        if (count($answers) === 0) {
+            return response('no data available', 503);
+        };
         $answers = $answers->map(function($data, $key){
             $list = collect();
             $data->each(function($d) use ($list) {
@@ -67,6 +70,9 @@ class ChartController extends Controller
                            $dt->country_name = $dt->country->name;
                            return $dt->makeHidden(['forms','country']);
                        });
+        if (count($data) === 0) {
+            return response('no data available', 503);
+        };
         $projects = $data->groupBy('form_name');
         $series = collect($projects)
             ->map(function($data, $key){
@@ -118,6 +124,9 @@ class ChartController extends Controller
                 return $dt->makeHidden('datapoints');
             });
         }
+        if (count($all) === 0) {
+            return response('no data available', 503);
+        };
         $legends = ["Female > 35", "Female ≤ 35", "Male > 35", "Male ≤ 35"];
         $all = collect($all)->groupBy('country')->map(function($countries)
             use ($femaleold, $femaleyoung, $maleold, $maleyoung)
@@ -208,6 +217,9 @@ class ChartController extends Controller
             $all = $all->whereIn('datapoint_id',$datapoints_id);
         }
         $all = $all->get();
+        if (count($all) === 0) {
+            return response('no data available', 503);
+        };
         $legends = ["Female > 35", "Female ≤ 35", "Male > 35", "Male ≤ 35"];
         $series = collect($all)->map(function($dt)
             use ($femaleold, $femaleyoung, $maleold, $maleyoung ){
@@ -255,7 +267,7 @@ class ChartController extends Controller
         if ($hasCountry) {
             $answers = $answers->with('datapoints.partnership')->get()->transform(function($data){
                 return [
-                    'name' => $data->datapoints->partnership->name,
+                    'name' => Str::before($data->datapoints->partnership->name, '_'),
                     'value' => $data->value,
                 ];
             });
@@ -268,6 +280,9 @@ class ChartController extends Controller
                 ];
             });
         }
+        if (count($answers) === 0) {
+            return response('no data available', 503);
+        };
         $answers = $answers->groupBy('name')->map(function($dt, $key) {
                 return $dt->map(function($d){return $d['value'];})->sum();
         });
@@ -315,6 +330,10 @@ class ChartController extends Controller
             $results = $results->where('id', $request->partnership_id);
         }
         $results = $results->with('partnership_datapoints')->with('parents')->get();
+        if (count($results) === 0) {
+            return response('no data available', 503);
+        };
+
         $results = collect($results)->map(function($partners) use ($survey_codes) {
             $partnership_dp = collect($partners['partnership_datapoints'])->filter(function($dp) use ($survey_codes) {
                 return collect($survey_codes)->contains($dp['form_id']);
@@ -333,6 +352,9 @@ class ChartController extends Controller
 
     public function partnershipCharts(Request $request, Partnership $partnerships, Datapoint $datapoints) {
         $results = $this->filterPartnership($request, $partnerships);
+        if (count($results) === 0) {
+            return response('no data available', 503);
+        };
         $results = $results->sortByDesc('value')->values();
         $categories = $results->groupBy('country')->keys();
         $series = $results->groupBy('project')->map(function($countries, $key) use ($results, $categories) {
@@ -361,6 +383,9 @@ class ChartController extends Controller
 
     public function partnershipTotalCharts(Request $request, Partnership $partnerships, Datapoint $datapoints) {
         $results = $this->filterPartnership($request, $partnerships);
+        if (count($results) === 0) {
+            return response('no data available', 503);
+        };
         $series = $results->groupBy('country')->map(function($data, $key){
             $data = $data->map(function($val){
                 return $val['value'];
@@ -379,6 +404,9 @@ class ChartController extends Controller
 
     public function partnershipCommodityCharts(Request $request, Partnership $partnerships, Datapoint $datapoints) {
         $results = $this->filterPartnership($request, $partnerships);
+        if (count($results) === 0) {
+            return response('no data available', 503);
+        };
         $series = $results->groupBy('project')->map(function($data, $key){
             $data = $data->map(function($val){
                 return $val['value'];
@@ -395,6 +423,43 @@ class ChartController extends Controller
             return $d['value'];
 		});
 		return $this->echarts->generateSimpleBarCharts($legends, $values);
+    }
+
+    public function genderCount(Request $request, Answer $answers)
+    {
+        $femaleold = ['36030007'];
+        $femaleyoung = ['24030004'];
+        $maleold = ['20030002'];
+        $maleyoung = ['24030005'];
+        $question_id = collect([$femaleold, $femaleyoung, $maleold, $maleyoung])->flatten(0);
+        $all = $answers->whereIn('question_id', $question_id);
+        if (isset($request->country_id)) {
+            $datapoints_id = $this->filterQuery($request);
+            $all = $all->whereIn('datapoint_id',$datapoints_id);
+        }
+        $all = collect($all->get())->map(function($dt, $key) 
+            use ($femaleold, $femaleyoung, $maleold, $maleyoung ){
+                $dt->answer = (int) $dt->answer;
+                if (collect($femaleold)->contains($dt->question_id)){
+                    $dt->participant = "Female > 35";
+                }
+                if (collect($femaleyoung)->contains($dt->question_id)){
+                    $dt->participant = "Female ≤ 35";
+                }
+                if (collect($maleold)->contains($dt->question_id)){
+                    $dt->participant = "Male > 35";
+                }
+                if (collect($maleyoung)->contains($dt->question_id)){
+                    $dt->participant = "Male ≤ 35";
+                }
+                return $dt;
+            })->groupBy('participant')->map(function($dt, $key){
+                return [
+                    "country" => $key,
+                    "value" => $dt->sum('value'),
+                ];
+            })->values();
+        return $all;
     }
 
     public function topThree(Request $request, Partnership $partnerships, Datapoint $datapoints)

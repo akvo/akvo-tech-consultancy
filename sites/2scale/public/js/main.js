@@ -2129,7 +2129,6 @@ $("#data-frame").attr("height", iframeheight);
 
 $("#select-survey").on("change.bs.select", function (e) {
   var url = e.target.attributes["data-url"].value + "/" + e.target.value;
-  console.log(url);
   $("#akvo-flow-web").attr("src", url);
 });
 var startdate = moment().subtract(29, 'days');
@@ -2150,7 +2149,6 @@ $(function () {
   }, function (start, end, label) {
     var start_date = start.format('YYYY-MM-DD');
     var end_date = start.format('YYYY-MM-DD');
-    console.log(start_date, end_date);
   });
 });
 /* DataTables API */
@@ -2159,7 +2157,6 @@ $(".btn.dropdown-toggle.btn-light").removeClass("btn-light");
 $(".btn.dropdown-toggle.btn-light").addClass("btn-primary");
 $("#btn-data-inspect").click(function () {
   var form_select = $("#select-database-survey").val();
-  console.log(form_select);
   var url = window.location.origin + '/frame/database/' + form_select;
   var country_select = $("#select-country-survey").val();
 
@@ -2202,6 +2199,20 @@ $("#generate-partnership-page").on('click', function () {
   params = params.join("/");
   $("#data-frame").attr("src", "/frame/partnership/" + params);
 });
+$("#generate-reachreact-page").on('click', function () {
+  var params = [];
+  $(".selectpicker").each(function (d, i) {
+    var value = $(i).val();
+
+    if (value === undefined || value === "") {
+      value = 0;
+    }
+
+    params = [].concat(_toConsumableArray(params), [value]);
+  });
+  params = params.join("/");
+  $("#data-frame").attr("src", "/frame/reachreact/" + params);
+});
 $("#partnership-country").on('change', function (data) {
   if (data.target.value !== "") {
     axios.get("/api/partnership/" + data.target.value).then(function (res) {
@@ -2218,10 +2229,16 @@ $("#partnership-country").on('change', function (data) {
 var authMessage = function authMessage() {
   var authModal = $("#authError").attr('data');
 
-  if (authModal) {
+  if (authModal === 'not_authorized') {
     $("#myModalAuthTitle").text("Not Authorized");
     $("#myModalAuth").modal('toggle');
     $("#myModalAuthBody").text("You're not authorized, please contact your organization to request an access!");
+  }
+
+  if (authModal === 'email') {
+    $("#myModalAuthTitle").text("Email not verified");
+    $("#myModalAuth").modal('toggle');
+    $("#myModalAuthBody").text("An email verification has been sent to your email, please verify your email first!");
   }
 };
 

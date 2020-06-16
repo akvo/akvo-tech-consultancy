@@ -27,7 +27,7 @@ class Auth0IndexController extends Controller
      *
      * @return mixed
      */
-    public function logout($error = false)
+    public function logout($error = false, $msg = 'not_authorized')
     {
         \Auth::logout();
         $logoutUrl = sprintf(
@@ -38,7 +38,7 @@ class Auth0IndexController extends Controller
         );
 
         if ($error) {
-            return \Redirect::intended($logoutUrl)->withErrors("error");
+            return \Redirect::intended($logoutUrl)->with('status', $msg);
         }
         return \Redirect::intended($logoutUrl);
     }
