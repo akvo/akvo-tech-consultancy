@@ -383,6 +383,9 @@ class ChartController extends Controller
 
     public function partnershipTotalCharts(Request $request, Partnership $partnerships, Datapoint $datapoints) {
         $results = $this->filterPartnership($request, $partnerships);
+        if (count($results) === 0) {
+            return response('no data available', 503);
+        };
         $series = $results->groupBy('country')->map(function($data, $key){
             $data = $data->map(function($val){
                 return $val['value'];
@@ -401,6 +404,9 @@ class ChartController extends Controller
 
     public function partnershipCommodityCharts(Request $request, Partnership $partnerships, Datapoint $datapoints) {
         $results = $this->filterPartnership($request, $partnerships);
+        if (count($results) === 0) {
+            return response('no data available', 503);
+        };
         $series = $results->groupBy('project')->map(function($data, $key){
             $data = $data->map(function($val){
                 return $val['value'];

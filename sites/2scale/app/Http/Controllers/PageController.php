@@ -85,5 +85,5 @@ class PageController extends Controller
         $countries = $partnerships->has('childrens')->get();
         return view('pages.partnership', [ 'countries' => $countries]);
 	}
-}
 
+}
