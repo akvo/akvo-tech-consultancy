@@ -46,5 +46,6 @@
 	<!-- DateRangePicker -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <script src="{{ mix('/js/main.js') }}"></script>
+
 </body>
 </html>

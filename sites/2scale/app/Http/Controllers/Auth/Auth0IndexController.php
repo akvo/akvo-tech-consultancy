@@ -19,8 +19,7 @@ class Auth0IndexController extends Controller
             // Use the key below to get an access token for your API.
             // 'audience' => config('laravel-auth0.api_identifier'),
         ];
-        $results = \App::make('auth0')->login(null, null, $authorize_params);
-        return $results;
+        return \App::make('auth0')->login(null, null, $authorize_params);
     }
 
     /**

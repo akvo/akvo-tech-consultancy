@@ -11,6 +11,7 @@ use Auth0\Login\Repository\Auth0UserRepository;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Auth0\Login\Auth0Service;
 use App\Libraries\AuthorizedUser;
+use Auth0\SDK\Exception\ApiException;
 
 class CustomUserRepository extends Auth0UserRepository
 {
@@ -54,9 +55,13 @@ class CustomUserRepository extends Auth0UserRepository
      */
     public function getUserByUserInfo(array $userinfo) : Authenticatable
     {
+        // if (! $userinfo) {
+        //     throw new ApiException('Invalid access_token - Retry login.');
+        // }
         // $user = $this->upsertUser( $userinfo['profile'] );
         // return new Auth0User( $user->getAttributes(), $userinfo['accessToken'] );
         return new Auth0User($userinfo['profile'], $userinfo['accessToken']);
+        // gagal ambil user data dari auth0;
     }
 
     public function fetchFlowUser()
