@@ -256,6 +256,9 @@ const addQuestions = (data) => {
 	const groups = validateGroup(data.questionGroup,'aq');
 
 	let questionGroup = groups.map((g,i) => {
+        let question = g.question;
+        question = Array.isArray(question) ? question : [question];
+        g.question = question;
 		return {
 			...g,
             question: mapgroup(g.question, {h:g.heading, i: i, r: g.repeatable})

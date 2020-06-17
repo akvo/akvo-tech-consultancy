@@ -51,6 +51,9 @@ class Questions extends Component {
             if (i === 1) {
                 a = 0;
             }
+            if (questions.filter(b => b.group === 1).length === 1) {
+                a = 1;
+            }
             z = x.group === this.props.value.groups.active ? 1 : 0;
             z = x.show ? 1 : 0;
             return a + z;
