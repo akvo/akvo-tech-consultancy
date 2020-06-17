@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', 'PageController@index')->name('landing');
+Route::get('/landing', 'PageController@index')->name('landing');
 //Route::get('/test', 'PageController@test')->name('test');
 //Route::get('/db', 'PageController@database')->name('database');
 //Route::get('/stats/{page}', 'PageController@stats')->name('stats');
