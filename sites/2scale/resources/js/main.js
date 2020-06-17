@@ -121,7 +121,7 @@ const authMessage = () => {
     }
 
     if (authModal === 'email') {
-        $("#myModalAuthTitle").text("Email not verified");
+        $("#myModalAuthTitle").text("Please verify your email");
         $("#myModalAuth").modal('toggle');
         $("#myModalAuthBody").text("An email verification has been sent to your email, please verify your email first!");
     }
