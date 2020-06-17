@@ -28,7 +28,7 @@ class InitController extends Controller
         $flowScale = new FlowScale();
         $survey = collect(config('surveys.surveyId'))->map(function ($surveyId) use ($surveys, $flow, $flowScale) {
             $data = $flow->get('surveys', $surveyId);
-            
+
             $registrationId = (int) $data['registrationFormId'];
             if ($registrationId === 0) {
                 $registrationId = null;
@@ -62,7 +62,7 @@ class InitController extends Controller
 
                 // collect question from flow-api
                 $dataFlowScale = $flowScale->getQuestions($form['id']);
-                $questionFlowScale = $this->collectQuestionFlowScale($collections = collect(), $dataFlowScale); 
+                $questionFlowScale = $this->collectQuestionFlowScale($collections = collect(), $dataFlowScale);
 
                 // collect Form Instances (also seed) & Answers
                 $responseCollections = collect();
@@ -77,10 +77,10 @@ class InitController extends Controller
                             $nextPage = true;
                             $results = $flow->fetch($formInstances['nextPageUrl']);
                             $collections = $this->collectFormInstances($collections, $results);
-                        }         
+                        }
                     } while ($nextPage);
 
-                    // seed Form Instances 
+                    // seed Form Instances
                     $postFormInstances = $collections->each(function ($item) use ($form, $responseCollections) {
                         echo('Seeding Form Instances Table...'.PHP_EOL);
                         $postFormInstance = new FormInstance([
@@ -89,9 +89,9 @@ class InitController extends Controller
                             'identifier' => $item['identifier'],
                             'submitter' => $item['submitter'],
                             'device' => $item['deviceIdentifier'],
-                            'submission_date' => date('Y-m-d', strtotime($item['submissionDate'])), 
+                            'submission_date' => date('Y-m-d', strtotime($item['submissionDate'])),
                             'survey_time' => $item['surveyalTime']
-                        ]); 
+                        ]);
                         $postFormInstance->save();
 
                         echo('Collecting Responses...'.PHP_EOL);
@@ -114,7 +114,7 @@ class InitController extends Controller
             });
 
             return [
-                'surveys' => $postSurvey, 
+                'surveys' => $postSurvey,
                 'dataPoints' => $postDataPoints,
                 'forms' => $postForms
             ];
@@ -140,7 +140,7 @@ class InitController extends Controller
             return null;
         }
 
-        if (array_keys($results['questionGroup']) !== range(0, count($results['questionGroup']) - 1)) { 
+        if (array_keys($results['questionGroup']) !== range(0, count($results['questionGroup']) - 1)) {
             $questionGroups = collect($results['questionGroup']['question'])->map(function ($question) use ($collections) {
                 $collections->push($question);
                 return $collections;
@@ -150,7 +150,7 @@ class InitController extends Controller
                 $questions = collect($questionGroup['question'])->map(function ($question) use ($collections) {
                     $collections->push($question);
                     return $collections;
-                }); 
+                });
                 return $collections;
             });
         }
@@ -172,7 +172,7 @@ class InitController extends Controller
                     'form_id' => (int) $results['id'],
                     'name' => $questionGroup['name'],
                     'repeat' => $repeat
-                ]); 
+                ]);
                 $postQuestionGroup->save();
 
                 $postQuestions = [];
@@ -215,7 +215,7 @@ class InitController extends Controller
                     }
                 }
 
-                // seed Questions 
+                // seed Questions
                 $postQuestions = [];
                 if (isset($search['type'])) {
                     $type = $search['type'];
@@ -245,7 +245,7 @@ class InitController extends Controller
                     $other = 0;
                     if ($options['allowOther']) {
                         $other = 1;
-                    } 
+                    }
 
                     $option = $options['option'];
                     if (array_keys($option) !== range(0, count($option) - 1)) {
@@ -273,7 +273,7 @@ class InitController extends Controller
                             ]);
                             $postOption->save();
                             return $postOption;
-                        }); 
+                        });
                     }
                 }
 
@@ -310,7 +310,7 @@ class InitController extends Controller
                                 if ($search['type'] === 'free' && isset($search['validationRule'])) {
                                     if ($search['validationRule']['validationType'] == 'numeric') {
                                         $name = NULL;
-                                        $value = (int) $answer; 
+                                        $value = (int) $answer;
                                     }
                                 }
 
@@ -395,7 +395,7 @@ class InitController extends Controller
 
                 return $postQuestions;
             }
-        );  
+        );
 
         return $questions;
     }
@@ -440,7 +440,7 @@ class InitController extends Controller
                 $nextPage = true;
                 $results = $flow->fetch($results['nextPageUrl']);
                 $collections = $this->collectDataPoint($collections, $results, $surveyId);
-            }         
+            }
         } while ($nextPage);
 
         echo('Initial Seeding Sync Table...'.PHP_EOL);
@@ -456,7 +456,7 @@ class InitController extends Controller
             $post = $dataPoints->create($item);
             $post->save();
             return $post;
-        }); 
+        });
 
         return $postDataPoints;
     }
@@ -472,7 +472,7 @@ class InitController extends Controller
                 'survey_id' => (int) $surveyId,
                 'display_name' => $dataPoint['displayName'],
                 'position' => $position
-            ]; 
+            ];
             $collections->push($post);
             return $collections;
         });
