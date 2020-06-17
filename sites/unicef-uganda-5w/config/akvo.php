@@ -21,5 +21,6 @@ return [
         'questions' => $BASE_API_FLOW_WEB . '/' . $INSTANCE, /* /surveyID/update */
         'cascades' => $BASE_API_FLOW_WEB . '/cascade/' .$INSTANCE, /* /sqlite/{parentId} */
     ],
-    'cascadeMethod' => env('AKVO_CASCADE_METHOD', 'update')
+    'cascadeMethod' => env('AKVO_CASCADE_METHOD', 'update'),
+    'google_apis' => env('MAPS_GOOGLE_APIS'),
 ];

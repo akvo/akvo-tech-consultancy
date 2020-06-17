@@ -21,18 +21,20 @@ use App\Libraries\FlowScale;
 
 class FakerController extends Controller
 {
+    public function __construct()
+    {
+        $this->location = collect();
+    }
+
     public function seedFakeSurveyData($faker, $total)
     {
-        $locations = collect(json_decode(Storage::disk('local')->get('ke.json')));
-
-        $surveys = collect(config('surveys.surveyId'))->each(function ($surveyId) use ($faker, $total, $locations) {
-            $location = $locations->random();
-            $postDataPoints = $this->seedFakeDataPoints($faker, $total, $surveyId, $location);
+        $surveys = collect(config('surveys.surveyId'))->each(function ($surveyId) use ($faker, $total) {
+            $postDataPoints = $this->seedFakeDataPoints($faker, $total, $surveyId);
 
             $forms = Form::where('survey_id', (int) $surveyId)->get();
             $forms->each(function ($form) use ($faker) {
                 $postFormInstances = $this->seedFakeFormInstances($faker, $form);
-            }); 
+            });
 
             return $postDataPoints;
         });
@@ -40,25 +42,24 @@ class FakerController extends Controller
         return $surveys;
     }
 
-    private function seedFakeDataPoints($faker, $total, $surveyId, $location)
+    private function seedFakeDataPoints($faker, $total, $surveyId)
     {
         $count = 0;
         do {
             echo("Seeding Data Point...".PHP_EOL);
             $fakeId = $faker->unique()->randomNumber($nbDigits = 9, $strict = true);
-            $displayName = $faker->state.' - '.$faker->stateAbbr.' - '.$faker->city.' - '.$faker->company; 
+            $displayName = $faker->state.' - '.$faker->stateAbbr.' - '.$faker->city.' - '.$faker->company;
             //$position = new Point($location->lat, $location->lng);
-            $position = $location->lat.', '.$location->lng;
             $postDataPoint = new DataPoint([
                 'id' => $fakeId,
                 'survey_id' => (int) $surveyId,
                 'display_name' => $displayName,
-                'position' => $position
+                'position' => null
             ]);
             $postDataPoint->save();
             $count++;
         } while ($count < $total);
-    
+
         return $postDataPoint->id;
     }
 
@@ -74,7 +75,7 @@ class FakerController extends Controller
                 'submitter' => $faker->name,
                 'device' => $faker->randomElement($array = ['AkvoFlow Web', 'AkvoFlow App']),
                 'submission_date' => $faker->dateTimeThisYear($max = 'now', $timezone = null),
-                'survey_time' => $faker->numberBetween($min = 10, $max = 300)  
+                'survey_time' => $faker->numberBetween($min = 10, $max = 300)
             ]);
             $postFormInstance->save();
             return $postFormInstance->id;
@@ -85,21 +86,20 @@ class FakerController extends Controller
 
     public function seedFakeAnswers($faker)
     {
-        $locations = collect(json_decode(Storage::disk('local')->get('ke.json')));
         $formInstances = new FormInstance();
         $washDomainId = config('query.wash_domain.id');
         $formInstancesData = $formInstances->doesntHave('answers')->get();
-    
-        $postAnswers = $formInstancesData->each(function ($formInstance) use ($faker, $washDomainId, $locations) {
+
+        $postAnswers = $formInstancesData->each(function ($formInstance) use ($faker, $washDomainId) {
             $questions = Question::where('form_id',$formInstance->form_id)->get();
-            $questions->each(function ($question) use ($faker, $formInstance, $locations, $washDomainId) {
+            $questions->each(function ($question) use ($faker, $formInstance, $washDomainId) {
                 if ($question->id === $washDomainId) {
-                    // seed wash domain
-                    $this->seedWashDomainAnswers($faker, $formInstance, $washDomainId);
+                    // seed wash domain --> waiting for confirmation
+                    // $this->seedWashDomainAnswers($faker, $formInstance, $washDomainId);
                 }
-                
+
                 if ($question->id !== $washDomainId && $question->dependency !== $washDomainId) {
-                    $this->seedNotWashDomainAnswers($faker, $formInstance, $locations, $question);
+                    $this->seedNotWashDomainAnswers($faker, $formInstance, $question);
                 }
             });
 
@@ -123,12 +123,12 @@ class FakerController extends Controller
         $value = NULL;
         if ($question->type === 'option') {
             $options = Option::where('question_id', $question->id)->get();
+            echo("Selecting Option...".PHP_EOL);
             do {
-                echo("Selecting Option...".PHP_EOL);
                 $stop = true;
                 $option = $options->random();
                 if (collect($option)->contains('other')) {
-                    $stop = false; 
+                    $stop = false;
                 }
             } while($stop);
             $name = $option->name;
@@ -140,7 +140,7 @@ class FakerController extends Controller
             'name' => $name,
             'value' => $value,
             'repeat_index' => 0
-        ]); 
+        ]);
         $postAnswer->save();
 
         if ($question->type === 'option') {
@@ -150,7 +150,7 @@ class FakerController extends Controller
             ]);
             $postOption->save();
         }
-        
+
         echo("Check Dependency...".PHP_EOL);
         $domainQuestion->map(function ($question) use ($option, $faker, $formInstance, $value, $name) {
             $questions = collect($question['question']);
@@ -174,7 +174,7 @@ class FakerController extends Controller
                         $coordinationTraining = Str::contains($answerValue, 'coordination - capacity');
                         if ($coordinationTraining) {
                             $value = $this->setValues($text, $faker, 50, 200);
-                        } 
+                        }
 
                         $hygiene = Str::contains($answerValue, 'hygiene');
                         if ($hygiene) {
@@ -209,9 +209,9 @@ class FakerController extends Controller
                             'name' => $name,
                             'value' => $value,
                             'repeat_index' => 0
-                        ]); 
+                        ]);
                         $postAnswer->save();
-                    }; 
+                    };
                 }
             });
         });
@@ -225,24 +225,25 @@ class FakerController extends Controller
         $planned = Str::contains($text, '- Quantity Planned');
         $achived = Str::contains($text, '- Quantity Archived');
         if ($planned) {
-            $value = $faker->numberBetween($min = $start, $max = $end);     
+            $value = $faker->numberBetween($min = $start, $max = $end);
         }
 
         if ($achived) {
-            $value = $faker->numberBetween($min = 1, $max = $start);     
+            $value = $faker->numberBetween($min = 1, $max = $start);
         }
         return $value;
     }
 
-    private function seedNotWashDomainAnswers($faker, $formInstance, $locations, $question) {
+    private function seedNotWashDomainAnswers($faker, $formInstance, $question) {
         echo("======> Preparing Seeding Answers...".PHP_EOL);
         echo("Check Question Type...".PHP_EOL);
+
         // if type === 'free'
         $name = $faker->sentence($nbWords = 6, $variableNbWords = true);
         $value = NULL;
 
         if ($question->type === 'photo') {
-            $name = $faker->imageUrl($width = 640, $height = 480); 
+            $name = $faker->imageUrl($width = 640, $height = 480);
         }
 
         if ($question->type === 'date') {
@@ -255,39 +256,64 @@ class FakerController extends Controller
 
         if ($question->type === 'numeric') {
             $name = NULL;
-            $value = $faker->numberBetween($min = 50, $max = 150); 
+            $value = $faker->numberBetween($min = 50, $max = 150);
         }
 
         if ($question->type === 'geo') {
-            $location = $locations->random();
-            $name =  $location->lat.','.$location->lng;
+            $client = new \GuzzleHttp\Client();
+            $googleMapsApi = Str::of(config('akvo.google_apis'))->replace('##*##', $this->location[0]);
+
+            $responses = $client->get(strval($googleMapsApi));
+            $response = collect(json_decode($responses->getBody(), true));
+            if ($response->get('status') === 'OK') {
+                $results = $response->get('results')[0];
+                $geo = $results['geometry'];
+                $loc = $geo['location'];
+                $name =  $loc['lat'].','.$loc['lng'];
+                $this->location->pop();
+            } else {
+                $name = null;
+            }
         }
 
         if ($question->type === 'cascade') {
+            $questionLocationId = config('query.cascade.location_qid');
             $parentId = $question->cascade_id;
+            $tempLoc = collect();
+            echo("Selecting Cascade...".PHP_EOL);
             do {
-                echo("Selecting Cascade...".PHP_EOL);
-                $stop = false; 
+                $stop = false;
                 $cascades = Cascade::where('parent_id', $parentId)->get();
                 if ($cascades->count() === 0) {
                     $stop = true;
                 } else {
                     $tempCascades = $cascades;
-                    $parentId = $cascades->random()->id;  
+                    $randomCascades = $cascades->random();
+                    $parentId = $randomCascades->id;
+                }
+                // create location name for google maps api
+                if ($question->id === $questionLocationId) {
+                    $tempLoc->push($randomCascades->name);
                 }
             } while(!$stop);
             $cascade = $tempCascades->random();
             $name = $cascade->name;
+            // create location name for google maps api
+            if ($question->id === $questionLocationId) {
+                $this->location->pop();
+                $tempLoc->push($name);
+            }
+            $this->location->push($tempLoc->join(' - '));
         }
 
         if ($question->type === 'option') {
             $options = Option::where('question_id', $question->id)->get();
+            echo("Selecting Option...".PHP_EOL);
             do {
-                echo("Selecting Option...".PHP_EOL);
                 $stop = true;
                 $option = $options->random();
                 if (collect($option)->contains('other')) {
-                    $stop = false; 
+                    $stop = false;
                 }
             } while($stop);
             $name = $option->name;
@@ -300,8 +326,18 @@ class FakerController extends Controller
             'name' => $name,
             'value' => $value,
             'repeat_index' => 0
-        ]); 
+        ]);
         $postAnswer->save();
+
+        // updating DataPoint location
+        if ($question->type === 'geo') {
+            $formInstance = FormInstance::find($postAnswer->form_instance_id);
+            $updateDataPoint = DataPoint::find($formInstance->data_point_id);
+            if($updateDataPoint) {
+                $updateDataPoint->position = $name;
+                $updateDataPoint->save();
+            }
+        }
 
         if ($question->type === 'cascade') {
             $postCascade = new AnswerCascade([
