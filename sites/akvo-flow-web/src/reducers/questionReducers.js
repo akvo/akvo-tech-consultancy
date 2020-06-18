@@ -498,6 +498,15 @@ const cloneQuestions = (questions, groups, group_id, restoring=false) => {
     let i = 0;
     do {
         let new_id = new_questions[i].id.split('-')[0] + '-' + new_iteration;
+        if (new_questions[i].dependency !== undefined) {
+            new_questions[i] = {
+                ...new_questions[i],
+                dependency: {
+                    ...new_questions[i].dependency,
+                    question: new_questions[i].dependency.question.split('-')[0] + '-' + new_iteration
+                }
+            }
+        }
         qgroup = [
             ...qgroup,
             {...new_questions[i], id: new_id, iteration: new_iteration}

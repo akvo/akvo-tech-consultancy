@@ -155,6 +155,22 @@ h1 {
 
                         </div>
                     </div>
+
+                    <!--Grid row-->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="md-form">
+                                <input type="text" id="captcha" name="captcha" class="form-control" placeholder="Captcha" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="md-form">
+                                <img src="{{ captcha_src('flat') }}" class="rounded float-left" alt="captcha">
+                            </div>
+                        </div>
+                    </div>
+
+
                     <!--Grid row-->
 
                     <div class="text-center text-md-left">
@@ -164,7 +180,7 @@ h1 {
 
 
                 <div class="status" style="margin-top: 25px">
-                    @if (isset($status) && $status)
+                    @if (isset($status) && $status === true)
                         <div class="alert alert-success" role="alert">
                             Your email has been sent to our support team, <br>
                             We'll get in touch with you, thank you.
@@ -174,6 +190,11 @@ h1 {
                         <div class="alert alert-danger" role="alert">
                             Failed to send an email, there was some problem, <br>
                             Please try again.
+                        </div>
+                    @endif
+                    @if (isset($status) && $status === 'invalid')
+                        <div class="alert alert-danger" role="alert">
+                            Wrong captcha!
                         </div>
                     @endif
                 </div>

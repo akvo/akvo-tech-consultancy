@@ -180,6 +180,7 @@ return [
         Mailjet\LaravelMailjet\MailjetMailServiceProvider::class,
         Mailjet\LaravelMailjet\Providers\CampaignDraftServiceProvider::class,
 
+        Mews\Captcha\CaptchaServiceProvider::class,
     ],
 
     /*
@@ -232,6 +233,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Auth0' => Auth0\Login\Facade\Auth0::class,
         'Mailjet' => Mailjet\LaravelMailjet\Facades\Mailjet::class,
+        'Captcha' => Mews\Captcha\Facades\Captcha::class,
     ],
 
 ];
