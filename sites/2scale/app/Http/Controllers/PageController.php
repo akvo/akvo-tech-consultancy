@@ -86,4 +86,8 @@ class PageController extends Controller
         return view('pages.partnership', [ 'countries' => $countries]);
 	}
 
+    public function support()
+    {
+        return view('pages.support');
+    }
 }

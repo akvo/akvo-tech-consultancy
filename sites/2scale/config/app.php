@@ -176,6 +176,10 @@ return [
         App\Providers\RouteServiceProvider::class,
         Auth0\Login\LoginServiceProvider::class,
 
+        Mailjet\LaravelMailjet\MailjetServiceProvider::class,
+        Mailjet\LaravelMailjet\MailjetMailServiceProvider::class,
+        Mailjet\LaravelMailjet\Providers\CampaignDraftServiceProvider::class,
+
     ],
 
     /*
@@ -227,7 +231,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Auth0' => Auth0\Login\Facade\Auth0::class,
-
+        'Mailjet' => Mailjet\LaravelMailjet\Facades\Mailjet::class,
     ],
 
 ];

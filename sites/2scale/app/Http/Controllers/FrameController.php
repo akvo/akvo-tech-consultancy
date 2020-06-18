@@ -93,7 +93,7 @@ class FrameController extends Controller
 
     public function reachreact(Request $request)
     {
-        return view('frames.frame-reachreact', 
+        return view('frames.frame-reachreact',
             [
                 'country_id' => $request->country_id,
                 'partnership_id' => $request->partnership_id,
@@ -108,7 +108,7 @@ class FrameController extends Controller
 
     public function partnership(Request $request)
     {
-        return view('frames.frame-partnership', 
+        return view('frames.frame-partnership',
             [
                 'country_id' => $request->country_id,
                 'partnership_id' => $request->partnership_id,
@@ -117,4 +117,8 @@ class FrameController extends Controller
         );
     }
 
+    public function support()
+    {
+        return view('frames.frame-support');
+    }
 }

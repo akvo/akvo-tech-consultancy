@@ -37,6 +37,9 @@
             <a class="nav-link" href="/login">Login</a>
         </li>
       @endif
+      <li class="nav-item {{Route::is('support') ? 'active' : '' }}">
+        <a class="nav-link" href="/support">Support</a>
+      </li>
     </ul>
   </div>
 </nav>
