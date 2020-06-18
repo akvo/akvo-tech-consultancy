@@ -513,7 +513,6 @@ const cloneQuestions = (questions, groups, group_id, restoring=false) => {
         ];
         i++;
     } while(i < group.questions.length);
-    console.log(qgroup);
     const all_questions = [...questions, ...qgroup];
     updateLocalStorage(all_questions);
 
