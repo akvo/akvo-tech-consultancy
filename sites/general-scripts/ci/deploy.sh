@@ -12,8 +12,27 @@ fi
 
 echo "Deploying analytics..."
 
-cat analytics.js | sed s/#pos#/left/g > analytics-left.js
-cat analytics.js | sed s/#pos#/right/g > analytics-right.js
+FOLDER="analytics"
 
-scp -i ${SITES_SSH_KEY} -P 18765 analytics-left.js tcakvo@109.73.232.40:/home/tcakvo/public_html/
-scp -i ${SITES_SSH_KEY} -P 18765 analytics-right.js tcakvo@109.73.232.40:/home/tcakvo/public_html/
+rsync \
+    --archive \
+    --compress \
+    --progress \
+    --exclude=ci \
+    --exclude=node_modules \
+    --rsh="ssh -i ${SITES_SSH_KEY} -p 18765 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" \
+    . tcakvo@109.73.232.40:/home/tcakvo/public_html/$FOLDER/
+
+echo "Duplicate analytics..."
+
+ssh -i "${SITES_SSH_KEY}" \
+    -p 18765 \
+    -o UserKnownHostsFile=/dev/null \
+    -o StrictHostKeyChecking=no \
+    tcakvo@109.73.232.40 "cat ~/public_html/${FOLDER}/analytics.js | sed s/#pos#/left/g > ~/public_html/${FOLDER}/analytics-left.js"
+
+ssh -i "${SITES_SSH_KEY}" \
+    -p 18765 \
+    -o UserKnownHostsFile=/dev/null \
+    -o StrictHostKeyChecking=no \
+    tcakvo@109.73.232.40 "cat ~/public_html/${FOLDER}/analytics.js | sed s/#pos#/right/g > ~/public_html/${FOLDER}/analytics-right.js"
