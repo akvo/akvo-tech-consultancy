@@ -1,5 +1,5 @@
 var brandnode = document.createElement("div");
-brandnode.style.cssText = 'position: absolute; bottom: 10px; right: 10px; z-index: 999; background: #dddddd80; border-radius: 5px; padding: 5px 10px; font-family: inherit; font-size: 14px;';
+brandnode.style.cssText = 'position: fixed; bottom: 10px; right: 10px; z-index: 999; background: #dddddd80; border-radius: 5px; padding: 5px 10px; font-family: inherit; font-size: 14px;';
 var brandnodetext = document.createTextNode("Built with ");
 brandnode.appendChild(brandnodetext);
 
