@@ -1,7 +1,7 @@
 var pos = '#pos#';
 var brandnode = document.createElement("div");
 brandnode.style.cssText = 'position: fixed; bottom: 10px; ' + pos + ': 10px; z-index: 999; background: #dddddd80; border-radius: 5px; padding: 5px 10px; font-family: inherit; font-size: 14px;';
-var brandnodetext = document.createTextNode("Built with ");
+var brandnodetext = document.createTextNode("Built by ");
 brandnode.appendChild(brandnodetext);
 
 var akvolink = document.createElement("a");
