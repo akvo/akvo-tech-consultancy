@@ -1,0 +1,54 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Example</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <!-- Custom styles for this template -->
+    <style>
+        html {
+          position: relative;
+          min-height: 100%;
+        }
+        body {
+          margin-bottom: 60px;
+        }
+        .footer {
+          position: absolute;
+          bottom: 0;
+          width: 100%;
+          height: 60px;
+          line-height: 60px;
+          background-color: #f5f5f5;
+        }
+        .container {
+          width: auto;
+          max-width: 680px;
+          padding: 0 15px;
+        }
+    </style>
+  </head>
+
+  <body>
+
+    <!-- Begin page content -->
+    <main role="main" class="container">
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <span class="text-muted">Example Views.</span>
+      </div>
+    </footer>
+    <!-- Begin analitycs script -->
+    <script type="text/javascript" src="https://tc.akvo.org/analytics.js"></script>
+    <noscript><iframe src="//analytics.akvo.org/containers/f6fdd448-a2bc-4734-8aa0-dba4d0d0f2a3/noscript.html" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- end analytics script -->
+  </body>
+</html>

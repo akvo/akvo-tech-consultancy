@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -18,6 +19,9 @@ class AppServiceProvider extends ServiceProvider
             // \Auth0\Login\Repository\Auth0UserRepository::class,
             \App\Repositories\CustomUserRepository::class
         );
+        if($this->app->environment('production')) {
+            URL::forceScheme('https');
+        }
     }
 
     /**
