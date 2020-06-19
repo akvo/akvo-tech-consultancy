@@ -127,3 +127,14 @@ const authMessage = () => {
     }
 };
 authMessage();
+
+$(".form-list").hide();
+$(".form-parent").hide();
+$("#survey-parent").on('change', (data) => {
+    $(".form-list").fadeOut();
+    if (data.target.value !== "") {
+        $(".form-list."+data.target.value).fadeIn();
+        return;
+    }
+    return;
+});

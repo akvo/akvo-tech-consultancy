@@ -56,7 +56,7 @@ class PageController extends Controller
 
 	public function surveys()
 	{
-		return view('pages.survey', ['surveys' => config('surveys')]);
+		return view('pages.survey2', ['surveys' => config('surveys')]);
 	}
 
 	public function survey(Request $request, Flow $flow)

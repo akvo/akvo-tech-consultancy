@@ -12,11 +12,15 @@ class SupportController extends Controller
     //
     public function send(Request $request)
     {
-        $rules = ['captcha' => 'required|captcha'];
-        $validator = validator()->make(request()->all(), $rules);
-        if ($validator->fails()) {
-            return view('frames.frame-support', ['status' => 'invalid']);
-        }
+        /**
+         * Rules for captcha
+         *
+         * */
+        // $rules = ['captcha' => 'required|captcha'];
+        // $validator = validator()->make(request()->all(), $rules);
+        // if ($validator->fails()) {
+        //     return view('frames.frame-support', ['status' => 'invalid']);
+        // }
 
         $mails = explode(',', config('mail.recipients'));
         $recipients = collect();

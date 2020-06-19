@@ -62,19 +62,19 @@ const fetchData = (endpoint) => {
     return new Promise((resolve, reject) => {
         axios.get('/charts/' + endpoint)
             .then(res => {
-                console.log('fetch network', res);
-                storeDB({
-                    table : table,
-                    data : {
-                        endpoint: split[0],
-                        filter: filter,
-                        data: res.data
-                    },
-                    key : {
-                        endpoint: split[0],
-                        filter: filter
-                    }
-                });
+                // console.log('fetch network', res);
+                // storeDB({
+                //     table : table,
+                //     data : {
+                //         endpoint: split[0],
+                //         filter: filter,
+                //         data: res.data
+                //     },
+                //     key : {
+                //         endpoint: split[0],
+                //         filter: filter
+                //     }
+                // });
                 resolve(res.data);
             })
             .catch(err => {
