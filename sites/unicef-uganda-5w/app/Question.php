@@ -11,7 +11,7 @@ class Question extends Model
     public $incrementing = false;
 
     protected $hidden = ['created_at', 'updated_at'];
-    protected $fillable = ['id', 'form_id', 'question_group_id', 'cascade_id', 'name', 'type', 'dependency'];
+    protected $fillable = ['id', 'form_id', 'question_group_id', 'cascade_id', 'name', 'type', 'dependency','dependency_answer'];
     protected $append = ['domains'];
 
     public function getDomainsAttribute()

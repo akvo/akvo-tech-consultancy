@@ -19,3 +19,5 @@ Route::get('domains', 'Api\TestController@getDomains');
 Route::get('domain/{domain_id}', 'Api\TestController@getDomain');
 Route::get('location/{county}', 'Api\TestController@getLocation');
 Route::get('location/{county}/{sub_county}', 'Api\TestController@getLocation');
+
+Route::get('faker/{total}/{repeat}', 'Api\FakerController@seed');
