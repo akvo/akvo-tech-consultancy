@@ -11,6 +11,7 @@ use Auth0\Login\Repository\Auth0UserRepository;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Auth0\Login\Auth0Service;
 use App\Libraries\AuthorizedUser;
+use App\Exceptions\Auth0Exception;
 
 class CustomUserRepository extends Auth0UserRepository
 {
@@ -52,11 +53,15 @@ class CustomUserRepository extends Auth0UserRepository
      *
      * @return Auth0User
      */
-    public function getUserByUserInfo(array $userinfo) : Authenticatable
+    public function getUserByUserInfo($userinfo) : Authenticatable
     {
+        if (! $userinfo) {
+            throw new Auth0Exception();
+        }
         // $user = $this->upsertUser( $userinfo['profile'] );
         // return new Auth0User( $user->getAttributes(), $userinfo['accessToken'] );
         return new Auth0User($userinfo['profile'], $userinfo['accessToken']);
+        // gagal ambil user data dari auth0;
     }
 
     public function fetchFlowUser()

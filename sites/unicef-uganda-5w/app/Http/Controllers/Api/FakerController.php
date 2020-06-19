@@ -169,5 +169,4 @@ class FakerController extends Controller
         }
         return $question;
     }
-
 }

@@ -77,3 +77,7 @@ Route::get('/datatables/{form_id}/{country}/{datestart}/{dateend}','Api\DataTabl
 */
 
 Route::get('/partnership/{parent_id}','Api\ConfigController@getPartnership');
+
+
+// Email
+Route::post('/send_email', 'Api\SupportController@send');

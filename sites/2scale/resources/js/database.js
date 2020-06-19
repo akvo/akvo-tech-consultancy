@@ -1,15 +1,38 @@
+import { db, storeDB } from './dexie';
 const axios = window.axios;
+
+const table = db.databases;
+const fetchData = (endpoint) => {
+    return new Promise((resolve, reject) => {
+        axios.get('/api/datatables' + endpoint) .then(res=> {
+            console.log('fetch network', res);
+            storeDB({
+                table : table,
+                data : {name: endpoint, data: res.data},
+                key : {name: endpoint}
+            });
+            resolve(res.data);
+        }).catch(error=> {
+            reject(error);
+        });
+    });
+};
+
 const endpoint=$("meta[name='data-url']").attr("content");
-const getdata=axios.get('/api/datatables' + endpoint) .then(res=> {
-    return res.data
-}).catch(error=> {
-    throw error;
-});
+const loadData = async (endpoint) => {
+    const res = await table.get({name: endpoint});
+    if (res === undefined) {
+        return fetchData(endpoint);
+    }
+    console.log('not fetch network', res);
+    return res.data;
+}
+const getdata=loadData(endpoint);
 
 const createRows=(data, rowType)=> {
     let html="<tr>";
     data.forEach((d, i)=> {
-        console.log(d);
+        // console.log(d);
         html +="<td>";
         if (rowType==="head") {
             html +=d.text;

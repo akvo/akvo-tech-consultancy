@@ -14,3 +14,4 @@ Route::get('/reachreact/{country_id}/{partnership_id}', 'FrameController@reachre
 Route::get('/partnership/{country_id}/{partnership_id}', 'FrameController@partnership');
 Route::get('/database/{form_id}', 'FrameController@database');
 Route::get('/database/{form_id}/{country}', 'FrameController@database');
+Route::get('/support', 'FrameController@support');

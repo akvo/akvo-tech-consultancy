@@ -114,10 +114,16 @@ $("#partnership-country").on('change', (data) =>{
 
 const authMessage = () => {
     let authModal = $("#authError").attr('data');
-    if (authModal) {
+    if (authModal === 'not_authorized') {
         $("#myModalAuthTitle").text("Not Authorized");
         $("#myModalAuth").modal('toggle');
         $("#myModalAuthBody").text("You're not authorized, please contact your organization to request an access!");
+    }
+
+    if (authModal === 'email') {
+        $("#myModalAuthTitle").text("Please verify your email");
+        $("#myModalAuth").modal('toggle');
+        $("#myModalAuthBody").text("An email verification has been sent to your email, please verify your email first!");
     }
 };
 authMessage();

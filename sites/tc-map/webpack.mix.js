@@ -11,7 +11,8 @@ let mix = require('laravel-mix');
  |
  */
 
-mix.js([
+mix.setResourceRoot('http://localhost:8000')
+    .js([
     'resources/assets/js/bootstrap.js',
     ], 'public/js/app.js')
     .js([

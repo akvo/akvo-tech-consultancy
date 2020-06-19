@@ -6,15 +6,11 @@
 
   <div class="navbar-collapse offcanvas-collapse">
     <ul class="navbar-nav ml-auto">
-      <li class="nav-item {{Route::is('home') ? 'active' : ''}}" id="authError" data={{!$errors->isEmpty()}}>
+      <li class="nav-item {{Route::is('home') ? 'active' : ''}}" id="authError" data={{session('status')}}>
         <a class="nav-link" href="/">Home</a>
       </li>
 
-      {{-- @if ( !$errors->isEmpty() ) --}}
-         {{-- <input type="hidden" id="authError" class="form-control" readonly val={{1}}> --}}
-      {{-- @endif --}}
-
-      @if (Auth::check() && $errors->isEmpty())
+      @if (Auth::check())
         <li class="nav-item {{Route::is('dashboard') ? 'active' : '' }}">
             <a class="nav-link" href="/dashboard">Impact</a>
         </li>
@@ -41,6 +37,9 @@
             <a class="nav-link" href="/login">Login</a>
         </li>
       @endif
+      <li class="nav-item {{Route::is('support') ? 'active' : '' }}">
+        <a class="nav-link" href="/support">Support</a>
+      </li>
     </ul>
   </div>
 </nav>

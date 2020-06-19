@@ -1,7 +1,9 @@
 import { CountUp } from 'countup.js';
 import { staticText, gradients, titleCase} from './util.js';
+import { db, storeDB } from './dexie';
 const echarts = window.echarts;
 const axios = window.axios;
+const table = db.charts;
 
 const popupFormatter = (params) => {
     var value = (params.value + '').split('.');
@@ -54,18 +56,46 @@ const generateCards = (info, color, rank) => {
     }
 }
 
-
-export const getCards = (cards) => {
-    const topThree = new Promise((resolve, reject) => {
-        axios.get('/charts/' + cards)
+const fetchData = (endpoint) => {
+    const split = endpoint.split('/');
+    const filter = [split[1], split[2], split[3]].join('/');
+    return new Promise((resolve, reject) => {
+        axios.get('/charts/' + endpoint)
             .then(res => {
+                console.log('fetch network', res);
+                storeDB({
+                    table : table,
+                    data : {
+                        endpoint: split[0],
+                        filter: filter,
+                        data: res.data
+                    },
+                    key : {
+                        endpoint: split[0],
+                        filter: filter
+                    }
+                });
                 resolve(res.data);
             })
             .catch(err => {
                 reject(err);
             });
     });
+};
 
+const loadData = async (endpoint) => {
+    const split = endpoint.split('/');
+    const filter = [split[1], split[2], split[3]].join('/');
+    const res = await table.get({endpoint: split[0], filter: filter});
+    if (res === undefined) {
+        return fetchData(endpoint);
+    }
+    console.log('not fetch network', res);
+    return res.data;
+}
+
+export const getCards = (cards) => {
+    const topThree = loadData(cards);
     topThree.then(res => {
         res.forEach((data, index) =>  {
             let rank = '';
@@ -98,11 +128,11 @@ export const getCharts = (chart, row, info, md, color) => {
     $("#" + row).append(html);
     var element = document.getElementById(chartname);
     var myChart = echarts.init(element);
-    axios.get('/charts/' + chart)
+    loadData(chart)
         .then(res => {
             setTimeout(function() {
                 $("#loader-" + chartname).remove();
-                myChart.setOption(res.data);
+                myChart.setOption(res);
             }, 1000);
         })
         .catch(e => {
