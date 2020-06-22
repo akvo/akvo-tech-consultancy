@@ -21,3 +21,4 @@ Route::get('location/{county}', 'Api\TestController@getLocation');
 Route::get('location/{county}/{sub_county}', 'Api\TestController@getLocation');
 
 Route::get('faker/{total}/{repeat}', 'Api\FakerController@seed');
+Route::get('bridge', 'Api\BridgeController@data');

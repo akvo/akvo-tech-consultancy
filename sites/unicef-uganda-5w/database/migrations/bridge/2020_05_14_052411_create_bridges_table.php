@@ -15,81 +15,39 @@ class CreateBridgesTable extends Migration
     {
         Schema::create('bridges', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('form_instance_id')->constrained()->onDelete('cascade');
-            $table->foreignId('county');
-            $table->foreignId('sub_county');
-            $table->foreignId('domain');
-            $table->foreignId('sub_domain');
-            $table->foreignId('value_planned')->nullable();
-            $table->foreignId('value_achived')->nullable();
-            $table->foreignId('other')->nullable();
-            $table->foreignId('beneficiaries_planned');
-            $table->foreignId('beneficiaries_achived');
-            $table->foreignId('girl_achived');
-            $table->foreignId('boy_achived');
-            $table->foreignId('woman_achived');
-            $table->foreignId('man_achived');
+
+            foreach(config('query.data') as $data){
+                $table->unsignedBigInteger($data['name']);
+                $table->foreign($data['name'])
+                      ->references('id')
+                      ->on($data['on'])
+                      ->onDelete('cascade');
+            }
+
+            foreach(config('query.values') as $value){
+                if (!$value['on']) {
+                    switch($value['type']) {
+                    case 'integer':
+                        $table->BigInteger($value['name']);
+                        break;
+                    case 'date':
+                        $table->date($value['name']);
+                        break;
+                    default:
+                        $table->text($value['name']);
+                        break;
+                    }
+                } 
+                if ($value['on']) {
+                    $table->unsignedBigInteger($value['name']);
+                    $table->foreign($value['name'])
+                          ->references('id')
+                          ->on($value['on'])
+                          ->onDelete('cascade');
+                }
+            }
+
             $table->timestamps();
-
-            $table->foreign('county')
-                  ->references('id')
-                  ->on('cascades')
-                  ->onDelete('cascade');
-
-            $table->foreign('sub_county')
-                  ->references('id')
-                  ->on('cascades')
-                  ->onDelete('cascade');
-
-            $table->foreign('sub_domain')
-                  ->references('id')
-                  ->on('options')
-                  ->onDelete('cascade');
-
-            $table->foreign('value_planned')
-                  ->references('id')
-                  ->on('answers')
-                  ->onDelete('cascade');
-
-            $table->foreign('value_achived')
-                  ->references('id')
-                  ->on('answers')
-                  ->onDelete('cascade');
-
-            $table->foreign('other')
-                  ->references('id')
-                  ->on('answers')
-                  ->onDelete('cascade');
-
-            $table->foreign('beneficiaries_planned')
-                  ->references('id')
-                  ->on('answers')
-                  ->onDelete('cascade');
-
-            $table->foreign('beneficiaries_achived')
-                  ->references('id')
-                  ->on('answers')
-                  ->onDelete('cascade');
-
-            $table->foreign('girl_achived')
-                  ->references('id')
-                  ->on('answers')
-                  ->onDelete('cascade');
-
-            $table->foreign('boy_achived')
-                  ->references('id')
-                  ->on('answers')
-                  ->onDelete('cascade');
-
-            $table->foreign('woman_achived')
-                  ->references('id')
-                  ->on('answers')
-                  ->onDelete('cascade');
-
-            $table->foreign('man_achived')
-                  ->references('id')
-                  ->on('answers')
-                  ->onDelete('cascade');
         });
     }
 
