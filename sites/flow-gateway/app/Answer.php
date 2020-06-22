@@ -12,6 +12,7 @@ class Answer extends Model
         'waiting',
         'question_id',
         'dependency',
+        'dependency_answer',
 		'datapoint',
         'order',
         'mandatory',
