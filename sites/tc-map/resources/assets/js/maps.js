@@ -136,6 +136,7 @@ function startRenderMap() {
 //Ready to go, load the geojson
 function getGeoJson() {
     d3.json(geojsonPath, function(error, response) {
+        console.log(response);
         let categories = JSON.parse(response.categories);
         let coptions = _.mapValues(_.keyBy(categories, 'id'), 'lookup');
         let configs = JSON.parse(response.config);
@@ -163,6 +164,16 @@ function getGeoJson() {
             "features": refactor
         }
         localStorage.setItem('default-properties', JSON.stringify(data.properties));
+        if (response.parent_id === null) {
+            let parent_points = source.map(x => {
+                return {
+                    "geometry" : x['PTS'],
+                    "data_point_id" : x['data_point_id']
+                };
+            });
+            localStorage.setItem('parent_'+response.id, JSON.stringify(parent_points));    
+        }
+        console.log(data);
         localStorage.setItem('data', JSON.stringify(data));
         let retrievedObject = localStorage.getItem('data');
         data = JSON.parse(retrievedObject);
