@@ -6,6 +6,7 @@ import {
     filterState,
     changeFilters,
     getOrganisations,
+    populateAll,
     getOverviews
 } from './states/filter-states.js';
 import {
@@ -41,6 +42,8 @@ export const states = (state = initialState, action) => {
             }
         case 'FILTERS - CATEGORY INIT':
             let childs = action.list.filter(x => x.parent_id !== null);
+            // let all = populateAll(action.list);
+            // console.log(all);
             return {
                 ...state,
                 filters: {
@@ -48,18 +51,23 @@ export const states = (state = initialState, action) => {
                     list: action.list,
                     selected: {
                         ...state.filters.selected,
-                        filter: childs[0].id
+                        filter: {
+                            domain:childs[0].parent_id,
+                            sub_domain:childs[0].id,
+                        }
                     }
                 }
             }
         case 'FILTERS - CATEGORY CHANGE':
+            let currentType = state.filters.selected.type;
             return {
                 ...state,
                 filters: {
                     ...state.filters,
                     selected: {
                         ...state.filters.selected,
-                        filter: changeFilters(state.filters.list, action.id, action.depth)
+                        filter: changeFilters(state.filters, action.id, action.depth),
+                        type: currentType === 'reset' ? 'new' : currentType
                     }
                 }
             }
@@ -88,6 +96,17 @@ export const states = (state = initialState, action) => {
                     selected: {
                         ...state.filters.selected,
                         location: action.id
+                    }
+                }
+            }
+        case 'FILTERS - VALUE CHANGE':
+            return {
+                ...state,
+                filters:{
+                    ...state.filters,
+                    selected: {
+                        ...state.filters.selected,
+                        type: action.valueName
                     }
                 }
             }

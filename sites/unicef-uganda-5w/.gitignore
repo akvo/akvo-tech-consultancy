@@ -1,5 +1,9 @@
 /node_modules
 /public/hot
+/public/css
+/public/data
+/public/js
+/public/json
 /public/storage
 /storage/*.key
 !/storage/app/ke.json

@@ -33,7 +33,9 @@ class Option extends Model
 
     public function getTextAttribute()
     {
-        $text = Str::afterLast($this->name, ' - ');
-        return Str::title($text);
+        $text = trim(preg_replace('!\s+-!', ' -', $this->name));
+        $text = Str::beforeLast($text, ' - #');
+        $text = Str::beforeLast($text, ' (');
+        return Str::upper($text);
     }
 }

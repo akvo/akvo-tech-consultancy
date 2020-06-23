@@ -313,6 +313,43 @@ h1.title-page {
     text-overflow: ellipsis;
     line-height: 12px;
 }
+button.button-reset.btn.btn-secondary,
+button.button-reset.btn.btn-primary {
+    margin-left : 10px;
+}
+table.table td,
+table.table th{
+    padding:5px;
+}
+div.table-bottom.col {
+    max-height: 316px;
+    overflow-y: scroll;
+    height: 316px;
+    margin-bottom: 10px;
+}
+.tableFixHead {
+  overflow: auto;
+  height: 100px;
+}
+
+.tableFixHead thead th {
+  position: sticky;
+  top: 0;
+}
+
+.top-container.container {
+    position: fixed;
+    top: -19px;
+    z-index: 99;
+    background: #fff;
+    min-width: 100%;
+    padding: 20px 50px;
+    border-bottom: solid 1px #ddd;
+}
+.container.container-content{
+    margin-top: 144px;
+    margin-bottom: 29px;
+}
 
 @media (min-width: 992px) {
     .container,
@@ -327,8 +364,7 @@ h1.title-page {
     }
 
     .dropdown-fix {
-        width: 200px;
-        max-width: 200px;
+        width: auto;
     }
 
     .navbar-expand-lg .navbar-collapse {
