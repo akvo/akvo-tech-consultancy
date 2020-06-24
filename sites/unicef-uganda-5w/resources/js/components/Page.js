@@ -22,6 +22,7 @@ class Page extends Component {
 
     componentDidMount() {
         this.props.page.loading(true);
+        const now = new Date();
         const get1 = () => {return new Promise((resolve, reject) => {
             axios.get(prefixPage + "filters").then(res => {
                 this.props.filter.category.init(res.data);
@@ -48,12 +49,16 @@ class Page extends Component {
                     resolve("locations organisations");
                 });
         })};
-        if (localStorage.getItem('cache') === null) {
+        let cachetime = localStorage.getItem('cache-time');
+        cachetime = cachetime !== null ? new Date(parseInt(cachetime) + (15 * 60 * 1000)) : new Date(0);
+        console.log(now, cachetime);
+        if (now > cachetime) {
             Promise.all([get3(), get2(), get1()]).then(res => {
                 localStorage.setItem('cache', JSON.stringify(this.props.value));
+                localStorage.setItem('cache-time', now.getTime());
             });
         }
-        if (localStorage.getItem('cache') !== null) {
+        if (now < cachetime) {
             let cached = localStorage.getItem('cache');
             cached = JSON.parse(cached);
             this.props.cache.restore(cached);
