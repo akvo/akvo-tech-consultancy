@@ -33,11 +33,16 @@ class Cascade extends Model
 
     public function childrenNested()
     {
-        return $this->childrens();
+        return $this->hasMany(self::class, 'parent_id')->with('childrenNested');
+    }
+
+    public function childrenNestedId()
+    {
+        return $this->hasMany(self::class, 'parent_id')->with('childrenNested');
     }
 
     public function getTextAttribute()
     {
-        return Str::title($this->name);
+        return Str::upper($this->name);
     }
 }

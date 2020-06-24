@@ -19,13 +19,13 @@ class Answer extends Model
         return $this->belongsTo('App\Question');
     }
 
-    public function options()
+    public function option()
     {
-        return $this->belongsToMany('App\Option', 'answer_options');
+        return $this->hasOne('App\Option');
     }
 
-    public function cascades()
+    public function cascade()
     {
-        return $this->belongsToMany('App\Cascade', 'answer_cascades');
+        return $this->hasOne('App\Cascade');
     }
 }

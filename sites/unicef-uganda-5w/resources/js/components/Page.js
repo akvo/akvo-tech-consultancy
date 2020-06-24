@@ -8,7 +8,6 @@ import {
     Row
 } from 'react-bootstrap';
 import Home from '../pages/Home';
-import Details from '../pages/Details';
 import axios from 'axios';
 import Loading from './Loading';
 
@@ -26,7 +25,7 @@ class Page extends Component {
         const get1 = () => {return new Promise((resolve, reject) => {
             axios.get(prefixPage + "filters").then(res => {
                 this.props.filter.category.init(res.data);
-                let selected = this.props.value.filters.selected.filter;
+                let selected = this.props.value.filters.selected.filter.sub_domain;
                 selected = this.props.value.filters.list.find(x => x.id === selected);
                 axios.get(prefixPage + "locations/values/" + selected.parent_id + "/" + selected.id)
                     .then(res => {
@@ -62,9 +61,6 @@ class Page extends Component {
 
     activePage () {
         let page = this.props.value.page.name;
-        if (page === "details") {
-            return <Details parent={this.props}/>
-        }
         return <Home parent={this.props}/>
     }
 

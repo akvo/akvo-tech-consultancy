@@ -16,6 +16,7 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+package-lock.json
 deploy.sh
 .env
 .phpunit.result.cache

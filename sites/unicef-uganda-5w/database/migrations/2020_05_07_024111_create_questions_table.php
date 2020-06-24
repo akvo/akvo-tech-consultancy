@@ -28,6 +28,7 @@ class CreateQuestionsTable extends Migration
             $table->unsignedBigInteger('form_id');
             $table->unsignedBigInteger('question_group_id');
             $table->unsignedBigInteger('dependency')->nullable();
+            $table->text('dependency_answer')->nullable();
             $table->foreignId('cascade_id')->nullable();
             $table->text('name');
             $table->enum('type', $type);

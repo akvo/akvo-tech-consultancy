@@ -31,6 +31,7 @@ def collectSync(url, formChanged=[], formInstanceChanged=[], formInstanceDeleted
              )
         return collectSync(nextUrl, formChanged, formInstanceChanged, formInstanceDeleted, surveyDeleted)
     else:
+        print('Response:{}'.format(data['status']))
         results = {'nextSyncUrl': url}
         if len(formChanged) > 0:
             results.update({'formChanged':formChanged})

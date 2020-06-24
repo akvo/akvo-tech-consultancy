@@ -18,7 +18,7 @@ const Maps = (title, subtitle, list) => {
             ...TextStyle
         },
         visualMap: {
-            left: 'left',
+            right: 'right',
             min: list.min,
             max: list.max,
             backgroundColor: '#eeeeee',
@@ -26,16 +26,19 @@ const Maps = (title, subtitle, list) => {
             inRange: {
                 color: ['#007bff','#9262b7','#254464']
             },
-            itemHeight: '445px',
+            itemHeight: '620px',
             text: ['Max', 'Min'],
             calculable: true,
+            top: 10,
+            right: 10,
             ...TextStyle
         },
         toolbox: {
             show: true,
             orient: 'horizontal',
-            left: 'right',
-            top: 'top',
+            right: 'right',
+            bottom: 10,
+            right: 10,
             feature: {
                 dataView: {
                     title: 'View Data',
@@ -57,7 +60,7 @@ const Maps = (title, subtitle, list) => {
                 name: title,
                 type: 'map',
                 roam: false,
-                map: 'kenya',
+                map: 'uganda',
                 aspectScale: 1,
                 emphasis: {
                     label: {

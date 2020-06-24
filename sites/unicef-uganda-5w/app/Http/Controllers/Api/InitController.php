@@ -28,7 +28,6 @@ class InitController extends Controller
         $flowScale = new FlowScale();
         $survey = collect(config('surveys.surveyId'))->map(function ($surveyId) use ($surveys, $flow, $flowScale) {
             $data = $flow->get('surveys', $surveyId);
-
             $registrationId = (int) $data['registrationFormId'];
             if ($registrationId === 0) {
                 $registrationId = null;
@@ -37,7 +36,7 @@ class InitController extends Controller
             echo('Seeding Surveys Table...'.PHP_EOL);
             $postSurvey = $surveys->create([
                 'id' => (int) $surveyId,
-                'name' => $data['name'],
+                'name' => $data['name'] ? $data['name'] : "COVID-19 Wash Uganda 5W",
                 'registration_id' => $registrationId
             ]);
             $postSurvey->save();
@@ -142,12 +141,14 @@ class InitController extends Controller
 
         if (array_keys($results['questionGroup']) !== range(0, count($results['questionGroup']) - 1)) {
             $questionGroups = collect($results['questionGroup']['question'])->map(function ($question) use ($collections) {
+                $question = isset($question['id']) ? [$question] : $question;
                 $collections->push($question);
                 return $collections;
             });
         } else {
             $questionGroups = collect($results['questionGroup'])->map(function ($questionGroup) use ($collections) {
-                $questions = collect($questionGroup['question'])->map(function ($question) use ($collections) {
+                $questions = isset($questionGroup['question']['id']) ? [$questionGroup['question']] : $questionGroup['question'];
+                $questions = collect($questions)->map(function ($question) use ($collections) {
                     $collections->push($question);
                     return $collections;
                 });
@@ -191,10 +192,10 @@ class InitController extends Controller
 
     private function seedQuestion($results, $formId, $flowScale, $questionFlowScale, $responseCollections)
     {
-        $questions = collect($results['questions'])->each(
+        $questions = isset($results['questions']['id']) ? [$results['questions']] : $results['questions'];
+        $questions = collect($questions)->each(
             function ($question) use ($results, $formId, $flowScale, $questionFlowScale, $responseCollections) {
                 $search = collect($questionFlowScale->firstWhere('id', $question['id']));
-
                 $parentId = NULL;
                 if (isset($search['cascadeResource'])) {
                     // seed level as parent 0
@@ -224,14 +225,17 @@ class InitController extends Controller
                     }
 
                     $dependency = NULL;
+                    $dependency_answer = NULL;
                     if (isset($search['dependency'])) {
                         $dependency = (int) $search['dependency']['question'];
+                        $dependency_answer = $search['dependency']['answer-value'];
                     }
 
                     $postQuestions = new Question([
                         'id' => (int) $question['id'],
                         'form_id' => (int) $formId,
                         'dependency' => $dependency,
+                        'dependency_answer' => $dependency_answer,
                         'question_group_id' => (int) $results['id'],
                         'cascade_id' => $parentId,
                         'name' => $search['text'],

@@ -55,6 +55,13 @@ export const mapDispatchToProps = dispatch => {
                         type: "FILTERS - ORGANISATION INIT",
                         org : org
                     }),
+            },
+            valtype: {
+                change: valueName =>
+                    dispatch({
+                        type: "FILTERS - VALUE CHANGE",
+                        valueName : valueName
+                    }),
             }
         },
         chart: {

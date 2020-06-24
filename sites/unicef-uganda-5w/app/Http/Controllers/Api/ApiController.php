@@ -13,312 +13,134 @@ use App\Answer;
 class ApiController extends Controller
 {
 
-    public function __construct(Bridge $bridges)
+    public function __construct()
     {
-        $this->value_names = collect($bridges->first())->filter(function($value, $key){
-            return Str::contains($key, ['planned', 'achived']);
-        })->keys();
-        $this->bridges = $bridges->get()->transform(function($item) {
-            $this->value_names->each(function($keyval) use ($item) {
-                $value = \App\Answer::where('id', $item->$keyval)->first();
-                $item->$keyval = isset($value->value) ? $value->value : null;
-            });
-            return $item;
-        });
         $this->collection = collect();
     }
 
     public function filters(Request $requests)
     {
         /* Populate Domain Values */
-        collect(config('query.wash_domain.domains'))
-            ->each(function($parent, $key) {
-            $parent = ["id" => $parent["id"], "name" => $key];
-            $this->collection->push($this->getValues($this->bridges, $parent, 'domain', null, true));
-
-            /* Populate Subdomain Values */
-            $childs = collect($this->bridges)->where('domain', $parent['id'])->values();
-            $groups = \App\Option::whereIn('id', $childs->pluck('sub_domain'))->get();
-            collect($groups)->unique('id')->each(
-                function($meta) use ($parent, $childs) {
-                $this->collection->push($this->getValues($childs, $meta, 'sub_domain', $parent, true));
+        $bridges = \App\Bridge::all();
+        $domains = $bridges->groupBy('domain')->transform(function($group, $key){ 
+            $collection = $this->getValues($group, $key, 'domain');
+            $sub_group = collect($group->groupBy('sub_domain'))->map(function($subgroup, $subkey) use ($key) {
+                $collection = $this->getValues($subgroup, $subkey, 'sub_domain', ['id' => $key]);
+                $this->collection->push($collection);
+                return $collection;
             });
+            $this->collection->push($collection);
+            return $group;
         });
         return $this->collection;
     }
 
     public function locations(Request $request)
     {
-        $question = \App\Question::where('id', config('query.cascade.locations'))
-                             ->with('cascade.childrens')
-                             ->first();
-        return $question->cascade->childrens->transform(function($county){
-            $county->code = $county->code;
-            $county->name = Str::title($county->name);
-            return $county->makeHidden(['level','parent_id']);
-        });
-
-        collect($this->bridges)
-            ->unique('county')
-            ->each(function($county) {
-                $county = \App\Cascade::where('id', $county["county"])->first();
-                    $county = collect($county);
-                    $county["values"] = collect();
-                    collect(config('query.wash_domain.domains'))
-                        ->each(function($parent, $key) use ($county) {
-                        $parent = ["id" => $parent["id"], "name" => $key];
-                        $data = collect($this->bridges)->where('county', $county['id']);
-                        if ($data) {
-                            $county["values"]->push(collect($this->getValues($data, $parent, 'domain')));
-                            /* Populate Subdomain Values */
-                            $childs = collect($this->bridges)
-                                ->where('county', $county['id'])->where('domain', $parent['id'])->values();
-                            if ($childs) {
-                            $groups = \App\Option::whereIn('id', $childs->pluck('sub_domain'))->get();
-                            collect($groups)->unique('id')->each(
-                                function($meta) use ($parent, $childs, $county) {
-                                    $county["values"]
-                                        ->push($this->getValues($childs, $meta, 'sub_domain', $parent));
-                                });
-                            }
-                        }
-                    });
-                    $this->collection->push($county);
+        $locations = \App\Bridge::select('district')
+            ->get()->unique('district')->values();
+        return $locations->transform(function($location){
+            $loc = \App\Cascade::select('id','code','name')->where('id', $location->district)->first();
+            return collect($loc)->map(function($data, $key){
+                return is_int($data) ? $data : Str::upper($data);
             });
-        return $this->collection;
-    }
-
-    private function getValues($data, $meta, $subject, $parent=["id" => null], $details = false)
-    {
-        $name = $meta['name'];
-        $name = $subject === 'sub_domain' ? Str::afterLast($name, $parent['name'].' - ') : $name;
-        $name = Str::beforeLast(Str::title($name), ' (');
-        $values = collect(['id' => $meta['id'], 'parent_id' => $parent['id'], 'subject' => $subject,'name' => $name]);
-        $data = collect($data)->where($subject, $meta['id'])->values();
-        $this->value_names->each(function($keyval) use ($data, $values) {
-            $values[$keyval] = $data->sum($keyval);
         });
-
-        if ($details) {
-            $details = collect(config('query.cascade'))->keys();
-            $cascade = config('query.cascade');
-
-            $details->each(function($name) use ($data, $values, $cascade){
-                $values[$name] = collect();
-                $data->each(function($dt) use ($values, $cascade, $name){
-                    $list = \App\Answer::where('form_instance_id', $dt["form_instance_id"])
-                        ->where('question_id', $cascade[$name])
-                        ->with('cascades')
-                        ->get()->pluck('name');
-                    $values[$name]->push($list);
-                });
-                $values[$name] = [
-                    'count' => $values[$name]->flatten()->unique()->count(),
-                    'list' => $values[$name]->flatten()->unique()->values(),
-                ];
-            });
-        }
-        return $values;
     }
 
     public function locationValues(Request $requests, Answer $answers)
     {
-        $id = $requests->domain;
+        $bridges = \App\Bridge::where('domain',$requests->domain);
         $value = 'domain';
         if ($requests->subdomain) {
-            $id = $requests->subdomain;
+            $bridges = $bridges->where('sub_domain', $requests->subdomain);
             $value = 'sub_domain';
         }
-        $details = collect(config('query.cascade'))->keys();
-        $cascade = config('query.cascade');
-        $filter = $this->bridges->where($value, $id)->values();
-        $filter = $filter->map(function($data) use ($answers, $cascade, $details){
-            $details->each(function($name) use ($data, $answers, $cascade){
-                $data[$name] = $answers
-                    ->where('question_id', $cascade[$name])
-                    ->where('form_instance_id', $data["form_instance_id"])
-                    ->with('cascades')
-                    ->first()->cascades->first()->text;
-            });
-            return $data;
+        $bridges = $bridges->get()->groupBy('district');
+        $bridges = collect($bridges)->map(function($data, $key) use ($requests) {
+            $location = \App\Cascade::where('id', $key)->first();
+            $value = $this->getValues($data, $requests->subdomain, 'sub_domain', ['id' => $requests->domain]);
+            return [
+                "id" => (int) $key,
+                "parent_id" => (int) $location->parent_id,
+                "code" => $location->code,
+                "name" => $location->text,
+                "level"=> $location->level,
+                "text" => $location->text,
+                "values" => collect($value)->forget("organisations"),
+                "details" => [
+                    "organisations" => $value["organisations"]
+                ]
+            ];
         });
-        collect($filter)
-            ->unique('county')
-            ->each(function($county) use ($requests, $filter, $details) {
-                $county = \App\Cascade::where('id', $county["county"])->first();
-                $county = collect($county);
-                collect(config('query.wash_domain.domains'))
-                    ->each(function($parent, $key) use ($county, $requests, $filter, $details) {
-                        if ($parent["id"] === (int) $requests->domain) {
-                            $parent = ["id" => $parent["id"], "name" => $key];
-                            $data = collect($filter)->where('county', $county['id']);
-                            if ($data && !isset($requests->subdomain)) {
-                                $county["values"] = collect($this->getValues($data, $parent, 'domain'));
-                            }
-                            if ($data && isset($requests->subdomain)) {
-                                $groups = \App\Option::whereIn('id', $data->pluck('sub_domain'))->get();
-                                collect($groups)->unique('id')->each(
-                                    function($meta) use ($parent, $data, $county) {
-                                        $county["values"] = $this->getValues($data, $meta, 'sub_domain', $parent);
-                                    });
-                            }
-                            $county["details"] = collect();
-                            $details->each(function($name) use ($data, $county){
-                                $val = $data->groupBy($name)->keys();
-                                $county["details"][$name] = ['count' => $val->count(), 'list' => $val];
-                            });
-                        }
-                    });
-                $this->collection->push($county);
-            });
-        return $this->collection;
+        return $bridges->values();
     }
 
     public function locationOrganisations(Request $requests)
     {
-        $bridges = new \App\Bridge ();
-        $cascades = collect(config('query.cascade'))->except('locations')->values();
-        $domains = collect(config('query.wash_domain.domains'))->map(function($d, $k){
-            $d['name'] = $k;
-            return $d;
-        })->values();
-        $bridges = $bridges
-            ->whereNotNull('value_achived')
-            ->select('form_instance_id','value_achived as value','county','domain','sub_domain')
-            ->with(['location' => function($query) {$query->select('id','name');},
-                    'subdomain'=> function($query) {$query->select('id','name');},
-                    'answers' => function($query) use ($cascades){
-            $query->whereIn('question_id', $cascades)
-                  ->with('cascades.parents')
-                  ->with('question');
-        }],)->get();
-        $bridges = $bridges->transform(function($data) use ($domains){
-            $org = collect();
-            $data->domain = $domains->where('id',$data->domain)->first();
-            collect($data->answers)->each(function($answer) use ($org) {
-                    $org[$answer->question->name] = Str::upper($answer->cascades->first()->text);
+        $bridges = \App\Bridge::all();
+        $bridges = $bridges->groupBy('district')->transform(function($district, $key){
+            $location = \App\Cascade::where('id', $key)->first();
+            $domains = $district->unique('domain')->transform(function($data){
+                return \App\Option::select('name')
+                    ->where('id', $data->domain)->first()->text;
             });
-            $data->domains = $data->domain["name"];
-            $data->subdomains = $data->subdomain["text"];
-            $data->subdomain = $data->subdomain["text"];
-            $data->locations = $data->location["text"];
-            $data->organisations = $org;
-            return $data->makeHidden('answers','sub_domain','location');
-        });
-        $bridges = collect($bridges)->groupBy(['locations'])->values();
-        $county_values = $bridges->map(function($data){
-            $county = $data->first();
-            $organisations = collect();
-            $organisations["list"] = collect();
-            $organisations["domains"] = collect();
-            $organisations["subdomains"] = collect();
-            $data->map(function($d) use ($organisations){
-                $d["organisations"]->map(function($org, $as) use ($organisations, $d){
-                    $organisations["list"]->push([
-                        "name" => $org,
-                        "partner" => $as,
-                        "domain" => Str::title($d["domain"]["name"]),
-                        "subdomain" => Str::title($d["subdomains"])
-                    ]);
-                    $organisations["domains"]->push(Str::title($d["domain"]["name"]));
-                    $organisations["subdomains"]->push(Str::title($d["subdomains"]));
-                });
+            $sub_domains = $district->unique('sub_domain')->transform(function($data){
+                return \App\Option::select('name')
+                    ->where('id', $data->sub_domain)->first()->text;
             });
-            $organisations["count"] = $organisations["list"]->count();
-            $organisations["domains"] = $organisations["domains"]->unique()->values();
-            $organisations["subdomains"] = $organisations["subdomains"]->unique()->values();
+            $organisations = $district->transform(function($data){
+                return [
+                    'name' => \App\Cascade::select('name')->where('id', $data->org_name)->first()->text,
+                    'domain' => \App\Option::select('id')->where('id', $data->domain)->first()->id,
+                    /*'partner' => \App\Cascade::select('name')->where('id', $data->org_type)->first()->text,*/
+                    'partner' => 'Organisation',
+                    'sub_domain' => \App\Option::select('id')->where('id', $data->sub_domain)->first()->id,
+                    'value_quantity' => $data->quantity,
+                    'value_total' => $data->total,
+                    'value_new' => $data->new
+                ];
+            });
             return [
-                "id" => $county["county"],
-                "name" => $county["locations"],
-                "organisations" => $organisations,
+                'id' => $key,
+                'name' => $location->text,
+                'organisations' => [
+                    'list' => $organisations,
+                    'count' => count($organisations)
+                ],
+                'domains' => $domains->values(),
+                'sub_domains' => $sub_domains->values(),
             ];
-        });
-        return $county_values;
+        })->values();
+        return $bridges;
     }
 
     public function domainValues(Request $requests)
     {
         $bridges = new \App\Bridge ();
-        $domainConfig = collect(config('query.wash_domain.domains'));
-        $domains = collect();
-        $domainConfig->each(function ($item, $index) use ($domains, $bridges) {
-            $domainData = $bridges->where('domain', $item['id'])->get();
-            $subDomainIds = $domainData->pluck('sub_domain');
-            $subDomains = \App\Option::whereIn('id', $subDomainIds)->get();
-            $domainTotal = $this->setAnswerValue($domainData);
-
-            $subDomains->map(function ($subDomain) use ($domainData, $domainTotal) {
-                $subDomainData = $domainData->where('sub_domain', $subDomain->id)->values();
-                $answers = $this->setAnswerValue($subDomainData);
-                $subDomain['quantity'] = ['planned' => $answers['qp'], 'achived' => $answers['qa']];
-                $subDomain['details'] = $this->getDetails($subDomainData);
-                return $subDomain;
-            });
-
-            $domains->push([
-                'id' => $item['id'], 
-                'text' => Str::title($index), 
-                'sub_domains' => $subDomains->makeHidden(['code', 'name', 'other', 'question_id']),
-                'quantity' => [
-                    'planned' => $domainTotal['qp'],
-                    'achived' => $domainTotal['qa'],
-                ],
-                'details' => $this->getDetails($domainData),
-            ]); 
-        }); 
-
         return $domains;
     }
 
-    private function getDetails($data)
+    private function getValues($group, $key, $subject, $parent=["id" => null])
     {
-        $details = collect(config('query.cascade'))->keys();
-        $cascade = config('query.cascade');
-        $tempDetail = collect();
-        $details->each(function($name) use ($data, $cascade, $tempDetail){
-            $temp[$name] = collect();
-            $data->each(function($dt) use ($temp, $cascade, $name){
-                $list = \App\Answer::where('form_instance_id', $dt["form_instance_id"])
-                    ->where('question_id', $cascade[$name])
-                    ->with('cascades')
-                    ->get()->pluck('name');
-                $temp[$name]->push($list);
-            });
-            $tempDetail->put($name, [
-                'count' => $temp[$name]->flatten()->unique()->count(),
-                'list' => $temp[$name]->flatten()->unique()->values(),
-            ]); 
+        $org_ids = $group->pluck('org_name')->unique();
+        $organisations = \App\Cascade::select('name')->whereIn('id', $org_ids)->get();
+        $organisations = $organisations->transform(function($orgs){
+            return $orgs['text'];
         });
-
-        return $tempDetail;
-    }
-
-    private function setAnswerValue($collection)
-    {
-        return [
-            'qp' => $this->getAnswerValue($collection, 'value_planned'),
-            'qa' => $this->getAnswerValue($collection, 'value_achived'),
-            'bp' => $this->getAnswerValue($collection, 'beneficiaries_planned'),
-            'ba' => $this->getAnswerValue($collection, 'beneficiaries_achived'),
-            'girl' => $this->getAnswerValue($collection, 'girl_achived'),
-            'boy' => $this->getAnswerValue($collection, 'boy_achived'),
-            'woman' => $this->getAnswerValue($collection, 'woman_achived'),
-            'man' => $this->getAnswerValue($collection, 'man_achived')
+        $collection = [
+            'id' => (int) $key,
+            'name' => \App\Option::select('name')->where('id', $key)->first()->text,
+            'subject' => $subject,
+            'parent_id' => $parent['id'] !== null ? (int) $parent['id'] : null,
+            'value_quantity' => collect($group)->sum('quantity'),
+            'value_total' => collect($group)->max('total'),
+            'value_new' => collect($group)->sum('new'),
+            'organisations' => [
+                'list' => $organisations,
+                'count' => count($organisations)
+            ]
         ];
+        return $collection;
     }
 
-    private function getAnswerValue($collection, $value) 
-    {
-        $ids = $collection->whereNotNull($value)->pluck($value);
-        $data = \App\Answer::whereIn('id', $ids)->get();
-        if ($ids->count() === 1) {
-            $values = $data->first();
-            return $values['value']; 
-        }
-
-        $value = $data->reduce(function ($total, $value) {
-            return $total + $value['value'];
-        });
-        return $value;
-    }
 }

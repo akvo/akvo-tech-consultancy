@@ -6,6 +6,7 @@ import {
     Dropdown,
     FormControl
 } from 'react-bootstrap';
+import { titleCase } from "../data/utils.js";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import axios from 'axios';
 
@@ -64,9 +65,8 @@ class DataFilters extends Component {
         this.props.filter.category.change(id, depth);
         if (parent_id === null) {
             parent_id = id
-            id = this.props.value.filters.selected.filter;
+            id = this.props.value.filters.selected.filter.sub_domain;
         }
-        this.props.page.loading(true);
         axios.get(prefixPage + "locations/values/" + parent_id + "/" + id)
             .then(res => {
                 this.props.page.loading(false);
@@ -83,16 +83,17 @@ class DataFilters extends Component {
     }
 
     getDropDownItem (dd, depth) {
+        let name = titleCase(dd.name);
         return (
             <Dropdown.Item
-                key={dd.id}
+                key={dd.id+ "-" +depth}
                 eventKey={dd.id}
                 onClick={
                     e => this.changeActive(dd.id, dd.parent_id, depth)
                 }
                 value={dd.id}
             >
-                {dd.name}
+                {name}
             </Dropdown.Item>
         )
     }
@@ -100,18 +101,16 @@ class DataFilters extends Component {
     render() {
         let depth = this.props.depth;
         let filters = this.props.value.filters.list;
-        let active = this.props.value.filters.selected.filter;
-        active = filters.find(x => x.id === active);
+        let active = this.props.value.filters.selected;
         filters = depth === 1
             ? filters.filter(x => x.parent_id === null)
             : filters.filter(x => x.parent_id !== null);
-        let selected = depth === 1
-            ? filters.find(x => x.id === active.parent_id)
-            : active;
+        let current = depth === 1 ? active.filter.domain : active.filter.sub_domain
+        let selected = filters.find(x => x.id === current);
         filters = depth === 2
-            ? filters.filter(x => x.parent_id === selected.parent_id)
+            ? filters.filter(x => x.parent_id === active.filter.domain)
             : filters;
-        selected = selected.name;
+        selected = active.type === "reset" ? "Select Categories" : titleCase(selected.name);
         return (
             <Dropdown>
                 <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">

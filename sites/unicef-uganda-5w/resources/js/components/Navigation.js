@@ -60,6 +60,7 @@ class Navigation extends Component {
                 >
                     <Nav.Link eventKey="home" active={"home" === page}>Home</Nav.Link>
                     <Nav.Link eventKey="details" active={"details" === page}>Details</Nav.Link>
+                    <Nav.Link eventKey="report" active={"details" === page}>Report</Nav.Link>
                 </Nav>
                 <Form inline className='nav-right'>
                   <a
@@ -67,7 +68,7 @@ class Navigation extends Component {
                       href="https://github.com/akvo/akvo-tech-consultancy"
                       target="_blank"
                   >
-                      <FontAwesomeIcon icon={["fas", "arrow-circle-down"]} /> Download
+                      <FontAwesomeIcon icon={["fas", "book"]} /> Docs
                   </a>
                 </Form>
               </Navbar.Collapse>

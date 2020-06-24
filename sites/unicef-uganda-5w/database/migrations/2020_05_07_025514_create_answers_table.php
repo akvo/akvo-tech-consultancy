@@ -19,7 +19,7 @@ class CreateAnswersTable extends Migration
             $table->unsignedBigInteger('question_id');
             $table->text('name')->nullable();
             $table->bigInteger('value')->nullable();
-            $table->unsignedInteger('repeat_index');
+            $table->unsignedInteger('repeat_index')->default(0);
             $table->timestamps();
 
             $table->foreign('question_id')
