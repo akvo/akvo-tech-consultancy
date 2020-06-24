@@ -7,14 +7,14 @@ return [
         "form_id" => 308090989,
         "monitoring_id" => [322230993],
         "survey_name" => "Demo Flow Survey",
-        // "lat_long" => "312080978|Geolocation", # questionId|question  string
+        "geolocation" => "312080978|Geolocation",  //questionId|question  string
         "center_map" => [9.6457, 160.1562],
     ], 
 
     "categories" => [
         308090989 => [
-            "selected_category" => "Gender", # question string
-            "popup_name" => "Gender", # question string
+            "selected_category" => "Gender", //question string
+            "popup_name" => "Gender", //question string
             "list" => [
                 [
                     "question_id" => 310440982,
@@ -42,8 +42,8 @@ return [
             ],
         ],
         322230993 => [
-            "selected_category" => "Test Location", # question string
-            "popup_name" => "Test Location", # question string
+            "selected_category" => "Test Location", //question string
+            "popup_name" => "Test Location", //question string
             "list" => [
                 [
                     "question_id" => 286420988,
@@ -65,7 +65,7 @@ return [
             ],
             "template" => [
                 [ 
-                    "html" => "",
+                    "css" => "",
                     "js" => "",
                 ],
             ],

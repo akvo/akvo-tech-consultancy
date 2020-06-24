@@ -70,7 +70,7 @@ const setConfig = (defaultSelect) => {
             cfg = res.data;
             categoryField = cfg.name;
             iconField = categoryField;
-            popupFields = cfg.name;
+            popupFields = cfg.popup; // name or popup?
             startRenderMap();
             cacheMem = JSON.parse(localStorage.getItem('data'));
             geojsonPath = '/api/data/' + defaultSelect,

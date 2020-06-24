@@ -7,14 +7,14 @@ return [
         "form_id" => 71690912,
         "monitoring_id" => [],
         "survey_name" => "DHIS2",
-        // "lat_long" => "312080978|Geolocation", # questionId|question  string
+        "geolocation" => "75790913|House Hold Location",  //questionId|question  string
         "center_map" => [0.7893, 113.9213],
     ], 
 
     "categories" => [
         71690912 => [
-            "selected_category" => "Gender", # question string
-            "popup_name" => "Gender", # question string
+            "selected_category" => "Gender",  //question string
+            "popup_name" => "Patient Name", //question string
             "list" => [
                 [
                     "question_id" => 83510912,
@@ -46,7 +46,7 @@ return [
             ],
             "template" => [
                 [ 
-                    "html" => "dhis.blade",
+                    "css" => "dhis",
                     "js" => "dhis",
                 ],
             ],

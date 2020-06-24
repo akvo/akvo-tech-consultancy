@@ -7,14 +7,14 @@ return [
         "form_id" => 287510916,
         "monitoring_id" => [],
         "survey_name" => "National Secondary School WASH Assessment 2020",
-        // "lat_long" => "263570942|Please take the schools geo-location", # questionId|question  string
+        "geolocation" => "263570942|Please take the schools geo-location", //questionId|question  string
         "center_map" => [9.6457, 160.1562],
     ], 
 
     "categories" => [
         287510916 => [
-            "selected_category" => "What is the name of the school?", # question string
-            "popup_name" => "What is the name of the school?", # question string
+            "selected_category" => "What is the name of the school?", //question string
+            "popup_name" => "What is the name of the school?", //question string
             "list" => [
                 // Scholl Profile
                 [
@@ -589,7 +589,7 @@ return [
             ],
             "template" => [
                 [ 
-                    "html" => "",
+                    "css" => "",
                     "js" => "",
                 ],
             ],

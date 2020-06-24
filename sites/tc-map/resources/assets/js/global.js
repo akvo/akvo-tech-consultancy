@@ -28,6 +28,7 @@ var nainclude = [
 
 const getTemplate = () => {
     let data = JSON.parse(localStorage.getItem('data'));
+    // console.log('data', data);
     const template = customs.custom(data);
     let js = localStorage.getItem("template");
     return (js === null) ? false : template[js];
@@ -35,7 +36,6 @@ const getTemplate = () => {
 
 // pop up details
 const getDetails = (a, atype) => {
-    console.log(a);
     let template = getTemplate();
     let datapointid = $(a).attr('data');
     template.popup(datapointid);
