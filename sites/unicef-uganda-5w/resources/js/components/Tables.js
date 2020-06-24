@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import { mapStateToProps, mapDispatchToProps } from "../reducers/actions.js";
 import { Col, Table } from "react-bootstrap";
 import { titleCase } from "../data/utils.js";
-import ReactEcharts from "echarts-for-react";
 import DataTable from 'react-data-table-component';
 
 class Tables extends Component {

@@ -1,15 +1,14 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { mapStateToProps, mapDispatchToProps } from "../reducers/actions";
-import { library } from "@fortawesome/fontawesome-svg-core";
 import { Row, Col, Card, ListGroup, Container, Jumbotron } from "react-bootstrap";
 require("../data/uganda.js");
 import Charts from "../components/Charts";
 import {
     generateData,
-    loadingChart
 } from "../data/chart-utils.js";
 import { titleCase } from "../data/utils.js";
+import uniqBy from 'lodash/uniqBy';
 import Bar from '../data/options/Bar';
 import Maps from '../data/options/Maps';
 import Pie from '../data/options/Pie';
@@ -97,36 +96,34 @@ class Home extends Component {
     TableView(params) {
         let valType = this.props.value.filters.selected.type;
         if (params.value) {
-            let orgs = valType === "reset"
-                ? params.data.details
-                : this.props.value.filters.organisations.filter(
-                    x => x.sub_domain === this.props.value.filters.selected.filter.sub_domain
-                )
-            let org_values = {};
-            orgs = orgs.map((x,i) => {
-                let name = x.name;
-                let value = valType === "reset" ? 1 : x['value_' + valType];
-                org_values = {
-                    ...org_values,
-                    [name]: org_values[name] === undefined ? value : value + org_values[name]
-                };
-                return true;
-            });
-            let counts = valType === "reset"
-                ? params.value
-                : params.data.details.organisations.count
-            let html = '<h4>' + params.name + '</h4><br/>' + counts + ' Organisations<br/><br/>';
+            let data = params.data;
+            let orgs;
+            let orgs_count = valType !== "reset" ? data.details.organisations.count : data.values.count;
+            let title = valType !== "reset" ? data.values.name : "List Organisations";
+            orgs = valType !== "reset" ? data.details.organisations.data.map((x,i) => x) : uniqBy(data.details, 'name');
+            let html = '<strong>' + title + '</strong></br>'
+            html += 'District: <strong>' + data.name + '</strong></br>';
+            html += 'Organisation: <strong>' + orgs_count + '</strong><br/><br/>';
             html += '<table class="table table-bordered">';
             html += '<thead class="thead-dark">';
             html += '<tr>';
-            let varName = valType === "reset" ? "Activities" : valType;
-            html += '<th width="200">Organisation</th><th align="center">' + varName + '</th>';
+            html += '<th width="200">Organisations</th>';
+            if (valType !== "reset") {
+                html += '<th align="center">' + valType + '</th>';
+            }
             html +='</tr>';
             html += '</thead>';
             html += '<tbody>';
-            for (let org in org_values){
-                let val = org_values[org];
-                html += '<tr><td width="200">' + org + '</td><td align="center">' + val + '</td></tr>';
+            let lists = [];
+            orgs.forEach((org, i) => {
+                html += '<tr><td width="200">' + (i+1) + '. ' + org.name + '</td>'
+                if (valType !== "reset") {
+                    html += '<td align="center">' + org['value_' + valType] + '</td>';
+                }
+                html += '</tr>';
+            });
+            if (valType !== "reset") {
+                html += '<tr class="bg-dark text-white"><td width="200">Subtotal</td><td align="center">' + params.data.values['value_' + valType] + '</td></tr>';
             }
             html += '</tbody>';
             html += '</table>';
@@ -207,7 +204,6 @@ class Home extends Component {
         let valtype = this.props.value.filters.selected.type;
         let title = "WASH Partners Presence for COVID-19 Response";
         let selected = this.props.value.filters.selected.filter;
-        // selected = this.props.value.filters.list.find(x => x.id === selected);
         let location = this.props.value.filters.locations;
         data = this.props.value.filters.location_values;
         if (valtype === "reset"){

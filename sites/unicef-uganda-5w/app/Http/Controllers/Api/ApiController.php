@@ -25,7 +25,7 @@ class ApiController extends Controller
         $domains = $bridges->groupBy('domain')->transform(function($group, $key){ 
             $collection = $this->getValues($group, $key, 'domain');
             $sub_group = collect($group->groupBy('sub_domain'))->map(function($subgroup, $subkey) use ($key) {
-                $collection = $this->getValues($subgroup, $subkey, 'sub_domain', ['id' => $key]);
+                $collection = $this->getValues($subgroup, $subkey, 'sub_domain', $key);
                 $this->collection->push($collection);
                 return $collection;
             });
@@ -56,9 +56,9 @@ class ApiController extends Controller
             $value = 'sub_domain';
         }
         $bridges = $bridges->get()->groupBy('district');
-        $bridges = collect($bridges)->map(function($data, $key) use ($requests) {
+        $bridges = collect($bridges)->map(function($data, $key) use ($requests, $value) {
             $location = \App\Cascade::where('id', $key)->first();
-            $value = $this->getValues($data, $requests->subdomain, 'sub_domain', ['id' => $requests->domain]);
+            $value = $this->getValues($data, $requests->subdomain, $value, $requests->domain);
             return [
                 "id" => (int) $key,
                 "parent_id" => (int) $location->parent_id,
@@ -92,7 +92,7 @@ class ApiController extends Controller
                 return [
                     'name' => \App\Cascade::select('name')->where('id', $data->org_name)->first()->text,
                     'domain' => \App\Option::select('id')->where('id', $data->domain)->first()->id,
-                    /*'partner' => \App\Cascade::select('name')->where('id', $data->org_type)->first()->text,*/
+                    'partner_type' => \App\Cascade::select('name')->where('id', $data->org_type)->first()->text,
                     'partner' => 'Organisation',
                     'sub_domain' => \App\Option::select('id')->where('id', $data->sub_domain)->first()->id,
                     'value_quantity' => $data->quantity,
@@ -114,30 +114,31 @@ class ApiController extends Controller
         return $bridges;
     }
 
-    public function domainValues(Request $requests)
-    {
-        $bridges = new \App\Bridge ();
-        return $domains;
-    }
-
-    private function getValues($group, $key, $subject, $parent=["id" => null])
+    private function getValues($group, $key, $subject, $parentId=null)
     {
         $org_ids = $group->pluck('org_name')->unique();
-        $organisations = \App\Cascade::select('name')->whereIn('id', $org_ids)->get();
-        $organisations = $organisations->transform(function($orgs){
-            return $orgs['text'];
-        });
+        $org_values = $group->groupBy('org_name')->map(function($data, $key){
+            $org = \App\Cascade::select('name', 'parent_id')->where('id', $key)->first();
+            return [
+                'name' => $org->text,
+                'type' => \App\Cascade::select('name')->where('id',$org->parent_id)->first()->text,
+                'value_quantity' => $data->sum('quantity'),
+                'value_total' => $data->sum('total'),
+                'value_new' => $data->sum('new'),
+            ];
+        })->values();
         $collection = [
             'id' => (int) $key,
             'name' => \App\Option::select('name')->where('id', $key)->first()->text,
             'subject' => $subject,
-            'parent_id' => $parent['id'] !== null ? (int) $parent['id'] : null,
+            'parent_id' => $parentId !== null ? (int) $parentId : null,
             'value_quantity' => collect($group)->sum('quantity'),
             'value_total' => collect($group)->max('total'),
             'value_new' => collect($group)->sum('new'),
             'organisations' => [
-                'list' => $organisations,
-                'count' => count($organisations)
+                'list' => $org_values->pluck('name'),
+                'count' => count($org_values),
+                'data' => $org_values
             ]
         ];
         return $collection;

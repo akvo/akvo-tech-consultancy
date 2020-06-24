@@ -152,7 +152,7 @@ export const states = (state = initialState, action) => {
                 ...state,
                 charts: {
                     ...state.charts,
-                    loading: true
+                    loading: action.loading
                 }
             }
         case 'CHART - STATE CHANGE':

@@ -10,7 +10,6 @@ import {
     Form,
     Button,
 } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 class Navigation extends Component {
     constructor(props) {
@@ -64,11 +63,11 @@ class Navigation extends Component {
                 </Nav>
                 <Form inline className='nav-right'>
                   <a
-                      className="btn btn-primary text-white"
                       href="https://github.com/akvo/akvo-tech-consultancy"
+                      className="nav-top-links"
                       target="_blank"
                   >
-                      <FontAwesomeIcon icon={["fas", "book"]} /> Docs
+                      <i className="fa fa-book"></i> Documentation
                   </a>
                 </Form>
               </Navbar.Collapse>

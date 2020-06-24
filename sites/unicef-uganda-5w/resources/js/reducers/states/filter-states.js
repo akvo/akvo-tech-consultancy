@@ -10,7 +10,7 @@ export const filterState = {
         },
         locations: {
             count: 1,
-            list: []
+            list: [],
         },
     }, {
         id: 2,
@@ -30,7 +30,7 @@ export const filterState = {
         id: 2,
         parent_id: null,
         code: "",
-        name: "narok",
+        name: "Loading",
         level: 0,
         text: "Loading",
         values: {
@@ -45,7 +45,16 @@ export const filterState = {
         details: {
             organisations: {
                 count: 1,
-                list: ["Loading"]
+                list: ["Loading"],
+                data: [{
+                    name: "Loading",
+                    type: "Loading",
+                    values:{
+                        value_new:0,
+                        value_total:0,
+                        value_quantities:0,
+                    }
+                }]
             },
             locations: {
                 count: 1,

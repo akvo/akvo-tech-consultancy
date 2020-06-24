@@ -77,6 +77,14 @@ body {
 .navbar {
     padding: 0px !important;
 }
+
+a.nav-top-links{
+    text-decoration:none;
+}
+a.nav-top-links:hover{
+    text-decoration:none;
+}
+
 .NavLight {
     background-color: #fff !important;
     border-color: #ddd;
@@ -340,7 +348,7 @@ div.table-bottom.col {
 .top-container.container {
     position: fixed;
     top: -19px;
-    z-index: 99;
+    z-index: 1000;
     background: #fff;
     min-width: 100%;
     padding: 20px 50px;
@@ -349,6 +357,21 @@ div.table-bottom.col {
 .container.container-content{
     margin-top: 144px;
     margin-bottom: 29px;
+}
+
+.loading-charts-cover {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.66);
+    position: absolute;
+    z-index: 998;
+}
+.loading-charts {
+    margin: auto;
+    position: absolute;
+    z-index: 999;
+    top: 40%;
+    left: calc(50% - 25px);
 }
 
 @media (min-width: 992px) {

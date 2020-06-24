@@ -44,6 +44,7 @@ class Page extends Component {
             axios.get(prefixPage + "locations/organisations").then(res => {
                     this.props.filter.organisation.init(res.data);
                     this.props.page.loading(false)
+                    this.props.chart.state.loading(false)
                     resolve("locations organisations");
                 });
         })};
@@ -56,6 +57,9 @@ class Page extends Component {
             let cached = localStorage.getItem('cache');
             cached = JSON.parse(cached);
             this.props.cache.restore(cached);
+            setTimeout(() => {
+                this.props.chart.state.loading(false);
+            }, 2000);
         }
     }
 

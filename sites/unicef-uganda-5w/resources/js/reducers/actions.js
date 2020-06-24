@@ -95,9 +95,10 @@ export const mapDispatchToProps = dispatch => {
                     })
             },
             state: {
-                loading : () =>
+                loading : (status) =>
                     dispatch({
-                        type: "CHART - LOADING"
+                        type: "CHART - LOADING",
+                        loading: status
                     }),
                 filtered: () =>
                     dispatch({

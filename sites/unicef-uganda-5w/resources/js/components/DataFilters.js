@@ -7,7 +7,6 @@ import {
     FormControl
 } from 'react-bootstrap';
 import { titleCase } from "../data/utils.js";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import axios from 'axios';
 
 const prefixPage = process.env.MIX_PUBLIC_URL + "/api/";
@@ -18,7 +17,7 @@ const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
        ref={ref}
        onClick={e => { e.preventDefault(); onClick(e); }}
     >
-    {children} <FontAwesomeIcon icon={["fas", "arrow-down"]} />
+        {children} <i className="fa fa-arrow-down"></i>
     </a>
 ));
 
@@ -67,10 +66,11 @@ class DataFilters extends Component {
             parent_id = id
             id = this.props.value.filters.selected.filter.sub_domain;
         }
+        this.props.chart.state.loading(true);
         axios.get(prefixPage + "locations/values/" + parent_id + "/" + id)
             .then(res => {
-                this.props.page.loading(false);
                 this.props.filter.location.push(res.data);
+                this.props.chart.state.loading(false);
             });
     }
 
