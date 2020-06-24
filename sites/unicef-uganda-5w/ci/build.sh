@@ -16,6 +16,8 @@ docker run \
        --entrypoint /bin/sh \
        composer -c 'composer dump-autoload'
 
+echo 'MIX_PUBLIC_URL="https://covid-ug5w.tc.akvo.org"' > .env
+
 docker run \
        --rm \
        --volume "$(pwd):/home/tcakvo/public_html/unicef-uganda-5w" \
