@@ -1,4 +1,5 @@
 import 'leaflet';
+const custom = require('./custom.js'); 
 const _ = require('lodash');
 const axios = require('axios');
 
@@ -10,7 +11,7 @@ $('#stack_search a:nth-child(5)').css('display', 'inline-block');
 
 let mkr = [];
 
-$('#change-cluster').on('click', function() {
+$('#change-cluster').on('click', () => {
     let dataCache = JSON.parse(localStorage.getItem('data'));
     if (clustered === true) {
         map.removeLayer(markerclusters);
@@ -26,7 +27,7 @@ $('#change-cluster').on('click', function() {
     }
 });
 
-let removeAllMap = () => map.eachLayer(function (layer) {
+let removeAllMap = () => map.eachLayer((layer) => {
     map.removeLayer(layer);
 });
 
@@ -36,7 +37,6 @@ let geojson,
     clustered = true,
     cfg = [],
     sourcedata = [],
-    sourcefetch = axios.get('/api/source').then((res) => {return res.data}),
     defaultSelect = localStorage.getItem('default-api'),
     geojsonPath = '/api/data/',
     categoryField,
@@ -52,46 +52,63 @@ let cacheMem = JSON.parse(localStorage.getItem('data'));
 let tileServer = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     tileAttribution = 'Tiles © Wikimedia — Source: OpenStreetMap, Data: Unicef Pacific WASH, <a href="https://akvo.org">Akvo SEAP</a>';
 
-let setConfig = axios.get('/api/config/' + defaultSelect).then(
-    (res) => {
-        localStorage.setItem("configs", JSON.stringify(res.data));
-        cfg = res.data;
-        categoryField = cfg.name;
-        iconField = categoryField;
-        popupFields = cfg.name;
-        startRenderMap();
-        cacheMem = JSON.parse(localStorage.getItem('data'));
-        geojsonPath = '/api/data/' + defaultSelect,
-        getGeoJson();
-    }
-);
+const fetchAPI = (endpoint) => {
+    return new Promise((resolve, reject) => {
+        axios.get('/api/' + endpoint).then(res => {
+            resolve(res);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+};
+    
+const setConfig = (defaultSelect) => { 
+    fetchAPI('config/' + defaultSelect).then( // solve promise
+        (res) => {
+            localStorage.setItem("template", res.data.js)
+            localStorage.setItem("configs", JSON.stringify(res.data));
+            cfg = res.data;
+            categoryField = cfg.name;
+            iconField = categoryField;
+            popupFields = cfg.name;
+            startRenderMap();
+            cacheMem = JSON.parse(localStorage.getItem('data'));
+            geojsonPath = '/api/data/' + defaultSelect,
+            getGeoJson();
+        }
+    );
+};
 
 /* set category selected based on data load */
-let fetchdata = sourcefetch.then(
-    (a) => {
-        a.forEach((x, i) => {
-            let selected = false;
-            let tagselected = "";
-            if (!defaultSelect && (i === 0)) {
-                selected = true;
-                localStorage.setItem('default-api', x["id"]);
-                defaultSelect = x["id"];
-            }
-            if (defaultSelect === x["id"].toString()) {
-                selected = true;
-            }
-            if (selected) {
-                tagselected = "selected";
-            }
-            geojsonPath = '/api/data/' + defaultSelect,
-            $('#category-dropdown').append('<option value=' + x["id"] + ' ' + tagselected + '>' + x["source"].toUpperCase() + '</option>');
-        });
-        return "second"
-    }
-);
+const fetchdata = () => {
+    fetchAPI('source').then( // solve promise
+        (a) => {
+            a.data.forEach((x, i) => {
+                let selected = false;
+                let tagselected = "";
+                if (!defaultSelect && (i === 0)) {
+                    selected = true;
+                    defaultSelect = x.id;
+                    localStorage.setItem('default-api', x.id);
+                }
+                if (defaultSelect === x["id"].toString()) {
+                    selected = true;
+                }
+                if (selected) {
+                    tagselected = "selected";
+                }
+                geojsonPath = '/api/data/' + defaultSelect,
+                    $('#category-dropdown').append('<option value=' + x["id"] + ' ' + tagselected + '>' + x["source"].toUpperCase() + '</option>');
+            }); 
+            return defaultSelect;
+        }
+    ).then(val => setConfig(val));
+};
+fetchdata();
 
-$("#category-dropdown").change(function () {
-    defaultSelect = $(this).val();
+
+$("#category-dropdown").on('change', () => {
+    defaultSelect = $("#category-dropdown").val();
     geojsonPath = '/api/data/' + defaultSelect,
     $("#legend").children().remove();
     localStorage.removeItem('data');
@@ -101,20 +118,10 @@ $("#category-dropdown").change(function () {
     map.removeLayer(markerclusters);
     $('#legend').remove();
     $('#bar-legend').remove();
-    axios.get('api/config/' + defaultSelect).then((res) => {
-        localStorage.setItem("configs", JSON.stringify(res.data));
-        cfg = res.data;
-        categoryField = cfg.name;
-        iconField = categoryField;
-        popupFields = cfg.name;
-        cacheMem = JSON.parse(localStorage.getItem('data'));
-        geojsonPath = '/api/data/' + defaultSelect,
-        startRenderMap();
-        getGeoJson();
-    });
+    setConfig(defaultSelect);
 });
 
-function startRenderMap() {
+const startRenderMap = () => {
     markerclusters = L.markerClusterGroup({
         maxClusterRadius: 2 * rmax,
         iconCreateFunction: defineClusterIcon
@@ -133,47 +140,61 @@ function startRenderMap() {
     map.addLayer(markerclusters);
 }
 
+const mapParentFeatures = (parents, features) => {
+    return features.map(item => {
+        let point = parents.find(x => x.data_point_id === item.properties.data_point_id);
+        item.geometry.coordinates = point.geometry;
+        return item;
+    });
+};
+
 //Ready to go, load the geojson
-function getGeoJson() {
-    d3.json(geojsonPath, function(error, response) {
-        console.log(response);
+const getGeoJson = () => {
+    d3.json(geojsonPath, (error, response) => {
         let categories = JSON.parse(response.categories);
         let coptions = _.mapValues(_.keyBy(categories, 'id'), 'lookup');
         let configs = JSON.parse(response.config);
         let source = JSON.parse(response.data);
-        let refactor = [];
-        source.forEach(function(val) {
-            let geoProp = {};
-            geoProp["type"] = "Feature";
-            geoProp["geometry"] = {
-                "type": "Point",
-                "coordinates": val["PTS"]
-            };
-            geoProp["properties"] = val;
-            geoProp["properties"]["status"] = "active";
-            refactor.push(geoProp);
-        });
         let data = {
-            "properties": {
-                "fields": _.mapValues(_.keyBy(categories, 'id')),
-                "attribution": _.find(categories, {
-                    'id': categoryField
+            properties: {
+                fields: _.mapValues(_.keyBy(categories, 'id')),
+                attribution: _.find(categories, {
+                    id: categoryField
                 }),
-                "attributes": categories
+                attributes: categories
             },
-            "features": refactor
+            features: source.map(val => {
+                return {
+                    type: "Feature",
+                    geometry: {
+                        type: "Point",
+                        coordinates: val.PTS
+                    },
+                    properties: {
+                        ...val,
+                        status: "active"
+                    }
+                }
+            })
         }
         localStorage.setItem('default-properties', JSON.stringify(data.properties));
         if (response.parent_id === null) {
             let parent_points = source.map(x => {
                 return {
-                    "geometry" : x['PTS'],
-                    "data_point_id" : x['data_point_id']
+                    geometry : x.PTS,
+                    data_point_id : x.data_point_id
                 };
             });
             localStorage.setItem('parent_'+response.id, JSON.stringify(parent_points));    
         }
-        console.log(data);
+
+        if (response.parent_id !== null) {
+            let parents = JSON.parse(localStorage.getItem('parent_' + response.parent_id));
+            data = {
+                ...data,
+                features: mapParentFeatures(parents, data.features)
+            };
+        }
         localStorage.setItem('data', JSON.stringify(data));
         let retrievedObject = localStorage.getItem('data');
         data = JSON.parse(retrievedObject);
@@ -181,10 +202,10 @@ function getGeoJson() {
     });
 }
 
-function loadData(allPoints, callType) {
+const loadData = (allPoints, callType) => {
     if (callType === 1) {
         let defaultProp = JSON.parse(localStorage.getItem('default-properties'));
-        allPoints.features = _.map(allPoints.features, function(x) {
+        allPoints.features = _.map(allPoints.features, (x) => {
             x['properties']['status'] = "active";
             return x;
         });
@@ -202,13 +223,11 @@ function loadData(allPoints, callType) {
     renderLegend(allPoints);
 }
 
-function defineFeature(feature, latlng) {
+const defineFeature = (feature, latlng) => {
     if (feature.properties.status === 'active') {
         let categoryVal = feature.properties[categoryField],
             iconVal = feature.properties[iconField];
-        let idx_num = _.findIndex(metadata.attribution.lookup, function(el) {
-            return el === categoryVal;
-        });
+        let idx_num = _.findIndex(metadata.attribution.lookup, (el => el === categoryVal));
 		if (idx_num === -1) {
 			idx_num = "undefined";
 		}
@@ -229,21 +248,20 @@ function defineFeature(feature, latlng) {
 }
 
 // Pop up when point clicked
-function defineFeaturePopup(feature, layer) {
+const defineFeaturePopup = (feature, layer) => {
     let props = feature.properties,
         fields = metadata.fields,
         popupContent = '';
     popupContent = '<span class="attribute"><span class="label">Name:</span> ' + props[popupFields] + '</span>';
-    popupContent = '<div class="map-popup">' + popupContent + '<hr><button href="#" class="btn btn-primary btn-block" onclick="getDetails(this, 0)" data="' + props[popupFields] + '"><i class=""></i> View Details</button></div>';
+    popupContent = '<div class="map-popup">' + popupContent + '<hr><button href="#" class="btn btn-primary btn-block" onclick="getDetails(this, 0)" data="' + props.data_point_id + '"><i class=""></i> View Details</button></div>';
     layer.bindPopup(popupContent, {
         offset: L.point(1, -2)
     });
-}
+};
 
-
-function defineClusterIcon(cluster) {
+const defineClusterIcon = (cluster) => {
     let dbs = cluster.getAllChildMarkers();
-    dbs = $.map(dbs, function(x) {
+    dbs = $.map(dbs, (x) => {
         if (x.feature.properties.status === 'active') {
             return x;
         }
@@ -255,32 +273,26 @@ function defineClusterIcon(cluster) {
         r = rmax - 2 * strokeWidth - (n < 10 ? 12 : n < 100 ? 8 : n < 1000 ? 4 : 0), //Calculate clusterpie radius...
         iconDim = (r + strokeWidth) * 2, //...and divIcon dimensions (leaflet really want to know the size)
         data = d3.nest() //Build a dataset for the pie chart
-        .key(function(d) {
-            return d.feature.properties[categoryField];
-        })
+        .key((d => d.feature.properties[categoryField]))
         .entries(children, d3.map),
         //bake some svg markup
         html = bakeThePie({
             data: data,
-            valueFunc: function(d) {
-                return d.values.length;
-            },
+            valueFunc: (d => d.values.length),
             strokeWidth: 1,
             outerRadius: r,
             innerRadius: r - 10,
             pieClass: 'cluster-pie',
             pieLabel: n,
             pieLabelClass: 'marker-cluster-pie-label',
-            pathClassFunc: function(d) {
-                let idx_num = _.findIndex(metadata.attribution.lookup, function(el) {
-                    return el === d.data.key;
-                });
+            pathClassFunc: (d) => {
+                let idx_num = _.findIndex(metadata.attribution.lookup, (el => el === d.data.key));
 				if (idx_num === -1) {
 					idx_num = "undefined";
 				}
                 return "category-" + idx_num;
             },
-            pathTitleFunc: function(d) {
+            pathTitleFunc: (d) => {
                 let percentage = ((d.data.values.length / n) * 100).toFixed(2);
 				if(metadata.fields[categoryField].type === "num") {
 					let customfields = {"lookup":{1:"No Filter"}, "Name": "No Filter"}
@@ -300,7 +312,7 @@ function defineClusterIcon(cluster) {
 }
 
 /*function that generates a svg markup for the pie chart*/
-function bakeThePie(options) {
+const bakeThePie = (options) => {
     /*data and valueFunc are required*/
     if (!options.data || !options.valueFunc) {
         return '';
@@ -310,10 +322,10 @@ function bakeThePie(options) {
         r = options.outerRadius ? options.outerRadius : 28, //Default outer radius = 28px
         rInner = options.innerRadius ? options.innerRadius : r - 10, //Default inner radius = r-10
         strokeWidth = options.strokeWidth ? options.strokeWidth : 1, //Default stroke is 1
-        pathClassFunc = options.pathClassFunc ? options.pathClassFunc : function() {
+        pathClassFunc = options.pathClassFunc ? options.pathClassFunc : () => {
             return '';
         }, //Class for each path
-        pathTitleFunc = options.pathTitleFunc ? options.pathTitleFunc : function() {
+        pathTitleFunc = options.pathTitleFunc ? options.pathTitleFunc : () => {
             return '';
         }, //Title for each path
         pieClass = options.pieClass ? options.pieClass : 'marker-cluster-pie', //Class for the whole pie
@@ -360,13 +372,14 @@ function bakeThePie(options) {
 }
 
 /*Function for generating a legend with the same categories as in the clusterPie*/
-function renderLegend(database) {
+const renderLegend = (database) => {
     let data = d3.entries(metadata.fields[categoryField].lookup),
         legenddiv = d3.select('body').append('div')
-        .attr('id', 'legend');
+            .attr('id', 'legend');
     let indicators = d3.entries(metadata.attributes);
     $('#legend').append('<select class="custom-select" id="indicators"></select>');
-    indicators.forEach(function(s) {
+    indicators = indicators.filter(x => x.value.type !== 'text');
+    indicators.forEach((s) => {
         let selected = '';
         if (s.value.id == metadata.attribution.id) {
             selected = 'selected';
@@ -375,7 +388,7 @@ function renderLegend(database) {
     });
     let dropdown = d3.select('#indicators');
     dropdown
-        .on('change', function(a) {
+        .on('change', function (a) {
             let selectedVal = this.value.split('$')[0],
                 selectedInd = selectedVal.split('-');
             let dbs = JSON.parse(localStorage.getItem('data'));
@@ -396,7 +409,7 @@ function renderLegend(database) {
                 iconField = categoryField;
                 changeValue(dbs, []);
             }
-        })
+        });
     let heading = legenddiv.append('div')
         .classed('legendheading', true)
         .text(metadata.attribution.name);
@@ -406,16 +419,10 @@ function renderLegend(database) {
     legenditems
         .enter()
         .append('div')
-        .attr('class', function(d) {
-            return 'category-' + d.key;
-        })
-        .attr('data-value', function(d) {
-            return d.key;
-        })
-        .attr('id', function(d) {
-            return 'legend-select-' + d.value;
-        })
-        .on('click', function(d) {
+        .attr('class', (d => 'category-' + d.key))
+        .attr('data-value', (d => d.key))
+        .attr('id', (d => 'legend-select-' + d.value))
+        .on('click', function (d) {
             $('.leaflet-marker-icon').remove();
             if ($(this).hasClass('inactive-legend')) {
                 $(this).removeClass('inactive-legend');
@@ -430,19 +437,17 @@ function renderLegend(database) {
         .classed({
             'legenditem': true
         })
-        .text(function(d) {
-            return d.value;
-        })
-}
+        .text((d => d.value));
+};
 
-function getFilterData() {
+const getFilterData = () => {
     let selects = ["1", "2", "3", "4", "5"];
     let deletes = [];
     $('.inactive-legend').each(function() {
         let inactive = $(this).attr('class').split(' ')[0];
         deletes.push(metadata.attribution.lookup[inactive.split('-')[1]]);
     });
-    let filterData = $.map(selects, function(x) {
+    let filterData = $.map(selects, (x) => {
         if (deletes.indexOf(x) >= 0) {
             return;
         }
@@ -451,16 +456,7 @@ function getFilterData() {
     return deletes;
 }
 
-function changeValue(database, deletes) {
-    let dbs = JSON.parse(localStorage.getItem('data'));
-    dbs["features"] = $.map(dbs.features, function(x) {
-        x = x;
-        x.properties.status = "active";
-        if (deletes.indexOf(x.properties[iconField]) >= 0) {
-            x.properties.status = "inactive";
-        }
-        return x;
-    });
+const refreshLayer = (dbs) => {
     localStorage.setItem('data', JSON.stringify(dbs));
     geojson = dbs;
     metadata = dbs.properties;
@@ -486,11 +482,24 @@ function changeValue(database, deletes) {
         map.addLayer(mkr);
         map.attributionControl.addAttribution(metadata.attribution);
     }
+};
+
+const changeValue = (database, deletes) => {
+    let dbs = JSON.parse(localStorage.getItem('data'));
+    dbs["features"] = $.map(dbs.features, (x) => {
+        x = x;
+        x.properties.status = "active";
+        if (deletes.indexOf(x.properties[iconField]) >= 0) {
+            x.properties.status = "inactive";
+        }
+        return x;
+    });
+    refreshLayer(dbs);
 }
 
-function filterMaps(minVal, maxVal, attributeName) {
+const filterMaps = (minVal, maxVal, attributeName) => {
     let dbs = JSON.parse(localStorage.getItem('data'));
-    dbs["features"] = $.map(dbs.features, function(x) {
+    dbs["features"] = $.map(dbs.features, (x) => {
         if (minVal === 0 && maxVal === 0) {
             x.properties.status = "active";
         } else {
@@ -504,38 +513,14 @@ function filterMaps(minVal, maxVal, attributeName) {
         }
         return x;
     });
-    localStorage.setItem('data', JSON.stringify(dbs));
-    geojson = dbs;
-    metadata = dbs.properties;
-    if (clustered) {
-        map.removeLayer(markerclusters);
-        markerclusters = L.markerClusterGroup({
-            maxClusterRadius: 2 * rmax,
-            iconCreateFunction: defineClusterIcon
-        });
-        map.addLayer(markerclusters);
-        let markers = L.geoJson(dbs, {
-            pointToLayer: defineFeature,
-            onEachFeature: defineFeaturePopup
-        });
-        markerclusters.addLayer(markers);
-        map.attributionControl.addAttribution(metadata.attribution);
-    } else {
-        map.removeLayer(mkr);
-        mkr = L.geoJson(dbs, {
-            pointToLayer: defineFeature,
-            onEachFeature: defineFeaturePopup
-        });
-        map.addLayer(mkr);
-        map.attributionControl.addAttribution(metadata.attribution);
-    }
+    refreshLayer(dbs);
 }
 
-function createHistogram() {
+const createHistogram = () => {
     let dbs = JSON.parse(localStorage.getItem('data'));
     let attr_name = dbs.properties.attribution.id;
-    let barData = dbs.features.map(function(x) {
-        let obj = {};
+    let barData = dbs.features.map((x) => {
+        // let obj = {};
         return {
             'datapoint name': x.properties[cfg.name],
             'indicator': attr_name,
@@ -543,10 +528,10 @@ function createHistogram() {
         };
     });
     let dataGroup = _.groupBy(barData, 'value');
-    let histogram = _.map(dataGroup, function(v, i) {
+    let histogram = _.map(dataGroup, (v, i) => {
         return {
-            'len': v.length,
-            'val': v[0].value
+            len: v.length,
+            val: v[0].value
         };
     });
     histogram = _.orderBy(histogram, ['val'], ['asc']);
@@ -571,7 +556,6 @@ function createHistogram() {
         let filterPos = JSON.parse(localStorage.getItem('filterPos'));
         filterMaps(filterPos[0], filterPos[1], attr_name);
     }
-    console.log(attr_name);
     let variableName = dbs.properties.attribution.name.replace(/_/g, ' ').toUpperCase();
     let barOption = {
         title: {
@@ -596,12 +580,8 @@ function createHistogram() {
                 color: '#000'
             },
             trigger: 'axis',
-            position: function(pt) {
-                return [pt[0], '100%'];
-            },
-            formatter: function(param) {
-                return param[0]['value'] + ' Datapoints</br>' + variableName + ': ' + param[0]['axisValue'];
-            }
+            position: (pt => [pt[0], '100%']),
+            formatter: (param => param[0]['value'] + ' Datapoints</br>' + variableName + ': ' + param[0]['axisValue'])
         },
         xAxis: {
             min: (chartPos[0] === 0 ? -1 : chartPos[0] - 1),
@@ -609,9 +589,7 @@ function createHistogram() {
             type: 'category',
             nameGap: 30,
             nameLocation: 'middle',
-            data: histogram.map(function(x) {
-                return x.val;
-            }),
+            data: histogram.map(x => x.val),
             boundaryGap: false,
         },
         grid: {
@@ -660,15 +638,13 @@ function createHistogram() {
             itemStyle: {
                 color: '#28a745'
             },
-            data: histogram.map(function(x) {
-                return x.len;
-            }),
+            data: histogram.map(x => x.len),
         }]
     };;
     if (barOption && typeof barOption === "object") {
         myChart.setOption(barOption, true);
     }
-    myChart.on('dataZoom', function(a) {
+    myChart.on('dataZoom', (a) => {
         let axis = myChart.getModel().option.xAxis[0];
         let minVal = axis.data[axis.rangeStart];
         let maxVal = axis.data[axis.rangeEnd];
@@ -690,7 +666,7 @@ function createHistogram() {
 }
 
 /*Helper function*/
-function serializeXmlNode(xmlNode) {
+const serializeXmlNode = (xmlNode) => {
     if (typeof window.XMLSerializer != "undefined") {
         return (new window.XMLSerializer()).serializeToString(xmlNode);
     } else if (typeof xmlNode.xml != "undefined") {
@@ -700,3 +676,4 @@ function serializeXmlNode(xmlNode) {
 }
 
 maps = map;
+customs = custom;

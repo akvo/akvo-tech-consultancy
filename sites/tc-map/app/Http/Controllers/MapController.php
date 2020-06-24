@@ -21,10 +21,12 @@ class MapController extends Controller
 
     public function getConfig(Request $request, DS $ds)
     {
-        $data = $ds->select('config', 'source', 'id')
+        $data = $ds->select('config', 'source', 'id', 'js')
                    ->where('id',$request->source)
                    ->first();
 
-        return $data->config;
+        $config = json_decode($data->config, true);
+        $js["js"] = $data->js;
+        return array_merge($config, $js);
     }
 }

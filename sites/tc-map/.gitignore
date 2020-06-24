@@ -21,3 +21,4 @@ deploy.sh
 .phpunit.result.cache
 *.xlsx
 /__pycache__
+*.txt
