@@ -11,7 +11,7 @@ class LoadingChart extends Component {
     render () {
         return (
             <Fragment>
-            <ReactLoading className={'loading-charts'} type={'bars'} color={'#007bff'} height={50} width={50} />
+            <ReactLoading className={'loading-charts'} type={'bubbles'} color={'#007bff'} height={50} width={50} />
             <div className="loading-charts-cover"></div>
             </Fragment>
         );

@@ -61,17 +61,25 @@ class DataFilters extends Component {
     }
 
     changeActive(id, parent_id, depth) {
-        this.props.filter.category.change(id, depth);
-        if (parent_id === null) {
-            parent_id = id
-            id = this.props.value.filters.selected.filter.sub_domain;
-        }
         this.props.chart.state.loading(true);
-        axios.get(prefixPage + "locations/values/" + parent_id + "/" + id)
-            .then(res => {
-                this.props.filter.location.push(res.data);
-                this.props.chart.state.loading(false);
+        const changes = () => {
+            return new Promise((resolve, reject) => {
+                this.props.filter.category.change(id, depth)
+                resolve("promise");
             });
+        }
+        changes().then(res =>{
+            console.log(res);
+            if (parent_id === null) {
+                parent_id = id
+                id = this.props.value.filters.selected.filter.sub_domain;
+            }
+            axios.get(prefixPage + "locations/values/" + parent_id + "/" + id)
+                .then(res => {
+                    this.props.filter.location.push(res.data);
+                    this.props.chart.state.loading(false);
+                });
+        });
     }
 
     loadDefault() {
