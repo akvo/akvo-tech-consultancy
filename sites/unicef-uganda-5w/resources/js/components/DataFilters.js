@@ -58,10 +58,52 @@ class DataFilters extends Component {
             disabled: true
         };
         this.changeActive = this.changeActive.bind(this);
+        this.checkCache = this.checkCache.bind(this);
+    }
+
+    checkCache(id) {
+        if (localStorage.getItem('locval_' + id) !== null){
+            let cached = localStorage.getItem('locval_' + id);
+            return JSON.parse(cached);
+        }
+        return false;
     }
 
     changeActive(id, parent_id, depth) {
+        let cache = this.checkCache(id);
+        if (id !== null && cache){
+            this.props.filter.location.push(cache);
+            this.props.filter.category.change(id, depth)
+            return;
+        }
         this.props.chart.state.loading(true);
+        if (id === null && depth === 1) {
+            this.props.filter.category.clear();
+            this.props.chart.state.loading(false);
+            let all = this.props.value.filters.list
+                .filter(x => x.parent_id === null)
+                .map(x => x.id)
+            let merged = [];
+            all.forEach(id => {
+                cache = this.checkCache(id);
+                if (cache) {
+                    cache.forEach(c => {
+                        merged = [...merged, c];
+                    });
+                    return;
+                }
+                axios.get(prefixPage + "locations/values/" + id)
+                    .then(res => {
+                        res.data.forEach(d => {
+                            merged = [...merged, d];
+                        });
+                        localStorage.setItem('locval_' + id, JSON.stringify(res.data));
+                        return true;
+                    });
+            });
+            this.props.filter.location.push(merged);
+            return;
+        }
         const changes = () => {
             return new Promise((resolve, reject) => {
                 this.props.filter.category.change(id, depth)
@@ -69,17 +111,17 @@ class DataFilters extends Component {
             });
         }
         changes().then(res =>{
-            console.log(res);
-            if (parent_id === null) {
-                parent_id = id
-                id = this.props.value.filters.selected.filter.sub_domain;
-            }
-            axios.get(prefixPage + "locations/values/" + parent_id + "/" + id)
+            let endpoint = parent_id !== null ? (parent_id + "/" + id) :  "/" + id;
+            endpoint = id === null && depth === 1 ? "" : endpoint;
+            axios.get(prefixPage + "locations/values" + endpoint)
                 .then(res => {
+                    localStorage.setItem('locval_' + id,JSON.stringify(res.data));
                     this.props.filter.location.push(res.data);
                     this.props.chart.state.loading(false);
                 });
+            return;
         });
+        return true;
     }
 
     loadDefault() {
@@ -118,7 +160,9 @@ class DataFilters extends Component {
         filters = depth === 2
             ? filters.filter(x => x.parent_id === active.filter.domain)
             : filters;
-        selected = active.type === "reset" ? "Select Categories" : titleCase(selected.name);
+        selected = active.type === "reset" ? "All Categories" : titleCase(selected.name);
+        selected = current ? selected : "All Categories";
+        filters = filters.filter(x => titleCase(x.name) !== selected);
         return (
             <Dropdown>
                 <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
@@ -129,6 +173,13 @@ class DataFilters extends Component {
                 <Dropdown.Menu as={CustomMenu}
                 >
                     { filters.map((x) => { return this.getDropDownItem(x, depth) }) }
+                    {
+                        selected === "All Categories" ? "" : (
+                            <Dropdown.Item onClick={e => this.changeActive(null, null, depth)} value={0}>
+                                All Categories
+                            </Dropdown.Item>
+                        )
+                    }
                 </Dropdown.Menu>
             </Dropdown>
         );

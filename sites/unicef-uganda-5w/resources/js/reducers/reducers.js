@@ -71,6 +71,21 @@ export const states = (state = initialState, action) => {
                     }
                 }
             }
+        case 'FILTERS - CATEGORY CLEAR':
+            return {
+                ...state,
+                filters: {
+                    ...state.filters,
+                    selected: {
+                        ...state.filters.selected,
+                        filter: {
+                            domain:false,
+                            sub_domain:false
+                        },
+                        type: currentType !== 'reset' ? 'reset' : currentType
+                    }
+                }
+            }
         case 'FILTERS - LOCATION INIT':
             return {
                 ...state,

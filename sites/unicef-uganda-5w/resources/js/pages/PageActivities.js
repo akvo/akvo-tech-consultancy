@@ -68,7 +68,7 @@ const MapsOverride = (TableView, noValue) => {
     return config;
 }
 
-class Home extends Component {
+class PageActivities extends Component {
     constructor(props) {
         super(props);
         this.getCharts = this.getCharts.bind(this);
@@ -81,11 +81,6 @@ class Home extends Component {
                     kind: "MAPS",
                     page: "HOME",
                     data: generateData(12, true, "700px")
-                },
-                {
-                    kind: "BAR",
-                    page: "HOME",
-                    data: generateData(12, true, "400px")
                 },
             ]
         }
@@ -170,35 +165,6 @@ class Home extends Component {
         return mapConfig;
     }
 
-    getBar(locations, valtype) {
-        let labels = [];
-        let values = [];
-        let counts = false;
-        if (valtype){
-            valtype = "value_" + valtype;
-        }
-        if (!valtype) {
-            counts = this.props.value.filters.organisation_values;
-        }
-        let i = 0;
-        do {
-            if (locations[i].values !== undefined && valtype) {
-                labels = [...labels, titleCase(locations[i].text)];
-                values = [...values, locations[i].values[valtype]];
-            }
-            if (counts[i] !== undefined) {
-                labels = [...labels, titleCase(counts[i].name)];
-                values = [...values, counts[i].organisations.count];
-            }
-            i++;
-        } while (i < locations.length);
-        return {
-            labels: labels,
-            values: values
-        }
-    }
-
-
     getOptions(list) {
         let data;
         let valtype = this.props.value.filters.selected.type;
@@ -214,13 +180,8 @@ class Home extends Component {
         location = location.find(x => x.id === selected_location);
         location = location.code === "UGANDA"
             ? location
-            : data.find(x => x.id === location.id)
-        switch (list.kind) {
-            case "MAPS":
-                return Maps(title, "Total Organisations", this.getMaps(data, valtype));
-            default:
-                return Bar(selected.name, location.name, this.getBar(data, valtype));
-        }
+            : data.find(x => x.id === location.id);
+        return Maps(title, "Total Organisations", this.getMaps(data, valtype));
     }
 
     getCharts(list, index) {
@@ -258,18 +219,16 @@ class Home extends Component {
             <Container className="top-container">
                 <DataFilters className='dropdown-left' depth={1}/>
                 <DataFilters className='dropdown-left' depth={2}/>
-                <DataTypes className='dropdown-right'/>
+                <DataTypes/>
                 <DataLocations className='dropdown-right'/>
             </Container>
             <hr/>
                 <Container className="container-content">
-                    <Row>{chart}</Row>
                     <Row>
-                    <hr/>
-                    <Col className={"table-bottom tableFixHead"}>
-                        <Tables/>
-                    </Col>
-                     <hr/>
+                        {chart} <hr/>
+                    </Row>
+                    <Row>
+                        <Tables/><hr/>
                     </Row>
                 </Container>
             </Fragment>
@@ -277,4 +236,4 @@ class Home extends Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(PageActivities);

@@ -54,7 +54,7 @@ class Charts extends Component {
                     style={this.state.style}
                     onEvents={onEvents}
                 />
-                {this.props.data.line ? <hr /> : ""}
+                {this.props.table ? this.props.table : ""}
             </Col>
         );
     }

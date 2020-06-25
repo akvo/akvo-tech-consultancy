@@ -84,11 +84,17 @@ class Tables extends Component {
           },
         ];
         return (
+        <Col className={"table-bottom"}>
             <DataTable
                 title={columnname === "reset" ? "All Organisations": titleCase(columnname)}
                 columns={columns}
                 data={this.getRowTable()}
+                fixedHeader
+                fixedHeaderScrollHeight="300px"
+                highlightOnHover
+                pointerOnHover
             />
+        </Col>
         );
     }
 }

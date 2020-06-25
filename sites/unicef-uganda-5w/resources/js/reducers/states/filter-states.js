@@ -53,7 +53,8 @@ export const filterState = {
                         value_new:0,
                         value_total:0,
                         value_quantities:0,
-                    }
+                    },
+                    activities:["Loading"]
                 }]
             },
             locations: {
@@ -93,7 +94,7 @@ export const filterState = {
         location: 1,
         filter: {
             domain:1,
-            sub_domain:1
+            sub_domain:false
         },
         type: "reset"
     }
@@ -111,7 +112,7 @@ export const changeFilters = (state, id, depth) => {
         let childs = state.list.filter(x => x.parent_id === id);
         filter = {
             domain: id,
-            sub_domain: childs[0].id
+            sub_domain: false
         }
     }
     if (depth === 2) {

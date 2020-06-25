@@ -30,7 +30,11 @@ export const mapDispatchToProps = dispatch => {
                         type: "FILTERS - CATEGORY CHANGE",
                         id: id,
                         depth: depth
-                    })
+                    }),
+                clear: () =>
+                    dispatch({
+                        type:"FILTERS - CATEGORY CLEAR",
+                    }),
             },
             location: {
                 init: locations =>

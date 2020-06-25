@@ -16,7 +16,7 @@ class Navigation extends Component {
         super(props);
         this.changePage = this.changePage.bind(this);
         this.state = {
-            active: 'home'
+            active: 'overviews'
         }
         this.links = this.links.bind(this);
     }
@@ -57,9 +57,8 @@ class Navigation extends Component {
                     activeKey={this.props.value.page.name}
                     onSelect={this.changePage}
                 >
-                    <Nav.Link eventKey="home" active={"home" === page}>Home</Nav.Link>
-                    <Nav.Link eventKey="details" active={"details" === page}>Details</Nav.Link>
-                    <Nav.Link eventKey="report" active={"details" === page}>Report</Nav.Link>
+                    <Nav.Link eventKey="overviews" active={"overviews" === page}>Overviews</Nav.Link>
+                    <Nav.Link eventKey="activities" active={"activities" === page}>Activities</Nav.Link>
                 </Nav>
                 <Form inline className='nav-right'>
                   <a

@@ -21,7 +21,7 @@ const Maps = (title, subtitle, list) => {
             right: 'right',
             min: list.min,
             max: list.max,
-            backgroundColor: '#eeeeee',
+            backgroundColor: '#fff',
             itemWidth: 10,
             inRange: {
                 color: ['#007bff','#9262b7','#254464']
@@ -40,12 +40,6 @@ const Maps = (title, subtitle, list) => {
             bottom: 10,
             right: 10,
             feature: {
-                dataView: {
-                    title: 'View Data',
-                    lang: ['Data View', 'Turn Off', 'Refresh'],
-                    icon: Icons.dataView,
-                    buttonColor: '#0478a9'
-                },
                 saveAsImage: {
                     type: 'jpg',
                     title: 'Save Image',
@@ -64,7 +58,7 @@ const Maps = (title, subtitle, list) => {
                 aspectScale: 1,
                 emphasis: {
                     label: {
-                        show: false,
+                        show: true,
                     }
                 },
                 zoom: 1,

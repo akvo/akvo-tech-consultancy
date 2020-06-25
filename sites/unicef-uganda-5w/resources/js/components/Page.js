@@ -7,7 +7,8 @@ import {
     Container,
     Row
 } from 'react-bootstrap';
-import Home from '../pages/Home';
+import PageOverviews from '../pages/PageOverviews';
+import PageActivities from '../pages/PageActivities';
 import axios from 'axios';
 import Loading from './Loading';
 
@@ -26,9 +27,9 @@ class Page extends Component {
         const get1 = () => {return new Promise((resolve, reject) => {
             axios.get(prefixPage + "filters").then(res => {
                 this.props.filter.category.init(res.data);
-                let selected = this.props.value.filters.selected.filter.sub_domain;
+                let selected = this.props.value.filters.selected.filter.domain;
                 selected = this.props.value.filters.list.find(x => x.id === selected);
-                axios.get(prefixPage + "locations/values/" + selected.parent_id + "/" + selected.id)
+                axios.get(prefixPage + "locations/values/" + selected.id)
                     .then(res => {
                         this.props.filter.location.push(res.data)
                         resolve("filters and location values");
@@ -69,8 +70,14 @@ class Page extends Component {
     }
 
     activePage () {
+        return <PageOverviews parent={this.props}/>
         let page = this.props.value.page.name;
-        return <Home parent={this.props}/>
+        switch(page) {
+            case "activities":
+                return <PageActivities parent={this.props}/>
+            default:
+                return <PageOverviews parent={this.props}/>
+        }
     }
 
     render() {
