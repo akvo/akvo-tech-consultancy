@@ -73,8 +73,6 @@ class Page extends Component {
     activePage () {
         let page = this.props.value.page.name;
         switch(page) {
-            case "activities":
-                return <PageActivities parent={this.props}/>
             case "webform":
                 return <PageWebform parent={this.props}/>
             default:
