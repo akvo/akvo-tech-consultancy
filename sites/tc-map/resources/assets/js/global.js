@@ -28,7 +28,6 @@ var nainclude = [
 
 const getTemplate = () => {
     let data = JSON.parse(localStorage.getItem('data'));
-    // console.log('data', data);
     const template = customs.custom(data);
     let js = localStorage.getItem("template");
     return (js === null) ? false : template[js];

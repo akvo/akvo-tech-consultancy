@@ -16,6 +16,10 @@ class MapController extends Controller
     public function getData(Request $request, DS $ds)
     {
         $data = $ds->where('id',$request->source)->first();
+        // $decodedData = base64_decode($data->data);
+        // return $foo = utf8_decode($decodedData);
+        // $data->data = json_decode(stripslashes($decodedData), true);
+        // return var_dump(json_last_error());
         return $data;
     }
 
