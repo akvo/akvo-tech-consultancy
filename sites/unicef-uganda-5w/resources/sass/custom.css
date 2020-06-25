@@ -364,6 +364,22 @@ div.table-floating.table-floating-bottom{
     min-width:100%;
     position: fixed;
 }
+.container.container-content.container-iframe{
+    position: fixed;
+    overflow: hidden;
+    padding-top: 916px;
+    min-width:100%;
+    margin-bottom:0px;
+    margin-top:65px;
+}
+.container-iframe > iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 848px;
+    border: 0;
+}
 
 .loading-charts-cover {
     width: 100%;

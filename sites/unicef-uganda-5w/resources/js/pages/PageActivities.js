@@ -217,16 +217,12 @@ class PageActivities extends Component {
         return (
             <Fragment>
             <Container className="top-container">
-                <DataFilters className='dropdown-left' depth={1}/>
                 <DataFilters className='dropdown-left' depth={2}/>
                 <DataTypes/>
                 <DataLocations className='dropdown-right'/>
             </Container>
             <hr/>
                 <Container className="container-content">
-                    <Row>
-                        {chart} <hr/>
-                    </Row>
                     <Row>
                         <Tables/><hr/>
                     </Row>

@@ -9,6 +9,7 @@ import {
 } from 'react-bootstrap';
 import PageOverviews from '../pages/PageOverviews';
 import PageActivities from '../pages/PageActivities';
+import PageWebform from '../pages/PageWebform';
 import axios from 'axios';
 import Loading from './Loading';
 
@@ -70,11 +71,12 @@ class Page extends Component {
     }
 
     activePage () {
-        return <PageOverviews parent={this.props}/>
         let page = this.props.value.page.name;
         switch(page) {
             case "activities":
                 return <PageActivities parent={this.props}/>
+            case "webform":
+                return <PageWebform parent={this.props}/>
             default:
                 return <PageOverviews parent={this.props}/>
         }

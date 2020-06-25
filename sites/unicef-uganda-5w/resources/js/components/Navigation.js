@@ -59,6 +59,7 @@ class Navigation extends Component {
                 >
                     <Nav.Link eventKey="overviews" active={"overviews" === page}>Overviews</Nav.Link>
                     <Nav.Link eventKey="activities" active={"activities" === page}>Activities</Nav.Link>
+                    <Nav.Link eventKey="webform" active={"webform" === page}>Webform</Nav.Link>
                 </Nav>
                 <Form inline className='nav-right'>
                   <a
