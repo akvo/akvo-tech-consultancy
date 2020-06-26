@@ -17,9 +17,10 @@ class CreateDataSourcesTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->string('source');
-            $table->json('config');
-            $table->json('categories');
-            $table->json('data');
+            $table->string('type');
+            $table->json('config')->nullable();
+            $table->json('categories')->nullable();
+            $table->json('data')->nullable();
             $table->string('css')->nullable();
             $table->string('js')->nullable();
             $table->timestamp('created_at')->useCurrent();

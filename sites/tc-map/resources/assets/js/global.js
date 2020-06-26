@@ -96,7 +96,7 @@ const restartCluster = (el, key) => {
 };
 
 const downloadData = () => {
-    console.log('Download data');
+    console.log('Download data', maps);
 };
 
 const exportExcel = (filter) => {
@@ -161,4 +161,3 @@ const sendRequest = () => {
         }
     });
 };
-

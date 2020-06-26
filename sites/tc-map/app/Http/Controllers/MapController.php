@@ -9,7 +9,10 @@ class MapController extends Controller
 {
     public function getSources(Request $request, DS $ds)
     {
-        $data = $ds->select('id', 'source')->get();
+        $data = $ds->select('id', 'parent_id', 'type', 'source')
+                    ->where('type', 'survey')
+                    ->with('childrens.childrens')
+                    ->get();
         return $data;
     }
 

@@ -1,4 +1,5 @@
 import 'leaflet';
+import { local } from 'd3';
 const custom = require('./custom.js'); 
 const _ = require('lodash');
 const axios = require('axios');
@@ -73,53 +74,94 @@ const setConfig = (defaultSelect) => {
             popupFields = cfg.popup; // name or popup?
             startRenderMap();
             cacheMem = JSON.parse(localStorage.getItem('data'));
-            geojsonPath = '/api/data/' + defaultSelect,
+            geojsonPath = '/api/data/' + defaultSelect;
             getGeoJson();
+            localStorage.removeItem('status');
         }
     );
+};
+
+const setSelectedCategory = (id) => {
+    let selected = false;
+    let tagselected = "";
+    if (defaultSelect === id.toString()) {
+        selected = true;
+    }
+    if (selected) {
+        tagselected = "selected";
+    }
+    return tagselected;
 };
 
 /* set category selected based on data load */
 const fetchdata = () => {
     fetchAPI('source').then( // solve promise
         (a) => {
+            $('#category-dropdown').append('<option id="source-init" value=0 selected>SELECT SURVEY</option>');
+            emptyMap();
             a.data.forEach((x, i) => {
-                let selected = false;
-                let tagselected = "";
-                if (!defaultSelect && (i === 0)) {
-                    selected = true;
-                    defaultSelect = x.id;
-                    localStorage.setItem('default-api', x.id);
+                $('#category-dropdown').append('<optgroup label="'+ x["source"] +'" id='+ x["id"] +'></optgroup>'); 
+                if (x.childrens.length > 0) {
+                    x.childrens.forEach((y, i) => {
+                        let selected = setSelectedCategory(y["id"]);
+                        let id = "#" + x["id"];
+                        $(id).append('<option value='+ y["id"] +' '+ selected + '>' + y["source"].toUpperCase() + '</option>');
+
+                        if (y.childrens.length > 0) {
+                            y.childrens.forEach((z, i) => {
+                                let selected = setSelectedCategory(z["id"]);
+                                $(id).append('<option value='+ z["id"] +' '+ selected + '>' + z["source"].toUpperCase() + '</option>');
+                            });
+                        }
+                    });
                 }
-                if (defaultSelect === x["id"].toString()) {
-                    selected = true;
-                }
-                if (selected) {
-                    tagselected = "selected";
-                }
-                geojsonPath = '/api/data/' + defaultSelect,
-                    $('#category-dropdown').append('<option value=' + x["id"] + ' ' + tagselected + '>' + x["source"].toUpperCase() + '</option>');
+                geojsonPath = '/api/data/' + defaultSelect;
             }); 
             return defaultSelect;
         }
-    ).then(val => setConfig(val));
+    ).then(val => {
+        if (val) {
+            setConfig(val);
+        }
+        console.log(val);
+    });
 };
 fetchdata();
 
 
 $("#category-dropdown").on('change', () => {
     defaultSelect = $("#category-dropdown").val();
-    geojsonPath = '/api/data/' + defaultSelect,
-    $("#legend").children().remove();
-    localStorage.removeItem('data');
-    localStorage.removeItem('default-properties');
-    localStorage.removeItem('configs');
-    localStorage.setItem('default-api', defaultSelect);
-    map.removeLayer(markerclusters);
-    $('#legend').remove();
-    $('#bar-legend').remove();
-    setConfig(defaultSelect);
+    if (defaultSelect == 0) {
+        emptyMap();
+    } else {
+        $("#source-init").remove();
+        geojsonPath = '/api/data/' + defaultSelect;
+        $("#legend").children().remove();
+        localStorage.removeItem('data');
+        localStorage.removeItem('default-properties');
+        localStorage.removeItem('configs');
+        localStorage.setItem('default-api', defaultSelect);
+        if (!localStorage.getItem('status')) {
+            map.removeLayer(markerclusters);
+        } 
+        $('#legend').remove();
+        $('#bar-legend').remove();
+        setConfig(defaultSelect);
+    }
 });
+
+const emptyMap = () => {
+    if (!map) {
+        localStorage.setItem('status', 'init');
+        map = L.map('mapid', {
+            zoomControl: false
+        }).setView([52.3667, 4.8945], 2);
+        L.tileLayer(tileServer, {
+            attribution: tileAttribution,
+            maxZoom: 18
+        }).addTo(map);
+    }
+};
 
 const startRenderMap = () => {
     markerclusters = L.markerClusterGroup({
@@ -127,7 +169,7 @@ const startRenderMap = () => {
         iconCreateFunction: defineClusterIcon
     });
 
-    if(!map) {
+    if (!map) {
         map = L.map('mapid', {
             zoomControl: false
         }).setView(cfg.center, 7);
@@ -178,7 +220,7 @@ const getGeoJson = () => {
             })
         }
         localStorage.setItem('default-properties', JSON.stringify(data.properties));
-        if (response.parent_id === null) {
+        if (response.type === 'registration') {
             let parent_points = source.map(x => {
                 return {
                     geometry : x.PTS,
@@ -188,7 +230,7 @@ const getGeoJson = () => {
             localStorage.setItem('parent_'+response.id, JSON.stringify(parent_points));    
         }
 
-        if (response.parent_id !== null) {
+        if (response.type === 'monitoring') {
             let parents = JSON.parse(localStorage.getItem('parent_' + response.parent_id));
             data = {
                 ...data,
