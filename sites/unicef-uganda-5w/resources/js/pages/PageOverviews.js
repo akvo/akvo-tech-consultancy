@@ -7,7 +7,7 @@ import Charts from "../components/Charts";
 import {
     generateData,
 } from "../data/chart-utils.js";
-import { titleCase } from "../data/utils.js";
+import { checkCache, titleCase } from "../data/utils.js";
 import sumBy from 'lodash/sumBy';
 import groupBy from 'lodash/groupBy';
 import flattenDeep from 'lodash/flattenDeep';
@@ -254,6 +254,18 @@ class PageOverviews extends Component {
             </table>
             </div>
         );
+    }
+    componentDidMount() {
+        let id = this.props.value.filters.selected.filter.domain;
+        let cache = checkCache(id);
+        if (id && cache !== null){
+            let depth = 1;
+            this.props.filter.location.push(cache);
+            this.props.filter.category.change(id, depth)
+            return;
+        }
+        // this.props.filter.location.push(cache);
+        // this.props.filter.category.change(id, depth)
     }
 
     render() {

@@ -5,6 +5,7 @@ import { mapStateToProps, mapDispatchToProps } from "../reducers/actions.js";
 import { Col, Table } from "react-bootstrap";
 import { titleCase } from "../data/utils.js";
 import DataTable from 'react-data-table-component';
+import groupBy from 'lodash/groupBy';
 
 class Tables extends Component {
     constructor(props) {
@@ -17,13 +18,23 @@ class Tables extends Component {
         let orgs = valType === "reset"
             ? this.props.value.filters.organisations
             : this.props.value.filters.organisations.filter(
-                x => x.sub_domain === this.props.value.filters.selected.filter.sub_domain
-            )
+                x => {
+                    let active = this.props.value.filters.selected.filter;
+                    if (active.sub_domain) {
+                        return x.sub_domain === active.sub_domain;
+                    }
+                    if (active.domain) {
+                        return x.domain === active.domain;
+                    }
+                    return true;
+                }
+            );
         let org_values = {};
         let list = this.props.value.filters.list;
         orgs = orgs.map((x,i) => {
+            let domain = list.find(l => l.id === x.domain);
             let sub_domain = list.find(l => l.id === x.sub_domain);
-            let name = x.name + '___' + sub_domain.name + '___' + x.location;
+            let name = x.name + '___' + domain.name + '___' + sub_domain.name + '___' + x.location;
             let value = valType === "reset" ? 1 : x['value_' + valType];
             org_values = {
                 ...org_values,
@@ -41,8 +52,9 @@ class Tables extends Component {
                 {
                     no: i,
                     org: vars[0],
-                    activity: titleCase(vars[1]),
-                    location: titleCase(vars[2]),
+                    domain: titleCase(vars[1]),
+                    sub_domain: titleCase(vars[2]),
+                    location: titleCase(vars[3]),
                     contrib: org_values[val],
                 }
             ];
@@ -65,8 +77,14 @@ class Tables extends Component {
             right: true,
           },
           {
-            name: 'Activity',
-            selector: 'activity',
+            name: 'Domains',
+            selector: 'domain',
+            sortable: true,
+            right: true,
+          },
+          {
+            name: 'Sub-Domains',
+            selector: 'sub_domain',
             sortable: true,
             right: true,
           },

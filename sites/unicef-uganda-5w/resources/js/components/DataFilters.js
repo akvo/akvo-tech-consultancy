@@ -6,7 +6,7 @@ import {
     Dropdown,
     FormControl
 } from 'react-bootstrap';
-import { titleCase } from "../data/utils.js";
+import { checkCache, titleCase } from "../data/utils.js";
 import axios from 'axios';
 
 const prefixPage = process.env.MIX_PUBLIC_URL + "/api/";
@@ -58,19 +58,10 @@ class DataFilters extends Component {
             disabled: true
         };
         this.changeActive = this.changeActive.bind(this);
-        this.checkCache = this.checkCache.bind(this);
-    }
-
-    checkCache(id) {
-        if (localStorage.getItem('locval_' + id) !== null){
-            let cached = localStorage.getItem('locval_' + id);
-            return JSON.parse(cached);
-        }
-        return false;
     }
 
     changeActive(id, parent_id, depth) {
-        let cache = this.checkCache(id);
+        let cache = checkCache(id);
         if (id !== null && cache){
             this.props.filter.location.push(cache);
             this.props.filter.category.change(id, depth)
@@ -85,7 +76,7 @@ class DataFilters extends Component {
                 .map(x => x.id)
             let merged = [];
             all.forEach(id => {
-                cache = this.checkCache(id);
+                cache = checkCache(id);
                 if (cache) {
                     cache.forEach(c => {
                         merged = [...merged, c];
@@ -111,12 +102,14 @@ class DataFilters extends Component {
             });
         }
         changes().then(res =>{
-            let endpoint = parent_id !== null ? (parent_id + "/" + id) :  "/" + id;
+            let endpoint = parent_id !== null ? ( "/" + parent_id + "/" + id) :  "/" + id;
             endpoint = id === null && depth === 1 ? "" : endpoint;
             axios.get(prefixPage + "locations/values" + endpoint)
                 .then(res => {
                     localStorage.setItem('locval_' + id,JSON.stringify(res.data));
                     this.props.filter.location.push(res.data);
+                    this.props.chart.state.loading(false);
+                }).catch(res => {
                     this.props.chart.state.loading(false);
                 });
             return;
@@ -156,13 +149,22 @@ class DataFilters extends Component {
             ? filters.filter(x => x.parent_id === null)
             : filters.filter(x => x.parent_id !== null);
         let current = depth === 1 ? active.filter.domain : active.filter.sub_domain
-        let selected = filters.find(x => x.id === current);
-        filters = depth === 2
-            ? filters.filter(x => x.parent_id === active.filter.domain)
-            : filters;
-        selected = active.type === "reset" ? "All Categories" : titleCase(selected.name);
-        selected = current ? selected : "All Categories";
-        filters = filters.filter(x => titleCase(x.name) !== selected);
+        let selected = filters.find(x => {
+            if (current === false) {
+                return false;
+            }
+            return x.id === current
+        });
+        selected = selected === undefined ? "All Categories" : titleCase(selected.name);
+        filters = filters.filter(x => {
+            if (depth === 2 && selected === "All Categories" && !active.filter.domain) {
+                return true;
+            }
+            if (depth === 2 && selected === "All Categories") {
+                return x.parent_id === active.filter.domain;
+            }
+            return titleCase(x.name) !== selected
+        });
         return (
             <Dropdown>
                 <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">

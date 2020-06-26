@@ -359,6 +359,7 @@ div.table-floating.table-floating-bottom{
 .container.container-content{
     margin-top: 160px;
     margin-bottom: 29px;
+    min-width:100%;
 }
 .container.container-content.container-sticky{
     min-width:100%;
@@ -368,7 +369,6 @@ div.table-floating.table-floating-bottom{
     position: fixed;
     overflow: hidden;
     padding-top: 916px;
-    min-width:100%;
     margin-bottom:0px;
     margin-top:65px;
 }
