@@ -1,7 +1,7 @@
 const _ = require("lodash");
 
 const myStylesheets = [
-  'https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/css/foundation.min.css', // foundation
+  // 'https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/css/foundation.min.css', // foundation
   // 'https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css' // bulma
 ];
 

@@ -3,25 +3,18 @@
 return [
     "survey_detail" => [
         "instance" => "sig",
+        "survey_id" => 22510943,
+        "form_id" => 24520921,
+        "monitoring_id" => [],
+        "survey_name" => "SIBLE Baseline",
         "geolocation" => "26390930|Please take the geo-location of the school",  //questionId|question  string
         "center_map" => [9.6457, 160.1562],
     ], 
 
-    "sources" => [
-        [
-            "id" => 22510943,
-            "type" => "survey",
-            "name" => "SIBLE Baseline",
-            "parent_id" => null,
-        ],
-        [
-            "id" => 24520921,
-            "type" => "registration",
-            "name" => "SIBLE Baseline",
-            "parent_id" => 22510943,
+    "categories" => [
+        24520921 => [
             "selected_category" => "Does the school have a water source?",  //question string
             "popup_name" => "Name of School?", //question string
-            "search" => ["Name of School?", "Type of School?"], // question array of string
             "list" => [
                 // School Information
                 [

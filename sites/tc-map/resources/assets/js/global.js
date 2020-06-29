@@ -36,12 +36,16 @@ const getTemplate = () => {
 // pop up details
 const getDetails = (a, atype) => {
     let template = getTemplate();
-    let datapointid = $(a).attr('data');
+    if (atype === 0) {
+        let datapointid = $(a).attr('data');
+    }
+    if (atype === 'id') {
+        let datapointid = a;
+    }
     template.popup(datapointid);
     $('#profile-menu').click();
     $('#detail_modal').modal('show');
 };
-
 
 const focusTo = () => {
     event.preventDefault()
@@ -57,30 +61,47 @@ const focusNormal = () => {
     maps.setView(new L.LatLng(-8.3626894, 160.3288342), 7);
 };
 
+const searchData = (request) => {
+    let configs = JSON.parse(localStorage.getItem('configs'));
+    let data = JSON.parse(localStorage.getItem('data'));
+    let properties = _.map(data.features, (x) => x.properties);
+    let search = [];
+    _.forEach(configs['search'], (x) => {
+        _.forEach(properties, (y) => {
+            if (y[x].toLowerCase().includes(request.term.toLowerCase())) {
+                y.searchKey = x;
+                y.popup = configs['popup'];
+                search.push(y);    
+            }
+        });
+    });
+    return search;
+};
+
 const jqUI = () => {
     $("#find").autocomplete({
         minLength: 4,
         source: (request, response) => {
-            $.getJSON('/api/search/' + request.term, {}, response);
+            response(searchData(request));
         },
         focus: (event, ui) => {
-            $("#find").val(ui.item.school);
-            $("#find").attr('data-search', ui.item.identifier);
-            $("#zoom_find").val([ui.item.latitude, ui.item.longitude]);
+            $("#find").val(ui.item[ui.item.searchKey]);
+            $("#find").attr('data-search', ui.item.data_point_id);
+            $("#zoom_find").val(ui.item.PTS);
             return false;
         },
         select: (event, ui) => {
-            $("#find").val(ui.item.school);
+            console.log(ui);
+            $("#find").val(ui.item[ui.item.searchKey]);
             return false;
         }
     })
     .autocomplete("instance")._renderItem = (ul, item) => {
-        var schoolType = item.school_type
-        if (schoolType === null) {
-            schoolType = item.school_type_other;
-        }
+        // if (schoolType === null) {
+        //     schoolType = item.school_type_other;
+        // }
         return $("<li>")
-            .append("<div><span class='search-province'>" + item.school + " - " + item.province + "</span><span class='badge badge-small badge-primary'>" + schoolType + "</span></div>")
+            .append("<div><span class='search-province'>" + item[item.popup] + " - xxx </span><span class='badge badge-small badge-primary'>"+ item[item.searchKey] +"</span></div>")
             .appendTo(ul);
     };
 };
