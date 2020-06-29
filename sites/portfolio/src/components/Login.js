@@ -28,7 +28,8 @@ class Login extends Component {
     this.setState({ [fieldName]: fleldVal, match: true });
   };
 
-  login = () => {
+  login = (e) => {
+    e.preventDefault();
     const pwd = process.env.REACT_APP_STATIC_PWD;
     const { password } = this.state;
 
@@ -53,11 +54,14 @@ class Login extends Component {
       <Container>
         <Row className="justify-content-md-center" style={{ marginTop: "125px" }}>
           <Col xs={4}>
-            <Form style={{
-              padding: "30px",
-              borderRadius: "10px",
-              boxShadow: "2px 2px 25px 5px #eeeeee"
-            }}>
+            <Form
+                onSubmit={this.login}
+                style={{
+                  padding: "30px",
+                  borderRadius: "10px",
+                  boxShadow: "2px 2px 25px 5px #eeeeee"
+                }}
+            >
               <Row className="justify-content-md-center">
                 <Col md="auto">
                   <Image
@@ -91,7 +95,6 @@ class Login extends Component {
               <Button
                 variant="primary"
                 type="button"
-                onClick={() => this.login()}
               >
                 Login
               </Button>
