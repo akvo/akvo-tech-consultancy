@@ -121,6 +121,9 @@ class PageOverviews extends Component {
     }
 
     getMaps(data, valtype) {
+        if (!data.length) {
+            return {};
+        }
         data = data.map((x) => {
             return {
                 name: x.name,
@@ -204,6 +207,9 @@ class PageOverviews extends Component {
         let data = this.props.value.filters.location_values;
         let organisations = [];
         let activities = {};
+        if (!data.length) {
+            return "";
+        }
         data.forEach(x => {
             x.details.organisations.list.forEach((o => {
                 organisations = [...organisations, o];
@@ -255,15 +261,8 @@ class PageOverviews extends Component {
             </div>
         );
     }
+
     componentDidMount() {
-        let id = this.props.value.filters.selected.filter.domain;
-        let cache = checkCache(id);
-        if (id && cache !== null){
-            let depth = 1;
-            this.props.filter.location.push(cache);
-            this.props.filter.category.change(id, depth)
-            return;
-        }
         // this.props.filter.location.push(cache);
         // this.props.filter.category.change(id, depth)
     }

@@ -126,12 +126,15 @@ export const changeFilters = (state, id, depth) => {
 }
 
 export const getOverviews = (state) => {
-    let details = state.map(x => x.details);
-    let i = 0;
     let overviews = {
         organisations: [],
         all:[]
     }
+    if (!state.length) {
+        return overviews;
+    }
+    let details = state.map(x => x.details);
+    let i = 0;
     do {
         overviews.organisations = [...overviews.organisations, ...details[i].organisations.list];
         i++;
