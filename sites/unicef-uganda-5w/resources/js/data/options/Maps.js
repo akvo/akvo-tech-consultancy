@@ -75,7 +75,7 @@ const Maps = (title, subtitle, list) => {
                     }
                 },
                 data: list.data
-            }
+            },
         ],
         backgroundColor: '#fff',
         ...Easing,

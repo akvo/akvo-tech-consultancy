@@ -132,6 +132,15 @@ a.nav-top-links:hover{
     margin-bottom: 0px;
     overflow-y: scroll;
 }
+.container .right-listgroup{
+    float: right;
+}
+.nav-right.form-inline .list-group {
+    margin-left: .75rem;
+}
+.nav-right.form-inline .list-group-item {
+    padding: .375rem .75rem;
+}
 .container .right-dropdowns {
     float: right;
     margin-right: 0px;
