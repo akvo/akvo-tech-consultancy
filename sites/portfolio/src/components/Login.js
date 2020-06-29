@@ -55,12 +55,12 @@ class Login extends Component {
         <Row className="justify-content-md-center" style={{ marginTop: "125px" }}>
           <Col xs={4}>
             <Form
-                onSubmit={this.login}
                 style={{
                   padding: "30px",
                   borderRadius: "10px",
                   boxShadow: "2px 2px 25px 5px #eeeeee"
                 }}
+                onSubmit={this.login}
             >
               <Row className="justify-content-md-center">
                 <Col md="auto">
@@ -94,7 +94,7 @@ class Login extends Component {
               </Form.Group>
               <Button
                 variant="primary"
-                type="button"
+                type="submit"
               >
                 Login
               </Button>
