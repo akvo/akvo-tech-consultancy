@@ -3,25 +3,18 @@
 return [
     "survey_detail" => [
         "instance" => "seap",
+        "survey_id" => 308090988,
+        "form_id" => 308090989,
+        "monitoring_id" => [322230993],
+        "survey_name" => "Demo Flow Survey",
         "geolocation" => "312080978|Geolocation",  //questionId|question  string
         "center_map" => [9.6457, 160.1562],
     ], 
 
-    "sources" => [
-        [
-            "id" => 308090988,
-            "type" => "survey",
-            "name" => "Demo Flow Survey",
-            "parent_id" => null,
-        ],
-        [
-            "id" => 308090989,
-            "type" => "registration",
-            "name" => "Registration",
-            "parent_id" => 308090988,
+    "categories" => [
+        308090989 => [
             "selected_category" => "Gender", //question string
             "popup_name" => "Gender", //question string
-            "search" => ["Name of school?", "Type of school?"], // question string
             "list" => [
                 [
                     "question_id" => 310440982,
@@ -48,14 +41,9 @@ return [
                 ],
             ],
         ],
-        [
-            "id" => 322230993,
-            "type" => "monitoring",
-            "name" => "COVID Test",
-            "parent_id" => 308090989,
+        322230993 => [
             "selected_category" => "Test Location", //question string
             "popup_name" => "Test Location", //question string
-            "search" => "", // question string
             "list" => [
                 [
                     "question_id" => 286420988,
@@ -82,5 +70,6 @@ return [
                 ],
             ],
         ],
+        
     ],
 ];

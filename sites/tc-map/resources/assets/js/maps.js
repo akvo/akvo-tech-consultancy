@@ -1,5 +1,6 @@
 import 'leaflet';
 import { local } from 'd3';
+
 const custom = require('./custom.js'); 
 const _ = require('lodash');
 const axios = require('axios');
@@ -15,21 +16,21 @@ let mkr = [];
 $('#change-cluster').on('click', () => {
     let dataCache = JSON.parse(localStorage.getItem('data'));
     if (clustered === true) {
-        map.removeLayer(markerclusters);
+        lmap.removeLayer(markerclusters);
         clustered = false;
         changeValue(dataCache, getFilterData());
         $(this).addClass('btn-active');
     } else {
         $(this).removeClass('btn-active');
-        map.removeLayer(mkr);
+        lmap.removeLayer(mkr);
         mkr = [];
         clustered = true;
         changeValue(dataCache, getFilterData());
     }
 });
 
-let removeAllMap = () => map.eachLayer((layer) => {
-    map.removeLayer(layer);
+let removeAllMap = () => lmap.eachLayer((layer) => {
+    lmap.removeLayer(layer);
 });
 
 
@@ -46,7 +47,7 @@ let geojson,
     rmax = 30,
     selects = ["1", "2", "3", "4", "5"],
     markerclusters,
-    map;
+    lmap;
 
 let cacheMem = JSON.parse(localStorage.getItem('data'));
 
@@ -97,10 +98,12 @@ const setSelectedCategory = (id) => {
 const fetchdata = () => {
     fetchAPI('source').then( // solve promise
         (a) => {
-            $('#category-dropdown').append('<option id="source-init" value=0 selected>SELECT SURVEY</option>');
-            emptyMap();
+            if (!defaultSelect) {
+                $('#category-dropdown').append('<option id="source-init" value=0 selected>SELECT SURVEY</option>');
+                emptyMap();
+            }
             a.data.forEach((x, i) => {
-                $('#category-dropdown').append('<optgroup label="'+ x["source"] +'" id='+ x["id"] +'></optgroup>'); 
+                $('#category-dropdown').append('<optgroup label="'+ x["source"].toUpperCase() +'" id='+ x["id"] +'></optgroup>'); 
                 if (x.childrens.length > 0) {
                     x.childrens.forEach((y, i) => {
                         let selected = setSelectedCategory(y["id"]);
@@ -142,7 +145,7 @@ $("#category-dropdown").on('change', () => {
         localStorage.removeItem('configs');
         localStorage.setItem('default-api', defaultSelect);
         if (!localStorage.getItem('status')) {
-            map.removeLayer(markerclusters);
+            lmap.removeLayer(markerclusters);
         } 
         $('#legend').remove();
         $('#bar-legend').remove();
@@ -151,15 +154,15 @@ $("#category-dropdown").on('change', () => {
 });
 
 const emptyMap = () => {
-    if (!map) {
+    if (!lmap) {
         localStorage.setItem('status', 'init');
-        map = L.map('mapid', {
+        lmap = L.map('mapid', {
             zoomControl: false
         }).setView([52.3667, 4.8945], 2);
         L.tileLayer(tileServer, {
             attribution: tileAttribution,
             maxZoom: 18
-        }).addTo(map);
+        }).addTo(lmap);
     }
 };
 
@@ -169,17 +172,17 @@ const startRenderMap = () => {
         iconCreateFunction: defineClusterIcon
     });
 
-    if (!map) {
-        map = L.map('mapid', {
+    if (!lmap) {
+        lmap = L.map('mapid', {
             zoomControl: false
         }).setView(cfg.center, 7);
         L.tileLayer(tileServer, {
             attribution: tileAttribution,
             maxZoom: 18
-        }).addTo(map);
+        }).addTo(lmap);
         d3.select('body').append('div').attr('id', 'main-filter-list');
     }
-    map.addLayer(markerclusters);
+    lmap.addLayer(markerclusters);
 }
 
 const mapParentFeatures = (parents, features) => {
@@ -260,8 +263,8 @@ const loadData = (allPoints, callType) => {
         onEachFeature: defineFeaturePopup
     });
     markerclusters.addLayer(markers);
-    map.fitBounds(markers.getBounds());
-    map.attributionControl.addAttribution(metadata.attribution);
+    lmap.fitBounds(markers.getBounds());
+    lmap.attributionControl.addAttribution(metadata.attribution);
     renderLegend(allPoints);
 }
 
@@ -503,26 +506,26 @@ const refreshLayer = (dbs) => {
     geojson = dbs;
     metadata = dbs.properties;
     if (clustered) {
-        map.removeLayer(markerclusters);
+        lmap.removeLayer(markerclusters);
         markerclusters = L.markerClusterGroup({
             maxClusterRadius: 2 * rmax,
             iconCreateFunction: defineClusterIcon
         });
-        map.addLayer(markerclusters);
+        lmap.addLayer(markerclusters);
         let markers = L.geoJson(dbs, {
             pointToLayer: defineFeature,
             onEachFeature: defineFeaturePopup
         });
         markerclusters.addLayer(markers);
-        map.attributionControl.addAttribution(metadata.attribution);
+        lmap.attributionControl.addAttribution(metadata.attribution);
     } else {
-        map.removeLayer(mkr);
+        lmap.removeLayer(mkr);
         mkr = L.geoJson(dbs, {
             pointToLayer: defineFeature,
             onEachFeature: defineFeaturePopup
         });
-        map.addLayer(mkr);
-        map.attributionControl.addAttribution(metadata.attribution);
+        lmap.addLayer(mkr);
+        lmap.attributionControl.addAttribution(metadata.attribution);
     }
 };
 
@@ -717,5 +720,5 @@ const serializeXmlNode = (xmlNode) => {
     return "";
 }
 
-maps = map;
+maps = lmap;
 customs = custom;
