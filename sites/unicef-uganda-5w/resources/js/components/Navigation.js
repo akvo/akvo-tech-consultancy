@@ -10,14 +10,13 @@ import {
     Form,
     Button,
 } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 class Navigation extends Component {
     constructor(props) {
         super(props);
         this.changePage = this.changePage.bind(this);
         this.state = {
-            active: 'home'
+            active: 'overviews'
         }
         this.links = this.links.bind(this);
     }
@@ -58,17 +57,17 @@ class Navigation extends Component {
                     activeKey={this.props.value.page.name}
                     onSelect={this.changePage}
                 >
-                    <Nav.Link eventKey="home" active={"home" === page}>Home</Nav.Link>
-                    <Nav.Link eventKey="details" active={"details" === page}>Details</Nav.Link>
-                    <Nav.Link eventKey="report" active={"details" === page}>Report</Nav.Link>
+                    <Nav.Link eventKey="overviews" active={"overviews" === page}>Overviews</Nav.Link>
+                    <Nav.Link eventKey="activities" active={"activities" === page}>Activities</Nav.Link>
+                    <Nav.Link eventKey="webform" active={"webform" === page}>Webform</Nav.Link>
                 </Nav>
                 <Form inline className='nav-right'>
                   <a
-                      className="btn btn-primary text-white"
                       href="https://github.com/akvo/akvo-tech-consultancy"
+                      className="nav-top-links"
                       target="_blank"
                   >
-                      <FontAwesomeIcon icon={["fas", "book"]} /> Docs
+                      <i className="fa fa-book"></i> Documentation
                   </a>
                 </Form>
               </Navbar.Collapse>

@@ -8,12 +8,6 @@ import logger from "redux-logger";
 import { exampleLogic } from "../middleware/middleware.js";
 import Page from "./Page.js";
 
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { fab } from "@fortawesome/free-brands-svg-icons";
-import { fas } from "@fortawesome/free-solid-svg-icons";
-
-library.add(fab, fas);
-
 const store = createStore(states, applyMiddleware(exampleLogic));
 
 class Main extends Component {

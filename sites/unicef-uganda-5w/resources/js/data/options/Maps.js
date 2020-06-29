@@ -18,19 +18,20 @@ const Maps = (title, subtitle, list) => {
             ...TextStyle
         },
         visualMap: {
-            right: 'right',
+            orient: 'horizontal',
+            left: 'left',
             min: list.min,
             max: list.max,
-            backgroundColor: '#eeeeee',
+            backgroundColor: '#fff',
             itemWidth: 10,
             inRange: {
-                color: ['#007bff','#9262b7','#254464']
+                color: ['#b6c4da','#bde2f2', '#40a4dc', '#567ba9', '#085fa6'],
             },
             itemHeight: '620px',
             text: ['Max', 'Min'],
             calculable: true,
-            top: 10,
-            right: 10,
+            bottom: 10,
+            left: 10,
             ...TextStyle
         },
         toolbox: {
@@ -40,12 +41,6 @@ const Maps = (title, subtitle, list) => {
             bottom: 10,
             right: 10,
             feature: {
-                dataView: {
-                    title: 'View Data',
-                    lang: ['Data View', 'Turn Off', 'Refresh'],
-                    icon: Icons.dataView,
-                    buttonColor: '#0478a9'
-                },
                 saveAsImage: {
                     type: 'jpg',
                     title: 'Save Image',
@@ -64,7 +59,7 @@ const Maps = (title, subtitle, list) => {
                 aspectScale: 1,
                 emphasis: {
                     label: {
-                        show: false,
+                        show: true,
                     }
                 },
                 zoom: 1,
@@ -82,7 +77,7 @@ const Maps = (title, subtitle, list) => {
                 data: list.data
             }
         ],
-        ...backgroundColor,
+        backgroundColor: '#fff',
         ...Easing,
     };
     if (list.override) {

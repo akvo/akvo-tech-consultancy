@@ -30,7 +30,11 @@ export const mapDispatchToProps = dispatch => {
                         type: "FILTERS - CATEGORY CHANGE",
                         id: id,
                         depth: depth
-                    })
+                    }),
+                clear: () =>
+                    dispatch({
+                        type:"FILTERS - CATEGORY CLEAR",
+                    }),
             },
             location: {
                 init: locations =>
@@ -95,9 +99,10 @@ export const mapDispatchToProps = dispatch => {
                     })
             },
             state: {
-                loading : () =>
+                loading : (status) =>
                     dispatch({
-                        type: "CHART - LOADING"
+                        type: "CHART - LOADING",
+                        loading: status
                     }),
                 filtered: () =>
                     dispatch({

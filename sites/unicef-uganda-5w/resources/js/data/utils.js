@@ -1,3 +1,11 @@
+export const checkCache = (id) => {
+    if (localStorage.getItem('locval_' + id) !== null){
+        let cached = localStorage.getItem('locval_' + id);
+        return JSON.parse(cached);
+    }
+    return false;
+}
+
 export const titleCase = (string) => {
   let sentence = string.toLowerCase().split(" ");
   for(let i = 0; i< sentence.length; i++){

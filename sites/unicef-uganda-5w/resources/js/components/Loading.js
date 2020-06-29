@@ -12,7 +12,7 @@ class Loading extends Component {
                 <div className={'page-loading-text'}>
                     <h3>Loading Content</h3>
                 </div>
-                <ReactLoading className={'loading-animation'} type={'bars'} color={'#007bff'} height={50} width={50} />
+                <ReactLoading className={'loading-animation'} type={'bubbles'} color={'#007bff'} height={50} width={50} />
             </div>
         );
     }

@@ -100,6 +100,7 @@ class FakerController extends Controller
     private function reindex($questions)
     {
         return collect($questions)->map(function($qg, $i) {
+            $this->questions = collect();
             return $qg->map(function($q) use ($i){
                 $nq = collect($q);
                 $nq['repeat_index'] = $i;

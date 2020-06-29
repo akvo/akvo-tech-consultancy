@@ -1,10 +1,22 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { redux } from "react-redux";
 import { connect } from "react-redux";
 import { mapStateToProps, mapDispatchToProps } from "../reducers/actions.js";
 import { Col } from "react-bootstrap";
 import { loadingChart, generateOptions } from "../data/chart-utils.js";
 import ReactEcharts from "echarts-for-react";
+import ReactLoading from 'react-loading';
+
+class LoadingChart extends Component {
+    render () {
+        return (
+            <Fragment>
+            <ReactLoading className={'loading-charts'} type={'bubbles'} color={'#007bff'} height={50} width={50} />
+            <div className="loading-charts-cover"></div>
+            </Fragment>
+        );
+    }
+}
 
 class Charts extends Component {
     constructor(props) {
@@ -31,8 +43,10 @@ class Charts extends Component {
         let onEvents = {
             'click': this.clickEvent,
         }
+        let loading = this.props.value.charts.loading;
         return (
             <Col md={this.props.data.column}>
+                {loading ? <LoadingChart/> : "" }
                 <ReactEcharts
                     option={this.props.options}
                     notMerge={true}
@@ -40,7 +54,7 @@ class Charts extends Component {
                     style={this.state.style}
                     onEvents={onEvents}
                 />
-                {this.props.data.line ? <hr /> : ""}
+                {this.props.table ? this.props.table : ""}
             </Col>
         );
     }

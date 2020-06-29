@@ -38,7 +38,8 @@ class DataTypes extends Component {
 
     render() {
         let status = this.props.value.filters.selected.type;
-        let buttons = ["new","quantity","total","reset"];
+        // let buttons = ["new","quantity","total","reset"];
+        let buttons = ["reset"];
         return (
             <ButtonGroup aria-label="DataTypes">
                 {this.renderButton(status,buttons)}

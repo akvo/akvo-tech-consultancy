@@ -6,7 +6,6 @@ import {
     Dropdown,
     FormControl
 } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
     <a className="btn btn-primary"
@@ -14,7 +13,7 @@ const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
        ref={ref}
        onClick={e => { e.preventDefault(); onClick(e); }}
     >
-    {children} <FontAwesomeIcon icon={["fas", "arrow-down"]} />
+    {children} <i className="fa fa-arrow-down"></i>
     </a>
 ));
 

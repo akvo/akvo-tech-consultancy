@@ -10,7 +10,7 @@ export const filterState = {
         },
         locations: {
             count: 1,
-            list: []
+            list: [],
         },
     }, {
         id: 2,
@@ -30,7 +30,7 @@ export const filterState = {
         id: 2,
         parent_id: null,
         code: "",
-        name: "narok",
+        name: "Loading",
         level: 0,
         text: "Loading",
         values: {
@@ -45,7 +45,17 @@ export const filterState = {
         details: {
             organisations: {
                 count: 1,
-                list: ["Loading"]
+                list: ["Loading"],
+                data: [{
+                    name: "Loading",
+                    type: "Loading",
+                    values:{
+                        value_new:0,
+                        value_total:0,
+                        value_quantities:0,
+                    },
+                    activities:["Loading"]
+                }]
             },
             locations: {
                 count: 1,
@@ -84,7 +94,7 @@ export const filterState = {
         location: 1,
         filter: {
             domain:1,
-            sub_domain:1
+            sub_domain:false
         },
         type: "reset"
     }
@@ -102,7 +112,7 @@ export const changeFilters = (state, id, depth) => {
         let childs = state.list.filter(x => x.parent_id === id);
         filter = {
             domain: id,
-            sub_domain: childs[0].id
+            sub_domain: false
         }
     }
     if (depth === 2) {
@@ -116,12 +126,15 @@ export const changeFilters = (state, id, depth) => {
 }
 
 export const getOverviews = (state) => {
-    let details = state.map(x => x.details);
-    let i = 0;
     let overviews = {
         organisations: [],
         all:[]
     }
+    if (!state.length) {
+        return overviews;
+    }
+    let details = state.map(x => x.details);
+    let i = 0;
     do {
         overviews.organisations = [...overviews.organisations, ...details[i].organisations.list];
         i++;
