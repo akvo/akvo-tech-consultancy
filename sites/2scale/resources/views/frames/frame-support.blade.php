@@ -156,7 +156,8 @@ h1 {
                         </div>
                     </div>
 
-                    <!--Grid row-->
+                    <!-- Captcha 
+
                     <div class="row">
                         <div class="col-md-6">
                             <div class="md-form">
@@ -169,6 +170,7 @@ h1 {
                             </div>
                         </div>
                     </div>
+                    -->
 
 
                     <!--Grid row-->
