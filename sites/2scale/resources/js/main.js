@@ -14,7 +14,7 @@ $("#select-survey").on("change.bs.select", (e) => {
     $("#akvo-flow-web").attr("src", url);
 });
 
-const startdate = moment().subtract(29, 'days');
+const startdate = moment().subtract(2, 'year').startOf('month');
 const enddate = moment();
 
 $(function() {
@@ -28,7 +28,8 @@ $(function() {
            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
            'This Month': [moment().startOf('month'), moment().endOf('month')],
-           'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+           'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+           'All Data': [moment().subtract(2, 'years').startOf('month'), moment()]
         }
     }, function(start, end, label) {
         const start_date = start.format('YYYY-MM-DD');
@@ -45,6 +46,11 @@ $("#btn-data-inspect").click(() => {
     const form_select = $("#select-database-survey").val();
     let url = window.location.origin + '/frame/database/' + form_select;
 
+    let date = $('input[name="daterange"]')[0].value.split(' - ');
+    date = date.map((x) => {
+        return moment(x).format('YYYY-MM-DD');
+    });
+
     const country_select = $("#select-country-survey").val();
     if (country_select) {
         url += '/' + country_select;
@@ -53,7 +59,7 @@ $("#btn-data-inspect").click(() => {
 		$('#notable').modal('show')
 	}
 	if (form_select !== "") {
-    	$("#data-frame").attr("src", url);
+    	$("#data-frame").attr("src", url + '/' + date[0] + '/' + date[1]);
 	}
 })
 
@@ -82,6 +88,12 @@ $("#generate-partnership-page").on('click', () => {
         }
         params = [...params, value];
     });
+
+    let date = $('input[name="daterange"]')[0].value.split(' - ');
+    date = date.map((x) => {
+        params = [...params, moment(x).format('YYYY-MM-DD')];
+        return moment(x).format('YYYY-MM-DD');
+    });
     params = params.join("/");
     $("#data-frame").attr("src", "/frame/partnership/" + params);
 });
@@ -94,6 +106,12 @@ $("#generate-reachreact-page").on('click', () => {
             value = 0;
         }
         params = [...params, value];
+    });
+
+    let date = $('input[name="daterange"]')[0].value.split(' - ');
+    date = date.map((x) => {
+        params = [...params, moment(x).format('YYYY-MM-DD')];
+        return moment(x).format('YYYY-MM-DD');
     });
     params = params.join("/");
     $("#data-frame").attr("src", "/frame/reachreact/" + params);

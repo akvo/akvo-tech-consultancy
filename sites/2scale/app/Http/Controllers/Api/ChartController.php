@@ -7,6 +7,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 use App\Libraries\Akvo;
 use App\Libraries\Helpers;
 use App\Libraries\Echarts;
@@ -104,7 +105,7 @@ class ChartController extends Controller
         $question_id = collect([$femaleold, $femaleyoung, $maleold, $maleyoung])->flatten(0);
         $all = $answers->whereIn('question_id', $question_id);
         $hasCountry = false;
-        if (isset($request->country_id)) {
+        if (isset($request->country_id) || isset($request->start)) {
             $hasCountry = true;
             if ($request->country_id === "0") {
                 $hasCountry = false;
@@ -212,7 +213,7 @@ class ChartController extends Controller
         $maleyoung = ['24030005'];
         $question_id = collect([$femaleold, $femaleyoung, $maleold, $maleyoung])->flatten(0);
         $all = $answers->whereIn('question_id', $question_id);
-        if (isset($request->country_id)) {
+        if (isset($request->country_id) || isset($request->start)) {
             $datapoints_id = $this->filterQuery($request);
             $all = $all->whereIn('datapoint_id',$datapoints_id);
         }
@@ -256,7 +257,7 @@ class ChartController extends Controller
         $question_id = ['36030007', '24030004', '20030002', '24030005'];
         $answers = $answers->whereIn('question_id', $question_id);
         $hasCountry = false;
-        if (isset($request->country_id)) {
+        if (isset($request->country_id) || isset($request->start)) {
             $hasCountry = true;
             if ($request->country_id === "0") {
                 $hasCountry = false;
@@ -300,6 +301,8 @@ class ChartController extends Controller
 
         $filter_country = false;
         $filter_partner = false;
+        $start = new Carbon('2018-01-01');
+        $end = new Carbon(date("Y-m-d"));
 
         if (isset($request->country_id)) {
             $filter_country = true;
@@ -313,6 +316,11 @@ class ChartController extends Controller
             if ($request->partnership_id === "0") {
                 $filter_partner = false;
             }
+        }
+
+        if (isset($request->start)){
+            $start = new Carbon($request->start);
+            $end = new Carbon($request->end);
         }
 
         $survey_codes = collect(config('surveys.forms'))->filter(function($survey){
@@ -334,14 +342,18 @@ class ChartController extends Controller
             return response('no data available', 503);
         };
 
-        $results = collect($results)->map(function($partners) use ($survey_codes) {
+        $results = collect($results)->map(function($partners) use ($survey_codes, $start, $end) {
             $partnership_dp = collect($partners['partnership_datapoints'])->filter(function($dp) use ($survey_codes) {
                 return collect($survey_codes)->contains($dp['form_id']);
-            })->count();
+            });
+            $partnership_dp = $partnership_dp->map(function($dp){
+                return ["date" => new Carbon(date($dp["submission_date"]))];
+            })->values();
+            $partnership_dp = $partnership_dp->whereBetween('date', [$start, $end]);
             $res['country'] = ($partners['parents'] === null) ? null : $partners['parents']['name'];
             $res['commodity'] = Str::before($partners['name'],'_');
             $res['project'] = Str::after($partners['name'],'_');
-            $res['value'] = $partnership_dp;
+            $res['value'] = $partnership_dp->count();
             return $res;
         });
         $results = $results->reject(function($partners){
@@ -466,6 +478,8 @@ class ChartController extends Controller
     {
         $results = $partnerships;
         $showPartnership = false;
+        $start = new Carbon('2018-01-01');
+        $end = new Carbon(date("Y-m-d"));
         if (isset($request->country_id)) {
             if($request->country_id !== "0") {
                 $showPartnership = true;
@@ -474,24 +488,34 @@ class ChartController extends Controller
         if (!isset($request->country_id)) {
             $showPartnership = false;
         }
+        if (isset($request->start)) {
+            $start = new Carbon($request->start);
+            $end = new Carbon($request->end);
+        }
         if($showPartnership){
             $results = $results->where('id', $request->country_id)
                 ->has('country_datapoints')
                 ->with('country_datapoints.partnership')
-                ->first()->country_datapoints;
-            $results = $results->transform(function($dt){
+                ->first();
+            if (!$results) {
+                return response('no data available', 503);
+
+            }
+            $results = $results->country_datapoints->transform(function($dt){
                 return [
                     'country' => $dt->partnership->name,
                     'commodity' => Str::before($dt->partnership->name,'_'),
-                    'project' => Str::after($dt->partnership->name,'_')
+                    'project' => Str::after($dt->partnership->name,'_'),
+                    'date' => new Carbon($dt->submission_date)
                 ];
             })->groupBy('country');
-            $results = collect($results)->map(function($dt, $key) {
+            $results = collect($results)->map(function($dt, $key) use ($start, $end) {
+                $filtered_date = collect($dt)->whereBetween('date', [$start, $end]);
                 return [
                     'country' => $key,
                     'commodity' => Str::before($key, '_'),
                     'project' => Str::after($key, '_'),
-                    'value' => $dt->count(),
+                    'value' => $filtered_date->count(),
                 ];
             })->values()->take(4);
             return $results;
@@ -504,15 +528,24 @@ class ChartController extends Controller
                     return $list['form_id'];
                 })->flatten(2);
             })->values()->flatten();
-            $results = $results->with('partnership_datapoints')->with('parents')->get();
-            $results = collect($results)->map(function($partners) use ($survey_codes) {
-                $partnership_dp = collect($partners['partnership_datapoints'])->filter(function($dp) use ($survey_codes) {
+            $results = $results
+                ->has('partnership_datapoints')
+                ->with('partnership_datapoints.partnership')
+                ->with('parents')
+                ->get();
+            $results = collect($results)->map(function($partners) use ($survey_codes, $start, $end) {
+                $partnership_dp = collect($partners['partnership_datapoints'])
+                    ->filter(function($dp) use ($survey_codes) {
                     return collect($survey_codes)->contains($dp['form_id']);
-                })->count();
+                });
+                $partnership_dp = $partnership_dp->map(function($dp){
+                    return ["date" => new Carbon(date($dp["submission_date"]))];
+                })->values();
+                $partnership_dp = $partnership_dp->whereBetween('date', [$start, $end]);
                 $res['country'] = ($partners['parents'] === null) ? null : $partners['parents']['name'];
                 $res['commodity'] = Str::before($partners['name'],'_');
                 $res['project'] = Str::after($partners['name'],'_');
-                $res['value'] = $partnership_dp;
+                $res['value'] = count($partnership_dp);
                 return $res;
             });
             $results = $results->reject(function($partners){
@@ -625,6 +658,11 @@ class ChartController extends Controller
             $partnerships_id = $request->partnership_id;
             $datapoints = $datapoints->where('partnership_id',$partnerships_id);
         }
+        if(isset($request->start)){
+            $start = date($request->start);
+            $end = date($request->end);
+            $datapoints = $datapoints->whereBetween('submission_date',[$start, $end]);
+        };
         return $datapoints->get()->pluck('id');
     }
 

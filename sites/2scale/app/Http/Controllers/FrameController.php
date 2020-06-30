@@ -20,15 +20,14 @@ class FrameController extends Controller
 	{
         $url = '/' . $request->form_id;
         $country = '';
-        $date = '';
         if(isset($request->country)) {
-            $country = $request->country;
+            $url .= '/' . $request->country;
         }
-        if(isset($request->date)) {
-            $date = $request->country;
-        }
-        $url .= '/'.$country.'/'.$date;
-		return view('frames.frame-database', ['url' => $url]);
+        return view('frames.frame-database', [
+            'url' => $url . '/' . $request->start . '/' . $request->end,
+            'start' => $request->start,
+            'end' => $request->end,
+        ]);
 	}
 
     public function home(Request $request)
@@ -93,10 +92,18 @@ class FrameController extends Controller
 
     public function reachreact(Request $request)
     {
+        $start = '2018-01-01';
+        $end = date("Y-m-d");
+        if (isset($request->start)) {
+            $start = $request->start;
+            $end = $request->end;
+        }
         return view('frames.frame-reachreact',
             [
                 'country_id' => $request->country_id,
                 'partnership_id' => $request->partnership_id,
+                'start' => $start,
+                'end' => $end
             ]
         );
     }
@@ -108,11 +115,19 @@ class FrameController extends Controller
 
     public function partnership(Request $request)
     {
+        $start = '2018-01-01';
+        $end = date("Y-m-d");
+        if (isset($request->start)) {
+            $start = $request->start;
+            $end = $request->end;
+        }
         return view('frames.frame-partnership',
             [
                 'country_id' => $request->country_id,
                 'partnership_id' => $request->partnership_id,
                 'form_id' => $request->form_id,
+                'start' => $start,
+                'end' => $end
             ]
         );
     }

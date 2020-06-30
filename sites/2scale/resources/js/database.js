@@ -32,7 +32,6 @@ const getdata=loadData(endpoint);
 const createRows=(data, rowType)=> {
     let html="<tr>";
     data.forEach((d, i)=> {
-        // console.log(d);
         html +="<td>";
         if (rowType==="head") {
             html +=d.text;
