@@ -8,6 +8,8 @@
     <meta name="author" content="Akvo">
     <meta name="keywords" content="2SCALE">
     <meta name="data-url" content="{{$url}}">
+    <meta name="start-date" content="{{$start}}">
+    <meta name="end-date" content="{{$end}}">
     <title>2SCALE</title>
     <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">

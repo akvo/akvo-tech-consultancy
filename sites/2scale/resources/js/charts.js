@@ -58,23 +58,22 @@ const generateCards = (info, color, rank) => {
 
 const fetchData = (endpoint) => {
     const split = endpoint.split('/');
-    const filter = [split[1], split[2], split[3]].join('/');
+    const filter = [split[1], split[2], split[3], split[4]].join('/');
     return new Promise((resolve, reject) => {
         axios.get('/charts/' + endpoint)
             .then(res => {
-                // console.log('fetch network', res);
-                // storeDB({
-                //     table : table,
-                //     data : {
-                //         endpoint: split[0],
-                //         filter: filter,
-                //         data: res.data
-                //     },
-                //     key : {
-                //         endpoint: split[0],
-                //         filter: filter
-                //     }
-                // });
+                storeDB({
+                    table : table,
+                    data : {
+                        endpoint: split[0],
+                        filter: filter,
+                        data: res.data
+                    },
+                    key : {
+                        endpoint: split[0],
+                        filter: filter
+                    }
+                });
                 resolve(res.data);
             })
             .catch(err => {
@@ -85,12 +84,11 @@ const fetchData = (endpoint) => {
 
 const loadData = async (endpoint) => {
     const split = endpoint.split('/');
-    const filter = [split[1], split[2], split[3]].join('/');
+    const filter = [split[1], split[2], split[3], split[4]].join('/');
     const res = await table.get({endpoint: split[0], filter: filter});
     if (res === undefined) {
         return fetchData(endpoint);
     }
-    console.log('not fetch network', res);
     return res.data;
 }
 
@@ -159,7 +157,6 @@ export const getMaps = () => {
                     ...response,
                     ...{tooltip: tooltip}
                 }
-                console.log(response);
                 myChart.setOption(response);
             })
             return true;

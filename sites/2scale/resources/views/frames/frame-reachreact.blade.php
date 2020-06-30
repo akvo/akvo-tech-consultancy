@@ -8,6 +8,8 @@
     <meta name="author" content="Akvo">
     <meta name="country" content="{{$country_id}}">
     <meta name="partnership" content="{{$partnership_id}}">
+    <meta name="start-date" content="{{$start}}">
+    <meta name="end-date" content="{{$end}}">
     <meta name="keywords" content="2SCALE">
     <title>2SCALE</title>
     <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">

@@ -2079,7 +2079,7 @@ $("#select-survey").on("change.bs.select", function (e) {
   var url = e.target.attributes["data-url"].value + "/" + e.target.value;
   $("#akvo-flow-web").attr("src", url);
 });
-var startdate = moment().subtract(29, 'days');
+var startdate = moment().subtract(2, 'year').startOf('month');
 var enddate = moment();
 $(function () {
   $('input[name="daterange"]').daterangepicker({
@@ -2092,7 +2092,8 @@ $(function () {
       'Last 7 Days': [moment().subtract(6, 'days'), moment()],
       'Last 30 Days': [moment().subtract(29, 'days'), moment()],
       'This Month': [moment().startOf('month'), moment().endOf('month')],
-      'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+      'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+      'All Data': [moment().subtract(2, 'years').startOf('month'), moment()]
     }
   }, function (start, end, label) {
     var start_date = start.format('YYYY-MM-DD');
@@ -2106,6 +2107,10 @@ $(".btn.dropdown-toggle.btn-light").addClass("btn-primary");
 $("#btn-data-inspect").click(function () {
   var form_select = $("#select-database-survey").val();
   var url = window.location.origin + '/frame/database/' + form_select;
+  var date = $('input[name="daterange"]')[0].value.split(' - ');
+  date = date.map(function (x) {
+    return moment(x).format('YYYY-MM-DD');
+  });
   var country_select = $("#select-country-survey").val();
 
   if (country_select) {
@@ -2117,7 +2122,7 @@ $("#btn-data-inspect").click(function () {
   }
 
   if (form_select !== "") {
-    $("#data-frame").attr("src", url);
+    $("#data-frame").attr("src", url + '/' + date[0] + '/' + date[1]);
   }
 });
 /* Partnership API */
@@ -2144,6 +2149,11 @@ $("#generate-partnership-page").on('click', function () {
 
     params = [].concat(_toConsumableArray(params), [value]);
   });
+  var date = $('input[name="daterange"]')[0].value.split(' - ');
+  date = date.map(function (x) {
+    params = [].concat(_toConsumableArray(params), [moment(x).format('YYYY-MM-DD')]);
+    return moment(x).format('YYYY-MM-DD');
+  });
   params = params.join("/");
   $("#data-frame").attr("src", "/frame/partnership/" + params);
 });
@@ -2157,6 +2167,11 @@ $("#generate-reachreact-page").on('click', function () {
     }
 
     params = [].concat(_toConsumableArray(params), [value]);
+  });
+  var date = $('input[name="daterange"]')[0].value.split(' - ');
+  date = date.map(function (x) {
+    params = [].concat(_toConsumableArray(params), [moment(x).format('YYYY-MM-DD')]);
+    return moment(x).format('YYYY-MM-DD');
   });
   params = params.join("/");
   $("#data-frame").attr("src", "/frame/reachreact/" + params);
@@ -2193,8 +2208,6 @@ var authMessage = function authMessage() {
 authMessage();
 $(".form-list").css('display', 'none');
 $(".dropdown-menu.inner.show").css('display', 'none');
-$(".dropdown-menu.show").css('min-height', '');
-$(".inner.show").css('min-height', '');
 $("#survey-parent").on('change', function (data) {
   $(".form-list").hide(function () {
     if (data.target.value !== "select-init") {

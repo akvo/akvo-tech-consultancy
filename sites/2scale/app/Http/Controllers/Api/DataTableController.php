@@ -25,14 +25,15 @@ class DataTableController extends Controller
             $country_id = $partnerships->select('id')->where('parent_id', null)->get()->pluck('id');
         }
         if (isset($request->country)) {
-           $country_id = [$partnerships->where('name', $request->country)->first()->id];
+            $country_id = [$partnerships->where('name', $request->country)->first()->id];
         }
         $datapoints = $datapoints
             ->where('form_id',$request->form_id)
             ->whereIn('country_id',$country_id)
-            ->with('answers')
-            ->with('country')
-            ->get();
+            ->whereBetween('submission_date', [
+                date($request->start),
+                date($request->end)
+            ])->with('answers')->with('country')->get();
         $datapoints = $datapoints->transform(function($data) {
             return [
                 "datapoint_id" => $data->datapoint_id,

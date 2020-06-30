@@ -43,12 +43,6 @@ const MapsOverride = (TableView, noValue) => {
     }
     config = {
         ...config,
-        markArea: {
-            label: {
-                show:true,
-                distance:5
-            }
-        },
         dataRange: {
             left: 15,
             top: 10,
@@ -80,7 +74,7 @@ class PageOverviews extends Component {
                     kind: "MAPS",
                     page: "HOME",
                     data: generateData(12, true, "700px")
-                },
+                }
             ]
         }
         this.getMaps = this.getMaps.bind(this);
@@ -262,11 +256,6 @@ class PageOverviews extends Component {
         );
     }
 
-    componentDidMount() {
-        // this.props.filter.location.push(cache);
-        // this.props.filter.category.change(id, depth)
-    }
-
     render() {
         let chart = this.state.charts.map((list, index) => {
             return this.getCharts(list, index)
@@ -276,7 +265,8 @@ class PageOverviews extends Component {
             <Fragment>
             <Container className="top-container">
                 <DataFilters className='dropdown-left' depth={1}/>
-                <DataLocations className='dropdown-right'/>
+                <div className="right-listgroup">
+                </div>
             </Container>
             <Container className="container-content container-sticky">
                 <Row>
