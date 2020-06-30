@@ -1,4 +1,5 @@
 import { staticText, gradient, titleCase} from './util.js';
+import Dexie from 'dexie';
 const selectorbar = ($(".selector-bar").length === 1 ? 60 : 0);
 const navbar = $("nav.nav").length === 1 ? 56 : 3;
 const iframeheight = window.innerHeight - (navbar + selectorbar);
@@ -144,6 +145,22 @@ const authMessage = () => {
         $("#myModalAuthBody").text("An email verification has been sent to your email, please verify your email first!");
     }
 };
+
+const revalidate = () => {
+    const now = moment();
+    let cachetime = localStorage.getItem('cache-time');
+    cachetime = cachetime !== null ? moment(cachetime) : moment().subtract(1, 'days');
+    if (now > cachetime) {
+        let tomorrow = moment().add(1, 'days').format("YYYY-MM-DD");
+        localStorage.setItem('cache-time', tomorrow);
+        Dexie.delete('2scale');
+    }
+    if (now < cachetime) {
+        console.info("USING CACHED");
+    }
+}
+
+revalidate();
 authMessage();
 
 $(".form-list").css('display', 'none');

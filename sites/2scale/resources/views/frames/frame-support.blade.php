@@ -156,7 +156,7 @@ h1 {
 
                     <!--Grid row Captcha-->
                     {{-- <div class="row">
-                        <div class="col-md-6">
+                       <div class="col-md-6">
                             <div class="md-form">
                                 <input type="text" id="captcha" name="captcha" class="form-control" placeholder="Captcha" required>
                             </div>
