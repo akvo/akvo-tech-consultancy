@@ -128,13 +128,19 @@ const authMessage = () => {
 };
 authMessage();
 
-$(".form-list").hide();
-$(".form-parent").hide();
+$(".form-list").css('display', 'none');
+$(".dropdown-menu.inner.show").css('display', 'none');
+
+$(".dropdown-menu.show").css('min-height', '');
+$(".inner.show").css('min-height', '');
+
 $("#survey-parent").on('change', (data) => {
-    $(".form-list").fadeOut();
-    if (data.target.value !== "") {
-        $(".form-list."+data.target.value).fadeIn();
-        return;
-    }
+    $(".form-list").hide(() => {
+        if (data.target.value !== "select-init") {
+            let el = ".form-list." + data.target.value;
+            $(el).show("fast");
+        }
+    });
+    $(".filter-option-inner-inner").text('Select Questionnare');
     return;
 });

@@ -6,7 +6,7 @@
 @if(!isset($saved_survey))
 	<nav class="nav nav-md-6 nav-selector">
         <select id="survey-parent" class="selectpicker" data-style="btn-pink" data-live-search="true">
-		  <option value="select-init">Select Survey</option>
+		  <option value="select-init">Select Category</option>
             @foreach($surveys['forms'] as $index => $form)
             <option
                 value="parent-{{ $index }}">
@@ -17,21 +17,27 @@
 	</nav>
 	<nav class="nav nav-md-6 nav-selector">
         <select data-url="{{ $surveys['url'] }}" id="select-survey" class="selectpicker" data-style="btn-pink" data-live-search="true">
-            <option class="select-init" value="">Select Questionnaire</option>
+            <option id="survey-init" value="survey-init">Select Questionnaire</option>
+            @php
+                $childrens = collect();
+            @endphp
             @foreach($surveys['forms'] as $index => $form)
-            <option
-                class="form-parent">
-                {{ $form['name'] }}
-            </option>
-                    @foreach($form["list"] as $list)
-                    <option
-                        class="form-list parent-{{ $index }}"
-                        data-tokens="{{ $list['name'] }}"
-                        data-id="{{ $list['form_id'] }}"
-                        value="{{ $list['form_id'] }}">
-                        {{ $list['name'] }}
-                    </option>
-                    @endforeach
+                @foreach($form["list"] as $list)
+                    @php
+                        $list['parent'] = $index;
+                        $childrens->push($list);
+                    @endphp
+                @endforeach
+            @endforeach
+
+            @foreach($childrens as $list)
+                <option
+                    class="form-list parent-{{ $list['parent'] }}"
+                    data-tokens="{{ $list['name'] }}"
+                    data-id="{{ $list['form_id'] }}"
+                    value="{{ $list['form_id'] }}">
+                    {{ $list['name'] }}
+                </option> 
             @endforeach
 		</select>
 	</nav>
