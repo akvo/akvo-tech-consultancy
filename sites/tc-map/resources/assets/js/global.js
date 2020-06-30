@@ -12,19 +12,20 @@ if (localStorage.getItem('app-version') !== appVersion) {
 
 let maps;
 let customs;
+let zoomView;
 
-var nainclude = [
-    'identifier',
-    'latitude',
-    'longitude',
-    'elevation',
-    'display name',
-    'device identifier',
-    'instance',
-    'submission date',
-    'submitter',
-    'duration'
-];
+// var nainclude = [
+//     'identifier',
+//     'latitude',
+//     'longitude',
+//     'elevation',
+//     'display name',
+//     'device identifier',
+//     'instance',
+//     'submission date',
+//     'submitter',
+//     'duration'
+// ];
 
 const getTemplate = () => {
     let data = JSON.parse(localStorage.getItem('data'));
@@ -36,12 +37,8 @@ const getTemplate = () => {
 // pop up details
 const getDetails = (a, atype) => {
     let template = getTemplate();
-    if (atype === 0) {
-        let datapointid = $(a).attr('data');
-    }
-    if (atype === 'id') {
-        let datapointid = a;
-    }
+    let datapointid = (atype === 'id') ? a : $(a).attr('data');
+    console.log(datapointid);
     template.popup(datapointid);
     $('#profile-menu').click();
     $('#detail_modal').modal('show');
@@ -53,7 +50,7 @@ const focusTo = () => {
     let id = $('#find').attr('data-search');
     latlng = latlng.split(',');
     latlng = [parseFloat(latlng[0]), parseFloat(latlng[1])];
-    maps.setView(new L.LatLng(latlng[0], latlng[1]), 18);
+    zoomView(new L.LatLng(latlng[1], latlng[0]), 18);
     getDetails(id, 'id');
 };
 
@@ -75,12 +72,13 @@ const searchData = (request) => {
             }
         });
     });
-    return search;
+    return search.slice(0, 10);
 };
 
 const jqUI = () => {
     $("#find").autocomplete({
         minLength: 4,
+        maxResults: 10,
         source: (request, response) => {
             response(searchData(request));
         },
@@ -91,7 +89,6 @@ const jqUI = () => {
             return false;
         },
         select: (event, ui) => {
-            console.log(ui);
             $("#find").val(ui.item[ui.item.searchKey]);
             return false;
         }

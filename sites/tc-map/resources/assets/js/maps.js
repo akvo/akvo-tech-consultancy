@@ -16,21 +16,21 @@ let mkr = [];
 $('#change-cluster').on('click', () => {
     let dataCache = JSON.parse(localStorage.getItem('data'));
     if (clustered === true) {
-        lmap.removeLayer(markerclusters);
+        map.removeLayer(markerclusters);
         clustered = false;
         changeValue(dataCache, getFilterData());
         $(this).addClass('btn-active');
     } else {
         $(this).removeClass('btn-active');
-        lmap.removeLayer(mkr);
+        map.removeLayer(mkr);
         mkr = [];
         clustered = true;
         changeValue(dataCache, getFilterData());
     }
 });
 
-let removeAllMap = () => lmap.eachLayer((layer) => {
-    lmap.removeLayer(layer);
+let removeAllMap = () => map.eachLayer((layer) => {
+    map.removeLayer(layer);
 });
 
 
@@ -47,7 +47,7 @@ let geojson,
     rmax = 30,
     selects = ["1", "2", "3", "4", "5"],
     markerclusters,
-    lmap;
+    map;
 
 let cacheMem = JSON.parse(localStorage.getItem('data'));
 
@@ -145,7 +145,7 @@ $("#category-dropdown").on('change', () => {
         localStorage.removeItem('configs');
         localStorage.setItem('default-api', defaultSelect);
         if (!localStorage.getItem('status')) {
-            lmap.removeLayer(markerclusters);
+            map.removeLayer(markerclusters);
         } 
         $('#legend').remove();
         $('#bar-legend').remove();
@@ -153,16 +153,20 @@ $("#category-dropdown").on('change', () => {
     }
 });
 
+const setView = (latlng, zoom) => {
+    map.setView(latlng, zoom);
+};
+
 const emptyMap = () => {
-    if (!lmap) {
+    if (!map) {
         localStorage.setItem('status', 'init');
-        lmap = L.map('mapid', {
+        map = L.map('mapid', {
             zoomControl: false
         }).setView([52.3667, 4.8945], 2);
         L.tileLayer(tileServer, {
             attribution: tileAttribution,
             maxZoom: 18
-        }).addTo(lmap);
+        }).addTo(map);
     }
 };
 
@@ -172,17 +176,17 @@ const startRenderMap = () => {
         iconCreateFunction: defineClusterIcon
     });
 
-    if (!lmap) {
-        lmap = L.map('mapid', {
+    if (!map) {
+        map = L.map('mapid', {
             zoomControl: false
         }).setView(cfg.center, 7);
         L.tileLayer(tileServer, {
             attribution: tileAttribution,
             maxZoom: 18
-        }).addTo(lmap);
+        }).addTo(map);
         d3.select('body').append('div').attr('id', 'main-filter-list');
     }
-    lmap.addLayer(markerclusters);
+    map.addLayer(markerclusters);
 }
 
 const mapParentFeatures = (parents, features) => {
@@ -263,8 +267,8 @@ const loadData = (allPoints, callType) => {
         onEachFeature: defineFeaturePopup
     });
     markerclusters.addLayer(markers);
-    lmap.fitBounds(markers.getBounds());
-    lmap.attributionControl.addAttribution(metadata.attribution);
+    map.fitBounds(markers.getBounds());
+    map.attributionControl.addAttribution(metadata.attribution);
     renderLegend(allPoints);
 }
 
@@ -506,26 +510,26 @@ const refreshLayer = (dbs) => {
     geojson = dbs;
     metadata = dbs.properties;
     if (clustered) {
-        lmap.removeLayer(markerclusters);
+        map.removeLayer(markerclusters);
         markerclusters = L.markerClusterGroup({
             maxClusterRadius: 2 * rmax,
             iconCreateFunction: defineClusterIcon
         });
-        lmap.addLayer(markerclusters);
+        map.addLayer(markerclusters);
         let markers = L.geoJson(dbs, {
             pointToLayer: defineFeature,
             onEachFeature: defineFeaturePopup
         });
         markerclusters.addLayer(markers);
-        lmap.attributionControl.addAttribution(metadata.attribution);
+        map.attributionControl.addAttribution(metadata.attribution);
     } else {
-        lmap.removeLayer(mkr);
+        map.removeLayer(mkr);
         mkr = L.geoJson(dbs, {
             pointToLayer: defineFeature,
             onEachFeature: defineFeaturePopup
         });
-        lmap.addLayer(mkr);
-        lmap.attributionControl.addAttribution(metadata.attribution);
+        map.addLayer(mkr);
+        map.attributionControl.addAttribution(metadata.attribution);
     }
 };
 
@@ -720,5 +724,6 @@ const serializeXmlNode = (xmlNode) => {
     return "";
 }
 
-maps = lmap;
+maps = map;
 customs = custom;
+zoomView = setView;
