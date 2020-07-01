@@ -199,6 +199,14 @@ const startRenderMap = () => {
             maxZoom: 18
         }).addTo(map);
         d3.select('body').append('div').attr('id', 'main-filter-list');
+        // test
+        $('#province-filter').css('display', 'inline-block');
+        d3.select('#main-filter-list').append('div').attr('class', 'legendprovince').text('Province');
+        d3.select('#main-filter-list').append('div').attr('id', 'province-list');
+
+        $('#school-type-filter').css('display', 'inline-block');
+        d3.select('#main-filter-list').append('h3').attr('class', 'legendschooltype').text('School Type');
+        d3.select('#main-filter-list').append('div').attr('id', 'school-type-list');
     }
     map.addLayer(markerclusters);
 }
