@@ -28,6 +28,9 @@ body{
 table {
     font-size: 12px;
 }
+table td.bg-light-grey {
+    background-color: #f9f9f9;
+}
 #datatables_filter,
 #datatables_info{
     display: inline-block;
@@ -44,6 +47,17 @@ main.inner.cover {
 }
 #loader-spinner {
     margin-top: 40%;
+}
+.dt-button-collection .dropdown-menu {
+    max-height: 400px;
+    overflow-y: scroll;
+    padding: 0px;
+    margin-left: 5px;
+    margin-top: 10px;
+    border-radius: 0px;
+}
+.dt-button-collection .dropdown-menu a.dt-button {
+    border-bottom: 1px solid #ddd;
 }
 </style>
 <body>

@@ -32,16 +32,14 @@ const getdata=loadData(endpoint);
 const createRows=(data, rowType)=> {
     let html="<tr>";
     data.forEach((d, i)=> {
-        html +="<td>";
-        if (rowType==="head") {
-            html +=d.text;
-        }
-        if (rowType==="body") {
-            html +=d.text;
-        }
-        html +="</td>";
-    }
-    );
+        let classname = i < 10 ? "default-hidden" : "";
+        classname = d.text ? (classname + "") : (classname + " bg-light-grey");
+        html += rowType === "head"
+            ? ("<th class='" + classname + "'>")
+            : ("<td class='" + classname + "'>");
+        html += d.text ? d.text : "";
+        html += rowType === "head" ? "</th>" : "</td>";
+    });
     html+="</tr>";
     return html;
 }
@@ -83,6 +81,10 @@ getdata.then(res=> {
         $("#datatables").DataTable( {
             dom: 'Birftp',
 			buttons: [ 'copy', 'excel', 'csv', 'colvis'],
+            columnDefs: [
+                { targets: [0,1,2,3,4,5,6,7,8,9], visible: true},
+                { targets: '_all', visible: false },
+            ],
 			scrollX: true,
             scrollY: '75vh',
 			height: 400,

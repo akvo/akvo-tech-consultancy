@@ -27,49 +27,76 @@ return [
         [
         "name" => "Organisation Forms",
         "list" => array(
-            [
-                "form_id" => 30160001,
-                "name" => "Agri-Business Cluster Form",
-                "survey_id" => 20130001,
-                "partner_qid" => 20150001
-            ],
-            [
-                "form_id" => 4100001,
-                "name" => "Business Support Service",
-                "survey_id" => 32110004,
-                "partner_qid" => 4100002
-            ],
-            [
-                "form_id" => 30200004,
-                "name" => "Enterprise Information Form",
-                "survey_id" => 34120004,
-                "partner_qid" => 36120005
-            ],
-            [
-                "form_id" => 14170009,
-                "name" => "Producer Organization Information Form",
-                "survey_id" => 6120005,
-                "partner_qid"=> 36100005
-            ]
+                [
+                    "form_id" => 30160001,
+                    "name" => "Agri-Business Cluster Form",
+                    "survey_id" => 20130001,
+                    "partner_qid" => 20150001
+                ],
+                [
+                    "form_id" => 4100001,
+                    "name" => "Business Support Service",
+                    "survey_id" => 32110004,
+                    "partner_qid" => 4100002
+                ],
+                [
+                    "form_id" => 30200004,
+                    "name" => "Enterprise Information Form",
+                    "survey_id" => 34120004,
+                    "partner_qid" => 36120005
+                ],
+                [
+                    "form_id" => 14170009,
+                    "name" => "Producer Organization Information Form",
+                    "survey_id" => 6120005,
+                    "partner_qid"=> 36100005
+                ]
             )
         ],
         [
         "name" => "Universal Impact Indicators",
-        "list" => array()
-        ],
-
-        // test repeat group -- to delete
-        // [
-        // "name" => "UII Forms",
-        // "list" => array(
-        //     [
-        //         "form_id" => 27870030,
-        //         "name" => "UII-1 BoP",
-        //         "survey_id" => 13510021,
-        //         "partner_qid" => 20150001
-        //     ]
-        //     )
-        // ],
+        "list" => array(
+                [
+                    "form_id" => 27870030,
+                    "name" => "UII-1 BoP Form",
+                    "survey_id" => 13510021,
+                ],
+                [
+                    "form_id" => 40200005,
+                    "name" => "UII-2 SHF Form",
+                    "survey_id" => 11320004,
+                ],
+                [
+                    "form_id" => 9420001,
+                    "name" => "UII-3 EEP Form",
+                    "survey_id" => 46010002,
+                ],
+                [
+                    "form_id" => 23430004,
+                    "name" => "UII-4 SME Form",
+                    "survey_id" => 17800004,
+                ],
+                [
+                    "form_id" => 5940009,
+                    "name" => "UII-5 NonFE Form",
+                    "survey_id" => 13510014,
+                ],
+                [
+                    "form_id" => 44050108,
+                    "name" => "UII-6 MSME",
+                    "survey_id" => 27870022,
+                ],
+                [
+                    "form_id" => 39710036,
+                    "name" => "UII-7 INNO Form",
+                    "survey_id" => 27850023,
+                ],
+                [
+                    "form_id" => 33930043,
+                    "name" => "UII-8 F-SERV Form",
+                    "survey_id" => 58060038,
+                ]
+        )]
     ),
     "country_cascade" => "cascade-30100013-v13.sqlite",
     "countries" => array(

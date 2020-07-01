@@ -6480,7 +6480,8 @@ $(function () {
       'Last 30 Days': [moment().subtract(29, 'days'), moment()],
       'This Month': [moment().startOf('month'), moment().endOf('month')],
       'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
-      'All Data': [moment().subtract(2, 'years').startOf('month'), moment()]
+      'Last Year': [moment().subtract(1, 'years').startOf('month'), moment()],
+      'All Data': [moment().subtract(10, 'years').startOf('month'), moment()]
     }
   }, function (start, end, label) {
     var start_date = start.format('YYYY-MM-DD');
@@ -6669,7 +6670,7 @@ module.exports = JSON.parse("{\"countries\":[{\"country\":\"Ethiopia\",\"desc\":
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/wgprtm/Developer/akvo-tech-consultancy/sites/2scale/resources/js/main.js */"./resources/js/main.js");
+module.exports = __webpack_require__(/*! /Users/dedenbangkit/Repos/akvo-tech-consultancy/sites/2scale/resources/js/main.js */"./resources/js/main.js");
 
 
 /***/ })
