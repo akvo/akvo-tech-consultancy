@@ -83,7 +83,7 @@ class Overview extends Component {
                 </div>
                 <div className="col-md-8 text-right">
                     <button
-                        className={"btn btn-primary btn-repeatable"}
+                        className={"btn btn-primary btn-repeatable hidden"}
                         onClick={(e => this.printOverview())}
                     >
                         Print <FaPrint/>
