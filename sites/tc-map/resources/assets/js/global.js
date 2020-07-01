@@ -12,7 +12,8 @@ if (localStorage.getItem('app-version') !== appVersion) {
 
 let maps;
 let customs;
-let zoomView;
+let goToView;
+let zoomMap;
 
 // var nainclude = [
 //     'identifier',
@@ -38,7 +39,6 @@ const getTemplate = () => {
 const getDetails = (a, atype) => {
     let template = getTemplate();
     let datapointid = (atype === 'id') ? a : $(a).attr('data');
-    console.log(datapointid);
     template.popup(datapointid);
     $('#profile-menu').click();
     $('#detail_modal').modal('show');
@@ -50,12 +50,13 @@ const focusTo = () => {
     let id = $('#find').attr('data-search');
     latlng = latlng.split(',');
     latlng = [parseFloat(latlng[0]), parseFloat(latlng[1])];
-    zoomView(new L.LatLng(latlng[1], latlng[0]), 18);
+    goToView(new L.LatLng(latlng[1], latlng[0]), 18);
     getDetails(id, 'id');
 };
 
 const focusNormal = () => {
-    maps.setView(new L.LatLng(-8.3626894, 160.3288342), 7);
+    let latlng = JSON.parse(localStorage.getItem('configs')).center;
+    goToView(new L.LatLng(latlng[0], latlng[1]), 3);
 };
 
 const searchData = (request) => {
@@ -114,43 +115,49 @@ const restartCluster = (el, key) => {
 };
 
 const downloadData = () => {
-    console.log('Download data', maps);
+    let data = JSON.parse(localStorage.getItem('data'));
+    let filter = data.features.filter(x => x.properties.status === 'active');
+    let dwl = filter.map(x => x.properties);
+    exportExcel(dwl);
 };
 
 const exportExcel = (filter) => {
+    let configs = JSON.parse(localStorage.getItem('configs'));
     var CsvString = "";
-    var headers = JSON.parse(localStorage.getItem('raw-data-header'));
-    var allText = localStorage.getItem('raw-data');
     var lines = [];
-    lines.push(headers);
-    var allTextLines = allText.split(/\r\n|\n/);
-    if (filter.length > 0) {
-        for (var i = 1; i < allTextLines.length; i++) {
-            var data = allTextLines[i].split(',');
-            if (filter.includes(data[0])) {
-                lines.push(data);
-            }
-        }
-    } else {
-        for (var i = 1; i < allTextLines.length; i++) {
-            var data = allTextLines[i].split(',');
-            lines.push(data);
-        }
-    }
-    lines.forEach((RowItem, RowIndex) => {
-        RowItem.forEach((ColItem, ColIndex) => {
-            CsvString += ColItem + ',';
-        });
-        CsvString += "\r\n";
+    Object.keys(configs).map((key, index) => {
+        lines.push(configs[key]);
     });
-    CsvString = "data:application/csv;charset=utf-8," + encodeURIComponent(CsvString);
-    var x = document.createElement("A");
-    x.setAttribute("href", CsvString);
-    var d = new Date();
-    x.setAttribute("download", "wins-" + d.toISOString() + ".csv");
-    document.body.appendChild(x);
-    x.click();
-    $(x).remove();
+    console.log(lines);
+    
+    // var allTextLines = allText.split(/\r\n|\n/);
+    // if (filter.length > 0) {
+    //     for (var i = 1; i < allTextLines.length; i++) {
+    //         var data = allTextLines[i].split(',');
+    //         if (filter.includes(data[0])) {
+    //             lines.push(data);
+    //         }
+    //     }
+    // } else {
+    //     for (var i = 1; i < allTextLines.length; i++) {
+    //         var data = allTextLines[i].split(',');
+    //         lines.push(data);
+    //     }
+    // }
+    // lines.forEach((RowItem, RowIndex) => {
+    //     RowItem.forEach((ColItem, ColIndex) => {
+    //         CsvString += ColItem + ',';
+    //     });
+    //     CsvString += "\r\n";
+    // });
+    // CsvString = "data:application/csv;charset=utf-8," + encodeURIComponent(CsvString);
+    // var x = document.createElement("A");
+    // x.setAttribute("href", CsvString);
+    // var d = new Date();
+    // x.setAttribute("download", "wins-" + d.toISOString() + ".csv");
+    // document.body.appendChild(x);
+    // x.click();
+    // $(x).remove();
 };
 
 const showSecurityForm = () => {

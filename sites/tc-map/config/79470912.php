@@ -3,18 +3,25 @@
 return [
     "survey_detail" => [
         "instance" => "seap",
-        "survey_id" => 79470912,
-        "form_id" => 71690912,
-        "monitoring_id" => [],
-        "survey_name" => "DHIS2",
         "geolocation" => "75790913|House Hold Location",  //questionId|question  string
         "center_map" => [0.7893, 113.9213],
     ], 
 
-    "categories" => [
-        71690912 => [
+    "sources" => [
+        [
+            "id" => 79470912,
+            "type" => "survey",
+            "name" => "DHIS2",
+            "parent_id" => null,
+        ],
+        [
+            "id" => 71690912,
+            "type" => "registration",
+            "name" => "Registration",
+            "parent_id" => 79470912,
             "selected_category" => "Gender",  //question string
             "popup_name" => "Patient Name", //question string
+            "search" => ["Patient Name"],
             "list" => [
                 [
                     "question_id" => 83510912,

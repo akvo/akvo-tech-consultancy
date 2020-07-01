@@ -102,8 +102,8 @@ class Sible {
     let teachers = this.generateData("teachers teach");
     this.createCarousel(data.properties);
 
-    console.log('data', data);
-    console.log('config', this.configs);
+    // console.log('data', data);
+    // console.log('config', this.configs);
 
     $(".modal-title").html(data.properties[this.configs.popup]);
     $(".modal-body").html(

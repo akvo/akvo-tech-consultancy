@@ -126,7 +126,6 @@ const fetchdata = () => {
         if (val) {
             setConfig(val);
         }
-        console.log(val);
     });
 };
 fetchdata();
@@ -155,6 +154,21 @@ $("#category-dropdown").on('change', () => {
 
 const setView = (latlng, zoom) => {
     map.setView(latlng, zoom);
+    return;
+};
+
+const zoomView = (action) => {
+    switch (action) {
+        case 'in':
+            map.zoomIn();
+            break;
+        case 'out':
+            map.zoomOut();
+            break;
+        default:
+            break;
+    }
+    return;
 };
 
 const emptyMap = () => {
@@ -726,4 +740,5 @@ const serializeXmlNode = (xmlNode) => {
 
 maps = map;
 customs = custom;
-zoomView = setView;
+goToView = setView;
+zoomMap = zoomView;
