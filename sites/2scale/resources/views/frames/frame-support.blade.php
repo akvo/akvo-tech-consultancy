@@ -93,13 +93,11 @@ h1 {
 </head>
 <body class="text-center">
     <!--Section: Contact v.2-->
-    <section class="mb-4" style="margin-top: 35px">
+    <section class="container mb-2" style="margin-top: 35px">
 
         <!--Section heading-->
-        <h2 class="h1-responsive font-weight-bold text-center my-4">Contact us</h2>
+        <h2 class="h1-responsive font-weight-bold text-center my-4">Report Issue</h2>
         <!--Section description-->
-        <p class="text-center w-responsive mx-auto mb-5">Do you have any questions? Please do not hesitate to contact us directly. Our team will come back to you within
-            a matter of hours to help you.</p>
 
         <div class="row">
 
@@ -156,10 +154,9 @@ h1 {
                         </div>
                     </div>
 
-                    <!-- Captcha 
-
-                    <div class="row">
-                        <div class="col-md-6">
+                    <!--Grid row Captcha-->
+                    {{-- <div class="row">
+                       <div class="col-md-6">
                             <div class="md-form">
                                 <input type="text" id="captcha" name="captcha" class="form-control" placeholder="Captcha" required>
                             </div>
@@ -169,8 +166,7 @@ h1 {
                                 <img src="{{ captcha_src('flat') }}" class="rounded float-left" alt="captcha">
                             </div>
                         </div>
-                    </div>
-                    -->
+                    </div> --}}
 
 
                     <!--Grid row-->

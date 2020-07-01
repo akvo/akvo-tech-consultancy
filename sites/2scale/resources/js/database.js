@@ -5,12 +5,12 @@ const table = db.databases;
 const fetchData = (endpoint) => {
     return new Promise((resolve, reject) => {
         axios.get('/api/datatables' + endpoint) .then(res=> {
-            console.log('fetch network', res);
-            storeDB({
-                table : table,
-                data : {name: endpoint, data: res.data},
-                key : {name: endpoint}
-            });
+            // console.log('fetch network', res);
+            // storeDB({
+            //     table : table,
+            //     data : {name: endpoint, data: res.data},
+            //     key : {name: endpoint}
+            // });
             resolve(res.data);
         }).catch(error=> {
             reject(error);

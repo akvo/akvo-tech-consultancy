@@ -162,3 +162,17 @@ const revalidate = () => {
 
 revalidate();
 authMessage();
+
+$(".form-list").css('display', 'none');
+$(".dropdown-menu.inner.show").css('display', 'none');
+
+$("#survey-parent").on('change', (data) => {
+    $(".form-list").hide(() => {
+        if (data.target.value !== "select-init") {
+            let el = ".form-list." + data.target.value;
+            $(el).show("fast");
+        }
+    });
+    $(".filter-option-inner-inner").text('Select Questionnare');
+    return;
+});

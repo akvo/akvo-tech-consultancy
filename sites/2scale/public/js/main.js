@@ -6610,6 +6610,18 @@ var revalidate = function revalidate() {
 
 revalidate();
 authMessage();
+$(".form-list").css('display', 'none');
+$(".dropdown-menu.inner.show").css('display', 'none');
+$("#survey-parent").on('change', function (data) {
+  $(".form-list").hide(function () {
+    if (data.target.value !== "select-init") {
+      var el = ".form-list." + data.target.value;
+      $(el).show("fast");
+    }
+  });
+  $(".filter-option-inner-inner").text('Select Questionnare');
+  return;
+});
 
 /***/ }),
 

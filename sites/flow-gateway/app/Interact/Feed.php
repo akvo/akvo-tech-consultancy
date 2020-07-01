@@ -7,10 +7,11 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use App\Http\AkvoFlow;
 use App\Interact\Submission;
+use Illuminate\Support\Facades\Cache;
 
 class Feed
 {
-    function __construct($prefix, $prefix_end, $kind, $log) 
+    function __construct($prefix, $prefix_end, $kind, $log)
     {
         $this->prefix = $prefix;
         $this->prefix_end = $prefix_end;
@@ -55,6 +56,17 @@ class Feed
             }
         }
 
+        /**
+         * Dependency question
+         */
+        if ($current->type === "option") {
+            $text = Str::of($current->text)->explode(PHP_EOL);
+            $answer = Str::of($text[(int)$value])->after(' ');
+        }
+        if ($current->type === "option" && !$current->dependency) {
+            Cache::put('dependency_answer', $answer);
+        }
+
         /*
          * Update Current Answer
          */
@@ -67,8 +79,25 @@ class Feed
         /*
          * Get Next Question
          */
-        $next = $session->answers()->find($current->id + 1);
+        // Check dependency question
+        $next = $session->answers()->where('dependency_answer', $answer)->first();
+
+        // next
         if (!$next) {
+            $next = $session->answers()->find($current->id + 1);
+        }
+
+        // check next with dependency
+        if (isset($next->dependency) && $next->dependency) {
+            $next = $session->answers()
+                            ->where([
+                                ['id', $next->id],
+                                ['dependency_answer', Cache::get('dependency_answer')],
+                            ])->first();
+        }
+
+        if (!$next) {
+            Cache::forget('dependency_answer');
             $submission = new Submission();
             $submission->send($session->id);
             $this->log->info($this->kind.$session->phone_number.": End of Survey");
@@ -80,7 +109,7 @@ class Feed
         return $response;
     }
 
-    public function store_questions($survey, $session) 
+    public function store_questions($survey, $session)
     {
         $questions;
         $isObject = Arr::has($survey["questionGroup"], "question");
@@ -130,6 +159,12 @@ class Feed
             $cascade = $question["cascadeResource"];
             $cascade_lv = count($question["levels"]["level"]);
         }
+        $dependency = null;
+        $dependency_answer = null;
+        if(isset($question['dependency'])) {
+            $dependency = $question['dependency']['question'];
+            $dependency_answer = $question['dependency']['answer-value'];
+        }
         $format = array(
             'question_id' => (int) $question['id'],
             'order' => (int) $question['order'],
@@ -138,7 +173,9 @@ class Feed
             'text' => $question['text'].$options,
             'type' => $question['type'],
             'cascade' => $cascade,
-            'cascade_lv' => $cascade_lv
+            'cascade_lv' => $cascade_lv,
+            'dependency' => $dependency,
+            'dependency_answer' => $dependency_answer
         );
         return $format;
     }

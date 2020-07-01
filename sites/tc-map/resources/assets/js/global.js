@@ -11,85 +11,113 @@ if (localStorage.getItem('app-version') !== appVersion) {
 }
 
 let maps;
+let customs;
+let zoomView;
 
-var nainclude = [
-    'identifier',
-    'latitude',
-    'longitude',
-    'elevation',
-    'display name',
-    'device identifier',
-    'instance',
-    'submission date',
-    'submitter',
-    'duration'
-];
+// var nainclude = [
+//     'identifier',
+//     'latitude',
+//     'longitude',
+//     'elevation',
+//     'display name',
+//     'device identifier',
+//     'instance',
+//     'submission date',
+//     'submitter',
+//     'duration'
+// ];
+
+const getTemplate = () => {
+    let data = JSON.parse(localStorage.getItem('data'));
+    const template = customs.custom(data);
+    let js = localStorage.getItem("template");
+    return (js === null) ? false : template[js];
+};
 
 // pop up details
-function getDetails(a, atype) {
-    console.log(a);
-    console.log(a.getAttribute('data'));
+const getDetails = (a, atype) => {
+    let template = getTemplate();
+    let datapointid = (atype === 'id') ? a : $(a).attr('data');
+    console.log(datapointid);
+    template.popup(datapointid);
     $('#profile-menu').click();
     $('#detail_modal').modal('show');
-}
+};
 
-
-function focusTo() {
+const focusTo = () => {
     event.preventDefault()
     let latlng = $('#zoom_find').val();
     let id = $('#find').attr('data-search');
     latlng = latlng.split(',');
     latlng = [parseFloat(latlng[0]), parseFloat(latlng[1])];
-    maps.setView(new L.LatLng(latlng[0], latlng[1]), 18);
+    zoomView(new L.LatLng(latlng[1], latlng[0]), 18);
     getDetails(id, 'id');
-}
+};
 
-function focusNormal() {
+const focusNormal = () => {
     maps.setView(new L.LatLng(-8.3626894, 160.3288342), 7);
-}
+};
 
-function jqUI() {
+const searchData = (request) => {
+    let configs = JSON.parse(localStorage.getItem('configs'));
+    let data = JSON.parse(localStorage.getItem('data'));
+    let properties = _.map(data.features, (x) => x.properties);
+    let search = [];
+    _.forEach(configs['search'], (x) => {
+        _.forEach(properties, (y) => {
+            if (y[x].toLowerCase().includes(request.term.toLowerCase())) {
+                y.searchKey = x;
+                y.popup = configs['popup'];
+                search.push(y);    
+            }
+        });
+    });
+    return search.slice(0, 10);
+};
+
+const jqUI = () => {
     $("#find").autocomplete({
-            minLength: 4,
-            source: function(request, response) {
-                $.getJSON('/api/search/' + request.term, {}, response);
-            },
-            focus: function(event, ui) {
-                $("#find").val(ui.item.school);
-                $("#find").attr('data-search', ui.item.identifier);
-                $("#zoom_find").val([ui.item.latitude, ui.item.longitude]);
-                return false;
-            },
-            select: function(event, ui) {
-                $("#find").val(ui.item.school);
-                return false;
-            }
-        })
-        .autocomplete("instance")._renderItem = function(ul, item) {
-            var schoolType = item.school_type
-            if (schoolType === null) {
-                schoolType = item.school_type_other;
-            }
-            return $("<li>")
-                .append("<div><span class='search-province'>" + item.school + " - " + item.province + "</span><span class='badge badge-small badge-primary'>" + schoolType + "</span></div>")
-                .appendTo(ul);
-        };
-}
+        minLength: 4,
+        maxResults: 10,
+        source: (request, response) => {
+            response(searchData(request));
+        },
+        focus: (event, ui) => {
+            $("#find").val(ui.item[ui.item.searchKey]);
+            $("#find").attr('data-search', ui.item.data_point_id);
+            $("#zoom_find").val(ui.item.PTS);
+            return false;
+        },
+        select: (event, ui) => {
+            $("#find").val(ui.item[ui.item.searchKey]);
+            return false;
+        }
+    })
+    .autocomplete("instance")._renderItem = (ul, item) => {
+        // if (schoolType === null) {
+        //     schoolType = item.school_type_other;
+        // }
+        return $("<li>")
+            .append("<div><span class='search-province'>" + item[item.popup] + " - xxx </span><span class='badge badge-small badge-primary'>"+ item[item.searchKey] +"</span></div>")
+            .appendTo(ul);
+    };
+};
 
-function toggleLegend(it, state) {
+const toggleLegend = (it, state) => {
     let rem_class = $(it).attr('class');
     $('.marker.' + rem_class).hide();
-}
+};
 
-function restartCluster(el, key) {
+const restartCluster = (el, key) => {
     var filter = $(el).attr('class').split(' ')[0];
     $('.marker .' + filter).remove();
-}
+};
 
-function downloadData() {
-}
+const downloadData = () => {
+    console.log('Download data', maps);
+};
 
-function exportExcel(filter) {
+const exportExcel = (filter) => {
     var CsvString = "";
     var headers = JSON.parse(localStorage.getItem('raw-data-header'));
     var allText = localStorage.getItem('raw-data');
@@ -109,8 +137,8 @@ function exportExcel(filter) {
             lines.push(data);
         }
     }
-    lines.forEach(function(RowItem, RowIndex) {
-        RowItem.forEach(function(ColItem, ColIndex) {
+    lines.forEach((RowItem, RowIndex) => {
+        RowItem.forEach((ColItem, ColIndex) => {
             CsvString += ColItem + ',';
         });
         CsvString += "\r\n";
@@ -119,17 +147,17 @@ function exportExcel(filter) {
     var x = document.createElement("A");
     x.setAttribute("href", CsvString);
     var d = new Date();
-    x.setAttribute("download", "wins-"+ d.toISOString() +".csv");
+    x.setAttribute("download", "wins-" + d.toISOString() + ".csv");
     document.body.appendChild(x);
     x.click();
     $(x).remove();
-}
+};
 
-function showSecurityForm() {
+const showSecurityForm = () => {
     $('#security_modal').modal('show');
 };
 
-function sendRequest() {
+const sendRequest = () => {
     var input_security = $('#secure-pwd').val();
     $.ajax({
         type: "POST",
@@ -138,17 +166,16 @@ function sendRequest() {
             "security_code": input_security,
         },
         dataType: "json",
-        success: function() {
+        success: () => {
             downloadData();
         },
-        error: function() {
+        error: () => {
             $('#error-download').slideDown("fast");
             $('#secure-pwd').addClass("is-invalid");
-            setTimeout(function() {
+            setTimeout(() => {
                 $('#error-download').slideUp("fast");
                 $('#secure-pwd').removeClass("is-invalid");
             }, 3000);
         }
     });
-}
-
+};

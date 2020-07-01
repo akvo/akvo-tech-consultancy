@@ -29,6 +29,9 @@
         <li class="nav-item {{Route::is('survey') ? 'active' : '' }}">
             <a class="nav-link" href="/survey">Survey</a>
         </li>
+        <li class="nav-item {{Route::is('support') ? 'active' : '' }}">
+            <a class="nav-link" href="/support">Support</a>
+        </li>
         <li class="nav-item {{Route::is('logout') ? 'active' : '' }}">
             <a class="nav-link" href="/logout">Logout</a>
         </li>
@@ -37,9 +40,6 @@
             <a class="nav-link" href="/login">Login</a>
         </li>
       @endif
-      <li class="nav-item {{Route::is('support') ? 'active' : '' }}">
-        <a class="nav-link" href="/support">Support</a>
-      </li>
     </ul>
   </div>
 </nav>

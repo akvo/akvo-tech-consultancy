@@ -3,31 +3,19 @@
 return [
     "survey_detail" => [
         "instance" => "seap",
+        "survey_id" => 308090988,
+        "form_id" => 308090989,
+        "monitoring_id" => [322230993],
+        "survey_name" => "Demo Flow Survey",
         "geolocation" => "312080978|Geolocation",  //questionId|question  string
         "center_map" => [9.6457, 160.1562],
     ], 
 
-    "sources" => [
-        [
-            "id" => 308090988,
-            "type" => "survey",
-            "name" => "Demo Flow Survey",
-            "parent_id" => null,
-        ],
-        [
-            "id" => 308090989,
-            "type" => "registration",
-            "name" => "Registration",
-            "parent_id" => 308090988,
+    "categories" => [
+        308090989 => [
             "selected_category" => "Gender", //question string
-            "popup_name" => "Name", //question string
-            "search" => ["Name", "Job Title"], // question array of string
+            "popup_name" => "Gender", //question string
             "list" => [
-                [
-                    "question_id" => 310430991,
-                    "name" => "Name",
-                    "type" => "text",
-                ],
                 [
                     "question_id" => 310440982,
                     "name" => "Gender",
@@ -41,8 +29,8 @@ return [
             ],
             "color" => [
                 [
-                    "question_id" =>  310440982,
-                    "code" => "Yes",
+                    "question_id" =>  287530944,
+                    "code" => "",
                     "color" => "",
                 ],
             ],
@@ -53,14 +41,9 @@ return [
                 ],
             ],
         ],
-        [
-            "id" => 322230993,
-            "type" => "monitoring",
-            "name" => "COVID Test",
-            "parent_id" => 308090989,
+        322230993 => [
             "selected_category" => "Test Location", //question string
             "popup_name" => "Test Location", //question string
-            "search" => ["Test location"], // question array of string
             "list" => [
                 [
                     "question_id" => 286420988,
@@ -87,5 +70,6 @@ return [
                 ],
             ],
         ],
+        
     ],
 ];
