@@ -125,39 +125,40 @@ const exportExcel = (filter) => {
     let configs = JSON.parse(localStorage.getItem('configs'));
     var CsvString = "";
     var lines = [];
+    let headers = [];
+
+    const configsExcept = ["center", "js", "name", "popup", "search"];
+    configsExcept.forEach(x => delete configs[x]);
     Object.keys(configs).map((key, index) => {
-        lines.push(configs[key]);
+        headers.push(configs[key]);
     });
-    console.log(lines);
-    
-    // var allTextLines = allText.split(/\r\n|\n/);
-    // if (filter.length > 0) {
-    //     for (var i = 1; i < allTextLines.length; i++) {
-    //         var data = allTextLines[i].split(',');
-    //         if (filter.includes(data[0])) {
-    //             lines.push(data);
-    //         }
-    //     }
-    // } else {
-    //     for (var i = 1; i < allTextLines.length; i++) {
-    //         var data = allTextLines[i].split(',');
-    //         lines.push(data);
-    //     }
-    // }
-    // lines.forEach((RowItem, RowIndex) => {
-    //     RowItem.forEach((ColItem, ColIndex) => {
-    //         CsvString += ColItem + ',';
-    //     });
-    //     CsvString += "\r\n";
-    // });
-    // CsvString = "data:application/csv;charset=utf-8," + encodeURIComponent(CsvString);
-    // var x = document.createElement("A");
-    // x.setAttribute("href", CsvString);
-    // var d = new Date();
-    // x.setAttribute("download", "wins-" + d.toISOString() + ".csv");
-    // document.body.appendChild(x);
-    // x.click();
-    // $(x).remove();
+    lines.push(headers);
+
+    const filterExcept = ["status", "PTS"];
+    filter.forEach(x => {
+        filterExcept.forEach(y => delete x[y]);
+        let tmp = [];
+        Object.keys(x).map((key, index) => {
+            tmp.push(x[key]);
+        });
+        lines.push(tmp);
+    });
+
+    lines.forEach((RowItem, RowIndex) => {
+        RowItem.forEach((ColItem, ColIndex) => {
+            CsvString += ColItem + ';'; // separated by ; because the question contain ,
+        });
+        CsvString += "\r\n";
+    });
+
+    CsvString = "data:application/csv;charset=utf-8," + encodeURIComponent(CsvString);
+    var x = document.createElement("A");
+    x.setAttribute("href", CsvString);
+    var d = new Date();
+    x.setAttribute("download", "akvomap-" + d.toISOString() + ".csv");
+    document.body.appendChild(x);
+    x.click();
+    $(x).remove();
 };
 
 const showSecurityForm = () => {
