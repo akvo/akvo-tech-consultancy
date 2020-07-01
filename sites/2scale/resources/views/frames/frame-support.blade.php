@@ -99,10 +99,10 @@ h1 {
         <h2 class="h1-responsive font-weight-bold text-center my-4">Report Issue</h2>
         <!--Section description-->
 
-        <div class="row">
+        <div class="row d-flex justify-content-center">
 
             <!--Grid column-->
-            <div class="col-md-8 mb-md-0 mb-5">
+            <div class="col-md-10 mb-md-0 mb-5">
                 <form action="{{url('api/send_email')}}" method="post">
                     @csrf
                     <!--Grid row-->
@@ -199,10 +199,10 @@ h1 {
             </div>
             <!--Grid column-->
 
-            <div class="col-md-1"></div>
+            <!-- <div class="col-md-1"></div> -->
 
             <!--Grid column-->
-            <div class="col-md-3 text-center">
+            <!-- <div class="col-md-3 text-center">
                 <ul class="list-unstyled mb-0">
                     <li><i class="fas fa-map-marker-alt fa-2x"></i>
                         <p>San Francisco, CA 94126, USA</p>
@@ -216,7 +216,7 @@ h1 {
                         <p>support@mail.com</p>
                     </li>
                 </ul>
-            </div>
+            </div> -->
             <!--Grid column-->
 
         </div>
