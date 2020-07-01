@@ -29,4 +29,5 @@ mix.styles([
 
 mix.copyDirectory('resources/vendor', 'public/vendor');
 mix.copyDirectory('resources/images', 'public/images');
+mix.copy('resources/favicon.ico', 'public/');
 mix.copyDirectory('resources/json', 'public/json');

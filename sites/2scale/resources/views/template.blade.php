@@ -7,6 +7,7 @@
     <meta name="description" content="2SCALE website">
     <meta name="author" content="Akvo">
     <meta name="keywords" content="2SCALE">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('/favicon.ico') }}"/>
 
     <!-- Title Page-->
     <title>2SCALE</title>
