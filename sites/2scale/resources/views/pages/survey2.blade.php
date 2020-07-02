@@ -32,6 +32,7 @@
 
             @foreach($childrens as $list)
                 <option
+                    style="display:none"
                     class="form-list parent-{{ $list['parent'] }}"
                     data-tokens="{{ $list['name'] }}"
                     data-id="{{ $list['form_id'] }}"

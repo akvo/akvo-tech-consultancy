@@ -1,5 +1,4 @@
-import { staticText, gradient, titleCase} from './util.js';
-import Dexie from 'dexie';
+import { staticText, gradient, titleCase} from './util.js'; import Dexie from 'dexie';
 const selectorbar = ($(".selector-bar").length === 1 ? 60 : 0);
 const navbar = $("nav.nav").length === 1 ? 56 : 3;
 const iframeheight = window.innerHeight - (navbar + selectorbar);
@@ -164,16 +163,14 @@ const revalidate = () => {
 revalidate();
 authMessage();
 
-$(".form-list").css('display', 'none');
-$(".dropdown-menu.inner.show").css('display', 'none');
-
+//$(".form-list").hide("fast");
+//$(".dropdown-menu.inner.show").css('display', 'none');
 $("#survey-parent").on('change', (data) => {
-    $(".form-list").hide(() => {
-        if (data.target.value !== "select-init") {
-            let el = ".form-list." + data.target.value;
-            $(el).show("fast");
-        }
-    });
+    $(".form-list").hide("fast");
+    if (data.target.value !== "select-init") {
+        let el = ".form-list." + data.target.value + ".dropdown-item";
+        $(el).show("fast");
+    }
     $(".filter-option-inner-inner").text('Select Questionnare');
     return;
 });
