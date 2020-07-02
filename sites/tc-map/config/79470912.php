@@ -22,6 +22,7 @@ return [
             "selected_category" => "Gender",  //question string
             "popup_name" => "Patient Name", //question string
             "search" => ["Patient Name"],
+            "secondary_filter" => [],
             "list" => [
                 [
                     "question_id" => 83510912,

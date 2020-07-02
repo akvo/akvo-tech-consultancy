@@ -319,15 +319,15 @@ tbody tr:hover{
     display:none;
 }
 
-.legendheading, .legendprovince, .legendschooltype {
+.legendheading, .legend_0, .legend_1 {
     position: relative;
     font-size: 0.9rem;
     text-align: center;
     padding-top: 15px;
     text-transform: uppercase;
 }
-.legendprovince,
-.legendschooltype{
+.legend_0,
+.legend_1{
     text-align:left;
     padding: 15px;
     min-width: 230px;
@@ -337,25 +337,25 @@ tbody tr:hover{
     border-bottom: 1px solid #eee;
     margin-block-end: 0px;
 }
-.legendprovince:hover,
-.legendschooltype:hover{
+.legend_0:hover,
+.legend_1:hover{
     background-color:#3490dc;
     color:#fff;
 }
-.legendprovince:before,
-.legendschooltype:before{
+.legend_0:before,
+.legend_1:before{
     font-family: "FontAwesome";
     font-weight: 900;
     padding-right: 10px;
     content: "\f0a9";
 }
-.legendprovince.active,
-.legendschooltype.active{
+.legend_0.active,
+.legend_1.active{
     background-color:#343a40;
     color:#fff;
 }
-.legendprovince.active:before,
-.legendschooltype.active:before{
+.legend_0.active:before,
+.legend_1.active:before{
     content: "\f0ab";
 }
 
@@ -397,52 +397,52 @@ tbody tr:hover{
     margin: 10px;
 }
 
-#province-list,
-#school-type-list{
+#sf-0-list,
+#sf-1-list{
     display:none;
     padding: 5px;
     font-size: 12px;
     font-family: inherit;
     width: 230px;
 }
-#province-list>a,
-#school-type-list>a{
+#sf-0-list>a,
+#sf-1-list>a{
     padding: 10px;
     display: block;
     cursor: pointer;
 }
-#province-list>a:before,
-#school-type-list>a:before {
+#sf-0-list>a:before,
+#sf-1-list>a:before {
     font-family: "FontAwesome";
     font-weight: 900;
     padding-right: 10px;
     content: "\f00c";
 }
-#province-list>a.inactive,
-#school-type-list>a.inactive{
+#sf-0-list>a.inactive,
+#sf-1-list>a.inactive{
     color:#FFF;
     background:#dc3545;
 }
-#province-list>a.inactive:before,
-#school-type-list>a.inactive:before {
+#sf-0-list>a.inactive:before,
+#sf-1-list>a.inactive:before {
     content: "\f057";
 }
-#province-list>a:hover,
-#school-type-list>a:hover{
+#sf-0-list>a:hover,
+#sf-1-list>a:hover{
     padding: 10px;
     background:#007bff;
     color: #FFF;
     display: block;
 }
-#province-all,
-#school-type-all{
+#sf-0-all,
+#sf-1-all{
     display: block;
     width: 100%;
     background: #d63943;
     color: #FFF;
 }
-#province-all.enable-all,
-#school-type-all.enable-all{
+#sf-0-all.enable-all,
+#sf-1-all.enable-all{
     background: #3490dc;
 }
 
@@ -739,7 +739,7 @@ span.search-province{
         width: 95%;
         margin: 2.5%;
     }
-    #province-list, #school-type-list{
+    #sf-0-list, #sf-1-list{
         width:auto;
         font-size:15px;
     }

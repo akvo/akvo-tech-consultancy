@@ -22,6 +22,20 @@ return [
             "selected_category" => "Gender", //question string
             "popup_name" => "Name", //question string
             "search" => ["Name", "Job Title"], // question array of string
+            "secondary_filter" => [
+                [
+                  "question_id" => 322230986,
+                  "question_text" => "Address",
+                  "name" => "Province",
+                  "type" => "cascade",
+                ],
+                [
+                    "question_id" => 310440982,
+                    "question_text" => "Gender",
+                    "name" => "Gender Type",
+                    "type" => "option",
+                ],
+              ],
             "list" => [
                 [
                     "question_id" => 310430991,
@@ -61,6 +75,7 @@ return [
             "selected_category" => "Test Location", //question string
             "popup_name" => "Test Location", //question string
             "search" => ["Test location"], // question array of string
+            "secondary_filter" => [],
             "list" => [
                 [
                     "question_id" => 286420988,

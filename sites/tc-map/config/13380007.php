@@ -25,11 +25,15 @@ return [
             "secondary_filter" => [
               [
                 "question_id" => 13270842,
+                "question_text" => "",
                 "name" => "Province",
+                "type" => "",
               ],
               [
                 "question_id" => 14260395,
+                "question_text" => "",
                 "name" => "Water Facility Type",
+                "type" => "",
               ],
             ],
             "list" => [

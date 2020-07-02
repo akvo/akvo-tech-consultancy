@@ -20,6 +20,7 @@ class CreateDataSourcesTable extends Migration
             $table->string('type');
             $table->json('config')->nullable();
             $table->json('categories')->nullable();
+            $table->json('second_categories')->nullable();
             $table->json('data')->nullable();
             $table->string('css')->nullable();
             $table->string('js')->nullable();

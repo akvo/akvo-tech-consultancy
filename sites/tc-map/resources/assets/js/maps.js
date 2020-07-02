@@ -72,7 +72,7 @@ const setConfig = (defaultSelect) => {
             cfg = res.data;
             categoryField = cfg.name;
             iconField = categoryField;
-            popupFields = cfg.popup; // name or popup?
+            popupFields = cfg.popup;
             startRenderMap();
             cacheMem = JSON.parse(localStorage.getItem('data'));
             geojsonPath = '/api/data/' + defaultSelect;
@@ -142,6 +142,7 @@ $("#category-dropdown").on('change', () => {
         localStorage.removeItem('data');
         localStorage.removeItem('default-properties');
         localStorage.removeItem('configs');
+        localStorage.removeItem('second-filter');
         localStorage.setItem('default-api', defaultSelect);
         if (!localStorage.getItem('status')) {
             map.removeLayer(markerclusters);
@@ -181,6 +182,7 @@ const emptyMap = () => {
             attribution: tileAttribution,
             maxZoom: 18
         }).addTo(map);
+        d3.select('body').append('div').attr('id', 'main-filter-list');
     }
 };
 
@@ -199,17 +201,9 @@ const startRenderMap = () => {
             maxZoom: 18
         }).addTo(map);
         d3.select('body').append('div').attr('id', 'main-filter-list');
-        // test
-        $('#province-filter').css('display', 'inline-block');
-        d3.select('#main-filter-list').append('div').attr('class', 'legendprovince').text('Province');
-        d3.select('#main-filter-list').append('div').attr('id', 'province-list');
-
-        $('#school-type-filter').css('display', 'inline-block');
-        d3.select('#main-filter-list').append('h3').attr('class', 'legendschooltype').text('School Type');
-        d3.select('#main-filter-list').append('div').attr('id', 'school-type-list');
     }
     map.addLayer(markerclusters);
-}
+};
 
 const mapParentFeatures = (parents, features) => {
     return features.map(item => {
@@ -222,6 +216,9 @@ const mapParentFeatures = (parents, features) => {
 //Ready to go, load the geojson
 const getGeoJson = () => {
     d3.json(geojsonPath, (error, response) => {
+        if (response.second_categories !== 'null') {   
+            localStorage.setItem('second-filter', response.second_categories);
+        }
         let categories = JSON.parse(response.categories);
         let coptions = _.mapValues(_.keyBy(categories, 'id'), 'lookup');
         let configs = JSON.parse(response.config);
@@ -270,8 +267,90 @@ const getGeoJson = () => {
         let retrievedObject = localStorage.getItem('data');
         data = JSON.parse(retrievedObject);
         loadData(data, 2);
+        (!localStorage.getItem('second-filter'))
+            ? d3.select("#main-filter-list").html("")
+            : createSecondFilter();
     });
 }
+
+const createSecondFilter = () => {
+    // second filter
+    let seconds = JSON.parse(localStorage.getItem('second-filter'));
+    seconds.forEach((item, index) => {
+        let name = item.name.toLowerCase();
+        name = name.split(' ');
+        name = name.join('-');
+        $('#'+name+'-filter').css('display', 'inline-block');
+        d3.select('#main-filter-list').append('div').attr('class', 'legend_'+index+'').attr('id', ''+name+'-parent').text(item.name);
+        d3.select('#main-filter-list').append('div').attr('id', 'sf-'+index+'-list');    
+        let values = item.values;
+        if (item.type === 'cascade') {
+            values = item.values.filter(x => x.level === 0);
+        }
+        values = values.slice(0, 10); // sample
+        // consider about sf-list-index class and sf-all-index class, if more than 2 filter need to create more css
+        values.forEach(x => {
+            let code = (item.type === 'cascade') ? x.code : x.value;
+            let text = (item.type === 'cascade') ? x.name : x.text;
+            var id = code.toLowerCase();
+            id = id.split(' ');
+            id = id.join('-');
+            d3.select('#sf-'+index+'-list')
+                .append('a')
+                .attr('id', ''+name+'-'+id)
+                .text(text.toUpperCase())
+                .on('click', function (a) {
+                    filterBySecondFilter('xxx', 'sf-' + index + '', text);
+                });
+        });
+        d3.select('#sf-'+index+'-list').append('button')
+            .attr('class', 'btn')
+            .attr('id', 'sf-'+index+'-all')
+            .attr('data-select', 'remove')
+            .text('Disable All')
+            .on('click', function(a) {
+                filterBySecondFilter('options', 'sf-'+index+'', 'all');
+            });
+        $('.legend_'+index+'').click(function(e) {
+            $('#sf-'+index+'-list').slideToggle();
+            if ($(this).hasClass('active')) {
+                $(this).removeClass('active');
+            } else {
+                $(this).addClass('active');
+                for (let x = 0; x < seconds.length; x++) {
+                    if (x !== index) {
+                        if ($('.legend_'+x+'').hasClass('active')) {
+                            $('.legend_'+x+'').click();
+                        };
+                    }
+                }
+            }
+        });
+    });  
+};
+
+const filterBySecondFilter = (dataName, type, filterBy) => {
+    var dbs = JSON.parse(localStorage.getItem('data'));
+    if (dataName === 'options') {
+        var dataSelection = $('#' + type + '-all').attr('data-select');
+        if (dataSelection === 'add') {
+            $('#' + type + '-list > a').removeClass('inactive');
+            $('#' + type + '-all').removeClass('enable-all');
+            $('#' + type + '-all').text('Disable All');
+            $('#' + type + '-all').attr('data-select', 'remove');
+        } else {
+            $('#' + type + '-list > a').addClass('inactive');
+            $('#' + type + '-all').addClass('enable-all');
+            $('#' + type + '-all').text('Enable All');
+            $('#' + type + '-all').attr('data-select', 'add');
+        }
+    } else {
+        $('#' + type + '-all').addClass('enable-all');
+        $('#' + type + '-all').text('Enable All');
+        $('#' + type + '-all').attr('data-select', 'add');
+    }
+    console.log(filterBy);
+};
 
 const loadData = (allPoints, callType) => {
     if (callType === 1) {
