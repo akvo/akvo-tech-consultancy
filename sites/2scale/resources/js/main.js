@@ -8,6 +8,18 @@ $("#akvo-flow-web").attr("height", iframeheight);
 $("#data-frame").attr("height", iframeheight);
 
 /* Akvo Flow Web API */
+let prev = "init";
+$("#survey-parent").on('change.bs.select', (e) => {
+    $('button.dropdown-toggle').click();
+    //$('button.btn.dropdown-toggle.btn-pink').dropdown('update');
+    $(".filter-option-inner-inner").text('Select Questionnaire');
+    let el = "."+e.target.value;
+    $(el).show(1);
+    if (prev !== "init") {
+        $(prev).hide(1);
+    }
+    prev = el;
+});
 
 $("#select-survey").on("change.bs.select", (e) => {
     let url = e.target.attributes["data-url"].value + "/" + e.target.value;
@@ -162,15 +174,3 @@ const revalidate = () => {
 
 revalidate();
 authMessage();
-
-//$(".form-list").hide("fast");
-//$(".dropdown-menu.inner.show").css('display', 'none');
-$("#survey-parent").on('change', (data) => {
-    $(".form-list").hide("fast");
-    if (data.target.value !== "select-init") {
-        let el = ".form-list." + data.target.value + ".dropdown-item";
-        $(el).show("fast");
-    }
-    $(".filter-option-inner-inner").text('Select Questionnare');
-    return;
-});
