@@ -6462,6 +6462,20 @@ $("#akvo-flow-web").attr("height", iframeheight);
 $("#data-frame").attr("height", iframeheight);
 /* Akvo Flow Web API */
 
+var prev = "init";
+$("#survey-parent").on('change.bs.select', function (e) {
+  $('button.dropdown-toggle').click(); //$('button.btn.dropdown-toggle.btn-pink').dropdown('update');
+
+  $(".filter-option-inner-inner").text('Select Questionnaire');
+  var el = "." + e.target.value;
+  $(el).show(1);
+
+  if (prev !== "init") {
+    $(prev).hide(1);
+  }
+
+  prev = el;
+});
 $("#select-survey").on("change.bs.select", function (e) {
   var url = e.target.attributes["data-url"].value + "/" + e.target.value;
   $("#akvo-flow-web").attr("src", url);
@@ -6611,18 +6625,6 @@ var revalidate = function revalidate() {
 
 revalidate();
 authMessage();
-$(".form-list").css('display', 'none');
-$(".dropdown-menu.inner.show").css('display', 'none');
-$("#survey-parent").on('change', function (data) {
-  $(".form-list").hide(function () {
-    if (data.target.value !== "select-init") {
-      var el = ".form-list." + data.target.value;
-      $(el).show("fast");
-    }
-  });
-  $(".filter-option-inner-inner").text('Select Questionnare');
-  return;
-});
 
 /***/ }),
 
@@ -6670,7 +6672,7 @@ module.exports = JSON.parse("{\"countries\":[{\"country\":\"Ethiopia\",\"desc\":
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/dedenbangkit/Repos/akvo-tech-consultancy/sites/2scale/resources/js/main.js */"./resources/js/main.js");
+module.exports = __webpack_require__(/*! /Users/wgprtm/Developer/akvo-tech-consultancy/sites/2scale/resources/js/main.js */"./resources/js/main.js");
 
 
 /***/ })

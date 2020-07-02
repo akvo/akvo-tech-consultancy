@@ -126,7 +126,6 @@ const fetchdata = () => {
         if (val) {
             setConfig(val);
         }
-        console.log(val);
     });
 };
 fetchdata();
@@ -155,6 +154,21 @@ $("#category-dropdown").on('change', () => {
 
 const setView = (latlng, zoom) => {
     map.setView(latlng, zoom);
+    return;
+};
+
+const zoomView = (action) => {
+    switch (action) {
+        case 'in':
+            map.zoomIn();
+            break;
+        case 'out':
+            map.zoomOut();
+            break;
+        default:
+            break;
+    }
+    return;
 };
 
 const emptyMap = () => {
@@ -185,6 +199,14 @@ const startRenderMap = () => {
             maxZoom: 18
         }).addTo(map);
         d3.select('body').append('div').attr('id', 'main-filter-list');
+        // test
+        $('#province-filter').css('display', 'inline-block');
+        d3.select('#main-filter-list').append('div').attr('class', 'legendprovince').text('Province');
+        d3.select('#main-filter-list').append('div').attr('id', 'province-list');
+
+        $('#school-type-filter').css('display', 'inline-block');
+        d3.select('#main-filter-list').append('h3').attr('class', 'legendschooltype').text('School Type');
+        d3.select('#main-filter-list').append('div').attr('id', 'school-type-list');
     }
     map.addLayer(markerclusters);
 }
@@ -726,4 +748,5 @@ const serializeXmlNode = (xmlNode) => {
 
 maps = map;
 customs = custom;
-zoomView = setView;
+goToView = setView;
+zoomMap = zoomView;

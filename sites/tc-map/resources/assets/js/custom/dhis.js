@@ -6,13 +6,9 @@ class Dhis {
   };
 
   popup(datapointid) {
-    let data = this.data.features.find(x => x.properties.data_point_id === datapointid);
+    console.log('dhis', this.data.features);
+    let data = this.data.features.find(x => x.properties.data_point_id == datapointid);
     let configs = JSON.parse(localStorage.getItem('configs'));
-    _.mapKeys(data.properties, (val, key) => {
-      if (configs[key] !== undefined) {
-        console.log(key, configs[key], val);
-      }
-    });
     
     let val = data.properties;
     $(".modal-body").html(

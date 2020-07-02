@@ -9,7 +9,7 @@
 		  <option value="select-init">Select Category</option>
             @foreach($surveys['forms'] as $index => $form)
             <option
-                value="parent-{{ $index }}">
+                value="parent{{ $index }}">
                 {{ $form['name'] }}
             </option>
             @endforeach
@@ -32,7 +32,8 @@
 
             @foreach($childrens as $list)
                 <option
-                    class="form-list parent-{{ $list['parent'] }}"
+                    style="display:none"
+                    class="parent{{ $list['parent'] }}"
                     data-tokens="{{ $list['name'] }}"
                     data-id="{{ $list['form_id'] }}"
                     value="{{ $list['form_id'] }}">
