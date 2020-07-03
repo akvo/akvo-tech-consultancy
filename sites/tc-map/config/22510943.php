@@ -22,7 +22,14 @@ return [
             "selected_category" => "Does the school have a water source?",  //question string
             "popup_name" => "Name of School?", //question string
             "search" => ["Name of School?", "Type of School?"], // question array of string
-            "secondary_filter" => [],
+            "secondary_filter" => [
+                [
+                    "question_id" => 23430921,
+                    "question_text" => "Type of School?",
+                    "name" => "School Type",
+                    "type" => "option",
+                ],
+            ],
             "list" => [
                 // School Information
                 [

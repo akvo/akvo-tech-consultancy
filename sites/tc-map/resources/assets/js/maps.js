@@ -267,14 +267,14 @@ const getGeoJson = () => {
         let retrievedObject = localStorage.getItem('data');
         data = JSON.parse(retrievedObject);
         loadData(data, 2);
-        (!localStorage.getItem('second-filter'))
-            ? d3.select("#main-filter-list").html("")
-            : createSecondFilter();
+        d3.select("#main-filter-list").html("");
+        (localStorage.getItem('second-filter') !== null)
+            ? renderSecondFilter()
+            : "";
     });
 }
 
-const createSecondFilter = () => {
-    // second filter
+const renderSecondFilter = () => {
     let seconds = JSON.parse(localStorage.getItem('second-filter'));
     seconds.forEach((item, index) => {
         let name = item.name.toLowerCase();
@@ -298,9 +298,9 @@ const createSecondFilter = () => {
             d3.select('#sf-'+index+'-list')
                 .append('a')
                 .attr('id', ''+name+'-'+id)
-                .text(text.toUpperCase())
+                .text(text)
                 .on('click', function (a) {
-                    filterBySecondFilter('xxx', 'sf-' + index + '', text);
+                    filterBySecondFilter(text, 'sf-' + index + '', ''+name+'-'+id, item.id, item.type);
                 });
         });
         d3.select('#sf-'+index+'-list').append('button')
@@ -309,7 +309,7 @@ const createSecondFilter = () => {
             .attr('data-select', 'remove')
             .text('Disable All')
             .on('click', function(a) {
-                filterBySecondFilter('options', 'sf-'+index+'', 'all');
+                filterBySecondFilter('options', 'sf-'+index+'', 'all', item.id, item.type);
             });
         $('.legend_'+index+'').click(function(e) {
             $('#sf-'+index+'-list').slideToggle();
@@ -329,7 +329,7 @@ const createSecondFilter = () => {
     });  
 };
 
-const filterBySecondFilter = (dataName, type, filterBy) => {
+const filterBySecondFilter = (dataName, type, dataId, key, filterType) => {
     var dbs = JSON.parse(localStorage.getItem('data'));
     if (dataName === 'options') {
         var dataSelection = $('#' + type + '-all').attr('data-select');
@@ -349,7 +349,39 @@ const filterBySecondFilter = (dataName, type, filterBy) => {
         $('#' + type + '-all').text('Enable All');
         $('#' + type + '-all').attr('data-select', 'add');
     }
-    console.log(filterBy);
+    dbs["features"] = $.map(dbs.features, (x) => {
+        x = x;
+        if (dataName === 'options') {
+            if (dataSelection === 'add') {
+                x.properties['status'] = 'active';
+            } else {
+                x.properties['status'] = 'inactive';
+            }
+        } else {
+            let answer = x.properties[key].toLowerCase();
+            let condition = (filterType === 'cascade') ? answer.includes(dataName.toLowerCase()) : answer === dataName.toLowerCase();
+            if (condition) {
+                if (x.properties['status'] === "active") {
+                    x.properties['status'] = "inactive";
+                    $('#' + dataId).addClass('inactive');
+                } else {
+                    console.log(x.properties[key]);
+                    x.properties['status'] = "active";
+                    $('#' + dataId).removeClass('inactive');
+                }
+            } else {
+                if (x.properties['status_tmp'] === "active" || x.properties['status_tmp'] === undefined) {
+                    x.properties['status_tmp'] = "inactive";
+                    $('#' + dataId).addClass('inactive');
+                } else {
+                    x.properties['status_tmp'] = "active";
+                    $('#' + dataId).removeClass('inactive');
+                }
+            }
+        }
+        return x;
+    });
+    refreshLayer(dbs);
 };
 
 const loadData = (allPoints, callType) => {
@@ -566,6 +598,8 @@ const renderLegend = (database) => {
     $('#legend').append('<hr>');
     let legenditems = legenddiv.selectAll('.legenditem')
         .data(data);
+   
+    createCss(metadata.fields[categoryField]);
     legenditems
         .enter()
         .append('div')
@@ -590,6 +624,25 @@ const renderLegend = (database) => {
         .text((d => d.value));
 };
 
+const createCss = (conf) => {
+    let id = 'css-dynamic-color';
+    if (document.getElementById(id)) {
+        document.getElementById(id).remove(); 
+    }
+
+    if (conf.color !== undefined && conf.color.length > 0) {
+        var style = document.createElement('style');
+        style.type = 'text/css';
+        style.id = id;
+        
+        conf.color.forEach((val, index) => {
+            style.innerHTML += '.category-'+index+' { background-color: '+val+'; fill: '+val+'; stroke: '+val+'; border-color: '+val+'; }';
+        });
+        style.innerHTML += '.inactive-legend { background-color: #222 }';
+        document.getElementsByTagName('head')[0].appendChild(style);
+    }
+};
+
 const getFilterData = () => {
     let selects = ["1", "2", "3", "4", "5"];
     let deletes = [];
@@ -597,12 +650,12 @@ const getFilterData = () => {
         let inactive = $(this).attr('class').split(' ')[0];
         deletes.push(metadata.attribution.lookup[inactive.split('-')[1]]);
     });
-    let filterData = $.map(selects, (x) => {
-        if (deletes.indexOf(x) >= 0) {
-            return;
-        }
-        return x;
-    });
+    // let filterData = $.map(selects, (x) => {
+    //     if (deletes.indexOf(x) >= 0) {
+    //         return;
+    //     }
+    //     return x;
+    // });
     return deletes;
 }
 

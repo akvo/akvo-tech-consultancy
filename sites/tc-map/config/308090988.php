@@ -29,12 +29,6 @@ return [
                   "name" => "Province",
                   "type" => "cascade",
                 ],
-                [
-                    "question_id" => 310440982,
-                    "question_text" => "Gender",
-                    "name" => "Gender Type",
-                    "type" => "option",
-                ],
               ],
             "list" => [
                 [
@@ -56,8 +50,23 @@ return [
             "color" => [
                 [
                     "question_id" =>  310440982,
-                    "code" => "Yes",
-                    "color" => "",
+                    "code" => "Male",
+                    "color" => "#28a745",
+                ],
+                [
+                    "question_id" =>  310440982,
+                    "code" => "Female",
+                    "color" => "#dc3545",
+                ],
+                [
+                    "question_id" =>  323960999,
+                    "code" => "Manager",
+                    "color" => "#40b1e6",
+                ],
+                [
+                    "question_id" =>  323960999,
+                    "code" => "Director",
+                    "color" => "#ffca29",
                 ],
             ],
             "template" => [

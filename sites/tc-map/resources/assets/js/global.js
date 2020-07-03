@@ -90,6 +90,7 @@ const jqUI = () => {
             return false;
         },
         select: (event, ui) => {
+            console.log(ui.item);
             $("#find").val(ui.item[ui.item.searchKey]);
             return false;
         }
@@ -137,6 +138,9 @@ const exportExcel = (filter) => {
     const filterExcept = ["status", "PTS"];
     filter.forEach(x => {
         filterExcept.forEach(y => delete x[y]);
+        if (x['status_tmp'] !== undefined) {
+            delete x['status_tmp'];
+        }
         let tmp = [];
         Object.keys(x).map((key, index) => {
             tmp.push(x[key]);
