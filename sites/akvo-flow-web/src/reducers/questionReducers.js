@@ -154,7 +154,7 @@ const getGroupAttributes = ((group, questions, answers) => {
             return x.group === group.index;
         });
         answers = answers.filter((x) => {
-            return x.answer;
+            return x.answer || x.answer === 0;
         });
         let qgroup = questions;
         let hidden_questions = questions.filter((x) => x.dependency);
@@ -406,7 +406,7 @@ const replaceAnswers = (questions, data, restore) => {
             try {
                 answer = JSON.parse(answer)
             } catch (err) { }
-            answer = (parseInt(answer).isNan ? parseInt(answer) : answer)
+            answer = (!isNaN(answer) ? parseInt(answer) : answer)
         }
         return {
             id: x.id,

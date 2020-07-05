@@ -61,11 +61,12 @@ class DataFilters extends Component {
     }
 
     changeActive(id, parent_id, depth) {
+        console.log(id, depth);
         let cache = checkCache(id);
         if (id !== null && cache){
             this.props.filter.location.push(cache);
             this.props.filter.category.change(id, depth)
-            return;
+            return true;
         }
         this.props.chart.state.loading(true);
         if (id === null && depth === 1) {
@@ -93,7 +94,7 @@ class DataFilters extends Component {
                     });
             });
             this.props.filter.location.push(merged);
-            return;
+            return true;
         }
         const changes = () => {
             return new Promise((resolve, reject) => {
@@ -103,26 +104,25 @@ class DataFilters extends Component {
         }
         changes().then(res =>{
             let endpoint = parent_id !== null ? ( "/" + parent_id + "/" + id) :  "/" + id;
+            endpoint = id === null && depth === 2 ? ( "/" + parent_id) : endpoint;
             endpoint = id === null && depth === 1 ? "" : endpoint;
             axios.get(prefixPage + "locations/values" + endpoint)
                 .then(res => {
                     localStorage.setItem('locval_' + id,JSON.stringify(res.data));
                     this.props.filter.location.push(res.data);
                     this.props.chart.state.loading(false);
+                    if (id === null && depth === 2) {
+                        this.props.filter.category.change(parent_id, 1);
+                    } else {
+                        this.props.filter.category.change(id, depth);
+                    }
+                    return true;
                 }).catch(res => {
                     this.props.chart.state.loading(false);
                 });
-            return;
+            return true;
         });
         return true;
-    }
-
-    loadDefault() {
-        return;
-    }
-
-    componentDidMount() {
-        this.loadDefault();
     }
 
     getDropDownItem (dd, depth) {
@@ -157,14 +157,13 @@ class DataFilters extends Component {
         });
         selected = selected === undefined ? "All Categories" : titleCase(selected.name);
         filters = filters.filter(x => {
-            if (depth === 2 && selected === "All Categories" && !active.filter.domain) {
-                return true;
-            }
             if (depth === 2 && selected === "All Categories") {
                 return x.parent_id === active.filter.domain;
             }
-            return titleCase(x.name) !== selected
+            let filter = depth === 2 ? x.parent_id === active.filter.domain : true;
+            return titleCase(x.name) !== selected && filter;
         });
+        let parent_id = depth === 2 ? filters[0].parent_id : null;
         return (
             <Dropdown>
                 <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
@@ -177,7 +176,7 @@ class DataFilters extends Component {
                     { filters.map((x) => { return this.getDropDownItem(x, depth) }) }
                     {
                         selected === "All Categories" ? "" : (
-                            <Dropdown.Item onClick={e => this.changeActive(null, null, depth)} value={0}>
+                            <Dropdown.Item onClick={e => this.changeActive(null, parent_id, depth)} value={0}>
                                 All Categories
                             </Dropdown.Item>
                         )

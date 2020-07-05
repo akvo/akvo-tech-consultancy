@@ -49,8 +49,8 @@ class ApiController extends Controller
 
     public function locationValues(Request $requests, Answer $answers)
     {
-        $bridges = \App\Bridge::where('domain',$requests->domain);
         $value = 'domain';
+        $bridges = \App\Bridge::where('domain',$requests->domain);
         if ($requests->subdomain) {
             $bridges = $bridges->where('sub_domain', $requests->subdomain);
             $value = 'sub_domain';
@@ -58,7 +58,7 @@ class ApiController extends Controller
         $bridges = $bridges->get()->groupBy('district');
         $bridges = collect($bridges)->map(function($data, $key) use ($requests, $value) {
             $location = \App\Cascade::where('id', $key)->first();
-            $id= $value === 'domain' ? $requests->domain : $requests->subdomain;
+            $id = $value === 'domain' ? $requests->domain : $requests->subdomain;
             $parentId = $value === 'domain' ? null : $requests->domain;
             $value = $this->getValues($data, $id, $value, $parentId);
             return [

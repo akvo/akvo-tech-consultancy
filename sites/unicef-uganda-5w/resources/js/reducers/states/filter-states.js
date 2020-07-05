@@ -116,9 +116,8 @@ export const changeFilters = (state, id, depth) => {
         }
     }
     if (depth === 2) {
-        let that = state.list.find(x => x.id === id);
         filter = {
-            domain: that.parent_id,
+            domain: state.selected.filter.domain,
             sub_domain: id,
         }
     }
