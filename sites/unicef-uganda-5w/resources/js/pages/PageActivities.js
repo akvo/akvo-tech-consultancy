@@ -196,7 +196,7 @@ class PageActivities extends Component {
         let all_beneficeries = sumBy(data.map(x => {return {'val':x.values.value_new}}), 'val');
         let overviews = []
         for (let a in activities) {
-            overviews.push({name: titleCase(a) + "Assisted", value: activities[a]});
+            overviews.push({name: titleCase(a) + " Assisted", value: activities[a]});
         }
         return (
             <div className="table-floating tooltip-maps">

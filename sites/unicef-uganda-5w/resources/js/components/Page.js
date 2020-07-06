@@ -52,15 +52,18 @@ class Page extends Component {
                 });
         })};
         let cachetime = localStorage.getItem('cache-time');
-        cachetime = cachetime !== null ? new Date(parseInt(cachetime) + (15 * 60 * 1000)) : new Date(0);
-        console.log(now, cachetime);
-        if (now > cachetime) {
+        let cache_version = document.getElementsByName('cache-version')[0].getAttribute('value');
+        let current_version = localStorage.getItem('cache-version');
+        cachetime = cachetime !== null ? new Date(parseInt(cachetime) + (5 * 60 * 1000)) : new Date(0);
+        if (now > cachetime || cache_version !== current_version) {
+            localStorage.clear();
             Promise.all([get3(), get2(), get1()]).then(res => {
                 localStorage.setItem('cache', JSON.stringify(this.props.value));
                 localStorage.setItem('cache-time', now.getTime());
+                localStorage.setItem('cache-version', cache_version);
             });
         }
-        if (now < cachetime) {
+        if (now < cachetime && cache_version === current_version) {
             let cached = localStorage.getItem('cache');
             cached = JSON.parse(cached);
             this.props.cache.restore(cached);

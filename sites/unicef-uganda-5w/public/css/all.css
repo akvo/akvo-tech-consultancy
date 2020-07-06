@@ -148,6 +148,7 @@ a.nav-top-links:hover{
 /* width */
 ::-webkit-scrollbar {
       width: 4px;
+      height: 4px;
 }
 
 /* Track */
@@ -405,6 +406,23 @@ div.table-floating.table-floating-bottom{
     z-index: 999;
     top: 40%;
     left: calc(50% - 25px);
+}
+
+.text-active{ 
+    color: rgb(56, 159, 227);
+    font-weight: 600;
+}
+.text-deaths{
+    color: rgb(230, 0, 0);
+    font-weight: 600;
+}
+.text-confirmed{
+    color: rgb(154, 122, 0);
+    font-weight: 600;
+}
+.text-recovered{
+    color: rgb(58, 175, 1);
+    font-weight: 600;
 }
 
 @media (min-width: 992px) {
