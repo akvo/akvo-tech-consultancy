@@ -17,8 +17,10 @@ day = today_date.strftime('%d')
 if (day == '01' or day == '15'):
     instanceURI = 'spiceup'
     requestURI = "https://api-auth0.akvo.org/flow/orgs/{}".format(instanceURI)
-    EMAIL_RECEPIENTS = ['hatami.nugraha@gmail.com','everschuren@verstegen.nl','joy@akvo.org','hatami@cinquer.co.id','d.kurniawati@icco.nl','dymanohara@gmail.com','aharton2002@yahoo.com','akhmadfa@apps.ipb.ac.id','otihrostiana@gmail.com','ima@akvo.org','deden@akvo.org','galih@akvo.org', 'wietze.suijker@nelen-schuurmans.nl']
-    #EMAIL_RECEPIENTS = ['galih@akvo.org', 'deden@akvo.org', 'joy@akvo.org']
+
+    EMAIL_RECEPIENTS = ['akvo.tech.consultancy@gmail.com']
+    EMAIL_BCC = ['hatami.nugraha@gmail.com','everschuren@verstegen.nl','joy@akvo.org','hatami@cinquer.co.id','d.kurniawati@icco.nl','dymanohara@gmail.com','aharton2002@yahoo.com','akhmadfa@apps.ipb.ac.id','otihrostiana@gmail.com','ima@akvo.org','deden@akvo.org','galih@akvo.org', 'wietze.suijker@nelen-schuurmans.nl']
+    #EMAIL_BCC = ['galih@akvo.org']
 
     MAILJET_APIKEY = os.environ['MAILJET_APIKEY']
     MAILJET_SECRET = os.environ['MAILJET_SECRET']
@@ -327,10 +329,15 @@ if (day == '01' or day == '15'):
     for email in EMAIL_RECEPIENTS:
         receiver.append({"Email": email})
 
+    bcc = []
+    for email in EMAIL_BCC:
+        bcc.append({"Email": email})
+
     email = {
         'Messages': [{
                     "From": {"Email": "noreply@akvo.org", "Name": "noreply@akvo.org"},
                     "To": receiver,
+                    "Bcc": bcc,
                     "Subject": 'DO NOT REPLY: Demo Plot Notification from ' + formatDate(week_ago) + ' to ' + formatDate(today_date),
                     "HTMLPart": html_output,
                 }]
@@ -338,4 +345,5 @@ if (day == '01' or day == '15'):
 
     result = mailjet.send.create(data=email)
     print(checkTime(time.time()) + ' SENDING EMAIL TO {}'.format(', '.join(EMAIL_RECEPIENTS)))
+    print(checkTime(time.time()) + ' SENDING BCC TO {}'.format(', '.join(EMAIL_BCC)))
     print(checkTime(time.time()) + ' STATUS: {}\n'.format(result.status_code))
