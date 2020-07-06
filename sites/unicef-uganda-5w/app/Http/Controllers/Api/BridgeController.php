@@ -33,7 +33,6 @@ class BridgeController extends Controller
         $answers = Answer::whereIn('question_id', $qid)
             ->orderBy('form_instance_id','ASC')
             ->orderBy('repeat_index','ASC')
-            ->orderBy('question_id','ASC')
             ->get();
         $answers = $answers->groupBy('form_instance_id')->map(function($answer){
             return $answer->groupBy('repeat_index');
@@ -45,7 +44,7 @@ class BridgeController extends Controller
             ]);
             foreach($values as $value) {
                 foreach($data->first() as $dt){
-                    $match = collect($value['id'])->contains($dt['question_id']);
+                    $match = collect($value['id'])->contains((int) $dt['question_id']);
                     if ($match && !$value['repeat']){
                         $fill[$value['name']] = $this->getValue($value, $dt);
                     }
@@ -58,14 +57,16 @@ class BridgeController extends Controller
                 $repeats = collect($data['fill']);
                 foreach($values as $value) {
                     foreach($dt as $d) {
-                        $match = collect($value['id'])->contains($d['question_id']);
+                        $match = collect($value['id'])->contains((int) $d['question_id']);
                         if ($match && $value['repeat']){
                             $repeats[$value['name']] = $this->getValue($value, $d);
                         }
                     }
                 }
-                $bridge = new Bridge($repeats->toArray());
-                return $bridge->save();
+                if (isset($repeats['new'])){
+                    $bridge = new Bridge($repeats->toArray());
+                    return $bridge->save();
+                }
             });
         });
         return $answers->flatten(1);
@@ -93,6 +94,9 @@ class BridgeController extends Controller
             }
             return $result->id;
         default:
+            if ($value['type'] === 'date'){
+                return new \Carbon\Carbon($answer['name']);
+            }
             return $answer['value'] === null ? $answer['name'] : $answer['value'];
         }
 

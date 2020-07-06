@@ -83,6 +83,7 @@ class InitController extends Controller
                     $postFormInstances = $collections->each(function ($item) use ($form, $responseCollections) {
                         echo('Seeding Form Instances Table...'.PHP_EOL);
                         $postFormInstance = new FormInstance([
+                            'fid' => (int) $item['id'],
                             'form_id' => (int) $form['id'],
                             'data_point_id' => (int) $item['dataPointId'],
                             'identifier' => $item['identifier'],
@@ -301,7 +302,7 @@ class InitController extends Controller
                                 $repeatIndex = $repeatIndex + 1;
                             }
 
-                            $responses = collect($item)->map(function ($item) use ($results, $question, $repeatIndex, $formInstanceId, $search) {
+                            $responses = collect($item)->map(function ($item, $rix) use ($results, $question, $repeatIndex, $formInstanceId, $search) {
                                 if (!isset($item[$question['id']])) {
                                     return null;
                                 }
@@ -343,7 +344,7 @@ class InitController extends Controller
                                     'question_id' => $question['id'],
                                     'name' => $name,
                                     'value' => $value,
-                                    'repeat_index' => $repeatIndex
+                                    'repeat_index' => $rix
                                 ]);
                                 $postAnswer->save();
 
