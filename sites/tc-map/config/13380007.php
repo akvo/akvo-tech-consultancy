@@ -19,21 +19,21 @@ return [
             "type" => "registration",
             "name" => "Water point and WUC",
             "parent_id" => 13380007,
-            "selected_category" => "Type of Water Facility", //question string
+            "selected_category" => "Is there an improved Water source for the village?", //question string
             "popup_name" => "Name of Water point", //question string
             "search" => ["Type of Water Facility", "Name of Water point"], // question array of string
             "secondary_filter" => [
               [
                 "question_id" => 13270842,
-                "question_text" => "",
-                "name" => "Province",
-                "type" => "",
+                "question_text" => "Select Sub County /Town Council",
+                "name" => "Sub County",
+                "type" => "option",
               ],
               [
                 "question_id" => 14260395,
-                "question_text" => "",
+                "question_text" => "Type of Water Facility",
                 "name" => "Water Facility Type",
-                "type" => "",
+                "type" => "option",
               ],
             ],
             "list" => [
@@ -43,11 +43,11 @@ return [
                   "name" => "Estimated  Number of Households in the village",
                   "type" => "number",
                 ],
-                [
-                  "question_id" => 13270842,
-                  "name" => "Select Sub County /Town Council",
-                  "type" => "option",
-                ],
+                // [
+                //   "question_id" => 13270842,
+                //   "name" => "Select Sub County /Town Council",
+                //   "type" => "option",
+                // ],
                 [
                   "question_id" => 17410023,
                   "name" => "Is there an improved Water source for the village?",
@@ -65,11 +65,11 @@ return [
                 ],
 
                 // Water Point Data
-                [
-                    "question_id" => 14260395,
-                    "name" => "Type of Water Facility",
-                    "type" => "option",
-                ],
+                // [
+                //     "question_id" => 14260395,
+                //     "name" => "Type of Water Facility",
+                //     "type" => "option",
+                // ],
                 [
                   "question_id" => 10410201,
                   "name" => "Name of Piped scheme serving this tap",

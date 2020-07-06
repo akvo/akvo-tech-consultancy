@@ -289,7 +289,8 @@ const renderSecondFilter = () => {
         }
         values = values.slice(0, 10); // sample
         // consider about sf-list-index class and sf-all-index class, if more than 2 filter need to create more css
-        values.forEach(x => {
+        values.forEach((x, i) => {
+            // create second filter item
             let code = (item.type === 'cascade') ? x.code : x.value;
             let text = (item.type === 'cascade') ? x.name : x.text;
             var id = code.toLowerCase();
@@ -297,10 +298,10 @@ const renderSecondFilter = () => {
             id = id.join('-');
             d3.select('#sf-'+index+'-list')
                 .append('a')
-                .attr('id', ''+name+'-'+id)
+                .attr('id', ''+name+'-'+i)
                 .text(text)
                 .on('click', function (a) {
-                    filterBySecondFilter(text, 'sf-' + index + '', ''+name+'-'+id, item.id, item.type);
+                    filterBySecondFilter(text, 'sf-' + index + '', ''+name+'-'+i, item.id, item.type);
                 });
         });
         d3.select('#sf-'+index+'-list').append('button')
@@ -349,6 +350,7 @@ const filterBySecondFilter = (dataName, type, dataId, key, filterType) => {
         $('#' + type + '-all').text('Enable All');
         $('#' + type + '-all').attr('data-select', 'add');
     }
+    
     dbs["features"] = $.map(dbs.features, (x) => {
         x = x;
         if (dataName === 'options') {
@@ -359,25 +361,26 @@ const filterBySecondFilter = (dataName, type, dataId, key, filterType) => {
             }
         } else {
             let answer = x.properties[key].toLowerCase();
-            let condition = (filterType === 'cascade') ? answer.includes(dataName.toLowerCase()) : answer === dataName.toLowerCase();
+            // let condition = (filterType === 'cascade') ? answer.includes(dataName.toLowerCase()) : answer === dataName.toLowerCase();
+            let condition = answer.includes(dataName.toLowerCase());
             if (condition) {
                 if (x.properties['status'] === "active") {
                     x.properties['status'] = "inactive";
                     $('#' + dataId).addClass('inactive');
                 } else {
-                    console.log(x.properties[key]);
                     x.properties['status'] = "active";
                     $('#' + dataId).removeClass('inactive');
                 }
-            } else {
-                if (x.properties['status_tmp'] === "active" || x.properties['status_tmp'] === undefined) {
-                    x.properties['status_tmp'] = "inactive";
-                    $('#' + dataId).addClass('inactive');
-                } else {
-                    x.properties['status_tmp'] = "active";
-                    $('#' + dataId).removeClass('inactive');
-                }
             }
+            // else {
+            //     if (x.properties['status_tmp'] === "active" || x.properties['status_tmp'] === undefined) {
+            //         x.properties['status_tmp'] = "inactive";
+            //         $('#' + dataId).addClass('inactive');
+            //     } else {
+            //         x.properties['status_tmp'] = "active";
+            //         $('#' + dataId).removeClass('inactive');
+            //     }
+            // }
         }
         return x;
     });
