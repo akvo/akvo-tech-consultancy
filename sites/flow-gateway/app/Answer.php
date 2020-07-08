@@ -27,4 +27,9 @@ class Answer extends Model
     {
         return $this->belongsTo('App\SurveySession');
     }
+
+    public function localizations()
+    {
+        return $this->hasMany('App\Localization', 'question_id', 'question_id');
+    }
 }
