@@ -1,4 +1,4 @@
-import request as r
+import requests as r
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 
