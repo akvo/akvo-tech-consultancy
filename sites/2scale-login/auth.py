@@ -8,6 +8,7 @@ CORS(app)
 @app.route('/login', methods=['GET','POST'])
 def login():
     params = request.headers.get('Authorization')
+    print(params)
     data = r.get('https://api-auth0.akvo.org/flow/orgs/2scale/folders?parentId=0', headers={
         "Authorization": params,
         "Accept":"application/vnd.akvo.flow.v2+json",
