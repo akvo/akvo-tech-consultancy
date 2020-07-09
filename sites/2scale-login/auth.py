@@ -1,5 +1,5 @@
 import requests as r
-from flask import Flask, jsonify, request
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -7,9 +7,13 @@ CORS(app)
 
 @app.route('/login', methods=['POST'])
 def login():
-    params = request.get_json()
-    data = r.post('https://api-auth0.akvo.org/flow/orgs/2scale/folders?parentId=0', headers=params)
-    return jsonify(data)
+    params = request.headers.get('Authorization')
+    data = r.get('https://api-auth0.akvo.org/flow/orgs/2scale/folders?parentId=0', headers={
+        "Authorization": params,
+        "Accept":"application/vnd.akvo.flow.v2+json",
+        "Content-Type":"application/json",
+        })
+    return jsonify(data.json())
 
 if __name__ == '__main__':
     app.jinja_env.auto_reload = True
