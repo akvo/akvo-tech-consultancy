@@ -18,6 +18,7 @@ import TreeMap from '../data/options/TreeMap';
 import DataFilters from '../components/DataFilters';
 import DataTypes from '../components/DataTypes';
 import DataLocations from '../components/DataLocations';
+import Tables from '../components/Tables'
 import { TextStyle } from '../data/features/animation.js';
 
 
@@ -218,7 +219,7 @@ class PageOverviews extends Component {
         let all_beneficeries = sumBy(data.map(x => {return {'val':x.values.value_new}}), 'val');
         let overviews = []
         for (let a in activities) {
-            overviews.push({name: titleCase(a) + "Assisted", value: activities[a]});
+            overviews.push({name: titleCase(a) + " Assisted", value: activities[a]});
         }
         return (
             <div className="table-floating tooltip-maps">
@@ -272,6 +273,7 @@ class PageOverviews extends Component {
                 <Row>
                 {chart}
                 </Row>
+                <Tables/>
             </Container>
             </Fragment>
         );

@@ -28,6 +28,7 @@ Route::get('/value/category/{id}', 'Api\QueryController@getValueById');
 
 Route::get('/filters', 'Api\ApiController@filters');
 Route::get('/locations', 'Api\ApiController@locations');
+Route::get('/locations/values', 'Api\ApiController@locationValues');
 Route::get('/locations/values/{domain}', 'Api\ApiController@locationValues');
 Route::get('/locations/values/{domain}/{subdomain}', 'Api\ApiController@locationValues');
 Route::get('/locations/organisations', 'Api\ApiController@locationOrganisations');

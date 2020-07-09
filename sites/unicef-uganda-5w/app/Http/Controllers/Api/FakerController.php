@@ -142,7 +142,7 @@ class FakerController extends Controller
             break;
         case "date":
             $date = $this->faker->dateTimeBetween($startDate = '-1 day', $endDate = 'now', $timezone = null);
-            $question['answer']['name'] = $date;
+            $question['answer']['name'] = $date->format('Y-m-d');
             break;
         case "option":
             $option = $this->faker->randomElement(Option::where('question_id', $question['id'])->get());

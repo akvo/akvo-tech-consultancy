@@ -378,8 +378,8 @@ def aws_s3_parameters(instance):
 def upload_parameters(rec, _uuid):
     data = get_payload(rec, _uuid, True)
     s3 = aws_s3_parameters(rec["_instanceId"])
-    return {"data": data["payload"],
-            "policy": s3}
+    return jsonify({"data": data["payload"],
+            "policy": s3})
 
 
 @app.route('/submit-form', methods=['POST'])

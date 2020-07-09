@@ -21,11 +21,11 @@ class Answer extends Model
 
     public function option()
     {
-        return $this->hasOne('App\Option');
+        return $this->hasOne('App\Option', 'answer_options');
     }
 
     public function cascade()
     {
-        return $this->hasOne('App\Cascade');
+        return $this->hasOne('App\Cascade', 'answer_cascades');
     }
 }

@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="cache-version" value="{{ config('cache.version') }}">
         <title>{{ config('app.name', 'Laravel') }}</title>
         <link href="{{mix('/css/app.css')}}" rel="stylesheet">
         <link href="{{mix('/css/all.css')}}" rel="stylesheet">
