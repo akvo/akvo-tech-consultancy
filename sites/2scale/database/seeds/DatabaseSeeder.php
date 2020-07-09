@@ -11,7 +11,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        /* Deprecated 
+        /* Deprecated
         $this->call(CronSeeder::class);
         $this->call(DataSeeder::class);
         $this->call(UserTableSeeder::class);
@@ -25,6 +25,6 @@ class DatabaseSeeder extends Seeder
         $this->call(DatapointsTableSeeder::class);
 
         /* Faker Test Datapoint */
-        //$this->call(TestDatapointsTableSeeder::class);
+        // $this->call(TestDatapointsTableSeeder::class);
     }
 }

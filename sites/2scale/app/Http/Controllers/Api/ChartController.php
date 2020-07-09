@@ -7,6 +7,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 use App\Libraries\Akvo;
 use App\Libraries\Helpers;
 use App\Libraries\Echarts;
@@ -32,8 +33,11 @@ class ChartController extends Controller
                 'values' => explode('|', $answer->text)
             );
         })->groupBy('country');
+        if (count($answers) === 0) {
+            return response('no data available', 503);
+        };
         $answers = $answers->map(function($data, $key){
-            $list = collect(); 
+            $list = collect();
             $data->each(function($d) use ($list) {
                 $list->push($d['values']);
             });
@@ -67,10 +71,13 @@ class ChartController extends Controller
                            $dt->country_name = $dt->country->name;
                            return $dt->makeHidden(['forms','country']);
                        });
+        if (count($data) === 0) {
+            return response('no data available', 503);
+        };
         $projects = $data->groupBy('form_name');
         $series = collect($projects)
-            ->map(function($data, $key){ 
-                return $data->countBy('country_name'); 
+            ->map(function($data, $key){
+                return $data->countBy('country_name');
             })
             ->map(function($data, $key) use ($countries) {
                 $count = collect();
@@ -98,7 +105,7 @@ class ChartController extends Controller
         $question_id = collect([$femaleold, $femaleyoung, $maleold, $maleyoung])->flatten(0);
         $all = $answers->whereIn('question_id', $question_id);
         $hasCountry = false;
-        if (isset($request->country_id)) {
+        if (isset($request->country_id) || isset($request->start)) {
             $hasCountry = true;
             if ($request->country_id === "0") {
                 $hasCountry = false;
@@ -118,11 +125,14 @@ class ChartController extends Controller
                 return $dt->makeHidden('datapoints');
             });
         }
+        if (count($all) === 0) {
+            return response('no data available', 503);
+        };
         $legends = ["Female > 35", "Female ≤ 35", "Male > 35", "Male ≤ 35"];
-        $all = collect($all)->groupBy('country')->map(function($countries) 
+        $all = collect($all)->groupBy('country')->map(function($countries)
             use ($femaleold, $femaleyoung, $maleold, $maleyoung)
         {
-            $countries = $countries->map(function($country) 
+            $countries = $countries->map(function($country)
                 use ($femaleold, $femaleyoung, $maleold, $maleyoung)
             {
                 $country->total = (int) $country->value;
@@ -151,9 +161,9 @@ class ChartController extends Controller
         $femaleyoung = collect();
         $maleold = collect();
         $maleyoung = collect();
-        $all = $all->map(function($data) 
+        $all = $all->map(function($data)
             use ($femaleold, $femaleyoung, $maleold, $maleyoung ){
-                $data->map(function($dt, $key) 
+                $data->map(function($dt, $key)
                 use ($femaleold, $femaleyoung, $maleold, $maleyoung ){
                     if ($key === "Female > 35"){
                         $femaleold->push($dt);
@@ -203,11 +213,14 @@ class ChartController extends Controller
         $maleyoung = ['24030005'];
         $question_id = collect([$femaleold, $femaleyoung, $maleold, $maleyoung])->flatten(0);
         $all = $answers->whereIn('question_id', $question_id);
-        if (isset($request->country_id)) {
+        if (isset($request->country_id) || isset($request->start)) {
             $datapoints_id = $this->filterQuery($request);
             $all = $all->whereIn('datapoint_id',$datapoints_id);
         }
         $all = $all->get();
+        if (count($all) === 0) {
+            return response('no data available', 503);
+        };
         $legends = ["Female > 35", "Female ≤ 35", "Male > 35", "Male ≤ 35"];
         $series = collect($all)->map(function($dt)
             use ($femaleold, $femaleyoung, $maleold, $maleyoung ){
@@ -244,7 +257,7 @@ class ChartController extends Controller
         $question_id = ['36030007', '24030004', '20030002', '24030005'];
         $answers = $answers->whereIn('question_id', $question_id);
         $hasCountry = false;
-        if (isset($request->country_id)) {
+        if (isset($request->country_id) || isset($request->start)) {
             $hasCountry = true;
             if ($request->country_id === "0") {
                 $hasCountry = false;
@@ -255,7 +268,7 @@ class ChartController extends Controller
         if ($hasCountry) {
             $answers = $answers->with('datapoints.partnership')->get()->transform(function($data){
                 return [
-                    'name' => $data->datapoints->partnership->name,
+                    'name' => Str::before($data->datapoints->partnership->name, '_'),
                     'value' => $data->value,
                 ];
             });
@@ -268,6 +281,9 @@ class ChartController extends Controller
                 ];
             });
         }
+        if (count($answers) === 0) {
+            return response('no data available', 503);
+        };
         $answers = $answers->groupBy('name')->map(function($dt, $key) {
                 return $dt->map(function($d){return $d['value'];})->sum();
         });
@@ -285,6 +301,8 @@ class ChartController extends Controller
 
         $filter_country = false;
         $filter_partner = false;
+        $start = new Carbon('2018-01-01');
+        $end = new Carbon(date("Y-m-d"));
 
         if (isset($request->country_id)) {
             $filter_country = true;
@@ -298,6 +316,11 @@ class ChartController extends Controller
             if ($request->partnership_id === "0") {
                 $filter_partner = false;
             }
+        }
+
+        if (isset($request->start)){
+            $start = new Carbon($request->start);
+            $end = new Carbon($request->end);
         }
 
         $survey_codes = collect(config('surveys.forms'))->filter(function($survey){
@@ -315,14 +338,22 @@ class ChartController extends Controller
             $results = $results->where('id', $request->partnership_id);
         }
         $results = $results->with('partnership_datapoints')->with('parents')->get();
-        $results = collect($results)->map(function($partners) use ($survey_codes) {
+        if (count($results) === 0) {
+            return response('no data available', 503);
+        };
+
+        $results = collect($results)->map(function($partners) use ($survey_codes, $start, $end) {
             $partnership_dp = collect($partners['partnership_datapoints'])->filter(function($dp) use ($survey_codes) {
                 return collect($survey_codes)->contains($dp['form_id']);
-            })->count();
-            $res['country'] = $partners['parents']['name'];
+            });
+            $partnership_dp = $partnership_dp->map(function($dp){
+                return ["date" => new Carbon(date($dp["submission_date"]))];
+            })->values();
+            $partnership_dp = $partnership_dp->whereBetween('date', [$start, $end]);
+            $res['country'] = ($partners['parents'] === null) ? null : $partners['parents']['name'];
             $res['commodity'] = Str::before($partners['name'],'_');
             $res['project'] = Str::after($partners['name'],'_');
-            $res['value'] = $partnership_dp;
+            $res['value'] = $partnership_dp->count();
             return $res;
         });
         $results = $results->reject(function($partners){
@@ -333,6 +364,9 @@ class ChartController extends Controller
 
     public function partnershipCharts(Request $request, Partnership $partnerships, Datapoint $datapoints) {
         $results = $this->filterPartnership($request, $partnerships);
+        if (count($results) === 0) {
+            return response('no data available', 503);
+        };
         $results = $results->sortByDesc('value')->values();
         $categories = $results->groupBy('country')->keys();
         $series = $results->groupBy('project')->map(function($countries, $key) use ($results, $categories) {
@@ -361,6 +395,9 @@ class ChartController extends Controller
 
     public function partnershipTotalCharts(Request $request, Partnership $partnerships, Datapoint $datapoints) {
         $results = $this->filterPartnership($request, $partnerships);
+        if (count($results) === 0) {
+            return response('no data available', 503);
+        };
         $series = $results->groupBy('country')->map(function($data, $key){
             $data = $data->map(function($val){
                 return $val['value'];
@@ -379,6 +416,9 @@ class ChartController extends Controller
 
     public function partnershipCommodityCharts(Request $request, Partnership $partnerships, Datapoint $datapoints) {
         $results = $this->filterPartnership($request, $partnerships);
+        if (count($results) === 0) {
+            return response('no data available', 503);
+        };
         $series = $results->groupBy('project')->map(function($data, $key){
             $data = $data->map(function($val){
                 return $val['value'];
@@ -397,10 +437,49 @@ class ChartController extends Controller
 		return $this->echarts->generateSimpleBarCharts($legends, $values);
     }
 
+    public function genderCount(Request $request, Answer $answers)
+    {
+        $femaleold = ['36030007'];
+        $femaleyoung = ['24030004'];
+        $maleold = ['20030002'];
+        $maleyoung = ['24030005'];
+        $question_id = collect([$femaleold, $femaleyoung, $maleold, $maleyoung])->flatten(0);
+        $all = $answers->whereIn('question_id', $question_id);
+        if (isset($request->country_id)) {
+            $datapoints_id = $this->filterQuery($request);
+            $all = $all->whereIn('datapoint_id',$datapoints_id);
+        }
+        $all = collect($all->get())->map(function($dt, $key) 
+            use ($femaleold, $femaleyoung, $maleold, $maleyoung ){
+                $dt->answer = (int) $dt->answer;
+                if (collect($femaleold)->contains($dt->question_id)){
+                    $dt->participant = "Female > 35";
+                }
+                if (collect($femaleyoung)->contains($dt->question_id)){
+                    $dt->participant = "Female ≤ 35";
+                }
+                if (collect($maleold)->contains($dt->question_id)){
+                    $dt->participant = "Male > 35";
+                }
+                if (collect($maleyoung)->contains($dt->question_id)){
+                    $dt->participant = "Male ≤ 35";
+                }
+                return $dt;
+            })->groupBy('participant')->map(function($dt, $key){
+                return [
+                    "country" => $key,
+                    "value" => $dt->sum('value'),
+                ];
+            })->values();
+        return $all;
+    }
+
     public function topThree(Request $request, Partnership $partnerships, Datapoint $datapoints)
     {
         $results = $partnerships;
         $showPartnership = false;
+        $start = new Carbon('2018-01-01');
+        $end = new Carbon(date("Y-m-d"));
         if (isset($request->country_id)) {
             if($request->country_id !== "0") {
                 $showPartnership = true;
@@ -409,24 +488,34 @@ class ChartController extends Controller
         if (!isset($request->country_id)) {
             $showPartnership = false;
         }
+        if (isset($request->start)) {
+            $start = new Carbon($request->start);
+            $end = new Carbon($request->end);
+        }
         if($showPartnership){
             $results = $results->where('id', $request->country_id)
                 ->has('country_datapoints')
                 ->with('country_datapoints.partnership')
-                ->first()->country_datapoints;
-            $results = $results->transform(function($dt){
+                ->first();
+            if (!$results) {
+                return response('no data available', 503);
+
+            }
+            $results = $results->country_datapoints->transform(function($dt){
                 return [
                     'country' => $dt->partnership->name,
                     'commodity' => Str::before($dt->partnership->name,'_'),
-                    'project' => Str::after($dt->partnership->name,'_')
+                    'project' => Str::after($dt->partnership->name,'_'),
+                    'date' => new Carbon($dt->submission_date)
                 ];
             })->groupBy('country');
-            $results = collect($results)->map(function($dt, $key) {
+            $results = collect($results)->map(function($dt, $key) use ($start, $end) {
+                $filtered_date = collect($dt)->whereBetween('date', [$start, $end]);
                 return [
                     'country' => $key,
                     'commodity' => Str::before($key, '_'),
                     'project' => Str::after($key, '_'),
-                    'value' => $dt->count(),
+                    'value' => $filtered_date->count(),
                 ];
             })->values()->take(4);
             return $results;
@@ -439,26 +528,35 @@ class ChartController extends Controller
                     return $list['form_id'];
                 })->flatten(2);
             })->values()->flatten();
-            $results = $results->with('partnership_datapoints')->with('parents')->get();
-            $results = collect($results)->map(function($partners) use ($survey_codes) {
-                $partnership_dp = collect($partners['partnership_datapoints'])->filter(function($dp) use ($survey_codes) {
+            $results = $results
+                ->has('partnership_datapoints')
+                ->with('partnership_datapoints.partnership')
+                ->with('parents')
+                ->get();
+            $results = collect($results)->map(function($partners) use ($survey_codes, $start, $end) {
+                $partnership_dp = collect($partners['partnership_datapoints'])
+                    ->filter(function($dp) use ($survey_codes) {
                     return collect($survey_codes)->contains($dp['form_id']);
-                })->count();
-                $res['country'] = $partners['parents']['name'];
+                });
+                $partnership_dp = $partnership_dp->map(function($dp){
+                    return ["date" => new Carbon(date($dp["submission_date"]))];
+                })->values();
+                $partnership_dp = $partnership_dp->whereBetween('date', [$start, $end]);
+                $res['country'] = ($partners['parents'] === null) ? null : $partners['parents']['name'];
                 $res['commodity'] = Str::before($partners['name'],'_');
                 $res['project'] = Str::after($partners['name'],'_');
-                $res['value'] = $partnership_dp;
+                $res['value'] = count($partnership_dp);
                 return $res;
             });
             $results = $results->reject(function($partners){
                 return $partners['value'] === 0;
             })->values();
             $results = $results->sortByDesc('value')->values();
-            $partners = $results->take(3); 
+            $partners = $results->take(3);
             $total = [
                 'country'=> $results->groupBy('country')->count()." Countries",
-                'commodity' => $results->groupBy('commodity')->count(). " Partnerships", 
-                'project' => $results->groupBy('project')->count(). " Projects", 
+                'commodity' => $results->groupBy('commodity')->count(). " Partnerships",
+                'project' => $results->groupBy('project')->count(). " Projects",
                 'value' => $results->countBy('value')->flatten()->sum()
             ];
             $partners->push($total);
@@ -473,7 +571,7 @@ class ChartController extends Controller
         return $results;
     }
 
-    public function mapCharts(Request $request, Partnership $partnerships, Datapoint $datapoints) 
+    public function mapCharts(Request $request, Partnership $partnerships, Datapoint $datapoints)
     {
         $data = $partnerships
             ->has('country_datapoints')
@@ -534,7 +632,7 @@ class ChartController extends Controller
             return array(
                 "name" => $country,
                 "value" => "countries",
-                "children" => $partnership, 
+                "children" => $partnership,
                 "itemStyle" => array("color" => "#33b5e5"),
                 "label" => array("fontSize" =>  15),
             );
@@ -560,6 +658,11 @@ class ChartController extends Controller
             $partnerships_id = $request->partnership_id;
             $datapoints = $datapoints->where('partnership_id',$partnerships_id);
         }
+        if(isset($request->start)){
+            $start = date($request->start);
+            $end = date($request->end);
+            $datapoints = $datapoints->whereBetween('submission_date',[$start, $end]);
+        };
         return $datapoints->get()->pluck('id');
     }
 

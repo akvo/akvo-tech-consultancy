@@ -2,9 +2,14 @@ import { getQuestionType } from '../util/QuestionHandler.js'
 import { isJsonString } from '../util/QuestionHandler.js'
 import uuid from 'uuid/v4'
 import isoLangs from '../util/Languages.js'
+import { PARENT_URL } from '../util/Environment.js'
+
+const DOMAIN_ID = localStorage.getItem('_cache') !== null ? localStorage.getItem('_cache') : false;
+const DOMAIN = DOMAIN_ID ? document.referrer + '/' + DOMAIN_ID : document.referrer;
 
 const initialState = {
     error: false,
+    domain: PARENT_URL ? DOMAIN : window.location.href,
     instanceName:"Loading...",
     instanceId:"Loading...",
     surveyName:"Loading..",
@@ -25,6 +30,7 @@ const initialState = {
         type: "text",
         validation: false,
         iteration: 0,
+        overview: false,
         altText: [{
             language:"en",
             text:"Loading",
@@ -39,6 +45,7 @@ const initialState = {
     active: [],
     answers: [],
     mandatory: [],
+    overview: false,
     submit: false,
     captcha: false,
     datapoint: null,
@@ -63,6 +70,7 @@ const initialState = {
     },
     pages:{
     },
+    savedUrl: false,
     lang: {
         active: ["en"],
         list: [{id:"en",name:"Loading..."}]
@@ -146,7 +154,7 @@ const getGroupAttributes = ((group, questions, answers) => {
             return x.group === group.index;
         });
         answers = answers.filter((x) => {
-            return x.answer;
+            return x.answer || x.answer === 0;
         });
         let qgroup = questions;
         let hidden_questions = questions.filter((x) => x.dependency);
@@ -235,6 +243,7 @@ const addQuestions = (data) => {
             group: gi,
             heading: g.h,
             validation: (q.validationRule ? q.validationRule : false),
+            overview: false,
             show: false
         }
     }
@@ -247,6 +256,9 @@ const addQuestions = (data) => {
 	const groups = validateGroup(data.questionGroup,'aq');
 
 	let questionGroup = groups.map((g,i) => {
+        let question = g.question;
+        question = Array.isArray(question) ? question : [question];
+        g.question = question;
 		return {
 			...g,
             question: mapgroup(g.question, {h:g.heading, i: i, r: g.repeatable})
@@ -289,6 +301,7 @@ const showHideQuestions = (orig, group) => {
     let updated_answer = []
     let active = orig.map(x => {
         let show = true
+        let overview = true
         let dependent = false
         let answer_value;
         let answer;
@@ -331,7 +344,7 @@ const showHideQuestions = (orig, group) => {
                     show = true
                 }
                 if (answer.filter(a => answer_value.includes(a)).length === 0){
-                    localStorage.removeItem(x.id);
+                    //localStorage.removeItem(x.id);
                     show = false
                 }
             }
@@ -352,6 +365,7 @@ const showHideQuestions = (orig, group) => {
                     show = true
                 }
             }
+            overview = show
             if(x.group !== group){
                 show = false
             }
@@ -373,7 +387,7 @@ const showHideQuestions = (orig, group) => {
             }
         }
         updated_answer.push({...x, show:show, type: getQuestionType(x)})
-        return { ...x, show:show, type: getQuestionType(x)}
+        return { ...x, show:show, overview: overview, type: getQuestionType(x)}
     });
     return active;
 }
@@ -392,7 +406,6 @@ const replaceAnswers = (questions, data, restore) => {
             try {
                 answer = JSON.parse(answer)
             } catch (err) { }
-            answer = (parseInt(answer).isNan ? parseInt(answer) : answer)
         }
         return {
             id: x.id,
@@ -484,6 +497,17 @@ const cloneQuestions = (questions, groups, group_id, restoring=false) => {
     let i = 0;
     do {
         let new_id = new_questions[i].id.split('-')[0] + '-' + new_iteration;
+        if (new_questions[i].dependency !== undefined) {
+            let dependency_question = new_questions[i].dependency.question;
+            let dependency_iteration = dependency_question.indexOf(group.questions) === -1 ? '0' : new_iteration;
+            new_questions[i] = {
+                ...new_questions[i],
+                dependency: {
+                    ...new_questions[i].dependency,
+                    question: new_questions[i].dependency.question.split('-')[0] + '-' + dependency_iteration
+                }
+            }
+        }
         qgroup = [
             ...qgroup,
             {...new_questions[i], id: new_id, iteration: new_iteration}
@@ -584,7 +608,7 @@ export const questionReducers = (state = initialState, action) => {
                 ...state,
                 groups: listGroups(action.data, state.questions, state.answers),
             }
-        case 'RESTORE ANSWERS':
+        case 'REPLACE ANSWERS':
             return {
                 ...state,
                 answers: replaceAnswers(action.data, localStorage, true)
@@ -613,7 +637,8 @@ export const questionReducers = (state = initialState, action) => {
             return {
                 ...state,
                 questions: cloned.questions,
-                groups: cloned.groups
+                answers: replaceAnswers(cloned.questions, localStorage, true),
+                groups: cloned.groups,
             }
         case 'REMOVE GROUP':
             const uncloned = removeQuestions(state.questions, state.groups, action.data);
@@ -641,6 +666,11 @@ export const questionReducers = (state = initialState, action) => {
                 ...state,
                 submit: action.data
             }
+        case 'URL STATE':
+            return {
+                ...state,
+                savedUrl: action.show
+            }
         case 'GENERATE UUID':
             return {
                 ...state,
@@ -655,6 +685,11 @@ export const questionReducers = (state = initialState, action) => {
             return {
                 ...state,
                 cascade: storeCascade(state.cascade, action.data)
+            }
+        case 'SHOW OVERVIEW':
+            return {
+                ...state,
+                overview: action.show
             }
         case 'SHOW ERROR':
             return {
@@ -672,6 +707,11 @@ export const questionReducers = (state = initialState, action) => {
             updateLocalStorage(state.questions);
             return {
                 ...state,
+            }
+        case 'UPDATE DOMAIN':
+            return {
+                ...state,
+                domain: action.url
             }
         default:
             return state;

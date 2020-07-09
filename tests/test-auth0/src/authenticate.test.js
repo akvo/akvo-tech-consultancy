@@ -11,7 +11,7 @@ describe('Auth Parameters', () => {
         expect(AuthParams).toBeDefined();
     });
 
-    test('variables password is set already', () => {
+    test('variables auth is set already', () => {
         expect(process.env.AUTH0_PWD).toBeDefined();
         expect(process.env.AUTH0_USER).toBeDefined();
         expect(process.env.AUTH0_URL).toBeDefined();
@@ -40,11 +40,10 @@ describe('Auth Request', () => {
         const response = {
             access_token: "very long string",
             id_token: "very long string",
-            scope: "openid email",
             expires_in: 86400,
             token_type: "Bearer",
         }
-        axios.post.mockImplementationOnce(() => Promise.resolve(data));
-        await expect(Auth(data)).resolves.toMatchObject(data);
+        axios.post.mockImplementationOnce(() => Promise.resolve(response));
+        await expect(Auth(data)).resolves.toMatchObject(response);
     });
 });

@@ -4,19 +4,21 @@ import Home from './Home'
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { questionReducers } from './reducers/questionReducers.js'
-import { PROD_URL } from './util/Environment.js'
-
-const BASE_URL = ( PROD_URL ? "/akvo-flow-web" : process.env.REACT_APP_BASE_URL);
+import { BASE_URL, CACHE_URL } from './util/Environment.js'
 
 const store = createStore(questionReducers)
 
 class App extends Component {
 
     render () {
+        let path = "/:instance/:surveyid"
+        if (CACHE_URL) {
+            path = path + "/:cacheid";
+        }
         return (
 	        <Provider store={store}>
             <BrowserRouter>
-                <Route path={ BASE_URL + "/:instance/:surveyid"} render={ props => <Home key="home" {...props} />} />
+                <Route path={ BASE_URL + path} render={ props => <Home key="home" {...props} />} />
             </BrowserRouter>
 	        </Provider>
         )

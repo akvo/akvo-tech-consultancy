@@ -61,6 +61,7 @@ class flow_api():
             return data
         if response.status_code == 204:
             return {'status': 204, 'nextSyncUrl':url}
+        return {'status': response.status_code}
 
     def init_sync(self, session, token):
         init_url = '{}/sync?initial=true'.format(self.data_url)

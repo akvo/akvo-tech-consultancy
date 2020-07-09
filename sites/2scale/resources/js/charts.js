@@ -1,7 +1,9 @@
 import { CountUp } from 'countup.js';
 import { staticText, gradients, titleCase} from './util.js';
+import { db, storeDB } from './dexie';
 const echarts = window.echarts;
 const axios = window.axios;
+const table = db.charts;
 
 const popupFormatter = (params) => {
     var value = (params.value + '').split('.');
@@ -13,7 +15,7 @@ const popupFormatter = (params) => {
 };
 
 const mapOption = new Promise((resolve, reject) => {
-    axios.get('/api/charts/home/map')
+    axios.get('/charts/home/map')
         .then(res => {
             resolve(res.data);
         })
@@ -28,6 +30,12 @@ const generateCards = (info, color, rank) => {
             return "";
         }
         return rank;
+    }
+    if (info.project === undefined) {
+        info.project = ""
+    }
+    if (info.commodity === undefined) {
+        info.commodity = ""
     }
     let html = `<div class="col-md-3">
                     <div class="card card-cascade wider">
@@ -48,18 +56,44 @@ const generateCards = (info, color, rank) => {
     }
 }
 
-
-export const getCards = (cards) => {
-    const topThree = new Promise((resolve, reject) => {
-        axios.get('/api/charts/' + cards)
+const fetchData = (endpoint) => {
+    const split = endpoint.split('/');
+    const filter = [split[1], split[2], split[3], split[4]].join('/');
+    return new Promise((resolve, reject) => {
+        axios.get('/charts/' + endpoint)
             .then(res => {
+                storeDB({
+                    table : table,
+                    data : {
+                        endpoint: split[0],
+                        filter: filter,
+                        data: res.data
+                    },
+                    key : {
+                        endpoint: split[0],
+                        filter: filter
+                    }
+                });
                 resolve(res.data);
             })
             .catch(err => {
                 reject(err);
             });
     });
+};
 
+const loadData = async (endpoint) => {
+    const split = endpoint.split('/');
+    const filter = [split[1], split[2], split[3], split[4]].join('/');
+    const res = await table.get({endpoint: split[0], filter: filter});
+    if (res === undefined) {
+        return fetchData(endpoint);
+    }
+    return res.data;
+}
+
+export const getCards = (cards) => {
+    const topThree = loadData(cards);
     topThree.then(res => {
         res.forEach((data, index) =>  {
             let rank = '';
@@ -92,13 +126,17 @@ export const getCharts = (chart, row, info, md, color) => {
     $("#" + row).append(html);
     var element = document.getElementById(chartname);
     var myChart = echarts.init(element);
-    axios.get('/api/charts/' + chart)
+    loadData(chart)
         .then(res => {
             setTimeout(function() {
                 $("#loader-" + chartname).remove();
-                myChart.setOption(res.data);
+                myChart.setOption(res);
             }, 1000);
         })
+        .catch(e => {
+            $("#loader-" + chartname).remove();
+            myChart.setOption({title: {text:"No Data available for this request"}});
+        });
 }
 
 export const getMaps = () => {
@@ -119,10 +157,108 @@ export const getMaps = () => {
                     ...response,
                     ...{tooltip: tooltip}
                 }
-                console.log(response);
                 myChart.setOption(response);
             })
             return true;
         });
     ;
+}
+
+export const getHierarchy = (data) => {
+    var element = document.getElementById('hierarchy');
+    var myChart = echarts.init(element);
+    echarts.util.each(data.children, function(datum, index) {
+        index % 2 === 0 && (datum.collapsed = true);
+    });
+    var option = {
+        tooltip: {
+            trigger: 'item',
+            triggerOn: 'mousemove'
+        },
+        series: [{
+            room: 'zoom',
+            zoom: true,
+            type: 'tree',
+
+            data: [data],
+            initialTreeDepth: 2,
+            top: '1%',
+            left: '7%',
+            bottom: '1%',
+            right: '20%',
+            symbolSize: 8,
+            itemStyle: {
+                borderWidth:0,
+            },
+            lineStyle: {
+                curveness: .3,
+            },
+            symbolSize: function(params, name) {
+                if (name.data.value === "organisations") {
+                    return 5;
+                };
+                if (name.data.value === "projects") {
+                    return 7;
+                };
+                if (name.data.value === "partnership") {
+                    return 10;
+                };
+                if (name.data.value === "countries") {
+                    return 15;
+                };
+                return 12;
+            },
+            symbol: function(params, name) {
+                if (name.data.value === "organisations") {
+                    return 'rect';
+                };
+                if (name.data.value === "projects") {
+                    return 'circle';
+                };
+                if (name.data.value === "partnership") {
+                    return 'triangle';
+                };
+                if (name.data.value === "countries") {
+                    return 'roundRect';
+                };
+                return 'diamond';
+            },
+            emphasis: {
+                label: {
+                    backgroundColor: '#000',
+                    color: '#fff',
+                    padding: 5,
+                },
+                lineStyle: {
+                    width: 2,
+                },
+                itemStyle: {
+                    color: '#ff1744'
+                }
+            },
+            label: {
+                normal: {
+                    position: 'left',
+                    verticalAlign: 'middle',
+                    align: 'right',
+                    fontSize: 12,
+                    fontFamily: 'Roboto'
+                }
+            },
+            leaves: {
+                label: {
+                    normal: {
+                        position: 'right',
+                        verticalAlign: 'middle',
+                        align: 'left'
+                    }
+                }
+            },
+            expandAndCollapse: true,
+            animationDuration: 250,
+            animationEasing: 'backOut',
+            animationDurationUpdate: 250
+        }]
+    };
+    myChart.setOption(option);
 }

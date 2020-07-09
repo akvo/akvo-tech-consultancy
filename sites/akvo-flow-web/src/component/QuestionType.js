@@ -3,23 +3,23 @@ import { connect } from 'react-redux'
 import { mapStateToProps, mapDispatchToProps } from '../reducers/actions.js'
 import axios from 'axios';
 import { isJsonString } from  '../util/QuestionHandler.js'
-import { PROD_URL } from '../util/Environment'
+import { API_URL } from '../util/Environment'
+import { PopupImage } from '../util/Popup'
 import MapForm from '../types/MapForm.js'
-
-const API_ORIGIN = (PROD_URL ? ( window.location.origin + "/" + window.location.pathname.split('/')[1] + "-api/" ) : process.env.REACT_APP_API_URL);
-const pathurl = (PROD_URL ? 2 : 1);
-
+import Dexie from 'dexie';
+import uuid from 'uuid/v4';
 
 class QuestionType extends Component {
 
     constructor(props) {
         super(props)
-        this.instanceUrl = window.location.pathname.split('/')[pathurl]
         this.value = localStorage.getItem(this.props.data.id)
         this.other = localStorage.getItem("other_" + this.props.data.id)
         this.state = {
             value: this.value ? this.value : '',
             other: this.other ? this.other : '',
+            cascade_selected: [],
+            cascade_levels: 0
         }
         this.setDpStorage = this.setDpStorage.bind(this);
         this.setDplStorage = this.setDplStorage.bind(this);
@@ -35,17 +35,17 @@ class QuestionType extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleOther = this.handleOther.bind(this);
         this.handleFile = this.handleFile.bind(this);
+        this.handleFileUndo = this.handleFileUndo.bind(this);
         this.handleCascadeChange = this.handleCascadeChange.bind(this);
         this.handleMapChange = this.handleMapChange.bind(this);
         this.handleGlobal = this.handleGlobal.bind(this);
-        this.uppy = props.uppy;
     }
 
     handleGlobal(questionid, qval){
         if (qval === "" || qval === null){
-            this.props.restoreAnswers(this.props.value.questions)
+            this.props.replaceAnswers(this.props.value.questions)
         } else {
-            this.props.restoreAnswers(this.props.value.questions)
+            this.props.replaceAnswers(this.props.value.questions)
         }
         this.props.changeGroup(this.props.value.groups.active)
         this.props.reduceGroups()
@@ -70,26 +70,62 @@ class QuestionType extends Component {
     }
 
     handleFile(event) {
-        let id = this.props.data.id
-        const image = event.target.files[0];
-        try {
-            this.uppy.addFile({
-                source: 'file input',
-                name: image.name,
-                type: image.type,
-                data: image
+        const file = event.target.files[0];
+        const id = this.props.data.id
+        const ext = file.name.substring(file.name.lastIndexOf('.'))
+        const fileId = uuid() + ext;
+        const that = this;
+
+        const db = new Dexie('akvoflow');
+        db.version(1).stores({files: 'id'});
+
+        const reader = new FileReader();
+
+        reader.addEventListener('load', () => {
+            db.files.put({id: fileId, fileName: file.name, blob: reader.result, qid:id})
+            .then(() => {
+                let files = JSON.parse(localStorage.getItem('__files__') || '{}');
+                files[fileId] = file.name;
+                localStorage.setItem(id, fileId);
+                localStorage.setItem(fileId, file.name);
+                localStorage.setItem('__files__', JSON.stringify(files));
+                that.setState({ value: fileId })
+                that.handleGlobal(id, fileId)
+                that.setState({blob:reader.result});
+            })
+            .catch((e) => {
+                console.error(e);
             });
-        }
-        catch (e) {
-            if (e.isRestriction) {
-                console.log('Restriction error:', e)
-            } else {
-                console.log(e);
+        });
+
+        reader.readAsDataURL(file);
+    }
+
+    handleFileUndo(event) {
+        const id = this.props.data.id
+        const fileId = this.state.value
+        const that = this;
+        let fileList = JSON.parse(localStorage.getItem('__files__'));
+        let newFiles = {};
+        for (let f in fileList) {
+            if (f !==  fileId) {
+                newFiles = {...newFiles, [f]: fileList[f]}
             }
         }
-        localStorage.setItem(id, image.name)
-        this.setState({ value: image.name })
-        this.handleGlobal(id, image.name)
+        localStorage.setItem('__files__', JSON.stringify(newFiles));
+        const db = new Dexie('akvoflow');
+        db.version(1).stores({files: 'id'});
+        db.files.delete(fileId)
+        .then((result) => {
+            localStorage.removeItem(id)
+            localStorage.removeItem(fileId)
+            that.setState({ value: null })
+            that.handleGlobal(id, fileId)
+        })
+        .catch((error) => {
+            console.error(error);
+        })
+
     }
 
     handleMapChange(value) {
@@ -115,9 +151,17 @@ class QuestionType extends Component {
             let ddindex = event.target.selectedIndex
             let text = event.target[ddindex].text
             let targetLevel = parseInt(event.target.name.split('-')[2]) + 1
-            this.handleCascadeChange(targetLevel, text, id, value)
+            this.handleCascadeChange(targetLevel, text, id, value);
+            let selected = this.state.cascade_selected;
+            let iterate_cascade = targetLevel;
+            do {
+                selected[iterate_cascade] = 0;
+                iterate_cascade++
+            } while (iterate_cascade < this.state.cascade_levels)
+            selected[targetLevel - 1] = parseInt(value);
+            this.setState({cascade_selected: selected})
             if (this.limitCascade > targetLevel) {
-                this.getCascadeDropdown(value, targetLevel)
+                this.getCascadeDropdown(value, targetLevel, 0, false)
             }
         }
         else if (this.props.data.options && this.props.data.options.allowMultiple)  {
@@ -288,18 +332,18 @@ class QuestionType extends Component {
             : JSON.stringify({"text":opt.value})
         let storage = JSON.parse(localStorage.getItem(id));
         let checked = () => (false);
-		if (storage) {
-			storage = storage.map((val) => {
-				if(typeof val === 'object') {
-					return val['text'];
-				}
-				let parsed = JSON.parse(val);
-				return parsed['text'];
-			});
-			if (storage.indexOf(opt.value) >= 0) {
-				checked = () => (true)
-			}
-		}
+        if (storage) {
+            storage = storage.map((val) => {
+                if(typeof val === 'object') {
+                    return val['text'];
+                }
+                let parsed = JSON.parse(val);
+                return parsed['text'];
+            });
+            if (storage.indexOf(opt.value) >= 0) {
+                checked = () => (true)
+            }
+        }
         if (o) {
             let oname = "other_"+id.toString();
             return (
@@ -375,25 +419,16 @@ class QuestionType extends Component {
     }
 
     renderCascade (opt, i, l, unique, id) {
-        /*
-        let selected = localStorage.getItem(id);
-        let selected_value = '';
-        if (selected) {
-            selected = JSON.parse(selected);
-            selected = selected.length > i ? selected[i].option : false;
-            selected_value = selected ? selected : '';
-        }
-        */
         let cascades = []
         let choose_options = "cascade_" + i
         let dropdown = this.state[this.state[choose_options]];
-        let cascade = (
+        let cascade = dropdown !== undefined ? (
             <div key={unique + '-dropdown-' + i}>
             <div>{opt.text}</div>
             <select
                 className="form-control"
-                value={this.state.selected}
                 type="select"
+                value={this.state.cascade_selected[i]}
                 name={ this.props.data.id.toString() + '-' + i}
                 onChange={this.handleChange}
             >
@@ -401,8 +436,27 @@ class QuestionType extends Component {
                 {this.renderCascadeOption(dropdown,(i+1),opt.text, unique)}
             </select>
             </div>
+        ) : (
+            <div key={unique + '-dropdown-' + i}>
+            <div>{opt.text}</div>
+            <select
+                className="form-control"
+                type="select"
+                name={ this.props.data.id.toString() + '-' + i}
+                onChange={this.handleChange}
+            >
+                <option key={unique + '-cascade-options-' + 0} value=''>Please Select</option>
+            </select>
+            </div>
         );
-        cascades.push(cascade)
+        if (dropdown === undefined && this.state.cascade_selected[i - 1] !== undefined) {
+            if (this.state["options_" + this.state.cascade_selected[i - 1].toString()] === undefined) {
+                setTimeout(() => {
+                    this.getCascadeDropdown(this.state.cascade_selected[i - 1], i, 0, true);
+                }, 1000)
+            }
+        }
+        cascades.push(cascade);
         if (this.limitCascade <= i) {
             this.handleChange()
         }
@@ -425,10 +479,10 @@ class QuestionType extends Component {
         }
     }
 
-    getCascadeDropdown(lv, ix) {
+    getCascadeDropdown(lv, ix, selected_value, init) {
         let optlev = this.props.data.levels.level;
         if (this.props.data.type === "cascade") {
-            let url = API_ORIGIN + 'cascade/' + this.instanceUrl + '/' + this.props.data.cascadeResource + '/' + lv
+            let url = API_URL + 'cascade/' + this.props.value.instanceName + '/' + this.props.data.cascadeResource + '/' + lv
             let options = "options_" + lv
             let cascade = "cascade_" + ix
             let availcasc = this.props.value.cascade;
@@ -455,12 +509,12 @@ class QuestionType extends Component {
                 }
             }
             if (res === undefined) {
-                this.fetchCascade(lv, ix, url, options, cascade);
+                this.fetchCascade(lv, ix, url, options, cascade, selected_value, init);
             }
         }
     }
 
-    fetchCascade(lv, ix, url, options, cascade) {
+    fetchCascade(lv, ix, url, options, cascade, selected_value, init) {
         let optlev = this.props.data.levels.level;
         axios.get(url).then((res) =>{
             if (res.data.length === 0) {
@@ -482,6 +536,11 @@ class QuestionType extends Component {
                 url:url,
                 data:res.data
             })
+            if (init) {
+                let selected = this.state.cascade_selected;
+                selected[ix] = selected_value;
+                this.setState({cascade_selected: selected})
+            }
         })
     }
 
@@ -514,6 +573,32 @@ class QuestionType extends Component {
     }
 
     getFile(data, unique, answered, type) {
+
+        if (answered) {
+            const fileName = localStorage.getItem(answered)
+            return (
+                <div>
+                    <span className="mr-2">
+                        {fileName}
+                    </span>
+                    <input
+                        key={answered}
+                        type="button"
+                        name={'Q-' + data.id.toString() + '-undo'}
+                        className="btn btn-danger btn-sm"
+                        value="Undo"
+                        onClick={this.handleFileUndo} />
+                    <button
+                        className="ml-2 btn btn-secondary btn-sm"
+                        onClick={e => PopupImage(fileName, unique, this.state.blob)}
+                    >
+                    View Image
+                    </button>
+                    <img alt={fileName} className="hidden" id={unique} src={this.state.blob}/>
+                </div>
+            )
+        }
+
         return (
           <input
               key={unique}
@@ -561,13 +646,45 @@ class QuestionType extends Component {
 
     componentDidMount () {
         if (this.props.data.type === "cascade"){
-            this.getCascadeDropdown(0, 0)
+            let cascade_selected = [];
+            if (this.props.data.levels.level.text !== undefined) {
+                this.setState({cascade_levels: 1});
+                this.setState({cascade_selected: [0]});
+            } else {
+                this.setState({cascade_levels: this.props.data.levels.level.length});
+                for (let i=0; i < this.props.data.levels.level.length; i++) {
+                    cascade_selected = [...cascade_selected, 0]
+                }
+                this.setState({cascade_selected: cascade_selected});
+            }
+            let selected_cascade = localStorage.getItem(this.props.data.id)
+            selected_cascade = selected_cascade !== null ? JSON.parse(selected_cascade) : false;
+            if (selected_cascade) {
+                selected_cascade.forEach((sc, i) => {
+                    cascade_selected[i] = sc.option;
+                    if (i === 0) {
+                        this.getCascadeDropdown(i, i, sc.option, true);
+                        return;
+                    }
+                    this.getCascadeDropdown(selected_cascade[i - 1].option, i, sc.option, true);
+                    return;
+                });
+                this.setState({cascade_selected: cascade_selected});
+            } else {
+                this.getCascadeDropdown(0, 0, 0, true)
+            }
         }
         if (localStorage.getItem(this.props.data.id) !== null){
             this.props.checkSubmission();
             this.props.reduceGroups();
+            if (this.props.data.type === "photo") {
+                const db = new Dexie('akvoflow');
+                db.version(1).stores({files: 'id'});
+                db.files.get(this.state.value).then(value => {
+                    this.setState({'blob':value.blob});
+                });
+            }
         };
-
     }
 
     render() {
@@ -576,7 +693,7 @@ class QuestionType extends Component {
         let formtype = data.type
         let answered = localStorage.getItem(data.id)
         if (data.localeNameFlag) {
-            this.setDpStorage()
+            this.setDpStorage();
         }
         if ('localeLocationFlag' in data){
             this.setDplStorage()

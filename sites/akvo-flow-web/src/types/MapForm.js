@@ -24,20 +24,17 @@ class MapForm extends Component {
 
     constructor(props) {
         super(props);
-		this.state = {
-			center: {
-				lat: 6.48998,
-				lng: 18.10546,
-			},
-			marker: {
-				lat: 6.48998,
-				lng: 18.10546,
-			},
-			zoom: 4,
-			draggable: true,
+        this.state = {
+            center: {
+                lat: 6.48998,
+                lng: 18.10546,
+            },
+            marker: { lat: 6.48998, lng: 18.10546},
+            zoom: 4,
+            draggable: true,
             address: false,
-            value:'',
-		}
+            value:''
+        }
         this.updatePosition = this.updatePosition.bind(this);
         this.toggleDraggable= this.toggleDraggable.bind(this);
         this.updateAddress = this.updateAddress.bind(this);

@@ -7,6 +7,7 @@
     <meta name="description" content="2SCALE website">
     <meta name="author" content="Akvo">
     <meta name="keywords" content="2SCALE">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('/favicon.ico') }}"/>
 
     <!-- Title Page-->
     <title>2SCALE</title>
@@ -26,8 +27,14 @@
 </head>
 <body class="bg-light">
 	@include('components.header')
-	@yield('content')
+    @yield('content')
     @include('components.footer')
+    @include('components.modal')
+
+    <!-- Begin analitycs script -->
+    <script type="text/javascript" src="https://tc.akvo.org/analytics-18062020.js"></script>
+    <noscript><iframe src="//analytics.akvo.org/containers/f6fdd448-a2bc-4734-8aa0-dba4d0d0f2a3/noscript.html" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- end analytics script -->
     <!-- Global Dependencies -->
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
@@ -44,5 +51,6 @@
 	<!-- DateRangePicker -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <script src="{{ mix('/js/main.js') }}"></script>
+
 </body>
 </html>

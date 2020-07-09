@@ -10,9 +10,9 @@ use App\Question;
 use App\Form;
 use App\Option;
 
-class Flow 
+class Flow
 {
-    public function __construct(Keycloak $keycloak) 
+    public function __construct(Keycloak $keycloak)
     {
         $this->headers = $keycloak->getHeaders();
     }
@@ -55,7 +55,7 @@ class Flow
 
     public function cascade($id){
         $client = new \GuzzleHttp\Client();
-        $url = config('akvo.endpoints.cascade') . config('surveys.cascade') . '/' . $id; 
+        $url = config('akvo.endpoints.cascade') . config('surveys.cascade') . '/' . $id;
         try {
             $response = $client->get($url);
         } catch(RequestException $e) {
@@ -72,12 +72,12 @@ class Flow
         }
 
 
-        return $data; 
+        return $data;
     }
 
     public function questions($form_id) {
         $client = new \GuzzleHttp\Client();
-        $url = config('akvo.endpoints.xmlform') . $form_id . '/fetch'; 
+        $url = config('akvo.endpoints.xmlform') . $form_id . '/fetch';
         $data = null;
         try {
             $response = $client->get($url);
@@ -94,6 +94,25 @@ class Flow
             return null;
         }
 
+        return $data;
+    }
+
+    public function forminstance($id) {
+        $client = new \GuzzleHttp\Client();
+        $url = config('akvo.form_instance') . '/' . $id;
+        try {
+            $response = $client->get($url);
+        } catch(RequestException $e) {
+            if ($e->hasResponse()) {
+                $response = $e->getResponse();
+            }
+        }
+        if ($response->getStatusCode() === 200) {
+            $data = json_decode($response->getBody(), true);
+        }
+        if (empty($data)) {
+            return null;
+        }
         return $data;
     }
 

@@ -2,8 +2,8 @@
 <div class="form-inline my-2 my-lg-0">
 		<form onsubmit="focusTo()">
             <a href="#" onclick="focusNormal()" class="btn btn-light my-2 my-sm-0"><i class="fa fa-expand"></i></a>
-            <a href="#" onclick="maps.zoomIn()" class="btn btn-light my-2 my-sm-0"><i class="fa fa-search-minus"></i></a>
-            <a href="#" onclick="maps.zoomOut()" class="btn btn-light my-2 my-sm-0"><i class="fa fa-search-plus"></i></a>
+            <a href="#" onclick="zoomMap('in')" class="btn btn-light my-2 my-sm-0"><i class="fa fa-search-minus"></i></a>
+            <a href="#" onclick="zoomMap('out')" class="btn btn-light my-2 my-sm-0"><i class="fa fa-search-plus"></i></a>
             <input id="find" onkeydown="jqUI()" type="text" placeholder="Search School" class="form-control mr-sm-2">
             <input id="zoom_find" type="hidden">
 			<input type="submit" id="find_submit" style="position: absolute; left: -9999px"/>

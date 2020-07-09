@@ -12,6 +12,7 @@ class Answer extends Model
         'waiting',
         'question_id',
         'dependency',
+        'dependency_answer',
 		'datapoint',
         'order',
         'mandatory',
@@ -25,5 +26,10 @@ class Answer extends Model
     function survey_session()
     {
         return $this->belongsTo('App\SurveySession');
+    }
+
+    public function localizations()
+    {
+        return $this->hasMany('App\Localization', 'question_id', 'question_id');
     }
 }

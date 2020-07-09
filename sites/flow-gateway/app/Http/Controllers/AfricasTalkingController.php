@@ -10,6 +10,8 @@ use App\Http\AkvoFlow;
 use App\SurveySession;
 use App\Answer;
 use App\Interact\Feed;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Cache;
 
 class AfricasTalkingController extends Controller
 {
@@ -29,6 +31,7 @@ class AfricasTalkingController extends Controller
             $input = collect($request)
                 ->put('form_name', $survey['surveyGroupName'])
                 ->put('version', $survey['version'])
+                ->put('default_lang', $survey['defaultLanguageCode'])
                 ->put('app', $survey['app'])
                 ->forget(['record','answer'])
                 ->toArray();
@@ -50,12 +53,32 @@ class AfricasTalkingController extends Controller
             ->where('phone_number', $request->phone_number)
             ->where('complete', false)
             ->first();
+        $session = $survey_sessions->fetch_lang($session);
+        
+        // lang
+        $avaLang = $feed->mapLanguage($session);
+        if ($avaLang->isNotEmpty() && (int)$request->answer && Cache::get('select_language_'.$session['id'])) {
+            $avaLang->push($session['default_lang']);
+            if ($avaLang->count() < $request->answer) {
+                return $feed->ask($session, $avaLang, true, true);
+            }
+            $selectedLang = $avaLang[$request->answer - 1];
+            // update default lang to selected lang
+            $session->default_lang = $selectedLang;
+            $session->save();
+            Cache::put('select_language_'.$session['id'], false);
+            $question = $session->pending_answer()->first();
+            $question = $session->check_lang($question);
+            return $feed->formatter($question);
+        }
+
         if ($request->record && strtolower($request->answer) === "n") {
             $this->log->info($this->kind.$request->phone_number.": Destroy");
             return $feed->destroy($session);
         }
         if ($request->record && strtolower($request->answer) === "y") {
             $question = $session->pending_answer()->first();
+            $question = $session->check_lang($question);
             $this->log->info($this->kind.$request->phone_number.": Continue Survey");
             return $feed->formatter($question);
         }

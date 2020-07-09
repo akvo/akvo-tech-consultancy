@@ -52,4 +52,29 @@ spec:
                   secretKeyRef:
                     name: spiceup-demplot-notification 
                     key: email-pwd
+              - name: AUTH0_CLIENT_ID
+                valueFrom:
+                  secretKeyRef:
+                    name: spiceup-demplot-notification 
+                    key: auth0-client-id-prod
+              - name: AUTH0_EMAIL
+                valueFrom:
+                  secretKeyRef:
+                    name: spiceup-demplot-notification 
+                    key: auth0-email
+              - name: AUTH0_PWD
+                valueFrom:
+                  secretKeyRef:
+                    name: spiceup-demplot-notification 
+                    key: auth0-pwd
+              - name: MAILJET_APIKEY
+                valueFrom:
+                  secretKeyRef:
+                    name: spiceup-demplot-notification 
+                    key: mailjet-apikey
+              - name: MAILJET_SECRET
+                valueFrom:
+                  secretKeyRef:
+                    name: spiceup-demplot-notification 
+                    key: mailjet-secret
           restartPolicy: Never

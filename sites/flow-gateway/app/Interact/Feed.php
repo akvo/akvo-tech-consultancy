@@ -7,10 +7,14 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Collection;
 use App\Http\AkvoFlow;
 use App\Interact\Submission;
+use App\Localization;
+use App\SurveySession;
+use App\Answer;
+use Illuminate\Support\Facades\Cache;
 
 class Feed
 {
-    function __construct($prefix, $prefix_end, $kind, $log) 
+    function __construct($prefix, $prefix_end, $kind, $log)
     {
         $this->prefix = $prefix;
         $this->prefix_end = $prefix_end;
@@ -20,11 +24,13 @@ class Feed
 
     public function show_last_question($session) {
         $current = $session->pending_answer()->first();
+        $current = $session->check_lang($current);
         return $this->formatter($current);
     }
 
     public function continue_survey($value, $session) {
         $current = $session->pending_answer()->first();
+        $current = $session->check_lang($current);
 
         /*
          * $validator = $this->validator($current, $value);
@@ -55,6 +61,33 @@ class Feed
             }
         }
 
+        /**
+         * Dependency question
+         */
+        $answer = '';
+        if ($current->type === "option") {
+            // get the original answer value (not translate)
+            $original = Answer::find($current->id);
+            $text = Str::of($original->text)->explode(PHP_EOL);
+            $dependencyTmp = collect();
+            if (Cache::get('dependency_'.$session['id'])) {
+                $dependencyTmp = Cache::get('dependency_'.$session['id']);
+            }
+            $answer = Str::of($text[(int)$value])->after(' ');
+            $findDependency = Answer::where('dependency', $current->question_id)
+                                    ->where('dependency_answer', $answer)
+                                    ->pluck('dependency')->unique();
+            $findDependency->each(function($id) use ($dependencyTmp, $answer) {
+                $dependencyTmp->push([
+                    "question_id" => $id,
+                    "answer" => $answer,
+                ]);
+            });
+        }
+        if ($current->type === "option" && $findDependency->isNotEmpty()) {
+            Cache::put('dependency_'.$session['id'], $dependencyTmp);
+        }
+
         /*
          * Update Current Answer
          */
@@ -67,8 +100,39 @@ class Feed
         /*
          * Get Next Question
          */
+
         $next = $session->answers()->find($current->id + 1);
+        // Check dependency question
+        do {
+            if (isset($next->dependency) && $next->dependency) {
+                $stop = false;
+                $depend = Cache::get('dependency_'.$session['id']);
+                if (!$depend) {
+                    $stop = true;
+                    $checkDepend = collect();
+                }
+                if ($depend) {
+                    $checkDepend = $depend->filter(function($item) use ($next) {
+                        if ($item['question_id'] == $next->dependency && $item['answer'] == $next->dependency_answer) {
+                            return $item;   
+                        }
+                    });
+                }
+                if ($checkDepend->isEmpty()) {
+                    $next = $session->answers()->find($next->id + 1);
+                } else {
+                    $next = $next;
+                    $stop = true;
+                }
+            } else {
+                $stop = true;
+            }
+        } while(!$stop);
+        $next = $session->check_lang($next);
+
         if (!$next) {
+            Cache::forget('dependency_'.$session['id']);
+            Cache::forget('select_language_'.$session['id']);
             $submission = new Submission();
             $submission->send($session->id);
             $this->log->info($this->kind.$session->phone_number.": End of Survey");
@@ -80,21 +144,22 @@ class Feed
         return $response;
     }
 
-    public function store_questions($survey, $session) 
+    public function store_questions($survey, $session)
     {
         $questions;
+        $version = $survey['version'];
         $isObject = Arr::has($survey["questionGroup"], "question");
         if ($isObject) {
             $heading = $survey["questionGroup"]["heading"];
             $questions = collect($survey["questionGroup"]["question"])
-                ->map(function($question) use ($heading) {
-                    return $this->generate_question($question, $heading);
+                ->map(function($question) use ($heading, $version) {
+                    return $this->generate_question($question, $version);
             });
         }
         if (!$isObject) {
-            $questions = collect($survey["questionGroup"])->map(function($group){
-                return collect($group["question"])->map(function($question) {
-                    return $this->generate_question($question);
+            $questions = collect($survey["questionGroup"])->map(function($group) use ($version){
+                return collect($group["question"])->map(function($question) use ($version) {
+                    return $this->generate_question($question, $version);
                 })->toArray();
             })->flatten(1);
         }
@@ -102,11 +167,32 @@ class Feed
         $current = $questions->first();
         $current->waiting = true;
         $current->save();
+
+        // check and select avaliable lang
+        $sess = new SurveySession();
+        $results = $sess->fetch_lang($session);
+        $avaLang = $this->mapLanguage($results);
+        if ($avaLang->isNotEmpty() &&  !$avaLang->contains($session->default_lang)) {
+            // ask lang selection to user
+            $avaLang->push($session->default_lang);
+            Cache::put('select_language_'.$session['id'], true);
+            return $this->ask($session, $avaLang, true);
+        }
+
         $response = $this->formatter($current);
         return $response;
     }
 
-    public function generate_question($question) {
+    public function mapLanguage($data)
+    {
+        return collect($data['answers'])->map(function ($answer) use ($data) {
+            return $answer['localizations']->map(function ($lang) use ($data) {
+                return $lang['lang'];
+            });
+        })->flatten()->unique();
+    }
+
+    public function generate_question($question, $version) {
         if (Arr::has($question, "validationRule")) {
             $question['type'] = $question['validationRule']['validationType'];
         }
@@ -114,21 +200,17 @@ class Feed
         $cascade = null;
         $cascade_lv = null;
         if (Arr::has($question, "options")) {
-            $opt = $question["options"]["option"];
-            $i = 1;
-            do {
-                $icode = (string) $i;
-                if (Arr::has($opt[$i - 1], "code")) {
-                    $icode = $opt[$i - 1]["code"];
-                    $icode = strtoupper($icode);
-                }
-                $options .= "\n".$icode.". ".$opt[$i - 1]["text"];
-                $i++;
-            } while($i <= count($opt));
+            $options .= $this->generateOptionText($options, $question);
         }
         if ($question['type'] === "cascade") {
             $cascade = $question["cascadeResource"];
             $cascade_lv = count($question["levels"]["level"]);
+        }
+        $dependency = null;
+        $dependency_answer = null;
+        if(isset($question['dependency'])) {
+            $dependency = $question['dependency']['question'];
+            $dependency_answer = $question['dependency']['answer-value'];
         }
         $format = array(
             'question_id' => (int) $question['id'],
@@ -138,32 +220,120 @@ class Feed
             'text' => $question['text'].$options,
             'type' => $question['type'],
             'cascade' => $cascade,
-            'cascade_lv' => $cascade_lv
+            'cascade_lv' => $cascade_lv,
+            'dependency' => $dependency,
+            'dependency_answer' => $dependency_answer
         );
+        // check translation
+        if (Arr::has($question, "altText")) {
+            $isObject = Arr::has($question['altText'], "language");
+            if ($isObject) {
+                $this->fillLocalization(
+                    $question,
+                    $version,
+                    $question['altText']['language'],
+                    $question['altText']['text'] 
+                );
+            }
+            if (!$isObject) {
+                collect($question['altText'])->each(function ($lang) use ($question, $version) {
+                    $this->fillLocalization(
+                        $question,
+                        $version,
+                        $lang['language'],
+                        $lang['text'] 
+                    );
+                });
+            }
+        }
         return $format;
     }
 
-    public function ask($session, $options=false)
+    public function generateOptionText($options, $question, $lang=false)
     {
-        $response = $this->prefix.trans('text.ask.hi', ['phone' => $session->phone_number])."\n";
-        $response .= trans('text.ask.info', ['name' => $session->form_name])."\n";
-        $response .= trans('text.ask.continue')."\n";
+        $opt = $question["options"]["option"];
+        $i = 1;
+        do {
+            $icode = (string) $i;
+            if (Arr::has($opt[$i - 1], "code")) {
+                $icode = $opt[$i - 1]["code"];
+                $icode = strtoupper($icode);
+            }
+            if (!Arr::has($opt[$i - 1], "altText") || !$lang) {
+                $options .= "\n".$icode.". ".$opt[$i - 1]["text"];
+            }
+            if (Arr::has($opt[$i - 1], "altText") && $lang) {
+                $isObject = Arr::has($question['altText'], "language");
+                if ($isObject && $question['altText']["language"] == $lang) {
+                    $options .= "\n".$icode.". ".$opt[$i - 1]["altText"]["text"];
+                }
+                if (!$isObject) {
+                    $tmp = collect($opt[$i - 1]["altText"])->where('language', $lang)->first();
+                    $options .= "\n".$icode.". ".$tmp["text"];
+                }
+            }
+            $i++;
+        } while($i <= count($opt));
+        return $options;
+    }
+
+    public function fillLocalization($question, $version, $lang, $text)
+    {
+        $check = Localization::where('question_id', (int) $question['id'])
+                            ->where('version', $version)
+                            ->where('lang', $lang)
+                            ->count();
+        if ($check === 0) {
+            $langOptions = "";
+            if (Arr::has($question, "options")) {
+                $langOptions = $this->generateOptionText($langOptions, $question, $lang);
+            }
+            $insert = Localization::create([
+                'question_id' => (int) $question['id'],
+                'version' => $version,
+                'text' => $text.$langOptions,
+                'lang' => $lang
+            ]);
+            $insert->save();
+        }
+        return;
+    }
+
+    public function ask($session, $options=false, $lang=false, $repeat=false)
+    {
+        $response = $this->prefix;
+        if ($repeat) {
+            $response .= "\n".trans('text.validate.options')."\n";
+        }
+        if (!$lang) {
+            $response .= trans('text.ask.hi', ['phone' => $session->phone_number])."\n";
+            $response .= trans('text.ask.info', ['name' => $session->form_name])."\n";
+            $response .= trans('text.ask.continue')."\n";
+        }
+        if ($lang) {
+            $response .= "Select language:";   
+        }
         if ($options) {
             $i = 0;
             $response .= "\n";
             do {
-                $response .= $options[$i]."\n";
+                $id = $i + 1; 
+                $text = ($lang) ? config('localizations.'.$options[$i].'').' ('.$options[$i].')' : $options[$i];
+                $response .= $id.". ".$text."\n";
                 $i++;
             } while ($i < count($options));
             return $response;
         }
-        $response .= trans('text.ask.response.y')."\n".trans('text.ask.response.n');
+        if (!$lang) {
+            $response .= trans('text.ask.response.y')."\n".trans('text.ask.response.n');
+        }
         return $response;
     }
 
-
     public function destroy($session)
     {
+        Cache::forget('dependency_'.$session['id']);
+        Cache::forget('select_language_'.$session['id']);
         $session->delete();
         $response = $this->prefix_end.trans('text.destroy.success')."\n";
         $response .= trans('text.destroy.info')."\n";

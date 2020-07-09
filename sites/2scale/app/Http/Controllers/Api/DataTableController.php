@@ -25,14 +25,15 @@ class DataTableController extends Controller
             $country_id = $partnerships->select('id')->where('parent_id', null)->get()->pluck('id');
         }
         if (isset($request->country)) {
-           $country_id = [$partnerships->where('name', $request->country)->first()->id];
+            $country_id = [$partnerships->where('name', $request->country)->first()->id];
         }
         $datapoints = $datapoints
             ->where('form_id',$request->form_id)
             ->whereIn('country_id',$country_id)
-            ->with('answers')
-            ->with('country')
-            ->get();
+            ->whereBetween('submission_date', [
+                date($request->start),
+                date($request->end)
+            ])->with('answers')->with('country')->get();
         $datapoints = $datapoints->transform(function($data) {
             return [
                 "datapoint_id" => $data->datapoint_id,
@@ -41,8 +42,11 @@ class DataTableController extends Controller
                 "data" => $data->answers
             ];
         });
-        $questions = $questions->where('form_id', $request->form_id)->get();
-        $total_questions = collect($questions)->count(); 
+        $questions = $questions->where([
+                        ['form_id', $request->form_id],
+                        ['personal_data', '=', 0]
+                    ])->get();
+        $total_questions = collect($questions)->count();
         $datapoints = $datapoints->map(function($datapoint) use ($total_questions, $questions) {
             $ids = collect($datapoint)->get('data')->map(function($data){
                 return $data['question_id'];

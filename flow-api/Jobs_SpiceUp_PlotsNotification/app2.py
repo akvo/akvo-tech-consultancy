@@ -1,21 +1,11 @@
-import sys
 import os
 from datetime import datetime, timedelta, date
-from pytz import utc, timezone
 import time
 from Akvo import Flow
+from mailjet_rest import Client
 from FlowHandler import FlowHandler
 import pandas as pd
-import json
 from jinja2 import Environment, FileSystemLoader
-from IPython.core.display import display, HTML
-import smtplib
-from email import encoders
-from email.message import EmailMessage
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-from sendgrid import SendGridAPIClient
-from sendgrid.helpers.mail import Mail
 
 today_date = datetime.today().date()
 week_ago = today_date - timedelta(days=15)
@@ -25,15 +15,20 @@ end_date = today_date.strftime('%Y-%m-%d')
 day = today_date.strftime('%d')
 
 if (day == '01' or day == '15'):
-
     instanceURI = 'spiceup'
-    requestURI = 'https://api.akvo.org/flow/orgs/' + instanceURI
-    EMAIL_RECEPIENTS = ['hatami@cinquer.co.id','indri@cinquer.nl','yayang@cinquer.nl','d.kurniawati@icco.nl','everschuren@verstegen.nl','aharton2002@yahoo.com','otihrostiana@gmail.com','dyah_manohara@yahoo.com','joy@akvo.org','ima@akvo.org','deden@akvo.org','merembablas@gmail.com']
-    #EMAIL_RECEPIENTS = ['merembablas@gmail.com']
-    EMAIL_SENDER = os.environ['EMAIL_USER']
-    EMAIL_PASSWORD = os.environ['EMAIL_PWD']
+    requestURI = "https://api-auth0.akvo.org/flow/orgs/{}".format(instanceURI)
 
-    apiData = Flow.getResponse(requestURI + '/surveys/227030237')
+    EMAIL_RECEPIENTS = ['akvo.tech.consultancy@gmail.com']
+    EMAIL_BCC = ['hatami.nugraha@gmail.com','everschuren@verstegen.nl','joy@akvo.org','hatami@cinquer.co.id','d.kurniawati@icco.nl','dymanohara@gmail.com','aharton2002@yahoo.com','akhmadfa@apps.ipb.ac.id','otihrostiana@gmail.com','ima@akvo.org','deden@akvo.org','galih@akvo.org', 'wietze.suijker@nelen-schuurmans.nl']
+    #EMAIL_BCC = ['galih@akvo.org']
+
+    MAILJET_APIKEY = os.environ['MAILJET_APIKEY']
+    MAILJET_SECRET = os.environ['MAILJET_SECRET']
+
+    mailjet = Client(auth=(MAILJET_SECRET, MAILJET_APIKEY), version='v3.1')
+
+    token = Flow.getAccessToken();
+    apiData = Flow.getResponse(requestURI + '/surveys/227030237', token)
     forms = apiData.get('forms')
     RegistrationForm = apiData['registrationFormId']
     start_time = time.time()
@@ -52,7 +47,7 @@ if (day == '01' or day == '15'):
     registrationFormId = apiData.get('registrationFormId')
 
     def getAll(url):
-        data = Flow.getResponse(url)
+        data = Flow.getResponse(url, token)
         formInstances = data.get('formInstances')
         for dataPoint in formInstances:
             dataPoints.append(dataPoint)
@@ -183,7 +178,7 @@ if (day == '01' or day == '15'):
             return float(x['result'][0]['value'])
         else:
             return 0
-    
+
     soil['Soil Moisture'] = soil['Soil Moisture'].apply(get_soil_result)
     soil['Soil pH'] = soil['Soil pH'].apply(get_soil_result)
     soil['Nitrate'] = soil['Nitrate'].apply(get_soil_result)
@@ -199,12 +194,12 @@ if (day == '01' or day == '15'):
         soil_average['Soil pH'] = round(soil.loc[soil['Soil pH'] != 0].groupby('identifier').mean().reset_index()['Soil pH'][0], 2)
     except:
         soil_average['Soil pH'] = 'No Data'
-        
+
     try:
         soil_average['Nitrate'] = round(soil.loc[soil['Nitrate'] != 0].groupby('identifier').mean().reset_index()['Nitrate'][0], 2)
     except:
         soil_average['Nitrate'] = 'No Data'
-        
+
     try:
         soil_average['P'] = round(soil.loc[soil['P'] != 0].groupby('identifier').mean().reset_index()['P'][0], 2)
     except:
@@ -236,7 +231,7 @@ if (day == '01' or day == '15'):
                 result.append('<span style="color:red;font-weight:bold">' + str(item2['Plant ID']) + ' ' + item2[item] + '</span>')
             else:
                 result.append(str(item2['Plant ID']) + ' ' + item2[item])
-                
+
         conditions.append('- ' + item + ': ' + ', '.join(result))
 
     plant_general_condition = "<br/> ".join(conditions)
@@ -284,7 +279,7 @@ if (day == '01' or day == '15'):
     type_of_activities = activities['Type of Activity'].unique()
     if activities['Type of Activity'].count() == 0:
         type_of_activities=['No Activities']
-    
+
     activities_submission = len(activities.index)
 
     weather_img_mapping = {
@@ -298,7 +293,7 @@ if (day == '01' or day == '15'):
     }
 
     today = date.today()
-    
+
     file_loader = FileSystemLoader('.')
     env = Environment(loader=file_loader)
     template = env.get_template('./email_v2.html')
@@ -330,26 +325,25 @@ if (day == '01' or day == '15'):
         activities_submission = activities_submission
     )
 
-    fout = "./email_v2.html"
+    receiver = []
+    for email in EMAIL_RECEPIENTS:
+        receiver.append({"Email": email})
 
-    msg = MIMEMultipart('alternative')
-    msg['Subject'] = 'DO NOT REPLY: Demo Plot Notification from ' + formatDate(week_ago) + ' to ' + formatDate(today_date)
-    msg['To'] = ', '.join(EMAIL_RECEPIENTS)
-    msg['From'] = 'akvo.tech.consultancy@gmail.com'
+    bcc = []
+    for email in EMAIL_BCC:
+        bcc.append({"Email": email})
 
-    print(checkTime(time.time()) + ' SENDING EMAIL')
-    with open(fout) as fp:
-        msg.attach(MIMEText(html_output, 'html'))
+    email = {
+        'Messages': [{
+                    "From": {"Email": "noreply@akvo.org", "Name": "noreply@akvo.org"},
+                    "To": receiver,
+                    "Bcc": bcc,
+                    "Subject": 'DO NOT REPLY: Demo Plot Notification from ' + formatDate(week_ago) + ' to ' + formatDate(today_date),
+                    "HTMLPart": html_output,
+                }]
+        }
 
-    try:
-        with smtplib.SMTP('smtp.sendgrid.net', 587) as s:
-                s.ehlo()
-                s.starttls()
-                s.ehlo()
-                s.login(EMAIL_SENDER, EMAIL_PASSWORD)
-                s.send_message(msg)
-                s.quit()
-        print(checkTime(time.time()) + ' EMAIL SENT')
-    except:
-        print(checkTime(time.time()) + ' UNABLE TO SEND THE EMAIL. ERROR:',sys.exc_info()[0])
-        raise
+    result = mailjet.send.create(data=email)
+    print(checkTime(time.time()) + ' SENDING EMAIL TO {}'.format(', '.join(EMAIL_RECEPIENTS)))
+    print(checkTime(time.time()) + ' SENDING BCC TO {}'.format(', '.join(EMAIL_BCC)))
+    print(checkTime(time.time()) + ' STATUS: {}\n'.format(result.status_code))

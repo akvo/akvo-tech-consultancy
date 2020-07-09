@@ -18,7 +18,6 @@ class Questions extends Component {
         this.renderMandatoryIcon = this.renderMandatoryIcon.bind(this);
         this.renderCachedImage = this.renderCachedImage.bind(this);
         this.renderQuestion = this.renderQuestion.bind(this);
-        this.uppy = props.uppy;
     }
 
     isJsonString(str) {
@@ -30,22 +29,11 @@ class Questions extends Component {
         return true;
     }
 
-    renderQuestion(qid, question, uppy) {
-        return <QuestionType key={"question-type-" + qid} data={question} uppy={uppy} />;
+    renderQuestion(qid, question) {
+        return <QuestionType key={"question-type-" + qid} data={question} />;
     }
 
     renderCachedImage(qid) {
-        //let cached = false;
-        if (localStorage.getItem(qid) !== null){
-         //   cached = API_ORIGIN + "fetch-image/" + localStorage.getItem(qid);
-         //   return (
-         //   <div className="d-block display-cache-image">
-         //       Cached file:
-         //       <a href={cached} rel="noopener noreferrer" target="_blank"> {localStorage.getItem(qid)}</a>
-         //   </div>
-         //   )
-         console.log(localStorage.getItem(qid))
-        }
         return ""
     }
 
@@ -62,6 +50,9 @@ class Questions extends Component {
             let z = 0;
             if (i === 1) {
                 a = 0;
+            }
+            if (questions.filter(b => b.group === 1).length === 1) {
+                a = 1;
             }
             z = x.group === this.props.value.groups.active ? 1 : 0;
             z = x.show ? 1 : 0;
@@ -88,7 +79,7 @@ class Questions extends Component {
             let qid = question.id.toString();
             let qi = question.iteration.toString();
             return (
-                <div key={"card-" + qid + "-" + qi}>
+                <div key={"card-" + qid + "-" + qi} id={"form-" + qid}>
                     {question.groupIndex && question.repeat ? (<GroupPanels data={question} type="header"/>) : ""}
                 <Card className={question.show === false ? "d-none" : ""}>
                     <CardBody key={"card-body-" + qid} id={"card-body-" + qid}>
@@ -98,7 +89,7 @@ class Questions extends Component {
                             {question.help !== undefined ? ToolTip(question) : ""}
                             {question.type === "photo" ? this.renderCachedImage(qid) : ""}
                         </CardTitle>
-                        {this.renderQuestion(qid, question, this.uppy)}
+                        {this.renderQuestion(qid, question)}
                     </CardBody>
                 </Card>
                     {question.last && question.repeat ? (<GroupPanels data={question} type={"footer"}/>) : ""}

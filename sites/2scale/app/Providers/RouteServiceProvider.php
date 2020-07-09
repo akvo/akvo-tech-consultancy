@@ -39,7 +39,10 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapWebRoutes();
 
-        //
+        $this->mapFrameRoutes();
+
+        $this->mapChartRoutes();
+
     }
 
     /**
@@ -57,6 +60,21 @@ class RouteServiceProvider extends ServiceProvider
     }
 
     /**
+     * Define the "web" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapFrameRoutes()
+    {
+        Route::prefix('frame')
+            ->middleware('web')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/frame.php'));
+    }
+
+    /**
      * Define the "api" routes for the application.
      *
      * These routes are typically stateless.
@@ -69,5 +87,21 @@ class RouteServiceProvider extends ServiceProvider
              ->middleware('api')
              ->namespace($this->namespace)
              ->group(base_path('routes/api.php'));
+    }
+
+
+    /**
+     * Define the "chart" routes for the application.
+     *
+     * These routes are typically stateless.
+     *
+     * @return void
+     */
+    protected function mapChartRoutes()
+    {
+        Route::prefix('charts')
+             ->middleware('api')
+             ->namespace($this->namespace)
+             ->group(base_path('routes/charts.php'));
     }
 }

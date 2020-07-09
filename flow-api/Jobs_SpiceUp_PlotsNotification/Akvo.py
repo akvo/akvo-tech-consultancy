@@ -3,37 +3,29 @@ import os
 import logging
 
 class Flow:
-    tokenURI = 'https://login.akvo.org/auth/realms/akvo/protocol/openid-connect/token'
-    rtData = {
-        'client_id':'curl',
-        'username': os.environ['KEYCLOAK_USER'],
-        'password': os.environ['KEYCLOAK_PWD'],
-        'grant_type':'password',
-        'scope':'openid offline_access'
-    }
-
-    def refreshData():
-        tokens = r.post(Flow.tokenURI, Flow.rtData).json();
-        return tokens['refresh_token']
 
     def getAccessToken():
-        account = {
-            'client_id':'curl',
-            'refresh_token': Flow.refreshData(),
-            'grant_type':'refresh_token'
+        tokenURI = 'https://akvo.eu.auth0.com/oauth/token'
+        auth = {
+            "client_id": os.environ['AUTH0_CLIENT_ID'],
+            "username": os.environ['AUTH0_EMAIL'],
+            "password": os.environ['AUTH0_PWD'],
+            "grant_type": "password",
+            "scope": "openid email",
         }
-        try:
-            account = r.post(Flow.tokenURI, account).json();
-        except:
-            logging.error('FAILED: TOKEN ACCESS UNKNOWN')
-            return False
-        return account['access_token']
 
-    def getResponse(self):
-        header = {
-            'Authorization':'Bearer ' + Flow.getAccessToken(),
-            'Accept': 'application/vnd.akvo.flow.v2+json',
-            'User-Agent':'python-requests/2.14.2'
+        try:
+            account = r.post(tokenURI, data=auth).json();
+        except:
+            logging.error('FAILED TO REQUEST TOKEN')
+            return False
+        return account['id_token']
+
+    def getResponse(self, token):
+        headers = {
+            "Content-Type":"application/json",
+            "Accept": "application/vnd.akvo.flow.v2+json",
+            "Authorization": "Bearer {}".format(token)
         }
-        response = r.get(self, headers=header).json()
+        response = r.get(self, headers=headers).json()
         return response

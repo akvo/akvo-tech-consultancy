@@ -37,6 +37,11 @@ class Submission
             '_dataPointId' => $uuid[1]."-".$uuid[2]."-".$uuid[3],
         ]);
 		$answerType = collect($session->answers)->map(function($val) use ($data, $questions, $dataPointName, $flow, $questionId) {
+            // if input null
+            if (!$val->input) {
+                return;
+            }
+
             $dpname = $val->input;
             $questionId->push($val->question_id.'-k');
             if ($val->type === "cascade") {

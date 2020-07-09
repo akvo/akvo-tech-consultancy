@@ -51,7 +51,7 @@
 </div>
 
 <main role="main" class="row">
-    <iframe id="data-frame" src="/frame-blank" frameborder=0 width="100%"></iframe>
+    <iframe id="data-frame" src="/frame/blank" frameborder=0 width="100%"></iframe>
 </main>
 
 <!--Modal: modalCookie-->

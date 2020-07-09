@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from flask import Flask, jsonify, render_template, request, make_response, send_file
 from flask_cors import CORS
 from lxml import etree
@@ -14,7 +15,10 @@ import os
 import ast
 import logging
 from flask_httpauth import HTTPBasicAuth
+from sqlalchemy import text
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 
 app = Flask(__name__)
 logging.basicConfig(level=logging.DEBUG)
@@ -36,6 +40,24 @@ DEVEL = False
 UPLOAD_FOLDER = './tmp/images'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['SQLALCHEMY_DATABASE_URI']
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)
+db.init_app(app)
+migrate.init_app(app, db)
+
+
+@dataclass
+class FormInstance(db.Model):
+    id: str
+    state: str
+
+    id = db.Column(db.String, primary_key=True, server_default=text('gen_random_uuid()::varchar'))
+    state = db.Column(db.String, nullable=False)
+    created = db.Column(db.DateTime, nullable=False, server_default=text('now()'))
+    updated = db.Column(db.DateTime, nullable=False, server_default=text('now()'))
 
 @auth.verify_password
 def verify_password(username, password):
@@ -356,8 +378,8 @@ def aws_s3_parameters(instance):
 def upload_parameters(rec, _uuid):
     data = get_payload(rec, _uuid, True)
     s3 = aws_s3_parameters(rec["_instanceId"])
-    return {"data": data["payload"],
-            "policy": s3}
+    return jsonify({"data": data["payload"],
+            "policy": s3})
 
 
 @app.route('/submit-form', methods=['POST'])
@@ -438,6 +460,33 @@ def upload_file():
     else:
         return jsonify({"message": "Failed to send"}), 400
 
+
+@app.route('/form-instance', defaults={'form_instance_id': None}, methods=['POST'])
+@app.route('/form-instance/<form_instance_id>', methods=['GET', 'PUT'])
+def form_instance(form_instance_id):
+    if request.method == 'GET':
+        instance = FormInstance.query.get(form_instance_id)
+        if instance is None:
+            return jsonify({"message": "Not found"}), 404
+        return jsonify(instance)
+    if request.method == 'POST':
+        params = request.get_json()
+        if params.get('_formId') is None or params.get('_dataPointId') is None:
+            return jsonify({"message": "Bad request, _formId and _dataPointId parameters are required"}), 400
+        instance = FormInstance(state=request.get_data(as_text=True));
+        db.session.add(instance)
+        db.session.commit()
+        return jsonify(instance)
+    if request.method == 'PUT':
+        instance = FormInstance.query.get(form_instance_id)
+        if instance is None:
+            return jsonify({"message": "Instance {} not found".format(form_instance_id)}), 400
+        instance.updated = datetime.now()
+        instance.state = request.get_data(as_text=True);
+        db.session.add(instance)
+        db.session.commit()
+        return jsonify(instance)
+    return jsonify({"message": "Bad request"}), 400
 
 if __name__ == '__main__':
     app.jinja_env.auto_reload = True

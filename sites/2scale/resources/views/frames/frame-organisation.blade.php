@@ -64,26 +64,20 @@ button.btn.dropdown-toggle.btn-pink.bs-placeholder {
 <body>
     <!-- Jumbotron-->
 
-<div class="full-width">
-<div class="jumbotron card card-image">
-  <div class="text-white text-center">
-    <div>
-        <div class="flex-display selector-bar">
-            <select id="select-country-survey" class="selectpicker" data-style="btn-pink" data-live-search="true">
-              <option value="">Select Country</option>
-                @foreach($surveys["countries"] as $country)
-                <option 
-                    data-tokens="{{ $country['name'] }}"
-                    data-id="{{ $country['id'] }}"
-                    value="{{ Str::title($country['name']) }}">
-                    {{ Str::title($country['name']) }}
-                </option>
-                @endforeach
-            </select>
-        </div>
-    </div>
-  </div>
-</div>
+<div class="bg-white flex-display selector-bar" style="padding-top:30px;">
+	<nav class="text-center">
+    <select id="select-country-survey" class="selectpicker" data-style="btn-pink" data-live-search="true">
+      <option value="">Select Country</option>
+        @foreach($surveys["countries"] as $country)
+        <option 
+            data-tokens="{{ $country['name'] }}"
+            data-id="{{ $country['id'] }}"
+            value="{{ Str::title($country['name']) }}">
+            {{ Str::title($country['name']) }}
+        </option>
+        @endforeach
+    </select>
+    </nav>
 </div>
     <!-- End Jumbotron-->
 

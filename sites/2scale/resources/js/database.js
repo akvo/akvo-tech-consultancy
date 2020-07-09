@@ -1,25 +1,45 @@
+import { db, storeDB } from './dexie';
 const axios = window.axios;
+
+const table = db.databases;
+const fetchData = (endpoint) => {
+    return new Promise((resolve, reject) => {
+        axios.get('/api/datatables' + endpoint) .then(res=> {
+            // console.log('fetch network', res);
+            // storeDB({
+            //     table : table,
+            //     data : {name: endpoint, data: res.data},
+            //     key : {name: endpoint}
+            // });
+            resolve(res.data);
+        }).catch(error=> {
+            reject(error);
+        });
+    });
+};
+
 const endpoint=$("meta[name='data-url']").attr("content");
-const getdata=axios.get('/api/datatables' + endpoint) .then(res=> {
-    return res.data
-}).catch(error=> {
-    throw error;
-});
+const loadData = async (endpoint) => {
+    const res = await table.get({name: endpoint});
+    if (res === undefined) {
+        return fetchData(endpoint);
+    }
+    console.log('not fetch network', res);
+    return res.data;
+}
+const getdata=loadData(endpoint);
 
 const createRows=(data, rowType)=> {
     let html="<tr>";
     data.forEach((d, i)=> {
-        console.log(d);
-        html +="<td>";
-        if (rowType==="head") {
-            html +=d.text;
-        }
-        if (rowType==="body") {
-            html +=d.text;
-        }
-        html +="</td>";
-    }
-    );
+        let classname = i < 10 ? "default-hidden" : "";
+        classname = d.text ? (classname + "") : (classname + " bg-light-grey");
+        html += rowType === "head"
+            ? ("<th class='" + classname + "'>")
+            : ("<td class='" + classname + "'>");
+        html += d.text ? d.text : "";
+        html += rowType === "head" ? "</th>" : "</td>";
+    });
     html+="</tr>";
     return html;
 }
@@ -61,6 +81,10 @@ getdata.then(res=> {
         $("#datatables").DataTable( {
             dom: 'Birftp',
 			buttons: [ 'copy', 'excel', 'csv', 'colvis'],
+            columnDefs: [
+                { targets: [0,1,2,3,4,5,6,7,8,9], visible: true},
+                { targets: '_all', visible: false },
+            ],
 			scrollX: true,
             scrollY: '75vh',
 			height: 400,

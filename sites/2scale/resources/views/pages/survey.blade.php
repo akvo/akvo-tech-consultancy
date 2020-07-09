@@ -3,6 +3,7 @@
 @section ('content')
 
 <div class="bg-white shadow-sm selector-bar">
+@if(!isset($saved_survey))
 	<nav class="nav">
         <select data-url="{{ $surveys['url'] }}" id="select-survey" class="selectpicker" data-style="btn-pink" data-live-search="true">
 		  <option>Select Survey</option>
@@ -19,11 +20,18 @@
               </optgroup>
             @endforeach
 		</select>
-	</nav>
+    </nav>
+@endif
 </div>
 
 <main role="main" class="row">
-    <iframe id="akvo-flow-web" src="/frame-blank" frameborder=0 width="100%"></iframe>
+    <div class="col-md-12">
+    @if(isset($saved_survey))
+        <iframe id="akvo-flow-web" src="{{ $saved_survey }}" frameborder=0 width="100%" ></iframe>
+    @else
+        <iframe id="akvo-flow-web" src="/frame/blank" frameborder=0 width="100%"></iframe>
+    @endif
+    </div>
 </main>
 
 @endsection

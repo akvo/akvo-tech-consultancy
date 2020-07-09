@@ -1,14 +1,19 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import {connect } from 'react-redux';
 import { mapStateToProps, mapDispatchToProps } from '../reducers/actions.js'
 import { Toast, ToastHeader, ToastBody } from 'reactstrap'
+import { CopyToClipboard } from '../util/Utilities.js'
+import { PopupToast } from '../util/Popup'
 
 class Header extends Component {
 
     constructor(props) {
         super(props);
         this.renderLangOption = this.renderLangOption.bind(this);
+        this.renderHeaderInfo = this.renderHeaderInfo.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.copyUrl = this.copyUrl.bind(this);
+        this.getExtraHeader = this.getExtraHeader.bind(this);
     }
 
     handleChange(data) {
@@ -41,24 +46,57 @@ class Header extends Component {
         );
     }
 
+    renderHeaderInfo(info) {
+        return info.map((x, i) => (
+            <div key={i}> {x} </div>
+        ));
+    }
+
+    getExtraHeader() {
+        return (
+            <Fragment>
+              <ToastHeader>
+                  Saved Links:
+              </ToastHeader>
+              <ToastBody>
+                  <pre>{this.props.value.domain}</pre>
+                  <button
+                      className="btn btn-repeatable btn-warning"
+                      onClick={e => this.copyUrl()}
+                  >
+                      Copy URL to Clipboard
+                  </button>
+              </ToastBody>
+            </Fragment>
+        )
+    }
+
+    copyUrl() {
+        CopyToClipboard(this.props.value.domain)
+        PopupToast("Copied to Clipboard!", "info");
+    }
+
     render() {
+        let info = [
+            "Survey ID: " + this.props.value.surveyId,
+            "Version: " + this.props.value.version,
+        ]
         return (
             <div className='sidebar-heading'>
-                <div className="mt-2">
+                <div>
                 <Toast>
                   <ToastHeader>
-                    {this.props.value.surveyName}
+                      {this.props.value.surveyName}
                   </ToastHeader>
                   <ToastBody>
-                    Survey ID: {this.props.value.surveyId}
-                    <br/>
-                    Version: {this.props.value.version}
+                      {this.renderHeaderInfo(info)}
                   </ToastBody>
+                      {this.props.value.savedUrl ? this.getExtraHeader() : ""}
                   <ToastHeader>
-                    Localization:
+                      Localization:
                   </ToastHeader>
                   <ToastBody>
-                    {this.renderLangOption()}
+                      {this.renderLangOption()}
                   </ToastBody>
                 </Toast>
                 </div>

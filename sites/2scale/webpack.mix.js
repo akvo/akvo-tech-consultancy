@@ -20,6 +20,7 @@ mix.js('resources/js/app.js', 'public/js').version()
     .js('resources/js/organisation.js', 'public/js').version()
     .js('resources/js/partnership.js', 'public/js').version()
     .js('resources/js/reachreact.js', 'public/js').version()
+    .js('resources/js/dexie.js', 'public/js').version()
     .sass('resources/sass/app.scss', 'public/css').version();
 
 mix.styles([
@@ -28,4 +29,5 @@ mix.styles([
 
 mix.copyDirectory('resources/vendor', 'public/vendor');
 mix.copyDirectory('resources/images', 'public/images');
+mix.copy('resources/favicon.ico', 'public/');
 mix.copyDirectory('resources/json', 'public/json');
