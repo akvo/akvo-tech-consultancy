@@ -25,9 +25,9 @@ if (day == '01'):
     MAILJET_APIKEY = os.environ['MAILJET_APIKEY']
     MAILJET_SECRET = os.environ['MAILJET_SECRET']
 
-    EMAIL_RECEIVER = ['Stefanie.Brandes@NABU.de', 'Svane.Bender@NABU.de', 'Mesfin.Tekle.nabu@gmail.com']
-    #EMAIL_RECEIVER = ['galih@akvo.org']
-    EMAIL_BCC = ['joy@akvo.org', 'deden@akvo.org', 'galih@akvo.org']
+    #EMAIL_RECEIVER = ['Stefanie.Brandes@NABU.de', 'Svane.Bender@NABU.de', 'Mesfin.Tekle.nabu@gmail.com']
+    EMAIL_RECEIVER = ['akvo.tech.consultancy@gmail.com']
+    EMAIL_BCC = ['joy@akvo.org', 'deden@akvo.org', 'galih@akvo.org', 'Stefanie.Brandes@NABU.de', 'Svane.Bender@NABU.de', 'Mesfin.Tekle.nabu@gmail.com']
 
     mailjet = Client(auth=(MAILJET_SECRET, MAILJET_APIKEY), version='v3.1')
 
@@ -123,6 +123,7 @@ if (day == '01'):
 
         result = mailjet.send.create(data=email)
         print('SENDING EMAIL TO {}'.format(', '.join(EMAIL_RECEIVER)))
+        print('SENDING EMAIL BCC {}'.format(', '.join(EMAIL_BCC)))
         print('STATUS: {}\n'.format(result.status_code))
 
     for item in groups:
