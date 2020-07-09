@@ -60,41 +60,49 @@ return [
                     "form_id" => 27870030,
                     "name" => "UII-1 BoP Form",
                     "survey_id" => 13510021,
+                    "partner_qid" => 27850027
                 ],
                 [
                     "form_id" => 40200005,
                     "name" => "UII-2 SHF Form",
                     "survey_id" => 11320004,
+                    "partner_qid" => 13510004
                 ],
                 [
                     "form_id" => 9420001,
                     "name" => "UII-3 EEP Form",
                     "survey_id" => 46010002,
+                    "partner_qid" => 9400081
                 ],
                 [
                     "form_id" => 23430004,
                     "name" => "UII-4 SME Form",
                     "survey_id" => 17800004,
+                    "partner_qid" => 27830006
                 ],
                 [
                     "form_id" => 5940009,
                     "name" => "UII-5 NonFE Form",
                     "survey_id" => 13510014,
+                    "partner_qid" => 40200020
                 ],
                 [
                     "form_id" => 44050108,
                     "name" => "UII-6 MSME Form",
                     "survey_id" => 27870022,
+                    "partner_qid" => 27840013
                 ],
                 [
                     "form_id" => 39710036,
                     "name" => "UII-7 INNO Form",
                     "survey_id" => 27850023,
+                    "partner_qid" => 39710037
                 ],
                 [
                     "form_id" => 33930043,
                     "name" => "UII-8 F-SERV Form",
                     "survey_id" => 58060038,
+                    "partner_qid" => 56120027
                 ]
         )]
     ),
