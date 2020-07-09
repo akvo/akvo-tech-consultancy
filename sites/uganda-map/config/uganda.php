@@ -86,15 +86,31 @@ return [
       ],
       "color" => [
         [
-            "question_id" =>  null,
-            "code" => "",
-            "color" => "",
+          "question_id" =>  null,
+          "question" => "R-Has this water point had a major rehabilitation since the initial construction?",
+          "code" => "No",
+          "text" => null,
+          "color" => "#dc3545",
+        ],
+        [
+          "question_id" =>  null,
+          "question" => "R-Has this water point had a major rehabilitation since the initial construction?",
+          "code" => "Yes",
+          "text" => null,
+          "color" => "#28a745",
+        ],
+        [
+          "question_id" =>  null,
+          "question" => "R-Has this water point had a major rehabilitation since the initial construction?",
+          "code" => "Unknown", // must be complete option text
+          "text" => "Not Defined", // new option text 
+          "color" => "#ab47bc",
         ],
       ],
       "template" => [
         [ 
-          "css" => "wp-uganda",
-          "js" => "wp-uganda",
+          "css" => "wpuganda",
+          "js" => "wpuganda",
         ],
       ],
     ],

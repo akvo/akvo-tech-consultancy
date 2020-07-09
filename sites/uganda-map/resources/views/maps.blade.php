@@ -4,7 +4,7 @@
             <a href="#" onclick="focusNormal()" class="btn btn-light my-2 my-sm-0"><i class="fa fa-expand"></i></a>
             <a href="#" onclick="zoomMap('in')" class="btn btn-light my-2 my-sm-0"><i class="fa fa-search-minus"></i></a>
             <a href="#" onclick="zoomMap('out')" class="btn btn-light my-2 my-sm-0"><i class="fa fa-search-plus"></i></a>
-            <input id="find" onkeydown="jqUI()" type="text" placeholder="Search School" class="form-control mr-sm-2">
+            <input id="find" onkeydown="jqUI()" type="text" placeholder="Search School" class="form-control mr-sm-2" style="background-image:none">
             <input id="zoom_find" type="hidden">
 			<input type="submit" id="find_submit" style="position: absolute; left: -9999px"/>
             <a href="#" onclick="focusTo()" class="btn btn-primary my-2 my-sm-0"><i class="fa fa-search"></i></a>
