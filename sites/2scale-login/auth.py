@@ -5,7 +5,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-@app.route('/login', methods=['POST'])
+@app.route('/login', methods=['GET','POST'])
 def login():
     params = request.headers.get('Authorization')
     data = r.get('https://api-auth0.akvo.org/flow/orgs/2scale/folders?parentId=0', headers={
