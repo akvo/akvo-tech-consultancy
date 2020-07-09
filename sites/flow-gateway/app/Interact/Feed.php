@@ -317,8 +317,9 @@ class Feed
             $i = 0;
             $response .= "\n";
             do {
-                $id = $i + 1;
-                $response .= $id.". ".$options[$i]."\n";
+                $id = $i + 1; 
+                $text = ($lang) ? config('localizations.'.$options[$i].'').' ('.$options[$i].')' : $options[$i];
+                $response .= $id.". ".$text."\n";
                 $i++;
             } while ($i < count($options));
             return $response;

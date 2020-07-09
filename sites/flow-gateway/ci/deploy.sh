@@ -18,13 +18,13 @@ if [[ "${TRAVIS_PULL_REQUEST}" != "false" ]]; then
     exit 0
 fi
 
-FOLDER="flow-gateway-test"
+FOLDER="flow-gateway"
 
 if [[ "${TRAVIS_BRANCH}" == "master" ]]; then
 	FOLDER="flow-gateway"
 	echo "Deploying Production"
 else
-	echo "Deploying Test"
+	echo "Deploying Production from Develop"
 fi
 
 rsync \
