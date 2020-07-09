@@ -10,7 +10,7 @@ class Data extends Model
     protected $table = 'data';
     protected $fillable = ['question_id', 'datapoint_id', 'form_id' ,'answer', 'country', 'submission_date'];
     protected $hidden = ['created_at', 'updated_at'];
-    //
+
     public function question() {
         return $this->belongsTo('App\Question', 'question_id', 'question_id');
     } 
