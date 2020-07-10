@@ -84,14 +84,16 @@ const jqUI = () => {
             response(searchData(request));
         },
         focus: (event, ui) => {
-            $("#find").val(ui.item[ui.item.searchKey]);
+            // $("#find").val(ui.item[ui.item.searchKey]);
+            $("#find").val(ui.item[ui.item.popup]);
             $("#find").attr('data-search', ui.item.data_point_id);
             $("#zoom_find").val(ui.item.PTS);
             return false;
         },
         select: (event, ui) => {
+            // $("#find").val(ui.item[ui.item.searchKey]);
             console.log(ui.item);
-            $("#find").val(ui.item[ui.item.searchKey]);
+            $("#find").val(ui.item[ui.item.popup]);
             return false;
         }
     })
