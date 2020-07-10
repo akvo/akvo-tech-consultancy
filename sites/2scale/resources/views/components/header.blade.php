@@ -8,6 +8,7 @@
     <ul class="navbar-nav ml-auto">
       <li class="nav-item {{Route::is('home') ? 'active' : ''}}" id="authError" data={{session('status')}}>
         <a class="nav-link" href="/">Home</a>
+        <?php Session::forget('status'); ?>
       </li>
 
       @if (Auth::check())
