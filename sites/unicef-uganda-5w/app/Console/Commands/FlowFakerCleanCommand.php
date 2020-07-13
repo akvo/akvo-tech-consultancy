@@ -42,8 +42,8 @@ class FlowFakerCleanCommand extends Command
             $dataPoints = \App\DataPoint::query();
             $this->info("Removing ".$counts." DataPoints".PHP_EOL);
             $dataPoints->delete();
-            $this->info($counts." Datapoints removed");
+            return $this->info($counts." Datapoints removed");
         }
-        $this->info("Password is wrong".PHP_EOL);
+        return $this->info("Password is wrong".PHP_EOL);
     }
 }

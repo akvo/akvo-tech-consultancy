@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use App\Form;
 use App\Datapoint;
 use App\Partnership;
@@ -56,7 +57,11 @@ class DataTableController extends Controller
             $collections = $questions->map(function($question) use ($ids, $data, $datapoint_id) {
                 $id = $question['question_id'];
                 if ($ids->contains($id)){
-                    return collect($data)->where('question_id', $id)->first();
+                    $answer = collect($data)->where('question_id', $id)->first();
+                    if ($question['type'] == 'date') {
+                        $answer['text'] = Str::before($answer['text'], 'T');
+                    }
+                    return $answer;
                 };
                 return array (
                     "id" => null,

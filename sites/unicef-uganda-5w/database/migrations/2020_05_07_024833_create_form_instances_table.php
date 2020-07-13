@@ -15,6 +15,7 @@ class CreateFormInstancesTable extends Migration
     {
         Schema::create('form_instances', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('fid');
             $table->unsignedBigInteger('form_id');
             $table->unsignedBigInteger('data_point_id');
             $table->string('identifier');

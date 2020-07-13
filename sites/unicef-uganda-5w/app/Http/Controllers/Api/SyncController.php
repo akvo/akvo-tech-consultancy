@@ -23,7 +23,6 @@ class SyncController extends Controller
                 echo($results." : No update data available".PHP_EOL);
                 return null;
             }
-            dump($results); die();
 
             $deleteSurveys = null;
             if (collect($results['changes']['surveyDeleted'])->isNotEmpty()) {

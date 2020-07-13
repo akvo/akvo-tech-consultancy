@@ -15,7 +15,7 @@ class CreateAnswersTable extends Migration
     {
         Schema::create('answers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('form_instance_id')->constrained()->onDelete('cascade');
+            $table->unsignedBigInteger('form_instance_id');
             $table->unsignedBigInteger('question_id');
             $table->text('name')->nullable();
             $table->bigInteger('value')->nullable();
@@ -25,6 +25,11 @@ class CreateAnswersTable extends Migration
             $table->foreign('question_id')
                   ->references('id')
                   ->on('questions')
+                  ->onDelete('cascade');
+
+            $table->foreign('form_instance_id')
+                  ->references('id')
+                  ->on('form_instances')
                   ->onDelete('cascade');
         });
     }

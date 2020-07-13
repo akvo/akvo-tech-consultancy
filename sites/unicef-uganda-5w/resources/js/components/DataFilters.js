@@ -61,7 +61,6 @@ class DataFilters extends Component {
     }
 
     changeActive(id, parent_id, depth) {
-        console.log(id, depth);
         let cache = checkCache(id);
         if (id !== null && cache){
             this.props.filter.location.push(cache);
@@ -163,7 +162,7 @@ class DataFilters extends Component {
             let filter = depth === 2 ? x.parent_id === active.filter.domain : true;
             return titleCase(x.name) !== selected && filter;
         });
-        let parent_id = depth === 2 ? filters[0].parent_id : null;
+        let parent_id = depth === 2 ? active.filter.domain : null;
         return (
             <Dropdown>
                 <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">

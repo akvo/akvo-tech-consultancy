@@ -344,7 +344,7 @@ const showHideQuestions = (orig, group) => {
                     show = true
                 }
                 if (answer.filter(a => answer_value.includes(a)).length === 0){
-                    localStorage.removeItem(x.id);
+                    //localStorage.removeItem(x.id);
                     show = false
                 }
             }
@@ -406,7 +406,6 @@ const replaceAnswers = (questions, data, restore) => {
             try {
                 answer = JSON.parse(answer)
             } catch (err) { }
-            answer = (!isNaN(answer) ? parseInt(answer) : answer)
         }
         return {
             id: x.id,
@@ -499,11 +498,13 @@ const cloneQuestions = (questions, groups, group_id, restoring=false) => {
     do {
         let new_id = new_questions[i].id.split('-')[0] + '-' + new_iteration;
         if (new_questions[i].dependency !== undefined) {
+            let dependency_question = new_questions[i].dependency.question;
+            let dependency_iteration = dependency_question.indexOf(group.questions) === -1 ? '0' : new_iteration;
             new_questions[i] = {
                 ...new_questions[i],
                 dependency: {
                     ...new_questions[i].dependency,
-                    question: new_questions[i].dependency.question.split('-')[0] + '-' + new_iteration
+                    question: new_questions[i].dependency.question.split('-')[0] + '-' + dependency_iteration
                 }
             }
         }

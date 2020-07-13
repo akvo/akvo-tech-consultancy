@@ -41,7 +41,6 @@ class Flow
             if ($response->getStatusCode() === 200) {
                 return json_decode($response->getBody(), true);
             }
-            
             return $response->getStatusCode();
 
         } catch(RequestException $e) {
@@ -49,8 +48,7 @@ class Flow
                 $response = $e->getResponse();
             }
         }
-
-        return null;
+        return false;
     }
 }
 

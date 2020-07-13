@@ -13,6 +13,9 @@ import Uppy from '@uppy/core';
 import AwsS3 from '@uppy/aws-s3';
 import dataURItoBlob from 'datauritoblob';
 
+const survey_form = window.location.pathname.split('/');
+const passvar = survey_form.includes(USING_PASSWORDS) ? "_password" : "_default_password";
+
 class Submit extends Component {
 
     constructor(props) {
@@ -31,8 +34,6 @@ class Submit extends Component {
     }
 
     handlePassword (event) {
-        let survey_form = window.location.pathname.split('/');
-        const passvar = survey_form.includes(USING_PASSWORDS) ? "_password" : "_default_password";
         localStorage.setItem(passvar,event.target.value)
     }
 
@@ -263,6 +264,7 @@ class Submit extends Component {
     }
 
     render() {
+        const hasSaveButton = survey_form.includes(USING_PASSWORDS) ? true : false;
         return (
             <Fragment>
                 <ReCAPTCHA
@@ -305,12 +307,14 @@ class Submit extends Component {
                         />
                         <hr/>
                     </div>
-                    <button
-                        onClick={e => this.saveForm(e)}
-                        className={"btn btn-block btn-primary"}
-                        disabled={this.state._saveButton ? false : true}>
-                        Save
-                    </button>
+                    { hasSaveButton ? (
+                        <button
+                            onClick={e => this.saveForm(e)}
+                            className={"btn btn-block btn-primary"}
+                            disabled={this.state._saveButton ? false : true}>
+                            Save
+                        </button>
+                    ) : ""}
                     <button
                         onClick={e => this.submitForm(e)}
                         className={"btn btn-block btn-" + ( this.props.value.submit ? "primary" : "secondary")}

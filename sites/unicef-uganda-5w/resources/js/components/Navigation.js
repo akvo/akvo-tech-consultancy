@@ -69,7 +69,9 @@ class Navigation extends Component {
             )
         }
         return this.state.covid.map((x,i) => (
-            <ListGroup.Item key={i} variant="light">{x.name}: {x.value}</ListGroup.Item>
+            <ListGroup.Item key={i} variant="light">
+            {x.name}: <span className={"text-" + x.name.toLowerCase()}>{x.value}</span>
+            </ListGroup.Item>
         ))
     }
 

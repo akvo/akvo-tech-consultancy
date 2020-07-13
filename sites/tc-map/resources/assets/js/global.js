@@ -100,7 +100,7 @@ const jqUI = () => {
         //     schoolType = item.school_type_other;
         // }
         return $("<li>")
-            .append("<div><span class='search-province'>" + item[item.popup] + " - xxx </span><span class='badge badge-small badge-primary'>"+ item[item.searchKey] +"</span></div>")
+            .append("<div><span class='search-province'>" + item[item.popup] + "</span><span class='badge badge-small badge-primary'>"+ item[item.searchKey] +"</span></div>")
             .appendTo(ul);
     };
 };

@@ -7,6 +7,33 @@ import { titleCase } from "../data/utils.js";
 import DataTable from 'react-data-table-component';
 import groupBy from 'lodash/groupBy';
 
+const customStyles = {
+    headCells: {
+        style: {
+            backgroundColor: '#343a40',
+            borderColor: '#454d55',
+            color: '#fff',
+        },
+        activeSortStyle: {
+            '&:focus': {
+                color: '#fff'
+            },
+            '&:hover:not(:focus)': {
+                color: '#fff',
+            },
+        },
+        inactiveSortStyle: {
+            '&:focus': {
+                outline: 'none',
+                color: '#fff'
+            },
+            '&:hover': {
+                color: '#fff'
+            },
+        },
+    },
+};
+
 class Tables extends Component {
     constructor(props) {
         super(props);
@@ -15,9 +42,7 @@ class Tables extends Component {
 
     getRowTable() {
         let valType = this.props.value.filters.selected.type;
-        let orgs = valType === "reset"
-            ? this.props.value.filters.organisations
-            : this.props.value.filters.organisations.filter(
+        let orgs = this.props.value.filters.organisations.filter(
                 x => {
                     let active = this.props.value.filters.selected.filter;
                     if (active.sub_domain) {
@@ -34,11 +59,31 @@ class Tables extends Component {
         orgs = orgs.map((x,i) => {
             let domain = list.find(l => l.id === x.domain);
             let sub_domain = list.find(l => l.id === x.sub_domain);
-            let name = x.name + '___' + domain.name + '___' + sub_domain.name + '___' + x.location;
-            let value = valType === "reset" ? 1 : x['value_' + valType];
+            let location_name = x.parent !== null ? (x.parent.name + ' - ' + x.location) : x.location;
+            let name = x.name + '___'
+                + domain.name + '___'
+                + sub_domain.name + '___'
+                + location_name + '___'
+                + x.activity;
+            let value_new = org_values[name] === undefined
+                ? x.value_new
+                : org_values[name]['value_new'] + x.value_new;
+            let value_total = org_values[name] === undefined
+                ? x.value_total
+                : org_values[name]['value_total'] + x.value_total;
+            let value_quantity = org_values[name] === undefined
+                ? x.value_quantity
+                : org_values[name]['value_quantity'] + x.value_quantity;
+            let activities = org_values[name] === undefined ? 1 : org_values[name]['activities'] + 1;
             org_values = {
                 ...org_values,
-                [name]: org_values[name] === undefined ? value : value + org_values[name]
+                [name]: {
+                    value_new: value_new,
+                    value_quantity: value_quantity,
+                    value_total: value_total,
+                    activities: activities,
+                    unit: x.unit
+                }
             };
             return true;
         });
@@ -51,11 +96,14 @@ class Tables extends Component {
                 ...rows,
                 {
                     no: i,
+                    location: titleCase(vars[3]),
                     org: vars[0],
+                    activity: titleCase(vars[4]),
                     domain: titleCase(vars[1]),
                     sub_domain: titleCase(vars[2]),
-                    location: titleCase(vars[3]),
-                    contrib: org_values[val],
+                    qty: org_values[val].value_quantity,
+                    unit: org_values[val].unit,
+                    total_beneficiaries: org_values[val].value_total,
                 }
             ];
         }
@@ -69,34 +117,58 @@ class Tables extends Component {
             name: 'No',
             selector: 'no',
             sortable: true,
-          },
-          {
-            name: 'Organisation Name',
-            selector: 'org',
-            sortable: true,
-            right: true,
-          },
-          {
-            name: 'Domains',
-            selector: 'domain',
-            sortable: true,
-            right: true,
-          },
-          {
-            name: 'Sub-Domains',
-            selector: 'sub_domain',
-            sortable: true,
-            right: true,
+            maxWidth: '5px'
           },
           {
             name: 'Location',
             selector: 'location',
             sortable: true,
             right: true,
+            maxWidth: '250px'
           },
           {
-            name: columnname === "reset" ? "Activity Count" : titleCase(columnname),
-            selector: 'contrib',
+            name: 'Type',
+            selector: 'activity',
+            sortable: true,
+            right: true,
+          },
+          {
+            name: 'NGO',
+            selector: 'org',
+            sortable: true,
+            right: true,
+            maxWidth: '100px'
+          },
+          {
+            name: 'Category',
+            selector: 'domain',
+            sortable: true,
+            right: true,
+            maxWidth: '50px'
+          },
+          {
+            name: 'Activity',
+            selector: 'sub_domain',
+            sortable: true,
+            right: true,
+          },
+          {
+            name: 'Qty',
+            selector: 'qty',
+            sortable: true,
+            right: true,
+            maxWidth: '15px'
+          },
+          {
+            name: 'Unit',
+            selector: 'unit',
+            sortable: true,
+            right: true,
+            minWidth: '200px'
+          },
+          {
+            name: 'Total Beneficiaries',
+            selector: 'total_beneficiaries',
             sortable: true,
             right: true,
           },
@@ -107,9 +179,12 @@ class Tables extends Component {
                 title={columnname === "reset" ? "All Organisations": titleCase(columnname)}
                 columns={columns}
                 data={this.getRowTable()}
+                customStyles={customStyles}
                 fixedHeader
-                fixedHeaderScrollHeight="300px"
+                fixedHeaderScrollHeight="540px"
                 highlightOnHover
+                pagination={true}
+                paginationPerPage={10}
                 pointerOnHover
             />
         </Col>

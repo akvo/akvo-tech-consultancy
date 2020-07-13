@@ -38,4 +38,13 @@ class Option extends Model
         $text = Str::beforeLast($text, ' (');
         return Str::upper($text);
     }
+
+    public function getUnitAttribute()
+    {
+        $text = trim(preg_replace('!\s+-!', ' -', $this->name));
+        $text = Str::AfterLast($text, ' - ');
+        $text = Str::title($text);
+        $text = str_replace('Of', 'of', $text);
+        return $text;
+    }
 }

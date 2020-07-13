@@ -79,7 +79,7 @@ export const filterState = {
             domains: ["Loading..."],
             subdomains: ["Loading..."],
             count: 1
-        }
+        },
     }],
     overviews: {
         organisations: [],

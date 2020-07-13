@@ -28,19 +28,12 @@ return [
             'repeat' => false
         ],
         [
-            'id' => [1006544003],
-            'name' => 'completion_date',
-            'type' => 'date',
-            'on' => false,
-            'repeat' => true
-        ],
-        [
             'id' => [1022214001],
             'name' => 'activity',
             'bridge' => \App\AnswerOption::class,
             'value' => \App\Option::class,
             'on' => 'options',
-            'repeat' => true
+            'repeat' => false
         ],
         [
             'id' => [992534002,1027034160],
@@ -49,7 +42,7 @@ return [
             'value' => \App\Cascade::class,
             'on' => 'cascades',
             'lv' => 1,
-            'repeat' => true
+            'repeat' => false
         ],
         [
             'id' => [992534002,1027034160],
@@ -58,7 +51,7 @@ return [
             'value' => \App\Cascade::class,
             'on' => 'cascades',
             'lv' => 2,
-            'repeat' => true
+            'repeat' => false
         ],
         [
             'id' => [1018314002],
@@ -74,6 +67,13 @@ return [
             'bridge' => \App\AnswerOption::class,
             'value' => \App\Option::class,
             'on' => 'options',
+            'repeat' => true
+        ],
+        [
+            'id' => [1006544003],
+            'name' => 'completion_date',
+            'type' => 'date',
+            'on' => false,
             'repeat' => true
         ],
         [

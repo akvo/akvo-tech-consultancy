@@ -81,7 +81,7 @@ class ApiController extends Controller
     {
         $bridges = \App\Bridge::all();
         $bridges = $bridges->groupBy('district')->transform(function($district, $key){
-            $location = \App\Cascade::where('id', $key)->first();
+            $location = \App\Cascade::where('id', $key)->with('parents')->first();
             $domains = $district->unique('domain')->transform(function($data){
                 return \App\Option::select('name')->where('id', $data->domain)->first()->text;
             });
@@ -89,17 +89,20 @@ class ApiController extends Controller
                 return \App\Option::select('name')
                     ->where('id', $data->sub_domain)->first()->text;
             });
-            $organisations = collect($district)->map(function($data){
+            $organisations = collect($district)->map(function($data) use ($location){
+                $subdomain = \App\Option::select('id','name')->where('id', $data->sub_domain)->first();
                 return [
                     'name' => \App\Cascade::select('name')->where('id', $data->org_name)->first()->text,
                     'activity' => \App\Option::select('name')->where('id', $data->activity)->first()->text,
                     'domain' => \App\Option::select('id')->where('id', $data->domain)->first()->id,
                     'partner_type' => \App\Cascade::select('name')->where('id', $data->org_type)->first()->text,
                     'partner' => 'Organisation',
-                    'sub_domain' => \App\Option::select('id')->where('id', $data->sub_domain)->first()->id,
+                    'sub_domain' => $subdomain->id,
+                    'unit' => $subdomain->unit,
                     'value_quantity' => $data->quantity,
                     'value_total' => $data->total,
-                    'value_new' => $data->new
+                    'value_new' => $data->new,
+                    'parent' => $location->parents->parent_id !== null ? $location->parents : null,
                 ];
             });
             return [
