@@ -43,7 +43,6 @@ class Charts extends Component {
                 if (this.props.value.filters.selected.length < 2){
                     this.props.filter.program.append(param.data.values, 1);
                 };
-				console.log('treemap');
 			}
             return;
         }
@@ -112,7 +111,8 @@ class Charts extends Component {
                 return x;
             });
         }
-        let options = generateOptions(this.props.kind, selected.name, this.props.value.filters.country, data, this.props.calc);
+        let country_values = this.props.value.filters.country;
+        let options = generateOptions(this.props.kind, selected.name, country_values, data, this.props.calc);
         return (
             <Col md={this.props.data.column}>
                 <ReactEcharts

@@ -14,14 +14,14 @@ class Home extends Component {
         this.state = {
             charts: [
                 {
-                    kind: "MAPS",
-                    calc: "VALUES",
-                    data: generateData(8, true, "500px")
-                },
-                {
                     kind: "TREEMAP",
                     calc: "CATEGORY",
                     data: generateData(4, false, "500px")
+                },
+                {
+                    kind: "MAPS",
+                    calc: "VALUES",
+                    data: generateData(8, true, "500px")
                 },
                 {
                     kind: "BAR",

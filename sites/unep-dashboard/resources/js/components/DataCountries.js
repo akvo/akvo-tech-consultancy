@@ -9,7 +9,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
-    <a className="btn btn-primary"
+    <a className="btn btn-primary btn-sm"
        href=""
        ref={ref}
        onClick={e => { e.preventDefault(); onClick(e); }}

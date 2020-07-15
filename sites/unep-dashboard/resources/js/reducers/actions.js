@@ -25,24 +25,45 @@ export const mapDispatchToProps = dispatch => {
                         type: "FILTERS - PROGRAM INIT",
                         list: list
                     }),
-                append: (list, depth) =>
+                append: (list, depth, kind) =>
                     dispatch({
                         type: "FILTERS - PROGRAM APPEND",
                         list: list,
-                        depth: depth
+                        depth: depth,
+                        kind: kind
                     }),
-                update: (id, parent_id, name, depth) =>
+                update: (id, parent_id, name, depth, kind) =>
                     dispatch({
                         type: "FILTERS - PROGRAM SELECT",
                         id: id,
                         parent_id: parent_id,
                         name: name,
-                        depth: depth
+                        depth: depth,
+                        kind: kind
                     }),
                 change: list =>
                     dispatch({
                         type: "FILTERS - PROGRAM CHANGE",
-                        list: list
+                        list: list,
+                        kind: kind
+                    }),
+            },
+            reducer: {
+                show: () =>
+                    dispatch({
+                        type: "FILTERS - REDUCER SHOW",
+                    }),
+                append: (id, parent_id) =>
+                    dispatch({
+                        type: "FILTERS - REDUCER APPEND",
+                        id: id,
+                        parent_id: parent_id
+                    }),
+                remove: (id, parent_id) =>
+                    dispatch({
+                        type: "FILTERS - REDUCER REMOVE",
+                        id: id,
+                        parent_id: parent_id,
                     })
             },
             country: {

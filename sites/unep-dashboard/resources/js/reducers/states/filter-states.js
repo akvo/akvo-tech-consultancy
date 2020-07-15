@@ -6,9 +6,27 @@ export const filterState = {
             id:1,
             parent_id: 0,
             values:[{ id: 1, name: "Loading", value: 0 }],
-            disabled: true
+            disabled: true,
+            childs: [{
+                name:'loading',
+                code:'loading',
+                id:1,
+                parent_id: 0,
+                values:[{ id: 1, name: "Loading", value: 0 }],
+                disabled: true,
+            }],
         }
     ]],
+    childs: [
+        {
+            id: 2,
+            name:'loading',
+            code:'loading',
+            parent_id: 1,
+            values:[{ id: 1, name: "Loading", value: 0 }],
+            disabled: true,
+        }
+    ],
     depth: 1,
     selected: [{
         id: 1,
@@ -23,6 +41,27 @@ export const filterState = {
         id: 1,
     }],
     country: 'World Wide',
+    reducer:{
+        show:false,
+        list: [[
+            {
+                name:'loading',
+                code:'loading',
+                id:1,
+                parent_id: 0,
+                values:[{ id: 1, name: "Loading", value: 0 }],
+                disabled: true,
+            }
+        ]],
+        depth: 1,
+        selected: [{
+            id: 1,
+            name: 'Select Filter',
+            parent_id: 0,
+            values:[{ id: 1, name: "Loading", value: 0 }]
+        }],
+        ids:[/*{id:1, parent_id:0}*/],
+    },
 }
 
 export const showFilters = (state, data) => {
@@ -64,7 +103,7 @@ export const appendFilters = (state, data, depth) => {
     let appends = [];
     let len = state.list.length - 1;
     let i = 0
-    if (state.list.length === 2) {
+    if (state.list.length !== 1) {
         appends = false
     }
     let newdata = {
@@ -92,4 +131,65 @@ export const appendFilters = (state, data, depth) => {
         }
     }
     return newdata;
+}
+
+/* TODO: Confirm to Joy */
+const getParentList = (state, ids) => {
+    let parent_ids = ids.map(x => x.parent_id);
+    return state.list[0].filter(x =>
+        !parent_ids.includes(x.id) || x.id !== state.selected[0].id
+    );
+}
+
+/* TODO: Confirm to Joy */
+const replaceParentData = (state, ids, parent_id) => {
+    let selected = state.selected;
+    let list = state.list;
+    if (selected[0].id === parent_id) {
+        let listed_id = ids.map(x => x.id);
+        list = [list[0], list[1].filter(x => listed_id.includes(x.id))];
+        selected = [selected[0], list[1][0]];
+    }
+    return {
+        selected: selected,
+        list: list,
+    }
+}
+
+export const removeReducer = (state, id, parent_id) => {
+    let ids = state.reducer.ids.filter(x => x.id !== id);
+    return{
+        ...state,
+        reducer: {
+            ...state.reducer,
+            depth:1,
+            list: [getParentList(state, ids)],
+            selected: [{
+                id: 1,
+                name: 'Select Filter',
+                parent_id: 0,
+                values:[{ id: 1, name: "Loading", value: 0 }]
+            }],
+            ids: ids
+        }
+    }
+}
+
+export const addReducer = (state, id, parent_id) => {
+    let ids = [...state.reducer.ids, {id:id, parent_id:parent_id}];
+    return {
+        ...state,
+        reducer: {
+            ...state.reducer,
+            depth:1,
+            list: [getParentList(state, ids)],
+            selected: [{
+                id: 1,
+                name: 'Select Filter',
+                parent_id: 0,
+                values:[{ id: 1, name: "Loading", value: 0 }]
+            }],
+            ids: ids
+        }
+    }
 }

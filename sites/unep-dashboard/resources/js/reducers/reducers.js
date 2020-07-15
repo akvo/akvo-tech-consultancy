@@ -7,6 +7,8 @@ import {
     appendFilters,
     updateSelectedFilters,
     showFilters,
+    addReducer,
+    removeReducer,
 } from './states/filter-states.js';
 import {
     chartState,
@@ -14,8 +16,9 @@ import {
     appendOption,
     selectCharts,
     filterCharts,
-    reverseCharts
+    reverseCharts,
 } from './states/chart-states.js';
+import { flatDeep } from '../data/utils.js';
 
 const initialState = {
     page: pageState,
@@ -44,23 +47,55 @@ export const states = (state = initialState, action) => {
                 ...state,
                 filters: {
                     ...state.filters,
-                    list: [action.list]
+                    reducer: {
+                        ...state.filters.reducer,
+                        list: [action.list]
+                    },
+                    list: [action.list],
+                    childs: flatDeep(action.list.map(x => x.childs))
                 }
             }
         case 'FILTERS - PROGRAM APPEND':
+            if (action.kind === 'primary') {
+                return {
+                    ...state,
+                    filters: appendFilters(state.filters, action.list, action.depth)
+                }
+            }
             return {
                 ...state,
-                filters: appendFilters(state.filters, action.list, action.depth)
+                filters:{
+                    ...state.filters,
+                    reducer: appendFilters(state.filters.reducer, action.list, action.depth)
+                }
             }
         case 'FILTERS - PROGRAM SELECT':
+            if (action.kind === 'primary') {
+                return {
+                    ...state,
+                    filters: updateSelectedFilters(state.filters, action.id, action.parent_id, action.name, action.depth)
+                }
+            }
             return {
                 ...state,
-                filters: updateSelectedFilters(state.filters, action.id, action.parent_id, action.name, action.depth)
+                filters: {
+                    ...state.filters,
+                    reducer: updateSelectedFilters(state.filters.reducer, action.id, action.parent_id, action.name, action.depth)
+                }
             }
         case 'FILTERS - PROGRAM CHANGE':
+            if (action.kind === 'primary') {
+                return {
+                    ...state,
+                    filters: showFilters(state.filters, action.list)
+                }
+            }
             return {
                 ...state,
-                filters: showFilters(state.filters, action.list)
+                filters: {
+                    ...state.filters,
+                    reducer: showFilters(state.filters, action.list)
+                }
             }
         case 'FILTERS - COUNTRY INIT':
             return {
@@ -77,6 +112,30 @@ export const states = (state = initialState, action) => {
                     ...state.filters,
                     country: action.country
                 }
+            }
+        case 'FILTERS - REDUCER SHOW':
+            return {
+                ...state,
+                filters: {
+                    ...state.filters,
+                    reducer: {
+                        ...state.filters.reducer,
+                        depth: 1,
+                        list: [state.filters.reducer.list[0]],
+                        selected: [state.filters.reducer.selected[0]],
+                        show: state.filters.reducer.show ? false : true,
+                    }
+                }
+            }
+        case 'FILTERS - REDUCER APPEND':
+            return {
+                ...state,
+                filters: addReducer(state.filters, action.id, action.parent_id)
+            }
+        case 'FILTERS - REDUCER REMOVE':
+            return {
+                ...state,
+                filters: removeReducer(state.filters, action.id, action.parent_id)
             }
         case 'CHART - VALUES APPEND':
             return {
