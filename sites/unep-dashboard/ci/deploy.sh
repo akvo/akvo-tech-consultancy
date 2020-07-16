@@ -64,7 +64,7 @@ ssh -i "${SITES_SSH_KEY}" \
     -p 18765 \
     -o UserKnownHostsFile=/dev/null \
     -o StrictHostKeyChecking=no \
-    tcakvo@109.73.232.40 "cd ~/public_html/${FOLDER}/ && /usr/local/bin/php72 artisan cache:clear"
+    tcakvo@109.73.232.40 "cd ~/public_html/${FOLDER}/ && /usr/local/bin/php73 artisan cache:clear"
 
 ssh -i "${SITES_SSH_KEY}" \
     -p 18765 \

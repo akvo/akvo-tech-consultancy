@@ -14,8 +14,9 @@ import Home from '../pages/Home';
 import Loading from '../pages/Loading';
 import axios from 'axios';
 import { flatDeep } from '../data/utils.js';
-import uniq from 'lodash/uniq';
 import intersectionBy from 'lodash/intersectionBy';
+import uniq from 'lodash/uniq';
+import uniqBy from 'lodash/uniqBy';
 
 const prefixPage = process.env.MIX_PUBLIC_URL + "/page/";
 
@@ -27,11 +28,12 @@ class Page extends Component {
         this.repeat = this.repeat.bind(this);
         this.changeActive = this.changeActive.bind(this);
         this.addReducer = this.addReducer.bind(this);
-        this.removeReducer = this.removeReducer.bind(this);
+        this.getReducer = this.getReducer.bind(this);
         this.setCharts = this.setCharts.bind(this),
         this.updateCharts = this.updateCharts.bind(this),
         this.loadPrimaryDefault = this.loadPrimaryDefault.bind(this);
         this.renderReducer = this.renderReducer.bind(this);
+        this.refreshCharts = this.refreshCharts.bind(this);
     }
 
    updateCharts(data) {
@@ -58,17 +60,11 @@ class Page extends Component {
         return true;
     }
 
-    setCharts(id, parent_id, depth){
-        let filter = depth === 1 ? 'id' : 'parent_id';
-        let charts = this.props.value.charts.data;
-        let chartisnew = charts.find((x => x[filter] === id))
-            chartisnew = chartisnew ? false : true;
-        if (parent_id === null && chartisnew) {
-            this.props.chart.state.loading();
-            let this_values = this.props.value.filters.list[depth].find(x => x.id === id);
+    getReducer() {
+        if (this.props.value.filters.reducer.ids.length > 0){
+            let countries = [];
             let active_filters = this.props.value.filters.reducer.ids.map(x => x.id);
                 active_filters = this.props.value.filters.childs.filter(x => active_filters.includes(x.id));
-            let countries = [];
             for (let i=0; i<active_filters.length; i++) {
                 if (i === 0) {
                     countries = active_filters[0].country_values;
@@ -78,18 +74,30 @@ class Page extends Component {
                     countries = intersectionBy(intersect,countries, 'country_id');
                 }
             }
+            countries = countries.map(x => {return {country_id : x.country_id}});
+            return countries;
+        }
+        return false;
+    }
+
+    setCharts(id, parent_id, depth){
+        let filter = depth === 1 ? 'id' : 'parent_id';
+        let charts = this.props.value.charts.data;
+        let reduced_countries = this.getReducer();
+        if (parent_id === null) {
+            this.props.chart.state.loading();
+            let this_values = this.props.value.filters.list[depth].find(x => x.id === id);
             this_values.childs.map(x => {
                 let data = x;
-                if (this.props.value.filters.reducer.ids > 0){
+                if (reduced_countries) {
                     data = {
                         ...x,
-                        country_values: intersectionBy(data.country_values,countries, 'country_id')
+                        country_values: intersectionBy(x.country_values, reduced_countries, 'country_id')
                     }
                 }
-                console.log(data.country_values.length);
                 this.updateCharts(data);
             });
-            countries = this.props.value.filters.selected[depth + 1];
+            let countries = this.props.value.filters.selected[depth + 1];
             this.props.chart.value.select(countries.id);
             this.props.page.loading();
         }
@@ -101,6 +109,7 @@ class Page extends Component {
     }
 
     changeActive(id, parent_id, name, depth, kind) {
+        console.log(id, parent_id, name, depth, kind);
         let category;
         let countries;
         let filters = kind === "primary"
@@ -118,6 +127,7 @@ class Page extends Component {
         this.props.filter.program.update(id, parent_id, name, depth, kind);
         if (kind === "primary") {
             this.setCharts(id, parent_id, depth);
+            return true;
         }
     }
 
@@ -182,19 +192,23 @@ class Page extends Component {
         return dropdowns.map(x => {return x});
     }
 
+    refreshCharts() {
+        console.log(this.props.value);
+        let primary_filters = this.props.value.filters.selected[0];
+        this.changeActive(primary_filters.id, null, primary_filters.name, 0, "primary")
+    }
+
     addReducer() {
         let selected = this.props.value.filters.reducer.selected;
         selected = selected[selected.length - 1];
         this.props.filter.reducer.append(selected.id, selected.parent_id);
-    }
-
-    removeReducer(id){
-        this.props.filter.reducer.remove(id);
+        this.refreshCharts();
+        return true;
     }
 
     renderReducer(reducer) {
         return reducer.ids.map((x, i) => (
-            <DataReducers key={i+'-reduce'} data={x} remove={this.removeReducer}/>
+            <DataReducers key={i+'-reduce'} data={x} refresh={this.refreshCharts}/>
         ));
     }
 

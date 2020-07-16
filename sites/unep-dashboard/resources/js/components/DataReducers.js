@@ -17,6 +17,8 @@ class DataReducers extends Component {
 
     removeReducer(){
         this.props.filter.reducer.remove(this.props.data.id, this.props.data.parent_id);
+        console.log(this.props);
+        this.props.refresh();
     }
 
     render() {
