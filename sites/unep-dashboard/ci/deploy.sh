@@ -18,10 +18,10 @@ if [[ "${TRAVIS_PULL_REQUEST}" != "false" ]]; then
     exit 0
 fi
 
-FOLDER="unep"
+FOLDER="unep-dashboard"
 
 if [[ "${TRAVIS_BRANCH}" == "master" ]]; then
-	FOLDER="unep"
+	FOLDER="unep-dashboard"
 	echo "Deploying Production"
 else
 	echo "Deploying ${TRAVIS_BRANCH}"
