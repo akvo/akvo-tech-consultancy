@@ -23,4 +23,4 @@ docker run \
        --volume "$(pwd):/home/tcakvo/public_html/unep-dashboard" \
        --workdir "/home/tcakvo/public_html/unep-dashboard" \
        --entrypoint /bin/sh \
-       node:8-alpine -c 'npm i && npm run prod'
+       node:8-alpine -c 'npm install && npm run prod'
