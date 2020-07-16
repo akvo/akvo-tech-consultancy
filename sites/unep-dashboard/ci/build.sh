@@ -18,6 +18,8 @@ docker run \
        --entrypoint /bin/sh \
        composer -c 'composer dump-autoload'
 
+echo 'MIX_PUBLIC_URL="https://unep.tc.akvo.org"' > .env
+
 docker run \
        --rm \
        --volume "$(pwd):/home/tcakvo/public_html/unep-dashboard" \
