@@ -1,5 +1,5 @@
 RewriteEngine on
-RewriteCond %{HTTP_HOST} ^uganda-map.tc.akvo.org$ [NC,OR]
+RewriteCond %{HTTP_HOST} ^kabarole-wash.tc.akvo.org$ [NC,OR]
 RewriteCond %{REQUEST_URI} !public/
 RewriteRule (.*) /public/$1 [L]
 
