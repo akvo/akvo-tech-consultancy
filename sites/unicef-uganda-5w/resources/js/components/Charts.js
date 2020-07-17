@@ -44,17 +44,38 @@ class Charts extends Component {
             'click': this.clickEvent,
         }
         let loading = this.props.value.charts.loading;
+        let style = this.state.style;
+        let options = this.props.options;
+        let data = true;
+        if(this.props.options.series[0].type === "bar"){
+            let yheight = this.props.options.series[0].data.length;
+            yheight = yheight !== 0 ? (25 * yheight) : 0;
+            data = yheight === 0 ? false : true;
+            options = {
+                ...options,
+                grid: {
+                    ...options.grid,
+                    height: yheight + "px",
+                }
+            }
+            yheight = (200 + yheight) + "px";
+            style = {height:yheight}
+        };
+        if (!data) {
+            return "";
+        }
         return (
             <Col md={this.props.data.column}>
                 {loading ? <LoadingChart/> : "" }
                 <ReactEcharts
-                    option={this.props.options}
+                    option={options}
                     notMerge={true}
                     lazyUpdate={true}
-                    style={this.state.style}
+                    style={style}
                     onEvents={onEvents}
                 />
                 {this.props.table ? this.props.table : ""}
+                <hr/>
             </Col>
         );
     }

@@ -19,54 +19,17 @@ export const mapDispatchToProps = dispatch => {
                 })
         },
         filter: {
-            category: {
-                init: list =>
-                    dispatch({
-                        type: "FILTERS - CATEGORY INIT",
-                        list: list
-                    }),
-                change: (id, depth)=>
-                    dispatch({
-                        type: "FILTERS - CATEGORY CHANGE",
-                        id: id,
-                        depth: depth
-                    }),
-                clear: () =>
-                    dispatch({
-                        type:"FILTERS - CATEGORY CLEAR",
-                    }),
-            },
-            location: {
-                init: locations =>
-                    dispatch({
-                        type: "FILTERS - LOCATION INIT",
-                        locations: locations
-                    }),
-                push: data =>
-                    dispatch({
-                        type: "FILTERS - LOCATION VALUES",
-                        data: data
-                    }),
-                change: id =>
-                    dispatch({
-                        type: "FILTERS - LOCATION CHANGE",
-                        id: id
-                    })
-            },
-            organisation: {
-                init: org =>
-                    dispatch({
-                        type: "FILTERS - ORGANISATION INIT",
-                        org : org
-                    }),
-            },
-            valtype: {
-                change: valueName =>
-                    dispatch({
-                        type: "FILTERS - VALUE CHANGE",
-                        valueName : valueName
-                    }),
-            }
+            init: base =>
+                dispatch({
+                    type: "FILTER - INIT",
+                    base: base
+                }),
+            change: (selected, page)=>
+                dispatch({
+                    type: "FILTER - CHANGE",
+                    selected: selected,
+                    page: page,
+                }),
         },
         chart: {
             value: {

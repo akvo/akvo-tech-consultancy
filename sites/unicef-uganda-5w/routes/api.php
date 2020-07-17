@@ -18,18 +18,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/data', 'Api\DataController@index');
-Route::get('/data/datapoints', 'Api\DataController@getDataPoints');
-Route::get('/cascades', 'Api\DataController@getCascades');
-Route::get('/options', 'Api\DataController@getOptions');
-
 Route::get('/coordinations/{option_id}', 'Api\DataController@getCoordinations');
 Route::get('/value/category/{id}', 'Api\QueryController@getValueById');
 
-Route::get('/filters', 'Api\ApiController@filters');
-Route::get('/locations', 'Api\ApiController@locations');
-Route::get('/locations/values', 'Api\ApiController@locationValues');
-Route::get('/locations/values/{domain}', 'Api\ApiController@locationValues');
-Route::get('/locations/values/{domain}/{subdomain}', 'Api\ApiController@locationValues');
-Route::get('/locations/organisations', 'Api\ApiController@locationOrganisations');
+Route::get('/filters/{type}', 'Api\ApiController@filters');
+Route::get('/data', 'Api\ApiController@data');
 Route::get('/covid','Api\ApiController@getCovidStatus');

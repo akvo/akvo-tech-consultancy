@@ -18,7 +18,7 @@ const Maps = (title, subtitle, list) => {
             ...TextStyle
         },
         visualMap: {
-            orient: 'horizontal',
+            orient: 'vertical',
             left: 'left',
             min: list.min,
             max: list.max,

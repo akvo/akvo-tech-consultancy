@@ -9,7 +9,7 @@ class Option extends Model
 {
     protected $hidden = ['created_at', 'updated_at'];
     protected $fillable = ['question_id', 'code', 'name', 'other'];
-    protected $appends = ['text'];
+    protected $appends = ['text','unit'];
 
     public function question()
     {
@@ -36,15 +36,18 @@ class Option extends Model
         $text = trim(preg_replace('!\s+-!', ' -', $this->name));
         $text = Str::beforeLast($text, ' - #');
         $text = Str::beforeLast($text, ' (');
-        return Str::upper($text);
+        return Str::title($text);
     }
 
     public function getUnitAttribute()
     {
         $text = trim(preg_replace('!\s+-!', ' -', $this->name));
-        $text = Str::AfterLast($text, ' - ');
-        $text = Str::title($text);
-        $text = str_replace('Of', 'of', $text);
-        return $text;
+        if (Str::contains($text,' - ')) {
+            $text = Str::AfterLast($text, ' - ');
+            $text = Str::title($text);
+            $text = str_replace('Of', 'of', $text);
+            return $text;
+        }
+        return false;
     }
 }
