@@ -71,7 +71,6 @@ const setConfig = (defaultSelect) => {
             localStorage.setItem("template", res.data.js)
             localStorage.setItem("configs", JSON.stringify(res.data));
             cfg = res.data;
-            console.log(cfg);
             categoryField = cfg.name;
             iconField = categoryField;
             popupFields = cfg.popup;
@@ -93,8 +92,13 @@ const loadLocalData = () => {
         popupFields = cfg.popup;
         startRenderMap();
         cacheMem = JSON.parse(localStorage.getItem('data'));
-        geojsonPath = '/api/data/' + defaultSelect;
-        getGeoJson();
+        // geojsonPath = '/api/data/' + defaultSelect;
+        // getGeoJson();
+        loadData(cacheMem, 2);
+        d3.select("#main-filter-list").html("");
+        (localStorage.getItem('second-filter') !== null)
+            ? renderSecondFilter()
+            : "";
     } else {
         setConfig(defaultSelect);
     }
@@ -196,7 +200,7 @@ const emptyMap = () => {
         localStorage.setItem('status', 'init');
         map = L.map('mapid', {
             zoomControl: false
-        }).setView([52.3667, 4.8945], 2);
+        }).setView([52.3667, 4.8945], 4);
         L.tileLayer(tileServer, {
             attribution: tileAttribution,
             maxZoom: 18
