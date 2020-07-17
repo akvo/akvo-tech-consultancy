@@ -56,4 +56,20 @@ class ApiController extends Controller
         return $values;
     }
 
+    public function getCovidStatusByDistrict(Request $request)
+    {
+        $client = new \GuzzleHttp\Client();
+        $url = "https://services5.arcgis.com/YfKU4zOjO3YYNdSW/arcgis/rest/services/UGACovidCases/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=true&spatialRel=esriSpatialRelIntersects&maxAllowableOffset=1222&geometry=%7B%22xmin%22%3A3130860.6785550043%2C%22ymin%22%3A0.000004984438419342041%2C%22xmax%22%3A3757032.814267002%2C%22ymax%22%3A626172.1357169822%2C%22spatialReference%22%3A%7B%22wkid%22%3A102100%2C%22latestWkid%22%3A3857%7D%7D&geometryType=esriGeometryEnvelope&inSR=102100&outFields=*&outSR=102100&resultType=tile";
+        $response = $client->get($url);
+        $data = json_decode($response->getBody(), true);
+        $results = collect($data['features'])->map(function($item) {
+            return collect($item['attributes'])->only(['F15Regions','DName2019', 'Confirmed', 'Active', 'Recovered', 'Deaths']);
+        })->reject(function($item) {
+            if ($item['Confirmed'] === 0 && $item['Active'] === 0 && $item['Recovered'] === 0 && $item['Deaths'] === 0) {
+                return $item;
+            } 
+        })->values();
+        return $results;
+    }
+
 }

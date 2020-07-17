@@ -20,3 +20,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('/data', 'Api\ApiController@data');
 Route::get('/covid','Api\ApiController@getCovidStatus');
+Route::get('/covid/district', 'Api\ApiController@getCovidStatusByDistrict');
