@@ -85,20 +85,20 @@ class DataFilters extends Component {
         let base = this.props.value.base;
         let filters = uniqBy(base.data, property.base).map(x => x[property.base]);
         filters = base[property.kind].filter(x => filters.includes(x.id));
+        let all = {id:0, text: "All " + titleCase(property.base), name: "All " + titleCase(property.base)};
+        if (property.id !== 0){
+            filters = [all, ...filters];
+        }
+        filters = filters.filter(x => x.id !== property.id);
         return (
             <Dropdown>
                 <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
                     <div className="dropdown-fix">
-                        { property.id !== 0 ? property.name : "All " + titleCase(property.base)}
+                        { property.id !== 0 ? property.name : all.text}
                     </div>
                 </Dropdown.Toggle>
                 <Dropdown.Menu as={CustomMenu}
                 >
-                    { property.id === 0 ? "" : (
-                        <Dropdown.Item onClick={e => this.changeActive({id:0, text: "All" + titleCase(property.base)})} value={0}>
-                            All { titleCase(property.base) }
-                        </Dropdown.Item>
-                    )}
                     { filters.map((x) => { return this.getDropDownItem(x) }) }
                 </Dropdown.Menu>
             </Dropdown>
