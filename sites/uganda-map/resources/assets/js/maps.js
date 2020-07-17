@@ -65,11 +65,13 @@ const fetchAPI = (endpoint) => {
 };
     
 const setConfig = (defaultSelect) => { 
+    console.log('config');
     fetchAPI('config/' + defaultSelect).then( // solve promise
         (res) => {
             localStorage.setItem("template", res.data.js)
             localStorage.setItem("configs", JSON.stringify(res.data));
             cfg = res.data;
+            console.log(cfg);
             categoryField = cfg.name;
             iconField = categoryField;
             popupFields = cfg.popup;
@@ -80,6 +82,22 @@ const setConfig = (defaultSelect) => {
             localStorage.removeItem('status');
         }
     );
+};
+
+const loadLocalData = () => {
+    console.log('local data');
+    if (localStorage.getItem('configs')) {
+        cfg = JSON.parse(localStorage.getItem('configs'));
+        categoryField = cfg.name;
+        iconField = categoryField;
+        popupFields = cfg.popup;
+        startRenderMap();
+        cacheMem = JSON.parse(localStorage.getItem('data'));
+        geojsonPath = '/api/data/' + defaultSelect;
+        getGeoJson();
+    } else {
+        setConfig(defaultSelect);
+    }
 };
 
 const setSelectedCategory = (id) => {
@@ -96,6 +114,7 @@ const setSelectedCategory = (id) => {
 
 /* set category selected based on data load */
 const fetchdata = () => {
+    console.log('fetch');
     fetchAPI('source').then( // solve promise
         (a) => {
             if (!defaultSelect) {
@@ -124,7 +143,7 @@ const fetchdata = () => {
         }
     ).then(val => {
         if (val) {
-            setConfig(val);
+            (localStorage.getItem('data')) ? loadLocalData() : setConfig(val);
         }
     });
 };
