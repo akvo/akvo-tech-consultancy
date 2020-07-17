@@ -63,9 +63,16 @@ class ApiController extends Controller
         $response = $client->get($url);
         $data = json_decode($response->getBody(), true);
         $results = collect($data['features'])->map(function($item) {
-            return collect($item['attributes'])->only(['F15Regions','DName2019', 'Confirmed', 'Active', 'Recovered', 'Deaths']);
+            $temp = collect($item['attributes'])->only(['DName2019', 'Confirmed', 'Active', 'Recovered', 'Deaths']);
+            return [
+                "name" => $temp['DName2019'],
+                "confirmed" => $temp['Confirmed'],
+                "active" => $temp['Active'],
+                "recovered" => $temp['Recovered'],
+                "deaths" => $temp['Deaths'],
+            ];
         })->reject(function($item) {
-            if ($item['Confirmed'] === 0 && $item['Active'] === 0 && $item['Recovered'] === 0 && $item['Deaths'] === 0) {
+            if ($item['confirmed'] === 0 && $item['active'] === 0 && $item['recovered'] === 0 && $item['deaths'] === 0) {
                 return $item;
             } 
         })->values();
