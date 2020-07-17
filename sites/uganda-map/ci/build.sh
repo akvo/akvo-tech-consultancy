@@ -2,14 +2,21 @@
 
 set -eu
 
-#cp .env.prod .env
+docker run \
+       --rm \
+       --volume "$(pwd):/home/tcakvo/public_html/uganda-map" \
+       --workdir /home/tcakvo/public_html/uganda-map\
+       --entrypoint /bin/sh \
+       composer -c 'composer install'
 
 docker run \
        --rm \
        --volume "$(pwd):/home/tcakvo/public_html/uganda-map" \
-       --workdir /home/tcakvo/public_html/uganda-map \
+       --workdir /home/tcakvo/public_html/uganda-map\
        --entrypoint /bin/sh \
-       composer -c 'composer install && php artisan key:generate && php artisan cache:clear'
+       composer -c 'composer dump-autoload'
+
+echo 'MIX_PUBLIC_URL="https://kabarole-wash.tc.akvo.org"' > .env
 
 docker run \
        --rm \
