@@ -18,9 +18,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/coordinations/{option_id}', 'Api\DataController@getCoordinations');
-Route::get('/value/category/{id}', 'Api\QueryController@getValueById');
-
-Route::get('/filters/{type}', 'Api\ApiController@filters');
 Route::get('/data', 'Api\ApiController@data');
 Route::get('/covid','Api\ApiController@getCovidStatus');

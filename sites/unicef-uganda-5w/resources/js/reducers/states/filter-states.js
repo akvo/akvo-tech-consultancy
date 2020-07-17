@@ -4,7 +4,8 @@ export const filterState = {
             id:0,
             name:'Domains',
             kind:'options',
-            base:'domain'
+            base:'domain',
+            dropdown: 'Domains',
         },
         maps: {
             value: 'total',
@@ -31,7 +32,8 @@ export const filterState = {
             id:0,
             name:'Organisations',
             kind:'cascades',
-            base:'org_name'
+            base:'org_name',
+            dropdown: 'Organisations',
         },
         maps: {
             value: 'org_name',

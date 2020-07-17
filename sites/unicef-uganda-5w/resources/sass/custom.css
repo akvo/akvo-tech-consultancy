@@ -132,6 +132,13 @@ a.nav-top-links:hover{
     margin-bottom: 0px;
     overflow-y: scroll;
 }
+.dropdown-name{
+    padding: .375rem .75rem;
+    background-color: #ddd;
+    border-bottom: solid 4px #ccc;
+    display:inline-block;
+}
+
 .container .right-listgroup{
     float: right;
 }

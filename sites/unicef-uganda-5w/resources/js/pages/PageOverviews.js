@@ -29,7 +29,7 @@ const MapsOverride = (TableView) => {
             left: 'left',
             top: 10,
             left: 10,
-            data: []
+            data:[],
         },
         tooltip: {
             trigger: 'item',

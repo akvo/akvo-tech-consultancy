@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { Component, Fragment, useState } from 'react';
 import { redux } from 'react-redux';
 import { connect } from 'react-redux';
 import { mapStateToProps, mapDispatchToProps } from '../reducers/actions.js';
@@ -85,12 +85,14 @@ class DataFilters extends Component {
         let base = this.props.value.base;
         let filters = uniqBy(base.data, property.base).map(x => x[property.base]);
         filters = base[property.kind].filter(x => filters.includes(x.id));
-        let all = {id:0, text: "All " + titleCase(property.base), name: "All " + titleCase(property.base)};
+        let all = {id:0, text: "All " + titleCase(property.dropdown), name: "All " + titleCase(property.dropdown)};
         if (property.id !== 0){
             filters = [all, ...filters];
         }
         filters = filters.filter(x => x.id !== property.id);
         return (
+            <Fragment>
+                <div className="dropdown-name">{property.dropdown}</div>
             <Dropdown>
                 <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
                     <div className="dropdown-fix">
@@ -102,6 +104,7 @@ class DataFilters extends Component {
                     { filters.map((x) => { return this.getDropDownItem(x) }) }
                 </Dropdown.Menu>
             </Dropdown>
+            </Fragment>
         );
     }
 }

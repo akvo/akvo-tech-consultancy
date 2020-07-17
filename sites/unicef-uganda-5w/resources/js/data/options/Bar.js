@@ -6,7 +6,7 @@ const Bar = (title, subtitle, list) => {
         title : {
             text: title,
             subtext: subtitle,
-            right: '20px',
+            left: '20px',
             top: '20px',
             ...TextStyle
         },
