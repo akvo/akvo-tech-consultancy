@@ -80,40 +80,39 @@ class Tables extends Component {
             name: 'No',
             selector: 'no',
             sortable: true,
-            maxWidth: '5px'
+            maxWidth: '50px',
+            width: '50px'
           },
           {
             name: 'Region / District',
             selector: 'location',
             sortable: true,
-            right: true,
             maxWidth: '250px'
           },
           {
             name: 'Type',
             selector: 'activity',
             sortable: true,
-            right: true,
+            maxWidth: '200px'
           },
           {
             name: 'NGO',
             selector: 'org_name',
             sortable: true,
-            right: true,
             maxWidth: '100px'
           },
           {
             name: 'Domain',
             selector: 'domain',
             sortable: true,
-            right: true,
+            wrap: true,
             maxWidth: '50px'
           },
           {
             name: 'Activity',
             selector: 'sub_domain',
             sortable: true,
-            right: true,
+            wrap: true,
             minWidth: '200px'
           },
           {
@@ -127,7 +126,6 @@ class Tables extends Component {
             name: 'Unit',
             selector: 'unit',
             sortable: true,
-            right: true,
             minWidth: '200px'
           },
           {
