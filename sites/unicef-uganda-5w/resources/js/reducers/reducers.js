@@ -81,7 +81,7 @@ export const states = (state = initialState, action) => {
                 ...state,
                 charts: {
                     ...state.charts,
-                    options: appendOption(option)
+                    options: appendOption(state.charts, action.id, action.page, action.option)
                 }
             }
         case 'CHART - LOADING':
@@ -98,6 +98,14 @@ export const states = (state = initialState, action) => {
                 charts: {
                     ...state.charts,
                     filtered: state.charts.filtered ? false : true
+                }
+            }
+        case 'CHART - COVID INIT':
+            return {
+                ...state,
+                charts: {
+                    ...state.charts,
+                    covid: action.data
                 }
             }
         case 'CACHE - RESTORE':

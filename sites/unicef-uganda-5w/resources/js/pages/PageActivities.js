@@ -7,7 +7,7 @@ import Charts from "../components/Charts";
 import {
     generateData,
 } from "../data/chart-utils.js";
-import { checkCache, titleCase } from "../data/utils.js";
+import { checkCache, titleCase, getTableUtils } from "../data/utils.js";
 import sumBy from 'lodash/sumBy';
 import groupBy from 'lodash/groupBy';
 import uniqBy from 'lodash/uniqBy';
@@ -32,8 +32,7 @@ const MapsOverride = (TableView) => {
             backgroundColor: "#fff",
             position: [100,30],
             ...TextStyle,
-        },
-        backgroundColor: '#fff'
+        }
     }
 }
 
@@ -113,7 +112,7 @@ class PageActivities extends Component {
     }
 
     TableView(params) {
-        if (params.value) {
+        if (params.value && params.seriesType === "map") {
             let details = params.data.details;
             let orgs_count = uniqBy(details,'sub_domain').length;
             let html = 'District: <strong>' + params.name + '</strong></br>';
@@ -125,6 +124,9 @@ class PageActivities extends Component {
             orgs = groupBy(details, 'domain');
             html += this.createTable(orgs, 'Activity Category');
             return '<div class="tooltip-maps">' + html + '</div>';
+        }
+        if (params.value && params.seriesType === "scatter") {
+            return getCovidTable(params);
         }
         return "";
     }
@@ -198,7 +200,8 @@ class PageActivities extends Component {
         let page = this.props.value.page.name;
         switch (list.kind){
             case "MAPS":
-                return Maps(list.title, "Total Beneficiaries", this.getMaps());
+                let title = "WASH Partners Presence for COVID-19 Response";
+                return Maps(title, "Total Beneficiaries", this.getMaps());
             default:
                 return Bar(list.title, list.get, this.getBars(list));
         }

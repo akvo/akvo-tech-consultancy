@@ -17,6 +17,33 @@ const Maps = (title, subtitle, list) => {
             backgroundColor: "#ffffff",
             ...TextStyle
         },
+        geo: {
+            map: 'uganda',
+            roam: true,
+            aspectScale: 1,
+            emphasis:{
+                itemStyle: {
+                    areaColor: null,
+                    shadowOffsetX: 0,
+                    shadowOffsetY: 0,
+                    shadowBlur: 20,
+                    borderWidth: 0,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            },
+            zoom: 1,
+            scaleLimit: {
+                min:1,
+                max:7
+            },
+            itemStyle: {
+                areaColor: '#ddd',
+                emphasis: {
+                    areaColor: "#cdb62c",
+                    color: '#FFF',
+                }
+            },
+        },
         visualMap: {
             orient: 'vertical',
             left: 'left',
@@ -54,24 +81,10 @@ const Maps = (title, subtitle, list) => {
             {
                 name: title,
                 type: 'map',
-                roam: false,
-                map: 'uganda',
-                aspectScale: 1,
+                geoIndex: 0,
                 emphasis: {
                     label: {
                         show: true,
-                    }
-                },
-                zoom: 1,
-                scaleLimit: {
-                    min:1,
-                    max:7
-                },
-                itemStyle: {
-                    areaColor: '#ddd',
-                    emphasis: {
-                        areaColor: "#cdb62c",
-                        color: '#FFF',
                     }
                 },
                 data: list.data

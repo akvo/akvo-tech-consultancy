@@ -54,11 +54,12 @@ export const mapDispatchToProps = dispatch => {
                     })
             },
             option: {
-                append: (id, option) =>
+                append: (id, page, option) =>
                     dispatch({
                         type: "CHART - OPTIONS APPEND",
                         option: option,
-                        id: id
+                        id: id,
+                        page: page
                     })
             },
             state: {
@@ -71,7 +72,14 @@ export const mapDispatchToProps = dispatch => {
                     dispatch({
                         type: "CHART - STATE CHANGE",
                     }),
-            }
+            },
+            covid: {
+                init : (data) =>
+                    dispatch({
+                        type: "CHART - COVID INIT",
+                        data: data
+                    }),
+            },
         },
         cache: {
             restore: (data) => {

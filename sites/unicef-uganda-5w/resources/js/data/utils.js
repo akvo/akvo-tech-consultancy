@@ -26,3 +26,25 @@ export const titleCase = (string) => {
   }
   return sentence.join(" ");
 }
+
+export const getCovidTable = (params) => {
+    let data = params.data;
+    let html = '<hr/>District: <strong>' + params.name + '</strong></br>';
+    html += '<table class="table table-bordered">';
+    html += '<thead class="thead-dark">';
+    html += '<tr>';
+    html += '<th width="200">Cases</th>';
+    html += '<th width="50" class="text-right">total</th>';
+    html +='</tr>';
+    html += '</thead>';
+    html += '<tbody>';
+    for (const d in data.data) {
+        if (d !== "name") {
+            html += '<tr><td width="200">' + titleCase(d) + '</td>';
+            html += '<td width="50" class="text-right">' + data.data[d] + '</td></tr>';
+        }
+    }
+    html += '</tbody>';
+    html += '</table>';
+    return html;
+}

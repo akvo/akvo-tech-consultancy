@@ -7,7 +7,7 @@ import Charts from "../components/Charts";
 import {
     generateData,
 } from "../data/chart-utils.js";
-import { checkCache, titleCase } from "../data/utils.js";
+import { checkCache, titleCase, getCovidTable } from "../data/utils.js";
 import sumBy from 'lodash/sumBy';
 import groupBy from 'lodash/groupBy';
 import uniqBy from 'lodash/uniqBy';
@@ -24,13 +24,6 @@ import { TextStyle } from '../data/features/animation.js';
 
 const MapsOverride = (TableView) => {
     return {
-        legend: {
-            orient: 'vertical',
-            left: 'left',
-            top: 10,
-            left: 10,
-            data:[],
-        },
         tooltip: {
             trigger: 'item',
             showDelay: 0,
@@ -53,8 +46,7 @@ const MapsOverride = (TableView) => {
                 {end: 0, label:'No Organisations', icon:'circle'}
             ],
             color: ['#085fa6', '#567ba9', '#40a4dc','#bde2f2','#b6c4da'],
-        },
-        backgroundColor: '#fff'
+        }
     }
 }
 
@@ -79,7 +71,7 @@ class PageOverviews extends Component {
 
 
     TableView(params) {
-        if (params.value) {
+        if (params.value && params.seriesType === "map") {
             let details = params.data.details;
             let orgs_count = uniqBy(details,'org_name').length;
             let orgs = groupBy(details, 'org_name');
@@ -97,7 +89,6 @@ class PageOverviews extends Component {
             html += '<tbody>';
             let lists = [];
             let i = 1;
-            console.log(orgs);
             for (const org in orgs) {
                 html += '<tr><td width="200">' + i + '. ' + org + '</td>';
                 html += '<td width="50" class="text-right">' + sumBy(orgs[org], 'new') + '</td></tr>';
@@ -106,6 +97,9 @@ class PageOverviews extends Component {
             html += '</tbody>';
             html += '</table>';
             return '<div class="tooltip-maps">' + html + '</div>';
+        }
+        if (params.value && params.seriesType === "scatter") {
+            return getCovidTable(params);
         }
         return "";
     }
@@ -152,7 +146,7 @@ class PageOverviews extends Component {
     }
 
     getOptions(list) {
-        let title = "testing";
+        let title = "WASH Partners Presence for COVID-19 Response";
         return Maps(title, "Total Organisations", this.getMaps());
     }
 
