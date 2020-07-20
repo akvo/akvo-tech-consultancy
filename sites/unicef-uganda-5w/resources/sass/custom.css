@@ -93,14 +93,16 @@ a.nav-top-links:hover{
 
 .navbar-light .navbar-brand {
     height: 60px;
-    width: 60px;
+    width: 219px;
     padding: 0px;
     margin-right: 0px;
 }
 
 .navbar-brand > img {
     height: 60px;
-    width: 60px;
+    width: 219px;
+    border-right: solid 1px #ddd;
+    border-left: solid 1px #ddd;
 }
 
 .navbar-light .navbar-nav .nav-link {
@@ -430,6 +432,15 @@ div.table-floating.table-floating-bottom{
 .text-recovered{
     color: rgb(58, 175, 1);
     font-weight: 600;
+}
+
+footer{
+    border-top:1px solid #ddd;
+}
+
+footer img.footer-img{
+    width: 200px;
+    padding: 20px;
 }
 
 @media (min-width: 992px) {
