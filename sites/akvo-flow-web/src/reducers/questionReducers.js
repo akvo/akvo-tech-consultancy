@@ -499,7 +499,7 @@ const cloneQuestions = (questions, groups, group_id, restoring=false) => {
         let new_id = new_questions[i].id.split('-')[0] + '-' + new_iteration;
         if (new_questions[i].dependency !== undefined) {
             let dependency_question = new_questions[i].dependency.question;
-            let dependency_iteration = dependency_question.indexOf(group.questions) === -1 ? '0' : new_iteration;
+            let dependency_iteration = group.questions.indexOf(dependency_question) === -1 ? '0' : new_iteration;
             new_questions[i] = {
                 ...new_questions[i],
                 dependency: {
@@ -554,6 +554,19 @@ const removeQuestions = (questions, groups, data) => {
         new_iterated[k].forEach(q => {
             let answer = localStorage.getItem(q.id);
             let new_id = q.id.split('-')[0] + '-' + ix;
+            let qgroup = groups.list.find(qg => qg.index === q.group);
+            if (q.dependency !== undefined) {
+                let default_dependency = q.dependency.question.split('-')[0] + '-0';
+                let dependency_iteration = qgroup.questions.indexOf(default_dependency) === -1
+                    ? '0' : ix;
+                q = {
+                    ...q,
+                    dependency: {
+                        ...q.dependency,
+                        question: q.dependency.question.split('-')[0] + '-' + dependency_iteration
+                    }
+                }
+            }
             new_questions.push({...q, id: new_id, iteration: ix})
             if (q.id !== new_id && answer !== null) {
                 localStorage.setItem(new_id, answer);

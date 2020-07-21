@@ -46,18 +46,15 @@ class Questions extends Component {
     }
 
     getForms(questions) {
-        let total_active = questions.reduce((a, x, i) => {
-            let z = 0;
-            if (i === 1) {
-                a = 0;
-            }
-            if (questions.filter(b => b.group === 1).length === 1) {
-                a = 1;
-            }
-            z = x.group === this.props.value.groups.active ? 1 : 0;
-            z = x.show ? 1 : 0;
-            return a + z;
-        });
+        let active_group = this.props.value.groups.active;
+        let total_active = questions.filter(x => x.group === active_group)
+        total_active = total_active.reduce((a, x, i) => {
+                let z = 0;
+                a = i === 1 ? 0 : a;
+                a = questions.filter(b => b.show).length === 1 ? 1 : a;
+                z = x.show ? 1 : 0;
+                return a + z;
+            });
         if (total_active === 0) {
             return (
                 <Card key={"card-0"}>
