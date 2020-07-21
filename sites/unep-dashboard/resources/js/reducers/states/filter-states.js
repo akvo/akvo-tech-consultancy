@@ -177,6 +177,7 @@ export const removeReducer = (state, id, parent_id) => {
 
 export const addReducer = (state, id, parent_id) => {
     let ids = [...state.reducer.ids, {id:id, parent_id:parent_id}];
+    console.log(getParentList(state, ids));
     return {
         ...state,
         reducer: {

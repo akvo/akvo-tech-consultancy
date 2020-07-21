@@ -109,7 +109,6 @@ class Page extends Component {
     }
 
     changeActive(id, parent_id, name, depth, kind) {
-        console.log(id, parent_id, name, depth, kind);
         let category;
         let countries;
         let filters = kind === "primary"
@@ -193,7 +192,6 @@ class Page extends Component {
     }
 
     refreshCharts() {
-        console.log(this.props.value);
         let primary_filters = this.props.value.filters.selected[0];
         this.changeActive(primary_filters.id, null, primary_filters.name, 0, "primary")
     }
