@@ -7,7 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="author" content="Akvo">
     <title>{{ env('APP_NAME') }}</title>
-    <link rel="icon" href="{{asset('images/solomon-island-ico.ico')}}">
+    {{-- <link rel="icon" href="{{asset('images/solomon-island-ico.ico')}}"> --}}
     <link href="{{asset(mix('css/app.css'))}}" rel="stylesheet">
     <link href="{{asset('vendor/leaflet/leaflet.css')}}" rel="stylesheet">
     <!--
