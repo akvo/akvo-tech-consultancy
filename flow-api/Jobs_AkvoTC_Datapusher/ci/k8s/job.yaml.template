@@ -1,0 +1,32 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: akvotc-flow-datapusher-init-${TRAVIS_COMMIT}
+spec:
+  template:
+    spec:
+      containers:
+        - name: akvotc-flow-datapusher
+          image: eu.gcr.io/akvo-lumen/akvotc-flow-datapusher:${TRAVIS_COMMIT}
+          resources:
+              requests:
+                cpu: "50m"
+                memory: "256Mi"
+              limits:
+                cpu: "1000m"
+                memory: "768Mi"
+          env:
+            - name: TRAVIS_COMMIT
+              value: ${TRAVIS_COMMIT}
+            - name: MAILJET_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: akvo-tech-consultancy
+                  key: mailjet-apikey
+            - name: MAILJET_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: akvo-tech-consultancy
+                  key: mailjet-secret
+      restartPolicy: Never
+  backoffLimit: 0
