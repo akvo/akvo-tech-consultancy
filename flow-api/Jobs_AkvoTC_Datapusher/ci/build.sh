@@ -15,4 +15,4 @@ log Creating Production image
 
 docker build --rm=false -t eu.gcr.io/${PROJECT_NAME}/akvotc-flow-datapusher:${TRAVIS_COMMIT} .
 
-log Done
+log Done 
