@@ -33,7 +33,6 @@ let removeAllMap = () => map.eachLayer((layer) => {
     map.removeLayer(layer);
 });
 
-
 let geojson,
     metadata,
     clustered = true,
@@ -83,8 +82,18 @@ const setConfig = (defaultSelect) => {
     );
 };
 
+const clearFilteredData = () => {
+    let dbs = JSON.parse(localStorage.getItem('data'));
+    dbs['features'] = dbs['features'].map(x => {
+        x.properties['status'] = 'active';
+        return x;
+    });
+    localStorage.setItem('data', JSON.stringify(dbs));
+};
+
 const loadLocalData = () => {
     console.log('local data');
+    clearFilteredData();
     if (localStorage.getItem('configs')) {
         cfg = JSON.parse(localStorage.getItem('configs'));
         categoryField = cfg.name;
@@ -209,6 +218,67 @@ const emptyMap = () => {
     }
 };
 
+function highlightFeature(e) {
+    var layer = e.target;
+
+    layer.setStyle({
+        weight: 5,
+        color: '#666',
+        dashArray: '',
+        fillOpacity: 0.7
+    });
+
+    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+        layer.bringToFront();
+    }
+
+    info.update(layer.feature.properties);
+}
+
+function resetHighlight(e) {
+    geojson.resetStyle(e.target);
+    info.update(null);
+}
+
+function zoomToFeature(e) {
+    map.fitBounds(e.target.getBounds());
+}
+
+function onEachFeature(feature, layer) {
+    layer.on({
+        mouseover: highlightFeature,
+        mouseout: resetHighlight,
+        click: zoomToFeature
+    });
+}
+
+// Custom info
+var info = L.control();
+info.onAdd = function (map) {
+    this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+    this.update();
+    return this._div;
+};
+
+// method that we will use to update the control based on feature properties passed
+info.update = function (props) {
+    console.log(props);
+    props ?
+        $('body').append(
+            '<div id="geoshape-info" style="position: fixed; top: 75px; left: 10px; z-index: 999; background: rgba(255, 255, 255, 0.8); border-radius: 5px; padding: 5px 10px; font-family: inherit; font-size: 14px;">'
+            + 'This is Information for <h2>'+ props.ADM4_EN +'</h2>'
+            +' </div>')
+        : $('#geoshape-info').remove();
+    // this._div.innerHTML = '<h4>US Population Density</h4>';
+};
+
+const polygonMap = () => {
+    fetchAPI('geoshape/4').then(res => {
+        console.log('polygon', res.data);
+        geojson = L.geoJson(res.data, {onEachFeature: onEachFeature}).addTo(map);
+    });
+};
+
 const startRenderMap = () => {
     markerclusters = L.markerClusterGroup({
         maxClusterRadius: 2 * rmax,
@@ -225,6 +295,9 @@ const startRenderMap = () => {
         }).addTo(map);
         d3.select('body').append('div').attr('id', 'main-filter-list');
     }
+    // try ploygon
+    // polygonMap();
+    // info.addTo(map);
     map.addLayer(markerclusters);
 };
 
@@ -714,7 +787,7 @@ const refreshLayer = (dbs) => {
 };
 
 const changeValue = (database, deletes) => {
-    let dbs = JSON.parse(localStorage.getItem('data'));
+    var dbs = JSON.parse(localStorage.getItem('data'));
     dbs["features"] = $.map(dbs.features, (x) => {
         x = x;
         x.properties.status = "active";
@@ -727,7 +800,7 @@ const changeValue = (database, deletes) => {
 }
 
 const filterMaps = (minVal, maxVal, attributeName) => {
-    let dbs = JSON.parse(localStorage.getItem('data'));
+    var dbs = JSON.parse(localStorage.getItem('data'));
     dbs["features"] = $.map(dbs.features, (x) => {
         if (minVal === 0 && maxVal === 0) {
             x.properties.status = "active";

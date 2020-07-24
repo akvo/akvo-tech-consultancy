@@ -5,7 +5,12 @@ return [
   // Need to reconfig, column with label R is Registration, and column with label M is monitoring, so make the config like sible, but data is get from .xls
   "survey_detail" => [
     "instance" => "seap",
-    "geolocation" => [], // No GEO loc column name
+    "geolocation" => null, // No GEO loc column name
+    "shapefile" => null, // config
+    "shapename" => [
+      "sources" => "Sub County", // nama kolom data nya
+      "match" => "ADM4_EN" // nama object di geoshape
+    ], // data
     "center_map" => [1.3733, 32.2903], // center lat lng of location
     "dataset" => "kabarole_households_2017_clean.csv", // filename .xls
   ],

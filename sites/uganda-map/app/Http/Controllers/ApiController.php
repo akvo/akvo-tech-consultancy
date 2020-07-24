@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Storage;
 
 class ApiController extends Controller
 {
@@ -34,5 +35,13 @@ class ApiController extends Controller
             'message'=>$message
         );
         return response()->json($resp, $code);
-	}
+    }
+    
+    public function getGeoShape(Request $request)
+    {
+        // $json = Storage::disk('local')->get('json/uganda_administrative_level_0'.$request->level.'_small.json');
+        $json = Storage::disk('local')->get('json/kabarole_geoshape_level_0'.$request->level.'.json');
+        $json = json_decode($json, true);
+        return $json;
+    }
 }
