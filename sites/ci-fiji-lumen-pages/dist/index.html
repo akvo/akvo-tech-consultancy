@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Akvo">
+    <title>CI FIJI - Data Visualization</title>
+    <link href="./images/logo.ico" rel="shortcut icon" type="image/x-icon"/>
+    <link href="./images/logo.ico" rel="apple-touch-icon" sizes="300x300"/>
+    <!-- Bootstrap core CSS -->
+    <script type="text/javascript" src="./js/main.js"></script>
+    <script type="text/javascript" src="./js/plugins.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <header class="blog-header py-3">
+            <div class="row flex-nowrap justify-content-center align-items-center">
+                <a class="blog-header-logo" href="#"><img class="img img-fluid top-logo" src="./images/logo.svg"></a>
+                <a class="blog-header-logo" href="#" style="margin-left:25px"><img width="55%" class="img img-fluid" src="./images/fiji-flag.png"></a>
+             </div>
+        </header>
+        <div class="nav-scroller py-1 mb-2">
+            <nav class="nav d-flex justify-content-around">
+                <a class="p-2 text-muted default-location-btn" id="each-island_btn" href="#each-island">Each Island</a>
+                <a class="p-2 text-muted" id="island-total_btn" href="#island-total">Island Totals</a>
+                <a class="p-2 text-muted" id="village-total_btn" href="#village-total">Village Totals on Totoya Island</a>
+            </nav>
+        </div>
+
+        <main role="main" class="container">
+                <div class="row">
+                    <div class="col-md-12 blog-main">
+                        <div id="each-island-select-wrapper" class="row mt-3 mb-3">
+                            <div class="col-md-4">
+                                <select id="each-island-select" class="form-control">
+                                    <!-- <option>Default select</option> -->
+                                </select>
+                            </div>
+                            <div class="col-md-8"></div>
+                        </div>
+                        <iframe width="100%" id="each-island" height="1000px" class="default-location" src="" frameborder="0" allow="encrypted-media"></iframe>
+                    </div>
+                </div>
+                <iframe width="100%" id="island-total" height="1000px" src="https://ci-fiji.akvolumen.org/s/0G6LD2cAItg" frameborder="0" allow="encrypted-media"></iframe>
+                <iframe width="100%" id="village-total" height="1000px" src="https://ci-fiji.akvolumen.org/s/qq9jb3yt1S8" frameborder="0" allow="encrypted-media"></iframe>
+        </main>
+
+        <footer class="blog-footer">
+            <p>Powered by <a href="https://akvo.org">Akvo</a>.</p>
+            <p>Some rights reserved</a></p>
+        </footer>
+    </div>
+
+    <!-- Begin analitycs script -->
+    <!-- <script type="text/javascript" src="https://tc.akvo.org/analytics-18062020.js"></script>
+    <noscript><iframe src="//analytics.akvo.org/containers/f6fdd448-a2bc-4734-8aa0-dba4d0d0f2a3/noscript.html" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> -->
+    <!-- end analytics script -->
+</body>
+
+</html>
