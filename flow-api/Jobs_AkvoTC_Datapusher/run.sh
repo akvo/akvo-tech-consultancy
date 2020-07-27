@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
 set -eu
-python app.py
+#python app.py
