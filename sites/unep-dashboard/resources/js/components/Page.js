@@ -3,9 +3,7 @@ import { createStore } from 'redux';
 import { connect } from 'react-redux';
 import { mapStateToProps, mapDispatchToProps } from '../reducers/actions';
 import Navigation from './Navigation';
-import DataFilters from './DataFilters';
-import DataCountries from './DataCountries';
-import DataReducers from './DataReducers';
+import Sidebar from './Sidebar';
 import {
     Container,
     Button
@@ -24,119 +22,6 @@ class Page extends Component {
 
     constructor(props) {
         super(props);
-        this.getFilters = this.getFilters.bind(this);
-        this.repeat = this.repeat.bind(this);
-        this.changeActive = this.changeActive.bind(this);
-        this.addReducer = this.addReducer.bind(this);
-        this.getReducer = this.getReducer.bind(this);
-        this.setCharts = this.setCharts.bind(this),
-        this.updateCharts = this.updateCharts.bind(this),
-        this.loadPrimaryDefault = this.loadPrimaryDefault.bind(this);
-        this.renderReducer = this.renderReducer.bind(this);
-        this.refreshCharts = this.refreshCharts.bind(this);
-    }
-
-   updateCharts(data) {
-        let valuesMap = data.country_values.map((x) => {
-            let country = this.props.value.filters.countries.find(c => c.id === x.country_id);
-            return {
-                id: country.id,
-                code: country.code,
-                name: country.name,
-                value: x.value,
-            }
-        });
-        let child = {
-            id: data.id,
-            parent_id: data.parent_id,
-            code: data.code,
-            name: data.name,
-            value: valuesMap.length !== 0 ? valuesMap.reduce((x, y) => x.value + y) : 0,
-            countries: data.country_values.length,
-            values: valuesMap
-        };
-        this.setState({disabled: false});
-        this.props.chart.value.append(child);
-        return true;
-    }
-
-    getReducer() {
-        if (this.props.value.filters.reducer.ids.length > 0){
-            let countries = [];
-            let active_filters = this.props.value.filters.reducer.ids.map(x => x.id);
-                active_filters = this.props.value.filters.childs.filter(x => active_filters.includes(x.id));
-            for (let i=0; i<active_filters.length; i++) {
-                if (i === 0) {
-                    countries = active_filters[0].country_values;
-                }
-                if (i !== 0) {
-                    let intersect = active_filters[i].country_values;
-                    countries = intersectionBy(intersect,countries, 'country_id');
-                }
-            }
-            countries = countries.map(x => {return {country_id : x.country_id}});
-            return countries;
-        }
-        return false;
-    }
-
-    setCharts(id, parent_id, depth){
-        let filter = depth === 1 ? 'id' : 'parent_id';
-        let charts = this.props.value.charts.data;
-        let reduced_countries = this.getReducer();
-        if (parent_id === null) {
-            this.props.chart.state.loading();
-            let this_values = this.props.value.filters.list[depth].find(x => x.id === id);
-            this_values.childs.map(x => {
-                let data = x;
-                if (reduced_countries) {
-                    data = {
-                        ...x,
-                        country_values: intersectionBy(x.country_values, reduced_countries, 'country_id')
-                    }
-                }
-                this.updateCharts(data);
-            });
-            let countries = this.props.value.filters.selected[depth + 1];
-            this.props.chart.value.select(countries.id);
-            this.props.page.loading();
-        }
-        if (parent_id !== null) {
-            this.props.chart.state.loading();
-            this.props.chart.value.select(id);
-            this.props.page.loading();
-        }
-    }
-
-    changeActive(id, parent_id, name, depth, kind) {
-        let category;
-        let countries;
-        let filters = kind === "primary"
-            ? this.props.value.filters
-            : this.props.value.filters.reducer;
-        let current = filters.list[depth];
-            current = current.find((x) => x.id === id);
-        if (current.hasOwnProperty('childs')){
-            this.props.filter.program.append(current.childs, depth, kind);
-            let next_name = current.childs[0].name;
-            let next_id = current.childs[0].id;
-            let next_parent_id = current.childs[0].parent_id;
-            this.props.filter.program.update(next_id, next_parent_id, next_name, depth + 1, kind);
-        }
-        this.props.filter.program.update(id, parent_id, name, depth, kind);
-        if (kind === "primary") {
-            this.setCharts(id, parent_id, depth);
-            return true;
-        }
-    }
-
-    loadPrimaryDefault() {
-        setTimeout(() => {
-            let selected = this.props.value.filters.list[0][0];
-            this.changeActive(selected.id, selected.parent_id, selected.name, 0, "primary");
-            return true;
-        }, 1000);
-        return;
     }
 
     componentDidMount() {
@@ -145,103 +30,45 @@ class Page extends Component {
         axios.get(prefixPage + "countries")
             .then(res => {
                 let countries = res.data;
-                this.props.filter.country.init(countries);
                 axios.get(prefixPage + "filters")
                     .then(res => {
                         let filters = res.data;
-                        this.props.filter.program.init(filters);
                         caches = JSON.stringify({countries: countries, filters: filters});
+                        this.props.page.init(filters, countries);
+                        this.props.page.loading(false);
                         localStorage.setItem('caches', caches);
-                        this.loadPrimaryDefault();
                     });
             });
         } else {
             let caches = localStorage.getItem('caches');
             caches = JSON.parse(caches);
-            this.props.filter.country.init(caches.countries);
-            this.props.filter.program.init(caches.filters);
-            this.loadPrimaryDefault();
+            this.props.page.init(caches.filters, caches.countries);
+            console.log(this.props);
+            this.props.page.loading(false);
         }
         this.props.page.change('home');
-    }
-
-    repeat(i, kind) {
-        let disabled = false;
-        if (i === 2) {
-            disabled = true;
-        }
-        return (
-            <DataFilters
-                key={kind + '-' + i}
-                depth={i}
-                disabled={disabled}
-                kind={kind}
-                changeActive={this.changeActive}
-            />
-        );
-    }
-
-    getFilters(i, kind) {
-        let dropdowns = [];
-        let r = 0;
-        while (r < i) {
-            dropdowns = [...dropdowns, this.repeat(r, kind)];
-            r++;
-        }
-        return dropdowns.map(x => {return x});
-    }
-
-    refreshCharts() {
-        let primary_filters = this.props.value.filters.selected[0];
-        this.changeActive(primary_filters.id, null, primary_filters.name, 0, "primary")
-    }
-
-    addReducer() {
-        let selected = this.props.value.filters.reducer.selected;
-        selected = selected[selected.length - 1];
-        this.props.filter.reducer.append(selected.id, selected.parent_id);
-        this.refreshCharts();
-        return true;
-    }
-
-    renderReducer(reducer) {
-        return reducer.ids.map((x, i) => (
-            <DataReducers key={i+'-reduce'} data={x} refresh={this.refreshCharts}/>
-        ));
     }
 
     render() {
         let page = this.props.value.page.name;
         let loading = this.props.value.page.loading;
-        let reducer = this.props.value.filters.reducer;
-        let reducer_disabled = reducer.selected.length < 2 ? true : false;
+        let sidebar = this.props.value.page.sidebar;
         return (
             <Fragment>
             <Navigation/>
                 <Container className="top-container">
-                    {this.getFilters(this.props.value.filters.depth, 'primary')}
                     <Button size="sm"
-                        onClick={e => this.props.filter.reducer.show()}>
-                        {reducer.show ? "Hide Filter" : "Show Filter"}
+                        onClick={e => this.props.page.sidebar.toggle()}>
+                        {sidebar ? "Hide Fiter" : "Show Filter"}
                     </Button>
-                    <DataCountries className='dropdown-right' data={this.props.value.filters.countries}/>
                 </Container>
-                    {reducer.show ? (
-                        <Fragment>
-                        <hr/>
-                        <Container className="secondary-container">
-                            {this.getFilters(this.props.value.filters.reducer.depth, 'secondary')}
-                            <Button size="sm" onClick={e => this.addReducer()} disabled={reducer_disabled}>Add Filter</Button>
-                        </Container>
-                        <Container className="secondary-container">
-                            {this.renderReducer(reducer)}
-                        </Container>
-                        </Fragment>
-                            ) : ""
-                    }
-                <hr/>
-                {loading ? (<Loading/>) : ""}
-                {page === "home" ? (<Home parent={this.props}/>) : ""}
+                <div className={sidebar ? "d-flex" : "d-flex toggled"} id="wrapper">
+                    {loading ? "" : <Sidebar/>}
+                    <div id="page-content-wrapper">
+                    {loading ? (<Loading/>) : ""}
+                    {page === "home" ? (<Home parent={this.props}/>) : ""}
+                    </div>
+                </div>
             </Fragment>
         );
     }

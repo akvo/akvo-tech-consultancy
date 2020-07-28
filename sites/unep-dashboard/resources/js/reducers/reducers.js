@@ -1,15 +1,10 @@
 import {
     pageState,
-    showPage,
 } from './states/page-states.js';
 import {
-    filterState,
-    appendFilters,
-    updateSelectedFilters,
-    showFilters,
-    addReducer,
-    removeReducer,
-} from './states/filter-states.js';
+    dataState,
+    toggleFilter,
+} from './states/data-states.js';
 import {
     chartState,
     appendData,
@@ -22,7 +17,7 @@ import { flatDeep } from '../data/utils.js';
 
 const initialState = {
     page: pageState,
-    filters: filterState,
+    data: dataState,
     charts: chartState,
 
 }
@@ -37,105 +32,40 @@ export const states = (state = initialState, action) => {
                     loading: action.status
                 }
             }
+        case 'PAGE - INIT PAGE':
+            return {
+                ...state,
+                page: {
+                    ...state.page,
+                    countries: action.countries,
+                    filters: action.filters,
+                }
+            }
         case 'PAGE - CHANGE PAGE':
             return {
                 ...state,
-                page: showPage(state.page, action.page)
+                page: {
+                    ...state.page,
+                    name: action.page
+                }
             }
-        case 'FILTERS - PROGRAM INIT':
+        case 'PAGE - SIDEBAR TOGGLE':
             return {
                 ...state,
-                filters: {
-                    ...state.filters,
-                    reducer: {
-                        ...state.filters.reducer,
-                        list: [action.list]
-                    },
-                    list: [action.list],
-                    childs: flatDeep(action.list.map(x => x.childs))
+                page: {
+                    ...state.page,
+                    sidebar: state.page.sidebar ? false : true
                 }
             }
-        case 'FILTERS - PROGRAM APPEND':
-            if (action.kind === 'primary') {
-                return {
-                    ...state,
-                    filters: appendFilters(state.filters, action.list, action.depth)
-                }
-            }
+        case 'DATA - TOGGLE FILTER':
             return {
                 ...state,
-                filters:{
-                    ...state.filters,
-                    reducer: appendFilters(state.filters.reducer, action.list, action.depth)
-                }
-            }
-        case 'FILTERS - PROGRAM SELECT':
-            if (action.kind === 'primary') {
-                return {
-                    ...state,
-                    filters: updateSelectedFilters(state.filters, action.id, action.parent_id, action.name, action.depth)
-                }
-            }
-            return {
-                ...state,
-                filters: {
-                    ...state.filters,
-                    reducer: updateSelectedFilters(state.filters.reducer, action.id, action.parent_id, action.name, action.depth)
-                }
-            }
-        case 'FILTERS - PROGRAM CHANGE':
-            if (action.kind === 'primary') {
-                return {
-                    ...state,
-                    filters: showFilters(state.filters, action.list)
-                }
-            }
-            return {
-                ...state,
-                filters: {
-                    ...state.filters,
-                    reducer: showFilters(state.filters, action.list)
-                }
-            }
-        case 'FILTERS - COUNTRY INIT':
-            return {
-                ...state,
-                filters : {
-                    ...state.filters,
-                    countries: action.countries
-                }
-            }
-        case 'FILTERS - COUNTRY CHANGE':
-            return {
-                ...state,
-                filters: {
-                    ...state.filters,
-                    country: action.country
-                }
-            }
-        case 'FILTERS - REDUCER SHOW':
-            return {
-                ...state,
-                filters: {
-                    ...state.filters,
-                    reducer: {
-                        ...state.filters.reducer,
-                        depth: 1,
-                        list: [state.filters.reducer.list[0]],
-                        selected: [state.filters.reducer.selected[0]],
-                        show: state.filters.reducer.show ? false : true,
+                data: {
+                    ...state.data,
+                    filters : {
+                        selected: toggleFilter(state.data.filters, action.id),
                     }
                 }
-            }
-        case 'FILTERS - REDUCER APPEND':
-            return {
-                ...state,
-                filters: addReducer(state.filters, action.id, action.parent_id)
-            }
-        case 'FILTERS - REDUCER REMOVE':
-            return {
-                ...state,
-                filters: removeReducer(state.filters, action.id, action.parent_id)
             }
         case 'CHART - VALUES APPEND':
             return {

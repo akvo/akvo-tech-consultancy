@@ -11,5 +11,5 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('filters', 'Api\PageController@getDropdownFilters');
-Route::get('countries', 'Api\PageController@getDropdownCountries');
+Route::get('filters', 'Api\PageController@filters');
+Route::get('countries', 'Api\PageController@countries');

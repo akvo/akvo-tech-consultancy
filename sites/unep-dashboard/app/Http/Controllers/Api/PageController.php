@@ -4,24 +4,24 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Group;
-use App\Country;
-use App\CountryGroup;
 use App\Value;
+use App\Country;
 
 class PageController extends Controller
 {
-    public function getDropdownFilters(Value $values)
+    public function filters(Value $values)
     {
-        return $values->select('id','parent_id','code','name')
-                      ->whereNull('parent_id')
-                      ->has('childs.country_values')
-                      ->with('childs.country_values')
-                      ->get();
+        $filters = $values
+            ->whereNull('parent_id')
+            ->has('childrens')
+            ->with('childrens')
+            ->get();
+        return $filters;
     }
 
-    public function getDropdownCountries(Country $countries)
+    public function countries(Country $countries)
     {
-        return $countries->has('values')->get();
+        return $countries->with('groups')->get();
     }
+
 }

@@ -14,20 +14,10 @@ class Home extends Component {
         this.state = {
             charts: [
                 {
-                    kind: "TREEMAP",
-                    calc: "CATEGORY",
-                    data: generateData(4, false, "500px")
-                },
-                {
                     kind: "MAPS",
                     calc: "VALUES",
                     data: generateData(8, true, "500px")
                 },
-                {
-                    kind: "BAR",
-                    calc: "CATEGORY",
-                    data: generateData(12, true, "500px")
-                }
             ]
         }
     }
@@ -50,7 +40,6 @@ class Home extends Component {
         return (
             <Container>
                 <Row>
-                    {chart}
                 </Row>
             </Container>
         );

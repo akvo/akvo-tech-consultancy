@@ -12,71 +12,36 @@ export const mapDispatchToProps = dispatch => {
                     type: "PAGE - LOADING PAGE",
                     status: status
                 }),
+            init: (filters, countries) =>
+                dispatch({
+                    type: "PAGE - INIT PAGE",
+                    filters: filters,
+                    countries: countries
+                }),
             change: page =>
                 dispatch({
                     type: "PAGE - CHANGE PAGE",
                     page: page
-                })
+                }),
+            sidebar: {
+                toggle: () =>
+                    dispatch({
+                        type: "PAGE - SIDEBAR TOGGLE",
+                    })
+            }
         },
-        filter: {
-            program: {
-                init: list =>
+        data: {
+            toggle: {
+                filters: (id) =>
                     dispatch({
-                        type: "FILTERS - PROGRAM INIT",
-                        list: list
+                        type: "DATA - TOGGLE FILTER",
+                        id: id
                     }),
-                append: (list, depth, kind) =>
+                countries: (id) =>
                     dispatch({
-                        type: "FILTERS - PROGRAM APPEND",
-                        list: list,
-                        depth: depth,
-                        kind: kind
+                        type: "DATA - TOGGLE COUNTRY",
+                        id: id
                     }),
-                update: (id, parent_id, name, depth, kind) =>
-                    dispatch({
-                        type: "FILTERS - PROGRAM SELECT",
-                        id: id,
-                        parent_id: parent_id,
-                        name: name,
-                        depth: depth,
-                        kind: kind
-                    }),
-                change: list =>
-                    dispatch({
-                        type: "FILTERS - PROGRAM CHANGE",
-                        list: list,
-                        kind: kind
-                    }),
-            },
-            reducer: {
-                show: () =>
-                    dispatch({
-                        type: "FILTERS - REDUCER SHOW",
-                    }),
-                append: (id, parent_id) =>
-                    dispatch({
-                        type: "FILTERS - REDUCER APPEND",
-                        id: id,
-                        parent_id: parent_id
-                    }),
-                remove: (id, parent_id) =>
-                    dispatch({
-                        type: "FILTERS - REDUCER REMOVE",
-                        id: id,
-                        parent_id: parent_id,
-                    })
-            },
-            country: {
-                init: countries =>
-                    dispatch({
-                        type: "FILTERS - COUNTRY INIT",
-                        countries: countries
-                    }),
-                change: country =>
-                    dispatch({
-                        type: "FILTERS - COUNTRY CHANGE",
-                        country: country
-                    })
             },
         },
         chart: {

@@ -16,17 +16,3 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-
-
-Route::get('groups', 'Api\SourceController@getGroups');
-Route::get('countries', 'Api\SourceController@getCountries');
-Route::get('values', 'Api\SourceController@getValues');
-Route::get('variables', 'Api\SourceController@getVariables');
-
-Route::get('count/country', 'Api\ChartController@getCountryValues');
-Route::get('count/values', 'Api\ChartController@getAllValues');
-
-Route::get('value/category/{id}', 'Api\ChartController@getValueByCategory');
-Route::get('value/{id}', 'Api\ChartController@getValueById');
-
-Route::get('delete', 'Api\ChartController@deleteGroup');

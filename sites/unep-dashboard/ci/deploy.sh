@@ -10,7 +10,11 @@ sudo chown "${USER}:" . -R
 
 echo "Deploying site..."
 
-if [[ "${TRAVIS_BRANCH}" != "master" && "${TRAVIS_BRANCH}" != "sites/unep-dashboard" ]]; then
+#if [[ "${TRAVIS_BRANCH}" != "master" && "${TRAVIS_BRANCH}" != "sites/unep-dashboard" ]]; then
+#    exit 0
+#fi
+
+if [[ "${TRAVIS_BRANCH}" != "master" && "${TRAVIS_BRANCH}" != "develop" ]]; then
     exit 0
 fi
 

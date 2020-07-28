@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Value extends Model
 {
-    protected $fillable = ['name', 'description', 'color'];
+    protected $hidden = ['units', 'description', 'color','type'];
+    protected $fillable = ['name', 'code', 'description', 'color', 'type'];
     public $timestamps = false;
 
     public function destroyMany(array $ids)
@@ -26,7 +27,7 @@ class Value extends Model
 
     public function childrens()
     {
-        return $this->hasMany('App\Value', 'parent_id', 'id');
+        return $this->hasMany('App\Value', 'parent_id', 'id')->with('childrens');
     }
 
     public function parents()
