@@ -30,6 +30,13 @@ export const mapDispatchToProps = dispatch => {
                     dispatch({
                         type: "PAGE - SIDEBAR TOGGLE",
                     })
+            },
+            badge: {
+                store: (badges) =>
+                    dispatch({
+                        type:"PAGE - BADGE STORE",
+                        badges:badges
+                    })
             }
         },
         data: {
@@ -45,6 +52,14 @@ export const mapDispatchToProps = dispatch => {
                         id: id
                     }),
             },
+            remove: {
+                filters: (id, ids) =>
+                    dispatch({
+                        type: "DATA - REMOVE FILTERS",
+                        id: id,
+                        ids: ids
+                    })
+            }
         },
         chart: {
             value: {

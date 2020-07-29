@@ -5,12 +5,25 @@ import { mapStateToProps, mapDispatchToProps } from '../reducers/actions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { flatten } from '../data/utils.js';
 import { Form } from 'react-bootstrap';
+import { Badge } from 'react-bootstrap';
+
+const getParent = (id, data, list=[]) => {
+    let parent = data.find(x => x.id === id);
+    if (parent.parent_id !== null){
+        list.push(parent);
+        return getParent(parent.parent_id, data, list);
+    }
+    list.push(parent);
+    return list;
+}
+
 
 class Sidebar extends Component {
 
     constructor(props) {
         super(props);
         this.renderFilters = this.renderFilters.bind(this);
+        this.renderCount = this.renderCount.bind(this);
         this.changeProps = this.changeProps.bind(this);
         this.resetProps = this.resetProps.bind(this);
         this.state = {
@@ -18,6 +31,10 @@ class Sidebar extends Component {
             depth:0,
             parent_id:null
         };
+    }
+
+    findParent() {
+        this.props.page.badge.store(results);
     }
 
     changeProps(id, depth){
@@ -28,6 +45,11 @@ class Sidebar extends Component {
             active.push(id);
             if (it.parent_id){
                 active.push(it.parent_id);
+                let allParents = getParent(it.parent_id, data);
+                if (allParents.length > 0){
+                    allParents = allParents.map(x => x.id);
+                    active = [...active, ...allParents];
+                }
             }
             this.setState({active:active, depth:depth, parent_id:id});
         }
@@ -39,6 +61,16 @@ class Sidebar extends Component {
         this.setState({active:active, depth:0, parent_id:null})
     }
 
+    renderCount(number) {
+        return number ? (
+            <Badge
+                className="sidebar-badge"
+                variant="dark">
+                {number}
+            </Badge>
+        ) : "";
+    }
+
 
     renderFilters(filters, depth){
         let nest = depth + 1;
@@ -46,6 +78,9 @@ class Sidebar extends Component {
         return filters.map(
             (x, i) => {
                 let active = this.props.value.data.filters.includes(x.id);
+                let badges = this.props.value.page.badges;
+                badges = badges.find(b => b.id === x.id);
+                badges = badges ? badges.count : false;
                 return (
                 <li
                     key={x.code}
@@ -69,6 +104,7 @@ class Sidebar extends Component {
                                 hidden={this.state.depth !== depth}
                                 onClick={e => this.changeProps(x.id, nest)}>
                                 {x.name}
+                                {this.renderCount(badges)}
                             </div>
                             <div className="next-nested arrows"
                                 hidden={this.state.depth !== depth}

@@ -1,5 +1,6 @@
 import flattenDeep from 'lodash/flattenDeep';
 import uniq from 'lodash/uniq';
+import reject from 'lodash/reject';
 
 export const dataState = {
     master: [{
@@ -22,17 +23,10 @@ export const dataState = {
     countries: [],
 };
 
-export const toggleFilter = (state, id) => {
-    let selected = [];
-    let filters = state.filters;
+const updateState = (filters, state) => {
     let master = state.master;
     let datapoints = state.datapoints;
     let filtered = [];
-    if (filters.includes(id)){
-        filters = filters.filter(x => x !== id);
-    } else {
-        filters = [...filters, id]
-    }
     if (filters.length > 0) {
         filtered = master.map(x => {
             let values = x.values.filter(v => filters.includes(v.id));
@@ -60,4 +54,20 @@ export const toggleFilter = (state, id) => {
         filtered: filtered,
         filters: filters,
     };
+}
+
+export const toggleFilter = (state, id) => {
+    let filters = state.filters;
+    let filtered = [];
+    if (filters.includes(id)){
+        filters = filters.filter(x => x !== id);
+    } else {
+        filters = [...filters, id]
+    }
+    return updateState(filters, state);
+}
+
+export const removeFilters = (state, ids) => {
+    let filters = reject(state.filters, x => ids.includes(x));
+    return updateState(filters, state);
 }

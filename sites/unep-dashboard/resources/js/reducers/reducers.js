@@ -1,9 +1,11 @@
 import {
     pageState,
+    getBadges,
 } from './states/page-states.js';
 import {
     dataState,
     toggleFilter,
+    removeFilters,
 } from './states/data-states.js';
 import {
     chartState,
@@ -13,7 +15,6 @@ import {
     filterCharts,
     reverseCharts,
 } from './states/chart-states.js';
-import { flatDeep } from '../data/utils.js';
 
 const initialState = {
     page: pageState,
@@ -23,6 +24,7 @@ const initialState = {
 }
 
 export const states = (state = initialState, action) => {
+    let data;
     switch (action.type) {
         case 'PAGE - LOADING PAGE':
             return {
@@ -62,10 +64,33 @@ export const states = (state = initialState, action) => {
                     sidebar: state.page.sidebar ? false : true
                 }
             }
-        case 'DATA - TOGGLE FILTER':
+        case 'PAGE - BADGE STORE':
             return {
                 ...state,
-                data: toggleFilter(state.data, action.id)
+                page: {
+                    ...state.page,
+                    badges: action.badges
+                }
+            }
+        case 'DATA - TOGGLE FILTER':
+            data = toggleFilter(state.data, action.id);
+            return {
+                ...state,
+                data: data,
+                page: {
+                    ...state.page,
+                    badges: getBadges(data, state.page.filters)
+                }
+            }
+        case 'DATA - REMOVE FILTERS':
+            data = removeFilters(state.data, action.ids);
+            return {
+                ...state,
+                data: data,
+                page: {
+                    ...state.page,
+                    badges: state.page.badges.filter(x => x.id !== action.id)
+                }
             }
         case 'CHART - VALUES APPEND':
             return {

@@ -58,12 +58,13 @@ class Navigation extends Component {
                     activeKey={this.props.value.page.name}
                     onSelect={this.changePage}
                 >
-                    <Nav.Link eventKey="home" active={"home" === page}>Home</Nav.Link>
-                    <Nav.Link eventKey="summary" active={"summary" === page}>Summary</Nav.Link>
-                    <Nav.Link eventKey="overview" active={"overview" === page}>Overview</Nav.Link>
+                    <Nav.Link eventKey="overviews" active={"overviews" === page}>Overviews</Nav.Link>
                     <Nav.Link eventKey="actions" active={"actions" === page}>Actions</Nav.Link>
+                    <Nav.Link eventKey="funding" active={"funding" === page}>Overview</Nav.Link>
+                    <Nav.Link eventKey="stakeholder" active={"Stakeholder" === page}>Stakeholder</Nav.Link>
                     <Nav.Link eventKey="evaluation" active={"evaluation" === page}>Evaluation</Nav.Link>
-                    <Nav.Link eventKey="funding" active={"funding" === page}>Funding</Nav.Link>
+                    <Nav.Link eventKey="drivers" active={"drivers" === page}>Drivers and Barriers</Nav.Link>
+                    <Nav.Link eventKey="partnership" active={"partnership" === page}>Partnerships</Nav.Link>
                 </Nav>
                 <Form inline className='nav-right'>
                   <a

@@ -73,7 +73,7 @@ const Maps = (title, subtitle, props, extra={}) => {
             show: true,
             orient: 'horizontal',
             left: 'right',
-            top: 'top',
+            bottom: 'bottom',
             feature: {
                 dataView: {
                     title: 'View Data',

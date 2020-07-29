@@ -8,10 +8,10 @@ import {
     Container,
     Button
 } from 'react-bootstrap';
-import Home from '../pages/Home';
+import Overviews from '../pages/Overviews';
 import Loading from '../pages/Loading';
+import Filters from './Filters';
 import axios from 'axios';
-import { flatDeep } from '../data/utils.js';
 import intersectionBy from 'lodash/intersectionBy';
 import uniq from 'lodash/uniq';
 import uniqBy from 'lodash/uniqBy';
@@ -35,7 +35,7 @@ class Page extends Component {
     }
 
     componentDidMount() {
-        this.props.page.change('home');
+        this.props.page.change('overviews');
         let caches = localStorage.getItem('caches');
         if (caches === null) {
             const calls = [
@@ -79,12 +79,13 @@ class Page extends Component {
                             className="fas-icon"/>
                         {sidebar ? "Hide Fiter" : "Show Filter"}
                     </Button>
+                    <Filters/>
                 </Container>
                 <div className={sidebar ? "d-flex" : "d-flex toggled"} id="wrapper">
                     {loading ? "" : <Sidebar/>}
                     <div id="page-content-wrapper">
                     {loading ? (<Loading/>) : ""}
-                    {page === "home" ? (<Home parent={this.props}/>) : ""}
+                    {page === "overviews" ? (<Overviews parent={this.props}/>) : ""}
                     </div>
                 </div>
             </Fragment>
