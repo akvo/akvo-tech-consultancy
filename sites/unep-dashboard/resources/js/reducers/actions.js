@@ -12,11 +12,13 @@ export const mapDispatchToProps = dispatch => {
                     type: "PAGE - LOADING PAGE",
                     status: status
                 }),
-            init: (filters, countries) =>
+            init: ({filters, countries, data, datapoints}) =>
                 dispatch({
                     type: "PAGE - INIT PAGE",
                     filters: filters,
-                    countries: countries
+                    countries: countries,
+                    data: data,
+                    datapoints: datapoints
                 }),
             change: page =>
                 dispatch({

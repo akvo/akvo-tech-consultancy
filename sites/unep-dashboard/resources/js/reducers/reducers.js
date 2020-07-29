@@ -39,6 +39,11 @@ export const states = (state = initialState, action) => {
                     ...state.page,
                     countries: action.countries,
                     filters: action.filters,
+                },
+                data: {
+                    ...state.data,
+                    master: action.data,
+                    datapoints: action.datapoints
                 }
             }
         case 'PAGE - CHANGE PAGE':
@@ -60,12 +65,7 @@ export const states = (state = initialState, action) => {
         case 'DATA - TOGGLE FILTER':
             return {
                 ...state,
-                data: {
-                    ...state.data,
-                    filters : {
-                        selected: toggleFilter(state.data.filters, action.id),
-                    }
-                }
+                data: toggleFilter(state.data, action.id)
             }
         case 'CHART - VALUES APPEND':
             return {

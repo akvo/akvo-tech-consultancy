@@ -1,5 +1,5 @@
 export const backgroundColor = {
-    backgroundColor: "#f8f9fa"
+    backgroundColor: "#fff"
 };
 
 export const Easing = {

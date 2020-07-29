@@ -14,13 +14,13 @@ const loadingState = {
 export const loadingChart = (type) => {
     switch (type) {
         case "MAPS":
-            return Maps(loadingState.values, "LOADING", "loading", "CATEGORY");
+            return Maps("LOADING", "loading", loadingState.values);
         case "PIE":
-            return Pie(loadingState.values, "LOADING", "loading", "CATEGORY");
+            return Pie("LOADING", "loading", loadingState.values);
         case "TREEMAP":
-            return TreeMap(loadingState.values, "LOADING", "loading", "CATEGORY");
+            return TreeMap("LOADING", "loading", loadingState.values);
         default:
-            return Bar(loadingState.values, "LOADING", "loading", "CATEGORY");
+            return Bar("LOADING", "loading", loadingState.values);
     }
 };
 
@@ -34,15 +34,15 @@ export const generateData = (col, line, height) => {
     }
 }
 
-export const generateOptions = (type, title, subtitle, data, calc) => {
+export const generateOptions = (type, title, subtitle, data, extra) => {
     switch (type) {
         case "MAPS":
-            return Maps(data, title, subtitle, calc);
+            return Maps(title, subtitle, data, extra);
         case "PIE":
-            return Pie(data, title, subtitle, calc);
+            return Pie(title, subtitle, data, extra);
         case "TREEMAP":
-            return TreeMap(data, title, subtitle, calc);
+            return TreeMap(title, subtitle, data, extra);
         default:
-            return Bar(data, title, subtitle, calc);
+            return Bar(title, subtitle, data, extra);
     }
 }

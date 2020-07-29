@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { mapStateToProps, mapDispatchToProps } from '../reducers/actions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { flatten } from '../data/utils.js';
+import { Form } from 'react-bootstrap';
 
 class Sidebar extends Component {
 
@@ -41,15 +42,16 @@ class Sidebar extends Component {
 
     renderFilters(filters, depth){
         let nest = depth + 1;
+        let li = "list-group-item list-group-item-action bg-light";
         return filters.map(
             (x, i) => {
-                let active = this.props.value.data.filters.selected.includes(x.id);
+                let active = this.props.value.data.filters.includes(x.id);
                 return (
                 <li
                     key={x.code}
                     href="#"
                     hidden={!this.state.active.includes(x.id)}
-                    className="list-group-item list-group-item-action bg-light"
+                    className={li}
                 >
                     {x.childrens.length > 0 ? (
                         <Fragment>
@@ -57,7 +59,10 @@ class Sidebar extends Component {
                                 className="prev-nested parent-text"
                                 hidden={this.state.parent_id !== x.id}
                                 onClick={e => this.resetProps()}>
-                                <FontAwesomeIcon icon={["fas", "arrow-circle-left"]}/> Back
+                                <FontAwesomeIcon
+                                    color={"#007bff"}
+                                    className="fas-icon"
+                                    icon={["fas", "arrow-circle-left"]}/> Back
                             </div>
 
                             <div className="next-nested parent-text"
@@ -68,21 +73,28 @@ class Sidebar extends Component {
                             <div className="next-nested arrows"
                                 hidden={this.state.depth !== depth}
                                 onClick={e => this.changeProps(x.id, nest)}>
-                                <FontAwesomeIcon icon={["fas", "arrow-circle-right"]} />
+                                <FontAwesomeIcon
+                                    icon={["fas", "arrow-circle-right"]} />
                             </div>
                             <ul className="list-group list-group-nested">
                                 {this.renderFilters(x.childrens, nest)}
                             </ul>
                         </Fragment>
-                    ) : (
-                        <div className="next-nested"
-                            onClick={e => this.props.data.toggle.filters(x.id)}>
+                    ) : (<Fragment>
+                            <div
+                                onClick={e => this.props.data.toggle.filters(x.id)}
+                                className={active ? "select-nested plus selected" : "select-nested plus"}>
                             <FontAwesomeIcon
                                 color={active ? "green" : "grey"}
                                 icon={["fas", active ? "check-circle" : "plus-circle"]}
-                                className="fas-icon"
-                            /> {x.name}
-                        </div>
+                            />
+                            </div>
+                            <div
+                                className={active ? "select-nested text selected" : "select-nested text"}
+                                onClick={e => this.props.data.toggle.filters(x.id)}>
+                                {x.name}
+                            </div>
+                        </Fragment>
                     )}
                 </li>
             )}
@@ -98,6 +110,11 @@ class Sidebar extends Component {
         let filters = this.props.value.page.filters;
         return (
             <div className="bg-light border-right" id="sidebar-wrapper">
+                <div className="filter-search">
+                    <Form.Group controlId="formGroupSearch">
+                        <Form.Control type="email" placeholder="Search" />
+                    </Form.Group>
+                </div>
               <ul className="list-group list-group-flush">
                   {this.props.value.page.loading ? "" : this.renderFilters(filters, 0)}
               </ul>

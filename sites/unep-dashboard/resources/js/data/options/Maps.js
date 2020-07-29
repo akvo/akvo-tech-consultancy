@@ -1,12 +1,36 @@
 import { Easing, TextStyle, backgroundColor, Color, Icons, Graphic } from '../features/animation.js';
+import flattenDeep from 'lodash/flattenDeep';
+import uniq from 'lodash/uniq';
 
-const Maps = (data, title, subtitle, calc) => {
-    let values = data.map(x => x.value)
+const getData = (data, countries) => {
+    let results = [];
+    if (countries.length === 1) {
+        return results;
+    }
+    results = data.map(x => {
+        let country = countries.find(c => c.id === x.country_id);
+        return {
+            name: country.name,
+            value: x.global,
+            data: x
+        }
+    });
+    results = results.filter(x => x.value !== 0);
+    return results;
+}
+
+const Maps = (title, subtitle, props, extra={}) => {
+    let source = props.data.filters.length > 0 ? props.data.filtered : props.data.master;
+    let data = getData(source, props.page.countries);
+    let values = [];
     let max = 1;
     let min = 0;
-    if (values.length > 1){
-        min = values.sort((x, y) => x - y)[0];
-        max = values.sort((x, y) => y - x)[0];
+    if (data.length > 0) {
+        values = data.map(x => x.value);
+        if (values.length > 1){
+            min = values.sort((x, y) => x - y)[0];
+            max = values.sort((x, y) => y - x)[0];
+        }
     }
     let option = {
         title : {
@@ -95,6 +119,7 @@ const Maps = (data, title, subtitle, calc) => {
         ],
         ...backgroundColor,
         ...Easing,
+        ...extra
     };
     return option;
 }

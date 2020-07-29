@@ -15,8 +15,18 @@ import { flatDeep } from '../data/utils.js';
 import intersectionBy from 'lodash/intersectionBy';
 import uniq from 'lodash/uniq';
 import uniqBy from 'lodash/uniqBy';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const prefixPage = process.env.MIX_PUBLIC_URL + "/page/";
+const API = process.env.MIX_PUBLIC_URL + "/api/";
+const call = (endpoint) => {
+    return new Promise((resolve, reject) => {
+        axios.get(API + endpoint).then(res => {
+            resolve({
+                [endpoint] : res.data
+            })
+        });
+    });
+}
 
 class Page extends Component {
 
@@ -25,28 +35,33 @@ class Page extends Component {
     }
 
     componentDidMount() {
+        this.props.page.change('home');
         let caches = localStorage.getItem('caches');
         if (caches === null) {
-        axios.get(prefixPage + "countries")
-            .then(res => {
-                let countries = res.data;
-                axios.get(prefixPage + "filters")
-                    .then(res => {
-                        let filters = res.data;
-                        caches = JSON.stringify({countries: countries, filters: filters});
-                        this.props.page.init(filters, countries);
-                        this.props.page.loading(false);
-                        localStorage.setItem('caches', caches);
-                    });
-            });
+            const calls = [
+                call("countries"),
+                call("filters"),
+                call("data")
+            ];
+            Promise.all(calls)
+                .then(res => {
+                    const response = {
+                        ...res[0],
+                        ...res[1],
+                        data: res[2].data.data,
+                        datapoints: res[2].data.datapoints
+                    }
+                    caches = JSON.stringify(response);
+                    this.props.page.init(response);
+                    localStorage.setItem('caches', caches);
+                    this.props.page.loading(false);
+                })
         } else {
             let caches = localStorage.getItem('caches');
             caches = JSON.parse(caches);
-            this.props.page.init(caches.filters, caches.countries);
-            console.log(this.props);
+            this.props.page.init(caches);
             this.props.page.loading(false);
         }
-        this.props.page.change('home');
     }
 
     render() {
@@ -59,6 +74,9 @@ class Page extends Component {
                 <Container className="top-container">
                     <Button size="sm"
                         onClick={e => this.props.page.sidebar.toggle()}>
+                        <FontAwesomeIcon
+                            icon={["fas", "filter"]}
+                            className="fas-icon"/>
                         {sidebar ? "Hide Fiter" : "Show Filter"}
                     </Button>
                 </Container>

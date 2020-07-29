@@ -9,13 +9,9 @@ import ReactEcharts from "echarts-for-react";
 class Charts extends Component {
     constructor(props) {
         super(props);
-        let selected = this.props.value.filters.selected;
-            selected = selected[selected.length - 1];
         this.state = {
             option: loadingChart(),
-            origin: loadingChart(),
-            style: this.props.data.style,
-            selected: selected
+            style: this.props.config.style,
         };
         this.clickEvent = this.clickEvent.bind(this);
         this.doubleClickEvent = this.doubleClickEvent.bind(this);
@@ -26,103 +22,25 @@ class Charts extends Component {
     }
 
     clickEvent(param) {
-        if (this.props.calc === "CATEGORY") {
-            if (param.componentSubType === 'pie') {
-                this.props.chart.value.select(param.data.id);
-                this.props.filter.program.update(param.data.id, param.data.parent_id, param.name, 1);
-                if (this.props.value.filters.selected.length < 2){
-                    this.props.filter.program.append(param.data.values, 1);
-                };
-            }
-            if (param.componentSubType === 'bar') {
-                console.log(param);
-            }
-			if (param.componentSubType === 'treemap') {
-                this.props.chart.value.select(param.data.id);
-                this.props.filter.program.update(param.data.id, param.data.parent_id, param.name, 1);
-                if (this.props.value.filters.selected.length < 2){
-                    this.props.filter.program.append(param.data.values, 1);
-                };
-			}
-            return;
-        }
-        if (!this.props.value.charts.filtered) {
-            this.props.filter.country.change(param.data.name);
-        }
-        if (this.props.value.charts.filtered) {
-            this.props.chart.value.reverse();
-            this.props.filter.country.change("World Wide");
-        }
-        if (!isNaN(param.value) && !this.props.value.charts.filtered) {
-            let data = [];
-            if (param.componentSubType === 'pie' || 'map') {
-                data = [param.data];
-            }
-            if (param.componentSubType === 'bar') {
-                data = [{
-                    id: param.dataIndex,
-                    code: "",
-                    name: param.name,
-                    value: param.value
-                }]
-            }
-            this.props.chart.value.filter(data);
-        };
-        return this.props.chart.state.filtered();
-    }
-
-    componentDidMount() {
-        this.setState({
-            origin: this.props.value.charts.active
-        });
     }
 
     render() {
-        let level = this.props.calc === "CATEGORY" ? 0 : 1;
-        let selected = this.props.value.filters.selected;
-            selected = selected[level];
-        if (selected === undefined) {
-            selected = this.props.value.filters.selected;
-        }
-        let data = level === 0
-            ? this.props.value.charts.data.filter((x) => x.parent_id === selected.id)
-            : this.props.value.charts.active.values
-        let onEvents = {
-            'click': this.clickEvent,
-            'dblclick': this.doubleClickEvent
-        }
-        if (level === 0) {
-            data = data.map((x) => {
-                let values = x.values;
-                if (this.props.value.filters.country !== "World Wide") {
-                    values = values.filter(c => {
-                        if (c.name === this.props.value.filters.country){
-                            return true;
-                        }
-                        return false;
-                    });
-                }
-                if (values.length > 0){
-                    values = values.map(v => v.value).reduce((a, b) => a + b);
-                } else {
-                    values = 0
-                }
-                x.value = values;
-                return x;
-            });
-        }
-        let country_values = this.props.value.filters.country;
-        let options = generateOptions(this.props.kind, selected.name, country_values, data, this.props.calc);
+        let options = generateOptions(
+            this.props.kind,
+            this.props.title,
+            "Subtitle",
+            this.props.value,
+            this.props.extra
+        );
         return (
-            <Col md={this.props.data.column}>
+            <Col md={this.props.config.column}>
                 <ReactEcharts
                     option={options}
                     notMerge={true}
                     lazyUpdate={true}
                     style={this.state.style}
-                    onEvents={onEvents}
                 />
-                {this.props.data.line ? <hr /> : ""}
+                {this.props.config.line ? <hr /> : ""}
             </Col>
         );
     }

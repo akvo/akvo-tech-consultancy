@@ -9,7 +9,6 @@ use App\Datapoint;
 use App\Value;
 use App\DatapointValue;
 use App\DatapointCountry;
-use Faker\Factory as Faker;
 
 class TestController extends Controller
 {

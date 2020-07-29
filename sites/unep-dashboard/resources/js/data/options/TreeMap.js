@@ -7,11 +7,10 @@ import {
     Icons
 } from "../features/animation.js";
 
-const TreeMap = (data, title, subtitle, calc) => {
+const TreeMap = (data, title, subtitle, extra) => {
     data = data.map(x => {
         return {
             ...x,
-            group: calc
         };
     });
     let labels = data.map(x => x.name);
@@ -128,7 +127,8 @@ const TreeMap = (data, title, subtitle, calc) => {
             }
         ],
         ...backgroundColor,
-        ...Easing
+        ...Easing,
+        ...extra
     };
     return option;
 };

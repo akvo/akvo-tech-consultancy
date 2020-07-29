@@ -1,12 +1,14 @@
 import { Color, Easing, Legend, TextStyle, backgroundColor, Icons } from '../features/animation.js';
 
-const Pie = (data, title, subtitle, calc) => {
-    data = data.map((x) => {
-        return {
-            ...x,
-            group: calc
-        }
-    });
+const Pie = (title, subtitle, data, extra) => {
+    if (data.length > 0){
+        data = data.map((x) => {
+            return {
+                ...x,
+                group: calc
+            }
+        });
+    }
     let labels = data.map(x => x.name);
     let option = {
         ...Color,
@@ -75,6 +77,7 @@ const Pie = (data, title, subtitle, calc) => {
         },
         ...backgroundColor,
         ...Easing,
+        ...extra
     };
     return option;
 };

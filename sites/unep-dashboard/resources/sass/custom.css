@@ -6,7 +6,7 @@ body {
     position: fixed;
     z-index: 1;
     background: #fff;
-    padding: 18px 45px;
+    padding: 10px 16px;
     min-width: 100%;
     top: -18px;
     border-bottom: 1px solid #ddd;
@@ -14,6 +14,7 @@ body {
 
 #sidebar-wrapper {
     position: fixed;
+    z-index:1;
     min-height: 100vh;
     margin-left: -15rem;
     -webkit-transition: margin .10s ease-out;
@@ -36,8 +37,11 @@ body {
     font-size:14px;
 }
 
-#sidebar-wrapper li.list-group-item.list-group-item-action.bg-light:hover{
-    background-color:#f2f2f2 !important;
+#sidebar-wrapper li div:hover{
+    background-color:#dee2e6 !important;
+}
+#sidebar-wrapper li div:hover ~ div{
+    background-color:#dee2e6 !important;
 }
 
 #sidebar-wrapper ul.list-group.list-group-nested {
@@ -56,6 +60,14 @@ body {
     width: 15rem;
 }
 
+#sidebar-wrapper .filter-search {
+    padding: 10px;
+}
+#sidebar-wrapper .form-group {
+    margin-bottom:0px;
+}
+
+.select-nested,
 .next-nested {
     display: table-cell;
     margin: 0em;
@@ -65,9 +77,24 @@ body {
     width:10%;
 }
 
+.select-nested.text,
 .next-nested.parent-text{
     width:90%;
 }
+
+.select-nested.text{
+    padding-left:0px;
+}
+
+#sidebar-wrapper li div.select-nested.text:hover{
+    background-color:#f8f9fa !important;
+}
+
+#sidebar-wrapper li div.select-nested.text.selected,
+#sidebar-wrapper li div.select-nested.plus.selected{
+    background-color:#f2f2f2!important;
+}
+
 .prev-nested{
     display: block;
     margin: 0em;
@@ -81,7 +108,7 @@ body {
 }
 
 #wrapper {
-    margin-top: 132px;
+    margin-top: 116px;
 }
 
 #wrapper.toggled #sidebar-wrapper {
@@ -455,7 +482,7 @@ h1.title-page {
     .container-lg,
     .container-md,
     .container-sm {
-        max-width: 95% !important;
+        min-width: 100% !important;
     }
     .dropdown-menu.show {
         width: 100%;
@@ -512,4 +539,9 @@ h1.title-page {
 /* Checkbox */
 .fas-icon {
     margin-right: 15px;
+}
+/* Table */
+tr.sm td{
+    font-size:12px!important;
+    padding: 5px!important;
 }
