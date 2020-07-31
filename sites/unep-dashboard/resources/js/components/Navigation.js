@@ -68,7 +68,7 @@ class Navigation extends Component {
                 </Nav>
                 <Form inline className='nav-right'>
                   <a
-                      className="btn btn-primary text-white"
+                      className="btn btn-sm btn-primary text-white"
                       href="https://github.com/akvo/akvo-tech-consultancy"
                       target="_blank"
                   >

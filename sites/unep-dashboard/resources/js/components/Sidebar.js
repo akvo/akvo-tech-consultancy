@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { mapStateToProps, mapDispatchToProps } from '../reducers/actions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { flatten } from '../data/utils.js';
-import { Form } from 'react-bootstrap';
-import { Badge } from 'react-bootstrap';
+import  startsWith from 'lodash/startsWith';
+import { Form, Badge, Col } from 'react-bootstrap';
 
 const getParent = (id, data, list=[]) => {
     let parent = data.find(x => x.id === id);
@@ -16,6 +16,7 @@ const getParent = (id, data, list=[]) => {
     list.push(parent);
     return list;
 }
+const li = "list-group-item list-group-item-action bg-light";
 
 
 class Sidebar extends Component {
@@ -24,10 +25,14 @@ class Sidebar extends Component {
         super(props);
         this.renderFilters = this.renderFilters.bind(this);
         this.renderCount = this.renderCount.bind(this);
-        this.changeProps = this.changeProps.bind(this);
-        this.resetProps = this.resetProps.bind(this);
+        this.changeFilters = this.changeFilters.bind(this);
+        this.changeCountries = this.changeCountries.bind(this);
+        this.resetFilterProps = this.resetFilterProps.bind(this);
+        this.renderCountries = this.renderCountries.bind(this);
+        this.searchItems = this.searchItems.bind(this);
         this.state = {
             active:[1],
+            searched: [],
             depth:0,
             parent_id:null
         };
@@ -37,7 +42,11 @@ class Sidebar extends Component {
         this.props.page.badge.store(results);
     }
 
-    changeProps(id, depth){
+    changeCountries(data, group) {
+        this.props.data.toggle.countries(data, group);
+    }
+
+    changeFilters(id, depth){
         let data = flatten(this.props.value.page.filters);
         let it = data.find(x => x.id === id);
         if (it.childrens.length > 0) {
@@ -51,12 +60,12 @@ class Sidebar extends Component {
                     active = [...active, ...allParents];
                 }
             }
-            this.setState({active:active, depth:depth, parent_id:id});
+            this.setState({active:active, depth:depth, parent_id:id, searched:[]});
         }
         return true;
     }
 
-    resetProps() {
+    resetFilterProps() {
         let active = this.props.value.page.filters.map(x => x.id);
         this.setState({active:active, depth:0, parent_id:null})
     }
@@ -71,21 +80,68 @@ class Sidebar extends Component {
         ) : "";
     }
 
+    renderCountries() {
+        let group = this.props.value.page.sidebar.group;
+        let data = group
+            ? this.props.value.page.countrygroups
+            : this.props.value.page.countries;
+        let active = false;
+        let searched = this.state.searched;
+        if (searched.length > 0){
+            data = searched;
+        }
+        return data.map(
+            (x, i) => {
+                let active = group
+                    ? this.props.value.data.countrygroups.includes(x.id)
+                    : this.props.value.data.countries.includes(x.id);
+                return(
+                    <li
+                        key={x.id}
+                        href="#"
+                        className={li}
+                    >
+                        <div
+                            className={active
+                            ? "select-nested plus selected"
+                            : "select-nested plus"}
+                            onClick={e => this.changeCountries(x, group)}>
+                        <FontAwesomeIcon
+                            color={active ? "green" : "grey"}
+                            icon={["fas", active ? "check-circle" : "plus-circle"]}
+                        />
+                        </div>
+                        <div
+                            className={active
+                            ? "select-nested text selected"
+                            : "select-nested text"}
+                            onClick={e => this.changeCountries(x, group)}>
+                            {x.name}
+                        </div>
+                    </li>
+                )
+            }
+        )
+    }
 
     renderFilters(filters, depth){
         let nest = depth + 1;
-        let li = "list-group-item list-group-item-action bg-light";
         return filters.map(
             (x, i) => {
                 let active = this.props.value.data.filters.includes(x.id);
                 let badges = this.props.value.page.badges;
-                badges = badges.find(b => b.id === x.id);
-                badges = badges ? badges.count : false;
+                let hidden = !this.state.active.includes(x.id);
+                if (badges) {
+                    badges = badges.find(b => b.id === x.id);
+                    badges = badges ? badges.count : false;
+                } else {
+                    badges = false;
+                }
                 return (
                 <li
-                    key={x.code}
+                    key={x.id}
                     href="#"
-                    hidden={!this.state.active.includes(x.id)}
+                    hidden={hidden}
                     className={li}
                 >
                     {x.childrens.length > 0 ? (
@@ -93,7 +149,7 @@ class Sidebar extends Component {
                             <div
                                 className="prev-nested parent-text"
                                 hidden={this.state.parent_id !== x.id}
-                                onClick={e => this.resetProps()}>
+                                onClick={e => this.resetFilterProps()}>
                                 <FontAwesomeIcon
                                     color={"#007bff"}
                                     className="fas-icon"
@@ -102,13 +158,13 @@ class Sidebar extends Component {
 
                             <div className="next-nested parent-text"
                                 hidden={this.state.depth !== depth}
-                                onClick={e => this.changeProps(x.id, nest)}>
+                                onClick={e => this.changeFilters(x.id, nest)}>
                                 {x.name}
                                 {this.renderCount(badges)}
                             </div>
                             <div className="next-nested arrows"
                                 hidden={this.state.depth !== depth}
-                                onClick={e => this.changeProps(x.id, nest)}>
+                                onClick={e => this.changeFilters(x.id, nest)}>
                                 <FontAwesomeIcon
                                     icon={["fas", "arrow-circle-right"]} />
                             </div>
@@ -137,22 +193,90 @@ class Sidebar extends Component {
         )
     }
 
+    searchItems(data) {
+        this.setState({searched:[]})
+        if (data === ""){
+            return;
+        }
+        let keywords = data.target.value.toLowerCase().split(' ');
+        let source = this.props.value.page;
+        let selected = source.sidebar.selected;
+        if (selected === "countries" && source.sidebar.group) {
+            selected = "countrygroups";
+        }
+        source = source[selected];
+        let results = source.map(x => {
+            let score = 0;
+            let names = x.name.toLowerCase();
+            names = names.split(' ');
+            names.forEach(x => {
+                keywords.forEach(k => {
+                    score += x.startsWith(k) ? 1 : 0;
+                })
+            });
+            return {
+                ...x,
+                score: score
+            }
+        });
+        results = results.filter(x => x.score > 0);
+        console.log(results);
+        this.setState({searched: results});
+        return;
+    }
+
     componentDidMount() {
         let active = this.props.value.page.filters.map(x => x.id);
-        this.setState({active:active, depth:0, parent_id:null})
+        this.setState({active:active, depth:0, parent_id:null, searched:[]})
+    }
+    componentWillReceiveProps() {
+        let active = this.props.value.page.filters.map(x => x.id);
+        this.setState({searched:[]});
+        if (this.props.value.page.sidebar.selected !== "filters") {
+            this.setState({depth:0});
+        }
     }
 
     render() {
-        let filters = this.props.value.page.filters;
+        let sidebar = this.props.value.page.sidebar;
         return (
             <div className="bg-light border-right" id="sidebar-wrapper">
                 <div className="filter-search">
-                    <Form.Group controlId="formGroupSearch">
-                        <Form.Control type="email" placeholder="Search" />
+                    <Form.Row>
+                    <Form.Group
+                        as={Col}
+                        md={sidebar.selected === "countries" ? "8" : "12"}
+                        onChange={this.searchItems}
+                        controlId="formGroupSearch">
+                        <Form.Control
+                            type="input"
+                            disabled={this.state.depth > 0}
+                            placeholder="Search" />
                     </Form.Group>
+                        {sidebar.selected === "countries" ? (
+                            <Form.Group
+                                as={Col}
+                                md={"4"}
+                                onChange={this.props.page.sidebar.switchgroup}
+                                controlId="formGroupSwitch">
+                            <Form.Check
+                                defaultChecked={this.props.value.page.sidebar.group}
+                                type="switch"
+                                id="custom-switch"
+                                label="Group"
+                              />
+                            </Form.Group>) : ""}
+                    </Form.Row>
                 </div>
               <ul className="list-group list-group-flush">
-                  {this.props.value.page.loading ? "" : this.renderFilters(filters, 0)}
+                  {sidebar.selected === "filters"
+                    ? this.renderFilters(
+                        this.state.searched.length === 0
+                            ? this.props.value.page.filters
+                            : this.state.searched
+                        , 0
+                    ) : this.renderCountries()
+                  }
               </ul>
             </div>
         );

@@ -10,6 +10,13 @@ const mix = require('laravel-mix');
  | file for the application as well as bundling up all the JS files.
  |
  */
+/*
+require('laravel-mix-bundle-analyzer');
+if (mix.isWatching()) {
+    mix.bundleAnalyzer();
+}
+ */
+
 
 mix.react('resources/js/app.js', 'public/js')
     .styles(['resources/sass/custom.css'], 'public/css/all.css')

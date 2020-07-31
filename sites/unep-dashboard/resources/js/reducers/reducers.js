@@ -1,10 +1,14 @@
+import uniqBy from 'lodash/uniqBy';
 import {
     pageState,
     getBadges,
 } from './states/page-states.js';
 import {
     dataState,
+    updateState,
     toggleFilter,
+    toggleCountry,
+    toggleCountryGroup,
     removeFilters,
 } from './states/data-states.js';
 import {
@@ -35,11 +39,16 @@ export const states = (state = initialState, action) => {
                 }
             }
         case 'PAGE - INIT PAGE':
+            let groups = action.countries.map(x => x.groups);
+            let all_groups = [];
+            groups.forEach(x => {all_groups = [...all_groups, ...x]});
+            all_groups = uniqBy(all_groups, 'id');
             return {
                 ...state,
                 page: {
                     ...state.page,
                     countries: action.countries,
+                    countrygroups: all_groups,
                     filters: action.filters,
                 },
                 data: {
@@ -57,12 +66,31 @@ export const states = (state = initialState, action) => {
                 }
             }
         case 'PAGE - SIDEBAR TOGGLE':
+            let active = state.page.sidebar.active;
+            let different = state.page.sidebar.selected !== action.selected;
             return {
                 ...state,
                 page: {
                     ...state.page,
-                    sidebar: state.page.sidebar ? false : true
+                    sidebar: {
+                        ...state.page.sidebar,
+                        active: different && active ? true : (!active ? true : false),
+                        selected: action.selected
+                    }
                 }
+            }
+        case 'PAGE - SIDEBAR SWITCH GROUP':
+            let cleared = updateState(state.data.filters, [], [], state.data)
+            return {
+                ...state,
+                page: {
+                    ...state.page,
+                    sidebar: {
+                        ...state.page.sidebar,
+                        group: state.page.sidebar.group ? false : true,
+                    }
+                },
+                data: cleared
             }
         case 'PAGE - BADGE STORE':
             return {
@@ -82,6 +110,14 @@ export const states = (state = initialState, action) => {
                     badges: getBadges(data, state.page.filters)
                 }
             }
+        case 'DATA - TOGGLE COUNTRY':
+            data = action.group
+                ?  toggleCountryGroup(state.data, state.page, action.data.id)
+                :  toggleCountry(state.data, action.data.id)
+            return {
+                ...state,
+                data: data,
+            }
         case 'DATA - REMOVE FILTERS':
             data = removeFilters(state.data, action.ids);
             return {
@@ -89,7 +125,7 @@ export const states = (state = initialState, action) => {
                 data: data,
                 page: {
                     ...state.page,
-                    badges: state.page.badges.filter(x => x.id !== action.id)
+                    badges: getBadges(data, state.page.filters)
                 }
             }
         case 'CHART - VALUES APPEND':

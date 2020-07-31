@@ -1,5 +1,6 @@
 body {
     font-family: "Assistant", sans-serif;
+    height:auto!important;
 }
 
 .top-container.container {
@@ -72,6 +73,11 @@ body {
     min-width: 28px;
     border-radius: 10px;
     background-color: #365c7c;
+}
+
+#sidebar-wrapper .custom-control.custom-switch {
+    padding-top: 8px;
+    margin-left: 6px;
 }
 
 .select-nested,
@@ -238,7 +244,7 @@ body {
 .navbar-light .navbar-nav .nav-link {
     color: #000;
     font-weight: 400;
-    font-size: 17px;
+    font-size: 14px;
     text-rendering: optimizeLegibility;
     font-family: "Assistant", sans-serif;
 }
@@ -339,9 +345,19 @@ body {
 .btn-primary {
     background-color: #009fe2 !important;
     font-family: "Assistant", sans-serif;
-    border: 1px solid #0e9e82 !important;
+    border: none!important;
+    border-left: 1px solid #0478a9 !important;
     border-radius: 0px;
     border-bottom: solid 3px #0478a9 !important;
+}
+
+.btn-selected {
+    background-color: #355c7d!important;
+    font-family: "Assistant", sans-serif;
+    border: 1px solid #274258 !important;
+    border-radius: 0px;
+    color: #fff!important;
+    border-bottom: solid 3px #1c3346 !important;
 }
 
 .btn-primary:hover {
@@ -554,6 +570,9 @@ h1.title-page {
 tr.sm td{
     font-size:12px!important;
     padding: 5px!important;
+}
+h3.table-title{
+    font-size:16px!important;
 }
 /* Badges */
 .nav-filter-list {

@@ -72,16 +72,30 @@ class Page extends Component {
             <Fragment>
             <Navigation/>
                 <Container className="top-container">
-                    <Button size="sm"
-                        onClick={e => this.props.page.sidebar.toggle()}>
-                        <FontAwesomeIcon
-                            icon={["fas", "filter"]}
-                            className="fas-icon"/>
-                        {sidebar ? "Hide Fiter" : "Show Filter"}
+                    <Button size="sm">
+                        <FontAwesomeIcon icon={["fas", "filter"]}/>
                     </Button>
+                    <button size="sm"
+                        className={
+                            sidebar.selected === "filters" && sidebar.active
+                            ?  "btn btn-selected btn-sm"
+                            : "btn btn-primary btn-sm"
+                        }
+                        onClick={e => this.props.page.sidebar.toggle("filters")}>
+                        Actions
+                    </button>
+                    <button size="sm"
+                        className={
+                            sidebar.selected === "countries" && sidebar.active
+                            ?  "btn btn-selected btn-sm"
+                            : "btn btn-primary btn-sm"
+                        }
+                        onClick={e => this.props.page.sidebar.toggle("countries")}>
+                        Countries
+                    </button>
                     <Filters/>
                 </Container>
-                <div className={sidebar ? "d-flex" : "d-flex toggled"} id="wrapper">
+                <div className={sidebar.active ? "d-flex" : "d-flex toggled"} id="wrapper">
                     {loading ? "" : <Sidebar/>}
                     <div id="page-content-wrapper">
                     {loading ? (<Loading/>) : ""}

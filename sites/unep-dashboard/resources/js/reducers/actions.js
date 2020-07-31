@@ -26,10 +26,15 @@ export const mapDispatchToProps = dispatch => {
                     page: page
                 }),
             sidebar: {
-                toggle: () =>
+                toggle: (selected) =>
                     dispatch({
                         type: "PAGE - SIDEBAR TOGGLE",
-                    })
+                        selected:selected
+                    }),
+                switchgroup: () =>
+                    dispatch({
+                        type: "PAGE - SIDEBAR SWITCH GROUP",
+                    }),
             },
             badge: {
                 store: (badges) =>
@@ -46,10 +51,11 @@ export const mapDispatchToProps = dispatch => {
                         type: "DATA - TOGGLE FILTER",
                         id: id
                     }),
-                countries: (id) =>
+                countries: (data, group) =>
                     dispatch({
                         type: "DATA - TOGGLE COUNTRY",
-                        id: id
+                        data: data,
+                        group: group
                     }),
             },
             remove: {

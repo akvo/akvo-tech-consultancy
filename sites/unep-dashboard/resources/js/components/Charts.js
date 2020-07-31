@@ -21,7 +21,13 @@ class Charts extends Component {
         console.log('double-click');
     }
 
-    clickEvent(param) {
+    clickEvent(params) {
+        if (params.data) {
+            let id = params.data.data.country_id;
+            let country = this.props.value.page.countries.find(x => x.id === id);
+            this.props.data.toggle.countries(country, false);
+        }
+        return;
     }
 
     render() {
@@ -32,6 +38,9 @@ class Charts extends Component {
             this.props.value,
             this.props.extra
         );
+        let onEvents = {
+            'click': this.clickEvent,
+        }
         return (
             <Col md={this.props.config.column}>
                 <ReactEcharts
@@ -39,6 +48,7 @@ class Charts extends Component {
                     notMerge={true}
                     lazyUpdate={true}
                     style={this.state.style}
+                    onEvents={onEvents}
                 />
                 {this.props.config.line ? <hr /> : ""}
             </Col>

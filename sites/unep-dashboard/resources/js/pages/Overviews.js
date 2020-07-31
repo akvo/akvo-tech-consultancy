@@ -6,7 +6,7 @@ import { Col, Row, Container, Jumbotron } from "react-bootstrap";
 import Charts from "../components/Charts";
 import { generateData } from "../data/chart-utils.js";
 import { TextStyle } from '../data/features/animation.js';
-require("../data/world.js");
+require("../data/unep-map.js");
 
 const MapsOverride = (toolTip) => {
     let config = {
@@ -31,16 +31,16 @@ const MapsOverride = (toolTip) => {
             top: 10,
             right: 10,
             splitList: [
-                {start: 10, label:'Above 10'},
-                {start: 8, end: 10},
-                {start: 6, end: 7},
-                {start: 3, end: 5},
-                {start: 1, end: 2},
-                {end: 0, label:'No Actions'}
+                {start: 25, label:'Above 25'},
+                {start: 20, end: 25},
+                {start: 15, end: 20},
+                {start: 10, end: 15},
+                {start: 5, end: 10},
+                {start: 1, end: 5},
+                {end: 0, label:'0'}
             ],
-            color: ['#355c7d','#6c5b7b','#c06c84','#f67280','#f8b195']
+            color: ['#355c7d','#6c5b7b','#c06c84','#f67280','#f8b195','#ddd']
         }
-
     }
     return config;
 }
@@ -67,11 +67,10 @@ class Overviews extends Component {
             let data = params.data.data;
             let values = [
                 {value: "Country", count: data.total},
-                {value: "Shared", count: (data.global + data.total)},
-                {value: "Total", count: (data.global)}
+                {value: "Shared", count: (data.global)},
+                {value: "Total", count: (data.global + data.total)}
             ]
-            let html = '<strong> '+ params.name +' </strong>';
-            html += '<br/><br/>';
+            let html = '<h3 class="table-title">'+ params.name +'</h3>';
             html += '<table class="table table-bordered table-small">';
             html += '<thead class="thead-dark"><tr class="bg-dark text-white sm">';
             html += '<td width="100">Value</td><td width="50" align="center">Count</td>'

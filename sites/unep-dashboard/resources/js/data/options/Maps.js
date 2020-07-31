@@ -11,7 +11,7 @@ const getData = (data, countries) => {
         let country = countries.find(c => c.id === x.country_id);
         return {
             name: country.name,
-            value: x.global,
+            value: x.global + x.total,
             data: x
         }
     });
@@ -20,7 +20,8 @@ const getData = (data, countries) => {
 }
 
 const Maps = (title, subtitle, props, extra={}) => {
-    let source = props.data.filters.length > 0 ? props.data.filtered : props.data.master;
+    let source = props.data.filters.length > 0 || props.data.countries.length > 0
+        ? props.data.filtered : props.data.master;
     let data = getData(source, props.page.countries);
     let values = [];
     let max = 1;
@@ -30,6 +31,7 @@ const Maps = (title, subtitle, props, extra={}) => {
         if (values.length > 1){
             min = values.sort((x, y) => x - y)[0];
             max = values.sort((x, y) => y - x)[0];
+            min = min === max ? 0 : min;
         }
     }
     let option = {
@@ -62,7 +64,7 @@ const Maps = (title, subtitle, props, extra={}) => {
             backgroundColor: '#eeeeee',
             itemWidth: 10,
             inRange: {
-                color: ['#fff823', '#007bff']
+                color: ['#fff', '#007bff']
             },
             itemHeight: '445px',
             text: ['High', 'Low'],
@@ -104,8 +106,8 @@ const Maps = (title, subtitle, props, extra={}) => {
                 },
                 zoom: 1,
                 scaleLimit: {
-                    min:1,
-                    max:7
+                    min:1.1,
+                    max:1.1
                 },
                 itemStyle: {
                     areaColor: '#ddd',

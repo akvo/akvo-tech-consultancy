@@ -4,7 +4,11 @@ import { flatten, parentDeep } from '../../data/utils.js';
 export const pageState= {
     name: "overviews",
     loading: true,
-    sidebar: false,
+    sidebar: {
+        active: false,
+        selected: "filters",
+        group: false
+    },
     filters: [{
         id: 1,
         parent_id: null,
@@ -28,14 +32,13 @@ export const pageState= {
             code: "Loading",
         }]
     }],
-    badges: [{
-        id: 1,
-        parent_id: null,
+    countrygroups: [{
+        id: 2,
+        parent_id: 1,
         code: "Loading",
-        name: "Loading",
-        count: 0,
-        childrens: []
-    }]
+        name: "Loading"
+    }],
+    badges: []
 }
 
 export const getBadges = (data, masterfilter) => {

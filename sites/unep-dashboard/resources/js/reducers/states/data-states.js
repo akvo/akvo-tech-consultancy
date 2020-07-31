@@ -21,9 +21,10 @@ export const dataState = {
     filtered: [],
     filters: [],
     countries: [],
+    countrygroups: [],
 };
 
-const updateState = (filters, state) => {
+export const updateState = (filters, countries, countrygroups, state) => {
     let master = state.master;
     let datapoints = state.datapoints;
     let filtered = [];
@@ -49,25 +50,70 @@ const updateState = (filters, state) => {
             }
         });
     }
+    if (countries.length > 0 && filtered.length > 0) {
+        filtered = filtered.filter(x => countries.includes(x.country_id));
+    }
+    if (countries.length > 0 && filtered.length === 0) {
+        filtered = master.filter(x => countries.includes(x.country_id));
+    }
     return {
         ...state,
-        filtered: filtered,
         filters: filters,
+        countries: countries,
+        countrygroups: countrygroups,
+        filtered: filtered
     };
 }
 
 export const toggleFilter = (state, id) => {
     let filters = state.filters;
-    let filtered = [];
+    let countries = state.countries;
+    let countrygroups = state.countrygroups;
     if (filters.includes(id)){
         filters = filters.filter(x => x !== id);
     } else {
         filters = [...filters, id]
     }
-    return updateState(filters, state);
+    return updateState(filters, countries, countrygroups, state);
 }
 
 export const removeFilters = (state, ids) => {
     let filters = reject(state.filters, x => ids.includes(x));
-    return updateState(filters, state);
+    let countries = state.countries;
+    let countrygroups = state.countrygroups;
+    return updateState(filters, countries, countrygroups, state);
+}
+
+export const toggleCountry = (state, id) => {
+    let filters = state.filters;
+    let countries = state.countries;
+    let countrygroups = state.countrygroups;
+    if (countries.includes(id)){
+        countries = countries.filter(x => x !== id);
+    } else {
+        countries = [...countries, id]
+    }
+    return updateState(filters, countries, countrygroups, state);
+}
+
+export const toggleCountryGroup = (state, source, id) => {
+    let filters = state.filters;
+    let countries = [];
+    let countrygroups = state.countrygroups;
+    if (countrygroups.includes(id)){
+        countrygroups = countrygroups.filter(x => x !== id);
+    } else {
+        countrygroups = [...countrygroups, id]
+    }
+    source = source.countries;
+    source.forEach(x => {
+        let groups = x.groups.map(g => g.id);
+        countrygroups.forEach(g => {
+            countries = groups.includes(g)
+                ? [...countries, x.id]
+                : countries
+        })
+        return;
+    });
+    return updateState(filters, countries, countrygroups, state);
 }

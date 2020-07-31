@@ -9,10 +9,14 @@ import { exampleLogic } from "../middleware/middleware.js";
 import Page from "./Page.js";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { fab } from "@fortawesome/free-brands-svg-icons";
-import { fas } from "@fortawesome/free-solid-svg-icons";
+import {
+    fas,
+    faCheckCircle,
+    faPlusCircle,
+    faArrowCircleDown,
+} from "@fortawesome/free-solid-svg-icons";
 
-library.add(fab, fas);
+library.add(fas, faCheckCircle, faPlusCircle, faArrowCircleDown);
 
 const store = createStore(states, applyMiddleware(exampleLogic));
 

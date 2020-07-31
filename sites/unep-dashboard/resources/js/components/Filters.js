@@ -35,20 +35,24 @@ class Filters extends Component {
     }
 
     getList() {
-        return this.props.value.page.badges.map((x, i) => (
-            <Badge
+        let badges = this.props.value.page.badges;
+        if (badges) {
+            return badges.map((x, i) => (
+                <Badge
                 className="badge-list"
-                onClick={e => this.removeFilters(x)}
-                key={i}
-                variant="dark">
-                <FontAwesomeIcon
-                    className="fas-badge"
-                    color="white"
-                    icon={["fas", "times-circle"]}
-                />
-                {x.name} [{x.count}]
-            </Badge>
-        ));
+                    onClick={e => this.removeFilters(x)}
+                    key={i}
+                    variant="dark">
+                        <FontAwesomeIcon
+                            className="fas-badge"
+                            color="white"
+                            icon={["fas", "times-circle"]}
+                        />
+                            {x.name} [{x.count}]
+                </Badge>
+            ));
+        }
+        return "";
     }
 
     render() {
