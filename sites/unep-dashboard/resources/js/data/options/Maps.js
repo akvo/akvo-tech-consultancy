@@ -96,7 +96,7 @@ const Maps = (title, subtitle, props, extra={}) => {
             {
                 name: title,
                 type: 'map',
-                roam: true,
+                roam: false,
                 map: 'world',
                 aspectScale: 1,
                 emphasis: {
@@ -105,10 +105,6 @@ const Maps = (title, subtitle, props, extra={}) => {
                     }
                 },
                 zoom: 1,
-                scaleLimit: {
-                    min:1.1,
-                    max:1.1
-                },
                 itemStyle: {
                     areaColor: '#ddd',
                     emphasis: {

@@ -8,7 +8,8 @@ import { generateData } from "../data/chart-utils.js";
 import { TextStyle } from '../data/features/animation.js';
 require("../data/unep-map.js");
 
-const MapsOverride = (toolTip) => {
+const MapsOverride = (toolTip, props) => {
+    let pos = props.value.page.sidebar.active ? "320px" : 10;
     let config = {
         tooltip: {
             trigger: 'item',
@@ -16,9 +17,9 @@ const MapsOverride = (toolTip) => {
             padding:10,
             transitionDuration: 0.2,
             formatter: toolTip,
-            backgroundColor: "#fff",
-            position: [10,300],
-            ...TextStyle,
+            backgroundColor: "transparent",
+            position: [pos,10],
+            ...TextStyle
         },
         markArea: {
             label: {
@@ -72,7 +73,7 @@ class Overviews extends Component {
             ]
             let html = '<h3 class="table-title">'+ params.name +'</h3>';
             html += '<table class="table table-bordered table-small">';
-            html += '<thead class="thead-dark"><tr class="bg-dark text-white sm">';
+            html += '<thead class="thead-dark"><tr class="sm bg-dark text-white">';
             html += '<td width="100">Value</td><td width="50" align="center">Count</td>'
             html += '</tr></thead">';
             html += '<tbody>';
@@ -90,7 +91,7 @@ class Overviews extends Component {
     }
 
     getCharts(list, index) {
-        const extra = MapsOverride(this.toolTip);
+        const extra = MapsOverride(this.toolTip, this.props);
         return (
             <Charts
                 key={index}

@@ -15,19 +15,37 @@ class Charts extends Component {
         };
         this.clickEvent = this.clickEvent.bind(this);
         this.doubleClickEvent = this.doubleClickEvent.bind(this);
+        this.mapTooltip = this.mapTooltip.bind(this);
+        this.treemapTooltip = this.treemapTooltip.bind(this);
     }
 
     doubleClickEvent() {
         console.log('double-click');
     }
 
-    clickEvent(params) {
+    mapTooltip(params) {
         if (params.data) {
             let id = params.data.data.country_id;
             let country = this.props.value.page.countries.find(x => x.id === id);
             this.props.data.toggle.countries(country, false);
         }
-        return;
+    }
+
+    treemapTooltip(params) {
+        if (params.data) {
+            console.log(params.data)
+        }
+    }
+
+    clickEvent(params) {
+        switch (params.seriesType) {
+            case "map":
+                return this.mapTooltip(params);
+            case "treemap":
+                return this.treemapTooltip(params);
+            default:
+                return;
+        }
     }
 
     render() {

@@ -6,16 +6,19 @@ import Navigation from './Navigation';
 import Sidebar from './Sidebar';
 import {
     Container,
-    Button
+    Button,
+    Badge
 } from 'react-bootstrap';
-import Overviews from '../pages/Overviews';
-import Loading from '../pages/Loading';
 import Filters from './Filters';
 import axios from 'axios';
 import intersectionBy from 'lodash/intersectionBy';
 import uniq from 'lodash/uniq';
 import uniqBy from 'lodash/uniqBy';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import Loading from '../pages/Loading';
+import Overviews from '../pages/Overviews';
+import Actions from '../pages/Actions';
 
 const API = process.env.MIX_PUBLIC_URL + "/api/";
 const call = (endpoint) => {
@@ -32,6 +35,8 @@ class Page extends Component {
 
     constructor(props) {
         super(props);
+        this.renderPage = this.renderPage.bind(this);
+        this.renderCount = this.renderCount.bind(this);
     }
 
     componentDidMount() {
@@ -64,10 +69,35 @@ class Page extends Component {
         }
     }
 
+    renderCount(kind) {
+        let total = this.props.value.data[kind].length;
+        if (total > 0) {
+            return (
+                <div className="badge badge-filters badge-sm">
+                    {total}
+                </div>
+            )
+        }
+        return "";
+    }
+
+    renderPage(page) {
+        switch(page){
+            case "overviews":
+                return <Overviews/>
+            case "actions":
+                return <Actions/>
+            default:
+                return ""
+        }
+
+    }
+
     render() {
         let page = this.props.value.page.name;
         let loading = this.props.value.page.loading;
         let sidebar = this.props.value.page.sidebar;
+        let buttons = ["filters","countries"];
         return (
             <Fragment>
             <Navigation/>
@@ -75,31 +105,25 @@ class Page extends Component {
                     <Button size="sm">
                         <FontAwesomeIcon icon={["fas", "filter"]}/>
                     </Button>
-                    <button size="sm"
-                        className={
-                            sidebar.selected === "filters" && sidebar.active
-                            ?  "btn btn-selected btn-sm"
-                            : "btn btn-primary btn-sm"
-                        }
-                        onClick={e => this.props.page.sidebar.toggle("filters")}>
-                        Actions
-                    </button>
-                    <button size="sm"
-                        className={
-                            sidebar.selected === "countries" && sidebar.active
-                            ?  "btn btn-selected btn-sm"
-                            : "btn btn-primary btn-sm"
-                        }
-                        onClick={e => this.props.page.sidebar.toggle("countries")}>
-                        Countries
-                    </button>
+                    { buttons.map(x => (
+                        <button size="sm"
+                            key={x}
+                            className={
+                                sidebar.selected === x && sidebar.active
+                                ?  "btn btn-selected btn-sm"
+                                : "btn btn-primary btn-sm"
+                            }
+                            onClick={e => this.props.page.sidebar.toggle(x)}>
+                            {x} {this.renderCount(x)}
+                        </button>
+                    ))}
                     <Filters/>
                 </Container>
                 <div className={sidebar.active ? "d-flex" : "d-flex toggled"} id="wrapper">
                     {loading ? "" : <Sidebar/>}
                     <div id="page-content-wrapper">
                     {loading ? (<Loading/>) : ""}
-                    {page === "overviews" ? (<Overviews parent={this.props}/>) : ""}
+                    {this.renderPage(page)}
                     </div>
                 </div>
             </Fragment>

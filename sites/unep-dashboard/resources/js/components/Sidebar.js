@@ -229,6 +229,7 @@ class Sidebar extends Component {
         let active = this.props.value.page.filters.map(x => x.id);
         this.setState({active:active, depth:0, parent_id:null, searched:[]})
     }
+
     componentWillReceiveProps() {
         let active = this.props.value.page.filters.map(x => x.id);
         this.setState({searched:[]});

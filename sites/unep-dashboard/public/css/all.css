@@ -567,9 +567,15 @@ h1.title-page {
     margin-right: 5px;
 }
 /* Table */
+thead tr.sm td{
+    font-size:12px!important;
+    padding: 5px!important;
+    background-color:#355c7d;
+}
 tr.sm td{
     font-size:12px!important;
     padding: 5px!important;
+    background-color:#fff;
 }
 h3.table-title{
     font-size:16px!important;
@@ -587,4 +593,15 @@ h3.table-title{
 .nav-filter-list .badge-list:hover {
     background-color:#c06c84!important;
     color:#fff;
+}
+.btn .badge.badge-filters.badge-sm{
+    margin-left: 5px;
+    border-radius: 100%;
+    min-width: 18px;
+    min-height: 18px;
+    line-height: 12px;
+    background-color: #365c7c;
+}
+.btn.btn-selected .badge.badge-filters.badge-sm{
+    background-color: #009fe2;
 }
