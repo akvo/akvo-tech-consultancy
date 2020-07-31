@@ -54,6 +54,7 @@ const getLevelOption = () => {
                 gapWidth: 1
             },
             upperLabel: {
+                fontFamily:"Assistant",
                 show: false
             }
         },
@@ -65,6 +66,7 @@ const getLevelOption = () => {
             },
             emphasis: {
                 upperLabel: {
+                    fontFamily:"Assistant",
                     color: '#355c7d'
                 },
                 itemStyle: {
@@ -160,20 +162,29 @@ const TreeMap = (title, subtitle, props, extra={}) => {
                 visibleMin: 300,
                 label: {
                     show: true,
-                    formatter: '{b}\n{c}'
+                    fontFamily:"Assistant",
+                    formatter: function(x){
+                        return x.name + '\n\n' + x.value;
+                    }
                 },
                 upperLabel: {
+                    fontFamily:"Assistant",
                     show: true,
                     height: 30
                 },
                 itemStyle: {
                     borderColor: '#355c7d',
-                    borderWidth: 1,
-                    gapWidth: 0,
-                    padding: 5
+                    borderWidth: 0,
+                    gapWidth: 1,
                 },
                 levels: getLevelOption(),
                 breadcrumb: {
+                    itemStyle: {
+                        textStyle: {
+                            borderWidth:.5,
+                            fontFamily:"Assistant",
+                        }
+                    },
                     top:10,
                 },
                 data: data
