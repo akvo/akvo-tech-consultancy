@@ -25,4 +25,4 @@ Route::get('/config/{source}','MapController@getConfig');
 Route::get('/custom/{survey_id}', 'ApiController@getConfig');
 Route::get('/surveys', 'ApiController@getSurveys');
 Route::post('/verify','ApiController@getVerification');
-// Route::get('/geoshape/{level}', 'ApiController@getGeoShape');
+Route::get('/geoshape/{file}', 'MapController@getGeoShape');

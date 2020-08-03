@@ -1,5 +1,6 @@
 import 'leaflet';
 import { local } from 'd3';
+import { template } from 'lodash';
 
 const custom = require('./custom.js'); 
 const _ = require('lodash');
@@ -34,6 +35,8 @@ let removeAllMap = () => map.eachLayer((layer) => {
 });
 
 let geojson,
+    geojsonPoly = null,
+    legendPoly = null,
     metadata,
     clustered = true,
     cfg = [],
@@ -46,7 +49,8 @@ let geojson,
     rmax = 30,
     selects = ["1", "2", "3", "4", "5"],
     markerclusters,
-    map;
+    map,
+    indicatorColors = ["#28a745", "#dc3545", "#FA0", "#0288d1", "#ab47bc", "#40b1e6", "#ffca29"];
 
 let cacheMem = JSON.parse(localStorage.getItem('data'));
 
@@ -63,8 +67,7 @@ const fetchAPI = (endpoint) => {
     });
 };
     
-const setConfig = (defaultSelect) => { 
-    console.log('config');
+const setConfig = (defaultSelect) => {
     fetchAPI('config/' + defaultSelect).then( // solve promise
         (res) => {
             localStorage.setItem("template", res.data.js)
@@ -84,15 +87,31 @@ const setConfig = (defaultSelect) => {
 
 const clearFilteredData = () => {
     let dbs = JSON.parse(localStorage.getItem('data'));
-    dbs['features'] = dbs['features'].map(x => {
-        x.properties['status'] = 'active';
-        return x;
-    });
+    let cfg = JSON.parse(localStorage.getItem('configs'));
+    if (!cfg.shapefile) {
+        dbs['features'] = dbs['features'].map(x => {
+            x.properties['status'] = 'active';
+            return x;
+        });
+    }
+
+    if (cfg.shapefile) {
+        dbs['features']['features'] = dbs['features']['features'].map(x => {
+            if (x.properties.data) {
+                x.properties.data.map(y => {
+                    y['status'] = 'active';
+                    return y;
+                });
+            }
+            return x;
+        });
+    }
+    // return indicators into default
+    dbs['properties']['attribution'] = dbs.properties.fields[cfg.name];
     localStorage.setItem('data', JSON.stringify(dbs));
 };
 
 const loadLocalData = () => {
-    console.log('local data');
     clearFilteredData();
     if (localStorage.getItem('configs')) {
         cfg = JSON.parse(localStorage.getItem('configs'));
@@ -127,7 +146,6 @@ const setSelectedCategory = (id) => {
 
 /* set category selected based on data load */
 const fetchdata = () => {
-    console.log('fetch');
     fetchAPI('source').then( // solve promise
         (a) => {
             if (!defaultSelect) {
@@ -176,7 +194,7 @@ $("#category-dropdown").on('change', () => {
         localStorage.removeItem('configs');
         localStorage.removeItem('second-filter');
         localStorage.setItem('default-api', defaultSelect);
-        if (!localStorage.getItem('status')) {
+        if (!localStorage.getItem('status') && !cfg.shapefile) {
             map.removeLayer(markerclusters);
         } 
         $('#legend').remove();
@@ -236,7 +254,7 @@ function highlightFeature(e) {
 }
 
 function resetHighlight(e) {
-    geojson.resetStyle(e.target);
+    geojsonPoly.resetStyle(e.target);
     info.update(null);
 }
 
@@ -248,7 +266,8 @@ function onEachFeature(feature, layer) {
     layer.on({
         mouseover: highlightFeature,
         mouseout: resetHighlight,
-        click: zoomToFeature
+        // click: zoomToFeature
+        // click: highlightFeature
     });
 }
 
@@ -260,30 +279,62 @@ info.onAdd = function (map) {
     return this._div;
 };
 
-// method that we will use to update the control based on feature properties passed
-info.update = function (props) {
-    console.log(props);
-    props ?
-        $('body').append(
-            '<div id="geoshape-info" style="position: fixed; top: 75px; left: 10px; z-index: 999; background: rgba(255, 255, 255, 0.8); border-radius: 5px; padding: 5px 10px; font-family: inherit; font-size: 14px;">'
-            + 'This is Information for <h2>'+ props.ADM4_EN +'</h2>'
-            +' </div>')
-        : $('#geoshape-info').remove();
-    // this._div.innerHTML = '<h4>US Population Density</h4>';
+const getTemplate = () => {
+    let data = JSON.parse(localStorage.getItem('data'));
+    const template = custom.custom(data);
+    let js = localStorage.getItem("template");
+    return (js === null) ? false : template[js];
 };
 
-const polygonMap = () => {
-    fetchAPI('geoshape/4').then(res => {
-        console.log('polygon', res.data);
-        geojson = L.geoJson(res.data, {onEachFeature: onEachFeature}).addTo(map);
+// method that we will use to update the control based on feature properties passed
+info.update = function (props) {
+    let template = getTemplate();
+    props ? template.popup(props, categoryField, indicatorColors) : $('#geoshape-info').remove();
+};
+
+function getColor(d) {
+    return d > 1000 ? '#800026' :
+           d > 500  ? '#BD0026' :
+           d > 200  ? '#E31A1C' :
+           d > 100  ? '#FC4E2A' :
+           d > 50   ? '#FD8D3C' :
+           d > 20   ? '#FEB24C' :
+           d > 10   ? '#FED976' :
+                      '#FFEDA0';
+}
+
+function style(feature) {
+    return {
+        fillColor: getColor(feature.properties.density),
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3',
+        fillOpacity: 0.7
+    };
+}
+
+const fetchPolygonMap = (cfg) => {
+    return fetchAPI('geoshape/' + cfg.shapefile ).then(res => {
+        localStorage.setItem('geojsonPoly', JSON.stringify(res.data));
+        return res.data;
     });
+};
+
+const setPolygonMap = (data) => {
+    (geojsonPoly) ? map.removeLayer(geojsonPoly) : null;
+    geojsonPoly = L.geoJson(data, {style: style, onEachFeature: onEachFeature});
+    geojsonPoly.addTo(map);
+    map.fitBounds(geojsonPoly.getBounds()); // zoom map to position
 };
 
 const startRenderMap = () => {
-    markerclusters = L.markerClusterGroup({
-        maxClusterRadius: 2 * rmax,
-        iconCreateFunction: defineClusterIcon
-    });
+    if (!cfg.shapefile) {
+        markerclusters = L.markerClusterGroup({
+            maxClusterRadius: 2 * rmax,
+            iconCreateFunction: defineClusterIcon
+        });
+    }
 
     if (!map) {
         map = L.map('mapid', {
@@ -295,10 +346,36 @@ const startRenderMap = () => {
         }).addTo(map);
         d3.select('body').append('div').attr('id', 'main-filter-list');
     }
-    // try ploygon
-    // polygonMap();
-    // info.addTo(map);
-    map.addLayer(markerclusters);
+    // polygon
+    if (cfg.shapefile) {
+        (localStorage.getItem('data')) 
+            ? setPolygonMap(JSON.parse(localStorage.getItem('data'))['features'])
+            : fetchPolygonMap(cfg).then(res => res);
+        info.addTo(map);
+
+        legendPoly = L.control({position: 'bottomleft'});
+        legendPoly.onAdd = function (map) {
+            var div = L.DomUtil.create('div', 'info legend'),
+                grades = [0, 10, 20, 50, 100, 200, 500, 1000],
+                labels = [];
+
+            // loop through our density intervals and generate a label with a colored square for each interval
+            for (var i = 0; i < grades.length; i++) {
+                div.innerHTML +=
+                    '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+                    grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+            }
+
+            return div;
+        };
+        legendPoly.addTo(map);
+    }
+    // cluster
+    if (!cfg.shapefile) {
+        (geojsonPoly) ? map.removeLayer(geojsonPoly) : null;
+        (legendPoly) ? $(".info.legend").remove() : null;
+        map.addLayer(markerclusters);
+    }
 };
 
 const mapParentFeatures = (parents, features) => {
@@ -312,6 +389,7 @@ const mapParentFeatures = (parents, features) => {
 //Ready to go, load the geojson
 const getGeoJson = () => {
     d3.json(geojsonPath, (error, response) => {
+        // data will be agreagated value if map is polygon
         if (response.second_categories !== 'null') {   
             localStorage.setItem('second-filter', response.second_categories);
         }
@@ -326,8 +404,48 @@ const getGeoJson = () => {
                     id: categoryField
                 }),
                 attributes: categories
-            },
-            features: source.map(val => {
+            }
+        }
+
+        // poly
+        if (configs.shapefile) {
+            let groupData = _.groupBy(source, configs.shapename.sources);
+            fetchPolygonMap(configs).then(res => {
+                data['features'] = {
+                    type: "FeatureCollection",
+                    features: res.features.map(val => {
+                        let match = val.properties[configs.shapename.match];
+                        return {
+                            ...val,
+                            properties: {
+                                ...val.properties,
+                                density: (groupData[""+match+""]) ? groupData[""+match+""].length : 0,
+                                data: (groupData[""+match+""]) 
+                                        ? groupData[""+match+""].map(x => {
+                                            return { ...x, status: "active" }
+                                        }) 
+                                        : null,
+                                status: "active"
+                            }
+                        }
+                    })
+                }
+
+                localStorage.setItem('data', JSON.stringify(data));
+                let retrievedObject = localStorage.getItem('data');
+                data = JSON.parse(retrievedObject);
+                setPolygonMap(data['features']);
+                loadData(data, 2);
+                d3.select("#main-filter-list").html("");
+                (localStorage.getItem('second-filter') !== null)
+                    ? renderSecondFilter()
+                    : "";
+            });
+        }
+
+        // clusters
+        if (!configs.shapefile) {
+            data['features'] = source.map(val => {
                 return {
                     type: "Feature",
                     geometry: {
@@ -339,10 +457,10 @@ const getGeoJson = () => {
                         status: "active"
                     }
                 }
-            })
+            });
         }
         localStorage.setItem('default-properties', JSON.stringify(data.properties));
-        if (response.type === 'registration') {
+        if (response.type === 'registration' && !configs.shapefile) {
             let parent_points = source.map(x => {
                 return {
                     geometry : x.PTS,
@@ -352,21 +470,24 @@ const getGeoJson = () => {
             localStorage.setItem('parent_'+response.id, JSON.stringify(parent_points));    
         }
 
-        if (response.type === 'monitoring') {
+        if (response.type === 'monitoring' && !configs.shapefile) {
             let parents = JSON.parse(localStorage.getItem('parent_' + response.parent_id));
             data = {
                 ...data,
                 features: mapParentFeatures(parents, data.features)
             };
         }
-        localStorage.setItem('data', JSON.stringify(data));
-        let retrievedObject = localStorage.getItem('data');
-        data = JSON.parse(retrievedObject);
-        loadData(data, 2);
-        d3.select("#main-filter-list").html("");
-        (localStorage.getItem('second-filter') !== null)
-            ? renderSecondFilter()
-            : "";
+
+        if (!configs.shapefile) {
+            localStorage.setItem('data', JSON.stringify(data));
+            let retrievedObject = localStorage.getItem('data');
+            data = JSON.parse(retrievedObject);
+            loadData(data, 2);
+            d3.select("#main-filter-list").html("");
+            (localStorage.getItem('second-filter') !== null)
+                ? renderSecondFilter()
+                : "";
+        }
     });
 }
 
@@ -447,39 +568,72 @@ const filterBySecondFilter = (dataName, type, dataId, key, filterType) => {
         $('#' + type + '-all').attr('data-select', 'add');
     }
     
-    dbs["features"] = $.map(dbs.features, (x) => {
-        x = x;
-        if (dataName === 'options') {
-            if (dataSelection === 'add') {
-                x.properties['status'] = 'active';
-            } else {
-                x.properties['status'] = 'inactive';
-            }
-        } else {
-            let answer = x.properties[key].toLowerCase();
-            // let condition = (filterType === 'cascade') ? answer.includes(dataName.toLowerCase()) : answer === dataName.toLowerCase();
-            let condition = answer.includes(dataName.toLowerCase());
-            if (condition) {
-                if (x.properties['status'] === "active") {
-                    x.properties['status'] = "inactive";
-                    $('#' + dataId).addClass('inactive');
+    if (!cfg.shapefile) {
+        dbs["features"] = $.map(dbs.features, (x) => {
+            x = x;
+            if (dataName === 'options') {
+                if (dataSelection === 'add') {
+                    x.properties['status'] = 'active';
                 } else {
-                    x.properties['status'] = "active";
-                    $('#' + dataId).removeClass('inactive');
+                    x.properties['status'] = 'inactive';
                 }
+            } else {
+                let answer = x.properties[key].toLowerCase();
+                // let condition = (filterType === 'cascade') ? answer.includes(dataName.toLowerCase()) : answer === dataName.toLowerCase();
+                let condition = answer.includes(dataName.toLowerCase());
+                if (condition) {
+                    if (x.properties['status'] === "active") {
+                        x.properties['status'] = "inactive";
+                        $('#' + dataId).addClass('inactive');
+                    } else {
+                        x.properties['status'] = "active";
+                        $('#' + dataId).removeClass('inactive');
+                    }
+                }
+                // else {
+                //     if (x.properties['status_tmp'] === "active" || x.properties['status_tmp'] === undefined) {
+                //         x.properties['status_tmp'] = "inactive";
+                //         $('#' + dataId).addClass('inactive');
+                //     } else {
+                //         x.properties['status_tmp'] = "active";
+                //         $('#' + dataId).removeClass('inactive');
+                //     }
+                // }
             }
-            // else {
-            //     if (x.properties['status_tmp'] === "active" || x.properties['status_tmp'] === undefined) {
-            //         x.properties['status_tmp'] = "inactive";
-            //         $('#' + dataId).addClass('inactive');
-            //     } else {
-            //         x.properties['status_tmp'] = "active";
-            //         $('#' + dataId).removeClass('inactive');
-            //     }
-            // }
-        }
-        return x;
-    });
+            return x;
+        });
+    }
+    if (cfg.shapefile) {
+        dbs["features"]["features"] = $.map(dbs.features.features, (x) => {
+            x = x;
+            if (x.properties.data) {
+                $.map(x.properties.data, y => {
+                    if (dataName === 'options') {
+                        if (dataSelection === 'add') {
+                            y['status'] = 'active';
+                        } else {
+                            y['status'] = 'inactive';
+                        }
+                    } else {
+                        let answer = y[key].toLowerCase();
+                        // let condition = (filterType === 'cascade') ? answer.includes(dataName.toLowerCase()) : answer === dataName.toLowerCase();
+                        let condition = answer.includes(dataName.toLowerCase());
+                        if (condition) {
+                            if (y['status'] === "active") {
+                                y['status'] = "inactive";
+                                $('#' + dataId).addClass('inactive');
+                            } else {
+                                y['status'] = "active";
+                                $('#' + dataId).removeClass('inactive');
+                            }
+                        }
+                    }
+                    return y;
+                });
+            }
+            return x;
+        });
+    }
     refreshLayer(dbs);
 };
 
@@ -492,15 +646,18 @@ const loadData = (allPoints, callType) => {
         });
         allPoints.properties = defaultProp;
     }
-    geojson = allPoints;
+    
     metadata = allPoints.properties;
-    let markers = L.geoJson(geojson, {
-        pointToLayer: defineFeature,
-        onEachFeature: defineFeaturePopup
-    });
-    markerclusters.addLayer(markers);
-    map.fitBounds(markers.getBounds());
-    map.attributionControl.addAttribution(metadata.attribution);
+    if (!cfg.shapefile) {
+        geojson = allPoints;
+        let markers = L.geoJson(geojson, {
+            pointToLayer: defineFeature,
+            onEachFeature: defineFeaturePopup
+        });
+        markerclusters.addLayer(markers);
+        map.fitBounds(markers.getBounds());
+        map.attributionControl.addAttribution(metadata.attribution);
+    }
     renderLegend(allPoints);
 }
 
@@ -762,73 +919,149 @@ const refreshLayer = (dbs) => {
     localStorage.setItem('data', JSON.stringify(dbs));
     geojson = dbs;
     metadata = dbs.properties;
-    if (clustered) {
-        map.removeLayer(markerclusters);
-        markerclusters = L.markerClusterGroup({
-            maxClusterRadius: 2 * rmax,
-            iconCreateFunction: defineClusterIcon
+    if (!cfg.shapefile) {
+        if (clustered) {
+            map.removeLayer(markerclusters);
+            markerclusters = L.markerClusterGroup({
+                maxClusterRadius: 2 * rmax,
+                iconCreateFunction: defineClusterIcon
+            });
+            map.addLayer(markerclusters);
+            let markers = L.geoJson(dbs, {
+                pointToLayer: defineFeature,
+                onEachFeature: defineFeaturePopup
+            });
+            markerclusters.addLayer(markers);
+            map.attributionControl.addAttribution(metadata.attribution);
+        } else {
+            map.removeLayer(mkr);
+            mkr = L.geoJson(dbs, {
+                pointToLayer: defineFeature,
+                onEachFeature: defineFeaturePopup
+            });
+            map.addLayer(mkr);
+            map.attributionControl.addAttribution(metadata.attribution);
+        }
+    }
+    if (cfg.shapefile) {
+        geojson["features"]["features"] = _.map(geojson["features"]["features"], val => {
+            return {
+                ...val,
+                properties: {
+                    ...val.properties,
+                    density: _.filter(val.properties.data, (x) => { return x.status === 'active' }).length,
+                }
+            }
         });
-        map.addLayer(markerclusters);
-        let markers = L.geoJson(dbs, {
-            pointToLayer: defineFeature,
-            onEachFeature: defineFeaturePopup
-        });
-        markerclusters.addLayer(markers);
-        map.attributionControl.addAttribution(metadata.attribution);
-    } else {
-        map.removeLayer(mkr);
-        mkr = L.geoJson(dbs, {
-            pointToLayer: defineFeature,
-            onEachFeature: defineFeaturePopup
-        });
-        map.addLayer(mkr);
-        map.attributionControl.addAttribution(metadata.attribution);
+        setPolygonMap(geojson["features"]);
     }
 };
 
 const changeValue = (database, deletes) => {
     var dbs = JSON.parse(localStorage.getItem('data'));
-    dbs["features"] = $.map(dbs.features, (x) => {
-        x = x;
-        x.properties.status = "active";
-        if (deletes.indexOf(x.properties[iconField]) >= 0) {
-            x.properties.status = "inactive";
-        }
-        return x;
-    });
+    if (!cfg.shapefile) {
+        dbs["features"] = $.map(dbs.features, (x) => {
+            x = x;
+            x.properties.status = "active";
+            if (deletes.indexOf(x.properties[iconField]) >= 0) {
+                x.properties.status = "inactive";
+            }
+            return x;
+        });
+    }
+    if (cfg.shapefile) {
+        dbs["features"]["features"] = $.map(dbs.features.features, (x) => {
+            x = x;
+            if (x.properties.data) {
+                $.map(x.properties.data, y => {
+                    y.status = "active";
+                    if (deletes.indexOf(y[iconField]) >= 0) {
+                        y.status = "inactive";
+                    }
+                    return y;
+                });
+            }
+            return x;
+        });
+    }
     refreshLayer(dbs);
 }
 
 const filterMaps = (minVal, maxVal, attributeName) => {
     var dbs = JSON.parse(localStorage.getItem('data'));
-    dbs["features"] = $.map(dbs.features, (x) => {
-        if (minVal === 0 && maxVal === 0) {
-            x.properties.status = "active";
-        } else {
-            x.properties.status = "inactive";
-            if (x.properties[attributeName] >= minVal && x.properties[attributeName] <= maxVal || x.properties[attributeName] === maxVal) {
+    if (!cfg.shapefile) {
+        dbs["features"] = $.map(dbs.features, (x) => {
+            if (minVal === 0 && maxVal === 0) {
                 x.properties.status = "active";
-            }
-            if (x.properties[attributeName] === 0) {
+            } else {
                 x.properties.status = "inactive";
+                if (x.properties[attributeName] >= minVal && x.properties[attributeName] <= maxVal || x.properties[attributeName] === maxVal) {
+                    x.properties.status = "active";
+                }
+                if (x.properties[attributeName] === 0) {
+                    x.properties.status = "inactive";
+                }
             }
-        }
-        return x;
-    });
+            return x;
+        });
+    }
+    if (cfg.shapefile) {
+        dbs["features"]["features"] = $.map(dbs.features.features, (x) => {
+            if (x.properties.data) {
+                $.map(x.properties.data, (y) => {
+                    if (minVal === 0 && maxVal === 0) {
+                        y.status = "active";
+                    } else {
+                        y.status = "inactive";
+                        if (y[attributeName] >= minVal && y[attributeName] <= maxVal || y[attributeName] === maxVal) {
+                            y.status = "active";
+                        }
+                        if (y[attributeName] === 0) {
+                            y.status = "inactive";
+                        }
+                    }
+                    return y;
+                });
+            }
+            return x;
+        });
+    }
     refreshLayer(dbs);
 }
 
 const createHistogram = () => {
     let dbs = JSON.parse(localStorage.getItem('data'));
     let attr_name = dbs.properties.attribution.id;
-    let barData = dbs.features.map((x) => {
-        // let obj = {};
-        return {
-            'datapoint name': x.properties[cfg.name],
-            'indicator': attr_name,
-            'value': x.properties[attr_name],
-        };
-    });
+    let barData = [];
+    if (!cfg.shapefile) {
+        barData = dbs.features.map((x) => {
+            // let obj = {};
+            return {
+                'datapoint name': x.properties[cfg.name],
+                'indicator': attr_name,
+                'value': x.properties[attr_name],
+            };
+        });
+    }
+    if (cfg.shapefile) {
+        let temp = []
+        dbs.features.features.map(x => {
+            if (x.properties.data) {
+                x.properties.data.map(y => {
+                    temp.push(y);
+                });
+            }
+            return;
+        });
+        barData = temp.map((x) => {
+            // let obj = {};
+            return {
+                'datapoint name': x[cfg.name],
+                'indicator': attr_name,
+                'value': x[attr_name],
+            };
+        });
+    }
     let dataGroup = _.groupBy(barData, 'value');
     let histogram = _.map(dataGroup, (v, i) => {
         return {
@@ -981,3 +1214,4 @@ maps = map;
 customs = custom;
 goToView = setView;
 zoomMap = zoomView;
+getTemplates = getTemplate;

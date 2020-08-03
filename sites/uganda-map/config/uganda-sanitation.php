@@ -4,15 +4,15 @@ return [
   // Source from XLS
   // Need to reconfig, column with label R is Registration, and column with label M is monitoring, so make the config like sible, but data is get from .xls
   "survey_detail" => [
-    "instance" => "seap",
+    "instance" => null,
     "geolocation" => null, // No GEO loc column name
-    "shapefile" => null, // config
+    "shapefile" => "kabarole_geoshape_level_04.json", // config
     "shapename" => [
       "sources" => "Sub County", // nama kolom data nya
       "match" => "ADM4_EN" // nama object di geoshape
     ], // data
     "center_map" => [1.3733, 32.2903], // center lat lng of location
-    "dataset" => "kabarole_households_2017_clean.csv", // filename .xls
+    "dataset" => "kabarole_households_2017_clean_v2.csv", // filename .xls
   ],
 
   "sources" => [
@@ -26,94 +26,131 @@ return [
     [
       "id" => 200000002,
       "type" => "registration",
-      "name" => "Registration",
+      "name" => "Households Sanitation",
       "parent_id" => 200000001,
       // continue setup from here
-      "popup_name" => "R-Water point Name", // column name will shown on pop up
+      "popup_name" => "Sub County", // column name will shown on pop up
       "search" => [ // column name for search by
-        "R-Water point Name",
-        "R-Type of water source",
-        "R-Type of lifting device?",
-        "M-Type of water point",
+        "Sub County",
+        "Parish",
+        "Village of the Household",
+        "What is the primary source you get your drinking water from",
       ], 
       "secondary_filter" => [ // column name for second filter
         [
           "question_id" => null,
-          "question_text" => "R-Type of water source",
+          "question_text" => "What is the primary source you get your drinking water from",
           "name" => "Water Source Type",
           "type" => "option",
         ],
         [
           "question_id" => null,
-          "question_text" => "R-Location of water point - S.C./T.C.",
-          "name" => "Water Point Location",
+          "question_text" => "Sub County",
+          "name" => "Households Location",
           "type" => "option",
         ]
       ],
       "list" => [ // column name will show on map
         [
           "question_id" => null,
-          "question" => "R-Has this water point had a major rehabilitation since the initial construction?",
-          "text" => "Major rehabilitation",
+          "question" => "What type of sanitation facility does household have access to",
+          "text" => "Type of sanitation facility",
+          "type" => "option",
+          "default" => 1,
         ],
         [
           "question_id" => null,
-          "question" => "M-Is the water point currently functional?",
-          "text" => "Water point functionality",
+          "question" => "Gender of the Household Head",
+          "text" => "Gender of the Household Head",
+          "type" => "option",
+          "default" => 0,
         ],
         [
           "question_id" => null,
-          "question" => "M-Please rate the level of functionality",
-          "text" => "Level of functionality",
+          "question" => "On average how  much time do you use to collect water",
+          "text" => "Time to collect Water",
+          "type" => "option",
+          "default" => 0,
         ],
         [
           "question_id" => null,
-          "question" => "M-What is the status of the filtration system?",
-          "text" => "Status of filtration system",
+          "question" => "Satisf of distance-quality-manag w water service in your area",
+          "text" => "Distance quality manage water service",
+          "type" => "option",
+          "default" => 0,
         ],
         [
           "question_id" => null,
-          "question" => "M-What is the main purpose for which people use water from this water point?",
-          "text" => "Main purpose to use water",
+          "question" => "Does the household have access to a sanitation facility",
+          "text" => "Access to sanitation facility",
+          "type" => "option",
+          "default" => 0,
         ],
         [
           "question_id" => null,
-          "question" => "M-When were the last water quality tests done?",
-          "text" => "Last water quality test",
+          "question" => "Approximately how much does water cost you per month",
+          "text" => "Water cost per month",
+          "type" => "number",
+          "default" => 0,
         ],
         [
           "question_id" => null,
-          "question" => "R 2017-Is the water point delivering water?",
-          "text" => "Water point deliver water",
+          "question" => "Number of People in the household",
+          "text" => "Family numbers",
+          "type" => "number",
+          "default" => 0,
         ],
       ],
       "color" => [
+        // Type of sanitation
         [
           "question_id" =>  null,
-          "question" => "R-Has this water point had a major rehabilitation since the initial construction?",
-          "code" => "No",
+          "question" => "What type of sanitation facility does household have access to",
+          "code" => "Conventional Pit Latrine",
           "text" => null,
-          "color" => "#dc3545",
+          "color" => "#F3722C",
         ],
         [
           "question_id" =>  null,
-          "question" => "R-Has this water point had a major rehabilitation since the initial construction?",
-          "code" => "Yes",
+          "question" => "What type of sanitation facility does household have access to",
+          "code" => "No Answer",
           "text" => null,
-          "color" => "#28a745",
+          "color" => "#F94144",
         ],
         [
           "question_id" =>  null,
-          "question" => "R-Has this water point had a major rehabilitation since the initial construction?",
-          "code" => "Unknown", // must be complete option text
-          "text" => "Not Defined", // new option text 
-          "color" => "#ab47bc",
+          "question" => "What type of sanitation facility does household have access to",
+          "code" => "Pour flush",
+          "text" => null,
+          "color" => "#F9C74F",
         ],
+        [
+          "question_id" =>  null,
+          "question" => "What type of sanitation facility does household have access to",
+          "code" => "Traditional pit latrine",
+          "text" => null,
+          "color" => "#90BE6D",
+        ],
+        [
+          "question_id" =>  null,
+          "question" => "What type of sanitation facility does household have access to",
+          "code" => "VIP latrine",
+          "text" => null,
+          "color" => "#577590",
+        ],
+        [
+          "question_id" =>  null,
+          "question" => "What type of sanitation facility does household have access to",
+          "code" => "Waterborne toilet",
+          "text" => null,
+          "color" => "#43AA8B",
+        ],
+        // eol Type of sanitation
       ],
       "template" => [
         [ 
-          "css" => "wpuganda",
-          "js" => "wpuganda",
+          "css" => "stuganda",
+          "js" => "stuganda",
         ],
       ],
     ],
