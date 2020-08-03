@@ -49,13 +49,17 @@ export const mapDispatchToProps = dispatch => {
                 filters: (id) =>
                     dispatch({
                         type: "DATA - TOGGLE FILTER",
-                        id: id
+                        id: id,
                     }),
                 countries: (data, group) =>
                     dispatch({
                         type: "DATA - TOGGLE COUNTRY",
                         data: data,
                         group: group
+                    }),
+                global: () =>
+                    dispatch({
+                        type: "DATA - TOGGLE GLOBAL",
                     }),
             },
             remove: {

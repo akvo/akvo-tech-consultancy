@@ -90,7 +90,6 @@ class Page extends Component {
             default:
                 return ""
         }
-
     }
 
     render() {

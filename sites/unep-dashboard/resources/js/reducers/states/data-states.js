@@ -1,4 +1,5 @@
 import flattenDeep from 'lodash/flattenDeep';
+import { flatten } from '../../data/utils.js';
 import uniq from 'lodash/uniq';
 import reject from 'lodash/reject';
 
@@ -17,12 +18,16 @@ export const dataState = {
     datapoints: [{
         datapoint_id:0,
         global:false,
+        funds:0,
+        contrib:0,
     }],
     filtered: [],
     filters: [],
     countries: [],
     countrygroups: [],
+    global: true
 };
+
 
 export const updateState = (filters, countries, countrygroups, state) => {
     let master = state.master;
@@ -32,20 +37,23 @@ export const updateState = (filters, countries, countrygroups, state) => {
         filtered = master.map(x => {
             let values = x.values.filter(v => filters.includes(v.id));
             let dp = [];
+            let unique_values = [];
             if (values.length !== 0) {
                 dp = values.map(v => v.datapoints);
                 dp = flattenDeep(dp);
                 dp = uniq(dp);
             }
             if (dp.length > 0){
+                unique_values = dp;
                 dp = dp.map(d => {
-                    return datapoints.find(p => p.id === d && p.global === false);
+                    return datapoints.find(p => p.datapoint_id === d && p.global === false);
                 });
+                dp = dp.filter(x => x);
             };
             return {
                 ...x,
                 total: dp.length,
-                global: values.length,
+                global: unique_values.length,
                 values: values,
             }
         });
@@ -65,7 +73,19 @@ export const updateState = (filters, countries, countrygroups, state) => {
     };
 }
 
-export const toggleFilter = (state, id) => {
+const yieldChildrens = (data, yields=[]) => {
+    if (data.childrens.length === 0) {
+        yields = [...yields, data.id];
+    }
+    if (data.childrens.length > 0) {
+        data.childrens.forEach(x => {
+            yields = yieldChildrens(x, yields);
+        });
+    }
+    return yields;
+}
+
+export const toggleFilter = (state, masterfilter, id) => {
     let filters = state.filters;
     let countries = state.countries;
     let countrygroups = state.countrygroups;
@@ -74,7 +94,15 @@ export const toggleFilter = (state, id) => {
     } else {
         filters = [...filters, id]
     }
-    return updateState(filters, countries, countrygroups, state);
+    masterfilter = flatten(masterfilter);
+    filters = masterfilter.filter(x => filters.includes(x.id))
+    let new_filters = [];
+    filters.forEach(x => {
+        let child_filters = yieldChildrens(x);
+        new_filters = [...new_filters, ...child_filters];
+    });
+    new_filters = uniq(new_filters);
+    return updateState(new_filters, countries, countrygroups, state);
 }
 
 export const removeFilters = (state, ids) => {

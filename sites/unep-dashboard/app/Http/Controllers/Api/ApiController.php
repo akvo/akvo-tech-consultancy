@@ -51,7 +51,9 @@ class ApiController extends Controller
                 'id' => $q->id,
                 'country' => $q->countries,
                 'values' => $q->values,
-                'global' => $q->countries->count() === 1 ? False : True
+                'global' => $q->countries->count() === 1 ? False : True,
+                'funds' => $q->funds,
+                'contrib' => $q->contribution
             ];
         });
         $activities = $this->collection->countBy();
@@ -88,6 +90,8 @@ class ApiController extends Controller
             return [
                 'datapoint_id' => $d['id'],
                 'global' => $d['global'],
+                'f' => $d['funds'],
+                'c' => $d['contrib'],
             ];
         });
         return [

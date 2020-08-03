@@ -45,7 +45,7 @@ export const getBadges = (data, masterfilter) => {
     if (data.filters.length > 0) {
         let filters = flatten(masterfilter);
         let active = data.filters.map(x => {
-            let current = filters.find(f => f.id == x);
+            let current = filters.find(f => f.id === x);
             return parentDeep(current.parent_id, filters);
         });
         let counts = countBy(active.map(x => x.id));

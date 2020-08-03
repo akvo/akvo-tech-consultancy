@@ -2,7 +2,7 @@ import { Easing, TextStyle, backgroundColor, Color, Icons, Graphic } from '../fe
 import flattenDeep from 'lodash/flattenDeep';
 import uniq from 'lodash/uniq';
 
-const getData = (data, countries) => {
+const getData = (data, countries, global) => {
     let results = [];
     if (countries.length === 1) {
         return results;
@@ -11,7 +11,7 @@ const getData = (data, countries) => {
         let country = countries.find(c => c.id === x.country_id);
         return {
             name: country.name,
-            value: x.global + x.total,
+            value: global ? (x.global + x.total) : x.total,
             data: x
         }
     });
@@ -22,7 +22,7 @@ const getData = (data, countries) => {
 const Maps = (title, subtitle, props, extra={}) => {
     let source = props.data.filters.length > 0 || props.data.countries.length > 0
         ? props.data.filtered : props.data.master;
-    let data = getData(source, props.page.countries);
+    let data = getData(source, props.page.countries, props.data.global);
     let values = [];
     let max = 1;
     let min = 0;

@@ -1,6 +1,7 @@
 import flatten from 'lodash/flatten';
 import uniq from 'lodash/uniq';
 import sumBy from 'lodash/sumBy';
+import difference from 'lodash/difference';
 import { parentDeep } from '../utils.js';
 import {
     Color,
@@ -87,12 +88,36 @@ const getLevelOption = () => {
 const generateOptions = (props) => {
     let countries = props.data.filtered;
         countries = countries.length === 0 ? props.data.master : countries;
+    let global = props.data.global;
+    if (!global) {
+        countries = countries.filter(x => x.total > 0);
+        let datapoints = props.data.datapoints
+            .filter(x => !x.global)
+            .map(x => x.datapoint_id);
+        countries = countries.map(x => {
+            let values = x.values.map(v => {
+                let dps = difference(v.datapoints, datapoints);
+                return {
+                    ...v,
+                    datapoints: dps,
+                    total: dps.length
+                }
+            });
+            values = values.filter(v => v.total !== 0);
+            return {
+                ...x,
+                values:values
+            }
+        });
+    }
+    let results = [];
     let filters = uniq(flatten(
         countries.map(x => x.values.map(v => v.id))
     ));
     let allfilters = flatall(props.page.filters);
     let selectedfilters = [];
     countries = countries.map(c => {
+        let vids = c.values.filter(x => x.total !== 0);
         return{
             ...c,
             vids: flatten(c.values.map(v => v.id))
@@ -120,7 +145,7 @@ const generateOptions = (props) => {
             }
         }
     });
-    let results = remapParent(props.page.filters, selectedfilters);
+    results = remapParent(props.page.filters, selectedfilters);
     return results;
 }
 

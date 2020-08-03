@@ -36,8 +36,7 @@ const MapsOverride = (toolTip, props) => {
                 {start: 20, end: 25},
                 {start: 15, end: 20},
                 {start: 10, end: 15},
-                {start: 5, end: 10},
-                {start: 1, end: 5},
+                {start: 1, end: 10},
                 {end: 0, label:'0'}
             ],
             color: ['#355c7d','#6c5b7b','#c06c84','#f67280','#f8b195','#ddd']

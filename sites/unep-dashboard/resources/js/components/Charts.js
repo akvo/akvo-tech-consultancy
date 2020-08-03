@@ -24,6 +24,7 @@ class Charts extends Component {
     }
 
     mapTooltip(params) {
+        console.log(params);
         if (params.data) {
             let id = params.data.data.country_id;
             let country = this.props.value.page.countries.find(x => x.id === id);

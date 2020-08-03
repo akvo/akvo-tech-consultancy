@@ -66,15 +66,25 @@ class Navigation extends Component {
                     <Nav.Link eventKey="drivers" active={"drivers" === page}>Drivers and Barriers</Nav.Link>
                     <Nav.Link eventKey="partnership" active={"partnership" === page}>Partnerships</Nav.Link>
                 </Nav>
-                <Form inline className='nav-right'>
-                  <a
-                      className="btn btn-sm btn-primary text-white"
-                      href="https://github.com/akvo/akvo-tech-consultancy"
-                      target="_blank"
-                  >
-                      <FontAwesomeIcon icon={["fas", "arrow-circle-down"]} /> Resources
-                  </a>
-                </Form>
+                    <Form.Group
+                        className="nav-right"
+                        onChange={this.props.data.toggle.global}
+                        controlId="formGroupGlobal">
+                    <Form.Check
+                        type="switch"
+                        defaultChecked={this.props.value.data.global}
+                        label="Global"
+                      />
+                    </Form.Group>
+                    <Form.Group
+                        className="nav-right"
+                        controlId="formGroupSwitch">
+                    <Form.Check
+                        type="switch"
+                        defaultChecked={true}
+                        label="Keep Filter"
+                      />
+                    </Form.Group>
               </Navbar.Collapse>
               </Container>
             </Navbar>

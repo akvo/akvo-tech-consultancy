@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use App\Datapoint;
+use App\Country;
 use App\Value;
 use App\DatapointValue;
 use App\DatapointCountry;
@@ -45,6 +46,14 @@ class TestController extends Controller
             return $v;
         });
         return $values;
+    }
+
+    public function allcountries(Country $countries)
+    {
+        $countries = $countries->get('name')->transform(function($v) {
+            return $v['name'];
+        })->toArray();
+        return response(implode("|",$countries), 200)->header('Content-Type', 'text/plain');
     }
 
 }

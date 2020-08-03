@@ -43,9 +43,11 @@
         "echarts": "^4.6.0",
         "echarts-for-react": "^2.0.15-beta.1",
         "react-bootstrap": "^1.0.0-beta.16",
+        "react-data-table-component": "^6.11.0",
         "react-loading": "^2.0.3",
         "react-redux": "^7.2.0",
         "redux": "^4.0.5",
-        "redux-logger": "^3.0.6"
+        "redux-logger": "^3.0.6",
+        "styled-components": "^5.1.1"
     }
 }

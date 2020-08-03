@@ -101,7 +101,7 @@ export const states = (state = initialState, action) => {
                 }
             }
         case 'DATA - TOGGLE FILTER':
-            data = toggleFilter(state.data, action.id);
+            data = toggleFilter(state.data, state.page.filters, action.id);
             return {
                 ...state,
                 data: data,
@@ -117,6 +117,14 @@ export const states = (state = initialState, action) => {
             return {
                 ...state,
                 data: data,
+            }
+        case 'DATA - TOGGLE GLOBAL':
+            return {
+                ...state,
+                data: {
+                    ...state.data,
+                    global: state.data.global ? false : true
+                }
             }
         case 'DATA - REMOVE FILTERS':
             data = removeFilters(state.data, action.ids);

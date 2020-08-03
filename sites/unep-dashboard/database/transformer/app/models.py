@@ -118,10 +118,14 @@ class Datapoints(Base):
 
     id = Column(BigInteger, primary_key=True, index=True, autoincrement=True)
     uuid = Column(Text, nullable=False)
+    funds = Column(BigInteger, nullable=True)
+    contribution = Column(BigInteger, nullable=True)
 
     def __init__(self, data):
         self.uuid = data['uuid']
+        self.funds = data['funds']
+        self.contribution = data['contribution']
 
     def __repr__(self):
-        return "<Datapoints(id={}, uuid={})>".format(
+        return "<Datapoints(id={}, uuid={}, funds={}, contribution={})>".format(
                 self.id, self.uuid)

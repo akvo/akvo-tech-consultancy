@@ -30,6 +30,7 @@ class Sidebar extends Component {
         this.resetFilterProps = this.resetFilterProps.bind(this);
         this.renderCountries = this.renderCountries.bind(this);
         this.searchItems = this.searchItems.bind(this);
+        this.parentFilters = this.parentFilters.bind(this);
         this.state = {
             active:[1],
             searched: [],
@@ -124,6 +125,13 @@ class Sidebar extends Component {
         )
     }
 
+    parentFilters(id, childs=false) {
+        if (!childs || childs.length === 0) {
+            return this.props.data.toggle.filters(id);
+        }
+        return this.props.data.remove.filters(id, childs);
+    }
+
     renderFilters(filters, depth){
         let nest = depth + 1;
         return filters.map(
@@ -131,11 +139,21 @@ class Sidebar extends Component {
                 let active = this.props.value.data.filters.includes(x.id);
                 let badges = this.props.value.page.badges;
                 let hidden = !this.state.active.includes(x.id);
-                if (badges) {
-                    badges = badges.find(b => b.id === x.id);
-                    badges = badges ? badges.count : false;
+                let activeChilds = x.childrens.length > 0
+                    ? x.childrens
+                    : false;
+                let totalActive = 0;
+                let childIds = false;
+                if (activeChilds) {
+                    activeChilds = flatten(activeChilds).filter(x => x.childrens.length === 0);
+                    activeChilds = activeChilds.map(x => x.id);
+                }
+                if (activeChilds && this.props.value.data.filters.length > 0) {
+                    childIds = activeChilds.filter(x => this.props.value.data.filters.includes(x));
+                    totalActive = childIds.length;
+                    activeChilds = totalActive === activeChilds.length;
                 } else {
-                    badges = false;
+                    activeChilds = false;
                 }
                 return (
                 <li
@@ -156,11 +174,19 @@ class Sidebar extends Component {
                                     icon={["fas", "arrow-circle-left"]}/> Back
                             </div>
 
+                            <div
+                                className="select-nested"
+                                hidden={this.state.depth !== depth}
+                                onClick={e => this.parentFilters(x.id, childIds)}>
+                                <FontAwesomeIcon
+                                    color={activeChilds ? "green" : (totalActive > 0 ? "#e88d3f" : "grey")}
+                                    icon={["fas", activeChilds ? "check-circle" : (totalActive > 0 ? "minus-circle" : "plus-circle")]}/ >
+                            </div>
                             <div className="next-nested parent-text"
                                 hidden={this.state.depth !== depth}
                                 onClick={e => this.changeFilters(x.id, nest)}>
                                 {x.name}
-                                {this.renderCount(badges)}
+                                {this.renderCount(totalActive)}
                             </div>
                             <div className="next-nested arrows"
                                 hidden={this.state.depth !== depth}
@@ -220,7 +246,6 @@ class Sidebar extends Component {
             }
         });
         results = results.filter(x => x.score > 0);
-        console.log(results);
         this.setState({searched: results});
         return;
     }
