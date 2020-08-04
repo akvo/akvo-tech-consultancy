@@ -37,6 +37,9 @@ let removeAllMap = () => map.eachLayer((layer) => {
 let geojson,
     geojsonPoly = null,
     legendPoly = null,
+    labelPoly = null,
+    popupPoly = false,
+    activePoly = null,
     metadata,
     clustered = true,
     cfg = [],
@@ -236,9 +239,7 @@ const emptyMap = () => {
     }
 };
 
-function highlightFeature(e) {
-    var layer = e.target;
-
+function hoverStyle(layer) {
     layer.setStyle({
         weight: 5,
         color: '#666',
@@ -249,13 +250,48 @@ function highlightFeature(e) {
     if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
         layer.bringToFront();
     }
+}
 
-    info.update(layer.feature.properties);
+// const clickOutsideLayer = (layer=false) => {
+//     // event when user click outside polygon
+//     map.on('click', function(ev) {
+//         console.log('map', ev.target);
+//         if (ev.target['doubleClickZoom'] !== undefined && popupPoly) {
+//             info.update(null);
+//             popupPoly = false;
+//             activePoly = null;
+//         }
+//     });
+// };
+
+function highlightFeature(e) {
+    var layer = e.target;
+    let name = layer.feature.properties[cfg.shapename.match].toLowerCase();
+    if (!popupPoly && name === activePoly) {
+        activePoly = null;
+    }
+    if (popupPoly) {
+        info.update(null);
+        popupPoly = false;
+        clickOutsideLayer(layer);
+    }
+    if (name !== activePoly) {
+        hoverStyle(layer);
+        popupPoly = true;
+        activePoly = layer.feature.properties[cfg.shapename.match].toLowerCase();
+        info.update(layer.feature.properties);
+    }
+}
+
+function tooltipFeature(e) {
+    var layer = e.target;
+    hoverStyle(layer);
+    layer.bindTooltip(layer.feature.properties[cfg.shapename.match]).openTooltip();
 }
 
 function resetHighlight(e) {
     geojsonPoly.resetStyle(e.target);
-    info.update(null);
+    // info.update(null);
 }
 
 function zoomToFeature(e) {
@@ -263,18 +299,34 @@ function zoomToFeature(e) {
 }
 
 function onEachFeature(feature, layer) {
+    // add labels
+    let count = (feature.properties.data) ? feature.properties.data.length : 0;
+    let latlng = layer.getBounds().getCenter();
+    if (feature.properties[cfg.shapename.match].toLowerCase() === "karambi") {
+        latlng['lat'] = latlng['lat'] + 0.000000001;
+        latlng['lng'] = latlng['lng'] - 0.02;
+    }
+    labelPoly = L.marker(latlng, {
+        icon: L.divIcon({
+          className: 'polygon-label',
+        //   html: feature.properties[cfg.shapename.match] + " ("+count+")",
+          html: "("+count+")",
+        //   iconSize: [40, 20]
+        })
+    }).addTo(map);
+    // eol add labels
     layer.on({
-        mouseover: highlightFeature,
+        mouseover: tooltipFeature,
         mouseout: resetHighlight,
         // click: zoomToFeature
-        // click: highlightFeature
+        click: highlightFeature
     });
 }
 
 // Custom info
 var info = L.control();
 info.onAdd = function (map) {
-    this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+    this._div = L.DomUtil.create('div', 'info-temp'); // create a div with a class "info"
     this.update();
     return this._div;
 };
@@ -321,8 +373,16 @@ const fetchPolygonMap = (cfg) => {
     });
 };
 
-const setPolygonMap = (data) => {
+const removePolygonMap = (removeLegend=false) => {
     (geojsonPoly) ? map.removeLayer(geojsonPoly) : null;
+    (labelPoly) ? $(".polygon-label").remove() : null;
+    if (removeLegend) {
+        (legendPoly) ? $(".info.legend").remove() : null;
+    }
+};
+
+const setPolygonMap = (data) => {
+    removePolygonMap();
     geojsonPoly = L.geoJson(data, {style: style, onEachFeature: onEachFeature});
     geojsonPoly.addTo(map);
     map.fitBounds(geojsonPoly.getBounds()); // zoom map to position
@@ -372,8 +432,7 @@ const startRenderMap = () => {
     }
     // cluster
     if (!cfg.shapefile) {
-        (geojsonPoly) ? map.removeLayer(geojsonPoly) : null;
-        (legendPoly) ? $(".info.legend").remove() : null;
+        removePolygonMap(true);
         map.addLayer(markerclusters);
     }
 };
@@ -1031,6 +1090,11 @@ const filterMaps = (minVal, maxVal, attributeName) => {
 
 const createHistogram = () => {
     let dbs = JSON.parse(localStorage.getItem('data'));
+    // ignore construction year with 0 value (M index)
+    if (!cfg.shapefile) {
+        dbs.features = _.filter(dbs.features, x => x.properties["M"] > 0);
+    }
+    // eol ignore construction year with 0 value
     let attr_name = dbs.properties.attribution.id;
     let barData = [];
     if (!cfg.shapefile) {

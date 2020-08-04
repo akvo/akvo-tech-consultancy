@@ -57,7 +57,7 @@ const focusTo = () => {
 
 const focusNormal = () => {
     let latlng = JSON.parse(localStorage.getItem('configs')).center;
-    goToView(new L.LatLng(latlng[0], latlng[1]), 3);
+    goToView(new L.LatLng(latlng[0], latlng[1]), 7);
 };
 
 const searchData = (request) => {

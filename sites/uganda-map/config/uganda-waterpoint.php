@@ -22,21 +22,21 @@ return [
     [
       "id" => 100000001,
       "type" => "survey",
-      "name" => "Waterpoint Uganda",
+      "name" => "Waterpoint Kabarole",
       "parent_id" => null,
     ],
 
     [
       "id" => 100000002,
       "type" => "registration",
-      "name" => "Registration",
+      "name" => "Waterpoint 2017-2019",
       "parent_id" => 100000001,
       "popup_name" => "R-Water point Name", // column name will shown on pop up
       "search" => [ // column name for search by
         "R-Water point Name",
         "R-Type of water source",
-        "R-Type of lifting device?",
-        "M-Type of water point",
+        // "R-Type of lifting device?",
+        // "M-Type of water point",
       ], 
       "secondary_filter" => [ // column name for second filter
         [
@@ -55,17 +55,19 @@ return [
       "list" => [ // column name will show on map
         [
           "question_id" => null,
-          "question" => "R-Has this water point had a major rehabilitation since the initial construction?",
-          "text" => "Major rehabilitation",
+          "question" => "R-Type of water source",
+          "text" => "Water source type",
           "type" => "option",
-          "default" => 0,
+          "default" => 1,
+          "order" => 1,
         ],
         [
           "question_id" => null,
           "question" => "M-Is the water point currently functional?",
-          "text" => "Water point functionality",
+          "text" => "Waterpoint functionality",
           "type" => "option",
-          "default" => 1,
+          "default" => 0,
+          "order" => 2,
         ],
         [
           "question_id" => null,
@@ -73,20 +75,7 @@ return [
           "text" => "Level of functionality",
           "type" => "option",
           "default" => 0,
-        ],
-        [
-          "question_id" => null,
-          "question" => "M-What is the status of the filtration system?",
-          "text" => "Status of filtration system",
-          "type" => "option",
-          "default" => 0,
-        ],
-        [
-          "question_id" => null,
-          "question" => "M-What is the main purpose for which people use water from this water point?",
-          "text" => "Main purpose to use water",
-          "type" => "option",
-          "default" => 0,
+          "order" => 3,
         ],
         [
           "question_id" => null,
@@ -94,44 +83,173 @@ return [
           "text" => "Last water quality test",
           "type" => "option",
           "default" => 0,
+          "order" => 4,
         ],
         [
           "question_id" => null,
           "question" => "R 2017-Is the water point delivering water?",
-          "text" => "Water point deliver water",
+          "text" => "Waterpoint delivers water",
           "type" => "option",
           "default" => 0,
+          "order" => 5,
         ],
         [
           "question_id" => null,
-          "question" => "R 2017-How many households use this water facility ?",
-          "text" => "Number of households use this water facility",
+          "question" => "R-Year of water point construction",
+          "text" => "Construction year",
           "type" => "number",
           "default" => 0,
+          "order" => 6,
         ],
       ],
       "color" => [
+        // M-Is the water point currently functional?
         [
           "question_id" =>  null,
-          "question" => "R-Has this water point had a major rehabilitation since the initial construction?",
-          "code" => "No",
+          "question" => "M-Is the water point currently functional?",
+          "code" => "Functional in use",
           "text" => null,
-          "color" => "#dc3545",
+          "color" => "#28a745",
+          "order" => 1,
         ],
         [
           "question_id" =>  null,
-          "question" => "R-Has this water point had a major rehabilitation since the initial construction?",
+          "question" => "M-Is the water point currently functional?",
+          "code" => "Functional and not in use",
+          "text" => null,
+          "color" => "#FA0",
+          "order" => 2,
+        ],
+        [
+          "question_id" =>  null,
+          "question" => "M-Is the water point currently functional?",
+          "code" => "Non-Functional",
+          "text" => null,
+          "color" => "#dc3545",
+          "order" => 3,
+        ],
+        [
+          "question_id" =>  null,
+          "question" => "M-Is the water point currently functional?",
+          "code" => "Decommissioned",
+          "text" => null,
+          "color" => "#666",
+          "order" => 4,
+        ],
+        // EOL M-Is the water point currently functional?
+
+        // M-Please rate the level of functionality
+        [
+          "question_id" =>  null,
+          "question" => "M-Please rate the level of functionality",
+          "code" => "Fully functioning at 100%",
+          "text" => null,
+          "color" => "#28a745",
+          "order" => 1,
+        ],
+        [
+          "question_id" =>  null,
+          "question" => "M-Please rate the level of functionality",
+          "code" => "Partially functioning - works with some issues/difficulties",
+          "text" => "Partially functioning",
+          "color" => "#FA0",
+          "order" => 2,
+        ],
+        [
+          "question_id" =>  null,
+          "question" => "M-Please rate the level of functionality",
+          "code" => "Barely functioning",
+          "text" => null,
+          "color" => "#dc3545",
+          "order" => 3,
+        ],
+        [
+          "question_id" =>  null,
+          "question" => "M-Please rate the level of functionality",
+          "code" => "Unknown",
+          "text" => null,
+          "color" => "#666",
+          "order" => 4,
+        ],
+        // EOL M-Please rate the level of functionality
+
+        // M-When were the last water quality tests done?
+        [
+          "question_id" =>  null,
+          "question" => "M-When were the last water quality tests done?",
+          "code" => "Less than 3 months ago",
+          "text" => null,
+          "color" => "#28a745",
+          "order" => 1,
+        ],
+        [
+          "question_id" =>  null,
+          "question" => "M-When were the last water quality tests done?",
+          "code" => "3 months to 1 year ago",
+          "text" => null,
+          "color" => "#0288d1",
+          "order" => 2,
+        ],
+        [
+          "question_id" =>  null,
+          "question" => "M-When were the last water quality tests done?",
+          "code" => "1 to 5 years ago",
+          "text" => null,
+          "color" => "#FA0",
+          "order" => 3,
+        ],
+        [
+          "question_id" =>  null,
+          "question" => "M-When were the last water quality tests done?",
+          "code" => "During construction of the water source",
+          "text" => null,
+          "color" => "#ab47bc",
+          "order" => 4,
+        ],
+        [
+          "question_id" =>  null,
+          "question" => "M-When were the last water quality tests done?",
+          "code" => "Never",
+          "text" => null,
+          "color" => "#dc3545",
+          "order" => 5,
+        ],
+        [
+          "question_id" =>  null,
+          "question" => "M-When were the last water quality tests done?",
+          "code" => "Unknown",
+          "text" => null,
+          "color" => "#666",
+          "order" => 6,
+        ],
+        // EOL M-When were the last water quality tests done?
+
+        // R 2017-Is the water point delivering water?
+        [
+          "question_id" =>  null,
+          "question" => "R 2017-Is the water point delivering water?",
           "code" => "Yes",
           "text" => null,
           "color" => "#28a745",
+          "order" => 1,
         ],
         [
           "question_id" =>  null,
-          "question" => "R-Has this water point had a major rehabilitation since the initial construction?",
-          "code" => "Unknown", // must be complete option text
-          "text" => "Not Defined", // new option text 
-          "color" => "#ab47bc",
+          "question" => "R 2017-Is the water point delivering water?",
+          "code" => "No",
+          "text" => null,
+          "color" => "#dc3545",
+          "order" => 2,
         ],
+        [
+          "question_id" =>  null,
+          "question" => "R 2017-Is the water point delivering water?",
+          "code" => "Unknown",
+          "text" => null,
+          "color" => "#666",
+          "order" => 3,
+        ],
+        // EOL R 2017-Is the water point delivering water?
       ],
       "template" => [
         [ 

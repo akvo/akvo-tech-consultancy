@@ -57,6 +57,7 @@ return [
           "text" => "Type of sanitation facility",
           "type" => "option",
           "default" => 1,
+          "order" => 1,
         ],
         [
           "question_id" => null,
@@ -64,6 +65,7 @@ return [
           "text" => "Gender of the Household Head",
           "type" => "option",
           "default" => 0,
+          "order" => 2,
         ],
         [
           "question_id" => null,
@@ -71,6 +73,7 @@ return [
           "text" => "Time to collect Water",
           "type" => "option",
           "default" => 0,
+          "order" => 3,
         ],
         [
           "question_id" => null,
@@ -78,6 +81,7 @@ return [
           "text" => "Distance quality manage water service",
           "type" => "option",
           "default" => 0,
+          "order" => 4,
         ],
         [
           "question_id" => null,
@@ -85,6 +89,7 @@ return [
           "text" => "Access to sanitation facility",
           "type" => "option",
           "default" => 0,
+          "order" => 5,
         ],
         [
           "question_id" => null,
@@ -92,6 +97,7 @@ return [
           "text" => "Water cost per month",
           "type" => "number",
           "default" => 0,
+          "order" => 6,
         ],
         [
           "question_id" => null,
@@ -99,6 +105,7 @@ return [
           "text" => "Family numbers",
           "type" => "number",
           "default" => 0,
+          "order" => 7,
         ],
       ],
       "color" => [
@@ -109,6 +116,7 @@ return [
           "code" => "Conventional Pit Latrine",
           "text" => null,
           "color" => "#F3722C",
+          "order" => 1,
         ],
         [
           "question_id" =>  null,
@@ -116,6 +124,7 @@ return [
           "code" => "No Answer",
           "text" => null,
           "color" => "#F94144",
+          "order" => 2,
         ],
         [
           "question_id" =>  null,
@@ -123,6 +132,7 @@ return [
           "code" => "Pour flush",
           "text" => null,
           "color" => "#F9C74F",
+          "order" => 3,
         ],
         [
           "question_id" =>  null,
@@ -130,6 +140,7 @@ return [
           "code" => "Traditional pit latrine",
           "text" => null,
           "color" => "#90BE6D",
+          "order" => 4,
         ],
         [
           "question_id" =>  null,
@@ -137,6 +148,7 @@ return [
           "code" => "VIP latrine",
           "text" => null,
           "color" => "#577590",
+          "order" => 5,
         ],
         [
           "question_id" =>  null,
@@ -144,6 +156,7 @@ return [
           "code" => "Waterborne toilet",
           "text" => null,
           "color" => "#43AA8B",
+          "order" => 6,
         ],
         // eol Type of sanitation
       ],
