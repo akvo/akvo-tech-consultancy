@@ -86,8 +86,8 @@ const getLevelOption = () => {
 }
 
 const generateOptions = (props) => {
-    let countries = props.data.filtered;
-        countries = countries.length === 0 ? props.data.master : countries;
+    let countries = props.data.filters.length === 0  && props.data.countries.length === 0
+        ? props.data.master : props.data.filtered;
     let global = props.data.global;
     if (!global) {
         countries = countries.filter(x => x.total > 0);
@@ -128,22 +128,26 @@ const generateOptions = (props) => {
         if (selected) {
             let country = countries.filter(c => c.vids.includes(x));
             if (country) {
-                let records = country.map(c => {
+                let datapoints = [];
+                let total = 0;
+                country.forEach(c => {
                     let attr = props.page.countries.find(cm => cm.id === c.country_id);
                     let value = c.values.find(v => v.id === x);
-                    return {
-                        name: attr.name,
-                        value: value.total
-                    }
+                    datapoints = [...datapoints, ...value.datapoints];
                 });
+                if (datapoints.length > 0){
+                    total = uniq(datapoints).length;
+                }
                 selected = {
                     id: x,
                     name: selected.name,
-                    value: sumBy(records, 'value'),
+                    value: total
                 }
                 selectedfilters.push(selected);
+                return;
             }
         }
+        return;
     });
     results = remapParent(props.page.filters, selectedfilters);
     return results;
