@@ -19,7 +19,6 @@ yarn-error.log
 package-lock.json
 .env
 .phpunit.result.cache
-*.xlsx
 /__pycache__
 *.txt
 *.bkp
