@@ -452,18 +452,17 @@ const renderPieChart = (dbs, clicked=false) => {
 const pieChartEvent = (dbs) => {
     let pie = pieChart.getZr();
     pie.on('click', function (params) {
-        if (params.target !== undefined) {
-            $(".category-" + params.target.dataIndex).click();
-        }
-        if (params.target !== undefined && pieClicked) {
+        if (params.target !== undefined && pieClicked && activePie === params.target.dataIndex) {
             pieClicked = false;
             activePie = null;
+            $(".category-" + params.target.dataIndex).click();
             changeValue(dbs, []);
             return;
         }
         if (params.target !== undefined && !pieClicked && activePie === null) {
             pieClicked = true;
             activePie = params.target.dataIndex;
+            $(".category-" + params.target.dataIndex).click();
             let del = dbs.properties.attribution.lookup;
             del = del.filter(x => x.toLowerCase() !== del[activePie].toLowerCase());
             changeValue(dbs, del);
@@ -1140,6 +1139,11 @@ const refreshLayer = (dbs) => {
                 }
             }
         });
+        // reset popup
+        activePoly = null;
+        popupPoly = false;
+        info.update(null);
+        // eol reset popup 
         setPolygonMap(geojson);
     }
 };
