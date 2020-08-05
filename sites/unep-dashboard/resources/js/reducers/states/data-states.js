@@ -23,6 +23,7 @@ export const dataState = {
     }],
     filtered: [],
     filters: [],
+    filteredpoints: [],
     countries: [],
     countrygroups: [],
     global: true
@@ -64,12 +65,19 @@ export const updateState = (filters, countries, countrygroups, state) => {
     if (countries.length > 0 && filtered.length === 0) {
         filtered = master.filter(x => countries.includes(x.country_id));
     }
+    let filteredpoints = [];
+    filtered.forEach(x => {
+        x.values.forEach(v => {
+            filteredpoints = [...filteredpoints, ...v.datapoints];
+        });
+    });
     return {
         ...state,
         filters: filters,
         countries: countries,
         countrygroups: countrygroups,
-        filtered: filtered
+        filtered: filtered,
+        filteredpoints: uniq(filteredpoints)
     };
 }
 

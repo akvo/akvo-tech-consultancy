@@ -53,8 +53,9 @@ class Charts extends Component {
         let options = generateOptions(
             this.props.kind,
             this.props.title,
-            "Subtitle",
+            this.props.subtitle,
             this.props.value,
+            this.props.dataset,
             this.props.extra
         );
         let onEvents = {

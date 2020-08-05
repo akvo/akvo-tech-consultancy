@@ -12,6 +12,9 @@ body {
     top: -18px;
     border-bottom: 1px solid #ddd;
 }
+.fixed-top{
+    min-height: 62px;
+}
 
 #basic-navbar-nav .nav-right.form-group{
     margin-top: 14px;

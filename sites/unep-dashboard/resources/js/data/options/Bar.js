@@ -1,8 +1,9 @@
 import { Easing, Color, TextStyle, backgroundColor, Icons } from '../features/animation.js';
 
-const Bar = (title, subtitle, data, extra) => {
+const Bar = (title, subtitle, props, data, extra) => {
     let values = [];
     let labels = [];
+    data = !data ? [] : data;
     if (data.length > 0) {
         values = data.map((x) => x.value);
         labels = data.map((x) => x.name);
@@ -28,23 +29,24 @@ const Bar = (title, subtitle, data, extra) => {
         },
         toolbox: {
             show: true,
-            orient: 'horizontal',
-            left: 'left',
-            top: 'top',
+            orient: "horizontal",
+            left: "right",
+            top: "bottom",
             feature: {
                 dataView: {
-                    title: 'View Data',
-                    lang: ['Data View', 'Turn Off', 'Refresh'],
+                    title: "View Data",
+                    lang: ["Data View", "Turn Off", "Refresh"],
                     icon: Icons.dataView,
-                    buttonColor: '#0478a9'
+                    buttonColor: "#0478a9",
+                    textAreaBorderColor: "#fff"
                 },
                 saveAsImage: {
-                    type: 'jpg',
-                    title: 'Save Image',
+                    type: "jpg",
+                    title: "Save Image",
                     icon: Icons.saveAsImage,
-                    backgroundColor: '#ffffff'
-                },
-            },
+                    backgroundColor: "#ffffff"
+                }
+            }
         },
         yAxis: {
             type: 'category',

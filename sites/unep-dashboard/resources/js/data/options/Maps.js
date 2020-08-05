@@ -19,10 +19,12 @@ const getData = (data, countries, global) => {
     return results;
 }
 
-const Maps = (title, subtitle, props, extra={}) => {
-    let source = props.data.filters.length > 0 || props.data.countries.length > 0
-        ? props.data.filtered : props.data.master;
-    let data = getData(source, props.page.countries, props.data.global);
+const Maps = (title, subtitle, props, data, extra) => {
+    if (!data) {
+        let source = props.data.filters.length > 0 || props.data.countries.length > 0
+            ? props.data.filtered : props.data.master;
+        data = getData(source, props.page.countries, props.data.global);
+    }
     let values = [];
     let max = 1;
     let min = 0;
@@ -117,7 +119,8 @@ const Maps = (title, subtitle, props, extra={}) => {
         ],
         ...backgroundColor,
         ...Easing,
-        ...extra
+        ...extra,
+        ...Graphic
     };
     return option;
 }

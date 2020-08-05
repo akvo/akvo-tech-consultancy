@@ -79,7 +79,21 @@ const getLevelOption = () => {
             itemStyle: {
                 borderWidth: 5,
                 gapWidth: 1,
-                borderColorSaturation: 0.6
+                borderColorSaturation: 0.4
+            }
+        },
+        {
+            itemStyle: {
+                borderWidth: 3,
+                gapWidth: 1,
+                borderColorSaturation: 0.7
+            }
+        },
+        {
+            itemStyle: {
+                borderWidth: 2,
+                gapWidth: 1,
+                borderColorSaturation: 0.4
             }
         }
     ];
@@ -153,21 +167,34 @@ const generateOptions = (props) => {
     return results;
 }
 
-const TreeMap = (title, subtitle, props, extra={}) => {
-    let data = generateOptions(props);
+const TreeMap = (title, subtitle, props, data, extra) => {
+    data = !data ? generateOptions(props) : data;
     let option = {
         ...Color,
-        title: {
-            show:false
+        title : {
+            text: title,
+            subtext: subtitle,
+            left: 'center',
+            top: '20px',
+            ...TextStyle
         },
         tooltip: {
-            show:false,
+            trigger: 'item',
+            showDelay: 0,
+            padding:10,
+            transitionDuration: 0.2,
+            formatter: function(params) {
+                return params.name + "</br>" + params.value;
+            },
+            backgroundColor: "transparent",
+            position: [10,20],
+            ...TextStyle
         },
         toolbox: {
             show: true,
             orient: "horizontal",
             left: "right",
-            top: "top",
+            top: "bottom",
             feature: {
                 dataView: {
                     title: "View Data",
@@ -189,11 +216,13 @@ const TreeMap = (title, subtitle, props, extra={}) => {
                 name: 'Actions',
                 type: 'treemap',
                 visibleMin: 300,
+                roam: false,
                 label: {
                     show: true,
                     fontFamily:"Assistant",
+                    fontSize:12,
                     formatter: function(x){
-                        return x.name + '\n\n' + x.value;
+                        return x.name + '\n\n[' + x.value + ']';
                     }
                 },
                 upperLabel: {
@@ -214,13 +243,13 @@ const TreeMap = (title, subtitle, props, extra={}) => {
                             fontFamily:"Assistant",
                         }
                     },
-                    top:10,
+                    bottom:20,
                 },
                 data: data
             }
         ],
         ...backgroundColor,
-        ...Color,
+        color: ['#6c5b7b','#c06c84','#f67280','#f8b195','#F59C2F','#845435','#226E7B','#2C201F'],
         ...Easing,
         ...extra
     };

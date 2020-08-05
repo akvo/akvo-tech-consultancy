@@ -2,6 +2,7 @@ import Bar from './options/Bar';
 import Maps from './options/Maps';
 import Pie from './options/Pie';
 import TreeMap from './options/TreeMap';
+import SanKey from './options/SanKey';
 
 const loadingState = {
         id: 1,
@@ -34,15 +35,19 @@ export const generateData = (col, line, height) => {
     }
 }
 
-export const generateOptions = (type, title, subtitle, data, extra) => {
+export const generateOptions = (type, title, subtitle, props, dataset, extra={}) => {
     switch (type) {
         case "MAPS":
-            return Maps(title, subtitle, data, extra);
+            return Maps(title, subtitle, props, dataset, extra);
         case "PIE":
-            return Pie(title, subtitle, data, extra);
+            return Pie(title, subtitle, props, dataset, extra);
+        case "ROSEPIE":
+            return Pie(title, subtitle, props, dataset, extra, {roseType: "area"});
         case "TREEMAP":
-            return TreeMap(title, subtitle, data, extra);
+            return TreeMap(title, subtitle, props, dataset, extra);
+        case "SANKEY":
+            return SanKey(title, subtitle, props, dataset, extra);
         default:
-            return Bar(title, subtitle, data, extra);
+            return Bar(title, subtitle, props, dataset, extra);
     }
 }

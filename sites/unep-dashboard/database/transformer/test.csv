@@ -1,25 +1,25 @@
 ,id,name,pid,qid,type,qpar
-7,43374942,"I agree to share the information provided in this survey. (Note we will not share your name, role or email address).",43374761,1,MultipleChoice,1
+7,43374942,"I agree to share the information provided in this survey. (Note we will not share your name, role or email address).",,1,MultipleChoice,1
 8,105885230,YES,43374942,1,SelectionOption,1
 9,105885380,"NO (Choosing this option means that your work cannot be included in the stocktake exercise. To exit the survey, choose ‘NO’, then click on the NEXT button at the bottom of the page and you will be directed to the debrief page where you will be able to click on finish to exit the survey).",43374942,1,SelectionOption,1
-11,43426483,I will provide the answers that reflect the best of my knowledge and facts available to me.,43426458,2,MultipleChoice,2
+11,43426483,I will provide the answers that reflect the best of my knowledge and facts available to me.,,2,MultipleChoice,2
 12,106027536,YES,43426483,2,SelectionOption,2
 13,106027537,"NO (Choosing this option means that your work cannot be included in the stocktake exercise. To exit the survey, choose ‘NO’, then click on the NEXT button at the bottom of the page and you will be directed to the debrief page where you will be able to click on finish to exit the survey).",43426483,2,SelectionOption,2
-15,43374941,"I have received adequate information about the survey and about my ethical rights as a participant, including my right to withdraw. I consent to take part in this research",43374771,3,MultipleChoice,3
+15,43374941,"I have received adequate information about the survey and about my ethical rights as a participant, including my right to withdraw. I consent to take part in this research",,3,MultipleChoice,3
 16,105885220,YES,43374941,3,SelectionOption,3
 17,105885381,"NO (Choosing this option means that your work cannot be included in the stocktake exercise. To exit the survey, choose ‘NO’, then click on the NEXT button at the bottom of the page and you will be directed to the debrief page where you will be able to click on finish to exit the survey).",43374941,3,SelectionOption,3
-20,43374797,Your name,43374752,4,FreeText,4
+20,43374797,Your name,,4,FreeText,4
 21,43374799,Your role,43374797,4.a,FreeText,4
 22,43374798,Contact details (preferably e-mail address),43374797,4.b,FreeText,4
 23,43374820,Second/alternative contact detail. ,43374797,4.c,FreeText,4
 24,43374842,"Your organisation (If you are not affiliated with an organisation, please write 'not applicable').",43374797,4.d,FreeText,4
-26,43375025,Are you reporting as an individual or on behalf of an organisation? (Several reports from the same organisation or individual are welcome),43374752,5,SelectionList,5
+26,43375025,Are you reporting as an individual or on behalf of an organisation? (Several reports from the same organisation or individual are welcome),,5,SelectionList,5
 27,105885247,As an individual,43375025,5,SelectionOption,5
 28,105885313,On behalf of an organisation,43375025,5,SelectionOption,5
 29,106054616,Other,43375025,5,SelectionOption,5
 30,43437497,"If you selected Other, please specify:",106054616,5.a,FreeText,5
 31,43374845,"On behalf of which organisation are you reporting here? (e.g. UNEP, FAO or name your specific private/public/third sector organisation).",105885313,5.b,FreeText,5
-33,43374933,Is this the first time that you have completed this survey?,43374752,6,MultipleChoice,6
+33,43374933,Is this the first time that you have completed this survey?,,6,MultipleChoice,6
 34,105885207,Yes,43374933,6,SelectionOption,6
 35,105885396,"No, I am returning to the survey to report on additional actions/activities",43374933,6,SelectionOption,6
 36,43375020,How many Actions are you intending to tell us about?,105885207,6.a,SelectionList,6
@@ -33,9 +33,9 @@
 44,105885684,8,43375020,6.a,SelectionOption,6
 45,105885694,9,43375020,6.a,SelectionOption,6
 46,105885703,10,43375020,6.a,SelectionOption,6
-49,43374800,Please enter a name/title for this action/activity. ,43374748,7,FreeText,7
-51,43374829,"Please provide a very short summary of the action/activity (keywords or bullet points are fine, e.g. change to production, deposit return scheme etc.).",43374751,8,FreeText,8
-52,43374939,TYPE OF ACTION: What did the MAIN action/activity focus on? (Please tick ONE which best describes the action you are reporting).,43374751,9,MultipleChoice,9
+49,43374800,Please enter a name/title for this action/activity. ,,7,FreeText,7
+51,43374829,"Please provide a very short summary of the action/activity (keywords or bullet points are fine, e.g. change to production, deposit return scheme etc.).",,8,FreeText,8
+52,43374939,TYPE OF ACTION: What did the MAIN action/activity focus on? (Please tick ONE which best describes the action you are reporting).,,9,MultipleChoice,9
 53,105885205,"LEGISLATION, STANDARDS, RULES: e.g. agreeing new or changing rules or standards that others should comply with, new regulation, agreements, policies, economic instruments etc. including voluntary commitments.",43374939,9,SelectionOption,9
 54,105885383,"WORKING WITH PEOPLE: Encouraging or enabling others (e.g., education, training, communication, awareness raising, behaviour change programmes",43374939,9,SelectionOption,9
 55,105885456,"TECHNOLOGY and PROCESSES: New technical developments/innovation (e.g., research and development, new product design, new materials, processes etc.) changes in practice, operations, environmental management and planning.",43374939,9,SelectionOption,9
@@ -135,19 +135,19 @@
 149,105885451,It is not available,43374940,9.d.viii,SelectionOption,9
 150,43374788,"If the monitoring data is available on request, please provide information on how to access the data?",105885382,9.d.viii.a,FreeText,9
 151,43374796,Please provide the URL's for any links to the monitoring data and information.,105885215,9.d.viii.b,FreeText,9
-152,43374922,"TYPE OF ACTION: Whilst you already selected the focus of your action/activity in Question 9, did the action/activity also involve other aspects (please tick which ones below):",43374751,10,MultipleAnswer,10
+152,43374922,"TYPE OF ACTION: Whilst you already selected the focus of your action/activity in Question 9, did the action/activity also involve other aspects (please tick which ones below):",,10,MultipleAnswer,10
 153,105885275,"LEGISLATION, STANDARDS, RULES: e.g. agreeing new or changing rules or standards that others should comply with, new regulation, agreements, policies, economic instruments etc. including voluntary commitments",43374922,10,SelectionOption,10
 154,105885299,"WORKING WITH PEOPLE: Encouraging or enabling others (e.g., education, training, communication, awareness raising, behaviour change programmes)",43374922,10,SelectionOption,10
 155,105885404,"TECHNOLOGY and PROCESSES: New technical developments/innovation (e.g., research and development, new product design, new materials, processes etc.), changes in practice, operations, environmental management and planning",43374922,10,SelectionOption,10
 156,105885556,"MONITORING and ANALYSIS: Collecting evidence around plastic discharge to the ocean/waterways? (e.g. monitoring, analysis)",43374922,10,SelectionOption,10
-157,43374932,What is the organisation's role regarding this action: [ACTION],43374751,11,MultipleChoice,11
+157,43374932,What is the organisation's role regarding this action: [ACTION],,11,MultipleChoice,11
 158,105885278,We are only reporting it here,43374932,11,SelectionOption,11
 159,105885397,I/We developed it,43374932,11,SelectionOption,11
 160,105885425,I/We are implementing it,43374932,11,SelectionOption,11
 161,105885564,We are the funding body,43374932,11,SelectionOption,11
 162,105885624,Other,43374932,11,SelectionOption,11
 163,43374833,"If you selected Other, please specify:",105885624,11.a,FreeText,11
-164,43374862,Who is responsible for the action implementation?,43374751,12,MultipleAnswer,12
+164,43374862,Who is responsible for the action implementation?,,12,MultipleAnswer,12
 165,105885183,PUBLIC ADMINISTRATION (organisations concerned with government policies and programmes),43374862,12,SelectionOption,12
 166,105885399,"PRIVATE SECTOR ORGANISATION (for-profit organisations run by individuals and groups, free from government ownership).",43374862,12,SelectionOption,12
 167,105885441,"THIRD SECTOR (e.g. non-governmental and non-profit-making organisations, including charity groups, community groups etc).",43374862,12,SelectionOption,12
@@ -171,7 +171,7 @@
 185,105885432,Educational sector,43374865,12.d,SelectionOption,12
 186,105885505,Other,43374865,12.d,SelectionOption,12
 187,43374834,"If you selected Other, please specify:",105885505,12.d.i,FreeText,12
-188,43374951,Reporting and evaluations: Do you report on the action?,43374751,13,MultipleChoice,13
+188,43374951,Reporting and evaluations: Do you report on the action?,,13,MultipleChoice,13
 189,105885246,Yes,43374951,13,SelectionOption,13
 190,105885378,No,43374951,13,SelectionOption,13
 191,105973232,Not applicable,43374951,13,SelectionOption,13
@@ -187,12 +187,12 @@
 201,105964527,Reporting is too effortful,43398865,13.b,SelectionOption,13
 202,105964528,Other,43398865,13.b,SelectionOption,13
 203,43398866,"If you selected Other, please specify:",105964528,13.b.i,FreeText,13
-204,43374934,Are the actual outcomes and impacts of the action evaluated?,43374751,14,MultipleChoice,14
+204,43374934,Are the actual outcomes and impacts of the action evaluated?,,14,MultipleChoice,14
 205,105885228,Yes,43374934,14,SelectionOption,14
 206,105885395,No,43374934,14,SelectionOption,14
 207,105885480,Other,43374934,14,SelectionOption,14
 208,43374802,"If you selected Other, please specify:",105885480,14.a,FreeText,14
-210,43374949,What’s the geographical focus of the action?,43374763,15,MultipleChoice,15
+210,43374949,What’s the geographical focus of the action?,,15,MultipleChoice,15
 211,105885227,Global (it covers the whole world),43374949,15,SelectionOption,15
 212,105885347,Regional (UN Regions),43374949,15,SelectionOption,15
 213,105885443,"Transnational (several countries are involved, including bilateral)",43374949,15,SelectionOption,15
@@ -200,7 +200,7 @@
 215,105885616,Sub-national (it covers parts of one country),43374949,15,SelectionOption,15
 216,105994502,Other,43374949,15,SelectionOption,15
 217,43412085,"If you selected Other, please specify:",105994502,15.a,FreeText,15
-218,43380772,In which member state(s) does the action take place?,43374763,16,MultipleAnswer,16
+218,43380772,In which member state(s) does the action take place?,,16,MultipleAnswer,16
 219,105964923,All,43380772,16,SelectionOption,16
 220,105899604,Afghanistan,43380772,16,SelectionOption,16
 221,105899605,Albania,43380772,16,SelectionOption,16
@@ -397,7 +397,7 @@
 412,105899797,Zimbabwe,43380772,16,SelectionOption,16
 413,105899798,Other,43380772,16,SelectionOption,16
 414,43380774,"If you selected Other, please specify:",105899798,16.a,FreeText,16
-416,43374915,Which specific place or area is your action targeting? (Please tick all that apply),43374753,17,MultipleAnswer,17
+416,43374915,Which specific place or area is your action targeting? (Please tick all that apply),,17,MultipleAnswer,17
 417,105885185,Mountains and upland area,43374915,17,SelectionOption,17
 418,105885301,Agricultural land/soils,43374915,17,SelectionOption,17
 419,105885401,Entire water catchment,43374915,17,SelectionOption,17
@@ -414,7 +414,7 @@
 430,105994539,Not applicable,43374915,17,SelectionOption,17
 431,105885724,Other,43374915,17,SelectionOption,17
 432,43374801,"If you selected Other, please specify:",105885724,17.a,FreeText,17
-434,43374916,Which specific part of the lifecycle/plastic supply chain is your action targeting? (Please tick all that apply)   ,43374754,18,MultipleAnswer,18
+434,43374916,Which specific part of the lifecycle/plastic supply chain is your action targeting? (Please tick all that apply)   ,,18,MultipleAnswer,18
 435,105885208,Raw materials,43374916,18,SelectionOption,18
 436,105885303,Design,43374916,18,SelectionOption,18
 437,105885453,Production / Manufacture,43374916,18,SelectionOption,18
@@ -426,14 +426,14 @@
 443,105994566,Not applicable,43374916,18,SelectionOption,18
 444,105885687,Other,43374916,18,SelectionOption,18
 445,43374818,"If you selected Other, please specify:",105885687,18.a,FreeText,18
-446,43374904,Does your action target the following? (Please tick all that apply),43374754,19,MultipleAnswer,19
+446,43374904,Does your action target the following? (Please tick all that apply),,19,MultipleAnswer,19
 447,105885232,Reducing plastics,43374904,19,SelectionOption,19
 448,105885379,Reusing plastic,43374904,19,SelectionOption,19
 449,105885435,Recycling plastics,43374904,19,SelectionOption,19
 450,105885540,Not Applicable,43374904,19,SelectionOption,19
 451,105885587,Other,43374904,19,SelectionOption,19
 452,43374803,"If you selected Other, please specify:",105885587,19.a,FreeText,19
-454,43374931,What impacts or harms does the action relate to? (Please tick all that apply),43374756,20,MultipleAnswer,20
+454,43374931,What impacts or harms does the action relate to? (Please tick all that apply),,20,MultipleAnswer,20
 455,105885248,Human health and wellbeing,43374931,20,SelectionOption,20
 456,105885297,Biodiversity,43374931,20,SelectionOption,20
 457,105885422,Marine organisms,43374931,20,SelectionOption,20
@@ -444,7 +444,7 @@
 462,105994577,Not applicable,43374931,20,SelectionOption,20
 463,105885667,Other,43374931,20,SelectionOption,20
 464,43374806,"If you selected Other, please specify:",105885667,20.a,FreeText,20
-466,43374917,What types of items or contaminants does the action target? ,43374772,21,MultipleAnswer,21
+466,43374917,What types of items or contaminants does the action target? ,,21,MultipleAnswer,21
 467,105885217,"Macroplastic (large, more than 20 mm, e.g. plastic bottles)",43374917,21,SelectionOption,21
 468,105885304,"Microplastics (tiny plastic particles less than 5 mm in diameter, e.g., found in personal care products/synthetic textiles)",43374917,21,SelectionOption,21
 469,105885444,Additives incorporated into plastic items,43374917,21,SelectionOption,21
@@ -475,7 +475,7 @@
 494,105994645,Not applicable,43374919,21.c,SelectionOption,21
 495,105885440,Other,43374919,21.c,SelectionOption,21
 496,43374808,"If you selected Other, please specify:",105885440,21.c.i,FreeText,21
-498,43374905,Does your action target a specific sector? (Please tick all that apply),43374755,22,MultipleAnswer,22
+498,43374905,Does your action target a specific sector? (Please tick all that apply),,22,MultipleAnswer,22
 499,105885187,Packaging,43374905,22,SelectionOption,22
 500,105885288,Textiles,43374905,22,SelectionOption,22
 501,105885472,Transportation,43374905,22,SelectionOption,22
@@ -496,11 +496,11 @@
 516,105994326,Not applicable,43374905,22,SelectionOption,22
 517,105885733,Other,43374905,22,SelectionOption,22
 518,43374805,"If you selected Other, please specify:",105885733,22.a,FreeText,22
-520,43374826,"How much money (amount) has been invested in the action so far? (please give us an estimate if you’re unsure and only submit numbers, e.g, 5,000 should be entered as 5000)",43374770,23,FreeText,23
-521,43374846,Please specify the currency.,43374770,24,FreeText,24
-522,43374827,"Are there in kind contributions as well? (Please tell us the equivalent amount and only submit numbers, e.g, 5,000 should be entered as 5000).",43374770,25,FreeText,25
-523,43374836,Please specify the currency,43374770,26,FreeText,26
-524,43374920,What funding sources did you use?,43374770,27,MultipleAnswer,27
+520,43374826,"How much money (amount) has been invested in the action so far? (please give us an estimate if you’re unsure and only submit numbers, e.g, 5,000 should be entered as 5000)",,23,FreeText,23
+521,43374846,Please specify the currency.,,24,FreeText,24
+522,43374827,"Are there in kind contributions as well? (Please tell us the equivalent amount and only submit numbers, e.g, 5,000 should be entered as 5000).",,25,FreeText,25
+523,43374836,Please specify the currency,,26,FreeText,26
+524,43374920,What funding sources did you use?,,27,MultipleAnswer,27
 525,105885190,Crowdfunded,43374920,27,SelectionOption,27
 526,105885302,Voluntary donations,43374920,27,SelectionOption,27
 527,105885467,Public Financing,43374920,27,SelectionOption,27
@@ -511,7 +511,7 @@
 532,105885649,Other,43374920,27,SelectionOption,27
 533,43374809,"If you selected Other, please specify:",105885649,27.a,FreeText,27
 534,43374844,Please name the specific source(s) of funding?,43374920,27.b,FreeText,27
-536,43374943,Is your action a one-off activity or continuous?,43374773,28,MultipleChoice,28
+536,43374943,Is your action a one-off activity or continuous?,,28,MultipleChoice,28
 537,105885255,Single event,43374943,28,SelectionOption,28
 538,105885374,Continuous activity less than one year,43374943,28,SelectionOption,28
 539,105885433,Continuous activity 1-3 Years,43374943,28,SelectionOption,28
@@ -519,14 +519,14 @@
 541,105994351,Not applicable,43374943,28,SelectionOption,28
 542,105994352,Other,43374943,28,SelectionOption,28
 543,43412006,"If you selected Other, please specify:",105994352,28.a,FreeText,28
-545,43374810,"In the boxes below, please provide i.e. copy and paste links, URL's, website links etc to documents about your action. We are interested in websites, reports, images, media articles etc. Please place only one link per box provided. If you have no documents to share, please write 'I have no links to provide' in the first box. You can also email documents and images - as attachments - to marinelitterstocktake@plymouth.ac.uk",43374757,29,FreeText,29
+545,43374810,"In the boxes below, please provide i.e. copy and paste links, URL's, website links etc to documents about your action. We are interested in websites, reports, images, media articles etc. Please place only one link per box provided. If you have no documents to share, please write 'I have no links to provide' in the first box. You can also email documents and images - as attachments - to marinelitterstocktake@plymouth.ac.uk",,29,FreeText,29
 546,43374839,Another Link,43374810,29.a,FreeText,29
 547,43374835,Another link to information:,43374810,29.b,FreeText,29
 548,43374837,Another link to information,43374810,29.c,FreeText,29
 549,43374822,Another link to information,43374810,29.d,FreeText,29
 550,43374823,Another link to information,43374810,29.e,FreeText,29
-551,43374811,Is there anything more that you would like to tell us about your action/activity? Please use the box below.,43374757,30,FreeText,30
-553,43374944,Are you engaging with stakeholders (including groups of the public and other stakeholders) as part of the action?,43374758,31,MultipleChoice,31
+551,43374811,Is there anything more that you would like to tell us about your action/activity? Please use the box below.,,30,FreeText,30
+553,43374944,Are you engaging with stakeholders (including groups of the public and other stakeholders) as part of the action?,,31,MultipleChoice,31
 554,105885282,Yes,43374944,31,SelectionOption,31
 555,105885367,No,43374944,31,SelectionOption,31
 556,105885412,Not Applicable,43374944,31,SelectionOption,31
@@ -539,7 +539,7 @@
 563,43374812,"If you selected Other, please specify:",105885610,31.a.i,FreeText,31
 564,43375116,"How many different groups and organisations (e.g. 20 retailers, 150 schools) have you engaged with in total? (Please estimate)",105885282,31.b,FreeText,31
 565,43374838,How many stakeholders (number of individuals) have you engaged in total? (Please estimate),105885282,31.c,FreeText,31
-567,43374957,"We are interested in how important a systems view and circular economy thinking is to your action/activity (definitions following). A systems view = thinking about the issue systemically, in its context with regard to the interdependence of different factors. A circular economy approach relates to sustainable production and consumption that underpin a circular reduce-reuse-recycle based economy.",43374759,32,Scale,32
+567,43374957,"We are interested in how important a systems view and circular economy thinking is to your action/activity (definitions following). A systems view = thinking about the issue systemically, in its context with regard to the interdependence of different factors. A circular economy approach relates to sustainable production and consumption that underpin a circular reduce-reuse-recycle based economy.",,32,Scale,32
 568,43374966,"For this action, a systems perspective is very important",43374957,32.1,ScaleRow,32
 569,43374868,"For this action, a systems perspective is very important",43374966,32.1.i,MultipleAnswer,32
 570,105885257,1 Strongly disagree,43374868,32.1.i,SelectionOption,32
@@ -580,7 +580,7 @@
 605,105967096,4,43399861,32.5.i,SelectionOption,32
 606,105967097,5 Strongly agree,43399861,32.5.i,SelectionOption,32
 607,105967098,Don't know,43399861,32.5.i,SelectionOption,32
-609,43374935,When do you expect the impact of the action/activity to be evident?,43374760,33,MultipleChoice,33
+609,43374935,When do you expect the impact of the action/activity to be evident?,,33,MultipleChoice,33
 610,105885273,Immediately (less than 1 year),43374935,33,SelectionOption,33
 611,105885392,In 1 to 3 years,43374935,33,SelectionOption,33
 612,105885428,In 4 to 10 years,43374935,33,SelectionOption,33
@@ -588,7 +588,7 @@
 614,105885634,Not Applicable,43374935,33,SelectionOption,33
 615,106063714,Other,43374935,33,SelectionOption,33
 616,43441144,"If you selected Other, please specify:",106063714,33.a,FreeText,33
-617,43374945,Are the outcomes of the action being evaluated?,43374760,34,MultipleChoice,34
+617,43374945,Are the outcomes of the action being evaluated?,,34,MultipleChoice,34
 618,105885188,Yes,43374945,34,SelectionOption,34
 619,105885362,No,43374945,34,SelectionOption,34
 620,105885484,Not Applicable,43374945,34,SelectionOption,34
@@ -635,7 +635,7 @@
 661,105885182,Yes,43375019,34.i,SelectionOption,34
 662,105885330,No,43375019,34.i,SelectionOption,34
 663,43374814,"If yes, can you name up to 3 unintended side effects or risks? (Either observed already or expected)",105885182,34.i.i,FreeText,34
-666,43375603,"Cost considerations (e.g., reducing costs of existing processes or of disposal)",43375538,35.1,GridRow,35
+666,43375603,"Cost considerations (e.g., reducing costs of existing processes or of disposal)",,35.1,GridRow,35
 667,43375604,Please indicate how important the following DRIVERS are to this action/activity? Even if there is no clear evidence we would like you to please convey your impression of the drivers as best you can.,43375603,35.1.a,MultipleChoice,35
 668,106049943,Not at all important,43375604,35.1.a,SelectionOption,35
 669,106049944,Slightly important,43375604,35.1.a,SelectionOption,35
@@ -643,7 +643,7 @@
 671,106049946,Fairly important,43375604,35.1.a,SelectionOption,35
 672,106049947,Extremely important,43375604,35.1.a,SelectionOption,35
 673,106049950,I do not know / Not applicable,43375604,35.1.a,SelectionOption,35
-674,43375605,Protecting economy / livelihoods or shareholder value,43375538,35.2,GridRow,35
+674,43375605,Protecting economy / livelihoods or shareholder value,,35.2,GridRow,35
 675,43375606,Please indicate how important the following DRIVERS are to this action/activity? Even if there is no clear evidence we would like you to please convey your impression of the drivers as best you can.,43375605,35.2.a,MultipleChoice,35
 676,106049958,Not at all important,43375606,35.2.a,SelectionOption,35
 677,106049959,Slightly important,43375606,35.2.a,SelectionOption,35
@@ -651,7 +651,7 @@
 679,106049961,Fairly important,43375606,35.2.a,SelectionOption,35
 680,106049962,Extremely important,43375606,35.2.a,SelectionOption,35
 681,106049963,I do not know / Not applicable,43375606,35.2.a,SelectionOption,35
-682,43375607,"Economic drivers (e.g., fines, subsidies, taxes)",43375538,35.3,GridRow,35
+682,43375607,"Economic drivers (e.g., fines, subsidies, taxes)",,35.3,GridRow,35
 683,43375608,Please indicate how important the following DRIVERS are to this action/activity? Even if there is no clear evidence we would like you to please convey your impression of the drivers as best you can.,43375607,35.3.a,MultipleChoice,35
 684,106049973,Not at all important,43375608,35.3.a,SelectionOption,35
 685,106049975,Slightly important,43375608,35.3.a,SelectionOption,35
@@ -659,7 +659,7 @@
 687,106049980,Fairly important,43375608,35.3.a,SelectionOption,35
 688,106049982,Extremely important,43375608,35.3.a,SelectionOption,35
 689,106049985,I do not know / Not applicable,43375608,35.3.a,SelectionOption,35
-690,43375609,A change in public opinion,43375538,35.4,GridRow,35
+690,43375609,A change in public opinion,,35.4,GridRow,35
 691,43375610,Please indicate how important the following DRIVERS are to this action/activity? Even if there is no clear evidence we would like you to please convey your impression of the drivers as best you can.,43375609,35.4.a,MultipleChoice,35
 692,106049993,Not at all important,43375610,35.4.a,SelectionOption,35
 693,106049994,Slightly important,43375610,35.4.a,SelectionOption,35
@@ -667,7 +667,7 @@
 695,106050000,Fairly important,43375610,35.4.a,SelectionOption,35
 696,106050001,Extremely important,43375610,35.4.a,SelectionOption,35
 697,106050002,I do not know / Not applicable,43375610,35.4.a,SelectionOption,35
-698,43375611,Members of the public have actively complained / asked for change,43375538,35.5,GridRow,35
+698,43375611,Members of the public have actively complained / asked for change,,35.5,GridRow,35
 699,43375612,Please indicate how important the following DRIVERS are to this action/activity? Even if there is no clear evidence we would like you to please convey your impression of the drivers as best you can.,43375611,35.5.a,MultipleChoice,35
 700,106050003,Not at all important,43375612,35.5.a,SelectionOption,35
 701,106050004,Slightly important,43375612,35.5.a,SelectionOption,35
@@ -675,7 +675,7 @@
 703,106050006,Fairly important,43375612,35.5.a,SelectionOption,35
 704,106050007,Extremely important,43375612,35.5.a,SelectionOption,35
 705,106050008,I do not know / Not applicable,43375612,35.5.a,SelectionOption,35
-706,43375613,"Media coverage, wide exposure of plastic pollution",43375538,35.6,GridRow,35
+706,43375613,"Media coverage, wide exposure of plastic pollution",,35.6,GridRow,35
 707,43375614,Please indicate how important the following DRIVERS are to this action/activity? Even if there is no clear evidence we would like you to please convey your impression of the drivers as best you can.,43375613,35.6.a,MultipleChoice,35
 708,106050009,Not at all important,43375614,35.6.a,SelectionOption,35
 709,106050010,Slightly important,43375614,35.6.a,SelectionOption,35
@@ -683,7 +683,7 @@
 711,106050012,Fairly important,43375614,35.6.a,SelectionOption,35
 712,106050013,Extremely important,43375614,35.6.a,SelectionOption,35
 713,106050014,I do not know / Not applicable,43375614,35.6.a,SelectionOption,35
-714,43375615,Campaigning by NGOs,43375538,35.7,GridRow,35
+714,43375615,Campaigning by NGOs,,35.7,GridRow,35
 715,43375616,Please indicate how important the following DRIVERS are to this action/activity? Even if there is no clear evidence we would like you to please convey your impression of the drivers as best you can.,43375615,35.7.a,MultipleChoice,35
 716,106050018,Not at all important,43375616,35.7.a,SelectionOption,35
 717,106050019,Slightly important,43375616,35.7.a,SelectionOption,35
@@ -691,7 +691,7 @@
 719,106050021,Fairly important,43375616,35.7.a,SelectionOption,35
 720,106050022,Extremely important,43375616,35.7.a,SelectionOption,35
 721,106050023,I do not know / Not applicable,43375616,35.7.a,SelectionOption,35
-722,43375617,Reputation / image of the member state or organisation,43375538,35.8,GridRow,35
+722,43375617,Reputation / image of the member state or organisation,,35.8,GridRow,35
 723,43375618,Please indicate how important the following DRIVERS are to this action/activity? Even if there is no clear evidence we would like you to please convey your impression of the drivers as best you can.,43375617,35.8.a,MultipleChoice,35
 724,106050024,Not at all important,43375618,35.8.a,SelectionOption,35
 725,106050025,Slightly important,43375618,35.8.a,SelectionOption,35
@@ -699,7 +699,7 @@
 727,106050027,Fairly important,43375618,35.8.a,SelectionOption,35
 728,106050028,Extremely important,43375618,35.8.a,SelectionOption,35
 729,106050029,I do not know / Not applicable,43375618,35.8.a,SelectionOption,35
-730,43375619,Leadership by specific individuals in the member state or organisation (who personally drove change),43375538,35.9,GridRow,35
+730,43375619,Leadership by specific individuals in the member state or organisation (who personally drove change),,35.9,GridRow,35
 731,43375620,Please indicate how important the following DRIVERS are to this action/activity? Even if there is no clear evidence we would like you to please convey your impression of the drivers as best you can.,43375619,35.9.a,MultipleChoice,35
 732,106050030,Not at all important,43375620,35.9.a,SelectionOption,35
 733,106050031,Slightly important,43375620,35.9.a,SelectionOption,35
@@ -707,7 +707,7 @@
 735,106050033,Fairly important,43375620,35.9.a,SelectionOption,35
 736,106050034,Extremely important,43375620,35.9.a,SelectionOption,35
 737,106050035,I do not know / Not applicable,43375620,35.9.a,SelectionOption,35
-738,43375621,Existing policy or recent policy change,43375538,35.10,GridRow,35
+738,43375621,Existing policy or recent policy change,,35.10,GridRow,35
 739,43375622,Please indicate how important the following DRIVERS are to this action/activity? Even if there is no clear evidence we would like you to please convey your impression of the drivers as best you can.,43375621,35.10.a,MultipleChoice,35
 740,106050036,Not at all important,43375622,35.10.a,SelectionOption,35
 741,106050037,Slightly important,43375622,35.10.a,SelectionOption,35
@@ -715,7 +715,7 @@
 743,106050039,Fairly important,43375622,35.10.a,SelectionOption,35
 744,106050040,Extremely important,43375622,35.10.a,SelectionOption,35
 745,106050041,I do not know / Not applicable,43375622,35.10.a,SelectionOption,35
-746,43375623,Anticipating a future policy change,43375538,35.11,GridRow,35
+746,43375623,Anticipating a future policy change,,35.11,GridRow,35
 747,43375624,Please indicate how important the following DRIVERS are to this action/activity? Even if there is no clear evidence we would like you to please convey your impression of the drivers as best you can.,43375623,35.11.a,MultipleChoice,35
 748,106050042,Not at all important,43375624,35.11.a,SelectionOption,35
 749,106050043,Slightly important,43375624,35.11.a,SelectionOption,35
@@ -723,7 +723,7 @@
 751,106050045,Fairly important,43375624,35.11.a,SelectionOption,35
 752,106050046,Extremely important,43375624,35.11.a,SelectionOption,35
 753,106050047,I do not know / Not applicable,43375624,35.11.a,SelectionOption,35
-754,43375625,National or organisational values,43375538,35.12,GridRow,35
+754,43375625,National or organisational values,,35.12,GridRow,35
 755,43375626,Please indicate how important the following DRIVERS are to this action/activity? Even if there is no clear evidence we would like you to please convey your impression of the drivers as best you can.,43375625,35.12.a,MultipleChoice,35
 756,106050048,Not at all important,43375626,35.12.a,SelectionOption,35
 757,106050049,Slightly important,43375626,35.12.a,SelectionOption,35
@@ -731,7 +731,7 @@
 759,106050051,Fairly important,43375626,35.12.a,SelectionOption,35
 760,106050052,Extremely important,43375626,35.12.a,SelectionOption,35
 761,106050053,I do not know / Not applicable,43375626,35.12.a,SelectionOption,35
-762,43375627,Peer pressure from similar other actors,43375538,35.13,GridRow,35
+762,43375627,Peer pressure from similar other actors,,35.13,GridRow,35
 763,43375628,Please indicate how important the following DRIVERS are to this action/activity? Even if there is no clear evidence we would like you to please convey your impression of the drivers as best you can.,43375627,35.13.a,MultipleChoice,35
 764,106050054,Not at all important,43375628,35.13.a,SelectionOption,35
 765,106050055,Slightly important,43375628,35.13.a,SelectionOption,35
@@ -739,7 +739,7 @@
 767,106050057,Fairly important,43375628,35.13.a,SelectionOption,35
 768,106050058,Extremely important,43375628,35.13.a,SelectionOption,35
 769,106050059,I do not know / Not applicable,43375628,35.13.a,SelectionOption,35
-770,43375629,Transnational or global agreements and momentum towards change (e.g. UN resolutions),43375538,35.14,GridRow,35
+770,43375629,Transnational or global agreements and momentum towards change (e.g. UN resolutions),,35.14,GridRow,35
 771,43375630,Please indicate how important the following DRIVERS are to this action/activity? Even if there is no clear evidence we would like you to please convey your impression of the drivers as best you can.,43375629,35.14.a,MultipleChoice,35
 772,106050060,Not at all important,43375630,35.14.a,SelectionOption,35
 773,106050061,Slightly important,43375630,35.14.a,SelectionOption,35
@@ -747,7 +747,7 @@
 775,106050063,Fairly important,43375630,35.14.a,SelectionOption,35
 776,106050064,Extremely important,43375630,35.14.a,SelectionOption,35
 777,106050065,I do not know / Not applicable,43375630,35.14.a,SelectionOption,35
-778,43375631,Concern about environmental impact (e.g. harm to animals and plants),43375538,35.15,GridRow,35
+778,43375631,Concern about environmental impact (e.g. harm to animals and plants),,35.15,GridRow,35
 779,43375632,Please indicate how important the following DRIVERS are to this action/activity? Even if there is no clear evidence we would like you to please convey your impression of the drivers as best you can.,43375631,35.15.a,MultipleChoice,35
 780,106050066,Not at all important,43375632,35.15.a,SelectionOption,35
 781,106050067,Slightly important,43375632,35.15.a,SelectionOption,35
@@ -755,7 +755,7 @@
 783,106050069,Fairly important,43375632,35.15.a,SelectionOption,35
 784,106050070,Extremely important,43375632,35.15.a,SelectionOption,35
 785,106050071,I do not know / Not applicable,43375632,35.15.a,SelectionOption,35
-786,43375633,Concern about potential human health impacts,43375538,35.16,GridRow,35
+786,43375633,Concern about potential human health impacts,,35.16,GridRow,35
 787,43375634,Please indicate how important the following DRIVERS are to this action/activity? Even if there is no clear evidence we would like you to please convey your impression of the drivers as best you can.,43375633,35.16.a,MultipleChoice,35
 788,106050074,Not at all important,43375634,35.16.a,SelectionOption,35
 789,106050075,Slightly important,43375634,35.16.a,SelectionOption,35
@@ -763,7 +763,7 @@
 791,106050082,Fairly important,43375634,35.16.a,SelectionOption,35
 792,106050084,Extremely important,43375634,35.16.a,SelectionOption,35
 793,106050085,I do not know / Not applicable,43375634,35.16.a,SelectionOption,35
-794,43375635,Protecting future generations,43375538,35.17,GridRow,35
+794,43375635,Protecting future generations,,35.17,GridRow,35
 795,43375636,Please indicate how important the following DRIVERS are to this action/activity? Even if there is no clear evidence we would like you to please convey your impression of the drivers as best you can.,43375635,35.17.a,MultipleChoice,35
 796,106050086,Not at all important,43375636,35.17.a,SelectionOption,35
 797,106050087,Slightly important,43375636,35.17.a,SelectionOption,35
@@ -771,7 +771,7 @@
 799,106050089,Fairly important,43375636,35.17.a,SelectionOption,35
 800,106050090,Extremely important,43375636,35.17.a,SelectionOption,35
 801,106050091,I do not know / Not applicable,43375636,35.17.a,SelectionOption,35
-802,43375637,Spiritual or religious values,43375538,35.18,GridRow,35
+802,43375637,Spiritual or religious values,,35.18,GridRow,35
 803,43375638,Please indicate how important the following DRIVERS are to this action/activity? Even if there is no clear evidence we would like you to please convey your impression of the drivers as best you can.,43375637,35.18.a,MultipleChoice,35
 804,106050092,Not at all important,43375638,35.18.a,SelectionOption,35
 805,106050093,Slightly important,43375638,35.18.a,SelectionOption,35
@@ -779,7 +779,7 @@
 807,106050095,Fairly important,43375638,35.18.a,SelectionOption,35
 808,106050096,Extremely important,43375638,35.18.a,SelectionOption,35
 809,106050097,I do not know / Not applicable,43375638,35.18.a,SelectionOption,35
-810,43375639,Moral considerations,43375538,35.19,GridRow,35
+810,43375639,Moral considerations,,35.19,GridRow,35
 811,43375640,Please indicate how important the following DRIVERS are to this action/activity? Even if there is no clear evidence we would like you to please convey your impression of the drivers as best you can.,43375639,35.19.a,MultipleChoice,35
 812,106050098,Not at all important,43375640,35.19.a,SelectionOption,35
 813,106050099,Slightly important,43375640,35.19.a,SelectionOption,35
@@ -787,7 +787,7 @@
 815,106050101,Fairly important,43375640,35.19.a,SelectionOption,35
 816,106050102,Extremely important,43375640,35.19.a,SelectionOption,35
 817,106050103,I do not know / Not applicable,43375640,35.19.a,SelectionOption,35
-818,43375641,Sustainable development goals,43375538,35.20,GridRow,35
+818,43375641,Sustainable development goals,,35.20,GridRow,35
 819,43375642,Please indicate how important the following DRIVERS are to this action/activity? Even if there is no clear evidence we would like you to please convey your impression of the drivers as best you can.,43375641,35.20.a,MultipleChoice,35
 820,106050104,Not at all important,43375642,35.20.a,SelectionOption,35
 821,106050105,Slightly important,43375642,35.20.a,SelectionOption,35
@@ -795,7 +795,7 @@
 823,106050107,Fairly important,43375642,35.20.a,SelectionOption,35
 824,106050108,Extremely important,43375642,35.20.a,SelectionOption,35
 825,106050109,I do not know / Not applicable,43375642,35.20.a,SelectionOption,35
-826,43400279,Not enough funds available to invest in action(s),43390519,36.1,GridRow,36
+826,43400279,Not enough funds available to invest in action(s),,36.1,GridRow,36
 827,43400280,How important are the following BARRIERS to effectively addressing the problem that the action targets?,43400279,36.1.a,MultipleChoice,36
 828,105968279,Not at all important,43400280,36.1.a,SelectionOption,36
 829,105968280,Slightly important,43400280,36.1.a,SelectionOption,36
@@ -803,7 +803,7 @@
 831,105968282,Fairly important,43400280,36.1.a,SelectionOption,36
 832,105968283,Extremely important,43400280,36.1.a,SelectionOption,36
 833,105968284,I do not know / Not applicable,43400280,36.1.a,SelectionOption,36
-834,43400281,So-called 'perverse incentives' (e.g. subsidies and taxes) that encourage wasteful use of plastic.,43390519,36.2,GridRow,36
+834,43400281,So-called 'perverse incentives' (e.g. subsidies and taxes) that encourage wasteful use of plastic.,,36.2,GridRow,36
 835,43400282,How important are the following BARRIERS to effectively addressing the problem that the action targets?,43400281,36.2.a,MultipleChoice,36
 836,105968285,Not at all important,43400282,36.2.a,SelectionOption,36
 837,105968286,Slightly important,43400282,36.2.a,SelectionOption,36
@@ -811,7 +811,7 @@
 839,105968288,Fairly important,43400282,36.2.a,SelectionOption,36
 840,105968289,Extremely important,43400282,36.2.a,SelectionOption,36
 841,105968290,I do not know / Not applicable,43400282,36.2.a,SelectionOption,36
-842,43400283,Not enough regulation/control mechanisms,43390519,36.3,GridRow,36
+842,43400283,Not enough regulation/control mechanisms,,36.3,GridRow,36
 843,43400284,How important are the following BARRIERS to effectively addressing the problem that the action targets?,43400283,36.3.a,MultipleChoice,36
 844,105968291,Not at all important,43400284,36.3.a,SelectionOption,36
 845,105968292,Slightly important,43400284,36.3.a,SelectionOption,36
@@ -819,7 +819,7 @@
 847,105968294,Fairly important,43400284,36.3.a,SelectionOption,36
 848,105968295,Extremely important,43400284,36.3.a,SelectionOption,36
 849,105968296,I do not know / Not applicable,43400284,36.3.a,SelectionOption,36
-850,43400285,Existing regulation is not enforced,43390519,36.4,GridRow,36
+850,43400285,Existing regulation is not enforced,,36.4,GridRow,36
 851,43400286,How important are the following BARRIERS to effectively addressing the problem that the action targets?,43400285,36.4.a,MultipleChoice,36
 852,105968297,Not at all important,43400286,36.4.a,SelectionOption,36
 853,105968298,Slightly important,43400286,36.4.a,SelectionOption,36
@@ -827,7 +827,7 @@
 855,105968300,Fairly important,43400286,36.4.a,SelectionOption,36
 856,105968301,Extremely important,43400286,36.4.a,SelectionOption,36
 857,105968302,I do not know / Not applicable,43400286,36.4.a,SelectionOption,36
-858,43400287,Conflicting regulation,43390519,36.5,GridRow,36
+858,43400287,Conflicting regulation,,36.5,GridRow,36
 859,43400288,How important are the following BARRIERS to effectively addressing the problem that the action targets?,43400287,36.5.a,MultipleChoice,36
 860,105968303,Not at all important,43400288,36.5.a,SelectionOption,36
 861,105968304,Slightly important,43400288,36.5.a,SelectionOption,36
@@ -835,7 +835,7 @@
 863,105968306,Fairly important,43400288,36.5.a,SelectionOption,36
 864,105968307,Extremely important,43400288,36.5.a,SelectionOption,36
 865,105968308,I do not know / Not applicable,43400288,36.5.a,SelectionOption,36
-866,43400289,Action depends on other actors who are not cooperating,43390519,36.6,GridRow,36
+866,43400289,Action depends on other actors who are not cooperating,,36.6,GridRow,36
 867,43400290,How important are the following BARRIERS to effectively addressing the problem that the action targets?,43400289,36.6.a,MultipleChoice,36
 868,105968309,Not at all important,43400290,36.6.a,SelectionOption,36
 869,105968310,Slightly important,43400290,36.6.a,SelectionOption,36
@@ -843,7 +843,7 @@
 871,105968312,Fairly important,43400290,36.6.a,SelectionOption,36
 872,105968313,Extremely important,43400290,36.6.a,SelectionOption,36
 873,105968314,I do not know / Not applicable,43400290,36.6.a,SelectionOption,36
-874,43400291,Lobbying by business/industry,43390519,36.7,GridRow,36
+874,43400291,Lobbying by business/industry,,36.7,GridRow,36
 875,43400292,How important are the following BARRIERS to effectively addressing the problem that the action targets?,43400291,36.7.a,MultipleChoice,36
 876,105968315,Not at all important,43400292,36.7.a,SelectionOption,36
 877,105968316,Slightly important,43400292,36.7.a,SelectionOption,36
@@ -851,7 +851,7 @@
 879,105968318,Fairly important,43400292,36.7.a,SelectionOption,36
 880,105968319,Extremely important,43400292,36.7.a,SelectionOption,36
 881,105968320,I do not know / Not applicable,43400292,36.7.a,SelectionOption,36
-882,43400293,Not enough reliable information,43390519,36.8,GridRow,36
+882,43400293,Not enough reliable information,,36.8,GridRow,36
 883,43400294,How important are the following BARRIERS to effectively addressing the problem that the action targets?,43400293,36.8.a,MultipleChoice,36
 884,105968321,Not at all important,43400294,36.8.a,SelectionOption,36
 885,105968322,Slightly important,43400294,36.8.a,SelectionOption,36
@@ -859,7 +859,7 @@
 887,105968324,Fairly important,43400294,36.8.a,SelectionOption,36
 888,105968325,Extremely important,43400294,36.8.a,SelectionOption,36
 889,105968326,I do not know / Not applicable,43400294,36.8.a,SelectionOption,36
-890,43400295,Not enough support from within the member state/organisation,43390519,36.9,GridRow,36
+890,43400295,Not enough support from within the member state/organisation,,36.9,GridRow,36
 891,43400296,How important are the following BARRIERS to effectively addressing the problem that the action targets?,43400295,36.9.a,MultipleChoice,36
 892,105968327,Not at all important,43400296,36.9.a,SelectionOption,36
 893,105968328,Slightly important,43400296,36.9.a,SelectionOption,36
@@ -867,7 +867,7 @@
 895,105968330,Fairly important,43400296,36.9.a,SelectionOption,36
 896,105968331,Extremely important,43400296,36.9.a,SelectionOption,36
 897,105968332,I do not know / Not applicable,43400296,36.9.a,SelectionOption,36
-898,43400297,Not enough support from outside the member state/organisation,43390519,36.10,GridRow,36
+898,43400297,Not enough support from outside the member state/organisation,,36.10,GridRow,36
 899,43400298,How important are the following BARRIERS to effectively addressing the problem that the action targets?,43400297,36.10.a,MultipleChoice,36
 900,105968333,Not at all important,43400298,36.10.a,SelectionOption,36
 901,105968334,Slightly important,43400298,36.10.a,SelectionOption,36
@@ -875,7 +875,7 @@
 903,105968336,Fairly important,43400298,36.10.a,SelectionOption,36
 904,105968337,Extremely important,43400298,36.10.a,SelectionOption,36
 905,105968338,I do not know / Not applicable,43400298,36.10.a,SelectionOption,36
-906,43400299,Technological/technical resources,43390519,36.11,GridRow,36
+906,43400299,Technological/technical resources,,36.11,GridRow,36
 907,43400300,How important are the following BARRIERS to effectively addressing the problem that the action targets?,43400299,36.11.a,MultipleChoice,36
 908,105968339,Not at all important,43400300,36.11.a,SelectionOption,36
 909,105968340,Slightly important,43400300,36.11.a,SelectionOption,36
@@ -883,7 +883,7 @@
 911,105968342,Fairly important,43400300,36.11.a,SelectionOption,36
 912,105968343,Extremely important,43400300,36.11.a,SelectionOption,36
 913,105968344,I do not know / Not applicable,43400300,36.11.a,SelectionOption,36
-914,43400301,Problems with alternative materials and supplies,43390519,36.12,GridRow,36
+914,43400301,Problems with alternative materials and supplies,,36.12,GridRow,36
 915,43400302,How important are the following BARRIERS to effectively addressing the problem that the action targets?,43400301,36.12.a,MultipleChoice,36
 916,105968345,Not at all important,43400302,36.12.a,SelectionOption,36
 917,105968346,Slightly important,43400302,36.12.a,SelectionOption,36
@@ -891,7 +891,7 @@
 919,105968348,Fairly important,43400302,36.12.a,SelectionOption,36
 920,105968349,Extremely important,43400302,36.12.a,SelectionOption,36
 921,105968350,I do not know / Not applicable,43400302,36.12.a,SelectionOption,36
-922,43400303,Gaps in expertise in member state/organisation,43390519,36.13,GridRow,36
+922,43400303,Gaps in expertise in member state/organisation,,36.13,GridRow,36
 923,43400304,How important are the following BARRIERS to effectively addressing the problem that the action targets?,43400303,36.13.a,MultipleChoice,36
 924,105968351,Not at all important,43400304,36.13.a,SelectionOption,36
 925,105968352,Slightly important,43400304,36.13.a,SelectionOption,36
@@ -899,7 +899,7 @@
 927,105968354,Fairly important,43400304,36.13.a,SelectionOption,36
 928,105968355,Extremely important,43400304,36.13.a,SelectionOption,36
 929,105968356,I do not know / Not applicable,43400304,36.13.a,SelectionOption,36
-930,43400305,Gaps in leadership/political will,43390519,36.14,GridRow,36
+930,43400305,Gaps in leadership/political will,,36.14,GridRow,36
 931,43400306,How important are the following BARRIERS to effectively addressing the problem that the action targets?,43400305,36.14.a,MultipleChoice,36
 932,105968357,Not at all important,43400306,36.14.a,SelectionOption,36
 933,105968358,Slightly important,43400306,36.14.a,SelectionOption,36
@@ -907,7 +907,7 @@
 935,105968361,Fairly important,43400306,36.14.a,SelectionOption,36
 936,105968363,Extremely important,43400306,36.14.a,SelectionOption,36
 937,105968364,I do not know / Not applicable,43400306,36.14.a,SelectionOption,36
-938,43400307,Not enough infrastructure,43390519,36.15,GridRow,36
+938,43400307,Not enough infrastructure,,36.15,GridRow,36
 939,43400308,How important are the following BARRIERS to effectively addressing the problem that the action targets?,43400307,36.15.a,MultipleChoice,36
 940,105968368,Not at all important,43400308,36.15.a,SelectionOption,36
 941,105968369,Slightly important,43400308,36.15.a,SelectionOption,36
@@ -915,7 +915,7 @@
 943,105968371,Fairly important,43400308,36.15.a,SelectionOption,36
 944,105968372,Extremely important,43400308,36.15.a,SelectionOption,36
 945,105968373,I do not know / Not applicable,43400308,36.15.a,SelectionOption,36
-946,43400309,Conflicting goals/other priorities more urgent,43390519,36.16,GridRow,36
+946,43400309,Conflicting goals/other priorities more urgent,,36.16,GridRow,36
 947,43400310,How important are the following BARRIERS to effectively addressing the problem that the action targets?,43400309,36.16.a,MultipleChoice,36
 948,105968374,Not at all important,43400310,36.16.a,SelectionOption,36
 949,105968375,Slightly important,43400310,36.16.a,SelectionOption,36
@@ -923,7 +923,7 @@
 951,105968377,Fairly important,43400310,36.16.a,SelectionOption,36
 952,105968378,Extremely important,43400310,36.16.a,SelectionOption,36
 953,105968379,I do not know / Not applicable,43400310,36.16.a,SelectionOption,36
-954,43400311,Fragmentation of efforts/efforts are not coordinated,43390519,36.17,GridRow,36
+954,43400311,Fragmentation of efforts/efforts are not coordinated,,36.17,GridRow,36
 955,43400312,How important are the following BARRIERS to effectively addressing the problem that the action targets?,43400311,36.17.a,MultipleChoice,36
 956,105968380,Not at all important,43400312,36.17.a,SelectionOption,36
 957,105968381,Slightly important,43400312,36.17.a,SelectionOption,36
@@ -931,7 +931,7 @@
 959,105968383,Fairly important,43400312,36.17.a,SelectionOption,36
 960,105968384,Extremely important,43400312,36.17.a,SelectionOption,36
 961,105968385,I do not know / Not applicable,43400312,36.17.a,SelectionOption,36
-962,43400313,Gaps in public awareness/public not interested,43390519,36.18,GridRow,36
+962,43400313,Gaps in public awareness/public not interested,,36.18,GridRow,36
 963,43400314,How important are the following BARRIERS to effectively addressing the problem that the action targets?,43400313,36.18.a,MultipleChoice,36
 964,105968386,Not at all important,43400314,36.18.a,SelectionOption,36
 965,105968387,Slightly important,43400314,36.18.a,SelectionOption,36
@@ -939,7 +939,7 @@
 967,105968389,Fairly important,43400314,36.18.a,SelectionOption,36
 968,105968390,Extremely important,43400314,36.18.a,SelectionOption,36
 969,105968391,I do not know / Not applicable,43400314,36.18.a,SelectionOption,36
-970,43400315,Habits in society too slow to change,43390519,36.19,GridRow,36
+970,43400315,Habits in society too slow to change,,36.19,GridRow,36
 971,43400316,How important are the following BARRIERS to effectively addressing the problem that the action targets?,43400315,36.19.a,MultipleChoice,36
 972,105968392,Not at all important,43400316,36.19.a,SelectionOption,36
 973,105968393,Slightly important,43400316,36.19.a,SelectionOption,36
@@ -947,7 +947,7 @@
 975,105968395,Fairly important,43400316,36.19.a,SelectionOption,36
 976,105968396,Extremely important,43400316,36.19.a,SelectionOption,36
 977,105968397,I do not know / Not applicable,43400316,36.19.a,SelectionOption,36
-978,43400317,"People like plastics (convenience, hygiene etc.)",43390519,36.20,GridRow,36
+978,43400317,"People like plastics (convenience, hygiene etc.)",,36.20,GridRow,36
 979,43400318,How important are the following BARRIERS to effectively addressing the problem that the action targets?,43400317,36.20.a,MultipleChoice,36
 980,105968398,Not at all important,43400318,36.20.a,SelectionOption,36
 981,105968399,Slightly important,43400318,36.20.a,SelectionOption,36
@@ -955,8 +955,8 @@
 983,105968401,Fairly important,43400318,36.20.a,SelectionOption,36
 984,105968402,Extremely important,43400318,36.20.a,SelectionOption,36
 985,105968403,I do not know / Not applicable,43400318,36.20.a,SelectionOption,36
-986,43374817,Is there anything more that you would like to tell us regarding barriers? Please explain below:,43374765,37,FreeText,37
-988,43374946,Did this action involve partnership(s) with other organisations/groups?,43374766,38,MultipleChoice,38
+986,43374817,Is there anything more that you would like to tell us regarding barriers? Please explain below:,,37,FreeText,37
+988,43374946,Did this action involve partnership(s) with other organisations/groups?,,38,MultipleChoice,38
 989,105885199,Yes,43374946,38,SelectionOption,38
 990,105885359,No,43374946,38,SelectionOption,38
 991,105994779,Not applicable,43374946,38,SelectionOption,38
@@ -969,21 +969,21 @@
 998,105885662,Other,43374890,38.a,SelectionOption,38
 999,43374832,"If you selected Other, please specify:",105885662,38.a.i,FreeText,38
 1000,43374824,"If you are reporting from a United Nations entity, were there any other United Nations collaborators in this action. Please list:",105885530,38.a.ii,FreeText,38
-1001,43374819,Is there a partner that you wish you had been able to work with - but couldn't?,43374766,39,FreeText,39
-1003,43374937,Is this......,43374749,40,MultipleChoice,40
+1001,43374819,Is there a partner that you wish you had been able to work with - but couldn't?,,39,FreeText,39
+1003,43374937,Is this......,,40,MultipleChoice,40
 1004,105885195,The first time you have completed this survey,43374937,40,SelectionOption,40
 1005,105885387,"A repeat visit to this survey, to tell us about further actions?",43374937,40,SelectionOption,40
-1008,43375023,Is there a specific team entirely focused on the long term elimination of discharges into the oceans and the reduction of marine plastic litter and microplastics in your country / organisation?,43374767,41,SelectionList,41
+1008,43375023,Is there a specific team entirely focused on the long term elimination of discharges into the oceans and the reduction of marine plastic litter and microplastics in your country / organisation?,,41,SelectionList,41
 1009,105885259,Yes,43375023,41,SelectionOption,41
 1010,105885317,No,43375023,41,SelectionOption,41
-1011,43375022,Are there funding streams in your country / organisation solely dedicated to the long term elimination of discharges into the oceans and the reduction of marine plastic litter and microplastics?,43374767,42,SelectionList,42
+1011,43375022,Are there funding streams in your country / organisation solely dedicated to the long term elimination of discharges into the oceans and the reduction of marine plastic litter and microplastics?,,42,SelectionList,42
 1012,105885265,Yes,43375022,42,SelectionOption,42
 1013,105885318,No,43375022,42,SelectionOption,42
-1014,43374938,"Compared to other similar actors (e.g., member states, organisations), I think we’re...",43374767,43,MultipleChoice,43
+1014,43374938,"Compared to other similar actors (e.g., member states, organisations), I think we’re...",,43,MultipleChoice,43
 1015,105885200,Ahead in our actions on plastic,43374938,43,SelectionOption,43
 1016,105885384,About the same in our actions on plastic,43374938,43,SelectionOption,43
 1017,105885465,Behind in our actions on plastic,43374938,43,SelectionOption,43
-1018,43374953,"Compared to other goals and priorities, addressing plastic pollution in my member state or organisation is ....",43374767,44,Scale,44
+1018,43374953,"Compared to other goals and priorities, addressing plastic pollution in my member state or organisation is ....",,44,Scale,44
 1019,43374982,Easy/straightforward,43374953,44.1,ScaleRow,44
 1020,43374889,Easy/straightforward,43374982,44.1.i,MultipleAnswer,44
 1021,105885203,Not at all,43374889,44.1.i,SelectionOption,44
@@ -1024,7 +1024,7 @@
 1056,105885495,Very,43374849,44.5.i,SelectionOption,44
 1057,105885583,Extremely,43374849,44.5.i,SelectionOption,44
 1058,106030617,Not applicable/I do not know,43374849,44.5.i,SelectionOption,44
-1059,43374952,"There are limited resources for addressing key environmental and social outcomes. Sometimes making efforts towards one thing helps another; sometimes they conflict.  In your view, does a focus on plastic pollution help or hinder progress on other important goals? In other words, can addressing plastic pollution improve other environmental and social issues at the same time? Or do you think focusing on plastic pollution distracts from or conflicts with these other issues? So, please select the statement below that best represents your belief. A focus on plastic pollution.......",43374767,45,Scale,45
+1059,43374952,"There are limited resources for addressing key environmental and social outcomes. Sometimes making efforts towards one thing helps another; sometimes they conflict.  In your view, does a focus on plastic pollution help or hinder progress on other important goals? In other words, can addressing plastic pollution improve other environmental and social issues at the same time? Or do you think focusing on plastic pollution distracts from or conflicts with these other issues? So, please select the statement below that best represents your belief. A focus on plastic pollution.......",,45,Scale,45
 1060,43374979,Climate change,43374952,45.1,ScaleRow,45
 1061,43374897,Climate change,43374979,45.1.i,MultipleAnswer,45
 1062,105885272,...has hindered our work on.....,43374897,45.1.i,SelectionOption,45
@@ -1055,4 +1055,4 @@
 1087,105885338,....has neither hindered nor helped our work on......,43374854,45.5.i,SelectionOption,45
 1088,105885462,....has helped our work on....,43374854,45.5.i,SelectionOption,45
 1089,105969560,Not applicable,43374854,45.5.i,SelectionOption,45
-1092,43374828,"Would you be willing to be contacted for a follow-up interview?If yes, please confirm, in the box below, how we can contact you:",43374769,46,FreeText,46
+1092,43374828,"Would you be willing to be contacted for a follow-up interview?If yes, please confirm, in the box below, how we can contact you:",,46,FreeText,46

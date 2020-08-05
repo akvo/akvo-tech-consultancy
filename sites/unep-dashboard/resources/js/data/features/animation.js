@@ -40,9 +40,9 @@ export const Color = {
 };
 
 export const Legend = {
-    orient: "horizontal",
-    x: "center",
-    y: "bottom",
+    orient: "vertical",
+    x: "left",
+    y: 80,
     textStyle: {
         fontFamily: "Assistant",
         fontWeight: 200,
