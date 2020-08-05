@@ -1,5 +1,3 @@
-import { sum } from "lodash";
-
 const _ = require("lodash");
 
 const myStylesheets = [

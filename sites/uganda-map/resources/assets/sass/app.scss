@@ -848,3 +848,21 @@ select#subcategory-dropdown {
 .polygon-label {
     font-weight: 600;
 }
+/* pie chart */
+#piechart-tmp {
+    position: absolute;
+    top: 300px;
+    right: 0px;
+    margin: 10px;
+    padding: 25px 5px 5px 5px;
+    font-size: 12px;
+    font-family: inherit;
+    width: 450px;
+    height: 300px;
+    background: rgb(255, 255, 255);
+    z-index: 1000;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.17);
+}
+#piechart-tmp.sliding{
+    right: 250px;
+}

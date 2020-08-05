@@ -91,22 +91,22 @@ return [
           "default" => 0,
           "order" => 5,
         ],
-        [
-          "question_id" => null,
-          "question" => "Approximately how much does water cost you per month",
-          "text" => "Water cost per month",
-          "type" => "number",
-          "default" => 0,
-          "order" => 6,
-        ],
-        [
-          "question_id" => null,
-          "question" => "Number of People in the household",
-          "text" => "Family numbers",
-          "type" => "number",
-          "default" => 0,
-          "order" => 7,
-        ],
+        // [
+        //   "question_id" => null,
+        //   "question" => "Approximately how much does water cost you per month",
+        //   "text" => "Water cost per month",
+        //   "type" => "number",
+        //   "default" => 0,
+        //   "order" => 6,
+        // ],
+        // [
+        //   "question_id" => null,
+        //   "question" => "Number of People in the household",
+        //   "text" => "Family numbers",
+        //   "type" => "number",
+        //   "default" => 0,
+        //   "order" => 7,
+        // ],
       ],
       "color" => [
         // Type of sanitation
