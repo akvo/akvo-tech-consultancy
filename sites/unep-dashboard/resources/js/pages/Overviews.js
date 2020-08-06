@@ -12,6 +12,7 @@ import {
     pushToParent,
 } from "../data/utils.js";
 import { TextStyle } from '../data/features/animation.js';
+
 require("../data/unep-map.js");
 
 const MapsOverride = (toolTip, props) => {
@@ -35,7 +36,7 @@ const MapsOverride = (toolTip, props) => {
         },
         dataRange: {
             right: 'right',
-            top: 10,
+            top: 20,
             right: 10,
             splitList: [
                 {start: 25, label:'Above 25'},
@@ -45,6 +46,11 @@ const MapsOverride = (toolTip, props) => {
                 {start: 1, end: 10},
                 {end: 0, label:'0'}
             ],
+            textStyle: {
+                fontFamily: "Assistant",
+                fontWeight: 600,
+                fontSize: 12
+            },
             color: ['#355c7d','#6c5b7b','#c06c84','#f67280','#f8b195','#ddd']
         },
     }
@@ -142,7 +148,7 @@ class Overviews extends Component {
                     kind={list.kind}
                     config={list.config}
                     dataset={data}
-                    extra={list.extra}
+                    extra={extra}
                 />
             )
         }
@@ -162,7 +168,7 @@ class Overviews extends Component {
             return this.getCharts(list, index)
         });
         return (
-            <Container>
+            <Container id="print-container">
                 <Row>
                     {charts}
                 </Row>

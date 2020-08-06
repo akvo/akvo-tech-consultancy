@@ -9,7 +9,8 @@ import {
     Legend,
     TextStyle,
     backgroundColor,
-    Icons
+    Icons,
+    dataView,
 } from "../features/animation.js";
 
 const flatall = (arr) => {
@@ -170,6 +171,17 @@ const generateOptions = (props) => {
 const TreeMap = (title, subtitle, props, data, extra) => {
     data = !data ? generateOptions(props) : data;
     let val;
+    if (sumBy(data,'value') === 0) {
+        return {
+            title : {
+                text: title,
+                subtext: "No Data",
+                left: 'center',
+                top: '20px',
+                ...TextStyle
+            },
+        }
+    }
     let option = {
         ...Color,
         title : {
@@ -201,13 +213,7 @@ const TreeMap = (title, subtitle, props, data, extra) => {
             left: "right",
             top: "bottom",
             feature: {
-                dataView: {
-                    title: "View Data",
-                    lang: ["Data View", "Turn Off", "Refresh"],
-                    icon: Icons.dataView,
-                    buttonColor: "#0478a9",
-                    textAreaBorderColor: "#fff"
-                },
+                dataView: dataView,
                 saveAsImage: {
                     type: "jpg",
                     title: "Save Image",
@@ -227,11 +233,24 @@ const TreeMap = (title, subtitle, props, data, extra) => {
                     fontFamily:"Assistant",
                     fontSize:12,
                     formatter: function(x){
-                        val = '[ ' + x.value + ' ]';
+                        val = x.value;
+                        let name = x.name.split(':')[0];
                         if (props.page.name === "funding") {
                             val = formatCurrency(x.value);
                         }
-                        return x.name + '\n\n' + val;
+                        return name + '\n\n' + '{label|' + val + '}';
+                    },
+                    rich:{
+                        label: {
+                            fontSize: 12,
+                            backgroundColor: 'rgba(0,0,0,.3)',
+                            color: '#ffffff',
+                            borderRadius: 100,
+                            padding: 10,
+                            width: 12.5,
+                            lineHeight: 20,
+                            align: 'center'
+                        },
                     }
                 },
                 upperLabel: {
@@ -248,11 +267,13 @@ const TreeMap = (title, subtitle, props, data, extra) => {
                 breadcrumb: {
                     itemStyle: {
                         textStyle: {
-                            borderWidth:.5,
+                            borderWidth:0,
                             fontFamily:"Assistant",
-                        }
+                        },
+                        shadowColor:"transparent"
                     },
-                    bottom:20,
+                    height:15,
+                    bottom: 0,
                 },
                 data: data
             }

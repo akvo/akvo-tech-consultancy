@@ -4,7 +4,8 @@ import {
     Legend,
     TextStyle,
     backgroundColor,
-    Icons
+    Icons,
+    dataView
 } from "../features/animation.js";
 import { flatten } from "../utils.js";
 import uniq from  'lodash/uniq';
@@ -62,6 +63,21 @@ const SanKey = (title, subtitle, props, data, extra) => {
             padding: 20,
             position: [30,50],
             ...TextStyle
+        },
+        toolbox: {
+            show: true,
+            orient: "horizontal",
+            left: "right",
+            top: "bottom",
+            feature: {
+                dataView: dataView,
+                saveAsImage: {
+                    type: "jpg",
+                    title: "Save Image",
+                    icon: Icons.saveAsImage,
+                    backgroundColor: "#ffffff"
+                }
+            }
         },
         series: [
             {

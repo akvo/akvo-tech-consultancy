@@ -1,4 +1,4 @@
-import { Easing, TextStyle, backgroundColor, Color, Icons, Graphic } from '../features/animation.js';
+import { Easing, TextStyle, backgroundColor, Color, Icons, Graphic, dataView } from '../features/animation.js';
 import flattenDeep from 'lodash/flattenDeep';
 import uniq from 'lodash/uniq';
 import sumBy from 'lodash/sumBy';
@@ -101,24 +101,18 @@ const Maps = (title, subtitle, props, data, extra) => {
         },
         toolbox: {
             show: true,
-            orient: 'horizontal',
-            left: 'right',
-            bottom: 'bottom',
+            orient: "horizontal",
+            left: "right",
+            top: "bottom",
             feature: {
-                dataView: {
-                    title: 'View Data',
-                    lang: ['Data View', 'Turn Off', 'Refresh'],
-                    icon: Icons.dataView,
-                    buttonColor: '#0478a9'
-                },
+                dataView: dataView,
                 saveAsImage: {
-                    type: 'jpg',
-                    title: 'Save Image',
+                    type: "jpg",
+                    title: "Save Image",
                     icon: Icons.saveAsImage,
-                    backgroundColor: '#ffffff'
-                },
-            },
-            z: 202
+                    backgroundColor: "#ffffff"
+                }
+            }
         },
         series: [
             {
@@ -127,7 +121,7 @@ const Maps = (title, subtitle, props, data, extra) => {
                 roam: false,
                 map: 'world',
                 aspectScale: 1,
-                emphasis: {
+                emphasis:{
                     label: {
                         show: false,
                     }
@@ -136,8 +130,9 @@ const Maps = (title, subtitle, props, data, extra) => {
                 itemStyle: {
                     areaColor: '#ddd',
                     emphasis: {
-                        areaColor: "#ff4444",
-                        color: '#FFF',
+                        areaColor: "#ffc107",
+                        shadowColor: 'rgba(0, 0, 0, 0.5)',
+                        shadowBlur: 10
                     }
                 },
                 data: data

@@ -38,9 +38,8 @@ const MapsOverride = (toolTip, props) => {
             }
         },
         dataRange: {
-            left: 'left',
-            top: 10,
-            left: 10,
+            right: 20,
+            top: 20,
             splitList: [
                 {start: 100000000, label:'More than 100 Million'},
                 {start: 1000000, end: 100000000, label: '1 - 100 Million'},
@@ -48,6 +47,11 @@ const MapsOverride = (toolTip, props) => {
                 {start: 1, end: 100000, label: 'Less than 100 Thousand'},
                 {end: 0, label:'No Funding'}
             ],
+            textStyle: {
+                fontFamily: "Assistant",
+                fontWeight: 600,
+                fontSize: 12
+            },
             color: ['#355c7d','#6c5b7b','#c06c84','#f67280','#f8b195','#ddd']
         },
     }

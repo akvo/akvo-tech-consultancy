@@ -9,11 +9,11 @@ body {
     background: #fff;
     padding: 10px 16px;
     min-width: 100%;
-    top: -18px;
+    top: -32px;
     border-bottom: 1px solid #ddd;
 }
 .fixed-top{
-    min-height: 62px;
+    min-height: 48px;
 }
 
 #basic-navbar-nav .nav-right.form-group{
@@ -147,7 +147,7 @@ body {
 }
 
 #wrapper {
-    margin-top: 116px;
+    margin-top: 102px;
 }
 
 #wrapper.toggled #sidebar-wrapper {
@@ -252,19 +252,19 @@ body {
 .NavLight {
     background-color: #fff !important;
     border-color: #ddd;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 }
 
 .navbar-light .navbar-brand {
-    height: 60px;
-    width: 60px;
+    height: 48px;
+    width: 48px;
     padding: 0px;
     margin-right: 0px;
 }
 
 .navbar-brand>img {
-    height: 60px;
-    width: 60px;
+    height: 48px;
+    width: 48px;
 }
 
 .navbar-light .navbar-nav .nav-link {
@@ -306,6 +306,7 @@ body {
 
 ::-webkit-scrollbar {
     width: 4px;
+    height:0px;
 }
 
 /* Track */
@@ -321,6 +322,7 @@ body {
     background-color: #007bff;
     border-radius: 0px;
     width: 5px;
+    height: 0px;
 }
 
 .dropdown-menu .list-unstyled a {
@@ -545,13 +547,13 @@ h1.title-page {
         display: -webkit-box !important;
         display: flex !important;
         flex-basis: auto;
-        height: 60px;
+        height: 48px;
     }
     .navbar-expand-lg .navbar-nav .nav-link {
-        height: 60px;
-        line-height: 42px;
-        padding-right: 30px !important;
-        padding-left: 30px !important;
+        height: 48px;
+        line-height: 30px;
+        padding-right: 20px !important;
+        padding-left: 20px !important;
         border-right: solid 1px #ddd;
     }
     .nav-link:hover {
@@ -598,6 +600,12 @@ tr.sm td{
 }
 h3.table-title{
     font-size:16px!important;
+}
+
+.table.table-table-view{
+    margin: 5%;
+    max-width: 90%;
+    padding: 10px;
 }
 
 /* Nav Switcher */

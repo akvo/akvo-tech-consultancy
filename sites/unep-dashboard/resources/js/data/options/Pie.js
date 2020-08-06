@@ -1,4 +1,5 @@
-import { Color, Easing, Legend, TextStyle, backgroundColor, Icons } from '../features/animation.js';
+import { Color, Easing, Legend, TextStyle, backgroundColor, Icons, dataView } from '../features/animation.js';
+import sumBy from 'lodash/sumBy';
 
 const Pie = (title, subtitle, props, data, extra, roseType=false) => {
     data = !data ? [] : data;
@@ -9,6 +10,17 @@ const Pie = (title, subtitle, props, data, extra, roseType=false) => {
     let rose = {};
     if (roseType) {
         rose = {roseType: roseType}
+    }
+    if (sumBy(data,'value') === 0) {
+        return {
+            title : {
+                text: title,
+                subtext: "No Data",
+                left: 'center',
+                top: '20px',
+                ...TextStyle
+            },
+        }
     }
     let option = {
         ...Color,
@@ -31,13 +43,7 @@ const Pie = (title, subtitle, props, data, extra, roseType=false) => {
             left: "right",
             top: "bottom",
             feature: {
-                dataView: {
-                    title: "View Data",
-                    lang: ["Data View", "Turn Off", "Refresh"],
-                    icon: Icons.dataView,
-                    buttonColor: "#0478a9",
-                    textAreaBorderColor: "#fff"
-                },
+                dataView: dataView,
                 saveAsImage: {
                     type: "jpg",
                     title: "Save Image",
@@ -76,6 +82,11 @@ const Pie = (title, subtitle, props, data, extra, roseType=false) => {
         ],
         legend: {
             ...Legend,
+            textStyle: {
+                fontFamily: "Assistant",
+                fontWeight: 'bold',
+                fontSize: 12
+            },
             data: labels,
         },
         color: ['#355c7d','#6c5b7b','#c06c84','#f67280','#f8b195','#ddd'],

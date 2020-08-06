@@ -1,4 +1,5 @@
-import { Easing, Color, TextStyle, backgroundColor, Icons } from '../features/animation.js';
+import { Easing, Color, TextStyle, backgroundColor, Icons, dataView } from '../features/animation.js';
+import { formatCurrency } from '../utils.js';
 
 const Bar = (title, subtitle, props, data, extra) => {
     let values = [];
@@ -23,7 +24,7 @@ const Bar = (title, subtitle, props, data, extra) => {
             show: true,
             label: {
                 color: "#222",
-                fontFamily: "Assistant"
+                fontFamily: "Assistant",
             }
         },
         tooltip: {
@@ -38,13 +39,7 @@ const Bar = (title, subtitle, props, data, extra) => {
             left: "right",
             top: "bottom",
             feature: {
-                dataView: {
-                    title: "View Data",
-                    lang: ["Data View", "Turn Off", "Refresh"],
-                    icon: Icons.dataView,
-                    buttonColor: "#0478a9",
-                    textAreaBorderColor: "#fff"
-                },
+                dataView: dataView,
                 saveAsImage: {
                     type: "jpg",
                     title: "Save Image",
@@ -58,7 +53,7 @@ const Bar = (title, subtitle, props, data, extra) => {
             data: labels,
             axisLabel: {
                 color: "#222",
-                fontFamily: "Assistant"
+                fontFamily: "Assistant",
             },
             axisTick: {
                 alignWithLabel: true,
@@ -72,10 +67,16 @@ const Bar = (title, subtitle, props, data, extra) => {
                 data: values,
                 type: 'bar',
                 label: {
+                    formatter: function(params) {
+                        return formatCurrency(params.data);
+                    },
                     position: 'insideLeft',
                     show:true,
-                    color: "#ddd",
-                    fontFamily: "Assistant"
+                    color: "#222",
+                    fontFamily: "Assistant",
+                    padding: 5,
+                    borderRadius: 5,
+                    backgroundColor: "#f2f2f2",
                 }
             },
         ],
