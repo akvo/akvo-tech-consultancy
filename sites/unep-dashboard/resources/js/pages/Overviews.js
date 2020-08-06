@@ -4,6 +4,7 @@ import { mapStateToProps, mapDispatchToProps } from "../reducers/actions";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { Col, Row, Container, Jumbotron } from "react-bootstrap";
 import Charts from "../components/Charts";
+import Tables from "../components/Tables";
 import { generateData } from "../data/chart-utils.js";
 import {
     flatten,
@@ -63,7 +64,7 @@ class Overviews extends Component {
                     subtitle: "",
                     config: generateData(12, true, "80vh"),
                     data: false, // if data is false then load global
-                    extra: MapsOverride(this.toolTip, this.props)
+                    extra: true,
                 },
                 {
                     kind: "TREEMAP",
@@ -125,17 +126,32 @@ class Overviews extends Component {
 
     getCharts(list, index) {
         let data = list.data;
+        let extra = list.extra;
         if (data) {
             data = this.renderOptions(data.id, data.childs);
         }
+        if (extra && list.kind === "MAPS") {
+            extra = MapsOverride(this.toolTip, this.props);
+        }
+        if (list.kind !== "TABLE") {
+            return (
+                <Charts
+                key={index}
+                    title={list.title}
+                    subtitle={list.subtitle}
+                    kind={list.kind}
+                    config={list.config}
+                    dataset={data}
+                    extra={list.extra}
+                />
+            )
+        }
         return (
-            <Charts
+            <Tables
                 key={index}
                 title={list.title}
                 subtitle={list.subtitle}
-                kind={list.kind}
                 config={list.config}
-                extra={list.extra}
                 dataset={data}
             />
         )

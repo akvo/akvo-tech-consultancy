@@ -7,6 +7,7 @@ import Sidebar from './Sidebar';
 import {
     Container,
     Button,
+    Form,
     Badge
 } from 'react-bootstrap';
 import Filters from './Filters';
@@ -19,6 +20,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Loading from '../pages/Loading';
 import Overviews from '../pages/Overviews';
 import Actions from '../pages/Actions';
+import Funding from '../pages/Funding';
 
 const API = process.env.MIX_PUBLIC_URL + "/api/";
 const call = (endpoint) => {
@@ -87,6 +89,8 @@ class Page extends Component {
                 return <Overviews/>
             case "actions":
                 return <Actions/>
+            case "funding":
+                return <Funding/>
             default:
                 return ""
         }
@@ -97,6 +101,7 @@ class Page extends Component {
         let loading = this.props.value.page.loading;
         let sidebar = this.props.value.page.sidebar;
         let buttons = ["filters","countries"];
+        let finance = page === "funding" ? true : false;
         return (
             <Fragment>
             <Navigation/>
@@ -116,6 +121,18 @@ class Page extends Component {
                             {x} {this.renderCount(x)}
                         </button>
                     ))}
+                    {finance ? (
+                        <Form.Group
+                            className="fund-switcher"
+                            onChange={this.props.page.toggle.fundcontrib}
+                            controlId="formFinance">
+                        <Form.Check
+                            type="switch"
+                            defaultChecked={this.props.value.page.fundcontrib}
+                            label="Include in-kind Contribution"
+                          />
+                        </Form.Group>
+                    ): ""}
                     <Filters/>
                 </Container>
                 <div className={sidebar.active ? "d-flex" : "d-flex toggled"} id="wrapper">

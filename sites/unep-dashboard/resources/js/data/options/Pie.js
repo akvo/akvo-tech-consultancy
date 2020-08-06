@@ -60,6 +60,8 @@ const Pie = (title, subtitle, props, data, extra, roseType=false) => {
                         fontSize: 16,
                         formatter: "{c} ({d} %)\n" + "{b}",
                         show: true,
+                        backgroundColor: "#f2f2f2",
+                        padding:10,
                         ...TextStyle
                     }
                 },
@@ -76,6 +78,7 @@ const Pie = (title, subtitle, props, data, extra, roseType=false) => {
             ...Legend,
             data: labels,
         },
+        color: ['#355c7d','#6c5b7b','#c06c84','#f67280','#f8b195','#ddd'],
         ...backgroundColor,
         ...Easing,
         ...extra

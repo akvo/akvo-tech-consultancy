@@ -64,8 +64,8 @@ export const Graphic = {
         {
             type: "image",
             id: "logo",
-            right: 20,
-            bottom: 20,
+            right: 50,
+            bottom: 50,
             z: -10,
             bounding: "raw",
             origin: [75, 75],

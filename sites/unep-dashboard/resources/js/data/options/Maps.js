@@ -1,18 +1,38 @@
 import { Easing, TextStyle, backgroundColor, Color, Icons, Graphic } from '../features/animation.js';
 import flattenDeep from 'lodash/flattenDeep';
 import uniq from 'lodash/uniq';
+import sumBy from 'lodash/sumBy';
+import intersection from 'lodash/intersection';
 
-const getData = (data, countries, global) => {
+const getData = (data, page, countries, contrib, {global, datapoints, filteredpoints}) => {
     let results = [];
     if (countries.length === 1) {
         return results;
     }
     results = data.map(x => {
         let country = countries.find(c => c.id === x.country_id);
+        let values = global ? (x.global + x.total) : x.total;
+        let dp = [];
+        if (page === "funding") {
+            values = 0;
+            dp = [];
+            x.values.forEach(x => {
+                dp = [...dp, ...x.datapoints];
+            });
+            dp = uniq(dp);
+            dp = intersection(dp, filteredpoints);
+            dp = datapoints.filter(d => dp.includes(d.datapoint_id));
+            if (dp.length > 0) {
+                dp = contrib ? dp.map(d => {
+                    return {...d, f: d.f + d.c}
+                }) : dp;
+                values = sumBy(dp, 'f');
+            }
+        }
         return {
             name: country.name,
-            value: global ? (x.global + x.total) : x.total,
-            data: x
+            value: values,
+            data: page === "funding" ? {...x, funds: dp} : x
         }
     });
     results = results.filter(x => x.value !== 0);
@@ -23,7 +43,13 @@ const Maps = (title, subtitle, props, data, extra) => {
     if (!data) {
         let source = props.data.filters.length > 0 || props.data.countries.length > 0
             ? props.data.filtered : props.data.master;
-        data = getData(source, props.page.countries, props.data.global);
+        data = getData(
+            source,
+            props.page.name,
+            props.page.countries,
+            props.page.fundcontrib,
+            props.data
+        );
     }
     let values = [];
     let max = 1;
@@ -66,7 +92,7 @@ const Maps = (title, subtitle, props, data, extra) => {
             backgroundColor: '#eeeeee',
             itemWidth: 10,
             inRange: {
-                color: ['#fff', '#007bff']
+                color: ['#ddd','#f8b195','#f67280','#c06c84','#6c5b7b','#355c7d'],
             },
             itemHeight: '445px',
             text: ['High', 'Low'],

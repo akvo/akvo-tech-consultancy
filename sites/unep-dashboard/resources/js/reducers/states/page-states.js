@@ -39,6 +39,7 @@ export const pageState= {
         name: "Loading"
     }],
     keepfilter: true,
+    fundcontrib: false,
     badges: []
 }
 

@@ -27,6 +27,16 @@ body {
     padding-top:1px;
 }
 
+.fund-switcher.form-group {
+    margin-top: 5px;
+    display: inline-block;
+    padding-left: 15px;
+    font-size: 12px;
+    line-height: 24px;
+    float: right;
+    margin-bottom: 0px;
+}
+
 #sidebar-wrapper {
     position: fixed;
     z-index:1;

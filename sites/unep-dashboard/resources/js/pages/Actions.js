@@ -24,9 +24,7 @@ class Actions extends Component {
                     subtitle: "Count of Actions",
                     config: generateData(12, true, "80vh"),
                     data: {id: 5, childs:true},
-                    extra: {
-                        tooltip: {show: false},
-                    }
+                    extra: {}
                 },
                 {
                     kind: "TREEMAP",
@@ -34,9 +32,7 @@ class Actions extends Component {
                     subtitle: "Count of Actions",
                     config: generateData(4, true, "80vh"),
                     data: {id: 83, childs:true},
-                    extra: {
-                        tooltip: {show: false},
-                    }
+                    extra: {}
                 },
                 {
                     kind: "ROSEPIE",
@@ -62,38 +58,24 @@ class Actions extends Component {
                     kind: "TREEMAP",
                     title: "Reporting and Evaluation",
                     subtitle: "Count of Actions",
-                    config: generateData(12, true, "80vh"),
+                    config: generateData(6, true, "80vh"),
                     data: {id: 100, childs:true},
-                    extra: {
-                        tooltip: {show: false},
-                    }
+                    extra: {}
                 },
                 {
-                    kind: "TREEMAP",
+                    kind: "PIE",
                     title: "Source to Sea",
                     subtitle: "Count of Actions",
                     config: generateData(6, true, "80vh"),
                     data: {id: 123, childs:false},
-                    extra: {
-                        tooltip: {show: false},
-                    }
+                    extra: {}
                 },
                 {
                     kind: "BAR",
                     title: "Lifecycle of Plastics",
                     subtitle: "Count of Actions",
-                    config: generateData(6, true, "80vh"),
+                    config: generateData(12, true, "80vh"),
                     data: {id: 139, childs:false},
-                    extra: {
-                        tooltip: {show: false},
-                    }
-                },
-                {
-                    kind: "PIE",
-                    title: "Action Target",
-                    subtitle: "Count of Actions",
-                    config: generateData(4, true, "80vh"),
-                    data: {id: 150, childs:false},
                     extra: {
                         tooltip: {show: false},
                     }
@@ -102,8 +84,16 @@ class Actions extends Component {
                     kind: "TREEMAP",
                     title: "Sector",
                     subtitle: "Count of Actions",
-                    config: generateData(8, true, "80vh"),
+                    config: generateData(8, true, "70vh"),
                     data: {id: 192, childs:true},
+                    extra: {}
+                },
+                {
+                    kind: "PIE",
+                    title: "Action Target",
+                    subtitle: "Count of Actions",
+                    config: generateData(4, true, "70vh"),
+                    data: {id: 150, childs:false},
                     extra: {
                         tooltip: {show: false},
                     }
@@ -112,7 +102,7 @@ class Actions extends Component {
                     kind: "SANKEY",
                     title: "Pollutant Target",
                     subtitle: "Count of Actions",
-                    config: generateData(8, true, "80vh"),
+                    config: generateData(8, true, "60vh"),
                     data: {id: 166, childs:true},
                     extra: {
                         tooltip: {show: false},
@@ -122,7 +112,7 @@ class Actions extends Component {
                     kind: "TABLE",
                     title: "Impact",
                     subtitle: "Count of Actions",
-                    config: generateData(4, true, "80vh"),
+                    config: generateData(4, true, "60vh"),
                     data: {id: 156, childs:false},
                     extra: {
                         tooltip: {show: false},

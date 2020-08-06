@@ -57,7 +57,11 @@ const SanKey = (title, subtitle, props, data, extra) => {
         },
         tooltip: {
             trigger: 'item',
-            triggerOn: 'mousemove'
+            triggerOn: 'mousemove',
+            backgroundColor: "#f2f2f2",
+            padding: 20,
+            position: [30,50],
+            ...TextStyle
         },
         series: [
             {
@@ -66,6 +70,10 @@ const SanKey = (title, subtitle, props, data, extra) => {
                 focusNodeAdjacency: 'allEdges',
                 data: list,
                 links: links,
+                label: {
+                    color: "#222",
+                    fontFamily: "Assistant"
+                }
             }
         ]
     }

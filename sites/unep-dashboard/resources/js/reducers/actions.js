@@ -45,9 +45,14 @@ export const mapDispatchToProps = dispatch => {
             },
             toggle: {
                 keepfilter: () =>
-                dispatch({
+                    dispatch({
                         type:"PAGE - SWITCH KEEP FILTER"
+                    }),
+                fundcontrib: () =>
+                    dispatch({
+                        type:"PAGE - SWITCH FUND CONTRIBUTION"
                     })
+
             }
         },
         data: {

@@ -1,5 +1,16 @@
 import uniq from 'lodash/uniq';
 import intersection from 'lodash/intersection';
+var currencyFormatter = require('currency-formatter');
+
+export const formatCurrency = (x) => {
+    return currencyFormatter.format(x, {
+        decimal: '.',
+        thousand: '.',
+        precision: 0,
+        format: '%v'
+    });
+}
+
 
 export const flatDeep = (arr, d = 1) => {
    return d > 0 ? arr.reduce((acc, val) => acc.concat(Array.isArray(val) ? flatDeep(val, d - 1) : val), [])

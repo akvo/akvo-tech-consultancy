@@ -2,7 +2,7 @@ import flatten from 'lodash/flatten';
 import uniq from 'lodash/uniq';
 import sumBy from 'lodash/sumBy';
 import difference from 'lodash/difference';
-import { parentDeep } from '../utils.js';
+import { parentDeep, formatCurrency } from '../utils.js';
 import {
     Color,
     Easing,
@@ -169,6 +169,7 @@ const generateOptions = (props) => {
 
 const TreeMap = (title, subtitle, props, data, extra) => {
     data = !data ? generateOptions(props) : data;
+    let val;
     let option = {
         ...Color,
         title : {
@@ -184,10 +185,14 @@ const TreeMap = (title, subtitle, props, data, extra) => {
             padding:10,
             transitionDuration: 0.2,
             formatter: function(params) {
-                return params.name + "</br>" + params.value;
+                val = params.value;
+                if (props.page.name === "funding") {
+                    val = formatCurrency(val);
+                }
+                return params.name + "</br>" + val;
             },
-            backgroundColor: "transparent",
-            position: [10,20],
+            backgroundColor: "#f2f2f2",
+            position: [30,50],
             ...TextStyle
         },
         toolbox: {
@@ -222,7 +227,11 @@ const TreeMap = (title, subtitle, props, data, extra) => {
                     fontFamily:"Assistant",
                     fontSize:12,
                     formatter: function(x){
-                        return x.name + '\n\n[' + x.value + ']';
+                        val = '[ ' + x.value + ' ]';
+                        if (props.page.name === "funding") {
+                            val = formatCurrency(x.value);
+                        }
+                        return x.name + '\n\n' + val;
                     }
                 },
                 upperLabel: {

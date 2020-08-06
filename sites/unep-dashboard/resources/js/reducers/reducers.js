@@ -122,6 +122,14 @@ export const states = (state = initialState, action) => {
                     keepfilter: keepfilter
                 }
             }
+        case 'PAGE - SWITCH FUND CONTRIBUTION':
+            return {
+                ...state,
+                page: {
+                    ...state.page,
+                    fundcontrib: state.page.fundcontrib ? false : true
+                }
+            }
         case 'DATA - TOGGLE FILTER':
             data = toggleFilter(state.data, state.page.filters, action.id);
             return {

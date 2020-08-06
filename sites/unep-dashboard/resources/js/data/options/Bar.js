@@ -18,8 +18,13 @@ const Bar = (title, subtitle, props, data, extra) => {
             ...TextStyle
         },
         grid: {
-            top: "20%",
-            show: true
+            top: "10%",
+            left: "20%",
+            show: true,
+            label: {
+                color: "#222",
+                fontFamily: "Assistant"
+            }
         },
         tooltip: {
             trigger: "item",
@@ -51,16 +56,30 @@ const Bar = (title, subtitle, props, data, extra) => {
         yAxis: {
             type: 'category',
             data: labels,
+            axisLabel: {
+                color: "#222",
+                fontFamily: "Assistant"
+            },
+            axisTick: {
+                alignWithLabel: true,
+            }
         },
         xAxis: {
-            type: 'value'
+            type: 'value',
         },
         series: [
             {
                 data: values,
-                type: 'bar'
+                type: 'bar',
+                label: {
+                    position: 'insideLeft',
+                    show:true,
+                    color: "#ddd",
+                    fontFamily: "Assistant"
+                }
             },
         ],
+        color: ['#355c7d','#6c5b7b','#c06c84','#f67280','#f8b195','#ddd'],
         ...backgroundColor,
         ...Easing,
         ...extra
