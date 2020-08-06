@@ -42,9 +42,14 @@ class Page extends Component {
     }
 
     componentDidMount() {
-        this.props.page.change('overviews');
+        const now = new Date();
         let caches = localStorage.getItem('caches');
-        if (caches === null) {
+        let cachetime = localStorage.getItem('cache-time');
+        let cache_version = document.getElementsByName('cache-version')[0].getAttribute('value');
+        let current_version = localStorage.getItem('cache-version');
+        cachetime = cachetime !== null ? new Date(parseInt(cachetime) + (5 * 60 * 1000)) : new Date(0);
+        if (now > cachetime || cache_version !== current_version) {
+            localStorage.clear();
             const calls = [
                 call("countries"),
                 call("filters"),
@@ -61,14 +66,17 @@ class Page extends Component {
                     caches = JSON.stringify(response);
                     this.props.page.init(response);
                     localStorage.setItem('caches', caches);
+                    localStorage.setItem('cache-time', now.getTime());
+                    localStorage.setItem('cache-version', cache_version);
                     this.props.page.loading(false);
                 })
-        } else {
-            let caches = localStorage.getItem('caches');
+        }
+        if (now < cachetime && cache_version === current_version) {
             caches = JSON.parse(caches);
             this.props.page.init(caches);
             this.props.page.loading(false);
         }
+        this.props.page.change('overviews');
     }
 
     renderCount(kind) {

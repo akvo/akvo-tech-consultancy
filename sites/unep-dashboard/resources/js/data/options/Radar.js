@@ -12,7 +12,6 @@ const Radar = (title, subtitle, props, data, extra) => {
             }
         });
     }
-    console.log(values, indicator)
     let option = {
         title : {
             text: title,
