@@ -50,10 +50,10 @@ class StUganda {
     let yAxis = _.uniq(_.map(filter, (x) => x[parishIndex].toUpperCase())); //parish
 
     if (attribution.type === "list") {
-      prefix = "Total ";
+      prefix = "Count";
       legends = attribution.lookup;
-      _.each(legends, (x) => {
-        let res = _.filter(filter, (item) => item[filterIndex] .toLowerCase() === x.toLowerCase());
+      _.each(legends, (x, index) => {
+        let res = _.filter(filter, (item) => item[filterIndex] .toLowerCase() === attribution.sources[index].toLowerCase());
         let colorIndex = _.findIndex(attribution.lookup, (z) => z.toLowerCase() === x.toLowerCase());
         let datas = _.map(yAxis, (y) => {
           let value = _.filter(res, (item) => item[parishIndex].toLowerCase() ===  y.toLowerCase());
@@ -76,7 +76,7 @@ class StUganda {
     }
 
     if (attribution.type === "num") {
-      prefix = "Average ";
+      prefix = "Average";
       let datas = _.map(yAxis, (y) => {
         let value = _.map(filter, (item) => (item[parishIndex].toLowerCase() ===  y.toLowerCase()) ? item[filterIndex] : 0);
         let lvalue = _.filter(value, x => x !== 0);
@@ -100,8 +100,10 @@ class StUganda {
     suffix = " by Parish";
     let option = {
       title: {
-          text: prefix + attribution.name + suffix,
-          left: 'left'
+          text: attribution.name,
+          subtext: prefix + suffix,
+          subtextStyle: {color: "black", fontSize: 13},
+          left: 'center'
       },
       tooltip: {
         trigger: 'axis',
@@ -111,7 +113,7 @@ class StUganda {
       },
       legend: {
           orient: 'horizontal',
-          top: 25,
+          top: 55,
           // left: 0,
           textStyle: {
             fontSize: 11,
@@ -119,6 +121,7 @@ class StUganda {
           data: legends,
       },
       grid: {
+          top: '20%',
           left: '3%',
           right: '4%',
           bottom: '3%',
@@ -211,7 +214,7 @@ class StUganda {
     this.defColors = defColors;
 
     $('body').append(
-        '<div id="geoshape-info" style="position: fixed; top: 75px; left: 10px; z-index: 999; background: rgba(255, 255, 255, 0.8); border-radius: 5px; padding: 5px 10px; font-family: inherit; font-size: 14px;">\
+        '<div id="geoshape-info" style="position: fixed; top: 75px; left: 10px; z-index: 1010; background: rgba(255, 255, 255, 0.8); border-radius: 5px; padding: 5px 10px; font-family: inherit; font-size: 14px;">\
             <div style="padding:5px" class="d-flex justify-content-between">\
               <h3>'+ props[this.configs.shapename.match] +'</h3>\
               <button style="display:none">Close</button>\

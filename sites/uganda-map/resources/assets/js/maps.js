@@ -1,7 +1,4 @@
 import 'leaflet';
-import { local } from 'd3';
-import { template, get } from 'lodash';
-import { data } from 'jquery';
 
 const custom = require('./custom.js'); 
 const _ = require('lodash');
@@ -256,18 +253,6 @@ function hoverStyle(layer) {
     }
 }
 
-// const clickOutsideLayer = (layer=false) => {
-//     // event when user click outside polygon
-//     map.on('click', function(ev) {
-//         console.log('map', ev.target);
-//         if (ev.target['doubleClickZoom'] !== undefined && popupPoly) {
-//             info.update(null);
-//             popupPoly = false;
-//             activePoly = null;
-//         }
-//     });
-// };
-
 function highlightFeature(e) {
     var layer = e.target;
     let name = layer.feature.properties[cfg.shapename.match].toLowerCase();
@@ -276,6 +261,7 @@ function highlightFeature(e) {
     }
     if (popupPoly) {
         info.update(null);
+        setPolygonMap(geojson, false, false);
         popupPoly = false;
         // clickOutsideLayer(layer);
     }
@@ -283,6 +269,7 @@ function highlightFeature(e) {
         hoverStyle(layer);
         popupPoly = true;
         activePoly = layer.feature.properties[cfg.shapename.match].toLowerCase();
+        setPolygonMap(geojson, false, true);
         info.update(layer.feature.properties);
     }
 }
@@ -303,8 +290,10 @@ function zoomToFeature(e) {
 }
 
 function onEachFeature(feature, layer) {
-    // add labels
-    let count = (feature.properties.data) ? feature.properties.data.length : 0;
+    // add polygon labels
+    let count = (feature.properties.data) 
+        ? _.filter(feature.properties.data, x => x.status === 'active').length 
+        : 0;
     let latlng = layer.getBounds().getCenter();
     if (feature.properties[cfg.shapename.match].toLowerCase() === "karambi") {
         latlng['lat'] = latlng['lat'] + 0.000000001;
@@ -312,10 +301,9 @@ function onEachFeature(feature, layer) {
     }
     labelPoly = L.marker(latlng, {
         icon: L.divIcon({
-          className: 'polygon-label',
-        //   html: feature.properties[cfg.shapename.match] + " ("+count+")",
-          html: "("+count+")",
-        //   iconSize: [40, 20]
+            className: 'polygon-label',
+            html: '<div class="polygon-label-container">('+count+')</div>',
+            // iconSize: [40, 20]
         })
     }).addTo(map);
     // eol add labels
@@ -370,6 +358,20 @@ function style(feature) {
     };
 }
 
+function grayStyle(feature) {
+    let color = (activePoly === feature.properties[cfg.shapename.match].toLowerCase())
+        ? getColor(feature.properties.density)
+        : "#666";
+    return {
+        fillColor: color,
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3',
+        fillOpacity: 0.7
+    };
+}
+
 const fetchPolygonMap = (cfg) => {
     return fetchAPI('geoshape/' + cfg.shapefile ).then(res => {
         localStorage.setItem('geojsonPoly', JSON.stringify(res.data));
@@ -385,18 +387,20 @@ const removePolygonMap = (removeLegend=false) => {
     }
 };
 
-const setPolygonMap = (data, init=false) => {
+const setPolygonMap = (data, init=false, changeStyle=false) => {
     removePolygonMap();
-    geojsonPoly = L.geoJson(data['features'], {style: style, onEachFeature: onEachFeature});
+    let selected = (changeStyle) ? grayStyle : style;
+    geojsonPoly = L.geoJson(data['features'], {style: selected, onEachFeature: onEachFeature});
     geojsonPoly.addTo(map);
-    map.fitBounds(geojsonPoly.getBounds()); // zoom map to position
+    // map.fitBounds(geojsonPoly.getBounds()); // zoom map to position
+    setView(cfg.center, 11); // zoom by level
     if (init) {
-        pieChartEvent(data);
+        pieChartEvent();
     }
     renderPieChart(data);
 };
 
-const renderPieChart = (dbs, clicked=false) => {
+const filterPieData = (dbs) => {
     let attribution = dbs.properties.attribution;
     let filter = dbs.features.features.filter(x => x.properties.data !== null);
     let data = [];
@@ -409,21 +413,28 @@ const renderPieChart = (dbs, clicked=false) => {
     });
 
     let tmp = [];
-    _.each(attribution.lookup, (item) => {
+    _.each(attribution.lookup, (item, index) => {
         let value = [];
-        value = _.filter(data, (x) => x[attribution.id].toLowerCase() === item.toLowerCase());
+        // value = _.filter(data, (x) => x[attribution.id].toLowerCase() === item.toLowerCase());
+        value = _.filter(data, (x) => x[attribution.id].toLowerCase() === attribution.sources[index].toLowerCase());
         tmp.push({
             value: value.length, 
             name: item
         });
     });
+    return tmp;
+};
 
+const renderPieChart = (dbs, clicked=false) => {
+    let attribution = dbs.properties.attribution;
+    let pieData = filterPieData(dbs);
     let option = {
         title: {
             text: attribution.name,
             left: 'center'
         },
         tooltip: {
+            show: false,
             trigger: 'item',
             formatter: '{a} <br/>{b} : {c} ({d}%)'
         },
@@ -431,10 +442,16 @@ const renderPieChart = (dbs, clicked=false) => {
             {
                 name: attribution.name,
                 type: 'pie',
+                startAngle: 180,
                 radius: ['5%', '40%'],
-                center: ['50%', '50%'],
+                center: ['50%', '55%'],
                 roseType: 'area',
-                data: tmp
+                label: {
+                    formatter: '{b} \n{c} ({d}%)',
+                    fontWeight: 200,
+                    alignTo: 'edge'
+                },
+                data: pieData
             }
         ],
     };
@@ -449,9 +466,10 @@ const renderPieChart = (dbs, clicked=false) => {
     return;
 };
 
-const pieChartEvent = (dbs) => {
+const pieChartEvent = () => {
     let pie = pieChart.getZr();
     pie.on('click', function (params) {
+        let dbs = JSON.parse(localStorage.getItem('data'));
         if (params.target !== undefined && pieClicked && activePie === params.target.dataIndex) {
             pieClicked = false;
             activePie = null;
@@ -459,11 +477,12 @@ const pieChartEvent = (dbs) => {
             changeValue(dbs, []);
             return;
         }
-        if (params.target !== undefined && !pieClicked && activePie === null) {
+        if (params.target !== undefined && !pieClicked && activePie == null) {
             pieClicked = true;
             activePie = params.target.dataIndex;
             $(".category-" + params.target.dataIndex).click();
-            let del = dbs.properties.attribution.lookup;
+            // let del = dbs.properties.attribution.lookup;
+            let del = dbs.properties.attribution.sources;
             del = del.filter(x => x.toLowerCase() !== del[activePie].toLowerCase());
             changeValue(dbs, del);
             return;
@@ -493,8 +512,10 @@ const startRenderMap = () => {
     // polygon
     if (cfg.shapefile) {
         // render pie chart template
-        d3.select('body').append('div').attr('id', 'piechart-tmp');
-        pieChart = echarts.init(document.getElementById("piechart-tmp"));
+        let pieId = 'piechart-tmp';
+        d3.select('body').append('div').attr('id', pieId);
+        $('#'+pieId).draggable(); // Make the DIV element draggable:
+        pieChart = echarts.init(document.getElementById(pieId));
 
         (localStorage.getItem('data')) 
             ? setPolygonMap(JSON.parse(localStorage.getItem('data')), true)
@@ -651,7 +672,7 @@ const renderSecondFilter = () => {
         if (item.type === 'cascade') {
             values = item.values.filter(x => x.level === 0);
         }
-        values = values.slice(0, 10); // sample
+        // values = values.slice(0, 10); // sample shound be not used
         // consider about sf-list-index class and sf-all-index class, if more than 2 filter need to create more css
         values.forEach((x, i) => {
             // create second filter item
@@ -665,7 +686,7 @@ const renderSecondFilter = () => {
                 .attr('id', ''+name+'-'+i)
                 .text(text)
                 .on('click', function (a) {
-                    filterBySecondFilter(text, 'sf-' + index + '', ''+name+'-'+i, item.id, item.type);
+                    filterBySecondFilter(text, 'sf-' + index + '', ''+name+'-'+i, item.id, item.type, name);
                 });
         });
         d3.select('#sf-'+index+'-list').append('button')
@@ -674,7 +695,7 @@ const renderSecondFilter = () => {
             .attr('data-select', 'remove')
             .text('Disable All')
             .on('click', function(a) {
-                filterBySecondFilter('options', 'sf-'+index+'', 'all', item.id, item.type);
+                filterBySecondFilter('options', 'sf-'+index+'', 'all', item.id, item.type, name);
             });
         $('.legend_'+index+'').click(function(e) {
             $('#sf-'+index+'-list').slideToggle();
@@ -694,7 +715,7 @@ const renderSecondFilter = () => {
     });  
 };
 
-const filterBySecondFilter = (dataName, type, dataId, key, filterType) => {
+const filterBySecondFilter = (dataName, type, dataId, key, filterType, name) => {
     var dbs = JSON.parse(localStorage.getItem('data'));
     if (dataName === 'options') {
         var dataSelection = $('#' + type + '-all').attr('data-select');
@@ -718,35 +739,37 @@ const filterBySecondFilter = (dataName, type, dataId, key, filterType) => {
     if (!cfg.shapefile) {
         dbs["features"] = $.map(dbs.features, (x) => {
             x = x;
-            if (dataName === 'options') {
-                if (dataSelection === 'add') {
-                    x.properties['status'] = 'active';
-                } else {
-                    x.properties['status'] = 'inactive';
-                }
-            } else {
-                let answer = x.properties[key].toLowerCase();
-                // let condition = (filterType === 'cascade') ? answer.includes(dataName.toLowerCase()) : answer === dataName.toLowerCase();
-                let condition = answer.includes(dataName.toLowerCase());
-                if (condition) {
-                    if (x.properties['status'] === "active") {
-                        x.properties['status'] = "inactive";
-                        $('#' + dataId).addClass('inactive');
+            // if (x.properties['status'] === 'active') {
+                if (dataName === 'options') {
+                    if (dataSelection === 'add') {
+                        x.properties['status'] = 'active';
                     } else {
-                        x.properties['status'] = "active";
-                        $('#' + dataId).removeClass('inactive');
+                        x.properties['status'] = 'inactive';
                     }
+                } else {
+                    let answer = x.properties[key].toLowerCase();
+                    // let condition = (filterType === 'cascade') ? answer.includes(dataName.toLowerCase()) : answer === dataName.toLowerCase();
+                    let condition = answer.includes(dataName.toLowerCase());
+                    if (condition) {
+                        if (x.properties['status'] === "active") {
+                            x.properties['status'] = "inactive";
+                            $('#' + dataId).addClass('inactive');
+                        } else {
+                            x.properties['status'] = "active";
+                            $('#' + dataId).removeClass('inactive');
+                        }
+                    }
+                    // else {
+                    //     if (x.properties['status_tmp'] === "active" || x.properties['status_tmp'] === undefined) {
+                    //         x.properties['status_tmp'] = "inactive";
+                    //         $('#' + dataId).addClass('inactive');
+                    //     } else {
+                    //         x.properties['status_tmp'] = "active";
+                    //         $('#' + dataId).removeClass('inactive');
+                    //     }
+                    // }
                 }
-                // else {
-                //     if (x.properties['status_tmp'] === "active" || x.properties['status_tmp'] === undefined) {
-                //         x.properties['status_tmp'] = "inactive";
-                //         $('#' + dataId).addClass('inactive');
-                //     } else {
-                //         x.properties['status_tmp'] = "active";
-                //         $('#' + dataId).removeClass('inactive');
-                //     }
-                // }
-            }
+            // }
             return x;
         });
     }
@@ -755,26 +778,28 @@ const filterBySecondFilter = (dataName, type, dataId, key, filterType) => {
             x = x;
             if (x.properties.data) {
                 $.map(x.properties.data, y => {
-                    if (dataName === 'options') {
-                        if (dataSelection === 'add') {
-                            y['status'] = 'active';
-                        } else {
-                            y['status'] = 'inactive';
-                        }
-                    } else {
-                        let answer = y[key].toLowerCase();
-                        // let condition = (filterType === 'cascade') ? answer.includes(dataName.toLowerCase()) : answer === dataName.toLowerCase();
-                        let condition = answer.includes(dataName.toLowerCase());
-                        if (condition) {
-                            if (y['status'] === "active") {
-                                y['status'] = "inactive";
-                                $('#' + dataId).addClass('inactive');
+                    // if (y['status'] === 'active') {
+                        if (dataName === 'options') {
+                            if (dataSelection === 'add') {
+                                y['status'] = 'active';
                             } else {
-                                y['status'] = "active";
-                                $('#' + dataId).removeClass('inactive');
+                                y['status'] = 'inactive';
+                            }
+                        } else {
+                            let answer = y[key].toLowerCase();
+                            // let condition = (filterType === 'cascade') ? answer.includes(dataName.toLowerCase()) : answer === dataName.toLowerCase();
+                            let condition = answer.includes(dataName.toLowerCase());
+                            if (condition) {
+                                if (y['status'] === "active") {
+                                    y['status'] = "inactive";
+                                    $('#' + dataId).addClass('inactive');
+                                } else {
+                                    y['status'] = "active";
+                                    $('#' + dataId).removeClass('inactive');
+                                }
                             }
                         }
-                    }
+                    // }
                     return y;
                 });
             }
@@ -959,6 +984,7 @@ const bakeThePie = (options) => {
 
 /*Function for generating a legend with the same categories as in the clusterPie*/
 const renderLegend = (database) => {
+    let id = 'css-single-click'; // custom css form single selection
     let data = d3.entries(metadata.fields[categoryField].lookup),
         legenddiv = d3.select('body').append('div')
             .attr('id', 'legend');
@@ -975,6 +1001,13 @@ const renderLegend = (database) => {
     let dropdown = d3.select('#indicators');
     dropdown
         .on('change', function (a) {
+            // change active pie to null when dropdown change
+            pieClicked = false;
+            activePie = null;
+            if (document.getElementById(id)) {
+                document.getElementById(id).remove(); 
+            }
+            // eol
             let selectedVal = this.value.split('$')[0],
                 selectedInd = selectedVal.split('-');
             let dbs = JSON.parse(localStorage.getItem('data'));
@@ -990,6 +1023,7 @@ const renderLegend = (database) => {
                 changeValue(dbs, []);
                 renderLegend(dbs);
             } else {
+                $('#piechart-tmp').remove();
                 createHistogram();
                 categoryField = selectedVal;
                 iconField = categoryField;
@@ -1006,6 +1040,7 @@ const renderLegend = (database) => {
     // create new css for the indicators, if there was color setup
     createCss(metadata.fields[categoryField]);
     let ind = (cfg.shapefile) ? "indicator" : "";
+    let counts = (cfg.shapefile) ? filterPieData(database) : null;
     legenditems
         .enter()
         .append('div')
@@ -1025,7 +1060,6 @@ const renderLegend = (database) => {
                 };
             }
             if (cfg.shapefile) {
-                let id = 'css-single-click';
                 if (document.getElementById(id)) {
                     document.getElementById(id).remove(); 
                 }
@@ -1052,7 +1086,16 @@ const renderLegend = (database) => {
         .classed({
             'legenditem': true
         })
-        .text((d => d.value));
+        .text(function(d) {
+            if (cfg.shapefile) {
+                let count = counts.filter(x => x.name.toLowerCase() === d.value.toLowerCase());
+                count = ' ('+count[0].value+')';
+                return d.value + count;
+            }
+            if (!cfg.shapefile) {
+                return d.value;
+            }
+        });
 };
 
 const createCss = (conf) => {
@@ -1081,15 +1124,16 @@ const getFilterData = () => {
     if (!cfg.shapefile) {
         $('.inactive-legend').each(function() {
             let inactive = $(this).attr('class').split(' ')[0];
-            deletes.push(metadata.attribution.lookup[inactive.split('-')[1]]);
+            // deletes.push(metadata.attribution.lookup[inactive.split('-')[1]]);
+            deletes.push(metadata.attribution.sources[inactive.split('-')[1]]);
         });
     }
     if (cfg.shapefile) {
         $('.active-indicator').each(function() {
             let active = $(this).attr('class').split(' ')[0];
-            let tmp = metadata.attribution.lookup;
-            tmp = tmp.filter(x => x.toLowerCase() !== tmp[active.split('-')[1]].toLowerCase()); // remove the active indicators
-            deletes = tmp;
+            // deletes = metadata.attribution.lookup.filter(x => x.toLowerCase() !== metadata.attribution.lookup[active.split('-')[1]].toLowerCase()); // remove the active indicators
+            let index = _.findIndex(metadata.attribution.lookup, x => x.toLowerCase() === metadata.attribution.lookup[active.split('-')[1]].toLowerCase());
+            deletes = metadata.attribution.sources.filter(x => x.toLowerCase() !== metadata.attribution.sources[index].toLowerCase()); // remove the active indicators
         });
     }
     // let filterData = $.map(selects, (x) => {

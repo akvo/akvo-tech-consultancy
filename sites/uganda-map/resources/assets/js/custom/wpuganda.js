@@ -102,7 +102,7 @@ class WpUganda {
     // parish: F
     // sub county: E
 
-    console.log(data.properties[this.configs.popup]);
+    // console.log(data.properties[this.configs.popup]);
     
     $(".modal-title").html(data.properties[this.configs.popup]);
     $(".modal-body").html(

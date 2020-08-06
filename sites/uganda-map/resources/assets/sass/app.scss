@@ -848,10 +848,17 @@ select#subcategory-dropdown {
 .polygon-label {
     font-weight: 600;
 }
+.polygon-label-container {
+    background-color: white;;
+    width: fit-content; 
+    padding: 2px 4px;
+    border: 1px solid #666;
+    border-radius: 5px;
+}
 /* pie chart */
 #piechart-tmp {
     position: absolute;
-    top: 300px;
+    top: 333px;
     right: 0px;
     margin: 10px;
     padding: 25px 5px 5px 5px;

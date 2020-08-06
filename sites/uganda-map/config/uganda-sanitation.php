@@ -11,15 +11,41 @@ return [
       "sources" => "Sub County", // nama kolom data nya
       "match" => "ADM4_EN" // nama object di geoshape
     ], // data
-    "center_map" => [1.3733, 32.2903], // center lat lng of location
+    "center_map" => [0.5897, 30.2549], // center lat lng of location
     "dataset" => "kabarole_households_2017_clean_v2.csv", // filename .xls
+    "join_column" => [
+      [
+        "name" => "Status of handwash",
+        "sources" => [
+          "Is water available for hand washing near sanitation facility",
+          "Is soap available for hand washing near sanitation facility",
+        ],
+        "conditions" => [
+          [
+            "Is water available for hand washing near sanitation facility" => "Yes", 
+            "Is soap available for hand washing near sanitation facility" => "Yes",
+            "result" => "Hand washing with soap",
+          ],
+          [
+            "Is water available for hand washing near sanitation facility" => "Yes", 
+            "Is soap available for hand washing near sanitation facility" => "No",
+            "result" => "Hand washing without soap",
+          ],
+          [
+            "Is water available for hand washing near sanitation facility" => "No", 
+            "Is soap available for hand washing near sanitation facility" => null,
+            "result" => "No hand washing",
+          ],
+        ],
+      ],
+    ],
   ],
 
   "sources" => [
     [
       "id" => 200000001,
       "type" => "survey",
-      "name" => "Sanitation Uganda",
+      "name" => "Sanitation Kabarole",
       "parent_id" => null,
     ],
 
@@ -53,35 +79,11 @@ return [
       "list" => [ // column name will show on map
         [
           "question_id" => null,
-          "question" => "What type of sanitation facility does household have access to",
-          "text" => "Type of sanitation facility",
+          "question" => "What is the primary source you get your drinking water from",
+          "text" => "Drinking water source",
           "type" => "option",
           "default" => 1,
           "order" => 1,
-        ],
-        [
-          "question_id" => null,
-          "question" => "Gender of the Household Head",
-          "text" => "Gender of the Household Head",
-          "type" => "option",
-          "default" => 0,
-          "order" => 2,
-        ],
-        [
-          "question_id" => null,
-          "question" => "On average how  much time do you use to collect water",
-          "text" => "Time to collect Water",
-          "type" => "option",
-          "default" => 0,
-          "order" => 3,
-        ],
-        [
-          "question_id" => null,
-          "question" => "Satisf of distance-quality-manag w water service in your area",
-          "text" => "Distance quality manage water service",
-          "type" => "option",
-          "default" => 0,
-          "order" => 4,
         ],
         [
           "question_id" => null,
@@ -89,27 +91,170 @@ return [
           "text" => "Access to sanitation facility",
           "type" => "option",
           "default" => 0,
+          "order" => 2,
+        ],
+        [
+          "question_id" => null,
+          "question" => "What type of sanitation facility does household have access to",
+          "text" => "Type of sanitation facility",
+          "type" => "option",
+          "default" => 0,
+          "order" => 3,
+        ],
+        [
+          "question_id" => null,
+          "question" => "Observe sanitation fac-compound if there is evidence of OD",
+          "text" => "Evidence of OD",
+          "type" => "option",
+          "default" => 0,
+          "order" => 4,
+        ],
+        [
+          "question_id" => null,
+          "question" => "How satisfied are you with your sanitation facility",
+          "text" => "Satisfied with sanitation facility",
+          "type" => "option",
+          "default" => 0,
           "order" => 5,
         ],
-        // [
-        //   "question_id" => null,
-        //   "question" => "Approximately how much does water cost you per month",
-        //   "text" => "Water cost per month",
-        //   "type" => "number",
-        //   "default" => 0,
-        //   "order" => 6,
-        // ],
-        // [
-        //   "question_id" => null,
-        //   "question" => "Number of People in the household",
-        //   "text" => "Family numbers",
-        //   "type" => "number",
-        //   "default" => 0,
-        //   "order" => 7,
-        // ],
+        [
+          "question_id" => null,
+          "question" => "Status of handwash",
+          "text" => "Status of handwash",
+          "type" => "option",
+          "default" => 0,
+          "order" => 6,
+        ],
       ],
       "color" => [
-        // Type of sanitation
+        // Status of handwash
+        [
+          "question_id" =>  null,
+          "question" => "Status of handwash",
+          "code" => "Hand washing with soap",
+          "text" => null,
+          "color" => "#28a745",
+          "order" => 1,
+        ],
+        [
+          "question_id" =>  null,
+          "question" => "Status of handwash",
+          "code" => "Hand washing without soap",
+          "text" => null,
+          "color" => "#FA0",
+          "order" => 2,
+        ],
+        [
+          "question_id" =>  null,
+          "question" => "Status of handwash",
+          "code" => "No hand washing",
+          "text" => null,
+          "color" => "#dc3545",
+          "order" => 3,
+        ],
+        [
+          "question_id" =>  null,
+          "question" => "Status of handwash",
+          "code" => "Unknown", // following the emptystring value ya
+          "text" => null,
+          "color" => "#666",
+          "order" => 4,
+        ],
+        // EOL Status of handwash
+
+        // What is the primary source you get your drinking water from
+        [
+          "question_id" =>  null,
+          "question" => "What is the primary source you get your drinking water from",
+          "code" => "Protected water source",
+          "text" => null,
+          "color" => "#28a745",
+          "order" => 1,
+        ],
+        [
+          "question_id" =>  null,
+          "question" => "What is the primary source you get your drinking water from",
+          "code" => "Rain water Harvesting",
+          "text" => null,
+          "color" => "#FA0",
+          "order" => 2,
+        ],
+        [
+          "question_id" =>  null,
+          "question" => "What is the primary source you get your drinking water from",
+          "code" => "Unprotected water source",
+          "text" => null,
+          "color" => "#dc3545",
+          "order" => 3,
+        ],
+        // EOL What is the primary source you get your drinking water from
+
+        // Does the household have access to a sanitation facility
+        [
+          "question_id" =>  null,
+          "question" => "Does the household have access to a sanitation facility",
+          "code" => "Yes",
+          "text" => null,
+          "color" => "#28a745",
+          "order" => 1,
+        ],
+        [
+          "question_id" =>  null,
+          "question" => "Does the household have access to a sanitation facility",
+          "code" => "No",
+          "text" => null,
+          "color" => "#dc3545",
+          "order" => 2,
+        ],
+        // EOL Does the household have access to a sanitation facility
+
+        // Observe sanitation fac-compound if there is evidence of OD
+        [
+          "question_id" =>  null,
+          "question" => "Observe sanitation fac-compound if there is evidence of OD",
+          "code" => "No, there is not evidence of OD",
+          "text" => "No",
+          "color" => "#28a745",
+          "order" => 1,
+        ],
+        [
+          "question_id" =>  null,
+          "question" => "Observe sanitation fac-compound if there is evidence of OD",
+          "code" => "Yes there is evidence of OD",
+          "text" => "Yes",
+          "color" => "#dc3545",
+          "order" => 2,
+        ],
+        // EOL Observe sanitation fac-compound if there is evidence of OD
+
+        // How satisfied are you with your sanitation facility
+        [
+          "question_id" =>  null,
+          "question" => "How satisfied are you with your sanitation facility",
+          "code" => "Satisfied",
+          "text" => null,
+          "color" => "#28a745",
+          "order" => 1,
+        ],
+        [
+          "question_id" =>  null,
+          "question" => "How satisfied are you with your sanitation facility",
+          "code" => "Dissatisfied",
+          "text" => null,
+          "color" => "#dc3545",
+          "order" => 2,
+        ],
+        [
+          "question_id" =>  null,
+          "question" => "How satisfied are you with your sanitation facility",
+          "code" => "Unknown",
+          "text" => "N/A",
+          "color" => "#666",
+          "order" => 3,
+        ],
+        // EOL How satisfied are you with your sanitation facility
+
+        // What type of sanitation facility does household have access to
         [
           "question_id" =>  null,
           "question" => "What type of sanitation facility does household have access to",
@@ -121,8 +266,8 @@ return [
         [
           "question_id" =>  null,
           "question" => "What type of sanitation facility does household have access to",
-          "code" => "No Answer",
-          "text" => null,
+          "code" => "Unknown",
+          "text" => "No toilet",
           "color" => "#F94144",
           "order" => 2,
         ],
@@ -158,7 +303,7 @@ return [
           "color" => "#43AA8B",
           "order" => 6,
         ],
-        // eol Type of sanitation
+        // eol What type of sanitation facility does household have access to
       ],
       "template" => [
         [ 

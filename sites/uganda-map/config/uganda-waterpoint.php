@@ -14,8 +14,9 @@ return [
       "sources" => null, // nama kolom data nya
       "match" => null // nama object di geoshape
     ], // data
-    "center_map" => [1.3733, 32.2903], // center lat lng of location
+    "center_map" => [0.5897, 30.2549], // center lat lng of location kabarole
     "dataset" => "waterpoints_merged_nonduplicated_nopersonaldata.xlsx", // filename .xls
+    "join_column" => null,
   ],
 
   "sources" => [
