@@ -256,12 +256,13 @@ function hoverStyle(layer) {
 function highlightFeature(e) {
     var layer = e.target;
     let name = layer.feature.properties[cfg.shapename.match].toLowerCase();
+    let dbs = (geojson === undefined) ? JSON.parse(localStorage.getItem('data')) : geojson;
     if (!popupPoly && name === activePoly) {
         activePoly = null;
     }
     if (popupPoly) {
         info.update(null);
-        setPolygonMap(geojson, false, false);
+        setPolygonMap(dbs, false, false);
         popupPoly = false;
         // clickOutsideLayer(layer);
     }
@@ -269,7 +270,7 @@ function highlightFeature(e) {
         hoverStyle(layer);
         popupPoly = true;
         activePoly = layer.feature.properties[cfg.shapename.match].toLowerCase();
-        setPolygonMap(geojson, false, true);
+        setPolygonMap(dbs, false, true);
         info.update(layer.feature.properties);
     }
 }
