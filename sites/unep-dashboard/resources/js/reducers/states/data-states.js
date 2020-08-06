@@ -78,6 +78,7 @@ export const updateState = (filters, countries, countrygroups, state) => {
             let percountry = state.datapoints.filter(x => x.global === false);
                 percountry = percountry.map(x => x.datapoint_id);
             filteredpoints = intersection(filteredpoints, percountry);
+            console.log(filteredpoints);
         }
         if (countries.length === 0 && filters.length === 0) {
             filteredpoints = state.datapoints.filter(x => x.global === false);
