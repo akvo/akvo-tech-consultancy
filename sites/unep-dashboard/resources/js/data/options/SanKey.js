@@ -43,7 +43,6 @@ const SanKey = (title, subtitle, props, data, extra) => {
         list = list.map(x => {
             return {name: x};
         });
-        console.log(list);
         data.forEach(x => {
             links = [...links, ...createLinks(x, [])];
         });

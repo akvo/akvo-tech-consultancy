@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { mapStateToProps, mapDispatchToProps } from "../reducers/actions";
 import { Col, Row, Container } from "react-bootstrap";
 import Charts from "../components/Charts";
+import Tables from "../components/Tables";
 import { generateData } from "../data/chart-utils.js";
 import {
     flatten,
@@ -58,7 +59,7 @@ class Actions extends Component {
                     }
                 },
                 {
-                    kind: "SANKEY",
+                    kind: "TREEMAP",
                     title: "Reporting and Evaluation",
                     subtitle: "Count of Actions",
                     config: generateData(12, true, "80vh"),
@@ -98,11 +99,11 @@ class Actions extends Component {
                     }
                 },
                 {
-                    kind: "BAR",
-                    title: "Impact",
+                    kind: "TREEMAP",
+                    title: "Sector",
                     subtitle: "Count of Actions",
                     config: generateData(8, true, "80vh"),
-                    data: {id: 156, childs:false},
+                    data: {id: 192, childs:true},
                     extra: {
                         tooltip: {show: false},
                     }
@@ -118,11 +119,11 @@ class Actions extends Component {
                     }
                 },
                 {
-                    kind: "TREEMAP",
-                    title: "Sector",
+                    kind: "TABLE",
+                    title: "Impact",
                     subtitle: "Count of Actions",
                     config: generateData(4, true, "80vh"),
-                    data: {id: 192, childs:true},
+                    data: {id: 156, childs:false},
                     extra: {
                         tooltip: {show: false},
                     }
@@ -132,10 +133,7 @@ class Actions extends Component {
     }
 
     renderOptions(filterId, childs=true) {
-        let active = this.props.value.data.filters.length > 0
-            || this.props.value.data.countries.length > 0
-            ? this.props.value.data.filteredpoints
-            : false
+        let active = this.props.value.data.filteredpoints;
         let thefilter = flatten(this.props.value.page.filters);
             thefilter = thefilter.filter(x => x.id === filterId);
         let datapoints = this.props.value.data.master.map(x => x.values);
@@ -154,15 +152,26 @@ class Actions extends Component {
         if (data) {
             data = this.renderOptions(data.id, data.childs);
         }
+        if (list.kind !== "TABLE") {
+            return (
+                <Charts
+                key={index}
+                    title={list.title}
+                    subtitle={list.subtitle}
+                    kind={list.kind}
+                    config={list.config}
+                    dataset={data}
+                    extra={list.extra}
+                />
+            )
+        }
         return (
-            <Charts
+            <Tables
                 key={index}
                 title={list.title}
                 subtitle={list.subtitle}
-                kind={list.kind}
                 config={list.config}
                 dataset={data}
-                extra={list.extra}
             />
         )
     }

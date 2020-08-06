@@ -1,6 +1,7 @@
 import flattenDeep from 'lodash/flattenDeep';
 import { flatten } from '../../data/utils.js';
 import uniq from 'lodash/uniq';
+import intersection from 'lodash/intersection';
 import reject from 'lodash/reject';
 
 export const dataState = {
@@ -71,13 +72,30 @@ export const updateState = (filters, countries, countrygroups, state) => {
             filteredpoints = [...filteredpoints, ...v.datapoints];
         });
     });
+    filteredpoints = uniq(filteredpoints);
+    if (!state.global) {
+        if(countries.length > 0 || filters.length > 0) {
+            let percountry = state.datapoints.filter(x => x.global === false);
+                percountry = percountry.map(x => x.datapoint_id);
+            filteredpoints = intersection(filteredpoints, percountry);
+        }
+        if (countries.length === 0 && filters.length === 0) {
+            filteredpoints = state.datapoints.filter(x => x.global === false);
+            filteredpoints = filteredpoints.map(x => x.datapoint_id);
+        }
+    }
+    if (state.global) {
+        if (countries.length === 0 && filters.length === 0) {
+            filteredpoints = state.datapoints.map(x => x.datapoint_id);
+        }
+    }
     return {
         ...state,
         filters: filters,
         countries: countries,
         countrygroups: countrygroups,
         filtered: filtered,
-        filteredpoints: uniq(filteredpoints)
+        filteredpoints: filteredpoints
     };
 }
 

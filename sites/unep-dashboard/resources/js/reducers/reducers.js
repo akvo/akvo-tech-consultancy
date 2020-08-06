@@ -29,6 +29,7 @@ const initialState = {
 
 export const states = (state = initialState, action) => {
     let data;
+    let keepfilter;
     switch (action.type) {
         case 'PAGE - LOADING PAGE':
             return {
@@ -54,16 +55,28 @@ export const states = (state = initialState, action) => {
                 data: {
                     ...state.data,
                     master: action.data,
-                    datapoints: action.datapoints
+                    datapoints: action.datapoints,
+                    filteredpoints: action.datapoints.map(x => x.datapoint_id)
                 }
             }
         case 'PAGE - CHANGE PAGE':
+            keepfilter = state.page.keepfilter;
+            if (!keepfilter) {
+                data = updateState([], [], [], state.data)
+            }
             return {
                 ...state,
                 page: {
                     ...state.page,
-                    name: action.page
-                }
+                    name: action.page,
+                    badges: !keepfilter ? [] : state.page.badges,
+                    sidebar: !keepfilter ? {
+                        active: false,
+                        selected: "filters",
+                        group: false
+                    } : state.page.sidebar
+                },
+                data: !keepfilter ? data : state.data
             }
         case 'PAGE - SIDEBAR TOGGLE':
             let active = state.page.sidebar.active;
@@ -100,6 +113,15 @@ export const states = (state = initialState, action) => {
                     badges: action.badges
                 }
             }
+        case 'PAGE - SWITCH KEEP FILTER':
+            keepfilter = state.page.keepfilter ? false : true
+            return {
+                ...state,
+                page: {
+                    ...state.page,
+                    keepfilter: keepfilter
+                }
+            }
         case 'DATA - TOGGLE FILTER':
             data = toggleFilter(state.data, state.page.filters, action.id);
             return {
@@ -119,11 +141,16 @@ export const states = (state = initialState, action) => {
                 data: data,
             }
         case 'DATA - TOGGLE GLOBAL':
+            let new_state = {
+                ...state.data,
+                global: state.data.global ? false : true
+            }
+            new_state = updateState(new_state.filters, new_state.countries, new_state.countrygroups, new_state);
             return {
                 ...state,
                 data: {
-                    ...state.data,
-                    global: state.data.global ? false : true
+                    ...new_state,
+                    global: new_state.global
                 }
             }
         case 'DATA - REMOVE FILTERS':

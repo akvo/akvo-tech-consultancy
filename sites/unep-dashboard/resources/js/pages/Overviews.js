@@ -109,10 +109,7 @@ class Overviews extends Component {
     }
 
     renderOptions(filterId, childs=true) {
-        let active = this.props.value.data.filters.length > 0
-            || this.props.value.data.countries.length > 0
-            ? this.props.value.data.filteredpoints
-            : false
+        let active = this.props.value.data.filteredpoints;
         let thefilter = flatten(this.props.value.page.filters);
             thefilter = thefilter.filter(x => x.id === filterId);
         let datapoints = this.props.value.data.master.map(x => x.values);

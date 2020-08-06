@@ -38,6 +38,7 @@ export const pageState= {
         code: "Loading",
         name: "Loading"
     }],
+    keepfilter: true,
     badges: []
 }
 

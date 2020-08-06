@@ -78,10 +78,11 @@ class Navigation extends Component {
                     </Form.Group>
                     <Form.Group
                         className="nav-right"
+                        onChange={this.props.page.toggle.keepfilter}
                         controlId="formGroupSwitch">
                     <Form.Check
                         type="switch"
-                        defaultChecked={true}
+                        defaultChecked={this.props.value.page.keepfilter}
                         label="Keep Filter"
                       />
                     </Form.Group>

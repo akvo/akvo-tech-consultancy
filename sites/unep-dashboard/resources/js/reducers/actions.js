@@ -42,6 +42,12 @@ export const mapDispatchToProps = dispatch => {
                         type:"PAGE - BADGE STORE",
                         badges:badges
                     })
+            },
+            toggle: {
+                keepfilter: () =>
+                dispatch({
+                        type:"PAGE - SWITCH KEEP FILTER"
+                    })
             }
         },
         data: {
