@@ -43,7 +43,7 @@ class Tables extends Component {
             name: 'Category',
             selector: 'name',
             sortable: true,
-            right: true,
+            right: false,
           },
           {
             name: 'Count of Actions',

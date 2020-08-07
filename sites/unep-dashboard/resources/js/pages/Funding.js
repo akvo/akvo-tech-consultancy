@@ -69,33 +69,33 @@ class Funding extends Component {
                     kind: "MAPS",
                     title: "Funding",
                     subtitle: "in USD",
-                    config: generateData(8, true, "60vh"),
+                    config: generateData(12, true, "60vh"),
                     data: false, // if data is false then load global
                     extra: true,
                 }, {
                     kind: "RADAR",
                     title: "Impact",
                     subtitle: "",
-                    config: generateData(4, true, "60vh"),
+                    config: generateData(6, true, "60vh"),
                     data: {id: 156, childs:false},
+                    extra: {}
+                }, {
+                    kind: "PIE",
+                    title: "Duration",
+                    subtitle: "",
+                    config: generateData(6, true, "60vh"),
+                    data: {id: 221, childs:false},
                     extra: {}
                 }, {
                     kind: "BAR",
                     title: "Source Funding",
                     subtitle: "",
-                    config: generateData(9, true, "60vh"),
+                    config: generateData(12, true, "60vh"),
                     data: {id: 212, childs:false},
                     extra: {
                         tooltip: {show: false},
                         color: ['#6c5b7b','#845435','#226E7B','#2C201F'],
                     }
-                }, {
-                    kind: "PIE",
-                    title: "Duration",
-                    subtitle: "",
-                    config: generateData(3, true, "60vh"),
-                    data: {id: 221, childs:false},
-                    extra: {}
                 }],
             }
     }

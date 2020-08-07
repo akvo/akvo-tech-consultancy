@@ -25,7 +25,7 @@ const Bar = (title, subtitle, props, data, extra) => {
             ...TextStyle
         },
         grid: {
-            top: "10%",
+            top: "15%",
             left: "20%",
             show: true,
             label: {

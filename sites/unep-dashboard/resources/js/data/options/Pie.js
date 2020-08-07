@@ -75,7 +75,7 @@ const Pie = (title, subtitle, props, data, extra, roseType=false) => {
                 },
                 labelLine: {
                     normal: {
-                        show: false
+                        show: true
                     }
                 },
                 data: data,
