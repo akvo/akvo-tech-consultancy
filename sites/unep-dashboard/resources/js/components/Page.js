@@ -114,9 +114,6 @@ class Page extends Component {
             <Fragment>
             <Navigation/>
                 <Container className="top-container">
-                    <Button size="sm">
-                        <FontAwesomeIcon icon={["fas", "filter"]}/>
-                    </Button>
                     { buttons.map(x => (
                         <button size="sm"
                             key={x}

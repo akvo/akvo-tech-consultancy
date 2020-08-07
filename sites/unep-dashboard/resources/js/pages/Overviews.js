@@ -77,7 +77,7 @@ class Overviews extends Component {
                     title: "Type of Actions",
                     subtitle: "Count of Actions",
                     config: generateData(12, true, "80vh"),
-                    data: {id: 5, childs:false},
+                    data: false,
                     extra: {
                         title: {show: false},
                         tooltip: {show: false},
