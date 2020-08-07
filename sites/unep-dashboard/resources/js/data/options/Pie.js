@@ -32,9 +32,9 @@ const Pie = (title, subtitle, props, data, extra, roseType=false) => {
             ...TextStyle,
         },
         tooltip: {
+            show: false,
             trigger: "item",
             formatter: '{c} ({d}%)',
-            backgroundColor: "#fff",
         },
         toolbox: {
             show: true,

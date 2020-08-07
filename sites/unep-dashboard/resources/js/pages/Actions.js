@@ -78,7 +78,9 @@ class Actions extends Component {
                     subtitle: "Count of Actions",
                     config: generateData(8, true, "80vh"),
                     data: {id: 123, childs:false},
-                    extra: {}
+                    extra: {
+                        tooltip: {show: false},
+                    }
                 },
                 {
                     kind: "PIE",
