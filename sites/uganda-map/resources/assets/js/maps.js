@@ -32,7 +32,8 @@ let removeAllMap = () => map.eachLayer((layer) => {
     map.removeLayer(layer);
 });
 
-let geojson,
+let appVersion = localStorage.getItem('app-version'),
+    geojson,
     geojsonPoly = null,
     legendPoly = null,
     labelPoly = null,
@@ -45,6 +46,7 @@ let geojson,
     clustered = true,
     cfg = [],
     sourcedata = [],
+    defaultSurvey = localStorage.getItem('default-survey'),
     defaultSelect = localStorage.getItem('default-api'),
     geojsonPath = '/api/data/',
     categoryField,
@@ -150,33 +152,45 @@ const setSelectedCategory = (id) => {
 
 /* set category selected based on data load */
 const fetchdata = () => {
-    fetchAPI('source').then( // solve promise
-        (a) => {
-            if (!defaultSelect) {
-                $('#category-dropdown').append('<option id="source-init" value=0 selected>SELECT SURVEY</option>');
-                emptyMap();
-            }
-            a.data.forEach((x, i) => {
-                $('#category-dropdown').append('<optgroup label="'+ x["source"].toUpperCase() +'" id='+ x["id"] +'></optgroup>'); 
-                if (x.childrens.length > 0) {
-                    x.childrens.forEach((y, i) => {
-                        let selected = setSelectedCategory(y["id"]);
-                        let id = "#" + x["id"];
-                        $(id).append('<option value='+ y["id"] +' '+ selected + '>' + y["source"].toUpperCase() + '</option>');
-
-                        if (y.childrens.length > 0) {
-                            y.childrens.forEach((z, i) => {
-                                let selected = setSelectedCategory(z["id"]);
-                                $(id).append('<option value='+ z["id"] +' '+ selected + '>' + z["source"].toUpperCase() + '</option>');
-                            });
-                        }
-                    });
-                }
-                geojsonPath = '/api/data/' + defaultSelect;
-            }); 
-            return defaultSelect;
+    fetchAPI('source').then((a) => {
+        if (!defaultSelect) {
+            $('#category-dropdown').append('<option id="source-init" value=0 selected>SELECT SURVEY</option>');
+            emptyMap();
         }
-    ).then(val => {
+        a.data.forEach((x, i) => {
+            $('#category-dropdown').append('<optgroup label="'+ x["source"].toUpperCase() +'" id='+ x["id"] +'></optgroup>');
+            let timestamp = Date.parse(x.created_at);
+            if (x.childrens.length > 0) {
+                x.childrens.forEach((y, i) => {
+                    let selected = setSelectedCategory(y["id"]);
+                    let id = "#" + x["id"];
+                    $(id).append('<option version='+ timestamp +' surveyid='+ y["parent_id"] +' value='+ y["id"] +' '+ selected + '>' + y["source"].toUpperCase() + '</option>');
+
+                    if (y.childrens.length > 0) {
+                        y.childrens.forEach((z, i) => {
+                            let selected = setSelectedCategory(z["id"]);
+                            $(id).append('<option version='+ timestamp +' surveyid='+ y["parent_id"] +' value='+ z["id"] +' '+ selected + '>' + z["source"].toUpperCase() + '</option>');
+                        });
+                    }
+                });
+            }
+            geojsonPath = '/api/data/' + defaultSelect;
+        });
+        if (defaultSelect) {
+            // check data version
+            let activeSurvey = a.data.filter(x => x.id == defaultSurvey)[0];
+            let newVersion = Date.parse(activeSurvey.created_at);
+            if (appVersion != newVersion) {
+                // window.localStorage.clear();
+                localStorage.removeItem('data');
+                localStorage.removeItem('default-properties');
+                localStorage.removeItem('configs');
+                localStorage.removeItem('second-filter');
+                localStorage.setItem('app-version', newVersion);
+            }
+        }
+        return defaultSelect;
+    }).then(val => {
         if (val) {
             (localStorage.getItem('data')) ? loadLocalData() : setConfig(val);
         }
@@ -187,6 +201,8 @@ fetchdata();
 
 $("#category-dropdown").on('change', () => {
     defaultSelect = $("#category-dropdown").val();
+    defaultSurvey = $("#category-dropdown :selected").attr('surveyid');
+    appVersion = $("#category-dropdown :selected").attr('version');
     if (defaultSelect == 0) {
         emptyMap();
     } else {
@@ -198,6 +214,8 @@ $("#category-dropdown").on('change', () => {
         localStorage.removeItem('configs');
         localStorage.removeItem('second-filter');
         localStorage.setItem('default-api', defaultSelect);
+        localStorage.setItem('default-survey', defaultSurvey);
+        localStorage.setItem('app-version', appVersion);
         if (!localStorage.getItem('status') && !cfg.shapefile) {
             map.removeLayer(markerclusters);
         } 
@@ -256,7 +274,9 @@ function hoverStyle(layer) {
 function highlightFeature(e) {
     var layer = e.target;
     let name = layer.feature.properties[cfg.shapename.match].toLowerCase();
-    let dbs = (geojson === undefined) ? JSON.parse(localStorage.getItem('data')) : geojson;
+    let dbs = (cacheMem === null && geojson === undefined) 
+        ? JSON.parse(localStorage.getItem('data')) 
+        : (geojson === undefined) ? cacheMem : geojson;
     if (!popupPoly && name === activePoly) {
         activePoly = null;
     }
@@ -822,8 +842,8 @@ const loadData = (allPoints, callType) => {
     }
     
     metadata = allPoints.properties;
+    geojson = allPoints;
     if (!cfg.shapefile) {
-        geojson = allPoints;
         let markers = L.geoJson(geojson, {
             pointToLayer: defineFeature,
             onEachFeature: defineFeaturePopup

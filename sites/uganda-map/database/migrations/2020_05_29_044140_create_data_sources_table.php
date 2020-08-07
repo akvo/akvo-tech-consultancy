@@ -24,7 +24,7 @@ class CreateDataSourcesTable extends Migration
             $table->longText('data')->nullable();
             $table->string('css')->nullable();
             $table->string('js')->nullable();
-            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('created_at');
         
             $table->foreign('parent_id')->references('id')->on('data_sources')->onDelete('cascade');
         });
