@@ -60,9 +60,19 @@ const SanKey = (title, subtitle, props, data, extra) => {
             trigger: 'item',
             triggerOn: 'mousemove',
             backgroundColor: "#f2f2f2",
-            padding: 20,
+            formatter: function(par) {
+                let name = par.data.source.split('(')[0];
+                name += '> ' + par.data.target.split('(')[0];
+                name += ' :' + par.data.value;
+                return name;
+            },
+            padding:5,
+            borderRadius:5,
             position: [30,50],
-            ...TextStyle
+            textStyle: {
+                ...TextStyle.textStyle,
+                fontSize:12
+            }
         },
         toolbox: {
             show: true,

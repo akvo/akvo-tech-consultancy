@@ -33,9 +33,8 @@ const Pie = (title, subtitle, props, data, extra, roseType=false) => {
         },
         tooltip: {
             trigger: "item",
-            formatter: "{c} ({d}%)",
+            formatter: '{c} ({d}%)',
             backgroundColor: "#fff",
-            ...TextStyle
         },
         toolbox: {
             show: true,
@@ -63,12 +62,15 @@ const Pie = (title, subtitle, props, data, extra, roseType=false) => {
                         position: "center"
                     },
                     emphasis: {
-                        fontSize: 16,
-                        formatter: "{c} ({d} %)\n" + "{b}",
+                        fontSize: 12,
+                        formatter: "{b}\n" + "{c} ({d} %)",
                         show: true,
                         backgroundColor: "#f2f2f2",
+                        borderRadius:5,
                         padding:10,
-                        ...TextStyle
+                        textStyle : {
+                            ...TextStyle.textStyle,
+                        }
                     }
                 },
                 labelLine: {

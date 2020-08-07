@@ -198,14 +198,21 @@ const TreeMap = (title, subtitle, props, data, extra) => {
             transitionDuration: 0.2,
             formatter: function(params) {
                 val = params.value;
+                let name = params.name;
                 if (props.page.name === "funding") {
                     val = formatCurrency(val);
                 }
-                return params.name + "</br>" + val;
+                name = params.name.split(':')[0];
+                name = name.split('(')[0];
+                return name + ":" + val;
             },
             backgroundColor: "#f2f2f2",
-            position: [30,50],
-            ...TextStyle
+            top:'bottom',
+            left: 'center',
+            textStyle : {
+                ...TextStyle.textStyle,
+                fontSize:12
+            }
         },
         toolbox: {
             show: true,

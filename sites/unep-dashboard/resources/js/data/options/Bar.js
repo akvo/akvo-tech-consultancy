@@ -1,5 +1,6 @@
 import { Easing, Color, TextStyle, backgroundColor, Icons, dataView } from '../features/animation.js';
 import { formatCurrency } from '../utils.js';
+import sum from 'lodash/sum';
 
 const Bar = (title, subtitle, props, data, extra) => {
     let values = [];
@@ -8,6 +9,11 @@ const Bar = (title, subtitle, props, data, extra) => {
     if (data.length > 0) {
         values = data.map((x) => x.value);
         labels = data.map((x) => x.name);
+    }
+    let avg = 0;
+    if (values.length > 0) {
+        avg = sum(values) / values.length;
+        avg = avg < 100 ? true : false;
     }
     let option = {
         ...Color,
@@ -75,7 +81,7 @@ const Bar = (title, subtitle, props, data, extra) => {
                     color: "#222",
                     fontFamily: "Assistant",
                     padding: 5,
-                    borderRadius: 5,
+                    borderRadius: avg ? 20 : 5,
                     backgroundColor: "#f2f2f2",
                 }
             },

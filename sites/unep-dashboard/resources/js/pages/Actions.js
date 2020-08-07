@@ -63,29 +63,21 @@ class Actions extends Component {
                     extra: {}
                 },
                 {
-                    kind: "PIE",
-                    title: "Source to Sea",
-                    subtitle: "Count of Actions",
-                    config: generateData(6, true, "80vh"),
-                    data: {id: 123, childs:false},
-                    extra: {}
-                },
-                {
                     kind: "BAR",
                     title: "Lifecycle of Plastics",
                     subtitle: "Count of Actions",
-                    config: generateData(12, true, "80vh"),
+                    config: generateData(6, true, "80vh"),
                     data: {id: 139, childs:false},
                     extra: {
                         tooltip: {show: false},
                     }
                 },
                 {
-                    kind: "TREEMAP",
-                    title: "Sector",
+                    kind: "BAR",
+                    title: "Source to Sea",
                     subtitle: "Count of Actions",
-                    config: generateData(8, true, "70vh"),
-                    data: {id: 192, childs:true},
+                    config: generateData(8, true, "80vh"),
+                    data: {id: 123, childs:false},
                     extra: {}
                 },
                 {
@@ -97,6 +89,14 @@ class Actions extends Component {
                     extra: {
                         tooltip: {show: false},
                     }
+                },
+                {
+                    kind: "TREEMAP",
+                    title: "Sector",
+                    subtitle: "Count of Actions",
+                    config: generateData(12, true, "70vh"),
+                    data: {id: 192, childs:true},
+                    extra: {}
                 },
                 {
                     kind: "SANKEY",
