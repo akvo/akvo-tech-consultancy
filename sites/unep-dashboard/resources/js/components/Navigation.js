@@ -14,7 +14,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import axios from 'axios';
 
 
-const API = process.env.MIX_PUBLIC_URL + "/api/";
+const API = process.env.MIX_PUBLIC_URL + "/";
 
 class Navigation extends Component {
     constructor(props) {
@@ -46,29 +46,31 @@ class Navigation extends Component {
     }
 
     downloadReport () {
+        let token = document.querySelector('meta[name="csrf-token"]').content;
         let canvas = document.getElementsByTagName("canvas");
+        let formData = new FormData();
         let images = [];
         let image = 0;
         do {
             let image_url = canvas[image].toDataURL('image/png');
-            images.push(image_url);
+            formData.append('images[]', image_url);
+            // images.push(image_url);
             image++;
-        } while(image < canvas.length)
-        axios({
-            method: 'post',
-            url: API + 'download',
-            headers: {
-                'Content-Type':'multipart/form-data'
-            },
-            data: {
-                filters: this.props.value.data.filters,
-                countries: this.props.value.data.countries,
-                countrygroups: this.props.value.data.countrygroups,
-                global: this.props.value.data.global,
-                images: images
-            }
-        }).then(res => {
+        } while(image < canvas.length);
+        formData.set('global', this.props.value.data.global);
+        formData.set('countries', this.props.value.data.countries);
+        formData.set('countrygroups', this.props.value.data.countrygroups);
+        formData.set('filters', this.props.value.data.filters);
+
+        axios.post(API + 'download', formData, {'Content-Type':'multipart/form-data', 'X-CSRF-TOKEN': token})
+        .then(res => {
             console.log(res.data);
+            const url = window.URL.createObjectURL(new Blob([res.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'file.html'); //or any other extension
+            document.body.appendChild(link);
+            link.click();
         }).catch(err => {
             console.log("internal server error");
         });

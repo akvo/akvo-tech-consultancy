@@ -14,6 +14,7 @@ class ReportController extends Controller
 
     public function download(Request $request)
     {
-        return $request;
+        // return $request->input('images');
+        return view('report', ['images' => $request->input('images')]);
     }
 }

@@ -16,3 +16,4 @@ Route::get('/', function () {
 });
 
 Route::get('all-countries', 'Api\TestController@allcountries');
+Route::post('download', 'Api\ReportController@download');
