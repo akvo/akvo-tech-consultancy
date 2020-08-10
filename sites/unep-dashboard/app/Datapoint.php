@@ -19,4 +19,8 @@ class Datapoint extends Model
         return $this->hasMany('App\DatapointValue');
     }
 
+    public function answers()
+    {
+        return $this->hasMany('App\Answers');
+    }
 }
