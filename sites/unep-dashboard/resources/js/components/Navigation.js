@@ -46,13 +46,26 @@ class Navigation extends Component {
     }
 
     downloadReport () {
+        let canvas = document.getElementsByTagName("canvas");
+        let images = [];
+        let image = 0;
+        do {
+            let image_url = canvas[image].toDataURL('image/png');
+            images.push(image_url);
+            image++;
+        } while(image < canvas.length)
         axios({
             method: 'post',
             url: API + 'download',
+            headers: {
+                'Content-Type':'multipart/form-data'
+            },
             data: {
                 filters: this.props.value.data.filters,
                 countries: this.props.value.data.countries,
                 countrygroups: this.props.value.data.countrygroups,
+                global: this.props.value.data.global,
+                images: images
             }
         }).then(res => {
             console.log(res.data);
