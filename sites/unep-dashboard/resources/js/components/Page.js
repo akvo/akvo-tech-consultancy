@@ -21,6 +21,7 @@ import Overviews from '../pages/Overviews';
 import Actions from '../pages/Actions';
 import Funding from '../pages/Funding';
 import Compare from '../pages/Compare';
+import Reports from "../pages/Reports";
 
 const API = process.env.MIX_PUBLIC_URL + "/api/";
 const call = (endpoint) => {
@@ -101,6 +102,8 @@ class Page extends Component {
                 return <Funding/>
             case "compare":
                 return <Compare/>
+            case "report":
+                return <Reports/>
             default:
                 return ""
         }

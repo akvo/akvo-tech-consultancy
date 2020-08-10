@@ -703,3 +703,18 @@ button.btn.btn-sm.btn-primary.btn-download svg{
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
 }
+.datapoint-list {
+    min-width: 100vw;
+    min-height: 100vh;
+    z-index: 999;
+    width: 100vw;
+    height: 100vh;
+}
+.row.report-chart-list {
+    z-index: 1;
+    position: absolute;
+    min-width: 100vw;
+    min-height: 0vh;
+    overflow-y: scroll;
+    height: 0vh;
+}
