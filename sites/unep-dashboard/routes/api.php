@@ -21,3 +21,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('data', 'Api\ApiController@data');
 Route::get('filters', 'Api\ApiController@filters');
 Route::get('countries', 'Api\ApiController@countries');
+Route::post('download', 'Api\ReportController@download');

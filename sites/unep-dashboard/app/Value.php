@@ -40,4 +40,8 @@ class Value extends Model
         return $this->hasMany('App\Value', 'parent_id', 'id')->select('id','parent_id','code','name');
     }
 
+    public function questions()
+    {
+        return $this->hasMany('question');
+    }
 }
