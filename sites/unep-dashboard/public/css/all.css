@@ -1,5 +1,5 @@
 body {
-    font-family: "Assistant", sans-serif;
+    font-family: "Assistant", sans-serif!important;
     height:auto!important;
 }
 
@@ -679,30 +679,8 @@ button.btn.btn-sm.btn-primary.btn-download {
 button.btn.btn-sm.btn-primary.btn-download svg{
     margin-right:10px;
 }
-.table-compare{
-    border-spacing:50px;
-}
-.table-compare thead tr td{
-    padding: 20px;
-}
-.table-compare tr td{
-    border:solid 1px #ddd;
-}
-.table-compare tbody tr td{
-    padding-left: 20px;
-}
-.table-compare thead tr td.first-column{
-    border: none;
-}
-.table-compare tbody tr td.first-column{
-    border: none;
-    border-bottom: solid 1px #ddd;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-}
+
+/*Reports*/
 .datapoint-list {
     min-width: 100vw;
     min-height: 100vh;
@@ -717,4 +695,37 @@ button.btn.btn-sm.btn-primary.btn-download svg{
     min-height: 0vh;
     overflow-y: scroll;
     height: 0vh;
+}
+
+/*Compare*/
+.table-compare{
+    font-size:12px;
+}
+.table-compare thead tr td{
+    padding: 20px;
+}
+.table-compare tr td{
+    border: none;
+    border: solid 1px #ddd;
+}
+.table-compare tbody tr td{
+    padding-left: 5px;
+}
+.table-compare thead tr td.first-column{
+    border: none;
+}
+.table-compare tbody tr td.first-column{
+    border: none;
+    border-top: solid 1px #ddd;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+.table-compare tbody tr td.expand-row{
+    cursor:pointer;
+}
+.table-compare tbody tr td.expand-row .expand-row-icon {
+    font-size:10px!important;
 }

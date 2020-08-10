@@ -4,6 +4,7 @@ import Pie from './options/Pie';
 import TreeMap from './options/TreeMap';
 import SanKey from './options/SanKey';
 import Radar from './options/Radar';
+import BarStack from './options/BarStack';
 
 const loadingState = {
         id: 1,
@@ -50,6 +51,8 @@ export const generateOptions = (type, title, subtitle, props, dataset, extra={})
             return SanKey(title, subtitle, props, dataset, extra);
         case "RADAR":
             return Radar(title, subtitle, props, dataset, extra);
+        case "BARSTACK":
+            return BarStack(title, subtitle, props, dataset, extra);
         default:
             return Bar(title, subtitle, props, dataset, extra);
     }

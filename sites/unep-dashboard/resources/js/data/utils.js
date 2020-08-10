@@ -100,3 +100,13 @@ export const pushToParent = (parent)  => {
         }
     });
 }
+
+export const getAllChildsId = (parent, childs) => {
+    childs.push(parent.id);
+    if (parent.childrens.length > 0) {
+        parent.childrens.forEach(x => {
+            getAllChildsId(x, childs);
+        });
+    };
+    return childs
+}

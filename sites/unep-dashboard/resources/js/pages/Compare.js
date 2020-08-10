@@ -7,44 +7,132 @@ import {
     Card,
     Row
 } from 'react-bootstrap';
+import Charts from "../components/Charts";
+import { getAllChildsId, formatCurrency } from '../data/utils.js';
+import { generateData } from "../data/chart-utils.js";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import flatten from 'lodash/flatten';
+import uniq from 'lodash/uniq';
 
 const parentStyle = {
-    "font-weight":"bold",
-    "background-color":"#f2f2f2",
-    "padding-left": "15px"
+    fontWeight:"bold",
+    backgroundColor:"#f2f2f2",
+    paddingLeft: "10px"
 }
 
 class Compare extends Component {
     constructor(props) {
         super(props);
         this.renderIndicator = this.renderIndicator.bind(this);
+        this.toggleExpand = this.toggleExpand.bind(this);
+        this.state = {
+            expanded: [],
+            countrylist: [
+                {country_id: 98, name: "Indonesia"},
+                {country_id: 99, name: "India"},
+                {country_id: 10, name: "Argentina"},
+            ]
+        }
+    }
+
+    toggleExpand(id) {
+        let expanded = this.state.expanded;
+        if (expanded.includes(id)) {
+            expanded = expanded.filter(x => x !== id);
+            this.setState({expanded: expanded});
+            return;
+        }
+        this.setState({expanded: [...expanded, id]});
+    }
+
+    renderCountryValues (x, depth) {
+        if (depth > 0) {
+            return this.state.countrylist.map((country, ci) => {
+                let indicator = this.props.value.data.master.find(x => x.country_id === country.country_id);
+                let value = indicator.values.find(i => i.id === x.id);
+                value = value ? value.datapoints.length : "-";
+                return (
+                    <td key={country.country_id + "-" + x.id} align="center">
+                    {value}
+                    </td>
+                )
+            });
+        }
+        const legends = x.childrens.map(child => {
+            let name = child.name.split('(')[0];
+                name = name.split(':')[0];
+            return name;
+        });
+        const series = x.childrens.map(child => {
+            let name = child.name.split('(')[0];
+                name = name.split(':')[0];
+            const allchilds = getAllChildsId(child, []);
+            const values = this.state.countrylist.map((country) => {
+                let indicator = this.props.value.data.master.find(c => c.country_id === country.country_id);
+                let value = indicator.values.filter(i => allchilds.includes(i.id));
+                if (value.length > 0) {
+                    value = flatten(value.map(v => v.datapoints));
+                    value = uniq(value);
+                }
+                return value.length > 0 ? value.length : 0;
+            });
+            return {
+                name: name,
+                type: 'bar',
+                stack: 'category',
+                data: values,
+            };
+        });
+        const data = {
+            legends: legends,
+            xAxis: [{
+                data: this.state.countrylist.map(c => c.name)
+            }],
+            series: series,
+        };
+        return (
+            <td key={'parent-table' + x.id} colSpan={3}>
+                <Charts
+                    title={''}
+                    subtitle={''}
+                    kind={'BARSTACK'}
+                    config={generateData(12, false, "60vh")}
+                    dataset={data}
+                    extra={{}}
+                />
+            </td>
+        )
     }
 
     renderIndicator(data, depth) {
-        let padding = depth === 0 ? 0 : (20*depth);
-        let fontSize = depth === 0 ? 16 : 14;
-        let styleBase = {"padding-left": padding + "px","font-size": fontSize + "px"};
+        let padding = depth === 0 ? 0 : (30*depth);
+        let fontSize = depth === 0 ? 14 : 12;
+        let styleBase = {paddingLeft: padding + "px",fontSize: fontSize + "px"};
             styleBase = depth === 0 ? {...styleBase, ...parentStyle} : styleBase;
         let nest = depth + 1;
         return data.map((x, i) => {
             let name = x.name.split('(')[0];
-                name = x.childrens.length > 0 && depth !== 0 ? " - " + name : name;
-            return (
-                <Fragment>
-                <tr key={i + "-" + depth}>
+            let active = this.state.expanded.includes(x.id);
+            let className = x.childrens.length > 0 ? "first-column expand-row" : "first-column";
+            let parent = [(
+                <tr key={x.id + "-" + depth}>
                     <td
-                        className="first-column"
-                        style={styleBase}
-                    >
-                    {name}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                        onClick={e => this.toggleExpand(x.id)}
+                        className={className}
+                        style={styleBase}>
+                        { x.childrens.length > 0 ? (
+                            <FontAwesomeIcon
+                                className="expand-row-icon"
+                                color={"grey"}
+                                icon={["fas", active ? "chevron-down" : "chevron-right"]} />
+                        ) : ""} {name}</td>
+                    {this.renderCountryValues(x, depth)}
                 </tr>
-                    {x.childrens.length > 0 ? this.renderIndicator(x.childrens, nest) : ""}
-                </Fragment>
-            )
+            )];
+            if (x.childrens.length > 0 && active) {
+                parent.push(this.renderIndicator(x.childrens, nest));
+            };
+            return parent;
         });
     }
 
@@ -58,7 +146,7 @@ class Compare extends Component {
                                 <tr>
                                     <td align="left" width={"30%"} className="first-column">
                                     </td>
-                                    <td align="center">
+                                    <td className="first-column" align="center">
                                         <Card>
                                             <Card.Body>
                                                 <button className="btn btn-secondary btn-sm">
@@ -70,7 +158,7 @@ class Compare extends Component {
                                             </Card.Body>
                                         </Card>
                                     </td>
-                                    <td align="center">
+                                    <td className="first-column" align="center">
                                         <Card>
                                             <Card.Body>
                                                 <button className="btn btn-secondary btn-sm">
@@ -82,7 +170,7 @@ class Compare extends Component {
                                             </Card.Body>
                                         </Card>
                                     </td>
-                                    <td align="center">
+                                    <td className="first-column" align="center">
                                         <Card>
                                             <Card.Body>
                                                 <button className="btn btn-secondary btn-sm">
@@ -96,9 +184,7 @@ class Compare extends Component {
                                     </td>
                                 </tr>
                             </thead>
-                            <tbody>
-                                {this.renderIndicator(this.props.value.page.filters, 0)}
-                            </tbody>
+                            <tbody>{this.renderIndicator(this.props.value.page.filters, 0)}</tbody>
                         </table>
                     </Col>
                 </Row>
