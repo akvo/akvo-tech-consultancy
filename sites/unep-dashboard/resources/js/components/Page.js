@@ -15,7 +15,6 @@ import axios from 'axios';
 import intersectionBy from 'lodash/intersectionBy';
 import uniq from 'lodash/uniq';
 import uniqBy from 'lodash/uniqBy';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Loading from '../pages/Loading';
 import Overviews from '../pages/Overviews';

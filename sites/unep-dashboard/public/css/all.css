@@ -565,6 +565,37 @@ h1.title-page {
 }
 
 @media (max-width: 991px) {
+    .container,
+    .container-lg,
+    .container-md,
+    .container-sm {
+        min-width: 100% !important;
+    }
+    .dropdown-menu.show {
+        width: 100%;
+    }
+    .dropdown-fix {
+        max-width: 200px;
+    }
+    .navbar-expand-lg .navbar-collapse {
+        display: -webkit-box !important;
+        display: flex !important;
+        flex-basis: auto;
+        height: 48px;
+    }
+    .navbar-expand-lg .navbar-nav .nav-link {
+        height: 48px;
+        line-height: 30px;
+        padding-right: 20px !important;
+        padding-left: 20px !important;
+        border-right: solid 1px #ddd;
+    }
+    .nav-link:hover {
+        background-color: #eee;
+    }
+    .nav-right {
+        height: 40px;
+    }
     .dropdown-menu.show,
     .container .dropdown {
         display: block;
@@ -638,4 +669,8 @@ h3.table-title{
 }
 .btn.btn-selected .badge.badge-filters.badge-sm{
     background-color: #009fe2;
+}
+button.btn.btn-small.btn-primary.btn-download {
+    border-radius: 20px!important;
+    border: none!important;
 }

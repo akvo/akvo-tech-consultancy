@@ -11,6 +11,10 @@ import {
     Button,
 } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import axios from 'axios';
+
+
+const API = process.env.MIX_PUBLIC_URL + "/api/";
 
 class Navigation extends Component {
     constructor(props) {
@@ -20,6 +24,7 @@ class Navigation extends Component {
             active: 'home'
         }
         this.links = this.links.bind(this);
+        this.downloadReport = this.downloadReport.bind(this);
     }
 
     changePage (key) {
@@ -37,6 +42,22 @@ class Navigation extends Component {
             return (
                 <Nav.Link key={id} eventKey={name} active={active}>{x}</Nav.Link>
             )
+        });
+    }
+
+    downloadReport () {
+        axios({
+            method: 'post',
+            url: API + 'download',
+            data: {
+                filters: this.props.value.data.filters,
+                countries: this.props.value.data.countries,
+                countrygroups: this.props.value.data.countrygroups,
+            }
+        }).then(res => {
+            console.log(res.data);
+        }).catch(err => {
+            console.log("internal server error");
         });
     }
 
@@ -86,6 +107,15 @@ class Navigation extends Component {
                         label="Keep Filter"
                       />
                     </Form.Group>
+                    <button
+                        className="btn btn-small btn-primary btn-download"
+                        onClick={e => this.downloadReport()}
+                    >
+                    <FontAwesomeIcon
+                        className="fas-icon"
+                        icon={["fas", "arrow-circle-down"]} />
+                        Download
+                    </button>
               </Navbar.Collapse>
               </Container>
             </Navbar>
