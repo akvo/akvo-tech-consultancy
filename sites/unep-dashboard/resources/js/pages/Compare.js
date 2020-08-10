@@ -13,6 +13,7 @@ import { generateData } from "../data/chart-utils.js";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import flatten from 'lodash/flatten';
 import uniq from 'lodash/uniq';
+import intersection from 'lodash/intersection';
 
 const parentStyle = {
     fontWeight:"bold",
@@ -31,7 +32,8 @@ class Compare extends Component {
                 {country_id: 98, name: "Indonesia"},
                 {country_id: 99, name: "India"},
                 {country_id: 10, name: "Argentina"},
-            ]
+            ],
+            excluded: [1]
         }
     }
 
@@ -46,7 +48,7 @@ class Compare extends Component {
     }
 
     renderCountryValues (x, depth) {
-        if (depth > 0) {
+        if (depth > 0 || x.childrens.length > 6) {
             return this.state.countrylist.map((country, ci) => {
                 let indicator = this.props.value.data.master.find(x => x.country_id === country.country_id);
                 let value = indicator.values.find(i => i.id === x.id);
@@ -63,6 +65,7 @@ class Compare extends Component {
                 name = name.split(':')[0];
             return name;
         });
+        const individual = this.props.value.data.datapoints.filter(d => d.global === false).map(d => d.datapoint_id);
         const series = x.childrens.map(child => {
             let name = child.name.split('(')[0];
                 name = name.split(':')[0];
@@ -70,23 +73,37 @@ class Compare extends Component {
             const values = this.state.countrylist.map((country) => {
                 let indicator = this.props.value.data.master.find(c => c.country_id === country.country_id);
                 let value = indicator.values.filter(i => allchilds.includes(i.id));
+                let nonglobal = 0;
                 if (value.length > 0) {
                     value = flatten(value.map(v => v.datapoints));
                     value = uniq(value);
+                    nonglobal = intersection(value, individual);
+                    nonglobal = nonglobal.length > 0 ? nonglobal.length : 0;
                 }
-                return value.length > 0 ? value.length : 0;
+                if (this.props.value.data.global) {
+                    return value.length > 0 ? [nonglobal, value.length] : [nonglobal, 0];
+                }
+                return value.length > 0 ? [value.length] : [0];
             });
             return {
                 name: name,
                 type: 'bar',
                 stack: 'category',
-                data: values,
+                data: flatten(values),
+                barMaxWidth: '50px'
             };
+        });
+        let countries = [];
+        this.state.countrylist.forEach(c => {
+            countries.push(c.name);
+            if (this.props.value.data.global) {
+                countries.push(c.name + ' (Shared)');
+            }
         });
         const data = {
             legends: legends,
             xAxis: [{
-                data: this.state.countrylist.map(c => c.name)
+                data: countries
             }],
             series: series,
         };
@@ -111,6 +128,9 @@ class Compare extends Component {
             styleBase = depth === 0 ? {...styleBase, ...parentStyle} : styleBase;
         let nest = depth + 1;
         return data.map((x, i) => {
+            if (this.state.excluded.includes(x.id)){
+                return "";
+            }
             let name = x.name.split('(')[0];
             let active = this.state.expanded.includes(x.id);
             let className = x.childrens.length > 0 ? "first-column expand-row" : "first-column";

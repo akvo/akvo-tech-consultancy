@@ -24,13 +24,12 @@ const BarStack = (title, subtitle, props, data, extra) => {
             ...TextStyle
         },
         legend: {
-            type: 'scroll',
             data: data.legends,
             icon: 'circle',
-            top: 'top',
-            left:'left',
+            top: '10px',
+            left:'center',
             align: 'auto',
-            orient: 'vertical',
+            orient: 'horizontal',
             textStyle: {
                 fontFamily: "Assistant",
                 fontWeight: 'bold',
@@ -38,8 +37,9 @@ const BarStack = (title, subtitle, props, data, extra) => {
             },
         },
         grid: {
-            top: "20px",
-            left: "30%",
+            top: "50px",
+            left: "20px",
+            right: "auto",
             show: true,
             label: {
                 color: "#222",
