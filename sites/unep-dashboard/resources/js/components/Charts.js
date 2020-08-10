@@ -61,6 +61,17 @@ class Charts extends Component {
         let onEvents = {
             'click': this.clickEvent,
         }
+        if (this.props.config.column === 0) {
+            return (
+                <ReactEcharts
+                    option={options}
+                    notMerge={true}
+                    lazyUpdate={true}
+                    style={this.state.style}
+                    onEvents={onEvents}
+                />
+            )
+        }
         return (
             <Col md={this.props.config.column}>
                 <ReactEcharts

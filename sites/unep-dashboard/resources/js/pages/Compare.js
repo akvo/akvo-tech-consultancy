@@ -90,7 +90,11 @@ class Compare extends Component {
                 type: 'bar',
                 stack: 'category',
                 data: flatten(values),
-                barMaxWidth: '50px'
+                barMaxWidth: '50px',
+                showBackground: true,
+                backgroundStyle: {
+                    color: 'rgba(220, 220, 225, 0.1)'
+                }
             };
         });
         let countries = [];
@@ -108,12 +112,12 @@ class Compare extends Component {
             series: series,
         };
         return (
-            <td key={'parent-table' + x.id} colSpan={3}>
+            <td key={'parent-table' + x.id} colSpan={3} className={"chart-display"}>
                 <Charts
                     title={''}
                     subtitle={''}
                     kind={'BARSTACK'}
-                    config={generateData(12, false, "60vh")}
+                    config={generateData(0, false, "50vh")}
                     dataset={data}
                     extra={{}}
                 />
@@ -132,7 +136,7 @@ class Compare extends Component {
                 return "";
             }
             let name = x.name.split('(')[0];
-            let active = this.state.expanded.includes(x.id);
+            let active = this.state.expanded.includes(x.id) || nest === 1;
             let className = x.childrens.length > 0 ? "first-column expand-row" : "first-column";
             let parent = [(
                 <tr key={x.id + "-" + depth}>

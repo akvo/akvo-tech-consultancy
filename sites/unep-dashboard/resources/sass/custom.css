@@ -711,6 +711,9 @@ button.btn.btn-sm.btn-primary.btn-download svg{
 .table-compare tbody tr td{
     padding-left: 5px;
 }
+.table-compare tbody tr td.chart-display{
+    padding-left: 0px;
+}
 .table-compare thead tr td.first-column{
     border: none;
 }
