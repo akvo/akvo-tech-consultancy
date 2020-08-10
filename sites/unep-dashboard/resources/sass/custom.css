@@ -670,7 +670,36 @@ h3.table-title{
 .btn.btn-selected .badge.badge-filters.badge-sm{
     background-color: #009fe2;
 }
-button.btn.btn-small.btn-primary.btn-download {
-    border-radius: 20px!important;
+button.btn.btn-sm.btn-primary.btn-download {
+    padding: 4px 15px!important;
+    margin-right: 10px;
+    border-radius: 30px!important;
     border: none!important;
+}
+button.btn.btn-sm.btn-primary.btn-download svg{
+    margin-right:10px;
+}
+.table-compare{
+    border-spacing:50px;
+}
+.table-compare thead tr td{
+    padding: 20px;
+}
+.table-compare tr td{
+    border:solid 1px #ddd;
+}
+.table-compare tbody tr td{
+    padding-left: 20px;
+}
+.table-compare thead tr td.first-column{
+    border: none;
+}
+.table-compare tbody tr td.first-column{
+    border: none;
+    border-bottom: solid 1px #ddd;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
 }

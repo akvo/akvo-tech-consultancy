@@ -61,6 +61,7 @@ class Navigation extends Component {
         formData.set('countries', this.props.value.data.countries);
         formData.set('countrygroups', this.props.value.data.countrygroups);
         formData.set('filters', this.props.value.data.filters);
+        formData.set('datapoints', this.props.value.data.filteredpoints);
 
         axios.post(API + 'download', formData, {'Content-Type':'multipart/form-data', 'X-CSRF-TOKEN': token})
         .then(res => {
@@ -97,10 +98,13 @@ class Navigation extends Component {
                     <Nav.Link eventKey="overviews" active={"overviews" === page}>Overviews</Nav.Link>
                     <Nav.Link eventKey="actions" active={"actions" === page}>Type of Actions</Nav.Link>
                     <Nav.Link eventKey="funding" active={"funding" === page}>Funding</Nav.Link>
-                    <Nav.Link eventKey="stakeholder" active={"Stakeholder" === page}>Stakeholder</Nav.Link>
+                    <Nav.Link eventKey="compare" active={"compare" === page}>Compare</Nav.Link>
+                    {/*
+                    <Nav.Link eventKey="stakeholder" active={"stakeholder" === page}>Stakeholder</Nav.Link>
                     <Nav.Link eventKey="evaluation" active={"evaluation" === page}>Evaluation</Nav.Link>
                     <Nav.Link eventKey="drivers" active={"drivers" === page}>Drivers and Barriers</Nav.Link>
                     <Nav.Link eventKey="partnership" active={"partnership" === page}>Partnerships</Nav.Link>
+                    */}
                 </Nav>
                     <Form.Group
                         className="nav-right"
@@ -123,7 +127,7 @@ class Navigation extends Component {
                       />
                     </Form.Group>
                     <button
-                        className="btn btn-small btn-primary btn-download"
+                        className="btn btn-sm btn-primary btn-download"
                         onClick={e => this.downloadReport()}
                     >
                     <FontAwesomeIcon
