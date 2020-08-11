@@ -89,7 +89,6 @@ const BarStack = (title, subtitle, props, data, extra) => {
         ...Easing,
         ...extra
     };
-    console.log(option);
     return option;
 }
 

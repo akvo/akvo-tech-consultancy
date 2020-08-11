@@ -53,6 +53,22 @@ export const mapDispatchToProps = dispatch => {
                         type:"PAGE - SWITCH FUND CONTRIBUTION"
                     })
 
+            },
+            compare: {
+                togglecolumn: () =>
+                    dispatch({
+                        type:"PAGE - COMPARE TOGGLE COLUMN"
+                    }),
+                addcountry: (id) =>
+                    dispatch({
+                        type:"PAGE - COMPARE ADD COUNTRY",
+                        id: id
+                    }),
+                removecountry: (id) =>
+                    dispatch({
+                        type:"PAGE - COMPARE REMOVE COUNTRY",
+                        id: id
+                    })
             }
         },
         data: {

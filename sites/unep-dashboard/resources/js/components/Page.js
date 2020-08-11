@@ -40,6 +40,7 @@ class Page extends Component {
         super(props);
         this.renderPage = this.renderPage.bind(this);
         this.renderCount = this.renderCount.bind(this);
+        this.renderHeaderButtons = this.renderHeaderButtons.bind(this);
     }
 
     componentDidMount() {
@@ -109,28 +110,39 @@ class Page extends Component {
         }
     }
 
+    renderHeaderButtons(page, sidebar) {
+        let buttons = [];
+        switch(page){
+            case "compare":
+                return "";
+            default:
+                buttons = ["filters","countries"];
+                return buttons.map(x => (
+                    <button size="sm"
+                        key={x}
+                        className={
+                            sidebar.selected === x && sidebar.active
+                            ?  "btn btn-selected btn-sm"
+                            : "btn btn-primary btn-sm"
+                        }
+                        onClick={e => this.props.page.sidebar.toggle(x)}>
+                        {x} {this.renderCount(x)}
+                    </button>
+                ));
+        }
+    }
+
     render() {
         let page = this.props.value.page.name;
         let loading = this.props.value.page.loading;
-        let sidebar = this.props.value.page.sidebar;
-        let buttons = ["filters","countries"];
         let finance = page === "funding" ? true : false;
+        let sidebar = this.props.value.page.sidebar;
         return (
             <Fragment>
             <Navigation/>
                 <Container className="top-container">
-                    { buttons.map(x => (
-                        <button size="sm"
-                            key={x}
-                            className={
-                                sidebar.selected === x && sidebar.active
-                                ?  "btn btn-selected btn-sm"
-                                : "btn btn-primary btn-sm"
-                            }
-                            onClick={e => this.props.page.sidebar.toggle(x)}>
-                            {x} {this.renderCount(x)}
-                        </button>
-                    ))}
+                    {this.renderHeaderButtons(page, sidebar)}
+                    <Fragment>
                     {finance ? (
                         <Form.Group
                             className="fund-switcher"
@@ -143,6 +155,7 @@ class Page extends Component {
                           />
                         </Form.Group>
                     ): ""}
+                    </Fragment>
                     <Filters/>
                 </Container>
                 <div className={sidebar.active ? "d-flex" : "d-flex toggled"} id="wrapper">

@@ -69,7 +69,7 @@ class Funding extends Component {
                     kind: "MAPS",
                     title: "Funding",
                     subtitle: "in USD",
-                    config: generateData(12, true, "60vh"),
+                    config: generateData(12, true, "80vh"),
                     data: false, // if data is false then load global
                     extra: true,
                 }, {

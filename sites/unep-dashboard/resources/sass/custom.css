@@ -2,6 +2,11 @@ body {
     font-family: "Assistant", sans-serif!important;
     height:auto!important;
 }
+h1, h2, h3, h4, h5{
+    font-family: "Assistant", sans-serif!important;
+    margin-bottom: 0px!important;
+    text-transform:uppercase;
+}
 
 .top-container.container {
     position: fixed;
@@ -275,8 +280,12 @@ body {
     font-family: "Assistant", sans-serif;
 }
 
+.nav-link:hover {
+    background-color: #f1f1f5;
+}
+
 .navbar-light .navbar-nav .nav-link.active {
-    background-color: #f2f2f2 !important;
+    background-color: #f1f1f5!important;
     font-weight: bold;
 }
 
@@ -556,9 +565,6 @@ h1.title-page {
         padding-left: 20px !important;
         border-right: solid 1px #ddd;
     }
-    .nav-link:hover {
-        background-color: #eee;
-    }
     .nav-right {
         height: 40px;
     }
@@ -590,9 +596,6 @@ h1.title-page {
         padding-left: 20px !important;
         border-right: solid 1px #ddd;
     }
-    .nav-link:hover {
-        background-color: #eee;
-    }
     .nav-right {
         height: 40px;
     }
@@ -617,6 +620,13 @@ h1.title-page {
 }
 .fas-badge {
     margin-right: 5px;
+}
+.fas-corner {
+    font-size:14px;
+    cursor:pointer;
+    position: absolute;
+    right: 10px;
+    top: 10px;
 }
 /* Table */
 thead tr.sm td{
@@ -731,4 +741,48 @@ button.btn.btn-sm.btn-primary.btn-download svg{
 }
 .table-compare tbody tr td.expand-row .expand-row-icon {
     font-size:10px!important;
+}
+.table-compare tbody tr td.other-column{
+    width: 500px;
+    font-size:10px!important;
+}
+.table-compare thead tr td.first-column.header-country{
+    position:relative;
+}
+.card-compare.card-body {
+    max-height: 60px;
+    height: 60px;
+    padding: 10px;
+}
+.card-compare.card-body h5{
+    font-size: 14px;
+    margin-top:12px;
+}
+.card-compare.card-body h5{
+    font-size: 14px;
+    margin-top:12px;
+}
+.card-add-column.card {
+    z-index: 10;
+    cursor: pointer;
+    border: #dfdfdf dashed 1px;
+}
+.card-add-column.card:hover{
+    background-color:#f1f1f5;
+}
+.search-item-bar {
+    background: #FFF;
+    padding: 0px;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    max-height: 200px;
+    overflow-y: scroll;
+    border-bottom: 1px solid #ddd;
+}
+.search-suggest{
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+.search-suggest:hover{
+    background-color:#f1f1f5;
 }

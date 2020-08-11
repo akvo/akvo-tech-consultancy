@@ -128,7 +128,7 @@ const Maps = (title, subtitle, props, data, extra) => {
                 },
                 zoom: 1,
                 itemStyle: {
-                    areaColor: '#ddd',
+                    areaColor: '#f1f1f5',
                     emphasis: {
                         areaColor: "#ffc107",
                         shadowColor: 'rgba(0, 0, 0, 0.5)',

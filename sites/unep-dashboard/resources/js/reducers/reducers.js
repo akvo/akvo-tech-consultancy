@@ -2,6 +2,7 @@ import uniqBy from 'lodash/uniqBy';
 import {
     pageState,
     getBadges,
+    addComparison,
 } from './states/page-states.js';
 import {
     dataState,
@@ -128,6 +129,44 @@ export const states = (state = initialState, action) => {
                 page: {
                     ...state.page,
                     fundcontrib: state.page.fundcontrib ? false : true
+                }
+            }
+        case 'PAGE - COMPARE TOGGLE COLUMN':
+            return {
+                ...state,
+                page: {
+                    ...state.page,
+                    compare: {
+                        ...state.page.compare,
+                        add: state.page.compare.add ? false : true
+                    }
+                }
+            }
+        case 'PAGE - COMPARE ADD COUNTRY':
+            data = state.page.compare.countries;
+            return {
+                ...state,
+                page: {
+                    ...state.page,
+                    compare: {
+                        ...state.page.compare,
+                        countries: addComparison(state.page.compare.countries, state.page.countries, action.id),
+                        init: false
+                    }
+                }
+            }
+        case 'PAGE - COMPARE REMOVE COUNTRY':
+            data = state.page.compare.countries;
+            data = data.filter(x => x.country_id !== action.id);
+            return {
+                ...state,
+                page: {
+                    ...state.page,
+                    compare: {
+                        ...state.page.compare,
+                        countries: data,
+                        init: data.length === 0 ? true : false
+                    }
                 }
             }
         case 'DATA - TOGGLE FILTER':
