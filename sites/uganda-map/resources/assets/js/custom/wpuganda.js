@@ -104,8 +104,8 @@ class WpUganda {
 
     // console.log(data.properties[this.configs.popup]);
     
-    $(".modal-title").html(data.properties[this.configs.popup]);
-    $(".modal-body").html(
+    $("#detail_modal .modal-title").html(data.properties[this.configs.popup]);
+    $("#detail_modal .modal-body").html(
       '<nav>\
         <div class="nav nav-tabs" id="nav-tab" role="tablist">\
           <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Profile</a>\
