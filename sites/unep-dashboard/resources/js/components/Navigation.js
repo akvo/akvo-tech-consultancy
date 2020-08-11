@@ -49,29 +49,30 @@ class Navigation extends Component {
         let token = document.querySelector('meta[name="csrf-token"]').content;
         let canvas = document.getElementsByTagName("canvas");
         let formData = new FormData();
-        let images = [];
+
+        formData.set('global', this.props.value.data.global);
+        this.props.value.data.countries.forEach(x => formData.append('countries[]', x));
+        this.props.value.data.countrygroups.forEach(x => formData.append('countrygroups[]', x));
+        this.props.value.data.filters.forEach(x => formData.append('filters[]', x));
+        this.props.value.data.filteredpoints.forEach(x => formData.append('datapoints[]', x));
+        
         let image = 0;
         do {
             let image_url = canvas[image].toDataURL('image/png');
             formData.append('images[]', image_url);
-            // images.push(image_url);
             image++;
         } while(image < canvas.length);
-        formData.set('global', this.props.value.data.global);
-        formData.set('countries', this.props.value.data.countries);
-        formData.set('countrygroups', this.props.value.data.countrygroups);
-        formData.set('filters', this.props.value.data.filters);
-        formData.set('datapoints', this.props.value.data.filteredpoints);
 
         axios.post(API + 'download', formData, {'Content-Type':'multipart/form-data', 'X-CSRF-TOKEN': token})
         .then(res => {
             console.log(res.data);
-            const url = window.URL.createObjectURL(new Blob([res.data]));
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', 'file.html'); //or any other extension
-            document.body.appendChild(link);
-            link.click();
+            // const url = window.URL.createObjectURL(new Blob([res.data]));
+            // console.log(url);
+            // const link = document.createElement('a');
+            // link.href = url;
+            // link.setAttribute('download', 'file.html'); //or any other extension
+            // document.body.appendChild(link);
+            // link.click();
         }).catch(err => {
             console.log("internal server error");
         });

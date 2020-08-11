@@ -32,7 +32,7 @@ class Value extends Model
 
     public function parents()
     {
-        return $this->hasMany('App\Value', 'id', 'parent_id');
+        return $this->hasMany('App\Value', 'id', 'parent_id')->with('parents');
     }
 
     public function childs()
