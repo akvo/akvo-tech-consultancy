@@ -95,6 +95,7 @@ class Compare extends Component {
                         return vs;
                     });
                     indicator = indicator.filter(i => i);
+                    indicator = indicator.map(i => i.datapoints);
                     indicator = uniq(flatten(indicator));
                     value = indicator.length;
                 }
@@ -140,10 +141,12 @@ class Compare extends Component {
                     indicator = this.props.value.data.master.filter(m => itemlist.includes(m.country_id));
                     indicator = indicator.map(i => {
                         let vs = i.values.filter(i => allchilds.includes(i.id));
-                        vs = vs ? vs : false;
+                        vs = vs.length > 0 ? vs : false;
                         return vs;
                     });
                     indicator = indicator.filter(i => i);
+                    indicator = flatten(indicator);
+                    indicator = indicator.map(i => i.datapoints);
                     value = uniq(flatten(indicator));
                 }
                 if (value.length > 0) {
