@@ -29,4 +29,18 @@ class Datapoint extends Model
         $question = \App\Question::where('code', config('report.questions.project_title.code'))->first();
         return $this->hasOne('App\Answer')->where('question_id', $question->id);
     }
+
+    public function keywords()
+    {
+        $question = \App\Question::where('code', config('report.questions.keywords.code'))->first();
+        return $this->hasOne('App\Answer')->where('question_id', $question->id);
+    }
+
+    public function info()
+    {
+        $question = \App\Question::where('code', config('report.questions.further_info.code'))->first();
+        return $this->hasOne('App\Answer')->where('question_id', $question->id);
+    }
+
+    // keywords and info
 }

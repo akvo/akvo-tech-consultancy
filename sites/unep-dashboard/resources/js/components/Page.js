@@ -24,6 +24,7 @@ import Funding from '../pages/Funding';
 import Compare from '../pages/Compare';
 import Reports from "../pages/Reports";
 
+const API_WEB = process.env.MIX_PUBLIC_URL + "/";
 const API = process.env.MIX_PUBLIC_URL + "/api/";
 const call = (endpoint) => {
     return new Promise((resolve, reject) => {
@@ -119,16 +120,17 @@ class Page extends Component {
         let formData = new FormData();
 
         formData.set('global', this.props.value.data.global);
-        this.props.value.data.filteredpoints.forEach(x => formData.append('datapoints[]', x));
+        this.props.value.reports.forEach(x => formData.append('datapoints[]', x));
         
         let image = 0;
         do {
             let image_url = canvas[image].toDataURL('image/png');
             formData.append('images[]', image_url);
+            formData.append('images_name[]', 'test');
             image++;
         } while(image < canvas.length);
 
-        axios.post(API + 'download', formData, {'Content-Type':'multipart/form-data', 'X-CSRF-TOKEN': token})
+        axios.post(API_WEB + 'download', formData, {'Content-Type':'multipart/form-data', 'X-CSRF-TOKEN': token})
         .then(res => {
             console.log(res.data);
             const link = document.createElement('a');
@@ -179,8 +181,11 @@ class Page extends Component {
                     </Form.Group>
                 );
             case "report":
+                let rcount = this.props.value.reports.length
+                let disabled = (rcount > 0 && rcount <= 20) ? false : true;
                 return (
                     <button
+                        disabled={disabled}
                         className="btn btn-sm btn-primary btn-download"
                         onClick={e => this.downloadReport()}
                     >

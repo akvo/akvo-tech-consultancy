@@ -18,14 +18,4 @@ class Answer extends Model
     {
         return $this->belongsTo('App\Question');
     }
-
-    public function keywords()
-    {
-        return $this->find(config('report.questions.keywords.id'));
-    }
-
-    public function furtherInfo()
-    {
-        return $this->find(config('report.questions.further_info.id'));
-    }
 }
