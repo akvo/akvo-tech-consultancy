@@ -37,7 +37,7 @@ class ApiController extends Controller
     {
         $datapoints = $datapoints
             ->has('countries')
-            ->with(['countries', 'values'])
+            ->with(['countries', 'values', 'title'])
             ->get();
         $datapoints = $datapoints->transform(function($q) {
             $q->countries = $q->countries->transform(function($v){
@@ -53,7 +53,8 @@ class ApiController extends Controller
                 'values' => $q->values,
                 'global' => $q->countries->count() === 1 ? False : True,
                 'funds' => $q->funds,
-                'contrib' => $q->contribution
+                'contrib' => $q->contribution,
+                'title' => $q->title['value']
             ];
         });
         $activities = $this->collection->countBy();
@@ -88,6 +89,7 @@ class ApiController extends Controller
         })->values();
         $datapoints = $datapoints->map(function($d){
             return [
+                'title' => $d['title'],
                 'datapoint_id' => $d['id'],
                 'global' => $d['global'],
                 'f' => $d['funds'],
@@ -98,5 +100,13 @@ class ApiController extends Controller
             'data' => $activities,
             'datapoints' => $datapoints
         ];
+    }
+
+    public function test(Datapoint $dp)
+    {
+        return $dp->where('id', 3)
+                    ->with('title')
+                    ->with(['values.value', 'countries.country'])
+                    ->first();
     }
 }

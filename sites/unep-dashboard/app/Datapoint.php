@@ -23,4 +23,9 @@ class Datapoint extends Model
     {
         return $this->hasMany('App\Answer');
     }
+
+    public function title()
+    {
+        return $this->hasOne('App\Answer')->where('question_id', config('report.questions.project_title.id'));
+    }
 }

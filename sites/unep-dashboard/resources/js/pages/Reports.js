@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { mapStateToProps, mapDispatchToProps } from "../reducers/actions";
 import { Col, Row, Container } from "react-bootstrap";
 import Charts from "../components/Charts";
@@ -15,6 +16,8 @@ class Reports extends Component {
         super(props);
         this.getCharts = this.getCharts.bind(this);
         this.renderOptions = this.renderOptions.bind(this);
+        this.getReportTable = this.getReportTable.bind(this);
+        this.reportToggle = this.reportToggle.bind(this);
         this.state = {
             charts: [
                 {
@@ -81,6 +84,11 @@ class Reports extends Component {
         }
     }
 
+    componentDidMount() {
+        this.props.report.reset();
+        console.log(this.props.value.reports);
+    }
+
     renderOptions(filterId, childs=true) {
         let active = this.props.value.data.filteredpoints;
         let thefilter = flatten(this.props.value.page.filters);
@@ -111,13 +119,50 @@ class Reports extends Component {
         )
     }
 
+    reportToggle(active, x) {
+        if (active) { 
+            return this.props.report.delete(x.datapoint_id);
+        }
+        return this.props.report.append(x.datapoint_id);
+    }
+
+    getReportTable() {
+        let datapoints = this.props.value.data.filteredpoints;
+        datapoints = this.props.value.data.datapoints.filter(x => datapoints.includes(x.datapoint_id));
+        return datapoints.map((x, i) => {
+            let active = this.props.value.reports.includes(x.datapoint_id);        
+            return (
+                <tr key={'datapoint-'+i}>
+                    <td align="center">
+                        <FontAwesomeIcon
+                            color={active ? "green" : "grey"}
+                            icon={["fas", active ? "check-circle" : "plus-circle"]}
+                            onClick={e => this.reportToggle(active, x)}
+                        />
+                    </td>
+                    <td>{x.title}</td>
+                </tr>
+            )
+        });
+    }
+
     render() {
         let charts = this.state.charts.map((list, index) => {
             return this.getCharts(list, index)
         });
         return (
             <Container>
-                <div className="datapoint-list"></div>
+                <Row>
+                    <Col md={12}>
+                        {/* <div className="datapoint-list"> */}
+                            <table width={"100%"} className="table-compare">
+                                <tbody>
+                                    {this.getReportTable()}
+                                </tbody>
+                            </table>
+                        {/* </div> */}
+                    </Col>
+                </Row>
                 <Row className="report-chart-list">
                     {charts}
                 </Row>

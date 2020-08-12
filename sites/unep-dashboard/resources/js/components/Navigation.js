@@ -24,7 +24,7 @@ class Navigation extends Component {
             active: 'home'
         }
         this.links = this.links.bind(this);
-        this.downloadReport = this.downloadReport.bind(this);
+        this.printPage = this.printPage.bind(this);
     }
 
     changePage (key) {
@@ -45,17 +45,11 @@ class Navigation extends Component {
         });
     }
 
-    downloadReport () {
+    printPage() {
         let token = document.querySelector('meta[name="csrf-token"]').content;
         let canvas = document.getElementsByTagName("canvas");
         let formData = new FormData();
 
-        formData.set('global', this.props.value.data.global);
-        this.props.value.data.countries.forEach(x => formData.append('countries[]', x));
-        this.props.value.data.countrygroups.forEach(x => formData.append('countrygroups[]', x));
-        this.props.value.data.filters.forEach(x => formData.append('filters[]', x));
-        this.props.value.data.filteredpoints.forEach(x => formData.append('datapoints[]', x));
-        
         let image = 0;
         do {
             let image_url = canvas[image].toDataURL('image/png');
@@ -63,16 +57,13 @@ class Navigation extends Component {
             image++;
         } while(image < canvas.length);
 
-        axios.post(API + 'download', formData, {'Content-Type':'multipart/form-data', 'X-CSRF-TOKEN': token})
+        axios.post(API + 'print', formData, {'Content-Type':'multipart/form-data', 'X-CSRF-TOKEN': token})
         .then(res => {
-            console.log(res.data);
-            // const url = window.URL.createObjectURL(new Blob([res.data]));
-            // console.log(url);
-            // const link = document.createElement('a');
-            // link.href = url;
-            // link.setAttribute('download', 'file.html'); //or any other extension
-            // document.body.appendChild(link);
-            // link.click();
+            const link = document.createElement('a');
+            link.href = window.location.origin + res.data;
+            link.setAttribute('print', 'file.pdf'); //or any other extension
+            document.body.appendChild(link);
+            link.click();
         }).catch(err => {
             console.log("internal server error");
         });
@@ -128,15 +119,10 @@ class Navigation extends Component {
                         label="Keep Filter"
                       />
                     </Form.Group>
-                    <button
-                        className="btn btn-sm btn-primary btn-download"
-                        onClick={e => this.downloadReport()}
-                    >
-                    <FontAwesomeIcon
-                        className="fas-icon"
-                        icon={["fas", "arrow-circle-down"]} />
-                        Download
-                    </button>
+                    <FontAwesomeIcon 
+                        icon={["fas", "print"]}
+                        onClick={e => this.printPage()} 
+                    />
               </Navbar.Collapse>
               </Container>
             </Navbar>

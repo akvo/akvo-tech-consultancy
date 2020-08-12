@@ -685,6 +685,7 @@ button.btn.btn-sm.btn-primary.btn-download {
     margin-right: 10px;
     border-radius: 30px!important;
     border: none!important;
+    float: right;
 }
 button.btn.btn-sm.btn-primary.btn-download svg{
     margin-right:10px;

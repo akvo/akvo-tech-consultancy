@@ -25,7 +25,7 @@ const initialState = {
     page: pageState,
     data: dataState,
     charts: chartState,
-
+    reports: [],
 }
 
 export const states = (state = initialState, action) => {
@@ -253,6 +253,21 @@ export const states = (state = initialState, action) => {
                     ...state.charts,
                     filtered: state.charts.filtered ? false : true
                 }
+            }
+        case 'REPORT - ADD':
+            return {
+                ...state,
+                reports: [...state.reports, action.id]
+            }
+        case 'REPORT - REMOVE':
+            return {
+                ...state,
+                reports: state.reports.filter(x => x !== action.id)
+            }
+        case 'REPORT - RESET':
+            return {
+                ...state,
+                reports: []
             }
         default:
             return state;

@@ -11,6 +11,7 @@ use App\Datapoint;
 use App\Question;
 use App\Answer;
 use PDF;
+use Storage;
 
 class ReportController extends Controller
 {
@@ -84,8 +85,10 @@ class ReportController extends Controller
             "charts" => $charts,
         ];
         // return $results;
-        return view('report', ['data' => $results]);
-        // $pdf = PDF::loadView('report', ['data' => $results]);
+        // return view('report', ['data' => $results]);
+        $pdf = PDF::loadView('report', ['data' => $results]);
+        $pdf->save(storage_path().'/app/public/filename.pdf');
+        return Storage::url('filename.pdf');
         // return $pdf->download('report.pdf');
     }
 }

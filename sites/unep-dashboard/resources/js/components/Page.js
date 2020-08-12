@@ -12,6 +12,7 @@ import {
 } from 'react-bootstrap';
 import Filters from './Filters';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import intersectionBy from 'lodash/intersectionBy';
 import uniq from 'lodash/uniq';
 import uniqBy from 'lodash/uniqBy';
@@ -41,6 +42,8 @@ class Page extends Component {
         this.renderPage = this.renderPage.bind(this);
         this.renderCount = this.renderCount.bind(this);
         this.renderHeaderButtons = this.renderHeaderButtons.bind(this);
+        this.renderHeaderButtonsRight = this.renderHeaderButtonsRight.bind(this);
+        this.downloadReport = this.downloadReport.bind(this);
     }
 
     componentDidMount() {
@@ -110,6 +113,34 @@ class Page extends Component {
         }
     }
 
+    downloadReport() {
+        let token = document.querySelector('meta[name="csrf-token"]').content;
+        let canvas = document.getElementsByTagName("canvas");
+        let formData = new FormData();
+
+        formData.set('global', this.props.value.data.global);
+        this.props.value.data.filteredpoints.forEach(x => formData.append('datapoints[]', x));
+        
+        let image = 0;
+        do {
+            let image_url = canvas[image].toDataURL('image/png');
+            formData.append('images[]', image_url);
+            image++;
+        } while(image < canvas.length);
+
+        axios.post(API + 'download', formData, {'Content-Type':'multipart/form-data', 'X-CSRF-TOKEN': token})
+        .then(res => {
+            console.log(res.data);
+            const link = document.createElement('a');
+            link.href = window.location.origin + res.data;
+            link.setAttribute('download', 'report.pdf'); //or any other extension
+            document.body.appendChild(link);
+            link.click();
+        }).catch(err => {
+            console.log("internal server error");
+        });
+    }
+
     renderHeaderButtons(page, sidebar) {
         let buttons = [];
         switch(page){
@@ -132,30 +163,48 @@ class Page extends Component {
         }
     }
 
+    renderHeaderButtonsRight(page) {
+        switch(page){
+            case "funding":
+                return (
+                    <Form.Group
+                        className="fund-switcher"
+                        onChange={this.props.page.toggle.fundcontrib}
+                        controlId="formFinance">
+                    <Form.Check
+                        type="switch"
+                        defaultChecked={this.props.value.page.fundcontrib}
+                        label="Include in-kind Contribution"
+                        />
+                    </Form.Group>
+                );
+            case "report":
+                return (
+                    <button
+                        className="btn btn-sm btn-primary btn-download"
+                        onClick={e => this.downloadReport()}
+                    >
+                        <FontAwesomeIcon
+                            className="fas-icon"
+                            icon={["fas", "arrow-circle-down"]} />
+                            Download
+                    </button>
+                )
+            default: 
+                "";
+        }
+    }
+
     render() {
         let page = this.props.value.page.name;
         let loading = this.props.value.page.loading;
-        let finance = page === "funding" ? true : false;
         let sidebar = this.props.value.page.sidebar;
         return (
             <Fragment>
             <Navigation/>
                 <Container className="top-container">
                     {this.renderHeaderButtons(page, sidebar)}
-                    <Fragment>
-                    {finance ? (
-                        <Form.Group
-                            className="fund-switcher"
-                            onChange={this.props.page.toggle.fundcontrib}
-                            controlId="formFinance">
-                        <Form.Check
-                            type="switch"
-                            defaultChecked={this.props.value.page.fundcontrib}
-                            label="Include in-kind Contribution"
-                          />
-                        </Form.Group>
-                    ): ""}
-                    </Fragment>
+                    {this.renderHeaderButtonsRight(page)}
                     <Filters/>
                 </Container>
                 <div className={sidebar.active ? "d-flex" : "d-flex toggled"} id="wrapper">

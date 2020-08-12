@@ -138,6 +138,22 @@ export const mapDispatchToProps = dispatch => {
                         type: "CHART - STATE CHANGE",
                     }),
             }
+        },
+        report: {
+            append: (id) => 
+                dispatch({
+                    type: "REPORT - ADD",
+                    id: id
+                }),
+            delete: (id) => 
+                dispatch({
+                    type: "REPORT - REMOVE",
+                    id: id
+                }),
+            reset: () =>
+                dispatch({
+                    type: "REPORT - RESET",
+                }),
         }
     };
 };

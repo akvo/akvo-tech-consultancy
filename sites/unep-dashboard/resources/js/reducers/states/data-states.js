@@ -17,6 +17,7 @@ export const dataState = {
             }]
     }],
     datapoints: [{
+        title: "Loading",
         datapoint_id:0,
         global:false,
         funds:0,

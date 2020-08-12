@@ -1,6 +1,6 @@
-<div class="row">
+<div>
     <div class="header-line my-3"></div>
-    <div class="d-flex">
-        <p>Footer</p>
+    <div class="header">
+        <p>This is footer</p>
     </div>
 </div>
