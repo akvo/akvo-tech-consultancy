@@ -14,6 +14,9 @@
             display: block;
         }
         .content {
+            min-width: 100%;
+            width: 100%;
+            display: block;
             margin-top:25px;
         }
         .header-line {
@@ -27,30 +30,28 @@
     </style>
 </head>
 <body>
-    {{-- <div class="container-fluid py-5"> --}}
-        {{-- Summary --}}
-        @if ($data["datapoints"]->count() > 1)
-            @include('reports.header', ['title' => "Summary"])
-            @include('reports.summary', [$data])
-            {{-- @include('reports.footer') --}}
+    {{-- Summary --}}
+    @if ($data["datapoints"]->count() > 1)
+        @include('reports.header', ['title' => "Summary "."(".$data["datapoints"]->count().")"])
+        @include('reports.summary', [$data])
+        <div class="page-break"></div>
+    @endif
+    {{-- EOL Summary --}}
+
+    {{-- Datapoint --}}
+    @php
+        $x = 1    
+    @endphp
+    @foreach ($data['datapoints'] as $item)
+        @include('reports.header', ['title' => $item['title']])
+        @include('reports.datapoint', [$item])
+        @if ($x < $data["datapoints"]->count())
             <div class="page-break"></div>
         @endif
-        {{-- EOL Summary --}}
-
-        {{-- Datapoint --}}
         @php
-            $x = 0    
+            $x++
         @endphp
-        @foreach ($data['datapoints'] as $item)     
-            @include('reports.header', ['title' => 'Project '.$item->uuid])
-            @include('reports.datapoint', [$item])
-            {{-- @include('reports.footer') --}}
-            @if ($data['datapoints']->count())
-                
-            @endif
-            <div class="page-break"></div>
-        @endforeach
-        {{-- EOL Datapoint --}}
-    {{-- </div> --}}
+    @endforeach
+    {{-- EOL Datapoint --}}
 </body>
 </html>

@@ -1,10 +1,7 @@
 <?php
 
 return [
-    "type_of_action" => [
-        "id" => 5,
-        "code" => "105885205"
-    ],
+    "indicators" => ["43374939", "43374915"],
     "questions" => [
         "project_title" => [
             "id" => 9,

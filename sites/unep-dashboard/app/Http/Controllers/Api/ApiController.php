@@ -102,11 +102,49 @@ class ApiController extends Controller
         ];
     }
 
-    public function test(Datapoint $dp)
+    private function fillIndicators($parent, $indicators)
     {
-        return $dp->where('id', 3)
-                    ->with('title')
-                    ->with(['values.value', 'countries.country'])
-                    ->first();
+        if (count($parent["childrens"]) === 0) {
+            $parent["value"] = false;
+        }
+        if ($indicators->contains($parent["id"])) {
+            $parent["value"] = true;
+        }
+        if (count($parent["childrens"]) > 1) {
+            $parent["childrens"] = collect($parent['childrens'])->map(function ($val) use ($indicators) {
+                return $this->fillIndicators(collect($val), $indicators);
+            });
+            $parent["value"] = $parent["childrens"]->map(function ($val) {
+                return $val['value'];
+            })->reject(function ($x) {
+                return !$x;
+            })->values();
+            $parent["value"] = count($parent["value"]) === 0 ? false : true;
+            $parent["childrens"] = $parent["childrens"]->reject(function ($val) {
+                return !$val["value"];
+            })->values();
+        }
+
+        return $parent;
+    }
+
+    public function test(Datapoint $dp, Value $vl)
+    {
+        $dps = $dp->whereIn('id', [3,4])
+                  ->with(['title', 'keywords', 'info', 'countries.country', 'values.value.childrens'])
+                  ->get();
+
+        $indicators = collect($dps)->map(function ($q) {
+            $q['indicators'] = collect($q->values)->reject(function ($v) {
+                return $v->value->childrens->count() !== 0;
+            })->values();
+            return $q['indicators'];
+        })->flatten(1)->pluck('value_id');
+
+        $vls = $vl->whereNull('parent_id')->has('childrens')->with('childrens')->get();
+        return collect($vls)->map(function ($val) use ($indicators) {
+            return $this->fillIndicators(collect($val), collect($indicators));
+        });
+        return $vls;
     }
 }
