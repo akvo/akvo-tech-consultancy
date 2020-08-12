@@ -55,19 +55,17 @@ export const mapDispatchToProps = dispatch => {
 
             },
             compare: {
-                togglecolumn: () =>
+                additem: (id, itemtype) =>
                     dispatch({
-                        type:"PAGE - COMPARE TOGGLE COLUMN"
+                        type:"PAGE - COMPARE ADD ITEM",
+                        id: id,
+                        itemtype: itemtype
                     }),
-                addcountry: (id) =>
+                removeitem: (id, itemtype) =>
                     dispatch({
-                        type:"PAGE - COMPARE ADD COUNTRY",
-                        id: id
-                    }),
-                removecountry: (id) =>
-                    dispatch({
-                        type:"PAGE - COMPARE REMOVE COUNTRY",
-                        id: id
+                        type:"PAGE - COMPARE REMOVE ITEM",
+                        id: id,
+                        itemtype: itemtype
                     })
             }
         },
@@ -140,12 +138,12 @@ export const mapDispatchToProps = dispatch => {
             }
         },
         report: {
-            append: (id) => 
+            append: (id) =>
                 dispatch({
                     type: "REPORT - ADD",
                     id: id
                 }),
-            delete: (id) => 
+            delete: (id) =>
                 dispatch({
                     type: "REPORT - REMOVE",
                     id: id

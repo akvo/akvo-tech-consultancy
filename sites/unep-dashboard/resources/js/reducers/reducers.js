@@ -131,41 +131,30 @@ export const states = (state = initialState, action) => {
                     fundcontrib: state.page.fundcontrib ? false : true
                 }
             }
-        case 'PAGE - COMPARE TOGGLE COLUMN':
+        case 'PAGE - COMPARE ADD ITEM':
+            data = state.page.compare.items;
             return {
                 ...state,
                 page: {
                     ...state.page,
                     compare: {
                         ...state.page.compare,
-                        add: state.page.compare.add ? false : true
-                    }
-                }
-            }
-        case 'PAGE - COMPARE ADD COUNTRY':
-            data = state.page.compare.countries;
-            return {
-                ...state,
-                page: {
-                    ...state.page,
-                    compare: {
-                        ...state.page.compare,
-                        countries: addComparison(state.page.compare.countries, state.page.countries, action.id),
+                        items: addComparison(state.page.compare.items, state.page[action.itemtype], action.id, action.itemtype),
                         init: false
                     }
                 }
             }
-        case 'PAGE - COMPARE REMOVE COUNTRY':
-            data = state.page.compare.countries;
-            data = data.filter(x => x.country_id !== action.id);
+        case 'PAGE - COMPARE REMOVE ITEM':
+            data = state.page.compare.items;
+            data = data.filter(x => x.id !== action.id && x.itemtype !== action.itemtype);
             return {
                 ...state,
                 page: {
                     ...state.page,
                     compare: {
                         ...state.page.compare,
-                        countries: data,
-                        init: data.length === 0 ? true : false
+                        items: data,
+                        init: data.length > 0 ? false : true
                     }
                 }
             }

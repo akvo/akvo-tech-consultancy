@@ -6,6 +6,7 @@ import {
     Col,
     Card,
     Form,
+    InputGroup,
     Row
 } from 'react-bootstrap';
 import Charts from "../components/Charts";
@@ -44,8 +45,10 @@ class Compare extends Component {
         this.appendColumn = this.appendColumn.bind(this);
         this.toggleAutoComplete = this.toggleAutoComplete.bind(this);
         this.toggleExpand = this.toggleExpand.bind(this);
+        this.toggleGroup = this.toggleGroup.bind(this);
         this.state = {
             autocomplete: false,
+            selectgroup: false,
             searched: [],
             expanded: [],
             excluded: [1]
@@ -62,35 +65,48 @@ class Compare extends Component {
         this.setState({expanded: [...expanded, id]});
     }
 
-    renderCountryValues (x, depth) {
-        let addcolumn = this.props.value.page.compare.add;
+    renderItemValues (x, depth) {
         if (this.props.value.page.compare.init) {
             return (
                 <td key={"init-" + x.id} align="center" className="other-column">-</td>
             )
         }
         if (depth > 0 || x.childrens.length > 6) {
-            let columns = this.props.value.page.compare.countries.map((country, ci) => {
-                let indicator = this.props.value.data.master.find(x => x.country_id === country.country_id);
+            let columns = this.props.value.page.compare.items.map((item, ci) => {
+                let indicator = false;
                 let value = false;
-                if (indicator){
-                    value = indicator.values.find(i => i.id === x.id);
+                if (item.itemtype === "countries") {
+                    indicator = this.props.value.data.master.find(m => m.country_id === item.id);
+                    if (indicator){
+                        value = indicator.values.find(i => i.id === x.id);
+                    }
+                    value = value ? value.datapoints.length : "-";
                 }
-                value = value ? value.datapoints.length : "-";
+                if (item.itemtype === "countrygroups") {
+                    let itemlist = this.props.value.page.countries.filter(c => {
+                        let groupids = c.groups.map(g => g.id);
+                        return groupids.includes(item.id);
+                    });
+                    itemlist = itemlist.map(i => i.id);
+                    indicator = this.props.value.data.master.filter(m => itemlist.includes(m.country_id));
+                    indicator = indicator.map(i => {
+                        let vs = i.values.find(v => v.id === x.id);
+                        vs = vs ? vs : false;
+                        return vs;
+                    });
+                    indicator = indicator.filter(i => i);
+                    indicator = indicator.map(i => i.datapoints);
+                    indicator = uniq(flatten(indicator));
+                    value = indicator.length;
+                }
                 return (
-                    <td key={country.country_id + "-" + x.id} align="center" className="other-column">
-                    {value}
-                    </td>
+                    <td key={item.id + "-" + x.id} align="center" className="other-column">{value}</td>
                 )
             });
-            if (addcolumn) {
-                columns.push(
-                    <td key={"empty-value-" + x.id} align="center" className="other-column">-</td>
-                )
-            }
+            columns.push(<td key={"empty-value-" + x.id} align="center" className="other-column">-</td>)
             return columns.map(x => x);
         }
-        if (this.props.value.page.compare.countries.length === 0){
+        if (this.props.value.page.compare.items.length === 0){
             return (<td align="center"> - </td>);
         }
         const legends = x.childrens.map(child => {
@@ -103,16 +119,37 @@ class Compare extends Component {
             let name = child.name.split('(')[0];
                 name = name.split(':')[0];
             const allchilds = getAllChildsId(child, []);
-            const values = this.props.value.page.compare.countries.map((country) => {
-                let indicator = this.props.value.data.master.find(c => c.country_id === country.country_id);
+            const values = this.props.value.page.compare.items.map((item) => {
+                let indicator = false;
                 let value = [];
                 let nonglobal = 0;
-                if (indicator){
-                    value = indicator.values.filter(i => allchilds.includes(i.id));
+                if (item.itemtype === "countries") {
+                    indicator = this.props.value.data.master.find(c => c.country_id === item.id);
+                    if (indicator){
+                        value = indicator.values.filter(i => allchilds.includes(i.id));
+                    }
+                    if (value.length > 0) {
+                        value = uniq(flatten(value.map(v => v.datapoints)));
+                    }
+                }
+                if (item.itemtype === "countrygroups") {
+                    let itemlist = this.props.value.page.countries.filter(c => {
+                        let groupids = c.groups.map(g => g.id);
+                        return groupids.includes(item.id);
+                    });
+                    itemlist = itemlist.map(i => i.id);
+                    indicator = this.props.value.data.master.filter(m => itemlist.includes(m.country_id));
+                    indicator = indicator.map(i => {
+                        let vs = i.values.filter(i => allchilds.includes(i.id));
+                        vs = vs.length > 0 ? vs : false;
+                        return vs;
+                    });
+                    indicator = indicator.filter(i => i);
+                    indicator = flatten(indicator);
+                    indicator = indicator.map(i => i.datapoints);
+                    value = uniq(flatten(indicator));
                 }
                 if (value.length > 0) {
-                    value = flatten(value.map(v => v.datapoints));
-                    value = uniq(value);
                     nonglobal = intersection(value, individual);
                     nonglobal = nonglobal.length > 0 ? nonglobal.length : 0;
                 }
@@ -133,43 +170,40 @@ class Compare extends Component {
                 }
             };
         });
-        let countries = [];
-        this.props.value.page.compare.countries.forEach(c => {
-            countries.push(c.name);
+        let items = [];
+        this.props.value.page.compare.items.forEach(c => {
+            items.push(c.name);
             if (this.props.value.data.global) {
-                countries.push(c.name + ' (Shared)');
+                items.push(c.name + ' (Shared)');
             }
         });
         const data = {
             legends: legends,
             xAxis: [{
-                data: countries
+                data: items
             }],
             series: series,
         };
         let extra = {};
-        if (addcolumn) {
-            let right = this.props.value.page.compare.countries.length + 1;
-                right = 100 / right;
-                right = right + "%";
-            extra = {
-                grid: {
-                    top: "23px",
-                    left: "auto",
-                    right: right,
-                    bottom: "25px",
-                    borderColor: "#ddd",
-                    borderWidth: .5,
-                    show: true,
-                    label: {
-                        color: "#222",
-                        fontFamily: "Assistant",
-                    }
+        let right = this.props.value.page.compare.items.length + 1;
+            right = 100 / right;
+            right = right + "%";
+        extra = {
+            grid: {
+                top: "23px",
+                left: "auto",
+                right: right,
+                bottom: "25px",
+                borderColor: "#ddd",
+                borderWidth: .5,
+                show: true,
+                label: {
+                    color: "#222",
+                    fontFamily: "Assistant",
                 }
             }
         }
-        let colSpan = this.props.value.page.compare.countries.length;
-            colSpan = addcolumn ? colSpan + 1 : colSpan;
+        let colSpan = this.props.value.page.compare.items.length + 1;
         return (
             <td key={'parent-table' + x.id} colSpan={colSpan} className={"chart-display"}>
                 <Charts
@@ -200,7 +234,7 @@ class Compare extends Component {
                     <td onClick={e => this.toggleExpand(x.id)} className={className} style={styleBase}>
                         {x.childrens.length > 0 ? chevron(active, depth) : ""} {name}
                     </td>
-                    {this.renderCountryValues(x, depth)}
+                    {this.renderItemValues(x, depth)}
                 </tr>
             )];
             if (x.childrens.length > 0 && active) {
@@ -212,7 +246,8 @@ class Compare extends Component {
 
     appendColumn(id) {
         this.setState({searched:[], autocomplete: false});
-        this.props.page.compare.addcountry(id);
+        let itemtype = this.state.selectgroup ? "countrygroups" : "countries";
+        this.props.page.compare.additem(id, itemtype);
         return;
     }
 
@@ -222,7 +257,7 @@ class Compare extends Component {
                 <div
                     onClick={e => this.appendColumn(x.id)}
                     className="search-suggest"
-                    key={'country-' + x.code}>
+                    key={'item-' + x.id + '-' + x.code}>
                     {x.name}
                 </div>
             )
@@ -235,13 +270,12 @@ class Compare extends Component {
             return;
         }
         let keywords = e.target.value.toLowerCase().split(' ');
-        let source = this.props.value.page.countries;
-        let selected = this.props.value.page.compare.countries;
+        let itemtype = this.state.selectgroup ? "countrygroups" : "countries";
+        let source = this.props.value.page[itemtype];
+        let selected = this.props.value.page.compare.items;
         if (selected.length > 0) {
-            selected = selected.map(x => x.country_id);
-            source = source.filter(x => {
-                return !selected.includes(x.id)
-            });
+            selected = selected.map(x => x.id);
+            source = source.filter(x => !selected.includes(x.id));
         }
         let results = source.map(x => {
             let score = 0;
@@ -262,23 +296,51 @@ class Compare extends Component {
         return;
     }
 
+    toggleGroup() {
+        let selectgroup = this.state.selectgroup ? false : true;
+        this.setState({selectgroup: selectgroup})
+    }
+
     renderSearch() {
-        let items = this.props.value.page.countries.map(x => {
+        let itemtype = this.state.selectgroup ? "countrygroups" : "countries";
+        let items = this.props.value.page[itemtype].map(x => {
             return {label: x.name,value: x.name}
         });
         return (
             <td key={"header-add"} className="first-column header-country" align="center">
-                <Card className="card-add-column">
+                <Card className="card-add-column card-autocomplete">
                     <Card.Body className="card-compare">
                         <Form>
-                          <Form.Group
-                              onChange={this.changeSearchItem}
-                              controlId="formSearchCountry">
-                            <Form.Control type="text" placeholder="Enter Keyword" />
+                            <InputGroup size="sm">
+                                <InputGroup.Prepend className="compare-group-switcher-container">
+                                    <InputGroup.Text>
+                                        <Form.Group
+                                            className="compare-group-switcher"
+                                            onChange={this.toggleGroup}
+                                            controlId="compareType">
+                                        <Form.Check
+                                            type="switch"
+                                            defaultChecked={this.state.selectgroup}
+                                            label="Group"
+                                            />
+                                        </Form.Group>
+                                    </InputGroup.Text>
+                                </InputGroup.Prepend>
+                                <Form.Control
+                                    onChange={this.changeSearchItem}
+                                    type="text"
+                                    placeholder="Enter Keyword" />
+                                <InputGroup.Append>
+                                    <InputGroup.Text>
+                                    <FontAwesomeIcon
+                                        color="grey"
+                                        icon={["fas", "chevron-circle-down"]} />
+                                    </InputGroup.Text>
+                                </InputGroup.Append>
+                            </InputGroup>
                             {this.state.searched.length !== 0 ? (
                                 <div className="search-item-bar">{this.renderSearchItem()}</div>
                             ) : ""}
-                          </Form.Group>
                         </Form>
                     </Card.Body>
                 </Card>
@@ -291,20 +353,18 @@ class Compare extends Component {
     }
 
     renderTableHeader(autocomplete) {
-        let addcolumn = this.props.value.page.compare.add;
-        let countries = this.props.value.page.compare.countries;
-        if (countries.length > 0) {
-            countries = countries.map(x => {
+        let items = this.props.value.page.compare.items;
+        let itemtype = this.state.selectgroup ? "countrygroups" : "countries";
+        if (items.length > 0) {
+            items = items.map(x => {
                 return(
-                    <td key={"header-"+x.country_id} className="first-column header-country" align="center">
+                    <td key={"header-"+x.id} className="first-column header-country" align="center">
                         <Card>
-                            { addcolumn ? (
-                                <FontAwesomeIcon
-                                    onClick={e => this.props.page.compare.removecountry(x.country_id)}
-                                    className="fas-corner fas-delete"
-                                    color="red"
-                                    icon={["fas", "times-circle"]} />
-                            ) : "" }
+                            <FontAwesomeIcon
+                                onClick={e => this.props.page.compare.removeitem(x.id, itemtype)}
+                                className="fas-corner fas-delete"
+                                color="red"
+                                icon={["fas", "times-circle"]} />
                             <Card.Body className="card-compare">
                                 <h5>{x.name}</h5>
                             </Card.Body>
@@ -313,23 +373,21 @@ class Compare extends Component {
                 )
             });
         }
-        if (addcolumn) {
-            let headerAdd = !autocomplete ? (
-                <td key={"header-add"} className="first-column header-country" align="center">
-                    <Card
-                        onClick={e => this.toggleAutoComplete(true)}
-                        className="card-add-column">
-                        <Card.Body className="card-compare">
-                            <FontAwesomeIcon color="grey" icon={["fas", "plus-circle"]} />
-                            <br/>
-                            Add Country
-                        </Card.Body>
-                    </Card>
-                </td>
-            ) : this.renderSearch();
-            countries = [...countries, headerAdd]
-        }
-        return countries;
+        let headerAdd = !autocomplete ? (
+            <td key={"header-add"} className="first-column header-country" align="center">
+                <Card
+                    onClick={e => this.toggleAutoComplete(true)}
+                    className="card-add-column">
+                    <Card.Body className="card-compare">
+                        <FontAwesomeIcon color="grey" icon={["fas", "plus-circle"]} />
+                        <br/>
+                        Add New
+                    </Card.Body>
+                </Card>
+            </td>
+        ) : this.renderSearch();
+        items = [...items, headerAdd]
+        return items;
     }
 
     render() {
