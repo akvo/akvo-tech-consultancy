@@ -42,9 +42,8 @@ export const pageState= {
     fundcontrib: false,
     badges: [],
     compare: {
-        add: true,
         init: true,
-        countries: []
+        items: [],
     }
 }
 
@@ -66,10 +65,10 @@ export const getBadges = (data, masterfilter) => {
     }
 }
 
-export const addComparison = (state, countries, id) => {
-    let newcountry = countries.find(x => x.id === id);
+export const addComparison = (state, item, id, itemtype) => {
+    let newitem = item.find(x => x.id === id);
     return [
         ...state,
-        {country_id: newcountry.id, name: newcountry.name}
+        {id: newitem.id, name: newitem.name, itemtype: itemtype}
     ];
 }

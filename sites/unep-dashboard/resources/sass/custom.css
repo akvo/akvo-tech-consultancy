@@ -42,6 +42,13 @@ h1, h2, h3, h4, h5{
     margin-bottom: 0px;
 }
 
+.compare-group-switcher.form-group {
+    line-height: 24px;
+    font-size: 12px;
+    max-height: 4px;
+    margin-top: -6px;
+}
+
 #sidebar-wrapper {
     position: fixed;
     z-index:1;
@@ -768,8 +775,12 @@ button.btn.btn-sm.btn-primary.btn-download svg{
     cursor: pointer;
     border: #dfdfdf dashed 1px;
 }
+.card-add-column.card-autocomplete.card {
+    cursor: default;
+    background-color:#fff;
+}
 .card-add-column.card:hover{
-    background-color:#f1f1f5;
+    background-color:#fff;
 }
 .search-item-bar {
     background: #FFF;
