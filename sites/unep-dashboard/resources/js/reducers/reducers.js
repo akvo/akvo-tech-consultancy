@@ -146,7 +146,7 @@ export const states = (state = initialState, action) => {
             }
         case 'PAGE - COMPARE REMOVE ITEM':
             data = state.page.compare.items;
-            data = data.filter(x => x.id !== action.id && x.itemtype === action.itemtype);
+            data = data.filter(x => x.id !== action.id && x.itemtype !== action.itemtype);
             return {
                 ...state,
                 page: {
@@ -154,7 +154,7 @@ export const states = (state = initialState, action) => {
                     compare: {
                         ...state.page.compare,
                         items: data,
-                        init: items.data.length > 0 ? false : true
+                        init: data.length > 0 ? false : true
                     }
                 }
             }
