@@ -131,6 +131,10 @@ class Compare extends Component {
                     if (value.length > 0) {
                         value = uniq(flatten(value.map(v => v.datapoints)));
                     }
+                    if (value.length > 0) {
+                        nonglobal = intersection(value, individual);
+                        nonglobal = nonglobal.length > 0 ? nonglobal.length : 0;
+                    }
                 }
                 if (item.itemtype === "countrygroups") {
                     let itemlist = this.props.value.page.countries.filter(c => {
@@ -148,10 +152,23 @@ class Compare extends Component {
                     indicator = flatten(indicator);
                     indicator = indicator.map(i => i.datapoints);
                     value = uniq(flatten(indicator));
-                }
-                if (value.length > 0) {
-                    nonglobal = intersection(value, individual);
-                    nonglobal = nonglobal.length > 0 ? nonglobal.length : 0;
+                    if (value.length > 0) {
+                        nonglobal = value.filter(v => {
+                            let countrylist = this.props.value.data.master.filter((m, i) => {
+                                let datapoints = m.values.map(d => d.datapoints);
+                                    datapoints = flatten(datapoints)
+                                return datapoints.includes(v);
+                            });
+                            countrylist = countrylist.map(c => c.country_id);
+                            countrylist = this.props.value.page.countries.filter(c => countrylist.includes(c.id));
+                            countrylist = countrylist.filter(c => {
+                                let cgroups = c.groups.map(g => g.id);
+                                return !cgroups.includes(item.id);
+                            });
+                            return countrylist.length === 0;
+                        });
+                        nonglobal = nonglobal.length > 0 ? nonglobal.length : 0;
+                    }
                 }
                 if (this.props.value.data.global) {
                     return value.length > 0 ? [nonglobal, value.length] : [nonglobal, 0];
@@ -354,14 +371,13 @@ class Compare extends Component {
 
     renderTableHeader(autocomplete) {
         let items = this.props.value.page.compare.items;
-        let itemtype = this.state.selectgroup ? "countrygroups" : "countries";
         if (items.length > 0) {
             items = items.map(x => {
                 return(
                     <td key={"header-"+x.id} className="first-column header-country" align="center">
                         <Card>
                             <FontAwesomeIcon
-                                onClick={e => this.props.page.compare.removeitem(x.id, itemtype)}
+                                onClick={e => this.props.page.compare.removeitem(x.id, x.itemtype)}
                                 className="fas-corner fas-delete"
                                 color="red"
                                 icon={["fas", "times-circle"]} />
