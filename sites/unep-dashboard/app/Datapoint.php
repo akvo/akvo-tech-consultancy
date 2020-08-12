@@ -26,6 +26,7 @@ class Datapoint extends Model
 
     public function title()
     {
-        return $this->hasOne('App\Answer')->where('question_id', config('report.questions.project_title.id'));
+        $question = \App\Question::where('code', config('report.questions.project_title.code'))->first();
+        return $this->hasOne('App\Answer')->where('question_id', $question->id);
     }
 }
