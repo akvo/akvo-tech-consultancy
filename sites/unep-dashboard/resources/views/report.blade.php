@@ -95,6 +95,7 @@
             width: 100%;
             display: block;
             margin-top:25px;
+            page-break-after: auto;
         }
         .header-line {
             width: 100%;
@@ -136,25 +137,59 @@
         @media print {
             body {
                 visibility: visible;
-                font-size: 20pt!important;
+                font-size: 16pt!important;
+            }
+            h1,h2,h3,h4,h5,h6 {
+                font-family: 'Roboto', sans-serif;
+                font-weight:700;
+            }
+            .header {
+                /* page-break-before: always; */
+                display: block;
+            }
+            .content {
+                min-width: 100%;
+                width: 100%;
+                display: block;
+                margin-top:25pt!important;
+                page-break-after: auto;
+            }
+            .header-line {
+                width: 100%;
+                height: 2pt!important;
+                background-color: #389FE3;
             }
             .page-break {
                 page-break-after: always;
             }
-            p {
-                font-size: 20pt!important;
+            img.datapoint-img {
+                height: 300px;
+                width: 100%;
+                object-fit: cover;
             }
             table.table-custom {
-                font-size: 20pt!important;
+                font-size: 16pt!important;
                 page-break-after: auto;
+            }
+            table.borderless td,table.borderless th{
+                border: none !important;
+            }
+            td.indicator-name {
+                background-color: #f2f2f2!important;
+                font-weight: bold;
+                text-align: right;
+                padding-right: 10pt!important;
+            }
+            td.td-inner-one {
+                padding-left: 15pt!important;
+                background-color: #fff;
+            }
+            p {
+                font-size: 16pt!important;
             }
             ul {
                 margin-bottom: 0px;
-                padding-inline-start: 20pt;
-            }
-            td.td-inner-one {
-                padding-left: 5pt!important;
-                background-color: #fff;
+                padding-inline-start: 16pt!important;
             }
         }
     </style>
