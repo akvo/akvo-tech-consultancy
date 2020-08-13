@@ -9,6 +9,7 @@ import {
     flatten,
     getChildsData,
     pushToParent,
+    formatCurrency
 } from "../data/utils.js";
 
 class Reports extends Component {
@@ -120,7 +121,7 @@ class Reports extends Component {
     }
 
     reportToggle(active, x) {
-        if (active) { 
+        if (active) {
             return this.props.report.delete(x.datapoint_id);
         }
         return this.props.report.append(x.datapoint_id);
@@ -130,17 +131,19 @@ class Reports extends Component {
         let datapoints = this.props.value.data.filteredpoints;
         datapoints = this.props.value.data.datapoints.filter(x => datapoints.includes(x.datapoint_id));
         return datapoints.map((x, i) => {
-            let active = this.props.value.reports.includes(x.datapoint_id);        
+            let active = this.props.value.reports.includes(x.datapoint_id);
             return (
                 <tr key={'datapoint-'+i}>
-                    <td align="center">
+                    <td align="center" className="report-select">
                         <FontAwesomeIcon
                             color={active ? "green" : "grey"}
                             icon={["fas", active ? "check-circle" : "plus-circle"]}
                             onClick={e => this.reportToggle(active, x)}
                         />
                     </td>
-                    <td>{x.title}</td>
+                    <td className="report-title">{x.title}</td>
+                    <td align="right">5</td>
+                    <td className="report-funds">{formatCurrency(x.f)}</td>
                 </tr>
             )
         });
@@ -154,13 +157,19 @@ class Reports extends Component {
             <Container>
                 <Row>
                     <Col md={12}>
-                        {/* <div className="datapoint-list"> */}
-                            <table width={"100%"} className="table-compare">
-                                <tbody>
-                                    {this.getReportTable()}
-                                </tbody>
-                            </table>
-                        {/* </div> */}
+                        <table width={"100%"} className="table-report">
+                            <thead>
+                                <tr>
+                                    <td align="center" className="report-select">Select</td>
+                                    <td className="report-title">Project Name</td>
+                                    <td align="right">Countries</td>
+                                    <td align="right">Funds (USD)</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {this.getReportTable()}
+                            </tbody>
+                        </table>
                     </Col>
                 </Row>
                 <Row className="report-chart-list">
