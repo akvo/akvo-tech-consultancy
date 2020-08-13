@@ -366,7 +366,7 @@ class Compare extends Component {
                                         <Form.Check
                                             type="switch"
                                             defaultChecked={this.state.selectgroup}
-                                            label="Group"
+                                            label="Region"
                                             />
                                         </Form.Group>
                                     </InputGroup.Text>
@@ -375,7 +375,7 @@ class Compare extends Component {
                                     onClick={e => this.toggleDropDown()}
                                     onChange={this.changeSearchItem}
                                     type="text"
-                                    placeholder="Enter Keyword" />
+                                    placeholder="Country / Region" />
                                 <InputGroup.Append>
                                     <InputGroup.Text
                                         onClick={e => this.toggleDropDown()}
