@@ -7,6 +7,7 @@
                         <img class="datapoint-img" width="100%" src="https://via.placeholder.com/300">
                     </td>
                 </tr>
+                <tr><td>&nbsp;</td></tr>
                 <tr>
                     <td class="text-justify">
                         {{ $item['keywords'] }}
@@ -23,10 +24,10 @@
     $ctext = "Country";
     $cval = $item['countries'][0];
     if ($item['funds'] !== 0) {
-        $funding = money_format("%i", $item['funds']);
+        $funding = 'USD '.money_format("%i", $item['funds']);
     }
     if ($item['contribution'] !== 0) {
-        $contrib = money_format("%i", $item['contribution']); 
+        $contrib = 'USD '.money_format("%i", $item['contribution']); 
     }
     if (count($item['countries']) > 1) {
         $ctext = "Countries";
@@ -46,11 +47,11 @@
                     <td><strong>Contribution: </strong></td>
                 </tr>
                 <tr>
-                    <td>USD {{ $funding }}</td>
-                    <td>USD {{ $contrib }}</td>
+                    <td>{{ $funding }}</td>
+                    <td>{{ $contrib }}</td>
                 </tr>
                 <tr>
-                    <td colspan="2"></td>
+                    <td colspan="2">&nbsp;</td>
                 </tr>
                 <tr>
                     <td colspan="2"><strong>{{ $ctext }}</strong></td>
