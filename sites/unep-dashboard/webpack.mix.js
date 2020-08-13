@@ -26,4 +26,5 @@ mix.copyDirectory('resources/images','public/images')
 mix.copyDirectory('resources/fonts','public/fonts')
 mix.copyDirectory('resources/json','public/json')
 
+
 // mix.browserSync('unep.localhost');

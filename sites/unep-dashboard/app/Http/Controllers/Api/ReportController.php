@@ -26,7 +26,14 @@ class ReportController extends Controller
             return ["status" => false];
         }
 
+        $ex = collect(config('report.ex_indicators'));
         $vls = $vl->whereNull('parent_id')->has('childrens')->with('childrens')->get();
+        $vls = $vls->filter(function ($x) use ($ex) {
+            if (!$ex->contains($x['code'])) {
+                return $x;
+            }
+        });
+
         $dps = $dp->whereIn('id', $r->input('datapoints'))
                   ->with(['title', 'keywords', 'info', 'countries.country', 'values.value.parents'])
                   ->get();
@@ -62,10 +69,10 @@ class ReportController extends Controller
             "charts" => $charts,
             "chart_names" => $chartNames,
         ];
-        //return view('report', ['data' => $results]);
-        $pdf = PDF::loadView('report', ['data' => $results]);
-        $pdf->save(storage_path().'/app/public/filename.pdf');
-        return Storage::url('filename.pdf');
+        return view('report', ['data' => $results]);
+        // $pdf = PDF::loadView('report', ['data' => $results]);
+        // $pdf->save(storage_path().'/app/public/filename.pdf');
+        // return Storage::url('filename.pdf');
         // return $pdf->download('report.pdf');
     }
 

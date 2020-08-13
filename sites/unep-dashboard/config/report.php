@@ -1,7 +1,7 @@
 <?php
 
 return [
-    "indicators" => ["43374939", "43374915"],
+    "ex_indicators" => ["43375025"],
     "questions" => [
         "project_title" => [
             "id" => 9,

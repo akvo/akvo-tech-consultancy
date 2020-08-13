@@ -1,9 +1,67 @@
 <div class="content">
-    <img class="float-left mr-4 mb-4" src="" style="width: 50%">
-    <p class="text-justify">{{ $item['keywords'] }}</p>
-    <div class="clearfix"></div>
+    <div class="table-responsive-md">
+        <table class="table table-sm table-custom borderless">
+            <tbody>
+                <tr>
+                    <td>
+                        <img class="datapoint-img" width="100%" src="https://via.placeholder.com/300">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-justify">
+                        {{ $item['keywords'] }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
-<div class="clearfix"></div>
+
+@php
+    $funding = "-";
+    $contrib = "-";    
+    $ctext = "Country";
+    $cval = $item['countries'][0];
+    if ($item['funds'] !== 0) {
+        $funding = money_format("%i", $item['funds']);
+    }
+    if ($item['contribution'] !== 0) {
+        $contrib = money_format("%i", $item['contribution']); 
+    }
+    if (count($item['countries']) > 1) {
+        $ctext = "Countries";
+        $cval = "";
+        foreach ($item['countries'] as $key => $value) {
+            $cval .= $value;
+            $cval .= ($key < count($item['countries']) - 1) ? ', ' : '';
+        }
+    }
+@endphp
+<div class="content">
+    <div class="table-responsive-md">
+        <table class="table table-sm table-custom borderless">
+            <tbody>
+                <tr>
+                    <td><strong>Funding: </strong></td>
+                    <td><strong>Contribution: </strong></td>
+                </tr>
+                <tr>
+                    <td>USD {{ $funding }}</td>
+                    <td>USD {{ $contrib }}</td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><strong>{{ $ctext }}</strong></td>
+                </tr>
+                <tr>
+                    <td colspan="2">{{ $cval }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 
 <div class="content">
     <div class="table-responsive-md">
