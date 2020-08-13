@@ -137,11 +137,10 @@ class Page extends Component {
         .then(res => {
             const link = document.createElement('a');
             const url = window.URL.createObjectURL(new Blob([res.data]));
-            link.href = url;
-            // link.href = window.location.origin + res.data;
-            link.setAttribute('download', 'report.html'); //or any other extension
-            document.body.appendChild(link);
-            link.click();
+            let newWindow = window.open('/')
+            newWindow.onload = () => {
+                newWindow.location = URL.createObjectURL(new Blob([res.data], {type: "text/html"}));
+            };
         }).catch(err => {
             console.log("internal server error");
         });
