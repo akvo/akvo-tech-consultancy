@@ -40,7 +40,6 @@ class ReportController extends Controller
             $indicators = $q['indicators'] = collect($q->values)->reject(function ($v) {
                 return $v->value->childrens->count() !== 0;
             })->values()->pluck('value_id');
-            
             $newIndicators = collect($vls)->map(function ($val) use ($indicators) {
                 return $this->fillIndicators(collect($val), collect($indicators));
             });
@@ -63,8 +62,7 @@ class ReportController extends Controller
             "charts" => $charts,
             "chart_names" => $chartNames,
         ];
-        // return $results;
-        // return view('report', ['data' => $results]);
+        //return view('report', ['data' => $results]);
         $pdf = PDF::loadView('report', ['data' => $results]);
         $pdf->save(storage_path().'/app/public/filename.pdf');
         return Storage::url('filename.pdf');

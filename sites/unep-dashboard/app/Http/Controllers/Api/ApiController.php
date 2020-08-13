@@ -143,11 +143,9 @@ class ApiController extends Controller
             $indicators = $q['indicators'] = collect($q->values)->reject(function ($v) {
                 return $v->value->childrens->count() !== 0;
             })->values()->pluck('value_id');
-            
             $newIndicators = collect($vls)->map(function ($val) use ($indicators) {
                 return $this->fillIndicators(collect($val), collect($indicators));
             });
-
             return [
                 "id" => $q['id'],
                 "title" => $q['title']->value,
@@ -160,19 +158,5 @@ class ApiController extends Controller
             ];
         });
         return $dps;
-        
-        // Original query
-        // $indicators = collect($dps)->map(function ($q) {
-        //     $q['indicators'] = collect($q->values)->reject(function ($v) {
-        //         return $v->value->childrens->count() !== 0;
-        //     })->values();
-        //     return $q['indicators'];
-        // })->flatten(1)->pluck('value_id');
-
-        // $vls = $vl->whereNull('parent_id')->has('childrens')->with('childrens')->get();
-        // return collect($vls)->map(function ($val) use ($indicators) {
-        //     return $this->fillIndicators(collect($val), collect($indicators));
-        // });
-        // return $vls;
     }
 }

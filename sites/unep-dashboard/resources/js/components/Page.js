@@ -124,7 +124,7 @@ class Page extends Component {
 
         formData.set('global', this.props.value.data.global);
         this.props.value.reports.forEach(x => formData.append('datapoints[]', x));
-        
+
         let image = 0;
         do {
             let image_url = canvas[image].toDataURL('image/png');
@@ -135,8 +135,9 @@ class Page extends Component {
 
         axios.post(API_WEB + 'download', formData, {'Content-Type':'multipart/form-data', 'X-CSRF-TOKEN': token})
         .then(res => {
-            console.log(res.data);
             const link = document.createElement('a');
+            //const url = window.URL.createObjectURL(new Blob([res.data]));
+            //link.href = url;
             link.href = window.location.origin + res.data;
             link.setAttribute('download', 'report.pdf'); //or any other extension
             document.body.appendChild(link);
@@ -229,9 +230,9 @@ class Page extends Component {
                                 icon={["fas", "check-circle"]} />
                                 Select All
                         </button>
-                    </Fragment> 
+                    </Fragment>
                 )
-            default: 
+            default:
                 "";
         }
     }
