@@ -124,27 +124,55 @@ class ApiController extends Controller
                 return !$val["value"];
             })->values();
         }
-
         return $parent;
     }
 
     public function test(Datapoint $dp, Value $vl)
     {
-        $dps = $dp->whereIn('id', [3,4])
+        $vls = $vl->whereNull('parent_id')->has('childrens')->with('childrens')->get();
+        $dps = $dp->whereIn('id', [3,4, 100])
                   ->with(['title', 'keywords', 'info', 'countries.country', 'values.value.childrens'])
                   ->get();
 
-        $indicators = collect($dps)->map(function ($q) {
-            $q['indicators'] = collect($q->values)->reject(function ($v) {
-                return $v->value->childrens->count() !== 0;
-            })->values();
-            return $q['indicators'];
-        })->flatten(1)->pluck('value_id');
+        $dps->transform(function ($q) use ($vls) {
+            $q['countries'] = $q['countries']->transform(function ($c) {
+                $this->collection->push($c->country->name);
+                return $c->country->name;
+            });
 
-        $vls = $vl->whereNull('parent_id')->has('childrens')->with('childrens')->get();
-        return collect($vls)->map(function ($val) use ($indicators) {
-            return $this->fillIndicators(collect($val), collect($indicators));
+            $indicators = $q['indicators'] = collect($q->values)->reject(function ($v) {
+                return $v->value->childrens->count() !== 0;
+            })->values()->pluck('value_id');
+            
+            $newIndicators = collect($vls)->map(function ($val) use ($indicators) {
+                return $this->fillIndicators(collect($val), collect($indicators));
+            });
+
+            return [
+                "id" => $q['id'],
+                "title" => $q['title']->value,
+                "info" => $q['info']->value,
+                "keywords" => $q['keywords']->value,
+                "funds" => $q['funds'],
+                "contribution" => $q['contribution'],
+                "countries" => $q['countries'],
+                "indicators" => $newIndicators
+            ];
         });
-        return $vls;
+        return $dps;
+        
+        // Original query
+        // $indicators = collect($dps)->map(function ($q) {
+        //     $q['indicators'] = collect($q->values)->reject(function ($v) {
+        //         return $v->value->childrens->count() !== 0;
+        //     })->values();
+        //     return $q['indicators'];
+        // })->flatten(1)->pluck('value_id');
+
+        // $vls = $vl->whereNull('parent_id')->has('childrens')->with('childrens')->get();
+        // return collect($vls)->map(function ($val) use ($indicators) {
+        //     return $this->fillIndicators(collect($val), collect($indicators));
+        // });
+        // return $vls;
     }
 }

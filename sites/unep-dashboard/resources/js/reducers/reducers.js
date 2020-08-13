@@ -258,6 +258,11 @@ export const states = (state = initialState, action) => {
                 ...state,
                 reports: []
             }
+        case 'REPORT - ADD ALL':
+            return {
+                ...state,
+                reports: action.data
+            }
         default:
             return state;
     }

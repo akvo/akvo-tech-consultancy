@@ -23,6 +23,7 @@ import Actions from '../pages/Actions';
 import Funding from '../pages/Funding';
 import Compare from '../pages/Compare';
 import Reports from "../pages/Reports";
+import { forEach } from 'lodash';
 
 const API_WEB = process.env.MIX_PUBLIC_URL + "/";
 const API = process.env.MIX_PUBLIC_URL + "/api/";
@@ -45,6 +46,8 @@ class Page extends Component {
         this.renderHeaderButtons = this.renderHeaderButtons.bind(this);
         this.renderHeaderButtonsRight = this.renderHeaderButtonsRight.bind(this);
         this.downloadReport = this.downloadReport.bind(this);
+        this.resetDownload = this.resetDownload.bind(this);
+        this.selectAllDatapoint = this.selectAllDatapoint.bind(this);
     }
 
     componentDidMount() {
@@ -143,6 +146,14 @@ class Page extends Component {
         });
     }
 
+    resetDownload() {
+        this.props.report.reset();
+    }
+
+    selectAllDatapoint() {
+        this.props.report.appendall(this.props.value.data.filteredpoints);
+    }
+
     renderHeaderButtons(page, sidebar) {
         let buttons = [];
         switch(page){
@@ -181,19 +192,44 @@ class Page extends Component {
                     </Form.Group>
                 );
             case "report":
-                let rcount = this.props.value.reports.length
+                let rcount = this.props.value.reports.length;
+                let dps = this.props.value.data.filteredpoints.length;
                 let disabled = (rcount > 0 && rcount <= 20) ? false : true;
+                let resetdisabled = (rcount > 0) ? false : true;
+                let selectdisabled = (dps > 0 && dps <= 20) ? false : true;
                 return (
-                    <button
-                        disabled={disabled}
-                        className="btn btn-sm btn-primary btn-download"
-                        onClick={e => this.downloadReport()}
-                    >
-                        <FontAwesomeIcon
-                            className="fas-icon"
-                            icon={["fas", "arrow-circle-down"]} />
-                            Download
-                    </button>
+                    <Fragment>
+                        <button
+                            disabled={disabled}
+                            className="btn btn-sm btn-primary btn-download"
+                            onClick={e => this.downloadReport()}
+                        >
+                            <FontAwesomeIcon
+                                className="fas-icon"
+                                icon={["fas", "arrow-circle-down"]} />
+                                Download
+                        </button>
+                        <button
+                            disabled={resetdisabled}
+                            className="btn btn-sm btn-primary btn-download"
+                            onClick={e => this.resetDownload()}
+                        >
+                            <FontAwesomeIcon
+                                className="fas-icon"
+                                icon={["fas", "redo-alt"]} />
+                                Reset
+                        </button>
+                        <button
+                            disabled={selectdisabled}
+                            className="btn btn-sm btn-primary btn-download"
+                            onClick={e => this.selectAllDatapoint()}
+                        >
+                            <FontAwesomeIcon
+                                className="fas-icon"
+                                icon={["fas", "check-circle"]} />
+                                Select All
+                        </button>
+                    </Fragment> 
                 )
             default: 
                 "";

@@ -152,6 +152,11 @@ export const mapDispatchToProps = dispatch => {
                 dispatch({
                     type: "REPORT - RESET",
                 }),
+            appendall: (data) =>
+                dispatch({
+                    type: "REPORT - ADD ALL",
+                    data: data
+                }),
         }
     };
 };

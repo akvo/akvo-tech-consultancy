@@ -27,6 +27,28 @@
         .page-break {
             page-break-after: always;
         }
+        img.center {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 80%;
+        }
+        table.table-custom {
+            font-size: 13px;
+
+        }
+        td.td-inner-one {
+            padding-left: 25px!important;
+        }
+        td.td-inner-two {
+            padding-left: 50px!important;
+        }
+        td.td-inner-three {
+            padding-left: 75px!important;
+        }
+        p {
+            font-size: 13px;
+        }
     </style>
 </head>
 <body>
