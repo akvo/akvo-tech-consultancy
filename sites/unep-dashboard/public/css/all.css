@@ -715,6 +715,64 @@ button.btn.btn-sm.btn-primary.btn-download svg{
     height: 0vh;
 }
 
+.table-report {
+    margin-top: 10px;
+    font-size:12px;
+    width: 100%;
+}
+
+.table-report,
+.table-report td {
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+}
+
+.table-report thead {
+    display: table; /* to take the same width as tr */
+    width: calc(100% - 4px); /* - 4px because of the unep scrollbar width is only 4px*/
+}
+
+.table-report tbody {
+    display: block; /* to enable vertical scrolling */
+    max-height: 75vh; /* e.g. */
+    overflow-y: scroll; /* keeps the scrollbar even if it doesn't need it; display purpose */
+}
+
+.table-report thead td{
+    background-color: #f1f1f5;
+    border-bottom: 1px solid #ddd;
+}
+.table-report th, 
+.table-report td {
+    width: 10%; /* to enable "word-break: break-all" */
+    padding: 5px;
+    word-break: break-all; /* 4. */
+}
+
+.table-report td.report-title{
+    width: 75%;
+    text-align:left;
+}
+.table-report td.report-select{
+    width: 5%;
+}
+.table-report td.report-funds{
+    text-align:right;
+}
+
+
+.table-report tr {
+    display: table; /* display purpose; th's border */
+    width: 100%;
+    box-sizing: border-box; /* because of the border (Chrome needs this line, but not FF) */
+}
+
+.table-report td {
+    text-align: center;
+    border-bottom: none;
+    border-left: none;
+}
+
 /*Compare*/
 .table-compare{
     font-size:12px;
@@ -792,9 +850,20 @@ button.btn.btn-sm.btn-primary.btn-download svg{
     border-bottom: 1px solid #ddd;
 }
 .search-suggest{
+    cursor: pointer;
     padding: 10px;
     border-bottom: 1px solid #ddd;
 }
 .search-suggest:hover{
     background-color:#f1f1f5;
+}
+.dropdown-select:hover{
+    background-color:#007bff;
+    cursor: pointer;
+}
+.dropdown-select:hover svg{
+    color: #ffffff;
+}
+.dropdown-select.close:hover{
+    background-color:red;
 }

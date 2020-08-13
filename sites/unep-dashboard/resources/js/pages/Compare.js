@@ -46,6 +46,7 @@ class Compare extends Component {
         this.toggleAutoComplete = this.toggleAutoComplete.bind(this);
         this.toggleExpand = this.toggleExpand.bind(this);
         this.toggleGroup = this.toggleGroup.bind(this);
+        this.toggleDropDown = this.toggleDropDown.bind(this);
         this.state = {
             autocomplete: false,
             selectgroup: false,
@@ -283,9 +284,6 @@ class Compare extends Component {
 
     changeSearchItem(e) {
         this.setState({searched:[]})
-        if (e.target.value === ""){
-            return;
-        }
         let keywords = e.target.value.toLowerCase().split(' ');
         let itemtype = this.state.selectgroup ? "countrygroups" : "countries";
         let source = this.props.value.page[itemtype];
@@ -313,9 +311,39 @@ class Compare extends Component {
         return;
     }
 
+    toggleDropDown() {
+        if (this.state.searched.length > 0) {
+            this.setState({searched: []});
+            return;
+        }
+        let itemtype = this.state.selectgroup ? "countrygroups" : "countries";
+        let results = this.props.value.page[itemtype].map(x => {
+            return {
+                id: x.id,
+                name: x.name
+            }
+        });
+        this.setState({searched: results});
+        return;
+    }
+
     toggleGroup() {
         let selectgroup = this.state.selectgroup ? false : true;
-        this.setState({selectgroup: selectgroup})
+        let results = [];
+        if (this.state.searched.length > 0) {
+            let itemtype = selectgroup ? "countrygroups" : "countries";
+            results = this.props.value.page[itemtype].map(x => {
+                return {
+                    id: x.id,
+                    name: x.name
+                }
+            });
+        }
+        this.setState({selectgroup: selectgroup, searched: results})
+    }
+
+    removeDropDown() {
+        this.setState({searched:[]})
     }
 
     renderSearch() {
@@ -344,14 +372,23 @@ class Compare extends Component {
                                     </InputGroup.Text>
                                 </InputGroup.Prepend>
                                 <Form.Control
+                                    onClick={e => this.toggleDropDown()}
                                     onChange={this.changeSearchItem}
                                     type="text"
                                     placeholder="Enter Keyword" />
                                 <InputGroup.Append>
-                                    <InputGroup.Text>
+                                    <InputGroup.Text
+                                        onClick={e => this.toggleDropDown()}
+                                        className={this.state.searched.length > 0
+                                        ? "dropdown-select close"
+                                        : "dropdown-select"
+                                    }>
                                     <FontAwesomeIcon
-                                        color="grey"
-                                        icon={["fas", "chevron-circle-down"]} />
+                                        color={this.state.searched.length > 0 ? "red" : "grey"}
+                                        icon={["fas", this.state.searched.length > 0
+                                            ? "times-circle"
+                                            : "chevron-circle-down"
+                                        ]} />
                                     </InputGroup.Text>
                                 </InputGroup.Append>
                             </InputGroup>

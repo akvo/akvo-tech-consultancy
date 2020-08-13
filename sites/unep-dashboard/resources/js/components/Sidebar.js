@@ -255,7 +255,7 @@ class Sidebar extends Component {
         this.setState({active:active, depth:0, parent_id:null, searched:[]})
     }
 
-    componentWillReceiveProps() {
+    UNSAFE_componentWillReceiveProps() {
         let active = this.props.value.page.filters.map(x => x.id);
         this.setState({searched:[]});
         if (this.props.value.page.sidebar.selected !== "filters") {
