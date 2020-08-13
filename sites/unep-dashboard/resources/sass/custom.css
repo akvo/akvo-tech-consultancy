@@ -792,9 +792,20 @@ button.btn.btn-sm.btn-primary.btn-download svg{
     border-bottom: 1px solid #ddd;
 }
 .search-suggest{
+    cursor: pointer;
     padding: 10px;
     border-bottom: 1px solid #ddd;
 }
 .search-suggest:hover{
     background-color:#f1f1f5;
+}
+.dropdown-select:hover{
+    background-color:#007bff;
+    cursor: pointer;
+}
+.dropdown-select:hover svg{
+    color: #ffffff;
+}
+.dropdown-select.close:hover{
+    background-color:red;
 }
