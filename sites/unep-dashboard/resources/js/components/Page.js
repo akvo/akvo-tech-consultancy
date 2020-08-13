@@ -136,10 +136,10 @@ class Page extends Component {
         axios.post(API_WEB + 'download', formData, {'Content-Type':'multipart/form-data', 'X-CSRF-TOKEN': token})
         .then(res => {
             const link = document.createElement('a');
-            //const url = window.URL.createObjectURL(new Blob([res.data]));
-            //link.href = url;
-            link.href = window.location.origin + res.data;
-            link.setAttribute('download', 'report.pdf'); //or any other extension
+            const url = window.URL.createObjectURL(new Blob([res.data]));
+            link.href = url;
+            // link.href = window.location.origin + res.data;
+            link.setAttribute('download', 'report.html'); //or any other extension
             document.body.appendChild(link);
             link.click();
         }).catch(err => {

@@ -129,7 +129,14 @@ class ApiController extends Controller
 
     public function test(Datapoint $dp, Value $vl)
     {
+        $ex = collect(config('report.ex_indicators'));
         $vls = $vl->whereNull('parent_id')->has('childrens')->with('childrens')->get();
+        $vls = $vls->filter(function ($x) use ($ex) {
+            if (!$ex->contains($x['code'])) {
+                return $x;
+            }
+        });
+        // return $vls;
         $dps = $dp->whereIn('id', [3,4, 100])
                   ->with(['title', 'keywords', 'info', 'countries.country', 'values.value.childrens'])
                   ->get();
