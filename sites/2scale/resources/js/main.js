@@ -159,15 +159,23 @@ const authMessage = () => {
 };
 
 const revalidate = () => {
-    const now = moment();
+    // const now = moment();
+    const now = new Date();
     let cachetime = localStorage.getItem('cache-time');
-    cachetime = cachetime !== null ? moment(cachetime) : moment().subtract(1, 'days');
-    if (now > cachetime) {
-        let tomorrow = moment().add(1, 'days').format("YYYY-MM-DD");
-        localStorage.setItem('cache-time', tomorrow);
+    let cache_version = document.getElementsByName('cache-version')[0].getAttribute('value');
+    let current_version = localStorage.getItem('cache-version');
+    // cachetime = cachetime !== null ? moment(cachetime) : moment().subtract(1, 'days');
+    cachetime = cachetime !== null ? new Date(parseInt(cachetime) + (60 * 60 * 1000)) : new Date(0);
+    if (now > cachetime || cache_version !== current_version) {
+        console.info("CLEAR CACHE");
+        localStorage.clear();
         Dexie.delete('2scale');
+        // let tomorrow = moment().add(1, 'days').format("YYYY-MM-DD");
+        // localStorage.setItem('cache-time', tomorrow);
+        localStorage.setItem('cache-time', now.getTime());
+        localStorage.setItem('cache-version', cache_version);
     }
-    if (now < cachetime) {
+    if (now < cachetime && cache_version === current_version) {
         console.info("USING CACHED");
     }
 }
