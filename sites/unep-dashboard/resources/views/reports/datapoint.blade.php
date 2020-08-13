@@ -24,10 +24,10 @@
     $ctext = "Country";
     $cval = $item['countries'][0];
     if ($item['funds'] !== 0) {
-        $funding = 'USD '.money_format("%i", $item['funds']);
+        $funding = ' '.money_format("%i", $item['funds']);
     }
     if ($item['contribution'] !== 0) {
-        $contrib = 'USD '.money_format("%i", $item['contribution']); 
+        $contrib = ' '.money_format("%i", $item['contribution']); 
     }
     if (count($item['countries']) > 1) {
         $ctext = "Countries";
@@ -71,8 +71,8 @@
             @foreach ($item['indicators'] as $val)
                 @if ($val['value'])    
                     <tr class="break-row">
-                        <td class="indicator-name" width="20%">{{ $val['name'] }}</td>
-                        <td>
+                        <td class="indicator-name" width="25%">{{ $val['name'] }}</td>
+                        <td class="pl-2">
                             @include('reports.indicator', ['val' => $val])
                         </td>
                     </tr>

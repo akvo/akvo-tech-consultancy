@@ -2,7 +2,9 @@ import {
     Color,
     Easing,
     Legend,
+    LegendReports,
     TextStyle,
+    TextStyleReports,
     backgroundColor,
     Icons,
     dataView
@@ -48,13 +50,14 @@ const SanKey = (title, subtitle, props, data, extra, reports=false) => {
             links = [...links, ...createLinks(x, [])];
         });
     }
+    const text_style = reports ? TextStyleReports : TextStyle;
     let option = {
         title: {
             text: reports ? (title + " (" + subtitle + ")" ) : title,
             subtext: reports ? "" : subtitle,
             left: 'center',
             top: '20px',
-            ...TextStyle,
+            ...text_style,
         },
         tooltip: {
             trigger: 'item',
@@ -70,12 +73,12 @@ const SanKey = (title, subtitle, props, data, extra, reports=false) => {
             borderRadius:5,
             position: [30,50],
             textStyle: {
-                ...TextStyle.textStyle,
+                ...text_style.textStyle,
                 fontSize:12
             }
         },
         toolbox: {
-            show: true,
+            show: reports ? false : true,
             orient: "horizontal",
             left: "right",
             top: "bottom",
@@ -91,18 +94,31 @@ const SanKey = (title, subtitle, props, data, extra, reports=false) => {
         },
         series: [
             {
-                top: '20%',
+                top: reports ? "70vh" : "20%",
                 type: 'sankey',
                 layout: 'none',
                 focusNodeAdjacency: 'allEdges',
                 data: list,
                 links: links,
+                nodeGap: 20,
                 label: {
+                    formatter: function(params) {
+                        let name = params.name;
+                        name = name.split('(')[0];
+                        name = name.split('e.g')[0];
+                        return name;
+                    },
                     color: "#222",
-                    fontFamily: "Assistant"
-                }
+                    fontFamily: reports ? "sans-serif" : "Assistant",
+                    ...text_style,
+                },
+                lineStyle: {
+                    curveness: reports ? .8 : .3,
+                    color: 'rgba(0,0,0,.3)',
+                },
             }
-        ]
+        ],
+        ...Color,
     }
     return option;
 }

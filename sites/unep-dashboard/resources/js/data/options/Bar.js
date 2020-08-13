@@ -21,13 +21,13 @@ const Bar = (title, subtitle, props, data, extra, reports=false) => {
         title : {
             text: reports ? (title + " (" + subtitle + ")" ) : title,
             subtext: reports ? "" : subtitle,
-            left: 'center',
+            right: reports ? '40%' : 'center',
             top: reports ? '0px' : '20px',
             ...text_style
         },
         grid: {
-            top: "15%",
-            left: reports ? '30%' : '20%',
+            top: reports ? "50vh" : "15%",
+            left: '20%',
             show: true,
             label: {
                 color: "#222",
@@ -94,7 +94,7 @@ const Bar = (title, subtitle, props, data, extra, reports=false) => {
                 }
             },
         ],
-        color: ['#355c7d','#6c5b7b','#c06c84','#f67280','#f8b195','#ddd'],
+        ...Color,
         ...backgroundColor,
         ...Easing,
         ...extra

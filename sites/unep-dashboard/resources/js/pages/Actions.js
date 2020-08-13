@@ -27,18 +27,10 @@ class Actions extends Component {
                     extra: {}
                 },
                 {
-                    kind: "TREEMAP",
-                    title: "Responsible Actors",
-                    subtitle: "Count of Actions",
-                    config: generateData(4, true, "80vh"),
-                    data: {id: 83, childs:true},
-                    extra: {}
-                },
-                {
                     kind: "ROSEPIE",
                     title: "Role of Organisation",
                     subtitle: "Count of Actions",
-                    config: generateData(4, true, "80vh"),
+                    config: generateData(6, true, "80vh"),
                     data: {id: 77, childs:false},
                     extra: {
                         tooltip: {show: false},
@@ -48,11 +40,19 @@ class Actions extends Component {
                     kind: "PIE",
                     title: "Evaluation of Actual Outcomes",
                     subtitle: "Count of Actions",
-                    config: generateData(4, true, "80vh"),
+                    config: generateData(6, true, "80vh"),
                     data: {id: 112, childs:false},
                     extra: {
                         tooltip: {show: false},
                     }
+                },
+                {
+                    kind: "TREEMAP",
+                    title: "Responsible Actors",
+                    subtitle: "Count of Actions",
+                    config: generateData(12, true, "80vh"),
+                    data: {id: 83, childs:true},
+                    extra: {}
                 },
                 {
                     kind: "TREEMAP",
@@ -76,7 +76,7 @@ class Actions extends Component {
                     kind: "BAR",
                     title: "Source to Sea",
                     subtitle: "Count of Actions",
-                    config: generateData(8, true, "80vh"),
+                    config: generateData(12, true, "80vh"),
                     data: {id: 123, childs:false},
                     extra: {
                         tooltip: {show: false},
@@ -86,7 +86,7 @@ class Actions extends Component {
                     kind: "PIE",
                     title: "Action Target",
                     subtitle: "Count of Actions",
-                    config: generateData(4, true, "80vh"),
+                    config: generateData(6, true, "80vh"),
                     data: {id: 150, childs:false},
                     extra: {
                         tooltip: {show: false},
@@ -96,8 +96,8 @@ class Actions extends Component {
                     kind: "TREEMAP",
                     title: "Sector",
                     subtitle: "Count of Actions",
-                    config: generateData(12, true, "70vh"),
-                    data: {id: 192, childs:true},
+                    config: generateData(6, true, "80vh"),
+                    data: {id: 192, childs:false},
                     extra: {}
                 },
                 {

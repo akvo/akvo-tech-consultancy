@@ -12,7 +12,7 @@ import {
     pushToParent,
     formatCurrency
 } from "../data/utils.js";
-import { TextStyle } from '../data/features/animation.js';
+import { Color, TextStyle } from '../data/features/animation.js';
 import sumBy from 'lodash/sumBy';
 require("../data/unep-map.js");
 
@@ -52,7 +52,14 @@ const MapsOverride = (toolTip, props) => {
                 fontWeight: 600,
                 fontSize: 12
             },
-            color: ['#355c7d','#6c5b7b','#c06c84','#f67280','#f8b195','#ddd']
+            color: [
+                "#0f5298",
+                "#2565ae",
+                "#3c99dc",
+                "#66d3fa",
+                "#d5f3fe",
+                "#ddd",
+            ]
         },
     }
     return config;
@@ -80,7 +87,7 @@ class Funding extends Component {
                     data: {id: 156, childs:false},
                     extra: {}
                 }, {
-                    kind: "PIE",
+                    kind: "ROSEPIE",
                     title: "Duration",
                     subtitle: "",
                     config: generateData(6, true, "60vh"),
@@ -94,7 +101,7 @@ class Funding extends Component {
                     data: {id: 212, childs:false},
                     extra: {
                         tooltip: {show: false},
-                        color: ['#6c5b7b','#845435','#226E7B','#2C201F'],
+                        ...Color,
                     }
                 }],
             }

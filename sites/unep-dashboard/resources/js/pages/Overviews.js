@@ -11,7 +11,7 @@ import {
     getChildsData,
     pushToParent,
 } from "../data/utils.js";
-import { TextStyle } from '../data/features/animation.js';
+import { Color, TextStyle } from '../data/features/animation.js';
 
 require("../data/unep-map.js");
 
@@ -51,7 +51,14 @@ const MapsOverride = (toolTip, props) => {
                 fontWeight: 600,
                 fontSize: 12
             },
-            color: ['#355c7d','#6c5b7b','#c06c84','#f67280','#f8b195','#ddd']
+            color: [
+                "#0f5298",
+                "#2565ae",
+                "#3c99dc",
+                "#66d3fa",
+                "#d5f3fe",
+                "#ddd",
+            ]
         },
     }
     return config;
@@ -81,7 +88,7 @@ class Overviews extends Component {
                     extra: {
                         title: {show: false},
                         tooltip: {show: false},
-                        color: ['#6c5b7b','#845435','#226E7B','#2C201F'],
+                        ...Color,
                     }
                 }],
             }

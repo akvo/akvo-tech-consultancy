@@ -118,6 +118,13 @@ class Page extends Component {
     }
 
     downloadReport() {
+        let blocks = ["TREEMAP", "PIE", "PIE", "BAR", "BAR", "SANKEY", "BAR", "BARBUTPIE"]
+            blocks = blocks.map(x => {
+                if (x === "PIE") {
+                    return 2;
+                }
+                return 1;
+            })
         let token = document.querySelector('meta[name="csrf-token"]').content;
         let canvas = document.getElementsByTagName("canvas");
         let formData = new FormData();
@@ -129,7 +136,7 @@ class Page extends Component {
         do {
             let image_url = canvas[image].toDataURL('image/png');
             formData.append('images[]', image_url);
-            formData.append('blocks[]', 1); // 1 or 2
+            formData.append('blocks[]', blocks[image]); // 1 or 2
             image++;
         } while(image < canvas.length);
 

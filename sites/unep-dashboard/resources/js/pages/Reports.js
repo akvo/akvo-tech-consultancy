@@ -25,15 +25,17 @@ class Reports extends Component {
                     kind: "TREEMAP",
                     title: "Type of Actions",
                     subtitle: "Count of Actions",
-                    config: generateData(12, true, "80vh"),
+                    config: generateData(12, true, "100vh"),
                     data: {id: 5, childs:false},
-                    extra: {}
+                    extra: {
+                        color: ["#00adef","#00adef","#00adef"]
+                    }
                 },
                 {
                     kind: "PIE",
                     title: "Role of Organisation",
                     subtitle: "Count of Actions",
-                    config: generateData(6, true, "80vh"),
+                    config: generateData(6, true, "50vh"),
                     data: {id: 77, childs:false},
                     extra: {
                         tooltip: {show: false},
@@ -43,7 +45,7 @@ class Reports extends Component {
                     kind: "PIE",
                     title: "Evaluation of Actual Outcomes",
                     subtitle: "Count of Actions",
-                    config: generateData(6, true, "80vh"),
+                    config: generateData(6, true, "50vh"),
                     data: {id: 112, childs:false},
                     extra: {
                         tooltip: {show: false},
@@ -53,7 +55,7 @@ class Reports extends Component {
                     kind: "BAR",
                     title: "Lifecycle of Plastics",
                     subtitle: "Count of Actions",
-                    config: generateData(12, true, "80vh"),
+                    config: generateData(12, true, "50vh"),
                     data: {id: 139, childs:false},
                     extra: {
                         tooltip: {show: false},
@@ -63,18 +65,18 @@ class Reports extends Component {
                     kind: "BAR",
                     title: "Source to Sea",
                     subtitle: "Count of Actions",
-                    config: generateData(12, true, "80vh"),
+                    config: generateData(12, true, "75vh"),
                     data: {id: 123, childs:false},
                     extra: {
                         tooltip: {show: false},
                     }
                 },
                 {
-                    kind: "PIE",
-                    title: "Action Target",
+                    kind: "SANKEY",
+                    title: "Pollutant Target",
                     subtitle: "Count of Actions",
-                    config: generateData(12, true, "80vh"),
-                    data: {id: 150, childs:false},
+                    config: generateData(12, true, "120vh"),
+                    data: {id: 166, childs:true},
                     extra: {
                         tooltip: {show: false},
                     }
@@ -83,16 +85,16 @@ class Reports extends Component {
                     kind: "BAR",
                     title: "Sector",
                     subtitle: "Count of Actions",
-                    config: generateData(12, true, "70vh"),
-                    data: {id: 192, childs:false},
+                    config: generateData(12, true, "95vh"),
+                    data: {id: 192, childs: false},
                     extra: {}
                 },
                 {
                     kind: "PIE",
-                    title: "Pollutant Target",
+                    title: "Action Target",
                     subtitle: "Count of Actions",
-                    config: generateData(12, true, "100vh"),
-                    data: {id: 166, childs:false},
+                    config: generateData(6, true, "50vh"),
+                    data: {id: 150, childs:false},
                     extra: {
                         tooltip: {show: false},
                     }
@@ -189,8 +191,7 @@ class Reports extends Component {
                         </table>
                     </Col>
                 </Row>
-                <Row>
-                {/*<Row className="report-chart-list">*/}
+                <Row className="report-chart-list">
                     {charts}
                 </Row>
             </Container>

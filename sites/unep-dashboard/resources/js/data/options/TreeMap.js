@@ -8,6 +8,7 @@ import {
     Easing,
     Legend,
     TextStyle,
+    TextStyleReports,
     backgroundColor,
     Icons,
     dataView,
@@ -47,11 +48,11 @@ const colorMappingChange = (value) => {
     });
 }
 
-const getLevelOption = () => {
+const getLevelOption = (reports) => {
     return [
         {
             itemStyle: {
-                borderColor: '#355c7d',
+                borderColor: reports ? '#fff' : '#355c7d',
                 borderWidth: 0,
                 gapWidth: 1
             },
@@ -62,7 +63,7 @@ const getLevelOption = () => {
         },
         {
             itemStyle: {
-                borderColor: '#355c7d',
+                borderColor: reports ? '#fff' : '#355c7d',
                 borderWidth: 5,
                 gapWidth: 1
             },
@@ -168,7 +169,7 @@ const generateOptions = (props) => {
     return results;
 }
 
-const TreeMap = (title, subtitle, props, data, extra, reports) => {
+const TreeMap = (title, subtitle, props, data, extra, reports=false) => {
     data = !data ? generateOptions(props) : data;
     let val;
     if (sumBy(data,'value') === 0) {
@@ -182,6 +183,7 @@ const TreeMap = (title, subtitle, props, data, extra, reports) => {
             },
         }
     }
+    const text_style = reports ? TextStyleReports : TextStyle;
     let option = {
         ...Color,
         title : {
@@ -189,9 +191,10 @@ const TreeMap = (title, subtitle, props, data, extra, reports) => {
             subtext: reports ? "" : subtitle,
             left: 'center',
             top: '20px',
-            ...TextStyle
+            ...text_style
         },
         tooltip: {
+            show: reports ? false : true,
             trigger: 'item',
             showDelay: 0,
             padding:10,
@@ -210,12 +213,12 @@ const TreeMap = (title, subtitle, props, data, extra, reports) => {
             top:'bottom',
             left: 'center',
             textStyle : {
-                ...TextStyle.textStyle,
+                ...text_style.textStyle,
                 fontSize:12
             }
         },
         toolbox: {
-            show: true,
+            show: reports ? false : true,
             orient: "horizontal",
             left: "right",
             top: "bottom",
@@ -234,28 +237,49 @@ const TreeMap = (title, subtitle, props, data, extra, reports) => {
                 name: 'Actions',
                 type: 'treemap',
                 visibleMin: 300,
-                top: '15%',
+                width: '100%',
+                top: reports ? "50vh" : '15%',
                 roam: false,
                 label: {
                     show: true,
-                    fontFamily:"Assistant",
-                    fontSize:12,
+                    fontFamily: reports ? "san-serif" : "Assistant",
+                    fontSize: reports ? 20 : 12,
                     formatter: function(x){
                         val = x.value;
                         let name = x.name.split(':')[0];
                         if (props.page.name === "funding") {
                             val = formatCurrency(x.value);
                         }
-                        return name + '\n\n' + '{label|' + val + '}';
+                        name = name.split(' ');
+                        name = name.map(x => x.toUpperCase());
+                        name = name.join('\n');
+                        if (!reports){
+                            return '{title|' + name + '}' + '\n\n' + '{label|' + val + '}';
+                        }
+                        return '{title|' + name + '}' + '\n\n' + '{hr|}' + '\n\n\n' + '{label|' + val + '}';
                     },
                     rich:{
+                        title: {
+                            align: 'center',
+                            color: '#ffffff',
+                            fontSize: reports ? 20 : 12,
+                            lineHeight: 20,
+                        },
+                        hr: {
+                            width: '100%',
+                            borderColor: 'rgba(255,255,255,0.2)',
+                            borderWidth: 0.5,
+                            height: 0,
+                            lineHeight: 10
+                        },
                         label: {
-                            fontSize: 12,
-                            backgroundColor: 'rgba(0,0,0,.3)',
+                            fontSize: reports ? 30 : 12,
+                            fontWeight: 400,
+                            backgroundColor: reports ? 'rgba(0,0,0,.2)' : 'rgba(0,0,0,.3)',
                             color: '#ffffff',
                             borderRadius: 100,
                             padding: 10,
-                            width: 12.5,
+                            width: reports ? 31.5 : 12.5,
                             lineHeight: 20,
                             align: 'center'
                         },
@@ -271,8 +295,9 @@ const TreeMap = (title, subtitle, props, data, extra, reports) => {
                     borderWidth: 0,
                     gapWidth: 1,
                 },
-                levels: getLevelOption(),
+                levels: getLevelOption(reports),
                 breadcrumb: {
+                    show: reports ? false : true,
                     itemStyle: {
                         textStyle: {
                             borderWidth:0,
@@ -287,7 +312,8 @@ const TreeMap = (title, subtitle, props, data, extra, reports) => {
             }
         ],
         ...backgroundColor,
-        color: ['#6c5b7b','#c06c84','#f67280','#f8b195','#F59C2F','#845435','#226E7B','#2C201F'],
+        ...Color,
+        //color: ['#6c5b7b','#c06c84','#f67280','#f8b195','#F59C2F','#845435','#226E7B','#2C201F'],
         ...Easing,
         ...extra
     };

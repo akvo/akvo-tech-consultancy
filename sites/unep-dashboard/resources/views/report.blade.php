@@ -133,7 +133,6 @@
             margin-bottom: 0px;
             padding-inline-start: 20px;
         }
-        
         @media print {
             body {
                 visibility: visible;
@@ -190,6 +189,23 @@
             ul {
                 margin-bottom: 0px;
                 padding-inline-start: 16pt!important;
+            }
+            td.pl-2 {
+                padding-left: 15pt!important;
+            }
+            img.col-print-1 {
+                width:100%;
+                border-bottom: 1px solid #ddd;
+                padding-top: 15pt;
+                padding-bottom: 15pt;
+                float:left;
+            }
+            img.col-print-2 {
+                width:50%;
+                border-bottom: 1px solid #ddd;
+                padding-top: 15pt;
+                padding-bottom: 15pt;
+                float:left;
             }
         }
     </style>

@@ -84,7 +84,7 @@ const BarStack = (title, subtitle, props, data, extra, reports=false) => {
             }
         }),
         series: data.series,
-        color: ['#6c5b7b','#c06c84','#f67280','#f8b195','#F59C2F','#845435','#226E7B','#2C201F'],
+        ...Color,
         ...backgroundColor,
         ...Easing,
         ...extra

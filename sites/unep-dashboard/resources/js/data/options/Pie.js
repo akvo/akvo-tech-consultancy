@@ -5,6 +5,16 @@ const Pie = (title, subtitle, props, data, extra, roseType=false, reports=false)
     data = !data ? [] : data;
     let labels = [];
     if (data.length > 0){
+        data = data.map(x => {
+            let n = x.name.split('(')[0];
+            return {
+                ...x,
+                name: n
+            }
+        })
+        data = reports
+            ? data.filter(x => x.value !== 0)
+            : data
         labels = data.map(x => x.name);
     }
     let rose = {};
@@ -29,8 +39,8 @@ const Pie = (title, subtitle, props, data, extra, roseType=false, reports=false)
         title: {
             text: reports ? (title + " (" + subtitle + ")" ) : title,
             subtext: reports ? "" : subtitle,
-            left: 'center',
-            top: '20px',
+            right: 'center',
+            top: reports ? 0 : '20px',
             ...text_style,
         },
         tooltip: {
@@ -57,7 +67,8 @@ const Pie = (title, subtitle, props, data, extra, roseType=false, reports=false)
             {
                 name: title,
                 type: "pie",
-                radius: reports ? ["40%", "70%"] : (roseType ? ["20%","70%"] : ["40%", "60%"]),
+                right: reports ? "left" : "center",
+                radius: reports ? ["40%", "70%"] : (roseType ? ["20%","70%"] : ["40%", "90%"]),
                 label: {
                     normal: {
                         formatter: "{d}%",
@@ -95,7 +106,7 @@ const Pie = (title, subtitle, props, data, extra, roseType=false, reports=false)
             data: labels,
             ...legend,
         },
-        color: ['#355c7d','#6c5b7b','#c06c84','#f67280','#f8b195','#ddd'],
+        ...Color,
         ...backgroundColor,
         ...Easing,
         ...extra
