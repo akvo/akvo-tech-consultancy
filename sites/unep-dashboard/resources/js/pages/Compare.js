@@ -284,9 +284,6 @@ class Compare extends Component {
 
     changeSearchItem(e) {
         this.setState({searched:[]})
-        if (e.target.value === ""){
-            return;
-        }
         let keywords = e.target.value.toLowerCase().split(' ');
         let itemtype = this.state.selectgroup ? "countrygroups" : "countries";
         let source = this.props.value.page[itemtype];
