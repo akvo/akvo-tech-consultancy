@@ -22,7 +22,7 @@
 @endphp
 @foreach ($data['charts'] as $item)
     <div class="content">
-        <h4>{{ $data['chart_names'][$index] }}</h4>
+        <h4>{{ $data['blocks'][$index] }}</h4>
         <div>
             <img class="center" src="{{ $item }}" alt="Card image cap">
         </div>

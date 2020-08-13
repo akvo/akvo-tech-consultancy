@@ -55,5 +55,4 @@ class TestController extends Controller
         })->toArray();
         return response(implode("|",$countries), 200)->header('Content-Type', 'text/plain');
     }
-
 }

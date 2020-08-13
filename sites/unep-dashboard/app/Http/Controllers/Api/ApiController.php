@@ -137,7 +137,7 @@ class ApiController extends Controller
             }
         });
         // return $vls;
-        $dps = $dp->whereIn('id', [3,4, 100])
+        $dps = $dp->whereIn('id', [4])
                   ->with(['title', 'keywords', 'info', 'countries.country', 'values.value.childrens'])
                   ->get();
 

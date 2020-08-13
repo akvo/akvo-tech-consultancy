@@ -70,7 +70,7 @@
             @foreach ($item['indicators'] as $val)
                 @if ($val['value'])    
                     <tr class="break-row">
-                        <td class="indicator-name">{{ $val['name'] }}</td>
+                        <td class="indicator-name" width="20%">{{ $val['name'] }}</td>
                         <td>
                             @include('reports.indicator', ['val' => $val])
                         </td>

@@ -129,7 +129,7 @@ class Page extends Component {
         do {
             let image_url = canvas[image].toDataURL('image/png');
             formData.append('images[]', image_url);
-            formData.append('images_name[]', 'test');
+            formData.append('blocks[]', 1); // 1 or 2
             image++;
         } while(image < canvas.length);
 

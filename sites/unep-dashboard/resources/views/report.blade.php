@@ -78,8 +78,9 @@
           src: local('Roboto Condensed Bold'), local('RobotoCondensed-Bold'), url('/fonts/Roboto_Condensed/RobotoCondensed-Bold.ttf') format('woff2');
           unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
         }
-        .body{
+        body{
             font-size: 13px;
+            visibility: hidden;
         }
         h1,h2,h3,h4,h5,h6 {
             font-family: 'Roboto', sans-serif;
@@ -131,6 +132,31 @@
             margin-bottom: 0px;
             padding-inline-start: 20px;
         }
+        
+        @media print {
+            body {
+                visibility: visible;
+                font-size: 20pt!important;
+            }
+            .page-break {
+                page-break-after: always;
+            }
+            p {
+                font-size: 20pt!important;
+            }
+            table.table-custom {
+                font-size: 20pt!important;
+                page-break-after: auto;
+            }
+            ul {
+                margin-bottom: 0px;
+                padding-inline-start: 20pt;
+            }
+            td.td-inner-one {
+                padding-left: 5pt!important;
+                background-color: #fff;
+            }
+        }
     </style>
 </head>
 <body>
@@ -150,13 +176,17 @@
     @foreach ($data['datapoints'] as $item)
         @include('reports.header', ['title' => $item['title']])
         @include('reports.datapoint', [$item])
-        {{-- @if ($x < $data["datapoints"]->count())
+        @if ($x < $data["datapoints"]->count())
             <div class="page-break"></div>
-        @endif --}}
+        @endif
         @php
             $x++;
         @endphp
     @endforeach
     {{-- EOL Datapoint --}}
+
+    <script>
+        window.print();
+    </script>
 </body>
 </html>

@@ -6,8 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Datapoint;
 use App\Value;
-use PDF;
-use Storage;
 
 class ReportController extends Controller
 {
@@ -20,7 +18,7 @@ class ReportController extends Controller
     {
         $global = $r->input('global');
         $charts = $r->input('images');
-        $chartNames = $r->input('images_name');
+        $blocks = $r->input('blocks');
 
         if (!$r->input('datapoints') || count($r->input('datapoints')) > 20) {
             return ["status" => false];
@@ -67,13 +65,9 @@ class ReportController extends Controller
             "all_countries" => $this->collection->unique(),
             "datapoints" => $dps,
             "charts" => $charts,
-            "chart_names" => $chartNames,
+            "blocks" => $blocks, // 1 (colspan 2), 2 (no colspan)
         ];
         return view('report', ['data' => $results]);
-        // $pdf = PDF::loadView('report', ['data' => $results]);
-        // $pdf->save(storage_path().'/app/public/filename.pdf');
-        // return Storage::url('filename.pdf');
-        // return $pdf->download('report.pdf');
     }
 
     private function fillIndicators($parent, $indicators)
