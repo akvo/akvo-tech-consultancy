@@ -27,9 +27,9 @@
             <img class="center" src="{{ $item }}" alt="Card image cap">
         </div>
     </div>
-    @if ($y < count($data['charts']))
+    {{-- @if ($y < count($data['charts']))
         <div class="page-break"></div>
-    @endif
+    @endif --}}
     @php
         $y++;
         $index++;

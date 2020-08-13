@@ -1,5 +1,5 @@
 <div class="content">
-    <img class="float-left mr-4 mb-4" src="http://lorempixel.com/output/nature-q-g-640-480-5.jpg" style="width: 50%">
+    <img class="float-left mr-4 mb-4" src="" style="width: 50%">
     <p class="text-justify">{{ $item['keywords'] }}</p>
     <div class="clearfix"></div>
 </div>
