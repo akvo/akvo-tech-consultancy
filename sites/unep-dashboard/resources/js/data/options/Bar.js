@@ -1,8 +1,8 @@
-import { Easing, Color, TextStyle, backgroundColor, Icons, dataView } from '../features/animation.js';
+import { Easing, Color, TextStyle, TextStyleReports, backgroundColor, Icons, dataView } from '../features/animation.js';
 import { formatCurrency } from '../utils.js';
 import sum from 'lodash/sum';
 
-const Bar = (title, subtitle, props, data, extra) => {
+const Bar = (title, subtitle, props, data, extra, reports=false) => {
     let values = [];
     let labels = [];
     data = !data ? [] : data;
@@ -15,32 +15,35 @@ const Bar = (title, subtitle, props, data, extra) => {
         avg = sum(values) / values.length;
         avg = avg < 100 ? true : false;
     }
+    const text_style = reports ? TextStyleReports : TextStyle;
     let option = {
         ...Color,
         title : {
-            text: title,
-            subtext: subtitle,
+            text: reports ? (title + " (" + subtitle + ")" ) : title,
+            subtext: reports ? "" : subtitle,
             left: 'center',
-            top: '20px',
-            ...TextStyle
+            top: reports ? '0px' : '20px',
+            ...text_style
         },
         grid: {
             top: "15%",
-            left: "20%",
+            left: reports ? '30%' : '20%',
             show: true,
             label: {
                 color: "#222",
                 fontFamily: "Assistant",
+                ...text_style
             }
         },
         tooltip: {
+            show: reports ? false : true,
             trigger: "item",
             formatter: "{b}: {c}",
             backgroundColor: "#ffffff",
-            ...TextStyle
+            ...text_style
         },
         toolbox: {
-            show: true,
+            show: reports ? false : true,
             orient: "horizontal",
             left: "right",
             top: "bottom",
@@ -60,6 +63,7 @@ const Bar = (title, subtitle, props, data, extra) => {
             axisLabel: {
                 color: "#222",
                 fontFamily: "Assistant",
+                ...text_style
             },
             axisTick: {
                 alignWithLabel: true,
@@ -77,12 +81,16 @@ const Bar = (title, subtitle, props, data, extra) => {
                         return formatCurrency(params.data);
                     },
                     position: 'insideLeft',
-                    show:true,
+                    show: reports ? false : true,
                     color: "#222",
                     fontFamily: "Assistant",
                     padding: 5,
-                    borderRadius: avg ? 20 : 5,
-                    backgroundColor: "#f2f2f2",
+                    borderRadius: reports ? 5 : (avg ? 20 : 5),
+                    backgroundColor: 'rgba(0,0,0,.3)',
+                    textStyle: {
+                        ...text_style.textStyle,
+                        color: "#fff"
+                    }
                 }
             },
         ],

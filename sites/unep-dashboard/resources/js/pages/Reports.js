@@ -22,11 +22,29 @@ class Reports extends Component {
         this.state = {
             charts: [
                 {
-                    kind: "BAR",
+                    kind: "TREEMAP",
                     title: "Type of Actions",
                     subtitle: "Count of Actions",
                     config: generateData(12, true, "80vh"),
                     data: {id: 5, childs:false},
+                    extra: {}
+                },
+                {
+                    kind: "PIE",
+                    title: "Role of Organisation",
+                    subtitle: "Count of Actions",
+                    config: generateData(6, true, "80vh"),
+                    data: {id: 77, childs:false},
+                    extra: {
+                        tooltip: {show: false},
+                    }
+                },
+                {
+                    kind: "PIE",
+                    title: "Evaluation of Actual Outcomes",
+                    subtitle: "Count of Actions",
+                    config: generateData(6, true, "80vh"),
+                    data: {id: 112, childs:false},
                     extra: {
                         tooltip: {show: false},
                     }
@@ -65,18 +83,16 @@ class Reports extends Component {
                     kind: "BAR",
                     title: "Sector",
                     subtitle: "Count of Actions",
-                    config: generateData(12, true, "80vh"),
+                    config: generateData(12, true, "70vh"),
                     data: {id: 192, childs:false},
-                    extra: {
-                        tooltip: {show: false},
-                    }
+                    extra: {}
                 },
                 {
-                    kind: "SANKEY",
+                    kind: "PIE",
                     title: "Pollutant Target",
                     subtitle: "Count of Actions",
-                    config: generateData(12, true, "80vh"),
-                    data: {id: 166, childs:true},
+                    config: generateData(12, true, "100vh"),
+                    data: {id: 166, childs:false},
                     extra: {
                         tooltip: {show: false},
                     }
@@ -87,11 +103,10 @@ class Reports extends Component {
 
     componentDidMount() {
         this.props.report.reset();
-        console.log(this.props.value.reports);
     }
 
     renderOptions(filterId, childs=true) {
-        let active = this.props.value.data.filteredpoints;
+        let active = this.props.value.reports;
         let thefilter = flatten(this.props.value.page.filters);
             thefilter = thefilter.filter(x => x.id === filterId);
         let datapoints = this.props.value.data.master.map(x => x.values);
@@ -116,6 +131,7 @@ class Reports extends Component {
                 config={list.config}
                 dataset={data}
                 extra={list.extra}
+                reports={true}
             />
         )
     }
@@ -134,11 +150,12 @@ class Reports extends Component {
             let active = this.props.value.reports.includes(x.datapoint_id);
             return (
                 <tr key={'datapoint-'+i}>
-                    <td align="center" className="report-select">
+                    <td align="center"
+                        onClick={e => this.reportToggle(active, x)}
+                        className="report-select">
                         <FontAwesomeIcon
                             color={active ? "green" : "grey"}
                             icon={["fas", active ? "check-circle" : "plus-circle"]}
-                            onClick={e => this.reportToggle(active, x)}
                         />
                     </td>
                     <td className="report-title">{x.title}</td>
@@ -172,7 +189,8 @@ class Reports extends Component {
                         </table>
                     </Col>
                 </Row>
-                <Row className="report-chart-list">
+                <Row>
+                {/*<Row className="report-chart-list">*/}
                     {charts}
                 </Row>
             </Container>

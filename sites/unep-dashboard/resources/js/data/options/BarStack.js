@@ -2,7 +2,7 @@ import { Easing, Color, TextStyle, backgroundColor, Icons, dataView } from '../f
 import { formatCurrency } from '../utils.js';
 import sum from 'lodash/sum';
 
-const BarStack = (title, subtitle, props, data, extra) => {
+const BarStack = (title, subtitle, props, data, extra, reports=false) => {
     if (!data) {
         return {
             title: {

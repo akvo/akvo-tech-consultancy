@@ -86,7 +86,7 @@ class Actions extends Component {
                     kind: "PIE",
                     title: "Action Target",
                     subtitle: "Count of Actions",
-                    config: generateData(4, true, "70vh"),
+                    config: generateData(4, true, "80vh"),
                     data: {id: 150, childs:false},
                     extra: {
                         tooltip: {show: false},
@@ -104,7 +104,7 @@ class Actions extends Component {
                     kind: "SANKEY",
                     title: "Pollutant Target",
                     subtitle: "Count of Actions",
-                    config: generateData(8, true, "60vh"),
+                    config: generateData(8, true, "65vh"),
                     data: {id: 166, childs:true},
                     extra: {
                         tooltip: {show: false},
@@ -154,6 +154,7 @@ class Actions extends Component {
                     config={list.config}
                     dataset={data}
                     extra={list.extra}
+                    reports={false}
                 />
             )
         }

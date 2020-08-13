@@ -56,7 +56,8 @@ class Charts extends Component {
             this.props.subtitle,
             this.props.value,
             this.props.dataset,
-            this.props.extra
+            this.props.extra,
+            this.props.reports
         );
         let onEvents = {
             'click': this.clickEvent,

@@ -231,6 +231,7 @@ class Compare extends Component {
                     config={generateData(0, false, "50vh")}
                     dataset={data}
                     extra={extra}
+                    reports={false}
                 />
             </td>
         )

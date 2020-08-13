@@ -37,23 +37,23 @@ export const generateData = (col, line, height) => {
     }
 }
 
-export const generateOptions = (type, title, subtitle, props, dataset, extra={}) => {
+export const generateOptions = (type, title, subtitle, props, dataset, extra={}, reports) => {
     switch (type) {
         case "MAPS":
-            return Maps(title, subtitle, props, dataset, extra);
+            return Maps(title, subtitle, props, dataset, extra, reports);
         case "PIE":
-            return Pie(title, subtitle, props, dataset, extra);
+            return Pie(title, subtitle, props, dataset, extra, false, reports);
         case "ROSEPIE":
-            return Pie(title, subtitle, props, dataset, extra, {roseType: "area"});
+            return Pie(title, subtitle, props, dataset, extra, {roseType: "area"}, reports);
         case "TREEMAP":
-            return TreeMap(title, subtitle, props, dataset, extra);
+            return TreeMap(title, subtitle, props, dataset, extra, reports);
         case "SANKEY":
-            return SanKey(title, subtitle, props, dataset, extra);
+            return SanKey(title, subtitle, props, dataset, extra, reports);
         case "RADAR":
-            return Radar(title, subtitle, props, dataset, extra);
+            return Radar(title, subtitle, props, dataset, extra, reports);
         case "BARSTACK":
-            return BarStack(title, subtitle, props, dataset, extra);
+            return BarStack(title, subtitle, props, dataset, extra, reports);
         default:
-            return Bar(title, subtitle, props, dataset, extra);
+            return Bar(title, subtitle, props, dataset, extra, reports);
     }
 }

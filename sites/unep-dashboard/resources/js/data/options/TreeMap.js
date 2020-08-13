@@ -168,7 +168,7 @@ const generateOptions = (props) => {
     return results;
 }
 
-const TreeMap = (title, subtitle, props, data, extra) => {
+const TreeMap = (title, subtitle, props, data, extra, reports) => {
     data = !data ? generateOptions(props) : data;
     let val;
     if (sumBy(data,'value') === 0) {
@@ -185,8 +185,8 @@ const TreeMap = (title, subtitle, props, data, extra) => {
     let option = {
         ...Color,
         title : {
-            text: title,
-            subtext: subtitle,
+            text: reports ? (title + " (" + subtitle + ")" ) : title,
+            subtext: reports ? "" : subtitle,
             left: 'center',
             top: '20px',
             ...TextStyle
@@ -234,6 +234,7 @@ const TreeMap = (title, subtitle, props, data, extra) => {
                 name: 'Actions',
                 type: 'treemap',
                 visibleMin: 300,
+                top: '15%',
                 roam: false,
                 label: {
                     show: true,

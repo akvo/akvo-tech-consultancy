@@ -4,7 +4,7 @@ import uniq from 'lodash/uniq';
 import sumBy from 'lodash/sumBy';
 import intersection from 'lodash/intersection';
 
-const getData = (data, page, countries, contrib, {global, datapoints, filteredpoints}) => {
+const getData = (data, page, countries, contrib, {global, datapoints, filteredpoints}, reports=false) => {
     let results = [];
     if (countries.length === 1) {
         return results;

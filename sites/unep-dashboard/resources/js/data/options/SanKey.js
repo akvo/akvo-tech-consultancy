@@ -33,7 +33,7 @@ const createLinks = (data, links) => {
     return links;
 }
 
-const SanKey = (title, subtitle, props, data, extra) => {
+const SanKey = (title, subtitle, props, data, extra, reports=false) => {
     let list = [];
     let links = [];
     if (data) {
@@ -50,8 +50,8 @@ const SanKey = (title, subtitle, props, data, extra) => {
     }
     let option = {
         title: {
-            text: title,
-            subtext: subtitle,
+            text: reports ? (title + " (" + subtitle + ")" ) : title,
+            subtext: reports ? "" : subtitle,
             left: 'center',
             top: '20px',
             ...TextStyle,
@@ -91,6 +91,7 @@ const SanKey = (title, subtitle, props, data, extra) => {
         },
         series: [
             {
+                top: '20%',
                 type: 'sankey',
                 layout: 'none',
                 focusNodeAdjacency: 'allEdges',

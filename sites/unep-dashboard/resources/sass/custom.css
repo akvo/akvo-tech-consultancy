@@ -734,7 +734,7 @@ button.btn.btn-sm.btn-primary.btn-download svg{
 
 .table-report tbody {
     display: block; /* to enable vertical scrolling */
-    max-height: 75vh; /* e.g. */
+    max-height: 25vh; /* e.g. */
     overflow-y: scroll; /* keeps the scrollbar even if it doesn't need it; display purpose */
 }
 
@@ -754,7 +754,11 @@ button.btn.btn-sm.btn-primary.btn-download svg{
     text-align:left;
 }
 .table-report td.report-select{
+    cursor: pointer;
     width: 5%;
+}
+.table-report td.report-select:hover{
+    background-color:#f2f2f2;
 }
 .table-report td.report-funds{
     text-align:right;

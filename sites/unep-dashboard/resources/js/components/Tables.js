@@ -61,10 +61,11 @@ class Tables extends Component {
                     data={this.props.dataset}
                     customStyles={customStyles}
                     fixedHeader
-                    fixedHeaderScrollHeight={"80vh"}
+                    fixedHeaderScrollHeight={"50vh"}
                     highlightOnHover
                     pointerOnHover
                 />
+            <hr/>
             </Col>
         );
     }

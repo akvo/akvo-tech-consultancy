@@ -2,7 +2,7 @@ import { Color, Easing, Legend, TextStyle, backgroundColor, Icons, dataView } fr
 import maxBy from 'lodash/maxBy';
 import sum from 'lodash/sum';
 
-const Radar = (title, subtitle, props, data, extra) => {
+const Radar = (title, subtitle, props, data, extra, reports=false) => {
     let values = data.length > 0 ? data.map(x => x.value) : [];
     let indicator = [];
     if (data.length > 0) {
@@ -26,8 +26,8 @@ const Radar = (title, subtitle, props, data, extra) => {
     }
     let option = {
         title : {
-            text: title,
-            subtext: subtitle,
+            text: reports ? (title + " (" + subtitle + ")" ) : title,
+            subtext: reports ? "" : subtitle,
             left: 'center',
             top: '20px',
             ...TextStyle

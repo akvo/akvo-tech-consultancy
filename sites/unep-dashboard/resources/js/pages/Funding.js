@@ -177,13 +177,14 @@ class Funding extends Component {
         if (list.kind !== "TABLE") {
             return (
                 <Charts
-                key={index}
+                    key={index}
                     title={list.title}
                     subtitle={list.subtitle}
                     kind={list.kind}
                     config={list.config}
                     dataset={data}
                     extra={extra}
+                    reports={false}
                 />
             )
         }

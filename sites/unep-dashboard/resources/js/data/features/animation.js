@@ -22,6 +22,14 @@ export const TextStyle = {
     }
 };
 
+export const TextStyleReports = {
+    textStyle: {
+        color: "#222",
+        fontFamily: "sans-serif",
+        fontSize: 20,
+    }
+};
+
 export const Color = {
     color: [
         "#007bff",
@@ -49,6 +57,20 @@ export const Legend = {
         fontFamily: "Assistant",
         fontWeight: 200,
         fontSize: 12
+    },
+    padding: 10,
+    icon: "circle"
+};
+
+export const LegendReports = {
+    orient: "horizontal",
+    x: "center",
+    y: "bottom",
+    textStyle: {
+        fontFamily: "sans-serif",
+        fontWeight: 400,
+        fontSize: 20,
+        width: "80%",
     },
     padding: 10,
     icon: "circle"
