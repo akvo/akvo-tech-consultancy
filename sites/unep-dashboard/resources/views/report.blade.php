@@ -220,19 +220,13 @@
     {{-- EOL Summary --}}
 
     {{-- Datapoint --}}
-    @php
-        setlocale(LC_MONETARY,"en_US");
-        $x = 1;
-    @endphp
-    @foreach ($data['datapoints'] as $item)
+    {{ setlocale(LC_MONETARY,"en_US") }}
+    @foreach ($data['datapoints'] as $key => $item)
         @include('reports.header', ['title' => $item['title']])
         @include('reports.datapoint', [$item])
-        @if ($x < $data["datapoints"]->count())
+        @if ($key < $data["datapoints"]->count() - 1)
             <div class="page-break"></div>
         @endif
-        @php
-            $x++;
-        @endphp
     @endforeach
     {{-- EOL Datapoint --}}
 

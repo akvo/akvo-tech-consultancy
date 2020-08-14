@@ -28,18 +28,18 @@
                 </tr>
                 <tr>
                     <td>
-                        @if ($item['funds'] === 0)
-                            -
-                        @else                        
-                            USD {{ money_format("%i", $item['funds']) }}
-                        @endif
+                    @if ($item['funds'] === 0)
+                        -
+                    @else                        
+                        USD {{ money_format("%i", $item['funds']) }}
+                    @endif
                     </td>
                     <td>
-                        @if ($item['contribution'] === 0)
-                            -
-                        @else                        
-                            USD {{ money_format("%i", $item['contribution']) }}
-                        @endif
+                    @if ($item['contribution'] === 0)
+                        -
+                    @else                        
+                        USD {{ money_format("%i", $item['contribution']) }}
+                    @endif
                     </td>
                 </tr>
                 <tr>
