@@ -4,7 +4,7 @@
         <p>{{ join(', ', $data['all_countries']->toArray()) }}</p>
     @else
         <h4>Project Country</h4>
-        <p>{{ $data['all_countries'] }}</p>
+        <p>{{ $data['all_countries'][0] }}</p>
     @endif
 </div>
 

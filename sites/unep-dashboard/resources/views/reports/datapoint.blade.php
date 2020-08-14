@@ -18,26 +18,6 @@
     </div>
 </div>
 
-@php
-    $funding = "-";
-    $contrib = "-";    
-    $ctext = "Country";
-    $cval = $item['countries'][0];
-    if ($item['funds'] !== 0) {
-        $funding = ' '.money_format("%i", $item['funds']);
-    }
-    if ($item['contribution'] !== 0) {
-        $contrib = ' '.money_format("%i", $item['contribution']); 
-    }
-    if (count($item['countries']) > 1) {
-        $ctext = "Countries";
-        $cval = "";
-        foreach ($item['countries'] as $key => $value) {
-            $cval .= $value;
-            $cval .= ($key < count($item['countries']) - 1) ? ', ' : '';
-        }
-    }
-@endphp
 <div class="content">
     <div class="table-responsive-md">
         <table class="table table-sm table-custom borderless">
@@ -47,18 +27,39 @@
                     <td><strong>Contribution: </strong></td>
                 </tr>
                 <tr>
-                    <td>{{ $funding }}</td>
-                    <td>{{ $contrib }}</td>
+                    <td>
+                        @if ($item['funds'] === 0)
+                            -
+                        @else                        
+                            USD {{ money_format("%i", $item['funds']) }}
+                        @endif
+                    </td>
+                    <td>
+                        @if ($item['contribution'] === 0)
+                            -
+                        @else                        
+                            USD {{ money_format("%i", $item['contribution']) }}
+                        @endif
+                    </td>
                 </tr>
                 <tr>
                     <td colspan="2">&nbsp;</td>
                 </tr>
-                <tr>
-                    <td colspan="2"><strong>{{ $ctext }}</strong></td>
-                </tr>
-                <tr>
-                    <td colspan="2">{{ $cval }}</td>
-                </tr>
+                @if (count($item['countries']) > 1)
+                    <tr>
+                        <td colspan="2"><strong>Countries</strong></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">{{ join(', ', $item['countries']->toArray()) }}</td>
+                    </tr>
+                @else
+                    <tr>
+                        <td colspan="2"><strong>Country</strong></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">{{ $item['countries'][0] }}</td>
+                    </tr>
+                @endif
             </tbody>
         </table>
     </div>
