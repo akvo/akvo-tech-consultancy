@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use App\Libraries\FlowApi;
 use App\Libraries\FlowAuth0;
 use App\SurveyGroup;
@@ -16,6 +17,9 @@ use App\Answer;
 
 class SyncController extends Controller
 {
+    public function __construct() {
+        $this->collections = collect();
+    }
     public function syncPartnerships(FlowApi $flow, Partnership $partnerships)
     {
        $id = 0;
@@ -47,8 +51,8 @@ class SyncController extends Controller
            if ($cascade['parent'] === null || $cascade['parent'] === 0) {
                 $cascade['level'] = 'country';
            }
-           if ($cascade['code'] === '') {
-               $cascade['code'] = null;
+           if ($cascade['code'] === '' || $cascade['code'] === null) {
+               $cascade['code'] = Str::before($cascade['name'], '_');
            }
            return collect($cascade)->forget(['id','parent']);
        })->toArray();
@@ -161,31 +165,28 @@ class SyncController extends Controller
     public function syncDataPoints(FlowAuth0 $flow, Form $forms, Partnership $partnerships, DataPoint $datapoints)
     {
         $forms = $forms->load('surveygroup')->all();
-        $collections = collect();
-		$forms = collect($forms)->each(function($form) use ($flow, $collections, $partnerships) {
+        $this->collections = collect();
+		$forms = collect($forms)->each(function($form) use ($flow, $partnerships) {
             $results = $flow->get('forminstances', $form->survey_id, $form->form_id);
             if($results === null){
                 return "No data";
             }
-			if($results === 500){
-				return "Internal Server Error";
-			}
-			$collections = $this->groupDataPoint($collections, $results, $form, $partnerships);
+			$this->groupDataPoint($results, $form, $partnerships);
 			$next_page = false;
 			if (isset($result['nextPageUrl'])) {
 				$next_page = true;
 			}
 			do{
 				$next_page = false;
-				if (isset($result['nextPageUrl'])) {
+				if (isset($results['nextPageUrl'])) {
 					$next_page = true;
 					$results = $flow->fetch($results['nextPageUrl']);
-					$collections = $this->groupDataPoint($collections, $results, $form, $partnerships);
+					$this->groupDataPoint($results, $form, $partnerships);
 				}
 			}
 			while($next_page);
 		});
-        $data_points = $collections->map(function($data_point) use ($datapoints) {
+        $data_points = $this->collections->map(function($data_point) use ($datapoints) {
 			$data = collect($data_point["answers"])->map(function($answer) {
 				return new Answer($answer);
 			});
@@ -197,9 +198,9 @@ class SyncController extends Controller
         return $datapoints->with('answers')->get();
     }
 
-    private function groupDataPoint($collections, $response, $form, $partnerships)
+    private function groupDataPoint($response, $form, $partnerships)
     {
-        collect($response['formInstances'])->each(function($datapoints) use ($collections, $form, $partnerships) {
+        collect($response['formInstances'])->each(function($datapoints, $ii) use ($form, $partnerships) {
             $datapoint_id = (int) $datapoints['dataPointId'];
             $submission_date = $datapoints['submissionDate'];
             $partner = collect();
@@ -261,12 +262,12 @@ class SyncController extends Controller
                     return $answers;
                 })->flatten(1);
             if($partner->isNotEmpty()){
-                $partnership_part = explode('_', $partner['partnership']);
+                $partnership_part = Str::before($partner['partnership'], '_');
                 $country_id = $partnerships->where('name', $partner['country'])->first();
-                $partnership_id = $partnerships->where('name', 'like', $partnership_part[0] . '%')->first();
+                $partnership_id = $partnerships->where('code', $partnership_part)->first();
                 $dt = DataPoint::where('datapoint_id', $datapoint_id)->first();
                 if ($dt === null) {
-                    $collections->push(
+                    $this->collections->push(
                         array(
                             'datapoint_id' => $datapoint_id,
                             'form_id' => $form['form_id'],
@@ -280,7 +281,7 @@ class SyncController extends Controller
                 }
             }
         });
-        return $collections;
+        return;
     }
 
 }
