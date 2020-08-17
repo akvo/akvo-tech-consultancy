@@ -3,6 +3,7 @@ import sumBy from 'lodash/sumBy';
 
 const Pie = (title, subtitle, props, data, extra, roseType=false, reports=false) => {
     data = !data ? [] : data;
+    let total = {name:'total', value: 0};
     let labels = [];
     if (data.length > 0){
         data = data.map(x => {
@@ -16,6 +17,10 @@ const Pie = (title, subtitle, props, data, extra, roseType=false, reports=false)
             ? data.filter(x => x.value !== 0)
             : data
         labels = data.map(x => x.name);
+        total = {
+            ...total,
+            value: sumBy(data, 'value')
+        }
     }
     let rose = {};
     if (roseType) {
@@ -63,8 +68,7 @@ const Pie = (title, subtitle, props, data, extra, roseType=false, reports=false)
             },
             backgroundColor: "#FFF",
         },
-        series: [
-            {
+        series: [{
                 name: title,
                 type: "pie",
                 right: reports ? "left" : "center",
@@ -100,6 +104,25 @@ const Pie = (title, subtitle, props, data, extra, roseType=false, reports=false)
                 },
                 data: data,
                 ...rose
+            },{
+                data: [total],
+                type: "pie",
+                right: reports ? "left" : "center",
+                radius: reports ? ["0%", "30%"] : (roseType ? ["0%","20%"] : ["0%", "30%"]),
+                label: {
+                    normal: {
+                        formatter: "Total\n{c}",
+                        show: true,
+                        position: "center",
+                        textStyle: {
+                            ...text_style.textStyle,
+                            fontSize: 16,
+                            fontWeight: 'bold',
+                            color: "#495057"
+                        }
+                    }
+                },
+                color: ["#f1f1f5"]
             }
         ],
         legend: {
