@@ -221,9 +221,12 @@ const TreeMap = (title, subtitle, props, data, extra, reports=false) => {
             show: reports ? false : true,
             orient: "horizontal",
             left: "right",
-            top: "bottom",
+            top: "top",
             feature: {
                 dataView: dataView,
+                restore: {
+                    title: "revert",
+                },
                 saveAsImage: {
                     type: "jpg",
                     title: "Save Image",

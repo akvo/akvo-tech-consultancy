@@ -11,7 +11,7 @@ class Countries(Base):
 
     __tablename__ = "countries"
 
-    id = Column(BigInteger, primary_key=True)
+    id = Column(BigInteger, primary_key=True, index=True, autoincrement=True)
     name = Column(Text)
     code = Column(Text, nullable=True)
 
@@ -38,8 +38,7 @@ class Groups(Base):
         self.code = data['code']
 
     def __repr__(self):
-        return "<Group(id={}, parent_id={}, name={}, code={})>".format(
-                self.id, self.parent_id, self.name, self.code)
+        return "<Group(parent_id={}, name={}, code={})>".format(self.parent_id, self.name, self.code)
 
 class CountryGroups(Base):
 

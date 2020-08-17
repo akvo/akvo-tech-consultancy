@@ -71,7 +71,7 @@ const Pie = (title, subtitle, props, data, extra, roseType=false, reports=false)
                 radius: reports ? ["40%", "70%"] : (roseType ? ["20%","70%"] : ["40%", "90%"]),
                 label: {
                     normal: {
-                        formatter: "{d}%",
+                        formatter: reports ? "{d}% ({c})" : "{d}%",
                         show: true,
                         position: roseType ? "outside" : "inner",
                         padding: reports ? 10 : 5,
