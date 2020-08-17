@@ -18,6 +18,7 @@ const customStyles = {
         style: {
             backgroundColor: '#f1f1f5',
             borderColor: '#454d55',
+            fontWeight: 'bold',
             color: '#222',
         },
     },
@@ -178,7 +179,7 @@ class Reports extends Component {
         });
         let data = this.getReportTable();
         let columns = [{
-            name: 'Add',
+            name: 'A',
             selector: 'icon',
             sortable: true,
             cell: row => (
@@ -189,21 +190,24 @@ class Reports extends Component {
                 />
                 </div>
             ),
-            maxWidth: '30px',
+            width: '20px',
+            maxWidth: '20px',
         },{
             name: 'UUID',
             sortable: true,
             selector: 'uuid',
+            width: '180px',
+            maxWidth: '180px',
         },{
             name: 'Report Title',
             sortable: true,
             selector: 'title',
-            width: '1000px',
         },{
             name: 'Countries',
             sortable: true,
             selector: 'countries',
             maxWidth: '20px',
+            right: true
         },{
             name: 'Funds (USD)',
             sortable: true,
@@ -216,7 +220,6 @@ class Reports extends Component {
                 <Row>
                     <Col md={12}>
                         <DataTable
-                            title={"Report List"}
                             columns={columns}
                             data={data}
                             customStyles={customStyles}
