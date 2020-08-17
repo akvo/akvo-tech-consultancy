@@ -49,6 +49,7 @@ class ApiController extends Controller
             });
             return [
                 'id' => $q->id,
+                'uuid' => $q->uuid,
                 'country' => $q->countries,
                 'values' => $q->values,
                 'global' => $q->countries->count() === 1 ? False : True,
@@ -89,6 +90,7 @@ class ApiController extends Controller
         })->values();
         $datapoints = $datapoints->map(function($d){
             return [
+                'uuid' => $d['uuid'],
                 'title' => $d['title'],
                 'datapoint_id' => $d['id'],
                 'global' => $d['global'],

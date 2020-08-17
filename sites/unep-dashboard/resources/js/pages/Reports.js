@@ -11,6 +11,17 @@ import {
     pushToParent,
     formatCurrency
 } from "../data/utils.js";
+import DataTable from 'react-data-table-component';
+
+const customStyles = {
+    headCells: {
+        style: {
+            backgroundColor: '#f1f1f5',
+            borderColor: '#454d55',
+            color: '#222',
+        },
+    },
+};
 
 class Reports extends Component {
     constructor(props) {
@@ -138,8 +149,8 @@ class Reports extends Component {
         )
     }
 
-    reportToggle(active, x) {
-        if (active) {
+    reportToggle(x) {
+        if (x.active) {
             return this.props.report.delete(x.datapoint_id);
         }
         return this.props.report.append(x.datapoint_id);
@@ -148,47 +159,74 @@ class Reports extends Component {
     getReportTable() {
         let datapoints = this.props.value.data.filteredpoints;
         datapoints = this.props.value.data.datapoints.filter(x => datapoints.includes(x.datapoint_id));
-        return datapoints.map((x, i) => {
-            let active = this.props.value.reports.includes(x.datapoint_id);
-            return (
-                <tr key={'datapoint-'+i}>
-                    <td align="center"
-                        onClick={e => this.reportToggle(active, x)}
-                        className="report-select">
-                        <FontAwesomeIcon
-                            color={active ? "green" : "grey"}
-                            icon={["fas", active ? "check-circle" : "plus-circle"]}
-                        />
-                    </td>
-                    <td className="report-title">{x.title}</td>
-                    <td align="right">5</td>
-                    <td className="report-funds">{formatCurrency(x.f)}</td>
-                </tr>
-            )
-        });
+        return datapoints.map((x,id) => {
+            return {
+                uuid: x.uuid,
+                datapoint_id: x.datapoint_id,
+                active: this.props.value.reports.includes(x.datapoint_id),
+                icon: this.props.value.reports.includes(x.datapoint_id) ? "plus" : "check",
+                title:x.title,
+                countries: x.countries.length,
+                funds: formatCurrency(x.f)
+            }
+        })
     }
 
     render() {
         let charts = this.state.charts.map((list, index) => {
             return this.getCharts(list, index)
         });
+        let data = this.getReportTable();
+        let columns = [{
+            name: 'Add',
+            selector: 'icon',
+            sortable: true,
+            cell: row => (
+                <div>
+                <FontAwesomeIcon
+                    color={row.active ? "green" : "grey"}
+                    icon={["fas", row.active ? "check-circle" : "plus-circle"]}
+                />
+                </div>
+            ),
+            maxWidth: '30px',
+        },{
+            name: 'UUID',
+            sortable: true,
+            selector: 'uuid',
+        },{
+            name: 'Report Title',
+            sortable: true,
+            selector: 'title',
+            width: '1000px',
+        },{
+            name: 'Countries',
+            sortable: true,
+            selector: 'countries',
+            maxWidth: '20px',
+        },{
+            name: 'Funds (USD)',
+            sortable: true,
+            selector: 'funds',
+            maxWidth: '120px',
+            right: true
+        }];
         return (
             <Container>
                 <Row>
                     <Col md={12}>
-                        <table width={"100%"} className="table-report">
-                            <thead>
-                                <tr>
-                                    <td align="center" className="report-select">Select</td>
-                                    <td className="report-title">Project Name</td>
-                                    <td align="right">Countries</td>
-                                    <td align="right">Funds (USD)</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {this.getReportTable()}
-                            </tbody>
-                        </table>
+                        <DataTable
+                            title={"Report List"}
+                            columns={columns}
+                            data={data}
+                            customStyles={customStyles}
+                            fixedHeader
+                            fixedHeaderScrollHeight={"55vh"}
+                            pagination={true}
+                            onRowClicked={this.reportToggle}
+                            highlightOnHover
+                            pointerOnHover
+                        />
                     </Col>
                 </Row>
                 <Row className="report-chart-list">

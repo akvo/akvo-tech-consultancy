@@ -1,4 +1,5 @@
 import uniqBy from 'lodash/uniqBy';
+import uniq from 'lodash/uniq';
 import {
     pageState,
     getBadges,
@@ -45,6 +46,20 @@ export const states = (state = initialState, action) => {
             let all_groups = [];
             groups.forEach(x => {all_groups = [...all_groups, ...x]});
             all_groups = uniqBy(all_groups, 'id');
+            let datapoints = action.datapoints.map(x => {
+                let countries = action.data.filter(c => {
+                    let dps = [];
+                    let cdp = c.values.forEach(v => {
+                        dps = [...dps, ...v.datapoints];
+                    });
+                    dps = uniq(dps);
+                    return dps.includes(x.datapoint_id);
+                });
+                return {
+                    ...x,
+                    countries: countries.map(c => c.country_id)
+                };
+            });
             return {
                 ...state,
                 page: {
@@ -56,7 +71,7 @@ export const states = (state = initialState, action) => {
                 data: {
                     ...state.data,
                     master: action.data,
-                    datapoints: action.datapoints,
+                    datapoints: datapoints,
                     filteredpoints: action.datapoints.map(x => x.datapoint_id)
                 }
             }
