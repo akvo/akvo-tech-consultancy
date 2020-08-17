@@ -590,7 +590,8 @@ class ChartController extends Controller
 
 	public function hierarchy(Request $request, Answer $answers)
 	{
-        $organisation_id = [20140003, 28150003, 38120005, 38140006];
+        //$organisation_id = [20140003, 28150003, 38120005, 38140006];
+        $organisation_id = [14180001, 28150003, 38120005, 38140006];
         $organisation = $answers->whereIn('question_id',$organisation_id)
                                 ->with('questions.form')
                                 ->has('datapoints.partnership.parents')
@@ -611,7 +612,7 @@ class ChartController extends Controller
                         "value" => "projects",
                         "children" => $data->map(function($data){
                             return array(
-                                "name" => $data["organisation"],
+                                "name" => str_replace('_',' ', $data["organisation"]),
                                 "value" => "organisation",
                                 "itemStyle" => array("color" => "#ff4444"),
                                 "label" => array("fontSize" => 10),
