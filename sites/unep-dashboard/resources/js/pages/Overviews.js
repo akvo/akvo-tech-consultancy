@@ -73,7 +73,7 @@ class Overviews extends Component {
         this.state = {
             charts: [{
                     kind: "MAPS",
-                    title: "Count of Actions",
+                    title: "Number of Reported Actions",
                     subtitle: "",
                     config: generateData(12, true, "80vh"),
                     data: false, // if data is false then load global
@@ -81,8 +81,7 @@ class Overviews extends Component {
                 },
                 {
                     kind: "TREEMAP",
-                    title: "Type of Actions",
-                    subtitle: "Count of Actions",
+                    title: "Number of Reported Actions",
                     config: generateData(12, true, "80vh"),
                     data: false,
                     extra: {
