@@ -24,11 +24,16 @@ class Charts extends Component {
     }
 
     mapTooltip(params) {
-        console.log(params);
         if (params.data) {
             let id = params.data.data.country_id;
             let country = this.props.value.page.countries.find(x => x.id === id);
             this.props.data.toggle.countries(country, false);
+            return;
+        } else {
+            let id = this.props.value.data.countries[0];
+            let country = this.props.value.page.countries.find(x => x.id === id);
+            this.props.data.toggle.countries(country, false);
+            return;
         }
     }
 

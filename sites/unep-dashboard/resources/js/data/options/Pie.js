@@ -52,16 +52,16 @@ const Pie = (title, subtitle, props, data, extra, roseType=false, reports=false)
             show: reports ? false : true,
             orient: "horizontal",
             left: "right",
-            top: "bottom",
+            top: "top",
             feature: {
                 dataView: dataView,
                 saveAsImage: {
                     type: "jpg",
                     title: "Save Image",
                     icon: Icons.saveAsImage,
-                    backgroundColor: "#ffffff"
                 }
-            }
+            },
+            backgroundColor: "#FFF",
         },
         series: [
             {

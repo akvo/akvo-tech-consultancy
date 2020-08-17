@@ -45,7 +45,8 @@ const Radar = (title, subtitle, props, data, extra, reports=false) => {
                     icon: Icons.saveAsImage,
                     backgroundColor: "#ffffff"
                 }
-            }
+            },
+            backgroundColor: "#ffffff"
         },
         radar: {
             indicator: indicator,

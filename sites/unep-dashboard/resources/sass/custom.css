@@ -20,6 +20,9 @@ h1, h2, h3, h4, h5{
 .fixed-top{
     min-height: 48px;
 }
+.hidden{
+    display:none!important;
+}
 
 #basic-navbar-nav .nav-right.form-group{
     margin-top: 14px;

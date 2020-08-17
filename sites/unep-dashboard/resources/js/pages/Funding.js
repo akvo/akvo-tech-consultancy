@@ -38,8 +38,8 @@ const MapsOverride = (toolTip, props) => {
             }
         },
         dataRange: {
-            right: 20,
-            top: 20,
+            right: 10,
+            top: 40,
             splitList: [
                 {start: 100000000, label:'More than 100 Million'},
                 {start: 1000000, end: 100000000, label: '1 - 100 Million'},

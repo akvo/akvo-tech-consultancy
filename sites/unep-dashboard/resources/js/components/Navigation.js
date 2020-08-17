@@ -119,9 +119,10 @@ class Navigation extends Component {
                         label="Keep Filter"
                       />
                     </Form.Group>
-                    <FontAwesomeIcon 
+                    <FontAwesomeIcon
+                        className="hidden"
                         icon={["fas", "print"]}
-                        onClick={e => this.printPage()} 
+                        onClick={e => this.printPage()}
                     />
               </Navbar.Collapse>
               </Container>

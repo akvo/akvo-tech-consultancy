@@ -36,7 +36,7 @@ const MapsOverride = (toolTip, props) => {
         },
         dataRange: {
             right: 'right',
-            top: 20,
+            top: 40,
             right: 10,
             splitList: [
                 {start: 25, label:'Above 25'},

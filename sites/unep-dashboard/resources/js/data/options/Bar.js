@@ -46,7 +46,7 @@ const Bar = (title, subtitle, props, data, extra, reports=false) => {
             show: reports ? false : true,
             orient: "horizontal",
             left: "right",
-            top: "bottom",
+            top: "top",
             feature: {
                 dataView: dataView,
                 saveAsImage: {
@@ -55,7 +55,8 @@ const Bar = (title, subtitle, props, data, extra, reports=false) => {
                     icon: Icons.saveAsImage,
                     backgroundColor: "#ffffff"
                 }
-            }
+            },
+            backgroundColor: "#ffffff"
         },
         yAxis: {
             type: 'category',

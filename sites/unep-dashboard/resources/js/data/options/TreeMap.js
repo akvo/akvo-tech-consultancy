@@ -226,6 +226,7 @@ const TreeMap = (title, subtitle, props, data, extra, reports=false) => {
                 dataView: dataView,
                 restore: {
                     title: "revert",
+                    icon: Icons.reset,
                 },
                 saveAsImage: {
                     type: "jpg",
@@ -233,7 +234,8 @@ const TreeMap = (title, subtitle, props, data, extra, reports=false) => {
                     icon: Icons.saveAsImage,
                     backgroundColor: "#ffffff"
                 }
-            }
+            },
+            backgroundColor: "#FFF",
         },
         series: [
             {
@@ -242,7 +244,7 @@ const TreeMap = (title, subtitle, props, data, extra, reports=false) => {
                 visibleMin: 300,
                 width: '100%',
                 top: reports ? "50vh" : '15%',
-                roam: false,
+                roam: 'move',
                 label: {
                     show: true,
                     fontFamily: reports ? "san-serif" : "Assistant",

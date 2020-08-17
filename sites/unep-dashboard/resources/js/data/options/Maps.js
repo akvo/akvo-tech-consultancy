@@ -3,6 +3,7 @@ import flattenDeep from 'lodash/flattenDeep';
 import uniq from 'lodash/uniq';
 import sumBy from 'lodash/sumBy';
 import intersection from 'lodash/intersection';
+import echarts from 'echarts';
 
 const getData = (data, page, countries, contrib, {global, datapoints, filteredpoints}, reports=false) => {
     let results = [];
@@ -103,7 +104,7 @@ const Maps = (title, subtitle, props, data, extra) => {
             show: true,
             orient: "horizontal",
             left: "right",
-            top: "bottom",
+            top: "top",
             feature: {
                 dataView: dataView,
                 saveAsImage: {
@@ -111,14 +112,83 @@ const Maps = (title, subtitle, props, data, extra) => {
                     title: "Save Image",
                     icon: Icons.saveAsImage,
                     backgroundColor: "#ffffff"
+                },
+                myTool1: {
+                    show: true,
+                    title: "Zoom In",
+                    icon: Icons.zoomIn,
+                    onclick: function(params, charts) {
+                        let new_zoom = params.option.series[0].zoom + 1;
+                        if (new_zoom > 4){
+                            new_zoom = 4;
+                        }
+                        let new_series = {
+                            ...params.option.series[0],
+                            zoom:  new_zoom
+                        };
+                        let options = charts.getOption();
+                        options = {
+                            ...options,
+                            series: [new_series]
+                        }
+                        let id = charts.getDom();
+                        const thecharts = echarts.init(id);
+                        thecharts.setOption(options);
+                        return;
+                    },
+                },
+                myTool2: {
+                    show: true,
+                    title: "Zoom Out",
+                    icon: Icons.zoomOut,
+                    onclick: function(params, charts) {
+                        let new_zoom = params.option.series[0].zoom - 1;
+                        if (new_zoom < 0){
+                            new_zoom = 0;
+                        }
+                        let new_series = {
+                            ...params.option.series[0],
+                            zoom:  new_zoom
+                        };
+                        let options = charts.getOption();
+                        options = {
+                            ...options,
+                            series: [new_series]
+                        }
+                        let id = charts.getDom();
+                        const thecharts = echarts.init(id);
+                        thecharts.setOption(options);
+                        return;
+                    },
+                },
+                myTool3: {
+                    show: true,
+                    title: "Reset Zoom",
+                    icon: Icons.reset,
+                    onclick: function(params, charts) {
+                        let new_series = {
+                            ...params.option.series[0],
+                            zoom:0
+                        };
+                        let options = charts.getOption();
+                        options = {
+                            ...options,
+                            series: [new_series]
+                        }
+                        let id = charts.getDom();
+                        const thecharts = echarts.init(id);
+                        thecharts.setOption(options);
+                        return;
+                    },
                 }
-            }
+            },
+            backgroundColor: "#FFF",
         },
         series: [
             {
                 name: title,
                 type: 'map',
-                roam: false,
+                roam: 'move',
                 map: 'world',
                 aspectScale: 1,
                 emphasis:{
