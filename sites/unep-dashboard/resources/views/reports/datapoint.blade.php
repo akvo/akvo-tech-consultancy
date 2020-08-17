@@ -31,14 +31,14 @@
                     @if ($item['funds'] === 0)
                         -
                     @else                        
-                        USD {{ money_format("%i", $item['funds']) }}
+                        @money($item['funds'])
                     @endif
                     </td>
                     <td>
                     @if ($item['contribution'] === 0)
                         -
-                    @else                        
-                        USD {{ money_format("%i", $item['contribution']) }}
+                    @else
+                        @money($item['contribution'])
                     @endif
                     </td>
                 </tr>
