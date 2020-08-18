@@ -78,19 +78,44 @@ class Overviews extends Component {
                     config: generateData(12, true, "80vh"),
                     data: false, // if data is false then load global
                     extra: true,
-                },
-                {
+                }, {
                     kind: "TREEMAP",
-                    title: "Number of Reported Actions",
-                    config: generateData(12, true, "80vh"),
-                    data: false,
+                    title: "Geography",
+                    config: generateData(6, true, "80vh"),
+                    data: {id:116, children:false},
                     extra: {
-                        title: {show: false},
                         tooltip: {show: false},
-                        ...Color,
+                        ...Color
                     }
-                }],
-            }
+                }, {
+                    kind: "TREEMAP",
+                    title: "Source to Sea",
+                    config: generateData(6, true, "80vh"),
+                    data: {id:123, children:false},
+                    extra: {
+                        tooltip: {show: false},
+                        ...Color
+                    }
+                }, {
+                    kind: "PIE",
+                    title: "Pollutant Targeted",
+                    config: generateData(5, true, "80vh"),
+                    data: {id:166, children:false},
+                    extra: {
+                        tooltip: {show: false},
+                        ...Color
+                    }
+                }, {
+                    kind: "BAR",
+                    title: "Sector",
+                    config: generateData(7, true, "80vh"),
+                    data: {id:192, children:false},
+                    extra: {
+                        tooltip: {show: false},
+                        ...Color
+                    }
+                }]
+        }
     }
 
     toolTip(params) {
@@ -102,7 +127,7 @@ class Overviews extends Component {
                 {value: "Shared", count: (data.global)},
                 {value: "Total", count: (data.global + data.total)}
             ]
-            let html = '<h3 class="table-title">'+ params.name +'</h3>';
+            let html = '<h3 class="table-title">'+ params.name +'</h3><br/>';
             html += '<table class="table table-bordered table-small">';
             html += '<thead class="thead-dark"><tr class="sm bg-dark text-white">';
             html += '<td width="100">Value</td><td width="50" align="center">Count</td>'
@@ -118,7 +143,7 @@ class Overviews extends Component {
             html += '</table>';
             return html;
         };
-        return ""
+        return '<h3 class="table-title">' + params.name + '</h3><br/><p>No Data</p>';
     }
 
     renderOptions(filterId, childs=true) {

@@ -16,7 +16,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import intersectionBy from 'lodash/intersectionBy';
 import uniq from 'lodash/uniq';
 import uniqBy from 'lodash/uniqBy';
-
+import { scrollWindow } from '../data/utils.js';
 import Loading from '../pages/Loading';
 import Overviews from '../pages/Overviews';
 import Actions from '../pages/Actions';
@@ -109,6 +109,9 @@ class Page extends Component {
             case "funding":
                 return <Funding/>
             case "compare":
+                if (this.props.value.page.sidebar.active) {
+                    this.props.page.sidebar.toggle();
+                }
                 return <Compare/>
             case "report":
                 return <Reports/>
@@ -249,7 +252,7 @@ class Page extends Component {
         let sidebar = this.props.value.page.sidebar;
         return (
             <Fragment>
-            <Navigation/>
+                <Navigation/>
                 <Container className="top-container">
                     {this.renderHeaderButtons(page, sidebar)}
                     {this.renderHeaderButtonsRight(page)}
@@ -261,6 +264,9 @@ class Page extends Component {
                     {loading ? (<Loading/>) : ""}
                     {this.renderPage(page)}
                     </div>
+                </div>
+                <div onClick={e => scrollWindow(1)} className="section-scroll" >
+                    <span></span>
                 </div>
             </Fragment>
         );

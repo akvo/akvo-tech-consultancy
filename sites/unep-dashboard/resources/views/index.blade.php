@@ -26,6 +26,7 @@
     <body>
         <div id="app">
         </div>
+        <img src="{{asset('/images/pattern.jpg')}}" width="100px" id="map-pattern" style="display:none;"/>
     </body>
     <script src="js/app.js" type="text/javascript"></script>
 </html>

@@ -1,11 +1,46 @@
-import { Easing, TextStyle, backgroundColor, Color, Icons, Graphic, dataView } from '../features/animation.js';
+import {
+    Easing,
+    TextStyle,
+    backgroundColor,
+    Color,
+    Icons,
+    Graphic,
+    dataView
+} from '../features/animation.js';
 import flattenDeep from 'lodash/flattenDeep';
 import uniq from 'lodash/uniq';
 import sumBy from 'lodash/sumBy';
 import intersection from 'lodash/intersection';
 import echarts from 'echarts';
+const world = require('../unep-map.json');
 
-const getData = (data, page, countries, contrib, {global, datapoints, filteredpoints}, reports=false) => {
+const xxxteritory = world.features
+    .filter(x => x.properties.cd === "XXX")
+    .map(x => {
+        return {
+            name: x.properties.name,
+            itemStyle: {
+                areaColor: {
+                    image: document.getElementById("map-pattern"),
+                    repeat: 'repeat',
+                },
+                emphasis: {
+                    areaColor : {
+                        image: document.getElementById("map-pattern"),
+                        repeat: 'repeat',
+                        shadowColor: 'rgba(0, 0, 0, 0.5)',
+                        shadowBlur: 10
+                    },
+                }
+            }
+        };
+    });
+
+const getData = (data, page, countries, contrib, {
+    global,
+    datapoints,
+    filteredpoints
+}, reports = false) => {
     let results = [];
     if (countries.length === 1) {
         return results;
@@ -25,7 +60,9 @@ const getData = (data, page, countries, contrib, {global, datapoints, filteredpo
             dp = datapoints.filter(d => dp.includes(d.datapoint_id));
             if (dp.length > 0) {
                 dp = contrib ? dp.map(d => {
-                    return {...d, f: d.f + d.c}
+                    return { ...d,
+                        f: d.f + d.c
+                    }
                 }) : dp;
                 values = sumBy(dp, 'f');
             }
@@ -33,7 +70,9 @@ const getData = (data, page, countries, contrib, {global, datapoints, filteredpo
         return {
             name: country.name,
             value: values,
-            data: page === "funding" ? {...x, funds: dp} : x
+            data: page === "funding" ? { ...x,
+                funds: dp
+            } : x
         }
     });
     results = results.filter(x => x.value !== 0);
@@ -42,8 +81,8 @@ const getData = (data, page, countries, contrib, {global, datapoints, filteredpo
 
 const Maps = (title, subtitle, props, data, extra) => {
     if (!data) {
-        let source = props.data.filters.length > 0 || props.data.countries.length > 0
-            ? props.data.filtered : props.data.master;
+        let source = props.data.filters.length > 0 || props.data.countries.length > 0 ?
+            props.data.filtered : props.data.master;
         data = getData(
             source,
             props.page.name,
@@ -57,14 +96,14 @@ const Maps = (title, subtitle, props, data, extra) => {
     let min = 0;
     if (data.length > 0) {
         values = data.map(x => x.value);
-        if (values.length > 1){
+        if (values.length > 1) {
             min = values.sort((x, y) => x - y)[0];
             max = values.sort((x, y) => y - x)[0];
             min = min === max ? 0 : min;
         }
-    }
+    };
     let option = {
-        title : {
+        title: {
             text: title,
             left: 'center',
             top: '20px',
@@ -75,7 +114,7 @@ const Maps = (title, subtitle, props, data, extra) => {
             trigger: 'item',
             showDelay: 0,
             transitionDuration: 0.2,
-            formatter: function (params) {
+            formatter: function(params) {
                 if (params.value) {
                     var value = (params.value + '').split('.');
                     value = value[0].replace(/(\d{1,3})(?=(?:\d{3})+(?!\d))/g, '$1,');
@@ -84,20 +123,6 @@ const Maps = (title, subtitle, props, data, extra) => {
                 return 'No Data';
             },
             backgroundColor: "#ffffff",
-            ...TextStyle
-        },
-        visualMap: {
-            left: 'left',
-            min: min,
-            max: max,
-            backgroundColor: '#eeeeee',
-            itemWidth: 10,
-            inRange: {
-                color: ['#ddd','#f8b195','#f67280','#c06c84','#6c5b7b','#355c7d'],
-            },
-            itemHeight: '445px',
-            text: ['High', 'Low'],
-            calculable: true,
             ...TextStyle
         },
         toolbox: {
@@ -119,12 +144,12 @@ const Maps = (title, subtitle, props, data, extra) => {
                     icon: Icons.zoomIn,
                     onclick: function(params, charts) {
                         let new_zoom = params.option.series[0].zoom + 1;
-                        if (new_zoom > 4){
+                        if (new_zoom > 4) {
                             new_zoom = 4;
                         }
                         let new_series = {
                             ...params.option.series[0],
-                            zoom:  new_zoom
+                            zoom: new_zoom
                         };
                         let options = charts.getOption();
                         options = {
@@ -143,12 +168,12 @@ const Maps = (title, subtitle, props, data, extra) => {
                     icon: Icons.zoomOut,
                     onclick: function(params, charts) {
                         let new_zoom = params.option.series[0].zoom - 1;
-                        if (new_zoom < 0){
+                        if (new_zoom < 0) {
                             new_zoom = 0;
                         }
                         let new_series = {
                             ...params.option.series[0],
-                            zoom:  new_zoom
+                            zoom: new_zoom
                         };
                         let options = charts.getOption();
                         options = {
@@ -168,7 +193,7 @@ const Maps = (title, subtitle, props, data, extra) => {
                     onclick: function(params, charts) {
                         let new_series = {
                             ...params.option.series[0],
-                            zoom:0
+                            zoom: 0
                         };
                         let options = charts.getOption();
                         options = {
@@ -184,30 +209,28 @@ const Maps = (title, subtitle, props, data, extra) => {
             },
             backgroundColor: "#FFF",
         },
-        series: [
-            {
-                name: title,
-                type: 'map',
-                roam: 'move',
-                map: 'world',
-                aspectScale: 1,
-                emphasis:{
-                    label: {
-                        show: false,
-                    }
-                },
-                zoom: 1,
-                itemStyle: {
-                    areaColor: '#f1f1f5',
-                    emphasis: {
-                        areaColor: "#ffc107",
-                        shadowColor: 'rgba(0, 0, 0, 0.5)',
-                        shadowBlur: 10
-                    }
-                },
-                data: data
-            }
-        ],
+        series: [{
+            name: title,
+            type: 'map',
+            roam: 'move',
+            map: 'world',
+            aspectScale: 1,
+            emphasis: {
+                label: {
+                    show: false,
+                }
+            },
+            zoom: 1,
+            itemStyle: {
+                areaColor: '#f1f1f5',
+                emphasis: {
+                    areaColor: "#ffc107",
+                    shadowColor: 'rgba(0, 0, 0, 0.5)',
+                    shadowBlur: 10
+                }
+            },
+            data: [...data,...xxxteritory],
+        }],
         ...backgroundColor,
         ...Easing,
         ...extra,

@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { flatten } from '../data/utils.js';
 import  startsWith from 'lodash/startsWith';
 import { Form, Badge, Col } from 'react-bootstrap';
+import ToolTips from './ToolTips.js';
 
 const getParent = (id, data, list=[]) => {
     let parent = data.find(x => x.id === id);
@@ -81,6 +82,8 @@ class Sidebar extends Component {
         ) : "";
     }
 
+
+
     renderCountries() {
         let group = this.props.value.page.sidebar.group;
         let data = group
@@ -119,6 +122,7 @@ class Sidebar extends Component {
                             onClick={e => this.changeCountries(x, group)}>
                             {x.name}
                         </div>
+                        { group ? (<ToolTips tt={x} tclass="info-nested" tplacement="right"/>) : "" }
                     </li>
                 )
             }

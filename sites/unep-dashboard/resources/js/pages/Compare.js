@@ -7,9 +7,11 @@ import {
     Card,
     Form,
     InputGroup,
+    OverlayTrigger,
     Row
 } from 'react-bootstrap';
 import Charts from "../components/Charts";
+import ToolTips from "../components/ToolTips";
 import { getAllChildsId, formatCurrency } from '../data/utils.js';
 import { generateData } from "../data/chart-utils.js";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -420,7 +422,9 @@ class Compare extends Component {
                                 color="red"
                                 icon={["fas", "times-circle"]} />
                             <Card.Body className="card-compare">
-                                <h5>{x.name}</h5>
+                                <h5>{x.name}
+                                {x.itemtype === "countrygroups" ? <ToolTips tt={x} tclass="info-compare" tplacement="bottom"/> : ""}
+                                </h5>
                             </Card.Body>
                         </Card>
                     </td>

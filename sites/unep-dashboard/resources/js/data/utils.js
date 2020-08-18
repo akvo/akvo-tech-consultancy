@@ -118,3 +118,10 @@ export const toTitleCase = (str) => {
         }
     );
 }
+
+export const scrollWindow = (x) => {
+    window.scrollBy({
+        top: (window.innerHeight - 100) / x,
+        behavior: "smooth"
+    });
+}

@@ -122,7 +122,7 @@ class Funding extends Component {
                 {name: "Contribution", value: sumBy(data, 'c')},
                 {name: "Total", value: sumBy(data, 't')}
             ]
-            let html = '<h3 class="table-title">'+ params.name +'</h3>';
+            let html = '<h3 class="table-title">'+ params.name +'</h3><br/>';
             html += '<table class="table table-bordered table-small">';
             html += '<thead class="thead-dark"><tr class="sm bg-dark text-white">';
             html += '<td width="100">Country</td><td width="50" align="center">Value (USD)</td>'
@@ -138,7 +138,7 @@ class Funding extends Component {
             html += '</table>';
             return html;
         };
-        return ""
+        return '<h3 class="table-title">'+ params.name +'</h3><br/><p>No Data</p>';
     }
 
     renderOptions(filterId, childs=true) {

@@ -1,5 +1,6 @@
 import { Color, Easing, Legend, LegendReports, TextStyle, TextStyleReports, backgroundColor, Icons, dataView } from '../features/animation.js';
 import sumBy from 'lodash/sumBy';
+import {formatCurrency} from '../utils.js';
 
 const Pie = (title, subtitle, props, data, extra, roseType=false, reports=false) => {
     data = !data ? [] : data;
@@ -111,12 +112,21 @@ const Pie = (title, subtitle, props, data, extra, roseType=false, reports=false)
                 radius: reports ? ["0%", "30%"] : (roseType ? ["0%","20%"] : ["0%", "30%"]),
                 label: {
                     normal: {
-                        formatter: "Total\n{c}",
+                        formatter: function(params) {
+                            let values = params.data.value;
+                            if (props.page.name === "funding") {
+                                return "Total\n"+ formatCurrency(values);
+                            }
+                            return "Total\n" + values;
+                        },
                         show: true,
                         position: "center",
                         textStyle: {
                             ...text_style.textStyle,
-                            fontSize: 16,
+                            fontSize: props.page.name === "funding" ? 12 : 16,
+                            backgroundColor: props.page.name === "funding" ? "#f2f2f2" : "transparent",
+                            padding: props.page.name === "funding" ? 5 : 0,
+                            borderRadius: props.page.name === "funding" ? 5 : 0,
                             fontWeight: 'bold',
                             color: "#495057"
                         }
