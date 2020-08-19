@@ -290,12 +290,18 @@ class SyncController extends Controller
     {
         // get forms with datapoints
         $formData = $forms->with('datapoints')->get();
-        $formData = collect($formData)->map(function ($form) use ($flow) {
+        $formData = collect($formData)->transform(function ($form) use ($flow) {
             $countdps = 0;
             // get form instances from flow
             $results = $flow->get('forminstances', $form['survey_id'], $form['form_id']);
             if($results === null){
-                return "No data";
+                return [
+                    'survey_id' => $form['survey_id'],
+                    'form_id' => $form['form_id'],
+                    'name' => $form['name'],
+                    'flow_dps' => 0,
+                    'db_dps' => 0
+                ];
             }
             $countdps += count($results['formInstances']);
 			$next_page = false;
@@ -325,7 +331,7 @@ class SyncController extends Controller
         if (count($formData) === 0) {
             return "No mismatch data";
         }
-        
+
         $table = '';
         foreach ($formData as $key => $x) {
             $table .= '<tr>';
