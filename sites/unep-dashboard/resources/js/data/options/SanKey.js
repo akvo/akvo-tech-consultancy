@@ -12,6 +12,7 @@ import {
 import { flatten } from "../utils.js";
 import uniq from  'lodash/uniq';
 import sumBy from  'lodash/sumBy';
+import sortBy from  'lodash/sortBy';
 
 const createLinks = (data, links) => {
     if (data.children.length > 0) {
@@ -50,6 +51,25 @@ const SanKey = (title, subtitle, props, data, extra, reports=false) => {
         data.forEach(x => {
             links = [...links, ...createLinks(x, [])];
         });
+        let otherandall = links.filter(x => x.target === "All of the above" || x.target === "Other");
+        if (otherandall.length > 1) {
+            links = links.map(x => {
+                if (x.target === "All of the above" || x.target === "Other") {
+                    let parent = x.source.split(' (')[0];
+                    return {
+                        ...x,
+                        target: x.target + " (" + parent +")"
+                    };
+                }
+                return x;
+            });
+            list = links.map(x => x.target);
+            list = [...uniq(links.map(x => x.source)), ...list];
+            list = list.map(x => {
+                return {name: x};
+            });
+        }
+        links = sortBy(links, 'value');
     }
     const text_style = reports ? TextStyleReports : TextStyle;
     let option = {
@@ -65,9 +85,15 @@ const SanKey = (title, subtitle, props, data, extra, reports=false) => {
             triggerOn: 'mousemove',
             backgroundColor: "#f2f2f2",
             formatter: function(par) {
-                let name = par.data.source.split('(')[0];
-                name += '> ' + par.data.target.split('(')[0];
-                name += ' :' + par.data.value;
+                let name = par.data.name;
+                if (par.dataType === "edge") {
+                    name = par.data.source.split('(')[0];
+                    name += '> ' + par.data.target.split('(')[0];
+                    name += ' :' + par.data.value;
+                }
+                if (par.dataType === "node") {
+                    name += ':' + par.value;
+                }
                 return name;
             },
             padding:5,

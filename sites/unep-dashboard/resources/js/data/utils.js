@@ -1,5 +1,7 @@
 import uniq from 'lodash/uniq';
+import sortBy from 'lodash/sortBy';
 import intersection from 'lodash/intersection';
+
 var currencyFormatter = require('currency-formatter');
 
 export const formatCurrency = (x) => {
@@ -124,4 +126,16 @@ export const scrollWindow = (x) => {
         top: (window.innerHeight - 100) / x,
         behavior: "smooth"
     });
+}
+
+export const reorderCountry = (data) => {
+    data = sortBy(data, 'name');
+    let allother = data.filter(x => x.name === "All" || x.name === "Other");
+    data = data.filter(x => {
+        if (x.name === "All" || x.name === "Other") {
+            return false;
+        }
+        return true;
+    });
+    return [...data, ...allother];
 }

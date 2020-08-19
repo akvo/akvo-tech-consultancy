@@ -213,7 +213,7 @@
 <body>
     {{-- Summary --}}
     @if ($data["datapoints"]->count() > 1)
-        @include('reports.header', ['title' => "Summary "."(".$data["datapoints"]->count().")"])
+        @include('reports.header', ['title' => "Summary "."(".$data["datapoints"]->count()." Actions)"])
         @include('reports.summary', [$data])
         <div class="page-break"></div>
     @endif

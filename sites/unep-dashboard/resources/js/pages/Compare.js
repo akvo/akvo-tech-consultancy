@@ -12,7 +12,7 @@ import {
 } from 'react-bootstrap';
 import Charts from "../components/Charts";
 import ToolTips from "../components/ToolTips";
-import { getAllChildsId, formatCurrency } from '../data/utils.js';
+import { getAllChildsId, formatCurrency, reorderCountry } from '../data/utils.js';
 import { generateData } from "../data/chart-utils.js";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import flatten from 'lodash/flatten';
@@ -275,8 +275,7 @@ class Compare extends Component {
     }
 
     renderSearchItem() {
-        let data = this.state.searched;
-        data = sortBy(data, 'name');
+        let data = reorderCountry(this.state.searched);
         return data.map((x,i) => {
             return (
                 <div

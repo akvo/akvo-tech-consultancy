@@ -24,7 +24,7 @@
             <tbody>
                 <tr>
                     <td><strong>Funding: </strong></td>
-                    <td><strong>Contribution: </strong></td>
+                    <td><strong>In-kind Contribution: </strong></td>
                 </tr>
                 <tr>
                     <td>

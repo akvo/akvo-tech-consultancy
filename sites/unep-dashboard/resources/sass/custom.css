@@ -148,8 +148,17 @@ h3.popover-header {
     float: right;
     padding: 6px 10px;
     background: #f1f1f5;
-    border: #ddd solid 1px;
-    font-size: 12px;
+    border-left: #ddd solid 1px;
+    border-top: #ddd solid 1px;
+    border-bottom: #ddd solid 1px;
+    font-size: 13px;
+}
+.overview-summary.overview-last{
+    border-right: #ddd solid 1px;
+}
+.overview-summary span{
+    color: #424242;
+    font-weight:bold;
 }
 
 .select-nested,

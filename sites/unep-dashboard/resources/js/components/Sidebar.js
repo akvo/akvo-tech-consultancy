@@ -3,7 +3,7 @@ import { redux } from 'react-redux';
 import { connect } from 'react-redux';
 import { mapStateToProps, mapDispatchToProps } from '../reducers/actions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { flatten } from '../data/utils.js';
+import { flatten, reorderCountry } from '../data/utils.js';
 import  startsWith from 'lodash/startsWith';
 import { Form, Badge, Col } from 'react-bootstrap';
 import ToolTips from './ToolTips.js';
@@ -92,11 +92,10 @@ class Sidebar extends Component {
             ? this.props.value.page.countrygroups
             : this.props.value.page.countries;
         let active = false;
-        let searched = this.state.searched;
+        let searched = reorderCountry(this.state.searched);
         if (searched.length > 0){
             data = searched;
         }
-        data = sortBy(data, 'name');
         return data.map(
             (x, i) => {
                 let active = group

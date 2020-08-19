@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { mapStateToProps, mapDispatchToProps } from "../reducers/actions";
@@ -20,6 +20,8 @@ const customStyles = {
             borderColor: '#454d55',
             fontWeight: 'bold',
             color: '#222',
+            width: '100%',
+            maxWidth: '100%'
         },
     },
 };
@@ -183,36 +185,34 @@ class Reports extends Component {
             selector: 'icon',
             sortable: true,
             cell: row => (
-                <div>
                 <FontAwesomeIcon
+                    className="fas-icon"
                     color={row.active ? "green" : "grey"}
                     icon={["fas", row.active ? "check-circle" : "plus-circle"]}
                 />
-                </div>
             ),
-            width: '20px',
-            maxWidth: '20px',
+            width: '50px',
+            maxWidth: '50px',
         },{
             name: 'UUID',
             sortable: true,
             selector: 'uuid',
-            width: '180px',
-            maxWidth: '180px',
+            maxWidth:'180px',
         },{
             name: 'Report Title',
             sortable: true,
             selector: 'title',
-        },{
-            name: 'Countries',
-            sortable: true,
-            selector: 'countries',
-            maxWidth: '20px',
-            right: true
+            maxWidth:'940px',
         },{
             name: 'Funds (USD)',
             sortable: true,
             selector: 'funds',
-            maxWidth: '120px',
+            right: true
+        },{
+            name: 'Countries',
+            sortable: true,
+            selector: 'countries',
+            maxWidth:'100px',
             right: true
         }];
         return (
@@ -225,7 +225,6 @@ class Reports extends Component {
                             customStyles={customStyles}
                             fixedHeader
                             fixedHeaderScrollHeight={"55vh"}
-                            pagination={true}
                             onRowClicked={this.reportToggle}
                             highlightOnHover
                             pointerOnHover

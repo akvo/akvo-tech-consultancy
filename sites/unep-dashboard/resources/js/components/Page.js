@@ -152,7 +152,7 @@ class Page extends Component {
                     this.props.report.download(false);
                     const link = document.createElement('a');
                     const url = window.URL.createObjectURL(new Blob([res.data]));
-                    let newWindow = window.open('/')
+                    let newWindow = window.open('/download')
                     newWindow.onload = () => {
                         newWindow.location = URL.createObjectURL(new Blob([res.data], {type: "text/html"}));
                     };
@@ -256,19 +256,35 @@ class Page extends Component {
             default:
                 let fp = this.props.value.data.filteredpoints;
                 let ct = this.props.value.data.countries;
-                if (ct.length === 0) {
-                    ct = this.props.value.data.master;
-                    ct = ct.filter(x => {
+                let mt = this.props.value.data.master;
+                if (ct.length > 0) {
+                    mt = mt.filter(x => {
+                        return ct.includes(x.country_id);
+                    });
+                }
+                if (mt.length !== 0) {
+                    ct = mt.filter(x => {
                         let dp = x.values.map(v => v.datapoints);
                         dp = flatten(dp);
                         dp = intersection(dp, fp);
                         return dp.length > 0;
                     });
+                } else {
+                    ct = [];
                 }
+                let w_actions = fp.length === 1 ? "Action" : "Actions";
+                let w_countries = ct.length === 1 ? "Country" : "Countries";
                 return (
                     <Fragment>
-                        <div className="overview-summary">{fp.length} Actions</div>
-                        <div className="overview-summary">{ct.length} Countries</div>
+                        <div className="overview-summary overview-last">
+                            <span>{ct.length} {w_countries}</span>
+                        </div>
+                        <div className="overview-summary">
+                            reported by
+                        </div>
+                        <div className="overview-summary">
+                            <span>{fp.length} {w_actions}</span>
+                        </div>
                     </Fragment>
                 )
         }
