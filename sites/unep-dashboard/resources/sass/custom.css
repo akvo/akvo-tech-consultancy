@@ -143,6 +143,14 @@ h3.popover-header {
     padding-top: 8px;
     margin-left: 6px;
 }
+.overview-summary{
+    display: inline-block;
+    float: right;
+    padding: 6px 10px;
+    background: #f1f1f5;
+    border: #ddd solid 1px;
+    font-size: 12px;
+}
 
 .select-nested,
 .info-nested,

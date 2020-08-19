@@ -197,7 +197,8 @@ const TreeMap = (title, subtitle, props, data, extra, reports=false) => {
             show: reports ? false : true,
             trigger: 'item',
             showDelay: 0,
-            padding:10,
+            padding:5,
+            backgroundColor: "#f2f2f2",
             transitionDuration: 0.2,
             formatter: function(params) {
                 val = params.value;
@@ -209,7 +210,6 @@ const TreeMap = (title, subtitle, props, data, extra, reports=false) => {
                 name = name.split('(')[0];
                 return name + ":" + val;
             },
-            backgroundColor: "#f2f2f2",
             top:'bottom',
             left: 'center',
             textStyle : {
@@ -241,23 +241,20 @@ const TreeMap = (title, subtitle, props, data, extra, reports=false) => {
             {
                 name: 'Actions',
                 type: 'treemap',
-                visibleMin: 300,
+                visibleMin: 600,
                 width: '100%',
                 top: reports ? "50vh" : '15%',
                 roam: 'move',
                 label: {
                     show: true,
                     fontFamily: reports ? "san-serif" : "Assistant",
-                    fontSize: reports ? 20 : 12,
+                    fontSize: reports ? 20 : 8,
                     formatter: function(x){
                         val = x.value;
                         let name = x.name.split(':')[0];
                         if (props.page.name === "funding") {
                             val = formatCurrency(x.value);
                         }
-                        name = name.split(' ');
-                        name = name.map(x => x.toUpperCase());
-                        name = name.join('\n');
                         if (!reports){
                             return '{title|' + name + '}' + '\n\n' + '{label|' + val + '}';
                         }
@@ -267,7 +264,7 @@ const TreeMap = (title, subtitle, props, data, extra, reports=false) => {
                         title: {
                             align: 'center',
                             color: '#ffffff',
-                            fontSize: reports ? 20 : 12,
+                            fontSize: reports ? 20 : 10,
                             lineHeight: 20,
                         },
                         hr: {

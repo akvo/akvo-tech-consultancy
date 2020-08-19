@@ -1,6 +1,7 @@
-import { Color, Easing, Legend, TextStyle, backgroundColor, Icons, dataView } from '../features/animation.js';
+import { Color, Easing, Legend, TextStyle, TextStyleReports, backgroundColor, Icons, dataView } from '../features/animation.js';
 import maxBy from 'lodash/maxBy';
 import sum from 'lodash/sum';
+import {formatCurrency} from '../utils.js';
 
 const Radar = (title, subtitle, props, data, extra, reports=false) => {
     let values = data.length > 0 ? data.map(x => x.value) : [];
@@ -9,6 +10,7 @@ const Radar = (title, subtitle, props, data, extra, reports=false) => {
         indicator = data.map(x => {
             return {
                 name: x.name,
+                current: x.value,
                 max: maxBy(data, 'value').value
             }
         });
@@ -24,6 +26,7 @@ const Radar = (title, subtitle, props, data, extra, reports=false) => {
             },
         }
     }
+    const text_style = reports ? TextStyleReports : TextStyle;
     let option = {
         title : {
             text: reports ? (title + " (" + subtitle + ")" ) : title,
@@ -54,23 +57,37 @@ const Radar = (title, subtitle, props, data, extra, reports=false) => {
             startAngle: 90,
             splitNumber: 4,
             name: {
-                formatter: '{value}',
-                ...TextStyle,
-                fontSize:14
+                formatter: function(value, indicator) {
+                    return value + '\n USD ' + formatCurrency(indicator.current);
+                },
+                textStyle : {
+                    ...text_style.textStyle,
+                    fontSize:12
+                }
             },
             axisLine: {
                 lineStyle: {
                     color: 'rgba(255, 255, 255, 0.5)'
-                }
+                },
             },
             splitLine: {
                 lineStyle: {
                     color: 'rgba(255, 255, 255, 0.5)'
                 }
-            }
+            },
         },
         series: [{
             type: 'radar',
+            areaStyle: {
+                color: '#009fe2',
+                opacity: .2,
+            },
+            lineStyle: {
+                color: '#009fe2'
+            },
+            itemStyle: {
+                color: '#009fe2'
+            },
             data: [{
                 value: values,
             }]

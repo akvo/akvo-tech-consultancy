@@ -11,6 +11,7 @@ import {
 } from "../features/animation.js";
 import { flatten } from "../utils.js";
 import uniq from  'lodash/uniq';
+import sumBy from  'lodash/sumBy';
 
 const createLinks = (data, links) => {
     if (data.children.length > 0) {
@@ -101,20 +102,28 @@ const SanKey = (title, subtitle, props, data, extra, reports=false) => {
                 focusNodeAdjacency: 'allEdges',
                 data: list,
                 links: links,
-                nodeGap: 20,
+                nodeGap: 5,
                 label: {
                     formatter: function(params) {
                         let name = params.name;
+                        let value = links.find(x => x.target === name);
+                        if (value === undefined){
+                            value = links.filter(x => x.source === name);
+                            value = sumBy(value, 'value');
+                        } else {
+                            value = value.value;
+                        }
                         name = name.split('(')[0];
                         name = name.split('e.g')[0];
-                        return name;
+                        name = name.split('/')[0];
+                        return name + '(' + value + ')';
                     },
                     color: "#222",
                     fontFamily: reports ? "sans-serif" : "Assistant",
                     ...text_style,
                 },
                 lineStyle: {
-                    curveness: reports ? .8 : .3,
+                    curveness: reports ? .8 : .5,
                     color: 'rgba(0,0,0,.3)',
                 },
             }

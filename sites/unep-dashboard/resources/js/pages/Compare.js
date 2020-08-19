@@ -101,6 +101,7 @@ class Compare extends Component {
                     indicator = indicator.map(i => i.datapoints);
                     indicator = uniq(flatten(indicator));
                     value = indicator.length;
+                    value = value === 0 ? "-" : value;
                 }
                 return (
                     <td key={item.id + "-" + x.id} align="center" className="other-column">{value}</td>
@@ -194,7 +195,7 @@ class Compare extends Component {
         this.props.value.page.compare.items.forEach(c => {
             items.push(c.name);
             if (this.props.value.data.global) {
-                items.push(c.name + ' (Shared)');
+                items.push(c.name + ' Multi-Country');
             }
         });
         const data = {

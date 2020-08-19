@@ -1,12 +1,16 @@
 import { Easing, Color, TextStyle, TextStyleReports, backgroundColor, Icons, dataView } from '../features/animation.js';
 import { formatCurrency } from '../utils.js';
 import sum from 'lodash/sum';
+import sortBy from 'lodash/sortBy';
+import reverse from 'lodash/reverse';
 
 const Bar = (title, subtitle, props, data, extra, reports=false) => {
     let values = [];
     let labels = [];
     data = !data ? [] : data;
     if (data.length > 0) {
+        data = sortBy(data,'name');
+        data = reverse(data);
         values = data.map((x) => x.value);
         labels = data.map((x) => x.name);
     }
@@ -38,9 +42,13 @@ const Bar = (title, subtitle, props, data, extra, reports=false) => {
         tooltip: {
             show: reports ? false : true,
             trigger: "item",
-            formatter: "{b}: {c}",
-            backgroundColor: "#ffffff",
-            ...text_style
+            formatter: "{b}",
+            padding:5,
+            backgroundColor: "#f2f2f2",
+            textStyle : {
+                ...text_style.textStyle,
+                fontSize:12
+            }
         },
         toolbox: {
             show: reports ? false : true,

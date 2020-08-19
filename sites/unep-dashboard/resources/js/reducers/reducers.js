@@ -26,7 +26,10 @@ const initialState = {
     page: pageState,
     data: dataState,
     charts: chartState,
-    reports: [],
+    reports: {
+        list:[],
+        download: false
+    },
 }
 
 export const states = (state = initialState, action) => {
@@ -161,7 +164,8 @@ export const states = (state = initialState, action) => {
             }
         case 'PAGE - COMPARE REMOVE ITEM':
             data = state.page.compare.items;
-            data = data.filter(x => x.id !== action.id && x.itemtype !== action.itemtype);
+            let rm = data.find(x => x.id === action.id && x.itemtype === action.itemtype);
+            data = data.filter(x => x.id !== rm.id);
             return {
                 ...state,
                 page: {
@@ -261,22 +265,42 @@ export const states = (state = initialState, action) => {
         case 'REPORT - ADD':
             return {
                 ...state,
-                reports: [...state.reports, action.id]
+                reports: {
+                    ...state.reports,
+                    list: [...state.reports.list, action.id]
+                }
             }
         case 'REPORT - REMOVE':
             return {
                 ...state,
-                reports: state.reports.filter(x => x !== action.id)
+                reports: {
+                    ...state.reports,
+                    list: state.reports.list.filter(x => x !== action.id)
+                }
             }
         case 'REPORT - RESET':
             return {
                 ...state,
-                reports: []
+                reports: {
+                    download: false,
+                    list:[]
+                }
             }
         case 'REPORT - ADD ALL':
             return {
                 ...state,
-                reports: action.data
+                reports: {
+                    ...state.reports,
+                    list: action.data
+                }
+            }
+        case 'REPORT - DOWNLOAD':
+            return {
+                ...state,
+                reports: {
+                    ...state.reports,
+                    download: action.download
+                }
             }
         default:
             return state;

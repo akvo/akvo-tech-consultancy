@@ -80,38 +80,42 @@ class Overviews extends Component {
                     extra: true,
                 }, {
                     kind: "TREEMAP",
+                    title: "Type of Actions",
+                    config: generateData(12, true, "60vh"),
+                    data: {id:5, childs:false},
+                    extra: {
+                        ...Color
+                    }
+                }, {
+                    kind: "TREEMAP",
                     title: "Geography",
                     config: generateData(6, true, "80vh"),
-                    data: {id:116, children:false},
+                    data: {id:116, childs:false},
                     extra: {
-                        tooltip: {show: false},
                         ...Color
                     }
                 }, {
                     kind: "TREEMAP",
                     title: "Source to Sea",
                     config: generateData(6, true, "80vh"),
-                    data: {id:123, children:false},
+                    data: {id:123, childs:false},
                     extra: {
-                        tooltip: {show: false},
                         ...Color
                     }
                 }, {
                     kind: "PIE",
                     title: "Pollutant Targeted",
                     config: generateData(5, true, "80vh"),
-                    data: {id:166, children:false},
+                    data: {id:166, childs:false},
                     extra: {
-                        tooltip: {show: false},
                         ...Color
                     }
                 }, {
                     kind: "BAR",
                     title: "Sector",
                     config: generateData(7, true, "80vh"),
-                    data: {id:192, children:false},
+                    data: {id:192, childs:false},
                     extra: {
-                        tooltip: {show: false},
                         ...Color
                     }
                 }]
@@ -124,7 +128,7 @@ class Overviews extends Component {
             let data = params.data.data;
             let values = [
                 {value: "Country", count: data.total},
-                {value: "Shared", count: (data.global)},
+                {value: "Multi-Country", count: (data.global)},
                 {value: "Total", count: (data.global + data.total)}
             ]
             let html = '<h3 class="table-title">'+ params.name +'</h3><br/>';

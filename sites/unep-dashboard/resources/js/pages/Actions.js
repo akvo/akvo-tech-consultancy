@@ -32,9 +32,7 @@ class Actions extends Component {
                     subtitle: "Number of Reported Actions",
                     config: generateData(6, true, "80vh"),
                     data: {id: 77, childs:false},
-                    extra: {
-                        tooltip: {show: false},
-                    }
+                    extra: {}
                 },
                 {
                     kind: "PIE",
@@ -42,9 +40,7 @@ class Actions extends Component {
                     subtitle: "Number of Reported Actions",
                     config: generateData(6, true, "80vh"),
                     data: {id: 112, childs:false},
-                    extra: {
-                        tooltip: {show: false},
-                    }
+                    extra: {}
                 },
                 {
                     kind: "TREEMAP",
@@ -68,9 +64,7 @@ class Actions extends Component {
                     subtitle: "Number of Reported Actions",
                     config: generateData(6, true, "80vh"),
                     data: {id: 139, childs:false},
-                    extra: {
-                        tooltip: {show: false},
-                    }
+                    extra: {}
                 },
                 {
                     kind: "BAR",
@@ -78,9 +72,7 @@ class Actions extends Component {
                     subtitle: "Number of Reported Actions",
                     config: generateData(12, true, "80vh"),
                     data: {id: 123, childs:false},
-                    extra: {
-                        tooltip: {show: false},
-                    }
+                    extra: {}
                 },
                 {
                     kind: "PIE",
@@ -88,9 +80,7 @@ class Actions extends Component {
                     subtitle: "Number of Reported Actions",
                     config: generateData(6, true, "80vh"),
                     data: {id: 150, childs:false},
-                    extra: {
-                        tooltip: {show: false},
-                    }
+                    extra: {}
                 },
                 {
                     kind: "TREEMAP",

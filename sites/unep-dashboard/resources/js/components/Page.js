@@ -16,6 +16,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import intersectionBy from 'lodash/intersectionBy';
 import uniq from 'lodash/uniq';
 import uniqBy from 'lodash/uniqBy';
+import flatten from 'lodash/flatten';
+import intersection from 'lodash/intersection';
 import { scrollWindow } from '../data/utils.js';
 import Loading from '../pages/Loading';
 import Overviews from '../pages/Overviews';
@@ -121,6 +123,7 @@ class Page extends Component {
     }
 
     downloadReport() {
+        this.props.report.download(true);
         let blocks = ["TREEMAP", "PIE", "PIE", "BAR", "BAR", "SANKEY", "BAR", "BARBUTPIE"]
             blocks = blocks.map(x => {
                 if (x === "PIE") {
@@ -133,7 +136,7 @@ class Page extends Component {
         let formData = new FormData();
 
         formData.set('global', this.props.value.data.global);
-        this.props.value.reports.forEach(x => formData.append('datapoints[]', x));
+        this.props.value.reports.list.forEach(x => formData.append('datapoints[]', x));
 
         let image = 0;
         do {
@@ -143,17 +146,22 @@ class Page extends Component {
             image++;
         } while(image < canvas.length);
 
-        axios.post(API_WEB + 'download', formData, {'Content-Type':'multipart/form-data', 'X-CSRF-TOKEN': token})
-        .then(res => {
-            const link = document.createElement('a');
-            const url = window.URL.createObjectURL(new Blob([res.data]));
-            let newWindow = window.open('/')
-            newWindow.onload = () => {
-                newWindow.location = URL.createObjectURL(new Blob([res.data], {type: "text/html"}));
-            };
-        }).catch(err => {
-            console.log("internal server error");
-        });
+        setTimeout(() => {
+            axios.post(API_WEB + 'download', formData, {'Content-Type':'multipart/form-data', 'X-CSRF-TOKEN': token})
+                .then(res => {
+                    this.props.report.download(false);
+                    const link = document.createElement('a');
+                    const url = window.URL.createObjectURL(new Blob([res.data]));
+                    let newWindow = window.open('/')
+                    newWindow.onload = () => {
+                        newWindow.location = URL.createObjectURL(new Blob([res.data], {type: "text/html"}));
+                    };
+                }).catch(err => {
+                    this.props.report.download(false);
+                    console.log("internal server error");
+                });
+
+        }, 10000)
     }
 
     resetDownload() {
@@ -202,9 +210,10 @@ class Page extends Component {
                     </Form.Group>
                 );
             case "report":
-                let rcount = this.props.value.reports.length;
+                let rcount = this.props.value.reports.list.length;
                 let dps = this.props.value.data.filteredpoints.length;
-                let disabled = (rcount > 0 && rcount <= 20) ? false : true;
+                let disabled = (rcount > 0 && rcount <= 20) ? this.props.value.reports.download : true;
+                let spin = this.props.value.reports.download;
                 let resetdisabled = (rcount > 0) ? false : true;
                 let selectdisabled = (dps > 0 && dps <= 20) ? false : true;
                 return (
@@ -216,8 +225,9 @@ class Page extends Component {
                         >
                             <FontAwesomeIcon
                                 className="fas-icon"
-                                icon={["fas", "arrow-circle-down"]} />
-                                Download
+                                spin={spin}
+                                icon={["fas", spin ? "spinner" : "arrow-circle-down"]} />
+                                {this.props.value.reports.download ? "Generating" : "Download"}
                         </button>
                         <button
                             disabled={resetdisabled}
@@ -241,8 +251,26 @@ class Page extends Component {
                         </button>
                     </Fragment>
                 )
+            case "compare":
+                return "";
             default:
-                "";
+                let fp = this.props.value.data.filteredpoints;
+                let ct = this.props.value.data.countries;
+                if (ct.length === 0) {
+                    ct = this.props.value.data.master;
+                    ct = ct.filter(x => {
+                        let dp = x.values.map(v => v.datapoints);
+                        dp = flatten(dp);
+                        dp = intersection(dp, fp);
+                        return dp.length > 0;
+                    });
+                }
+                return (
+                    <Fragment>
+                        <div className="overview-summary">{fp.length} Actions</div>
+                        <div className="overview-summary">{ct.length} Countries</div>
+                    </Fragment>
+                )
         }
     }
 

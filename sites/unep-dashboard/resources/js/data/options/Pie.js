@@ -52,7 +52,13 @@ const Pie = (title, subtitle, props, data, extra, roseType=false, reports=false)
         tooltip: {
             show: reports ? false : true,
             trigger: "item",
-            formatter: '{c} ({d}%)',
+            formatter: "{b}",
+            padding:5,
+            backgroundColor: "#f2f2f2",
+            textStyle : {
+                ...text_style.textStyle,
+                fontSize:12
+            }
         },
         toolbox: {
             show: reports ? false : true,

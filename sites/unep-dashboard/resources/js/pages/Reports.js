@@ -120,7 +120,7 @@ class Reports extends Component {
     }
 
     renderOptions(filterId, childs=true) {
-        let active = this.props.value.reports;
+        let active = this.props.value.reports.list;
         let thefilter = flatten(this.props.value.page.filters);
             thefilter = thefilter.filter(x => x.id === filterId);
         let datapoints = this.props.value.data.master.map(x => x.values);
@@ -164,8 +164,8 @@ class Reports extends Component {
             return {
                 uuid: x.uuid,
                 datapoint_id: x.datapoint_id,
-                active: this.props.value.reports.includes(x.datapoint_id),
-                icon: this.props.value.reports.includes(x.datapoint_id) ? "plus" : "check",
+                active: this.props.value.reports.list.includes(x.datapoint_id),
+                icon: this.props.value.reports.list.includes(x.datapoint_id) ? "plus" : "check",
                 title:x.title,
                 countries: x.countries.length,
                 funds: formatCurrency(x.f)

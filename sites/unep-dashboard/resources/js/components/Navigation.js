@@ -106,7 +106,7 @@ class Navigation extends Component {
                     <Form.Check
                         type="switch"
                         defaultChecked={this.props.value.data.global}
-                        label="Global"
+                        label="Multi-Country"
                       />
                     </Form.Group>
                     <Form.Group

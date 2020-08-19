@@ -7,6 +7,8 @@ import { flatten } from '../data/utils.js';
 import  startsWith from 'lodash/startsWith';
 import { Form, Badge, Col } from 'react-bootstrap';
 import ToolTips from './ToolTips.js';
+import sortBy from 'lodash/sortBy';
+import reverse from 'lodash/reverse';
 
 const getParent = (id, data, list=[]) => {
     let parent = data.find(x => x.id === id);
@@ -94,6 +96,7 @@ class Sidebar extends Component {
         if (searched.length > 0){
             data = searched;
         }
+        data = sortBy(data, 'name');
         return data.map(
             (x, i) => {
                 let active = group

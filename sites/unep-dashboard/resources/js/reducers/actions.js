@@ -157,6 +157,12 @@ export const mapDispatchToProps = dispatch => {
                     type: "REPORT - ADD ALL",
                     data: data
                 }),
+            download: (download) =>
+                dispatch({
+                    type: "REPORT - DOWNLOAD",
+                    download: download
+
+                })
         }
     };
 };
