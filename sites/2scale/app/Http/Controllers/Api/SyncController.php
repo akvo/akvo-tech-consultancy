@@ -21,7 +21,9 @@ class SyncController extends Controller
 {
     public function __construct() {
         $this->collections = collect();
+        $this->error = collect();
     }
+
     public function syncPartnerships(FlowApi $flow, Partnership $partnerships)
     {
        $id = 0;
@@ -268,7 +270,12 @@ class SyncController extends Controller
                 $country_id = $partnerships->where('name', $partner['country'])->first();
                 $partnership_id = $partnerships->where('code', $partnership_part)->first();
                 $dt = DataPoint::where('datapoint_id', $datapoint_id)->first();
-                if ($dt === null) {
+
+                if ($country_id === null || $partnership_id === null) {
+                    $this->error->push($datapoint_id);
+                }
+
+                if ($dt === null && $country_id !== null && $partnership_id !== null) {
                     $this->collections->push(
                         array(
                             'datapoint_id' => $datapoint_id,
