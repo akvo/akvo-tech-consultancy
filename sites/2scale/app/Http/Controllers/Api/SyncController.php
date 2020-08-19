@@ -14,6 +14,8 @@ use App\Question;
 use App\Option;
 use App\Datapoint;
 use App\Answer;
+use \Mailjet\Resources;
+use Mailjet\LaravelMailjet\Facades\Mailjet;
 
 class SyncController extends Controller
 {
@@ -173,7 +175,7 @@ class SyncController extends Controller
             }
 			$this->groupDataPoint($results, $form, $partnerships);
 			$next_page = false;
-			if (isset($result['nextPageUrl'])) {
+			if (isset($results['nextPageUrl'])) {
 				$next_page = true;
 			}
 			do{
@@ -271,8 +273,8 @@ class SyncController extends Controller
                         array(
                             'datapoint_id' => $datapoint_id,
                             'form_id' => $form['form_id'],
-                            'partnership_id' => $partnership_id->id,
-                            'country_id' => $country_id->id,
+                            'partnership_id' => $partnership_id['id'],
+                            'country_id' => $country_id['id'],
                             'survey_group_id' => $form['survey_group_id'],
                             'submission_date' => date('Y-m-d', strtotime($submission_date)),
                             'answers' => $group,
@@ -282,6 +284,128 @@ class SyncController extends Controller
             }
         });
         return;
+    }
+
+    public function countSyncData(Form $forms, FlowAuth0 $flow)
+    {
+        // get forms with datapoints
+        $formData = $forms->with('datapoints')->get();
+        $formData = collect($formData)->map(function ($form) use ($flow) {
+            $countdps = 0;
+            // get form instances from flow
+            $results = $flow->get('forminstances', $form['survey_id'], $form['form_id']);
+            if($results === null){
+                return "No data";
+            }
+            $countdps += count($results['formInstances']);
+			$next_page = false;
+			if (isset($results['nextPageUrl'])) {
+				$next_page = true;
+			}
+			do{
+				$next_page = false;
+				if (isset($results['nextPageUrl'])) {
+					$next_page = true;
+                    $results = $flow->fetch($results['nextPageUrl']);
+					$countdps += count($results['formInstances']);
+				}
+			}
+            while($next_page);
+            return [
+                'survey_id' => $form['survey_id'],
+                'form_id' => $form['form_id'],
+                'name' => $form['name'],
+                'flow_dps' => $countdps,
+                'db_dps' => count($form['datapoints'])
+            ];
+        })->reject(function ($x) {
+            return $x['flow_dps'] === $x['db_dps'];
+        })->values();
+
+        if (count($formData) === 0) {
+            return "No mismatch data";
+        }
+        
+        $table = '';
+        foreach ($formData as $key => $x) {
+            $table .= '<tr>';
+            $table .= '<td>'.$x['survey_id'].'</td>';
+            $table .= '<td>'.$x['form_id'].'</td>';
+            $table .= '<td>'.$x['name'].'</td>';
+            $table .= '<td>'.$x['flow_dps'].'</td>';
+            $table .= '<td>'.$x['db_dps'].'</td>';
+            $table .= '</tr>';
+        }
+
+        $html = '
+            <html>
+            <style>
+                table {
+                    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+                    border-collapse: collapse;
+                    width: 100%;
+                }
+                
+                td, th {
+                    border: 1px solid #ddd;
+                    padding: 8px;
+                }
+                
+                tr:nth-child(even){background-color: #f2f2f2;}
+                
+                tr:hover {background-color: #ddd;}
+                
+                th {
+                    padding-top: 12px;
+                    padding-bottom: 12px;
+                    text-align: left;
+                    background-color: #4CAF50;
+                    color: white;
+                } 
+            </style>
+            <body>
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th>Survey Id</th>
+                            <th>Form Id</th>
+                            <th>Name</th>
+                            <th>Datapoints count on Flow</th>
+                            <th>Datapoints count on 2Scale Database</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        '.$table.'
+                    </tbody>
+                </table>
+            </body>
+            </html>
+        ';
+
+        // send email
+        $mails = ['joy@akvo.org', 'deden@akvo.org', 'galih@akvo.org'];
+        $recipients = collect();
+        collect($mails)->each(function ($mail) use ($recipients) {
+            $recipients->push(['Email' => $mail]);
+        });
+
+        $mj = Mailjet::getClient();
+        $body = [
+            'FromEmail' => config('mail.host'),
+            'FromName' => config('mail.host'),
+            'Subject' => "Sync Datapoints Count",
+            'Html-part' => $html,
+            'Recipients' => $recipients
+        ];
+
+        try {
+            $response =  $mj->post(Resources::$Email, ['body' => $body]);
+            $result = $response->success();
+        } catch (\Exception $e) {
+            logger()->error('Goutte client error ' . $e->getMessage());
+        }
+
+        return $html;
     }
 
 }
