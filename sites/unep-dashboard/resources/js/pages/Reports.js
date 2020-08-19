@@ -19,6 +19,7 @@ const customStyles = {
             backgroundColor: '#f1f1f5',
             borderColor: '#454d55',
             fontWeight: 'bold',
+            fontSize: '14px',
             color: '#222',
             width: '100%',
             maxWidth: '100%'
@@ -225,7 +226,8 @@ class Reports extends Component {
                             data={data}
                             customStyles={customStyles}
                             fixedHeader
-                            fixedHeaderScrollHeight={"55vh"}
+                            pagination={true}
+                            fixedHeaderScrollHeight={"70vh"}
                             onRowClicked={this.reportToggle}
                             highlightOnHover
                             pointerOnHover
