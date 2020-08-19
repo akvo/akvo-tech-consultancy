@@ -170,7 +170,7 @@ class Reports extends Component {
                 icon: this.props.value.reports.list.includes(x.datapoint_id) ? "plus" : "check",
                 title:x.title,
                 countries: x.countries.length,
-                funds: formatCurrency(x.f)
+                funds: x.f
             }
         })
     }
@@ -207,7 +207,8 @@ class Reports extends Component {
             name: 'Funds (USD)',
             sortable: true,
             selector: 'funds',
-            right: true
+            right: true,
+            cell: row => formatCurrency(row.funds),
         },{
             name: 'Countries',
             sortable: true,

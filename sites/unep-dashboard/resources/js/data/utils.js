@@ -7,7 +7,7 @@ var currencyFormatter = require('currency-formatter');
 export const formatCurrency = (x) => {
     return currencyFormatter.format(x, {
         decimal: '.',
-        thousand: '.',
+        thousand: ',',
         precision: 0,
         format: '%v'
     });
