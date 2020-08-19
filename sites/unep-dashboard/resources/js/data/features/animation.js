@@ -1,3 +1,4 @@
+import sortBy from 'lodash/sortBy';
 import {
     formatCurrency
 } from '../utils.js';
@@ -168,6 +169,7 @@ export const optionToContent = (params) => {
     html += '</tr></thead">';
     html += '<tbody>';
     if (data.length > 0) {
+        data = sortBy(data, 'name')
         data.forEach(x => {
             let child = x.children !== undefined ? (x.children.length > 0 ? true : false) : false;
             html += '<tr class="sm">';

@@ -17,7 +17,8 @@ import { generateData } from "../data/chart-utils.js";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import flatten from 'lodash/flatten';
 import uniq from 'lodash/uniq';
-import  startsWith from 'lodash/startsWith';
+import startsWith from 'lodash/startsWith';
+import sortBy from 'lodash/sortBy';
 import intersection from 'lodash/intersection';
 
 const parentStyle = {
@@ -274,7 +275,9 @@ class Compare extends Component {
     }
 
     renderSearchItem() {
-        return this.state.searched.map((x,i) => {
+        let data = this.state.searched;
+        data = sortBy(data, 'name');
+        return data.map((x,i) => {
             return (
                 <div
                     onClick={e => this.appendColumn(x.id)}
