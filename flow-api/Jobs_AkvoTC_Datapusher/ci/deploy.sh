@@ -2,6 +2,13 @@
 
 set -eu
 
+
+
+## ABORT DEPLOY
+echo "ABORTING UDUMA JOBS TC DATAPUSHER"
+exit 0
+## END ABORT DEPLOY
+
 function log {
    echo "$(date +"%T") - INFO - $*"
 }

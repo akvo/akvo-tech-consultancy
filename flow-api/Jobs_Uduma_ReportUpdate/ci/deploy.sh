@@ -6,6 +6,11 @@ function log {
    echo "$(date +"%T") - INFO - $*"
 }
 
+## ABORT DEPLOY
+echo "ABORTING UDUMA JOBS MASTER DEPLOYMENT"
+exit 0
+## END ABORT DEPLOY
+
 export PROJECT_NAME=akvo-lumen
 
 if [[ "${TRAVIS_BRANCH}" != "develop" ]] && [[ "${TRAVIS_BRANCH}" != "master" ]]; then
