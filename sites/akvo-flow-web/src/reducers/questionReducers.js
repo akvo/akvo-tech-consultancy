@@ -10,7 +10,6 @@ const clearDomain = (DOMAIN_ID) => {
 
 const DOMAIN_ID = localStorage.getItem('_cache') !== null ? localStorage.getItem('_cache') : false;
 const DOMAIN = DOMAIN_ID ? clearDomain(DOMAIN_ID) + '/' + DOMAIN_ID : document.referrer;
-console.log(DOMAIN);
 
 const initialState = {
     error: false,
