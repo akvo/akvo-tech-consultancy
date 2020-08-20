@@ -21,7 +21,10 @@ class SyncController extends Controller
 {
     public function __construct() {
         $this->collections = collect();
+        $this->success = collect();
+        $this->error = collect();
     }
+
     public function syncPartnerships(FlowApi $flow, Partnership $partnerships)
     {
        $id = 0;
@@ -197,12 +200,42 @@ class SyncController extends Controller
 			$answers = $datapoints->find($id)->answers()->saveMany($data);
 			return ["answers" => $answers,"datapoints" => $datapoints];
         });
+
+        // generate report
+        $success = $forms->map(function ($form) {
+            $countdps = $this->success->filter(function ($value) use ($form) {
+                 return $value === $form['form_id']; 
+            });
+            return [
+                'survey_id' => $form['survey_id'],
+                'form_id' => $form['form_id'],
+                'name' => $form['name'],
+                'count' => count($countdps)
+            ];
+        });
+
+        $success_table = $this->generateTable($success, 'success');
+        $error_table = $this->generateTable($this->error, 'error');
+
+        $html = '<html>
+            <body>
+                <h4>Success</h4>
+                '.$success_table.'
+                <br/>
+                <h4>Error</h4>
+                '.$error_table.'
+            </body>
+        </html>';
+
+        // send email
+        $this->sendEmail('Report Sync Datapoints', $html);
         return $datapoints->with('answers')->get();
     }
 
     private function groupDataPoint($response, $form, $partnerships)
     {
         collect($response['formInstances'])->each(function($datapoints, $ii) use ($form, $partnerships) {
+            $instance_id = (int) $datapoints['id'];
             $datapoint_id = (int) $datapoints['dataPointId'];
             $submission_date = $datapoints['submissionDate'];
             $partner = collect();
@@ -268,7 +301,21 @@ class SyncController extends Controller
                 $country_id = $partnerships->where('name', $partner['country'])->first();
                 $partnership_id = $partnerships->where('code', $partnership_part)->first();
                 $dt = DataPoint::where('datapoint_id', $datapoint_id)->first();
-                if ($dt === null) {
+
+                if ($country_id === null || $partnership_id === null) {
+                    $this->error->push(
+                        array(
+                            'survey_id' => $form['survey_id'],
+                            'form_id' => $form['form_id'],
+                            'name' => $form['name'],
+                            'instance_id' => $instance_id  
+                        )
+                    );
+                }
+                if ($country_id !== null && $partnership_id !== null) {
+                    $this->success->push($form['form_id']);
+                }
+                if ($dt === null && $country_id !== null && $partnership_id !== null) {
                     $this->collections->push(
                         array(
                             'datapoint_id' => $datapoint_id,
@@ -286,8 +333,10 @@ class SyncController extends Controller
         return;
     }
 
-    public function countSyncData(Form $forms, FlowAuth0 $flow)
+    public function countSyncData(Form $forms, FlowAuth0 $flow, Partnership $partnerships, DataPoint $datapoints)
     {
+        // sync
+        $this->syncDataPoints($flow, $forms, $partnerships, $datapoints);
         // get forms with datapoints
         $formData = $forms->with('datapoints')->get();
         $formData = collect($formData)->transform(function ($form) use ($flow) {
@@ -332,64 +381,65 @@ class SyncController extends Controller
             return "No mismatch data";
         }
 
-        $table = '';
-        foreach ($formData as $key => $x) {
-            $table .= '<tr>';
-            $table .= '<td>'.$x['survey_id'].'</td>';
-            $table .= '<td>'.$x['form_id'].'</td>';
-            $table .= '<td>'.$x['name'].'</td>';
-            $table .= '<td>'.$x['flow_dps'].'</td>';
-            $table .= '<td>'.$x['db_dps'].'</td>';
-            $table .= '</tr>';
-        }
-
-        $html = '
-            <html>
-            <style>
-                table {
-                    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-                    border-collapse: collapse;
-                    width: 100%;
-                }
-                
-                td, th {
-                    border: 1px solid #ddd;
-                    padding: 8px;
-                }
-                
-                tr:nth-child(even){background-color: #f2f2f2;}
-                
-                tr:hover {background-color: #ddd;}
-                
-                th {
-                    padding-top: 12px;
-                    padding-bottom: 12px;
-                    text-align: left;
-                    background-color: #4CAF50;
-                    color: white;
-                } 
-            </style>
-            <body>
-                <table border="1">
-                    <thead>
-                        <tr>
-                            <th>Survey Id</th>
-                            <th>Form Id</th>
-                            <th>Name</th>
-                            <th>Datapoints count on Flow</th>
-                            <th>Datapoints count on 2Scale Database</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        '.$table.'
-                    </tbody>
-                </table>
-            </body>
-            </html>
-        ';
+        $table = $this->generateTable($formData, 'check');
+        $html = '<html><body>'.$table.'</body></html>';
 
         // send email
+        $this->sendEmail('Check Sync Datapoints', $html);
+        return $html;
+    }
+
+    private function generateTable($formData, $status)
+    {
+        $thead = '<tr>';
+        $thead .= '<th>Survey Id</th>';
+        $thead .= '<th>Form Id</th>';
+        $thead .= '<th>Name</th>';
+        if ($status === 'check') {
+            $thead .= '<th>Datapoints count on Flow</th>';
+            $thead .= '<th>Datapoints count on 2Scale Database</th>';
+        }
+        if ($status === 'success') {
+            $thead .= '<th>Datapoints count</th>';
+        }  
+        if ($status === 'error') {
+            $thead .= '<th>Instance id</th>';
+        }               
+        $thead .= '</tr>';
+        
+        
+        $tbody = '';
+        foreach ($formData as $key => $x) {
+            $tbody .= '<tr>';
+            $tbody .= '<td>'.$x['survey_id'].'</td>';
+            $tbody .= '<td>'.$x['form_id'].'</td>';
+            $tbody .= '<td>'.$x['name'].'</td>';
+            if ($status === 'check') {
+                $tbody .= '<td>'.$x['flow_dps'].'</td>';
+                $tbody .= '<td>'.$x['db_dps'].'</td>';
+            }
+            if ($status === 'success') {
+                $tbody .= '<td>'.$x['count'].'</td>';
+            }
+            if ($status === 'error') {
+                $tbody .= '<td>'.$x['instance_id'].'</td>';
+            }
+            $tbody .= '</tr>';
+        }
+
+        $table = '
+            <table border="1">
+                <thead>'.$thead.'</thead>
+                <tbody>'.$tbody.'</tbody>
+            </table>';
+        
+        return $table;
+    }
+
+    private function sendEmail($subject, $html)
+    {
         $mails = ['joy@akvo.org', 'deden@akvo.org', 'galih@akvo.org'];
+        #$mails = ['galih@akvo.org'];
         $recipients = collect();
         collect($mails)->each(function ($mail) use ($recipients) {
             $recipients->push(['Email' => $mail]);
@@ -399,7 +449,7 @@ class SyncController extends Controller
         $body = [
             'FromEmail' => config('mail.host'),
             'FromName' => config('mail.host'),
-            'Subject' => "Sync Datapoints Count",
+            'Subject' => $subject,
             'Html-part' => $html,
             'Recipients' => $recipients
         ];
@@ -410,8 +460,6 @@ class SyncController extends Controller
         } catch (\Exception $e) {
             logger()->error('Goutte client error ' . $e->getMessage());
         }
-
-        return $html;
     }
 
 }
