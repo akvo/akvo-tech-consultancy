@@ -71,14 +71,12 @@ class QuestionType extends Component {
         const file = event.target.files[0];
         const id = this.props.data.id
         const ext = file.name.substring(file.name.lastIndexOf('.'))
+        const acceptedformats = [".jpg", ".jpeg", ".png", ".gif", ".mp4"];
         const fileId = uuid() + ext;
         const that = this;
-
         const db = new Dexie('akvoflow');
         db.version(1).stores({files: 'id'});
-
         const reader = new FileReader();
-
         reader.addEventListener('load', () => {
             db.files.put({id: fileId, fileName: file.name, blob: reader.result, qid:id})
             .then(() => {
@@ -90,13 +88,18 @@ class QuestionType extends Component {
                 that.setState({ value: fileId })
                 that.handleGlobal(id, fileId)
                 that.setState({blob:reader.result});
+                if (!acceptedformats.includes(ext)) {
+                    alert("invalid formats");
+                    this.handleFileUndo(event);
+                }
+                return;
             })
             .catch((e) => {
                 console.error(e);
             });
         });
-
         reader.readAsDataURL(file);
+        return;
     }
 
     handleFileUndo(event) {
@@ -571,7 +574,6 @@ class QuestionType extends Component {
     }
 
     getFile(data, unique, answered, type) {
-
         if (answered) {
             const fileName = localStorage.getItem(answered)
             return (
