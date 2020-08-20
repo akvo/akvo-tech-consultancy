@@ -4,8 +4,13 @@ import uuid from 'uuid/v4'
 import isoLangs from '../util/Languages.js'
 import { PARENT_URL } from '../util/Environment.js'
 
+const clearDomain = (DOMAIN_ID) => {
+    return document.referrer.replace('/' + DOMAIN_ID, '');
+}
+
 const DOMAIN_ID = localStorage.getItem('_cache') !== null ? localStorage.getItem('_cache') : false;
-const DOMAIN = DOMAIN_ID ? document.referrer + '/' + DOMAIN_ID : document.referrer;
+const DOMAIN = DOMAIN_ID ? clearDomain(DOMAIN_ID) + '/' + DOMAIN_ID : document.referrer;
+console.log(DOMAIN);
 
 const initialState = {
     error: false,
@@ -407,6 +412,9 @@ const replaceAnswers = (questions, data, restore) => {
                 answer = JSON.parse(answer)
             } catch (err) { }
         }
+        if (x.type === "cascade" && answer !== null) {
+            answer = answer.length === x.levels.level.length ? answer : null;
+        }
         return {
             id: x.id,
             answer: answer,
@@ -461,7 +469,8 @@ const getValidAnswers = (answers, questions) => {
         }
         i++;
     } while(i < questions.length);
-    return mandatory.filter(x => valid.find(z => x.id === z.id));
+    let results = mandatory.filter(x => valid.find(z => x.id === z.id));
+    return results;
 }
 
 const checkSubmission = (answers, questions) => {

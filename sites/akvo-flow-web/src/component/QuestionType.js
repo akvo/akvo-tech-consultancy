@@ -62,10 +62,8 @@ class QuestionType extends Component {
         } else {
             vals = JSON.stringify([storage])
         }
-        if (targetLevel !== 0){
-            localStorage.setItem(this.props.data.id, vals)
-            this.handleGlobal(this.props.data.id, vals)
-        }
+        localStorage.setItem(this.props.data.id, vals)
+        this.handleGlobal(this.props.data.id, vals)
         return true
     }
 

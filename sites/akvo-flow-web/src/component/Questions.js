@@ -37,10 +37,15 @@ class Questions extends Component {
         return ""
     }
 
-    renderMandatoryIcon(qid) {
+    renderMandatoryIcon(qid, question) {
         let answered = false;
         if (localStorage.getItem(qid)) {
             answered = true;
+        }
+        if (answered && question.type === "cascade") {
+            let answer = localStorage.getItem(qid);
+            answer = JSON.parse(answer);
+            answered = answer.length === question.levels.level.length;
         }
         return Mandatory(answered);
     }
@@ -82,7 +87,7 @@ class Questions extends Component {
                     <CardBody key={"card-body-" + qid} id={"card-body-" + qid}>
                         <CardTitle key={"card-title-" + qid}>
                             {question.order.toString() + ". " + localization}
-                            {question.mandatory ? this.renderMandatoryIcon(qid) : ""}
+                            {question.mandatory ? this.renderMandatoryIcon(qid, question) : ""}
                             {question.help !== undefined ? ToolTip(question) : ""}
                             {question.type === "photo" ? this.renderCachedImage(qid) : ""}
                         </CardTitle>
