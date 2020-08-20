@@ -49,13 +49,16 @@ class OverviewQuestion extends Component {
         )
     }
 
-    renderAnswer(qid, answer, type) {
-        switch(type){
+    renderAnswer(qid, answer, question) {
+        switch(question.type){
             case "cascade":
                 let cascade = [];
                 answer = JSON.parse(answer);
-                answer.forEach(x => cascade.push(x.text));
-                return cascade.join(' - ');
+                if (answer.length === question.levels.level.length) {
+                    answer.forEach(x => cascade.push(x.text));
+                    return cascade.join(' - ');
+                }
+                return false;
             case "option":
                 let options = [];
                 answer = JSON.parse(answer);
@@ -96,7 +99,7 @@ class OverviewQuestion extends Component {
 
         let answer = localStorage.getItem(qid);
         let divclass = answer === null ? "text-red" : "";
-        answer = answer === null ? false : this.renderAnswer(qid, answer, question.type);
+        answer = answer === null ? false : this.renderAnswer(qid, answer, question);
         if (question === undefined) {
             return (<div key="oq-loading"><p>Loading...</p></div>)
         }
