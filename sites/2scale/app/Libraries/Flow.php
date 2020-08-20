@@ -37,10 +37,6 @@ class Flow
                 $data = json_decode($response->getBody(), true);
             }
 
-            if ($response->getStatusCode() === 500) {
-                $data = $response->getStatusCode();
-            }
-
             if (isset($data["error"])) {
                 Cache::remove('access_token');
                 return $this->fetch($url);

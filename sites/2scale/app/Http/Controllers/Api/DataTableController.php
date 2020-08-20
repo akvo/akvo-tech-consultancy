@@ -75,6 +75,11 @@ class DataTableController extends Controller
             $datapoint['data'] = $collections;
             return $datapoint;
         });
+        $questions = $questions->map(function($q) {
+            $q['text'] = Str::before($q['text'], ' (');
+            $q['text'] = Str::before($q['text'], ':');
+            return $q;
+        });
         return ['datapoints' => $datapoints, 'questions' => $questions];
     }
 }

@@ -6608,17 +6608,25 @@ var authMessage = function authMessage() {
 };
 
 var revalidate = function revalidate() {
-  var now = moment();
+  // const now = moment();
+  var now = new Date();
   var cachetime = localStorage.getItem('cache-time');
-  cachetime = cachetime !== null ? moment(cachetime) : moment().subtract(1, 'days');
+  var cache_version = document.getElementsByName('cache-version')[0].getAttribute('value');
+  var current_version = localStorage.getItem('cache-version'); // cachetime = cachetime !== null ? moment(cachetime) : moment().subtract(1, 'days');
 
-  if (now > cachetime) {
-    var tomorrow = moment().add(1, 'days').format("YYYY-MM-DD");
-    localStorage.setItem('cache-time', tomorrow);
-    dexie__WEBPACK_IMPORTED_MODULE_1__["default"]["delete"]('2scale');
+  cachetime = cachetime !== null ? new Date(parseInt(cachetime) + 60 * 60 * 1000) : new Date(0);
+
+  if (now > cachetime || cache_version !== current_version) {
+    console.info("CLEAR CACHE");
+    localStorage.clear();
+    dexie__WEBPACK_IMPORTED_MODULE_1__["default"]["delete"]('2scale'); // let tomorrow = moment().add(1, 'days').format("YYYY-MM-DD");
+    // localStorage.setItem('cache-time', tomorrow);
+
+    localStorage.setItem('cache-time', now.getTime());
+    localStorage.setItem('cache-version', cache_version);
   }
 
-  if (now < cachetime) {
+  if (now < cachetime && cache_version === current_version) {
     console.info("USING CACHED");
   }
 };
@@ -6672,7 +6680,7 @@ module.exports = JSON.parse("{\"countries\":[{\"country\":\"Ethiopia\",\"desc\":
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/wgprtm/Developer/akvo-tech-consultancy/sites/2scale/resources/js/main.js */"./resources/js/main.js");
+module.exports = __webpack_require__(/*! /Users/dedenbangkit/Repos/akvo-tech-consultancy/sites/2scale/resources/js/main.js */"./resources/js/main.js");
 
 
 /***/ })
