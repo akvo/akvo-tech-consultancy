@@ -45,7 +45,8 @@ class Questions extends Component {
         if (answered && question.type === "cascade") {
             let answer = localStorage.getItem(qid);
             answer = JSON.parse(answer);
-            answered = answer.length === question.levels.level.length;
+            let levels = Array.isArray(question.levels.level) ? question.levels.level.length : 1;
+            answered = answer.length === levels;
         }
         return Mandatory(answered);
     }

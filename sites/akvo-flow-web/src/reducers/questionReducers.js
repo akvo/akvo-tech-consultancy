@@ -181,14 +181,14 @@ const getGroupAttributes = ((group, questions, answers) => {
         });
         let mandatories = answers.filter(x => x.mandatory);
         mandatories = mandatories.length === 0
-            ? 0 : (mandatories.length - questions.length) * - 1;
+        ? 0 : questions.filter(x => x.mandatory).length - mandatories.length;
+        mandatories = mandatories < 0 ? 0 : mandatories;
         hidden_questions = hidden_questions.length === 0
             ? 0 : (
                 hidden_questions.length > questions.length
                 ? (questions.length - hidden_questions.length) * - 1
                 : qgroup.length - questions.length
             )
-
         if (answers.length === 0) {
             mandatories = qgroup.filter(x => x.mandatory).length;
             if (hidden_questions !== 0) {
@@ -409,10 +409,11 @@ const replaceAnswers = (questions, data, restore) => {
             answer = (stored ? stored : null)
             try {
                 answer = JSON.parse(answer)
-            } catch (err) { }
+            } catch (err) {}
         }
         if (x.type === "cascade" && answer !== null) {
-            answer = answer.length === x.levels.level.length ? answer : null;
+            let levels = Array.isArray(x.levels.level) ? x.levels.level.length : 1;
+            answer = answer.length === levels ? answer : null;
         }
         return {
             id: x.id,
