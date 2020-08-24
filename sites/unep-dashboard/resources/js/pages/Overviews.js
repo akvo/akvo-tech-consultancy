@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { mapStateToProps, mapDispatchToProps } from "../reducers/actions";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { Col, Row, Container, Jumbotron } from "react-bootstrap";
+import { Col, Row, Container } from "react-bootstrap";
 import Charts from "../components/Charts";
 import Tables from "../components/Tables";
 import { generateData } from "../data/chart-utils.js";
@@ -12,6 +12,9 @@ import {
     pushToParent,
 } from "../data/utils.js";
 import { Color, TextStyle } from '../data/features/animation.js';
+import sortBy from 'lodash/sortBy';
+import reverse from 'lodash/reverse';
+import take from 'lodash/take';
 
 require("../data/unep-map.js");
 
@@ -25,7 +28,7 @@ const MapsOverride = (toolTip, props) => {
             transitionDuration: 0.2,
             formatter: toolTip,
             backgroundColor: "transparent",
-            position: [pos,10],
+            position: [pos,50],
             ...TextStyle
         },
         markArea: {
@@ -70,18 +73,29 @@ class Overviews extends Component {
         this.getCharts = this.getCharts.bind(this);
         this.toolTip = this.toolTip.bind(this);
         this.renderOptions = this.renderOptions.bind(this);
+        this.getTop = this.getTop.bind(this);
+        this.renderRowTable = this.renderRowTable.bind(this);
         this.state = {
             charts: [{
+                    kind: "TOP",
+                    title: "Top Countries",
+                    subtitle: "",
+                    config: generateData(3, true, "80vh"),
+                    data: 15,
+                    extra: true,
+                }, {
                     kind: "MAPS",
                     title: "Number of Reported Actions",
                     subtitle: "",
-                    config: generateData(12, true, "80vh"),
+                    config: generateData(9, false, "80vh"),
                     data: false, // if data is false then load global
                     extra: true,
                 }, {
+                    kind: "SEPARATOR",
+                }, {
                     kind: "TREEMAP",
                     title: "Type of Actions",
-                    config: generateData(12, true, "60vh"),
+                    config: generateData(12, false, "60vh"),
                     data: {id:5, childs:false},
                     extra: {
                         ...Color
@@ -105,7 +119,7 @@ class Overviews extends Component {
                 }, {
                     kind: "PIE",
                     title: "Pollutant Targeted",
-                    config: generateData(5, true, "80vh"),
+                    config: generateData(5, false, "80vh"),
                     data: {id:166, childs:false},
                     extra: {
                         ...Color
@@ -113,7 +127,7 @@ class Overviews extends Component {
                 }, {
                     kind: "BAR",
                     title: "Sector",
-                    config: generateData(7, true, "80vh"),
+                    config: generateData(7, false, "80vh"),
                     data: {id:192, childs:false},
                     extra: {
                         ...Color
@@ -165,6 +179,58 @@ class Overviews extends Component {
         return thefilter;
     }
 
+    renderRowTable(data) {
+        return data.map((x,i) => (
+            <tr className="sm" key={i}>
+                <td>{x.name}</td>
+                <td align="center">{x.value}</td>
+            </tr>
+        ));
+    }
+
+    getTop(list, index) {
+        let sorting = this.props.value.data.global ? 'global' : 'total';
+        let source = this.props.value.data.filtered.length === 0 ? this.props.value.data.master : this.props.value.data.filtered;
+        source = source.filter(x => {
+            if (x.country_id === 195 || x.country_id === 194){
+                return false;
+            }
+            return true;
+        }); // Skip all and other
+        let data = reverse(sortBy(source, sorting));
+            data = take(data, list.data);
+        data = data.map(x => {
+            let country = this.props.value.page.countries.find(c=> c.id === x.country_id);
+            if (country){
+                return {
+                    name: country.name,
+                    value: x[sorting]
+                }
+            }
+            return {
+                name: 'Loading',
+                value: 0
+            }
+        })
+        return (
+            <Col md={list.config.column} key={index}>
+                <h3 className="top-ten">{list.title}</h3>
+            <table className="table table-bordered table-small">
+                <thead className="thead-dark">
+                    <tr className="sm bg-dark text-white">
+                        <td>Country {this.props.value.data.global ? "(Multi-Country)" : ""}</td>
+                        <td align="center">Actions Reported</td>
+                    </tr>
+                </thead>
+                <tbody>
+                {this.renderRowTable(data)}
+                </tbody>
+            </table>
+                <p className="top-ten">Please click on the table view of the adjacent map for all countries</p>
+            </Col>
+        );
+    }
+
     getCharts(list, index) {
         let data = list.data;
         let extra = list.extra;
@@ -201,7 +267,17 @@ class Overviews extends Component {
 
     render() {
         let charts = this.state.charts.map((list, index) => {
-            return this.getCharts(list, index)
+            if (list.kind === "SEPARATOR") {
+                return (
+                    <Col md={12} key={index}>
+                        <hr/>
+                    </Col>
+                );
+            }
+            if (list.kind === "TOP") {
+                return this.getTop(list, index);
+            }
+            return this.getCharts(list, index);
         });
         return (
             <Container id="print-container">

@@ -234,7 +234,6 @@ const Maps = (title, subtitle, props, data, extra) => {
         ...backgroundColor,
         ...Easing,
         ...extra,
-        ...Graphic
     };
     return option;
 }
