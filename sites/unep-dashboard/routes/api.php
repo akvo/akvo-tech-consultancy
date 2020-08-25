@@ -22,3 +22,14 @@ Route::get('data', 'Api\ApiController@data');
 Route::get('filters', 'Api\ApiController@filters');
 Route::get('countries', 'Api\ApiController@countries');
 Route::get('test', 'Api\ApiController@test');
+
+
+/*
+ * Route to initialize localisation
+ */
+
+Route::get('list/questions', 'Api\PublicController@questions');
+Route::get('list/values', 'Api\PublicController@values');
+Route::get('list/actions', 'Api\PublicController@actions');
+Route::get('list/countries', 'Api\PublicController@countries');
+Route::get('list/regions', 'Api\PublicController@regions');
