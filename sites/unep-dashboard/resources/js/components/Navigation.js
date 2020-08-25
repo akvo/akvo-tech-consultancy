@@ -90,8 +90,8 @@ class Navigation extends Component {
                     <Nav.Link eventKey="overviews" active={"overviews" === page}>Overviews</Nav.Link>
                     <Nav.Link eventKey="actions" active={"actions" === page}>Action Details</Nav.Link>
                     <Nav.Link eventKey="funding" active={"funding" === page}>Funding</Nav.Link>
-                    <Nav.Link eventKey="compare" active={"compare" === page}>Compare</Nav.Link>
                     <Nav.Link eventKey="report" active={"report" === page}>Reports</Nav.Link>
+                    <Nav.Link eventKey="compare" active={"compare" === page}>Compare</Nav.Link>
                     {/*
                     <Nav.Link eventKey="stakeholder" active={"stakeholder" === page}>Stakeholder</Nav.Link>
                     <Nav.Link eventKey="evaluation" active={"evaluation" === page}>Evaluation</Nav.Link>

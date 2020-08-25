@@ -274,10 +274,9 @@ class Overviews extends Component {
                     </Col>
                 );
             }
-            if (list.kind === "TOP") {
-                return this.getTop(list, index);
-            }
-            return this.getCharts(list, index);
+            return list.kind === "TOP"
+                ? this.getTop(list, index)
+                : this.getCharts(list, index);
         });
         return (
             <Container id="print-container">
