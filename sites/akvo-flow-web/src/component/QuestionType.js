@@ -43,13 +43,13 @@ class QuestionType extends Component {
 
     handleGlobal(questionid, qval){
         if (qval === "" || qval === null){
-            this.props.replaceAnswers(this.props.value.questions)
+            this.props.replaceAnswers(this.props.value.questions);
         } else {
-            this.props.replaceAnswers(this.props.value.questions)
+            this.props.replaceAnswers(this.props.value.questions);
         }
-        this.props.changeGroup(this.props.value.groups.active)
-        this.props.reduceGroups()
-        this.props.checkSubmission()
+        this.props.changeGroup(this.props.value.groups.active);
+        this.props.reduceGroups();
+        this.props.checkSubmission();
     }
 
     handleCascadeChange(targetLevel, text, id, value) {
@@ -145,6 +145,12 @@ class QuestionType extends Component {
         let id = this.props.data.id
         let value = event.target.value
         let target = event.target.id;
+        if(event.target.attributes['data-validator']){
+            localStorage.setItem('V-' + id, value);
+            let lastanswer = localStorage.getItem(id);
+            this.handleGlobal(lastanswer, id);
+            return true;
+        };
         if (target.split("_")[0]) {
             return this.handleOther(target, value);
         }
@@ -560,6 +566,33 @@ class QuestionType extends Component {
         )
     }
 
+    getDoubleEntry(data, unique, answered, type) {
+        let validator = localStorage.getItem('V-'+data.id);
+        validator = validator !== null ? validator : "";
+        return (
+            <div>
+            <input
+                className="form-control"
+                type={type}
+                defaultValue={validator}
+                key={'validation-' + unique}
+                name={'V-' + data.id.toString()}
+                data-validator={true}
+                onChange={this.handleChange}
+            />
+                <div>Confirm Input</div>
+            <input
+                className="form-control"
+                value={answered ? answered : ""}
+                type={type}
+                key={unique}
+                name={'Q-' + data.id.toString()}
+                onChange={this.handleChange}
+            />
+            </div>
+        )
+    }
+
     getInputOther(data, unique, answered, type) {
         return (
             <input
@@ -704,6 +737,9 @@ class QuestionType extends Component {
             case "cascade":
                 return this.getCascade(data,0, key)
             case "number":
+                if(data.requireDoubleEntry) {
+                    return this.getDoubleEntry(data, key, answered, formtype);
+                }
                 return this.getInput(data, key, data.validationRule, answered, formtype)
             case "photo":
                 return this.getFile(data, key, answered, "image")
@@ -714,6 +750,9 @@ class QuestionType extends Component {
             case "geo":
                 return this.getGeo(data, key)
             default:
+                if(data.requireDoubleEntry) {
+                    return this.getDoubleEntry(data, key, answered, formtype);
+                }
                 return this.getTextArea(data, key, answered, formtype)
         }
     }

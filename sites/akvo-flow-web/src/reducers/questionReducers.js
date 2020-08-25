@@ -199,7 +199,6 @@ const getGroupAttributes = ((group, questions, answers) => {
         let badge = "badge-secondary";
         badge = questions.length >= answers.length ? badge : "badge-success";
         badge = mandatories > 0 ? "badge-red" : "badge-success";
-
         return {
             answers: answers.length,
             questions: questions.length,
@@ -415,6 +414,11 @@ const replaceAnswers = (questions, data, restore) => {
             let levels = Array.isArray(x.levels.level) ? x.levels.level.length : 1;
             answer = answer.length === levels ? answer : null;
         }
+        if(x.requireDoubleEntry){
+            let validator = localStorage.getItem('V-' + x.id);
+            validator = x.type === "number" ? parseInt(validator) : validator;
+            answer = answer === validator ? answer : null;
+        };
         return {
             id: x.id,
             answer: answer,

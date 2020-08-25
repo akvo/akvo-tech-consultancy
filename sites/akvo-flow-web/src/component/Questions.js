@@ -30,7 +30,7 @@ class Questions extends Component {
     }
 
     renderQuestion(qid, question) {
-        return <QuestionType key={"question-type-" + qid} data={question} />;
+        return <QuestionType key={"question-type-" + qid} data={question}/>;
     }
 
     renderCachedImage(qid) {
@@ -47,6 +47,13 @@ class Questions extends Component {
             answer = JSON.parse(answer);
             let levels = Array.isArray(question.levels.level) ? question.levels.level.length : 1;
             answered = answer.length === levels;
+        }
+        if (answered && question.requireDoubleEntry) {
+            let validator = localStorage.getItem('V-' + qid);
+            let answer = localStorage.getItem(qid);
+            validator = question.type === "number" ? parseInt(validator) : validator;
+            answer = question.type === "number" ? parseInt(answer) : answer;
+            answered = answer === validator;
         }
         return Mandatory(answered);
     }
