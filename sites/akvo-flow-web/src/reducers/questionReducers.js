@@ -3,6 +3,7 @@ import { isJsonString } from '../util/QuestionHandler.js'
 import uuid from 'uuid/v4'
 import isoLangs from '../util/Languages.js'
 import { PARENT_URL } from '../util/Environment.js'
+import { validateMinMax, validateDoubleEntry } from '../util/Utilities.js'
 
 const clearDomain = (DOMAIN_ID) => {
     return document.referrer.replace('/' + DOMAIN_ID, '');
@@ -414,11 +415,8 @@ const replaceAnswers = (questions, data, restore) => {
             let levels = Array.isArray(x.levels.level) ? x.levels.level.length : 1;
             answer = answer.length === levels ? answer : null;
         }
-        if(x.requireDoubleEntry){
-            let validator = localStorage.getItem('V-' + x.id);
-            validator = x.type === "number" ? parseInt(validator) : validator;
-            answer = answer === validator ? answer : null;
-        };
+        answer = validateMinMax(answer, x);
+        answer = validateDoubleEntry(answer, x);
         return {
             id: x.id,
             answer: answer,

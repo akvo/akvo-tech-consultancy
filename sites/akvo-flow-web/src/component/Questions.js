@@ -6,6 +6,7 @@ import QuestionType from "./QuestionType.js";
 import GroupPanels from "./GroupPanels.js";
 import { Mandatory, ToolTip } from "../util/Badges";
 import { Card, CardBody, CardTitle } from "reactstrap";
+import { validateMinMax, validateDoubleEntry } from '../util/Utilities.js'
 import "../App.css";
 
 //const API_ORIGIN = (PROD_URL ? ( window.location.origin + "/" + window.location.pathname.split('/')[1] + "-api/" ) : process.env.REACT_APP_API_URL);
@@ -39,22 +40,17 @@ class Questions extends Component {
 
     renderMandatoryIcon(qid, question) {
         let answered = false;
+        let answer = localStorage.getItem(qid);
         if (localStorage.getItem(qid)) {
             answered = true;
         }
         if (answered && question.type === "cascade") {
-            let answer = localStorage.getItem(qid);
             answer = JSON.parse(answer);
             let levels = Array.isArray(question.levels.level) ? question.levels.level.length : 1;
             answered = answer.length === levels;
         }
-        if (answered && question.requireDoubleEntry) {
-            let validator = localStorage.getItem('V-' + qid);
-            let answer = localStorage.getItem(qid);
-            validator = question.type === "number" ? parseInt(validator) : validator;
-            answer = question.type === "number" ? parseInt(answer) : answer;
-            answered = answer === validator;
-        }
+        answered = validateMinMax(answer, question) !== null;
+        answered = answered ? validateDoubleEntry(answer, question) !== null : answered;
         return Mandatory(answered);
     }
 

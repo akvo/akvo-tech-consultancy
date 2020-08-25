@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { mapStateToProps, mapDispatchToProps } from '../reducers/actions.js'
 import { FaEdit } from "react-icons/fa";
+import { validateMinMax, validateDoubleEntry } from '../util/Utilities.js'
 import Dexie from 'dexie';
 
 const getPos = (question_id) => {
@@ -50,6 +51,7 @@ class OverviewQuestion extends Component {
     }
 
     renderAnswer(qid, answer, question) {
+        let valid;
         switch(question.type){
             case "cascade":
                 let cascade = [];
@@ -80,8 +82,13 @@ class OverviewQuestion extends Component {
             case "geo":
                 answer = answer.split('|')
                 return (<div>Latitude: {answer[0]}<br/>Longitude: {answer[0]}</div>);
+            case "number":
+                valid = validateMinMax(answer, question);
+                valid = valid !== null ? validateDoubleEntry(answer, question) : valid;
+                return valid !== null ? answer.toString() : false;
             default:
-                return answer;
+                valid = validateDoubleEntry(answer, question);
+                return valid !== null ? answer.toString() : false;
         }
     }
 

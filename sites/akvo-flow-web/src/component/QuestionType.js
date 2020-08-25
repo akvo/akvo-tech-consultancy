@@ -18,6 +18,7 @@ class QuestionType extends Component {
         this.state = {
             value: this.value ? this.value : '',
             other: this.other ? this.other : '',
+            invalid: false,
             cascade_selected: [],
             cascade_levels: 0
         }
@@ -229,6 +230,19 @@ class QuestionType extends Component {
             this.setState({value: optval})
             this.handleGlobal(id, optval)
         } else {
+            if (this.props.data.validation){
+                this.setState({invalid:false});
+                let min = this.props.data.validation.minVal;
+                let max = this.props.data.validation.maxVal;
+                let invalid = parseInt(value) < parseInt(min);
+                if (invalid) {
+                    this.setState({invalid:true});
+                }
+                invalid = parseInt(value) > parseInt(max);
+                if (invalid) {
+                    this.setState({invalid:true});
+                }
+            };
             localStorage.setItem(id, value)
             this.setState({value: value})
             this.handleGlobal(id, value)
@@ -552,9 +566,17 @@ class QuestionType extends Component {
     }
 
     getInput(data, unique, validation, answered, type) {
+        let validator = "";
+        let invalid = this.state.invalid ? " is-invalid" : "";
+        if (this.state.invalid) {
+            validator = validation.minVal ? "Min Value (" + parseInt(validation.minVal) + ") " : validator;
+            validator = validation.maxVal ? validator + "Max Value (" + parseInt(validation.maxVal) + ")" : validator;
+        }
         return (
+            <div>
+                <span className="text-danger text-sm">{validator}</span>
             <input
-                className={data.type === "photo" ? "form-control-file" : "form-control"}
+                className={"form-control" + invalid}
                 value={answered ? answered : ""}
                 type={type}
                 max={validation.maxVal ? parseInt(validation.maxVal) : ""}
@@ -563,6 +585,7 @@ class QuestionType extends Component {
                 name={'Q-' + data.id.toString()}
                 onChange={this.handleChange}
             />
+            </div>
         )
     }
 
