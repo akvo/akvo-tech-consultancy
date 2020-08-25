@@ -550,10 +550,10 @@ class QuestionType extends Component {
             <input
                 className={data.type === "photo" ? "form-control-file" : "form-control"}
                 value={answered ? answered : ""}
-                min={validation.minVal ? validation.minVal : ""}
-                max={validation.maxVal ? validation.maxVal: ""}
-                key={unique}
                 type={type}
+                max={validation.minVal ? parseInt(validation.minVal) : ""}
+                min={validation.maxVal ? parseInt(validation.maxVal) : ""}
+                key={unique}
                 name={'Q-' + data.id.toString()}
                 onChange={this.handleChange}
             />
