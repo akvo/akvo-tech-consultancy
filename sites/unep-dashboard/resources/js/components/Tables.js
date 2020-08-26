@@ -38,15 +38,17 @@ class Tables extends Component {
     }
 
     render() {
+        let lang = this.props.value.locale.lang;
+        let title = lang[this.props.title];
         const columns = [
           {
-            name: 'Category',
+            name: lang.action,
             selector: 'name',
             sortable: true,
             right: false,
           },
           {
-            name: 'Count of Actions',
+            name: lang.numberReportedActions,
             selector: 'value',
             sortable: true,
             right: true,
@@ -56,7 +58,7 @@ class Tables extends Component {
         return (
             <Col md={this.props.config.column}>
                 <DataTable
-                    title={this.props.title}
+                    title={title}
                     columns={columns}
                     data={this.props.dataset}
                     customStyles={customStyles}

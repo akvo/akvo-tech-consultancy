@@ -66,11 +66,12 @@ const Pie = (title, subtitle, props, data, extra, roseType=false, reports=false)
             left: "right",
             top: "top",
             feature: {
-                dataView: dataView,
+                dataView: dataView(props.locale.lang),
                 saveAsImage: {
                     type: "jpg",
-                    title: "Save Image",
+                    title: props.locale.lang.saveImage,
                     icon: Icons.saveAsImage,
+                    backgroundColor: "#ffffff"
                 }
             },
             backgroundColor: "#FFF",

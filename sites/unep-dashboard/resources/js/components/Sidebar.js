@@ -271,6 +271,7 @@ class Sidebar extends Component {
 
     render() {
         let sidebar = this.props.value.page.sidebar;
+        let lang = this.props.value.locale.lang;
         return (
             <div className="bg-light border-right" id="sidebar-wrapper">
                 <div className="filter-search">
@@ -283,7 +284,7 @@ class Sidebar extends Component {
                         <Form.Control
                             type="input"
                             disabled={this.state.depth > 0}
-                            placeholder="Search" />
+                            placeholder={lang.search} />
                     </Form.Group>
                         {sidebar.selected === "countries" ? (
                             <Form.Group
@@ -295,7 +296,7 @@ class Sidebar extends Component {
                                 defaultChecked={this.props.value.page.sidebar.group}
                                 type="switch"
                                 id="custom-switch"
-                                label="Region"
+                                label={lang.region}
                               />
                             </Form.Group>) : ""}
                     </Form.Row>

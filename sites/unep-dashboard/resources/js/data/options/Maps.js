@@ -12,7 +12,7 @@ import uniq from 'lodash/uniq';
 import sumBy from 'lodash/sumBy';
 import intersection from 'lodash/intersection';
 import echarts from 'echarts';
-const world = require('../unep-map.json');
+const world = require('../features/unep-map.json');
 
 const xxxteritory = world.features
     .filter(x => x.properties.cd === "XXX")
@@ -131,16 +131,16 @@ const Maps = (title, subtitle, props, data, extra) => {
             left: "right",
             top: "top",
             feature: {
-                dataView: dataView,
+                dataView: dataView(props.locale.lang),
                 saveAsImage: {
                     type: "jpg",
-                    title: "Save Image",
+                    title: props.locale.lang.saveImage,
                     icon: Icons.saveAsImage,
                     backgroundColor: "#ffffff"
                 },
                 myTool1: {
                     show: true,
-                    title: "Zoom In",
+                    title: props.locale.lang.zoomIn,
                     icon: Icons.zoomIn,
                     onclick: function(params, charts) {
                         let new_zoom = params.option.series[0].zoom + 1;
@@ -164,7 +164,7 @@ const Maps = (title, subtitle, props, data, extra) => {
                 },
                 myTool2: {
                     show: true,
-                    title: "Zoom Out",
+                    title: props.locale.lang.zoomOut,
                     icon: Icons.zoomOut,
                     onclick: function(params, charts) {
                         let new_zoom = params.option.series[0].zoom - 1;
@@ -188,7 +188,7 @@ const Maps = (title, subtitle, props, data, extra) => {
                 },
                 myTool3: {
                     show: true,
-                    title: "Reset Zoom",
+                    title: props.locale.lang.resetZoom,
                     icon: Icons.reset,
                     onclick: function(params, charts) {
                         let new_series = {

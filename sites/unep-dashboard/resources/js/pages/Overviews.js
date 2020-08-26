@@ -16,7 +16,7 @@ import sortBy from 'lodash/sortBy';
 import reverse from 'lodash/reverse';
 import take from 'lodash/take';
 
-require("../data/unep-map.js");
+require("../data/features/unep-map.js");
 
 const MapsOverride = (toolTip, props) => {
     let pos = props.value.page.sidebar.active ? "320px" : 10;
@@ -42,7 +42,7 @@ const MapsOverride = (toolTip, props) => {
             top: 40,
             right: 10,
             splitList: [
-                {start: 25, label:'Above 25'},
+                {start: 25, label: props.value.locale.lang.above + ' 25'},
                 {start: 20, end: 25},
                 {start: 15, end: 20},
                 {start: 10, end: 15},
@@ -78,14 +78,14 @@ class Overviews extends Component {
         this.state = {
             charts: [{
                     kind: "TOP",
-                    title: "Top Countries",
+                    title: "topCountries",
                     subtitle: "",
                     config: generateData(3, true, "80vh"),
                     data: 15,
                     extra: true,
                 }, {
                     kind: "MAPS",
-                    title: "Number of Reported Actions",
+                    title: "numberReportedActions",
                     subtitle: "",
                     config: generateData(9, false, "80vh"),
                     data: false, // if data is false then load global
@@ -94,7 +94,7 @@ class Overviews extends Component {
                     kind: "SEPARATOR",
                 }, {
                     kind: "TREEMAP",
-                    title: "Type of Actions",
+                    title: "typeActions",
                     config: generateData(12, false, "60vh"),
                     data: {id:5, childs:false},
                     extra: {
@@ -102,7 +102,7 @@ class Overviews extends Component {
                     }
                 }, {
                     kind: "TREEMAP",
-                    title: "Geography",
+                    title: "geography",
                     config: generateData(6, true, "80vh"),
                     data: {id:116, childs:false},
                     extra: {
@@ -110,7 +110,7 @@ class Overviews extends Component {
                     }
                 }, {
                     kind: "TREEMAP",
-                    title: "Source to Sea",
+                    title: "sourceSea",
                     config: generateData(6, true, "80vh"),
                     data: {id:123, childs:false},
                     extra: {
@@ -118,7 +118,7 @@ class Overviews extends Component {
                     }
                 }, {
                     kind: "PIE",
-                    title: "Pollutant Targeted",
+                    title: "pollutantTargeted",
                     config: generateData(5, false, "80vh"),
                     data: {id:166, childs:false},
                     extra: {
@@ -126,7 +126,7 @@ class Overviews extends Component {
                     }
                 }, {
                     kind: "BAR",
-                    title: "Sector",
+                    title: "sector",
                     config: generateData(7, false, "80vh"),
                     data: {id:192, childs:false},
                     extra: {
@@ -137,18 +137,19 @@ class Overviews extends Component {
     }
 
     toolTip(params) {
+        let lang = this.props.value.locale.lang;
         if (params.value) {
             let filters = this.props.value.data.filters;
             let data = params.data.data;
             let values = [
-                {value: "Country", count: data.total},
-                {value: "Multi-Country", count: (data.global)},
-                {value: "Total", count: (data.global + data.total)}
+                {value: lang.country, count: data.total},
+                {value: lang.multiCountry, count: (data.global)},
+                {value: lang.total, count: (data.global + data.total)}
             ]
             let html = '<h3 class="table-title">'+ params.name +'</h3><br/>';
             html += '<table class="table table-bordered table-small">';
             html += '<thead class="thead-dark"><tr class="sm bg-dark text-white">';
-            html += '<td width="100">Value</td><td width="50" align="center">Count</td>'
+            html += '<td width="100">'+ lang.value +'</td><td width="50" align="center">' + lang.numberReportedActions + '</td>'
             html += '</tr></thead">';
             html += '<tbody>';
             values.forEach(x => {
@@ -161,7 +162,7 @@ class Overviews extends Component {
             html += '</table>';
             return html;
         };
-        return '<h3 class="table-title">' + params.name + '</h3><br/><p>No Data</p>';
+        return '<h3 class="table-title">' + params.name + '</h3><br/><p>' + lang.noData + '</p>';
     }
 
     renderOptions(filterId, childs=true) {
@@ -188,7 +189,7 @@ class Overviews extends Component {
         ));
     }
 
-    getTop(list, index) {
+    getTop(list, index, lang) {
         let sorting = this.props.value.data.global ? 'global' : 'total';
         let source = this.props.value.data.filtered.length === 0 ? this.props.value.data.master : this.props.value.data.filtered;
         source = source.filter(x => {
@@ -208,30 +209,30 @@ class Overviews extends Component {
                 }
             }
             return {
-                name: 'Loading',
+                name: lang.loading,
                 value: 0
             }
         })
         return (
             <Col md={list.config.column} key={index}>
-                <h3 className="top-ten">{list.title}</h3>
+                <h3 className="top-ten">{this.props.value.locale.lang[list.title]}</h3>
             <table className="table table-bordered table-small">
                 <thead className="thead-dark">
                     <tr className="sm bg-dark text-white">
-                        <td>Country {this.props.value.data.global ? "(Multi-Country)" : ""}</td>
-                        <td align="center">Actions Reported</td>
+                        <td>{lang.Country} {this.props.value.data.global ? lang.multiCountry : ""}</td>
+                        <td align="center">{lang.actionsReported}</td>
                     </tr>
                 </thead>
                 <tbody>
                 {this.renderRowTable(data)}
                 </tbody>
             </table>
-                <p className="top-ten">Please click on the table view of the adjacent map for all countries</p>
+                <p className="top-ten">{lang.pleaseClickTheTable}</p>
             </Col>
         );
     }
 
-    getCharts(list, index) {
+    getCharts(list, index, lang) {
         let data = list.data;
         let extra = list.extra;
         if (data) {
@@ -266,6 +267,7 @@ class Overviews extends Component {
     }
 
     render() {
+        let lang = this.props.value.locale.lang;
         let charts = this.state.charts.map((list, index) => {
             if (list.kind === "SEPARATOR") {
                 return (
@@ -275,8 +277,8 @@ class Overviews extends Component {
                 );
             }
             return list.kind === "TOP"
-                ? this.getTop(list, index)
-                : this.getCharts(list, index);
+                ? this.getTop(list, index, lang)
+                : this.getCharts(list, index, lang);
         });
         return (
             <Container id="print-container">

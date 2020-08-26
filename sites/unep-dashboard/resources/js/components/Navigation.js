@@ -6,11 +6,14 @@ import {
     Navbar,
     Nav,
     Container,
+    Dropdown,
     Image,
     Form,
     Button,
 } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { toTitleCase } from '../data/utils.js'
+import { LocaleName } from '../data/locale.js'
 import axios from 'axios';
 
 
@@ -25,6 +28,7 @@ class Navigation extends Component {
         }
         this.links = this.links.bind(this);
         this.printPage = this.printPage.bind(this);
+        this.renderLangList = this.renderLangList.bind(this);
     }
 
     changePage (key) {
@@ -69,8 +73,22 @@ class Navigation extends Component {
         });
     }
 
+    renderLangList() {
+        let langs = [];
+        for (const lang in LocaleName){
+            langs = [...langs, lang];
+        };
+        return langs.map((x, i) => (
+            <Dropdown.Item
+                key={"lang-" + i}
+                onClick={e => this.props.locale.change(x)}>{LocaleName[x]}
+            </Dropdown.Item>
+        ))
+    }
+
     render() {
         let page = this.props.value.page.name;
+        let lang = this.props.value.locale.lang;
         return (
             <Navbar bg="light" fixed="top" variant="light" className="NavLight" expand="lg">
               <Container>
@@ -87,11 +105,11 @@ class Navigation extends Component {
                     activeKey={this.props.value.page.name}
                     onSelect={this.changePage}
                 >
-                    <Nav.Link eventKey="overviews" active={"overviews" === page}>Overviews</Nav.Link>
-                    <Nav.Link eventKey="actions" active={"actions" === page}>Action Details</Nav.Link>
-                    <Nav.Link eventKey="funding" active={"funding" === page}>Funding</Nav.Link>
-                    <Nav.Link eventKey="report" active={"report" === page}>Reports</Nav.Link>
-                    <Nav.Link eventKey="compare" active={"compare" === page}>Compare</Nav.Link>
+                    <Nav.Link eventKey="overviews" active={"overviews" === page}>{lang.overviews}</Nav.Link>
+                    <Nav.Link eventKey="actions" active={"actions" === page}>{lang.actions}</Nav.Link>
+                    <Nav.Link eventKey="funding" active={"funding" === page}>{lang.funding}</Nav.Link>
+                    <Nav.Link eventKey="report" active={"report" === page}>{lang.report}</Nav.Link>
+                    <Nav.Link eventKey="compare" active={"compare" === page}>{lang.compare}</Nav.Link>
                     {/*
                     <Nav.Link eventKey="stakeholder" active={"stakeholder" === page}>Stakeholder</Nav.Link>
                     <Nav.Link eventKey="evaluation" active={"evaluation" === page}>Evaluation</Nav.Link>
@@ -106,7 +124,7 @@ class Navigation extends Component {
                     <Form.Check
                         type="switch"
                         defaultChecked={this.props.value.data.global}
-                        label="Multi-Country"
+                        label={lang.multiCountry}
                       />
                     </Form.Group>
                     <Form.Group
@@ -116,7 +134,7 @@ class Navigation extends Component {
                     <Form.Check
                         type="switch"
                         defaultChecked={this.props.value.page.keepfilter}
-                        label="Keep Filter"
+                        label={lang.keepFilter}
                       />
                     </Form.Group>
                     <FontAwesomeIcon
@@ -124,6 +142,12 @@ class Navigation extends Component {
                         icon={["fas", "print"]}
                         onClick={e => this.printPage()}
                     />
+                  <Dropdown className="dropdown-lang">
+                      <Dropdown.Toggle variant="primary">{LocaleName[this.props.value.locale.active]}</Dropdown.Toggle>
+                      <Dropdown.Menu>
+                          {this.renderLangList()}
+                      </Dropdown.Menu>
+                </Dropdown>
               </Navbar.Collapse>
               </Container>
             </Navbar>

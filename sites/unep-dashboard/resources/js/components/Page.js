@@ -24,7 +24,7 @@ import Overviews from '../pages/Overviews';
 import Actions from '../pages/Actions';
 import Funding from '../pages/Funding';
 import Compare from '../pages/Compare';
-import Reports from "../pages/Reports";
+import Reports from '../pages/Reports';
 import { forEach } from 'lodash';
 
 const API_WEB = process.env.MIX_PUBLIC_URL + "/";
@@ -172,7 +172,7 @@ class Page extends Component {
         this.props.report.appendall(this.props.value.data.filteredpoints);
     }
 
-    renderHeaderButtons(page, sidebar) {
+    renderHeaderButtons(page, sidebar, lang) {
         let buttons = [];
         switch(page){
             case "compare":
@@ -188,13 +188,13 @@ class Page extends Component {
                             : "btn btn-primary btn-sm"
                         }
                         onClick={e => this.props.page.sidebar.toggle(x)}>
-                        {x} {this.renderCount(x)}
+                        {lang[x]} {this.renderCount(x)}
                     </button>
                 ));
         }
     }
 
-    renderHeaderButtonsRight(page) {
+    renderHeaderButtonsRight(page, lang) {
         switch(page){
             case "funding":
                 return (
@@ -205,7 +205,7 @@ class Page extends Component {
                     <Form.Check
                         type="switch"
                         defaultChecked={this.props.value.page.fundcontrib}
-                        label="Include in-kind Contribution"
+                        label={lang.includeinKind}
                         />
                     </Form.Group>
                 );
@@ -227,7 +227,7 @@ class Page extends Component {
                                 className="fas-icon"
                                 spin={spin}
                                 icon={["fas", spin ? "spinner" : "arrow-circle-down"]} />
-                                {this.props.value.reports.download ? "Generating" : "Download"}
+                                {this.props.value.reports.download ? lang.generating : lang.download}
                         </button>
                         <button
                             disabled={resetdisabled}
@@ -237,7 +237,7 @@ class Page extends Component {
                             <FontAwesomeIcon
                                 className="fas-icon"
                                 icon={["fas", "redo-alt"]} />
-                                Reset
+                                {lang.reset}
                         </button>
                         <button
                             disabled={selectdisabled}
@@ -247,7 +247,7 @@ class Page extends Component {
                             <FontAwesomeIcon
                                 className="fas-icon"
                                 icon={["fas", "check-circle"]} />
-                                Select All
+                                {lang.selectAll}
                         </button>
                     </Fragment>
                 )
@@ -272,15 +272,15 @@ class Page extends Component {
                 } else {
                     ct = [];
                 }
-                let w_actions = fp.length === 1 ? "Action" : "Actions";
-                let w_countries = ct.length === 1 ? "Country" : "Countries";
+                let w_actions = fp.length === 1 ? lang.action : lang.actions;
+                let w_countries = ct.length === 1 ? lang.countries : lang.countries;
                 return (
                     <Fragment>
                         <div className="overview-summary overview-last">
                             <span>{ct.length} {w_countries}</span>
                         </div>
                         <div className="overview-summary">
-                            reported by
+                            {lang.reportedBy}
                         </div>
                         <div className="overview-summary">
                             <span>{fp.length} {w_actions}</span>
@@ -294,12 +294,13 @@ class Page extends Component {
         let page = this.props.value.page.name;
         let loading = this.props.value.page.loading;
         let sidebar = this.props.value.page.sidebar;
+        let lang = this.props.value.locale.lang;
         return (
             <Fragment>
                 <Navigation/>
                 <Container className="top-container">
-                    {this.renderHeaderButtons(page, sidebar)}
-                    {this.renderHeaderButtonsRight(page)}
+                    {this.renderHeaderButtons(page, sidebar, lang)}
+                    {this.renderHeaderButtonsRight(page, lang)}
                     <Filters/>
                 </Container>
                 <div className={sidebar.active ? "d-flex" : "d-flex toggled"} id="wrapper">

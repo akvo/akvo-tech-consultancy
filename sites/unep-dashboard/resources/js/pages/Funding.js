@@ -14,10 +14,11 @@ import {
 } from "../data/utils.js";
 import { Color, TextStyle } from '../data/features/animation.js';
 import sumBy from 'lodash/sumBy';
-require("../data/unep-map.js");
+require("../data/features/unep-map.js");
 
 const MapsOverride = (toolTip, props) => {
     let pos = props.value.page.sidebar.active ? "320px" : 10;
+    let lang = props.value.locale.lang;
     let config = {
         tooltip: {
             trigger: 'item',
@@ -41,11 +42,11 @@ const MapsOverride = (toolTip, props) => {
             right: 10,
             top: 40,
             splitList: [
-                {start: 100000000, label:'More than 100 Million'},
-                {start: 1000000, end: 100000000, label: '1 - 100 Million'},
-                {start: 100000, end: 10000000, label: '100 Thousand - 1 Million'},
-                {start: 1, end: 100000, label: 'Less than 100 Thousand'},
-                {end: 0, label:'No Funding'}
+                {start: 100000000, label:lang.moreThan + ' 100 ' + lang.million},
+                {start: 1000000, end: 100000000, label: '1 - 100 ' + lang.million},
+                {start: 100000, end: 10000000, label: '100 ' + lang.thousand + ' - 1 ' + lang.million},
+                {start: 1, end: 100000, label: lang.lessThan + ' 100 ' + lang.thousand},
+                {end: 0, label:lang.noFunding}
             ],
             textStyle: {
                 fontFamily: "Assistant",
@@ -74,28 +75,28 @@ class Funding extends Component {
         this.state = {
             charts: [{
                     kind: "MAPS",
-                    title: "Funding",
+                    title: "funding",
                     subtitle: "in USD",
                     config: generateData(12, true, "80vh"),
                     data: false, // if data is false then load global
                     extra: true,
                 }, {
                     kind: "RADAR",
-                    title: "Impact",
+                    title: "impact",
                     subtitle: "",
                     config: generateData(6, true, "60vh"),
                     data: {id: 156, childs:false},
                     extra: {}
                 }, {
                     kind: "ROSEPIE",
-                    title: "Duration",
+                    title: "duration",
                     subtitle: "",
                     config: generateData(6, true, "60vh"),
                     data: {id: 221, childs:false},
                     extra: {}
                 }, {
                     kind: "BAR",
-                    title: "Source Funding",
+                    title: "sourceFunding",
                     subtitle: "",
                     config: generateData(12, true, "60vh"),
                     data: {id: 212, childs:false},
@@ -108,6 +109,7 @@ class Funding extends Component {
     }
 
     toolTip(params) {
+        let lang = this.props.value.locale.lang;
         if (params.value) {
             let filters = this.props.value.data.filters;
             let data = params.data.data.funds;
@@ -118,14 +120,14 @@ class Funding extends Component {
                 }
             });
             let values = [
-                {name: "Funds", value: sumBy(data, 'f')},
-                {name: "Contribution", value: sumBy(data, 'c')},
-                {name: "Total", value: sumBy(data, 't')}
+                {name: lang.funds, value: sumBy(data, 'f')},
+                {name: lang.contribution, value: sumBy(data, 'c')},
+                {name: lang.total, value: sumBy(data, 't')}
             ]
             let html = '<h3 class="table-title">'+ params.name +'</h3><br/>';
             html += '<table class="table table-bordered table-small">';
             html += '<thead class="thead-dark"><tr class="sm bg-dark text-white">';
-            html += '<td width="100">Country</td><td width="50" align="center">Value (USD)</td>'
+            html += '<td width="100">' + lang.country + '</td><td width="50" align="center">' + lang.value + ' ' + lang.inUSD + '</td>'
             html += '</tr></thead">';
             html += '<tbody>';
             values.forEach(x => {

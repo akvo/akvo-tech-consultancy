@@ -587,6 +587,27 @@ h1.title-page {
     text-overflow: ellipsis;
     line-height: 12px;
 }
+.dropdown-lang.dropdown button.btn-primary{
+    padding: 2.5px 5px;
+    font-size: 14px;
+    border: 1px #ddd solid !important;
+    background-color: #f1f1f5!important;
+    color: #222;
+    min-width: 120px;
+}
+
+.dropdown-lang.dropdown .dropdown-menu.show{
+    border-radius: 0 !important;
+    min-width: 120px;
+}
+.dropdown-lang.dropdown .dropdown-menu.show .dropdown-item{
+    font-size: 14px;
+    text-align: center;
+    min-width: auto!important;
+    border-top: 1px solid #ddd;
+    width: auto!important;
+    padding: 2.5px 5px 2.5px 5px;
+}
 
 .reducer.btn-group {
     margin-bottom: 5px;

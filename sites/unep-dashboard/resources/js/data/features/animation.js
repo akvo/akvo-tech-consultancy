@@ -131,74 +131,78 @@ export const Graphic = {
     }]
 };
 
-export const optionToContent = (params) => {
-    let data = params.series[0].data;
-    let charttype = params.series[0].type;
-    if (charttype === "sankey") {
-        data = params.series[0].links;
-        if (data.length > 0) {
-            data = data.map(x => {
+export const optionToContent = lang => {
+    return function(params) {
+        let data = params.series[0].data;
+        let charttype = params.series[0].type;
+        if (charttype === "sankey") {
+            data = params.series[0].links;
+            if (data.length > 0) {
+                data = data.map(x => {
+                    return {
+                        name: x.target,
+                        value: x.value
+                    }
+                });
+            }
+        }
+        if (charttype === "bar") {
+            let names = params.yAxis[0].type === "value" ? params.xAxis[0].data : params.yAxis[0].data;
+            data = data.map((x, i) => {
                 return {
-                    name: x.target,
-                    value: x.value
+                    name: names[i],
+                    value: x
                 }
             });
         }
-    }
-    if (charttype === "bar") {
-        let names = params.yAxis[0].type === "value" ? params.xAxis[0].data : params.yAxis[0].data;
-        data = data.map((x, i) => {
-            return {
-                name: names[i],
-                value: x
-            }
-        });
-    }
-    if (charttype === "radar") {
-        let names = params.radar[0].indicator;
-        data = data[0].value.map((x, i) => {
-            return {
-                name: names[i].name,
-                value: x
-            }
-        });
-    }
-    let html = '<table class="table table-bordered table-table-view">';
-    html += '<thead class="thead-dark"><tr class="sm bg-dark text-white">';
-    html += '<td width="100">Indicator</td><td width="50" align="center">Value</td>'
-    html += '</tr></thead">';
-    html += '<tbody>';
-    if (data.length > 0) {
-        data = sortBy(data, 'name')
-        data.forEach(x => {
-            let child = x.children !== undefined ? (x.children.length > 0 ? true : false) : false;
-            html += '<tr class="sm">';
-            html += '<td width="50">' + (child ? ('<strong>' + x.name + '</strong>') : x.name) + '</td>';
-            html += '<td width="50" align="right">' + (
-                child ? ('<strong>' + formatCurrency(x.value) + '</strong>') : formatCurrency(x.value)) + '</td>';
-            html += '</tr>';
-            if (child) {
-                x.children.forEach(c => {
-                    html += '<tr class="sm">';
-                    html += '<td width="50" style="padding-left:30px!important;">' + c.name + '</td>';
-                    html += '<td width="50" align="right">' + formatCurrency(c.value) + '</td>';
-                    html += '</tr>';
-                })
-            }
+        if (charttype === "radar") {
+            let names = params.radar[0].indicator;
+            data = data[0].value.map((x, i) => {
+                return {
+                    name: names[i].name,
+                    value: x
+                }
+            });
+        }
+        let html = '<table class="table table-bordered table-table-view">';
+        html += '<thead class="thead-dark"><tr class="sm bg-dark text-white">';
+        html += '<td width="100">' + lang.indicator + '</td><td width="50" align="center">' + lang.value + '</td>'
+        html += '</tr></thead">';
+        html += '<tbody>';
+        if (data.length > 0) {
+            data = sortBy(data, 'name')
+            data.forEach(x => {
+                let child = x.children !== undefined ? (x.children.length > 0 ? true : false) : false;
+                html += '<tr class="sm">';
+                html += '<td width="50">' + (child ? ('<strong>' + x.name + '</strong>') : x.name) + '</td>';
+                html += '<td width="50" align="right">' + (
+                    child ? ('<strong>' + formatCurrency(x.value) + '</strong>') : formatCurrency(x.value)) + '</td>';
+                html += '</tr>';
+                if (child) {
+                    x.children.forEach(c => {
+                        html += '<tr class="sm">';
+                        html += '<td width="50" style="padding-left:30px!important;">' + c.name + '</td>';
+                        html += '<td width="50" align="right">' + formatCurrency(c.value) + '</td>';
+                        html += '</tr>';
+                    })
+                }
 
-        });
+            });
+        }
+        html += '</tbody">';
+        html += '</table>';
+        return html;
     }
-    html += '</tbody">';
-    html += '</table>';
-    return html;
 }
 
-export const dataView = {
-    title: "Table View",
-    lang: ["Table View", "Back to Chart", "Refresh"],
-    icon: Icons.dataView,
-    buttonColor: "#009fe2",
-    readOnly: true,
-    textAreaBorderColor: "#fff",
-    optionToContent: optionToContent
+export const dataView = (lang) => {
+    return {
+        title: lang.tableView,
+        lang: [lang.tableView, lang.backChart, "Refresh"],
+        icon: Icons.dataView,
+        buttonColor: "#009fe2",
+        readOnly: true,
+        textAreaBorderColor: "#fff",
+        optionToContent: optionToContent(lang)
+    }
 }

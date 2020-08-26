@@ -14,16 +14,16 @@ const loadingState = {
         values: [{ id:1, code: "", name: "Loading", value: 0}]
 }
 
-export const loadingChart = (type) => {
+export const loadingChart = (type, props) => {
     switch (type) {
         case "MAPS":
-            return Maps("LOADING", "loading", loadingState.values);
+            return Maps("LOADING", "loading", props, loadingState.values, {});
         case "PIE":
-            return Pie("LOADING", "loading", loadingState.values);
+            return Pie("LOADING", "loading", props, loadingState.values, {});
         case "TREEMAP":
-            return TreeMap("LOADING", "loading", loadingState.values);
+            return TreeMap("LOADING", "loading", props, loadingState.values, {});
         default:
-            return Bar("LOADING", "loading", loadingState.values);
+            return Bar("LOADING", "loading", props, loadingState.values, {});
     }
 };
 

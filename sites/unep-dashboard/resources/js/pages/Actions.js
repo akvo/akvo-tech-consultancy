@@ -20,80 +20,80 @@ class Actions extends Component {
             charts: [
                 {
                     kind: "TREEMAP",
-                    title: "Type of Actions",
-                    subtitle: "Number of Reported Actions",
+                    title: "typeActions",
+                    subtitle: "numberReportedActions",
                     config: generateData(12, true, "80vh"),
                     data: {id: 5, childs:true},
                     extra: {}
                 },
                 {
                     kind: "ROSEPIE",
-                    title: "Role of Organisation",
-                    subtitle: "Number of Reported Actions",
+                    title: "roleOrganisation",
+                    subtitle: "numberReportedActions",
                     config: generateData(6, true, "80vh"),
                     data: {id: 77, childs:false},
                     extra: {}
                 },
                 {
                     kind: "PIE",
-                    title: "Evaluation of Actual Outcomes",
-                    subtitle: "Number of Reported Actions",
+                    title: "evaluationActualOutcomes",
+                    subtitle: "numberReportedActions",
                     config: generateData(6, true, "80vh"),
                     data: {id: 112, childs:false},
                     extra: {}
                 },
                 {
                     kind: "TREEMAP",
-                    title: "Responsible Actors",
-                    subtitle: "Number of Reported Actions",
+                    title: "responsibleActors",
+                    subtitle: "numberReportedActions",
                     config: generateData(12, true, "80vh"),
                     data: {id: 83, childs:true},
                     extra: {}
                 },
                 {
                     kind: "TREEMAP",
-                    title: "Reporting and Evaluation",
-                    subtitle: "Number of Reported Actions",
+                    title: "reportingEvaluation",
+                    subtitle: "numberReportedActions",
                     config: generateData(6, true, "80vh"),
                     data: {id: 100, childs:true},
                     extra: {}
                 },
                 {
                     kind: "BAR",
-                    title: "Lifecycle of Plastics",
-                    subtitle: "Number of Reported Actions",
+                    title: "lifecyclePlastics",
+                    subtitle: "numberReportedActions",
                     config: generateData(6, true, "80vh"),
                     data: {id: 139, childs:false},
                     extra: {}
                 },
                 {
                     kind: "BAR",
-                    title: "Source to Sea",
-                    subtitle: "Number of Reported Actions",
+                    title: "sourceSea",
+                    subtitle: "numberReportedActions",
                     config: generateData(12, true, "80vh"),
                     data: {id: 123, childs:false},
                     extra: {}
                 },
                 {
                     kind: "PIE",
-                    title: "Action Target",
-                    subtitle: "Number of Reported Actions",
+                    title: "actionTarget",
+                    subtitle: "numberReportedActions",
                     config: generateData(6, true, "80vh"),
                     data: {id: 150, childs:false},
                     extra: {}
                 },
                 {
                     kind: "TREEMAP",
-                    title: "Sector",
-                    subtitle: "Number of Reported Actions",
+                    title: "sector",
+                    subtitle: "numberReportedActions",
                     config: generateData(6, true, "80vh"),
                     data: {id: 192, childs:false},
                     extra: {}
                 },
                 {
                     kind: "SANKEY",
-                    title: "Pollutant Target",
-                    subtitle: "Number of Reported Actions",
+                    title: "pollutantTarget",
+                    subtitle: "numberReportedActions",
                     config: generateData(8, true, "65vh"),
                     data: {id: 166, childs:true},
                     extra: {
@@ -102,8 +102,8 @@ class Actions extends Component {
                 },
                 {
                     kind: "TABLE",
-                    title: "Impact",
-                    subtitle: "Number of Reported Actions",
+                    title: "impact",
+                    subtitle: "numberReportedActions",
                     config: generateData(4, true, "60vh"),
                     data: {id: 156, childs:false},
                     extra: {

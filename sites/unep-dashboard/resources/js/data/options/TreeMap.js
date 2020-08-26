@@ -223,17 +223,17 @@ const TreeMap = (title, subtitle, props, data, extra, reports=false) => {
             left: "right",
             top: "top",
             feature: {
-                dataView: dataView,
-                restore: {
-                    title: "revert",
-                    icon: Icons.reset,
-                },
+                dataView: dataView(props.locale.lang),
                 saveAsImage: {
                     type: "jpg",
-                    title: "Save Image",
+                    title: props.locale.lang.saveImage,
                     icon: Icons.saveAsImage,
                     backgroundColor: "#ffffff"
-                }
+                },
+                restore: {
+                    title: props.locale.lang.reset,
+                    icon: Icons.reset,
+                },
             },
             backgroundColor: "#FFF",
         },

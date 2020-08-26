@@ -69,7 +69,7 @@ class Compare extends Component {
         this.setState({expanded: [...expanded, id]});
     }
 
-    renderItemValues (x, depth) {
+    renderItemValues (x, depth, lang) {
         if (this.props.value.page.compare.init) {
             return (
                 <td key={"init-" + x.id} align="center" className="other-column">-</td>
@@ -196,7 +196,7 @@ class Compare extends Component {
         this.props.value.page.compare.items.forEach(c => {
             items.push(c.name);
             if (this.props.value.data.global) {
-                items.push(c.name + ' Multi-Country');
+                items.push(c.name + ' ' + lang.multiCountry);
             }
         });
         const data = {
@@ -241,7 +241,7 @@ class Compare extends Component {
         )
     }
 
-    renderIndicator(data, depth) {
+    renderIndicator(data, depth, lang) {
         let padding = depth === 0 ? 0 : (30*depth);
         let fontSize = depth === 0 ? 14 : 12;
         let styleBase = {paddingLeft: padding + "px",fontSize: fontSize + "px"};
@@ -257,11 +257,11 @@ class Compare extends Component {
                     <td onClick={e => this.toggleExpand(x.id)} className={className} style={styleBase}>
                         {x.childrens.length > 0 ? chevron(active, depth) : ""} {name}
                     </td>
-                    {this.renderItemValues(x, depth)}
+                    {this.renderItemValues(x, depth, lang)}
                 </tr>
             )];
             if (x.childrens.length > 0 && active) {
-                parent.push(this.renderIndicator(x.childrens, nest));
+                parent.push(this.renderIndicator(x.childrens, nest, lang));
             };
             return parent;
         });
@@ -352,7 +352,7 @@ class Compare extends Component {
         this.setState({searched:[]})
     }
 
-    renderSearch() {
+    renderSearch(lang) {
         let itemtype = this.state.selectgroup ? "countrygroups" : "countries";
         let items = this.props.value.page[itemtype].map(x => {
             return {label: x.name,value: x.name}
@@ -372,7 +372,7 @@ class Compare extends Component {
                                         <Form.Check
                                             type="switch"
                                             defaultChecked={this.state.selectgroup}
-                                            label="Region"
+                                            label={lang.region}
                                             />
                                         </Form.Group>
                                     </InputGroup.Text>
@@ -381,7 +381,7 @@ class Compare extends Component {
                                     onClick={e => this.toggleDropDown()}
                                     onChange={this.changeSearchItem}
                                     type="text"
-                                    placeholder="Country / Region" />
+                                    placeholder={lang.country + " / " + lang.region} />
                                 <InputGroup.Append>
                                     <InputGroup.Text
                                         onClick={e => this.toggleDropDown()}
@@ -412,7 +412,7 @@ class Compare extends Component {
         this.setState({autocomplete:true});
     }
 
-    renderTableHeader(autocomplete) {
+    renderTableHeader(autocomplete, lang) {
         let items = this.props.value.page.compare.items;
         if (items.length > 0) {
             items = items.map(x => {
@@ -442,17 +442,18 @@ class Compare extends Component {
                     <Card.Body className="card-compare">
                         <FontAwesomeIcon color="grey" icon={["fas", "plus-circle"]} />
                         <br/>
-                        Add New
+                        {lang.addNew}
                     </Card.Body>
                 </Card>
             </td>
-        ) : this.renderSearch();
+        ) : this.renderSearch(lang);
         items = [...items, headerAdd]
         return items;
     }
 
     render() {
         let autocomplete = this.state.autocomplete;
+        let lang = this.props.value.locale.lang;
         return (
             <Container>
                 <Row>
@@ -462,10 +463,10 @@ class Compare extends Component {
                             <thead>
                                 <tr>
                                     <td align="left" width={"30%"} className="first-column"></td>
-                                    {this.renderTableHeader(autocomplete)}
+                                    {this.renderTableHeader(autocomplete, lang)}
                                 </tr>
                             </thead>
-                            <tbody>{this.renderIndicator(this.props.value.page.filters, 0)}</tbody>
+                            <tbody>{this.renderIndicator(this.props.value.page.filters, 0, lang)}</tbody>
                         </table>
                         </div>
                     </Col>

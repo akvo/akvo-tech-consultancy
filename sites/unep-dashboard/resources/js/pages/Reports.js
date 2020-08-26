@@ -38,8 +38,8 @@ class Reports extends Component {
             charts: [
                 {
                     kind: "TREEMAP",
-                    title: "Type of Actions",
-                    subtitle: "Count of Actions",
+                    title: "typeActions",
+                    subtitle: "numberReportedActions",
                     config: generateData(12, true, "100vh"),
                     data: {id: 5, childs:false},
                     extra: {
@@ -48,8 +48,8 @@ class Reports extends Component {
                 },
                 {
                     kind: "PIE",
-                    title: "Role of Organisation",
-                    subtitle: "Count of Actions",
+                    title: "roleOrganisation",
+                    subtitle: "numberReportedActions",
                     config: generateData(6, true, "50vh"),
                     data: {id: 77, childs:false},
                     extra: {
@@ -58,8 +58,8 @@ class Reports extends Component {
                 },
                 {
                     kind: "PIE",
-                    title: "Evaluation of Actual Outcomes",
-                    subtitle: "Count of Actions",
+                    title: "evaluationActualOutcomes",
+                    subtitle: "numberReportedActions",
                     config: generateData(6, true, "50vh"),
                     data: {id: 112, childs:false},
                     extra: {
@@ -68,8 +68,8 @@ class Reports extends Component {
                 },
                 {
                     kind: "BAR",
-                    title: "Lifecycle of Plastics",
-                    subtitle: "Count of Actions",
+                    title: "lifecyclePlastics",
+                    subtitle: "numberReportedActions",
                     config: generateData(12, true, "50vh"),
                     data: {id: 139, childs:false},
                     extra: {
@@ -78,8 +78,8 @@ class Reports extends Component {
                 },
                 {
                     kind: "BAR",
-                    title: "Source to Sea",
-                    subtitle: "Count of Actions",
+                    title: "sourceSea",
+                    subtitle: "numberReportedActions",
                     config: generateData(12, true, "75vh"),
                     data: {id: 123, childs:false},
                     extra: {
@@ -88,8 +88,8 @@ class Reports extends Component {
                 },
                 {
                     kind: "SANKEY",
-                    title: "Pollutant Target",
-                    subtitle: "Count of Actions",
+                    title: "pollutantTarget",
+                    subtitle: "numberReportedActions",
                     config: generateData(12, true, "120vh"),
                     data: {id: 166, childs:true},
                     extra: {
@@ -98,16 +98,16 @@ class Reports extends Component {
                 },
                 {
                     kind: "BAR",
-                    title: "Sector",
-                    subtitle: "Count of Actions",
+                    title: "sector",
+                    subtitle: "numberReportedActions",
                     config: generateData(12, true, "95vh"),
                     data: {id: 192, childs: false},
                     extra: {}
                 },
                 {
                     kind: "PIE",
-                    title: "Action Target",
-                    subtitle: "Count of Actions",
+                    title: "actionTarget",
+                    subtitle: "numberReportedActions",
                     config: generateData(6, true, "50vh"),
                     data: {id: 150, childs:false},
                     extra: {
@@ -181,6 +181,7 @@ class Reports extends Component {
             return this.getCharts(list, index)
         });
         let data = this.getReportTable();
+        let lang = this.props.value.locale.lang;
         let columns = [{
             name: 'A',
             selector: 'icon',
@@ -200,18 +201,18 @@ class Reports extends Component {
             selector: 'uuid',
             maxWidth:'180px',
         },{
-            name: 'Report Title',
+            name: lang.reportTitle,
             sortable: true,
             selector: 'title',
             maxWidth:'940px',
         },{
-            name: 'Funds (USD)',
+            name: lang.funds + '(USD)',
             sortable: true,
             selector: 'funds',
             right: true,
             cell: row => formatCurrency(row.funds),
         },{
-            name: 'Countries',
+            name: lang.countries,
             sortable: true,
             selector: 'countries',
             maxWidth:'100px',

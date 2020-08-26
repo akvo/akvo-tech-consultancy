@@ -41,10 +41,10 @@ const Radar = (title, subtitle, props, data, extra, reports=false) => {
             left: "right",
             top: "bottom",
             feature: {
-                dataView: dataView,
+                dataView: dataView(props.locale.lang),
                 saveAsImage: {
                     type: "jpg",
-                    title: "Save Image",
+                    title: props.locale.lang.saveImage,
                     icon: Icons.saveAsImage,
                     backgroundColor: "#ffffff"
                 }

@@ -163,6 +163,13 @@ export const mapDispatchToProps = dispatch => {
                     download: download
 
                 })
+        },
+        locale: {
+            change: (lang) =>
+                dispatch({
+                    type: "LOCALE - CHANGE",
+                    lang: lang
+                })
         }
     };
 };

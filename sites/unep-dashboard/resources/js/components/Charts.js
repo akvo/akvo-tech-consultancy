@@ -10,7 +10,7 @@ class Charts extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            option: loadingChart(),
+            option: loadingChart("ANY", this.props.value),
             style: this.props.config.style,
         };
         this.clickEvent = this.clickEvent.bind(this);
@@ -55,10 +55,15 @@ class Charts extends Component {
     }
 
     render() {
+        let lang = this.props.value.locale.lang;
+        let title = lang[this.props.title];
+            title = title ? title : '';
+        let subtitle = lang[this.props.subtitle];
+            subtitle = subtitle ? subtitle : '';
         let options = generateOptions(
             this.props.kind,
-            this.props.title,
-            this.props.subtitle,
+            title,
+            subtitle,
             this.props.value,
             this.props.dataset,
             this.props.extra,

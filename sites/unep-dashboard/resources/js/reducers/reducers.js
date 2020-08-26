@@ -1,5 +1,8 @@
 import uniqBy from 'lodash/uniqBy';
 import uniq from 'lodash/uniq';
+import LocalizedStrings from 'react-localization';
+import { Locale } from  '../data/locale.js';
+
 import {
     pageState,
     getBadges,
@@ -30,6 +33,10 @@ const initialState = {
         list:[],
         download: false
     },
+    locale: {
+        active: 'en',
+        lang: Locale['en'],
+    }
 }
 
 export const states = (state = initialState, action) => {
@@ -300,6 +307,14 @@ export const states = (state = initialState, action) => {
                 reports: {
                     ...state.reports,
                     download: action.download
+                }
+            }
+        case 'LOCALE - CHANGE':
+            return {
+                ...state,
+                locale: {
+                    active: action.lang,
+                    lang: Locale[action.lang],
                 }
             }
         default:
