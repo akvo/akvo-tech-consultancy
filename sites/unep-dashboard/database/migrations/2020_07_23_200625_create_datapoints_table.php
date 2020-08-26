@@ -16,6 +16,7 @@ class CreateDataPointsTable extends Migration
         Schema::create('datapoints', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->text('uuid');
+            $table->integer('phase')->default(0);
             $table->bigInteger('funds')->default(0);
             $table->bigInteger('contribution')->default(0);
             $table->timestamps();

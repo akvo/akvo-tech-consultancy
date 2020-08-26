@@ -112,7 +112,7 @@ class Overviews extends Component {
                     kind: "TREEMAP",
                     title: "sourceSea",
                     config: generateData(6, true, "80vh"),
-                    data: {id:123, childs:false},
+                    data: {id:124, childs:false},
                     extra: {
                         ...Color
                     }
@@ -120,7 +120,7 @@ class Overviews extends Component {
                     kind: "PIE",
                     title: "pollutantTargeted",
                     config: generateData(5, false, "80vh"),
-                    data: {id:166, childs:false},
+                    data: {id:167, childs:false},
                     extra: {
                         ...Color
                     }
@@ -128,7 +128,7 @@ class Overviews extends Component {
                     kind: "BAR",
                     title: "sector",
                     config: generateData(7, false, "80vh"),
-                    data: {id:192, childs:false},
+                    data: {id:193, childs:false},
                     extra: {
                         ...Color
                     }

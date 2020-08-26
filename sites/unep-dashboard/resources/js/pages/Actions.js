@@ -63,7 +63,7 @@ class Actions extends Component {
                     title: "lifecyclePlastics",
                     subtitle: "numberReportedActions",
                     config: generateData(6, true, "80vh"),
-                    data: {id: 139, childs:false},
+                    data: {id: 140, childs:false},
                     extra: {}
                 },
                 {
@@ -71,7 +71,7 @@ class Actions extends Component {
                     title: "sourceSea",
                     subtitle: "numberReportedActions",
                     config: generateData(12, true, "80vh"),
-                    data: {id: 123, childs:false},
+                    data: {id: 124, childs:false},
                     extra: {}
                 },
                 {
@@ -79,7 +79,7 @@ class Actions extends Component {
                     title: "actionTarget",
                     subtitle: "numberReportedActions",
                     config: generateData(6, true, "80vh"),
-                    data: {id: 150, childs:false},
+                    data: {id: 151, childs:false},
                     extra: {}
                 },
                 {
@@ -87,7 +87,7 @@ class Actions extends Component {
                     title: "sector",
                     subtitle: "numberReportedActions",
                     config: generateData(6, true, "80vh"),
-                    data: {id: 192, childs:false},
+                    data: {id: 193, childs:false},
                     extra: {}
                 },
                 {
@@ -95,7 +95,7 @@ class Actions extends Component {
                     title: "pollutantTarget",
                     subtitle: "numberReportedActions",
                     config: generateData(8, true, "65vh"),
-                    data: {id: 166, childs:true},
+                    data: {id: 167, childs:true},
                     extra: {
                         tooltip: {show: false},
                     }
@@ -105,7 +105,7 @@ class Actions extends Component {
                     title: "impact",
                     subtitle: "numberReportedActions",
                     config: generateData(4, true, "60vh"),
-                    data: {id: 156, childs:false},
+                    data: {id: 157, childs:false},
                     extra: {
                         tooltip: {show: false},
                     }

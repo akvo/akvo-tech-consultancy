@@ -104,7 +104,7 @@ export const Locale = {
         loadingContent: "Memuat Konten",
         million: "Juta",
         moreThan: "Lebih dari",
-        multiCountry: "Negara",
+        multiCountry: "Antar Negara",
         multiCountryProjects: "Proyek Antar Negara",
         noData: "Tidak ada data",
         noFunding: "Tidak ada Dana",

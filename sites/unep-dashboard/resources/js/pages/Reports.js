@@ -71,7 +71,7 @@ class Reports extends Component {
                     title: "lifecyclePlastics",
                     subtitle: "numberReportedActions",
                     config: generateData(12, true, "50vh"),
-                    data: {id: 139, childs:false},
+                    data: {id: 140, childs:false},
                     extra: {
                         tooltip: {show: false},
                     }
@@ -81,7 +81,7 @@ class Reports extends Component {
                     title: "sourceSea",
                     subtitle: "numberReportedActions",
                     config: generateData(12, true, "75vh"),
-                    data: {id: 123, childs:false},
+                    data: {id: 124, childs:false},
                     extra: {
                         tooltip: {show: false},
                     }
@@ -91,7 +91,7 @@ class Reports extends Component {
                     title: "pollutantTarget",
                     subtitle: "numberReportedActions",
                     config: generateData(12, true, "120vh"),
-                    data: {id: 166, childs:true},
+                    data: {id: 167, childs:true},
                     extra: {
                         tooltip: {show: false},
                     }
@@ -101,7 +101,7 @@ class Reports extends Component {
                     title: "sector",
                     subtitle: "numberReportedActions",
                     config: generateData(12, true, "95vh"),
-                    data: {id: 192, childs: false},
+                    data: {id: 193, childs: false},
                     extra: {}
                 },
                 {
@@ -109,7 +109,7 @@ class Reports extends Component {
                     title: "actionTarget",
                     subtitle: "numberReportedActions",
                     config: generateData(6, true, "50vh"),
-                    data: {id: 150, childs:false},
+                    data: {id: 151, childs:false},
                     extra: {
                         tooltip: {show: false},
                     }

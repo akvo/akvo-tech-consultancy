@@ -85,21 +85,21 @@ class Funding extends Component {
                     title: "impact",
                     subtitle: "",
                     config: generateData(6, true, "60vh"),
-                    data: {id: 156, childs:false},
+                    data: {id: 157, childs:false},
                     extra: {}
                 }, {
                     kind: "ROSEPIE",
                     title: "duration",
                     subtitle: "",
                     config: generateData(6, true, "60vh"),
-                    data: {id: 221, childs:false},
+                    data: {id: 222, childs:false},
                     extra: {}
                 }, {
                     kind: "BAR",
                     title: "sourceFunding",
                     subtitle: "",
                     config: generateData(12, true, "60vh"),
-                    data: {id: 212, childs:false},
+                    data: {id: 213, childs:false},
                     extra: {
                         tooltip: {show: false},
                         ...Color,
