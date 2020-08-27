@@ -19,4 +19,15 @@ Route::get('all-countries', 'Api\TestController@allcountries');
 Route::get('download', function() {
     return view('download');
 });
+
 Route::post('download', 'Api\ReportController@download');
+
+/*
+ Translation Docs
+ */
+
+Route::get('/trans/values', 'Controller@values');
+Route::get('/trans/questions', 'Controller@questions');
+Route::get('/trans/countries', 'Controller@countries');
+Route::get('/trans/regions', 'Controller@regions');
+Route::get('/trans/actions', 'Controller@actions');

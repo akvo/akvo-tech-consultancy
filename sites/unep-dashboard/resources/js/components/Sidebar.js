@@ -3,7 +3,7 @@ import { redux } from 'react-redux';
 import { connect } from 'react-redux';
 import { mapStateToProps, mapDispatchToProps } from '../reducers/actions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { flatten, reorderCountry } from '../data/utils.js';
+import { flatten, reorderCountry, translateValue } from '../data/utils.js';
 import  startsWith from 'lodash/startsWith';
 import { Form, Badge, Col } from 'react-bootstrap';
 import ToolTips from './ToolTips.js';
@@ -138,7 +138,7 @@ class Sidebar extends Component {
         return this.props.data.remove.filters(id, childs);
     }
 
-    renderFilters(filters, depth){
+    renderFilters(filters, depth, locale){
         let nest = depth + 1;
         return filters.map(
             (x, i) => {
@@ -161,6 +161,7 @@ class Sidebar extends Component {
                 } else {
                     activeChilds = false;
                 }
+                let text = translateValue(x, locale);
                 return (
                 <li
                     key={x.id}
@@ -191,7 +192,7 @@ class Sidebar extends Component {
                             <div className="next-nested parent-text"
                                 hidden={this.state.depth !== depth}
                                 onClick={e => this.changeFilters(x.id, nest)}>
-                                {x.name}
+                                {text}
                                 {this.renderCount(totalActive)}
                             </div>
                             <div className="next-nested arrows"
@@ -201,7 +202,7 @@ class Sidebar extends Component {
                                     icon={["fas", "arrow-circle-right"]} />
                             </div>
                             <ul className="list-group list-group-nested">
-                                {this.renderFilters(x.childrens, nest)}
+                                {this.renderFilters(x.childrens, nest, locale)}
                             </ul>
                         </Fragment>
                     ) : (<Fragment>
@@ -216,7 +217,7 @@ class Sidebar extends Component {
                             <div
                                 className={active ? "select-nested text selected" : "select-nested text"}
                                 onClick={e => this.props.data.toggle.filters(x.id)}>
-                                {x.name}
+                                {text}
                             </div>
                         </Fragment>
                     )}
@@ -307,7 +308,7 @@ class Sidebar extends Component {
                         this.state.searched.length === 0
                             ? this.props.value.page.filters
                             : this.state.searched
-                        , 0
+                        , 0, this.props.value.locale.active
                     ) : this.renderCountries()
                   }
               </ul>

@@ -12,7 +12,7 @@ import {
 } from 'react-bootstrap';
 import Charts from "../components/Charts";
 import ToolTips from "../components/ToolTips";
-import { getAllChildsId, formatCurrency, reorderCountry } from '../data/utils.js';
+import { getAllChildsId, formatCurrency, reorderCountry, translateValue } from '../data/utils.js';
 import { generateData } from "../data/chart-utils.js";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import flatten from 'lodash/flatten';
@@ -241,7 +241,7 @@ class Compare extends Component {
         )
     }
 
-    renderIndicator(data, depth, lang) {
+    renderIndicator(data, depth, lang, locale) {
         let padding = depth === 0 ? 0 : (30*depth);
         let fontSize = depth === 0 ? 14 : 12;
         let styleBase = {paddingLeft: padding + "px",fontSize: fontSize + "px"};
@@ -249,7 +249,8 @@ class Compare extends Component {
         let nest = depth + 1;
         data = data.filter(x => !this.state.excluded.includes(x.id));
         return data.map((x, i) => {
-            let name = x.name.split('(')[0];
+            let name = translateValue(x, locale);
+                name = name.split('(')[0];
             let active = this.state.expanded.includes(x.id) || nest === 1;
             let className = x.childrens.length > 0 ? "first-column expand-row" : "first-column";
             let parent = [(
@@ -261,7 +262,7 @@ class Compare extends Component {
                 </tr>
             )];
             if (x.childrens.length > 0 && active) {
-                parent.push(this.renderIndicator(x.childrens, nest, lang));
+                parent.push(this.renderIndicator(x.childrens, nest, lang, locale));
             };
             return parent;
         });
@@ -454,6 +455,7 @@ class Compare extends Component {
     render() {
         let autocomplete = this.state.autocomplete;
         let lang = this.props.value.locale.lang;
+        let locale = this.props.value.locale.active;
         return (
             <Container>
                 <Row>
@@ -466,7 +468,7 @@ class Compare extends Component {
                                     {this.renderTableHeader(autocomplete, lang)}
                                 </tr>
                             </thead>
-                            <tbody>{this.renderIndicator(this.props.value.page.filters, 0, lang)}</tbody>
+                            <tbody>{this.renderIndicator(this.props.value.page.filters, 0, lang, locale)}</tbody>
                         </table>
                         </div>
                     </Col>

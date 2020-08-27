@@ -14,7 +14,11 @@ export const pageState= {
         parent_id: null,
         code: "Loading",
         name: "Loading",
-        childrens: []
+        childrens: [],
+        locale: [{
+            lang: 'id',
+            text: 'Loading'
+        }],
     }],
     countries: [{
         id: 1,

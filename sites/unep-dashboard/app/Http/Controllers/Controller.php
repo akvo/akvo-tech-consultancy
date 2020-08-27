@@ -15,4 +15,55 @@ class Controller extends BaseController
     {
         return view('index', $request);
     }
+
+    public function questions() {
+        $question = \App\Question::select(['id', 'name'])->get();
+        return $question->transform(function($q){
+            return [
+                'translationable_id' => $q->id,
+                'text' => $q->name,
+            ];
+        });
+    }
+
+    public function values() {
+        $value = \App\Value::select(['id', 'name'])->get();
+        return $value->transform(function($q){
+            return [
+                'translationable_id' => $q->id,
+                'text' => $q->name,
+            ];
+        });
+    }
+
+    public function countries() {
+        $country = \App\Country::select(['id', 'name'])->get();
+        return $country->transform(function($q){
+            return [
+                'translationable_id' => $q->id,
+                'text' => $q->name,
+            ];
+        });
+    }
+
+    public function regions() {
+        $regions = \App\Group::select(['id', 'name'])->get();
+        return $regions->transform(function($q){
+            return [
+                'translationable_id' => $q->id,
+                'text' => $q->name,
+            ];
+        });
+    }
+
+    public function actions() {
+        $actions = \App\Datapoint::select(['uuid', 'id'])->with('title')->get();
+        $actions = $actions->transform(function($q) {
+            return [
+                'translationable_id' => $q->title->id,
+                'text' => $q->title->value,
+            ];
+        });
+        return $actions;
+    }
 }
