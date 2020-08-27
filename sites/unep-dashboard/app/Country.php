@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Country extends Model
 {
-    protected $fillable = ['name', 'code', 'description'];
+    protected $fillable = ['name', 'code'];
     public $timestamps = false;
 
     public function groups()

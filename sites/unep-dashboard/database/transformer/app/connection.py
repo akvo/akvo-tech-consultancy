@@ -4,7 +4,8 @@ def engine_url():
     return "mysql+pymysql://{user}:{pw}@localhost/{db}".format(
             user = "root",
             pw = os.environ["PSQL_PWD"],
-            db = "unep")
+            db = "unep"
+    )
 
 def write_data(session, input_data, info, log):
     try:

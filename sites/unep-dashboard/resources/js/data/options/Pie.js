@@ -1,80 +1,155 @@
-import { Color, Easing, Legend, TextStyle, backgroundColor, Icons } from '../features/animation.js';
+import { Color, Easing, Legend, LegendReports, TextStyle, TextStyleReports, backgroundColor, Icons, dataView } from '../features/animation.js';
+import sumBy from 'lodash/sumBy';
+import {formatCurrency} from '../utils.js';
 
-const Pie = (data, title, subtitle, calc) => {
-    data = data.map((x) => {
-        return {
-            ...x,
-            group: calc
+const Pie = (title, subtitle, props, data, extra, roseType=false, reports=false) => {
+    data = !data ? [] : data;
+    let total = {name:'total', value: 0};
+    let labels = [];
+    if (data.length > 0){
+        data = data.map(x => {
+            let n = x.name.split('(')[0];
+            return {
+                ...x,
+                name: n
+            }
+        })
+        data = reports
+            ? data.filter(x => x.value !== 0)
+            : data
+        labels = data.map(x => x.name);
+        total = {
+            ...total,
+            value: sumBy(data, 'value')
         }
-    });
-    let labels = data.map(x => x.name);
+    }
+    let rose = {};
+    if (roseType) {
+        rose = {roseType: roseType}
+    }
+    if (sumBy(data,'value') === 0) {
+        return {
+            title : {
+                text: title,
+                subtext: "No Data",
+                left: 'center',
+                top: '20px',
+                ...TextStyle
+            },
+        }
+    }
+    const text_style = reports ? TextStyleReports : TextStyle;
+    const legend = reports ? LegendReports : Legend;
     let option = {
         ...Color,
         title: {
-            text: title,
-            subtext: subtitle,
-            left: 'center',
-            top: '20px',
-            ...TextStyle,
+            text: reports ? (title + " (" + subtitle + ")" ) : title,
+            subtext: reports ? "" : subtitle,
+            right: 'center',
+            top: reports ? 0 : '20px',
+            ...text_style,
         },
         tooltip: {
+            show: reports ? false : true,
             trigger: "item",
-            formatter: "{c} ({d}%)",
-            backgroundColor: "#fff",
-            ...TextStyle
+            formatter: "{b}",
+            padding:5,
+            backgroundColor: "#f2f2f2",
+            textStyle : {
+                ...text_style.textStyle,
+                fontSize:12
+            }
         },
         toolbox: {
-            show: true,
-            orient: 'horizontal',
-            left: 'right',
-            top: 'top',
+            show: reports ? false : true,
+            orient: "horizontal",
+            left: "right",
+            top: "top",
             feature: {
-                dataView: {
-                    title: 'View Data',
-                    lang: ['Data View', 'Turn Off', 'Refresh'],
-                    icon: Icons.dataView,
-                    buttonColor: '#0478a9', textAreaBorderColor: '#fff',
-
-                },
+                dataView: dataView(props.locale.lang),
                 saveAsImage: {
-                    type: 'jpg',
-                    title: 'Save Image',
+                    type: "jpg",
+                    title: props.locale.lang.saveImage,
                     icon: Icons.saveAsImage,
-                    backgroundColor: '#ffffff'
-                },
+                    backgroundColor: "#ffffff"
+                }
             },
+            backgroundColor: "#FFF",
         },
-        series: [
-            {
+        series: [{
                 name: title,
                 type: "pie",
-                radius: ["40%", "70%"],
-                avoidLabelOverlap: false,
+                right: reports ? "left" : "center",
+                radius: reports ? ["40%", "70%"] : (roseType ? ["20%","70%"] : ["40%", "90%"]),
                 label: {
                     normal: {
-                        show: false,
-                        position: "center"
+                        formatter: reports ? "{d}% ({c})" : "{d}%",
+                        show: true,
+                        position: roseType ? "outside" : "inner",
+                        padding: reports ? 10 : 5,
+                        borderRadius: 100,
+                        backgroundColor: roseType ? 'rgba(0,0,0,.5)' : 'rgba(0,0,0,.3)',
+                        textStyle: {
+                            ...text_style.textStyle,
+                            color: "#fff"
+                        }
                     },
                     emphasis: {
-                        formatter: "{b}",
+                        fontSize: 12,
+                        formatter: "{c} ({d} %)",
+                        position: "center",
                         show: true,
-                        ...TextStyle
+                        backgroundColor: "#f2f2f2",
+                        borderRadius:5,
+                        padding:10,
+                        ...text_style,
                     }
                 },
                 labelLine: {
                     normal: {
-                        show: false
+                        show: true
                     }
                 },
-                data: data
+                data: data,
+                ...rose
+            },{
+                data: [total],
+                type: "pie",
+                right: reports ? "left" : "center",
+                radius: reports ? ["0%", "30%"] : (roseType ? ["0%","20%"] : ["0%", "30%"]),
+                label: {
+                    normal: {
+                        formatter: function(params) {
+                            let values = params.data.value;
+                            if (props.page.name === "funding") {
+                                return "Total\n"+ formatCurrency(values);
+                            }
+                            return "Total\n" + values;
+                        },
+                        show: true,
+                        position: "center",
+                        textStyle: {
+                            ...text_style.textStyle,
+                            fontSize: props.page.name === "funding" ? 12 : 16,
+                            backgroundColor: props.page.name === "funding" ? "#f2f2f2" : "transparent",
+                            padding: props.page.name === "funding" ? 5 : 0,
+                            borderRadius: props.page.name === "funding" ? 5 : 0,
+                            fontWeight: 'bold',
+                            color: "#495057"
+                        }
+                    }
+                },
+                color: ["#f1f1f5"]
             }
         ],
         legend: {
-            ...Legend,
             data: labels,
+            ...legend,
         },
+        ...Color,
         ...backgroundColor,
         ...Easing,
+        ...extra
     };
     return option;
 };
