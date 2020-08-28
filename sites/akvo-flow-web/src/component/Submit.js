@@ -160,7 +160,6 @@ class Submit extends Component {
                         db.version(1).stores({ files: 'id' });
                         db.files.bulkGet(fileIds)
                             .then((result) => {
-
                                 result.forEach((f) => {
                                     const mimeType = f.blob.split(',')[0].split(':')[1].split(';')[0];
                                     uppy.addFile({
@@ -171,9 +170,7 @@ class Submit extends Component {
                                         isRemote: false
                                     });
                                 });
-
                                 let zipFileName;
-
                                 uppy.getFiles().forEach((f) => {
                                     f.postUrl = 'https://' + this.props.value.instanceId + '.s3.amazonaws.com';
                                     if (f.type.indexOf('image/') !== -1) {
@@ -183,25 +180,24 @@ class Submit extends Component {
                                         f.policy = res.data.policy.zip;
                                     }
                                 });
-
                                 uppy.upload().then((result) => {
-
                                     console.info('Successful uploads:', result.successful)
                                     if (result.failed.length > 0) {
                                         console.error('Errors:')
                                         result.failed.forEach((file) => {
+                                            PopupError("Something went wrong");
                                             console.error(file.error)
+                                            this.setState({ '_showSpinner': false })
                                         })
-                                    }
-
-                                    axios.get('https://' + this.props.value.instanceName + '.akvoflow.org/processor', {
-                                        params: {
-                                            action: 'submit',
-                                            formID: formInstance.formId,
-                                            fileName: zipFileName,
-                                            devId: formInstance.devId
-                                        }
-                                    })
+                                    } else {
+                                        axios.get('https://' + this.props.value.instanceName + '.akvoflow.org/processor', {
+                                            params: {
+                                                action: 'submit',
+                                                formID: formInstance.formId,
+                                                fileName: zipFileName,
+                                                devId: formInstance.devId
+                                            }
+                                        })
                                         .then(res => {
                                             PopupSuccess("New datapoint is sent! clearing form...");
                                             this.setState({ '_showSpinner': false })
@@ -224,6 +220,9 @@ class Submit extends Component {
                                             PopupError("Something went wrong");
                                             this.setState({ '_showSpinner': false })
                                         })
+
+                                    }
+
                                 });
 
                             })
