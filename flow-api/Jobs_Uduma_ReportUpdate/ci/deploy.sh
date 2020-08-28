@@ -7,8 +7,8 @@ function log {
 }
 
 ## ABORT DEPLOY
-#echo "ABORTING UDUMA JOBS MASTER DEPLOYMENT"
-#exit 0
+echo "ABORTING UDUMA JOBS MASTER DEPLOYMENT"
+exit 0
 ## END ABORT DEPLOY
 
 export PROJECT_NAME=akvo-lumen
@@ -48,8 +48,8 @@ log Pushing images
 gcloud auth configure-docker
 docker push eu.gcr.io/${PROJECT_NAME}/jobs-uduma-report
 
-#sed -e "s/\${TRAVIS_COMMIT}/$TRAVIS_COMMIT/" ci/k8s/cronjob.yaml.template > cronjob.yaml.donotcommit
-sed -e "s/\${TRAVIS_COMMIT}/$TRAVIS_COMMIT/" ci/k8s/job.yaml.template > job.yaml.donotcommit
+sed -e "s/\${TRAVIS_COMMIT}/$TRAVIS_COMMIT/" ci/k8s/cronjob.yaml.template > cronjob.yaml.donotcommit
+#sed -e "s/\${TRAVIS_COMMIT}/$TRAVIS_COMMIT/" ci/k8s/job.yaml.template > job.yaml.donotcommit
 
-#kubectl apply -f cronjob.yaml.donotcommit
-kubectl apply -f job.yaml.donotcommit
+kubectl apply -f cronjob.yaml.donotcommit
+#kubectl apply -f job.yaml.donotcommit

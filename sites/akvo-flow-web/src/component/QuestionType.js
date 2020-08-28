@@ -89,12 +89,10 @@ class QuestionType extends Component {
                 that.setState({ value: fileId })
                 that.handleGlobal(id, fileId)
                 that.setState({blob:reader.result});
-                /*
                 if (!acceptedformats.includes(ext)) {
                     alert("invalid formats");
                     this.handleFileUndo(event);
                 }
-                */
                 return;
             })
             .catch((e) => {
