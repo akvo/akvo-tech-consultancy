@@ -64,7 +64,7 @@ print('RECORDING SURVEY: ' + checktime(start_time))
 formInstanceUrls = []
 for url in surveys:
     data = api.get_data(url['surveyUrl'], token)
-    print('GETTING {}: {}'.format(data['name'],checktime(start_time)))
+    #print('GETTING {}: {}'.format(data['name'],checktime(start_time)))
     if data['registrationFormId'] == "":
         data.update({'registrationFormId':0})
     input_data = Surveys(data)
