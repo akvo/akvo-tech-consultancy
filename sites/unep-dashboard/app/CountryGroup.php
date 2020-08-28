@@ -8,7 +8,7 @@ class CountryGroup extends Model
 {
     public $timestamps = false;
     protected $fillable = ['group_id', 'country_id'];
-    protected $hidden = ['group_id', 'country_id'];
+    protected $hidden = ['country_id'];
 
     public function country()
     {
