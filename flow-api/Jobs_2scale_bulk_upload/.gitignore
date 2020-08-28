@@ -1,0 +1,5 @@
+devicezip
+sources
+surveys
+*.csv
+.ipynb_checkpoints
