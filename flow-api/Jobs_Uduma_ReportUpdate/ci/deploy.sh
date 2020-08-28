@@ -7,8 +7,8 @@ function log {
 }
 
 ## ABORT DEPLOY
-echo "ABORTING UDUMA JOBS MASTER DEPLOYMENT"
-exit 0
+#echo "ABORTING UDUMA JOBS MASTER DEPLOYMENT"
+#exit 0
 ## END ABORT DEPLOY
 
 export PROJECT_NAME=akvo-lumen
