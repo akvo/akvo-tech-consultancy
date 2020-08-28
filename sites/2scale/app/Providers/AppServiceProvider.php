@@ -5,6 +5,8 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Schema\Builder;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Blade;
+use Carbon\Carbon;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -34,5 +36,10 @@ class AppServiceProvider extends ServiceProvider
     {
         // Update defaultStringLength
         Builder::defaultStringLength(191);
+
+        Blade::directive('date', function ($val) {
+            $date = date('d m Y', strtotime($val));
+            return "<?php echo $date; ?>";
+        });
     }
 }
