@@ -7,3 +7,4 @@ docker run \
        --volume "$(pwd):/home/tcakvo/public_html/tap-lumen-pages" \
        --workdir /home/tcakvo/public_html/tap-lumen-pages\
        --entrypoint /bin/sh \
+       node:8-alpine -c 'npm i'
