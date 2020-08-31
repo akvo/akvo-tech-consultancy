@@ -1,0 +1,71 @@
+<html>
+    <head>
+        <title>The Adventure Project - Data Hub</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        
+        <script type="text/javascript" src="./js/jquery-3.1.1.min.js"></script>
+        <script type="text/javascript" src="./js/jquery-migrate-3.0.0.min.js"></script>                
+
+        <link rel="stylesheet" href="./css/bootstrap.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Merriweather:400,400i,700" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"> 
+        <link rel="stylesheet" href="./css/style.css">
+        <link rel="stylesheet" href="./css/normalize.css"> 
+    </head>
+    
+    <body>
+        <div class="container">
+            <header>
+                <div class="col-sm-12">
+                    <h2 class="text-center">The Adventure Project (TAP) Data Hub</h2>
+                </div>
+	            <!-- <div class="col-sm-12" id="lumen">
+	                <h4 class="text-center text-muted">Click to select a dashboard...</h4>
+	            </div> -->
+				<div class="col-sm-12" id="nav">
+                    <!-- Menu Items -->
+                    <ul>
+                        <li><a id="demo">General Overview Dashboard</a></li>
+                        <li><a id="water">Water Dashboard</a></li>
+                        <li><a id="safety">Hunger and Environment Dashboard</a></li>
+                    </ul>
+                </div>
+                <div class="clearfix"></div>
+            </header>
+            <!-- Dashboard Loading Area-->
+            <div class="col-sm-12" id="lumen">
+                <h4 class="text-center text-muted">select a dashboard from the above menu</h4>
+            </div>
+        </div>
+    </body>
+    <script>
+		
+        //General Overview Dashboard
+        $('#demo').click(function(){
+            $('#lumen').empty();//clear content in the div
+            $('a').removeClass('active');//reset the color of all menu items
+            $('#lumen').append('<iframe width="100%" height="2400px" scrolling="no" src="https://theadventureproject.akvolumen.org/s/7hR4vooHg0E" frameborder="0" allow="encrypted-media"></iframe>');//load dashboard by embed code
+            $("#demo").addClass("active");//change color of current menu item
+        });
+		
+        //The Water Dashboard
+        $('#water').click(function(){
+            $('#lumen').empty();
+            $('a').removeClass('active');
+            $('#lumen').append('<iframe width="100%" height="2900px" scrolling="no" src="https://theadventureproject.akvolumen.org/s/V_oHvJTJAoc" frameborder="0" allow="encrypted-media"></iframe>');
+            $("#water").addClass("active");
+        });
+		
+        // Hunger and Environment Dashboard
+        $('#safety').click(function(){
+            $('#lumen').empty();
+            $('a').removeClass('active');
+            $('#lumen').append('<iframe width="100%" height="3500px" scrolling="no" src="https://theadventureproject.akvolumen.org/s/GRIoRwFQXk8" frameborder="0" allow="encrypted-media"></iframe>');
+            $("#safety").addClass("active");
+        });
+		
+
+    </script>
+    
+</html>
