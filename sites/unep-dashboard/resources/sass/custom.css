@@ -994,3 +994,19 @@ button.btn.btn-sm.btn-primary.btn-download svg{
     border-left: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
 }
+
+/*Supports*/
+.card-supports.card{
+    border-radius: 0px;
+    margin-top:20px;
+}
+.card-supports.card .card-header{
+    background: #f1f1f5;
+    color: #1b1b1b;
+    border-radius: 0px!important;
+    border: 1px solid #FFF;
+    font-weight: 600;
+}
+.card-supports.card .card-body{
+    padding: .75rem 1.25rem;
+}

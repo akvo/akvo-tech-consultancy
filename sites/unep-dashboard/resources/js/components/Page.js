@@ -25,6 +25,7 @@ import Actions from '../pages/Actions';
 import Funding from '../pages/Funding';
 import Compare from '../pages/Compare';
 import Reports from '../pages/Reports';
+import Support from '../pages/Support';
 import { forEach } from 'lodash';
 
 const API_WEB = process.env.MIX_PUBLIC_URL + "/";
@@ -117,6 +118,8 @@ class Page extends Component {
                 return <Compare/>
             case "report":
                 return <Reports/>
+            case "support":
+                return <Support/>
             default:
                 return ""
         }
@@ -176,6 +179,8 @@ class Page extends Component {
         let buttons = [];
         switch(page){
             case "compare":
+                return "";
+            case "support":
                 return "";
             default:
                 buttons = ["filters","countries"];
@@ -252,6 +257,8 @@ class Page extends Component {
                     </Fragment>
                 )
             case "compare":
+                return "";
+            case "support":
                 return "";
             default:
                 let fp = this.props.value.data.filteredpoints;

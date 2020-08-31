@@ -111,6 +111,7 @@ class Navigation extends Component {
                     <Nav.Link eventKey="report" active={"report" === page}>{lang.report}</Nav.Link>
                     <Nav.Link eventKey="compare" active={"compare" === page}>{lang.compare}</Nav.Link>
                     {/*
+                    <Nav.Link eventKey="support" active={"support" === page}>Support</Nav.Link>
                     <Nav.Link eventKey="stakeholder" active={"stakeholder" === page}>Stakeholder</Nav.Link>
                     <Nav.Link eventKey="evaluation" active={"evaluation" === page}>Evaluation</Nav.Link>
                     <Nav.Link eventKey="drivers" active={"drivers" === page}>Drivers and Barriers</Nav.Link>
