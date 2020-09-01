@@ -85,6 +85,14 @@ export const states = (state = initialState, action) => {
                     filteredpoints: action.datapoints.map(x => x.datapoint_id)
                 }
             }
+        case 'PAGE - SHOW TOUR':
+            return {
+                ...state,
+                page: {
+                    ...state.page,
+                    tour: state.page.tour ? false : true
+                }
+            }
         case 'PAGE - CHANGE PAGE':
             keepfilter = state.page.keepfilter;
             if (!keepfilter) {

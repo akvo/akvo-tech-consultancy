@@ -283,6 +283,7 @@ class Sidebar extends Component {
                         onChange={this.searchItems}
                         controlId="formGroupSearch">
                         <Form.Control
+                            data-tour={"sidebar-search"}
                             type="input"
                             disabled={this.state.depth > 0}
                             placeholder={lang.search} />

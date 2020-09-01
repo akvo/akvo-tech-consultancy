@@ -20,6 +20,10 @@ export const mapDispatchToProps = dispatch => {
                     data: data,
                     datapoints: datapoints
                 }),
+            tour: () =>
+                dispatch({
+                    type: "PAGE - SHOW TOUR",
+                }),
             change: page =>
                 dispatch({
                     type: "PAGE - CHANGE PAGE",

@@ -45,6 +45,7 @@ export const pageState= {
     keepfilter: true,
     fundcontrib: false,
     badges: [],
+    tour: false,
     compare: {
         init: true,
         items: [],

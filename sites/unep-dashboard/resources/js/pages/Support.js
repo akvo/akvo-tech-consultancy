@@ -38,8 +38,8 @@ class Support extends Component {
     }
 
     updateValidator() {
-        let validatorX = Math.floor(Math.random() * 10);
-        let validatorY = Math.floor(Math.random() * 10);
+        let validatorX = Math.floor(Math.random() * 9) + 1;
+        let validatorY = Math.floor(Math.random() * 9) + 1;
         var canv = document.createElement("canvas");
         canv.width = 100;
         canv.height = 50;
