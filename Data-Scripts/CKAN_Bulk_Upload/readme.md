@@ -68,23 +68,7 @@ data = pd.read_csv('data-ghana.csv')
 data[0:3]
 ```
 
-
-
-
 <div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -120,8 +104,6 @@ data[0:3]
   </tbody>
 </table>
 </div>
-
-
 
 
 ```python
