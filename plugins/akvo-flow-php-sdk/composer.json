@@ -1,0 +1,27 @@
+{
+    "name": "akvo/akvo-flow-php-sdk",
+    "description": "A PHP Artisan service provider for the Akvo Flow",
+    "require": {
+        "guzzlehttp/guzzle": "^6.3"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Deden Bangkit",
+            "email": "deden@akvo.org"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Akvo\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Akvo\\Commands\\AkvoFlowServiceProvider"
+            ]
+        }
+    }
+}
