@@ -4,15 +4,10 @@ namespace Akvo\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class QuestionGroup extends Model
+class Variable extends Model
 {
     protected $hidden = ['created_at', 'updated_at'];
-    protected $fillable = ['id', 'form_id', 'repeat', 'name'];
-
-    public function form()
-    {
-        return $this->belongsTo('Akvo\Models\Form');
-    }
+    protected $fillable = ['name'];
 
     public function questions()
     {

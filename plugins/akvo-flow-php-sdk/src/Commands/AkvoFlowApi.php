@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Akvo\Api\Auth;
 use Akvo\Api\FlowApi;
 use Akvo\Models\Survey;
+use Akvo\Seeds\FormSeeder;
 
 class AkvoFlowApi extends Command
 {
@@ -87,7 +88,6 @@ class AkvoFlowApi extends Command
         if (Str::contains($endpoint, '/folders?parent_id=')) {
             $endpoint = Str::replaceLast('folders?parent_id=','surveys?folder_id=', $endpoint);
             $surveys = $api->fetch($endpoint);
-            var_dump($surveys);
             if (isset($surveys['surveys'])){
                 foreach($surveys['surveys'] as $survey) {
                     $options->push('Surveys -> '.$survey['name'].' | '.$survey['id']);
@@ -95,6 +95,7 @@ class AkvoFlowApi extends Command
             }
         }
         if (count($options) > 0) {
+            $options = $options->sort()->values();
             $selection = $this->choice("Please select folder or survey", $options->toArray());
             $id = Str::afterLast($selection, '| ');
             $type= Str::beforeLast($selection, ' ->');
@@ -113,12 +114,14 @@ class AkvoFlowApi extends Command
                     'registration_id' => (int) $data['registrationFormId']
                 ]);
                 foreach($data['forms'] as $form) {
-                    $forms[] = new \Akvo\Models\Form([
+                    $input = \Akvo\Models\Form::create([
                         'id' => (int) $form['id'],
+                        'survey_id' => (int) $data['id'],
                         'name' => $form['name']
                     ]);
                 }
-                $survey->forms()->saveMany($forms);
+                $formSeeder = new FormSeeder($api);
+                $formSeeder->seed();
                 $continue = $this->confirm("Config added, do you want to continue?");
                 if ($continue) {
                     return $this->handle();

@@ -55,6 +55,7 @@ class AkvoFlowDatabase extends Migration
             $table->string('code')->nullable();
             $table->text('name');
             $table->unsignedTinyInteger('level')->nullable();
+            $table->text('level_name')->nullable();
             $table->timestamps();
 
             $table->foreign('parent_id')
@@ -68,34 +69,40 @@ class AkvoFlowDatabase extends Migration
          * create question groups table
          */
         Schema::create('question_groups', function (Blueprint $table) {
-            $table->unsignedBigInteger('id');
+            $table->id();
             $table->unsignedBigInteger('form_id');
             $table->text('name');
             $table->boolean('repeat');
             $table->timestamps();
 
-            $table->primary('id');
             $table->foreign('form_id')
                   ->references('id')
                   ->on('forms')
                   ->onDelete('cascade');
         });
-
         $this->info("4. Question Groups table created");
 
+        Schema::create('variables', function (Blueprint $table) {
+            $table->id();
+            $table->text('name');
+            $table->timestamps();
+
+        });
+        $this->info("5. Variable Table Created");
         /**
          * create questions table
          */
         $type = [ 'geo', 'free', 'numeric', 'option', 'cascade', 'photo', 'date'];
         Schema::create('questions', function (Blueprint $table) use ($type) {
             $table->unsignedBigInteger('id');
-            $table->unsignedBigInteger('form_id');
-            $table->unsignedBigInteger('question_group_id');
+            $table->foreignId('form_id');
+            $table->foreignId('question_group_id');
             $table->unsignedBigInteger('dependency')->nullable();
             $table->text('dependency_answer')->nullable();
             $table->foreignId('cascade_id')->nullable();
             $table->text('name');
             $table->enum('type', $type);
+            $table->foreignId('variable_id')->nullable();
             $table->timestamps();
 
             $table->primary('id');
@@ -109,6 +116,12 @@ class AkvoFlowDatabase extends Migration
                   ->on('question_groups')
                   ->onDelete('cascade');
 
+            $table->foreign('variable_id')
+                  ->references('id')
+                  ->on('variables')
+                  ->onDelete('cascade');
+
+
             $table->foreign('cascade_id')
                   ->references('id')
                   ->on('cascades')
@@ -119,7 +132,7 @@ class AkvoFlowDatabase extends Migration
                   ->on('questions')
                   ->onDelete('cascade');
         });
-        $this->info("5. Questions Table Created");
+        $this->info("6. Questions Table Created");
 
         /**
          * create options table
@@ -137,7 +150,7 @@ class AkvoFlowDatabase extends Migration
                   ->on('questions')
                   ->onDelete('cascade');
         });
-        $this->info("6. Options Table Created");
+        $this->info("7. Options Table Created");
 
         /**
          * create datapoints table
@@ -155,7 +168,7 @@ class AkvoFlowDatabase extends Migration
                   ->on('surveys')
                   ->onDelete('cascade');
         });
-        $this->info("7. Datapoints Table Created");
+        $this->info("8. Datapoints Table Created");
 
 
         /**
@@ -183,7 +196,7 @@ class AkvoFlowDatabase extends Migration
                   ->on('data_points')
                   ->onDelete('cascade');
         });
-        $this->info("8. Form Instances Table Created");
+        $this->info("9. Form Instances Table Created");
 
         /**
          * create answers table
@@ -207,7 +220,7 @@ class AkvoFlowDatabase extends Migration
                   ->on('form_instances')
                   ->onDelete('cascade');
         });
-        $this->info("9. Answers Table Created");
+        $this->info("10. Answers Table Created");
 
         /**
          * create answer options
@@ -228,7 +241,7 @@ class AkvoFlowDatabase extends Migration
                   ->on('options')
                   ->onDelete('cascade');
         });
-        $this->info("10. Answer Options Table Created");
+        $this->info("11. Answer Options Table Created");
 
 
         /**
@@ -250,7 +263,7 @@ class AkvoFlowDatabase extends Migration
                   ->on('cascades')
                   ->onDelete('cascade');
         });
-        $this->info("10. Answer Cascades Table Created");
+        $this->info("12. Answer Cascades Table Created");
 
         /**
          * create answer cascades
@@ -266,7 +279,7 @@ class AkvoFlowDatabase extends Migration
                   ->on('surveys')
                   ->onDelete('cascade');
         });
-        $this->info("10. Syncs Table Created");
+        $this->info("13. Syncs Table Created");
     }
 
     /**
@@ -286,6 +299,7 @@ class AkvoFlowDatabase extends Migration
         Schema::dropIfExists('data_points');
         Schema::dropIfExists('options');
         Schema::dropIfExists('questions');
+        Schema::dropIfExists('variables');
         Schema::dropIfExists('cascades');
         Schema::dropIfExists('question_groups');
         Schema::dropIfExists('forms');

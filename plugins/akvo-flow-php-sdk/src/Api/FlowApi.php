@@ -10,7 +10,9 @@ class FlowApi extends Controller
     public function __construct($auth)
     {
         $this->headers = $auth->getHeaders();
-        $this->baseurl = env("AKVOFLOW_API_URL") . '/' . env("AKVOFLOW_INSTANCE");
+        $this->dataurl = env("AKVOFLOW_API_URL") . '/' . env("AKVOFLOW_INSTANCE");
+        $this->formurl = env("AKVOFLOW_FORM_URL") . '/' . env("AKVOFLOW_INSTANCE") . '/';
+        $this->cascade = env("AKVOFLOW_FORM_URL") . '/cascade/' . env("AKVOFLOW_INSTANCE") . '/';
     }
 
     public function get($endpoint, $surveyId = false, $formId = false, $dataPoint = false)
@@ -29,22 +31,24 @@ class FlowApi extends Controller
             $path = '?survey_id=' . $surveyId;
         }
 
-        $url = $this->baseurl . $path;
+        $url = $this->dataurl . $path;
         return $this->fetch($url);
     }
 
     public function sync($endpoint)
     {
 
-        $url = $this->baseurl.$endpoint;
+        $url = $this->dataurl . $endpoint;
         return $this->fetch($url);
     }
 
-    public function fetch($url)
+    public function fetch($url, $type='data')
     {
         $client = new \GuzzleHttp\Client();
         try {
-            $response = $client->get($url, $this->headers);
+            $response = $type === 'data'
+                ? $client->get($url, $this->headers)
+                : $client->get($url);
             if ($response->getStatusCode() === 200) {
                 return json_decode($response->getBody(), true);
             }

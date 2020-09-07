@@ -11,7 +11,7 @@ class Question extends Model
     public $incrementing = false;
 
     protected $hidden = ['created_at', 'updated_at'];
-    protected $fillable = ['id', 'form_id', 'question_group_id', 'cascade_id', 'name', 'type', 'dependency','dependency_answer'];
+    protected $fillable = ['id', 'form_id', 'question_group_id', 'cascade_id', 'name', 'type', 'dependency','dependency_answer','variable_id'];
     protected $append = ['domains'];
 
     public function getDomainsAttribute()
@@ -51,6 +51,11 @@ class Question extends Model
         return $this->belongsTo('Akvo\Models\Cascade');
     }
 
+    public function variables()
+    {
+        return $this->belongsTo('Akvo\Models\Variable');
+    }
+
     public function dependencyChilds()
     {
         return $this->hasMany('Akvo\Models\Question', 'dependency', 'id');
@@ -60,4 +65,5 @@ class Question extends Model
     {
         return $this->belongsTo('Akvo\Models\Question', 'id', 'dependency');
     }
+
 }
