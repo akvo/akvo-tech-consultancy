@@ -19,9 +19,7 @@
     },
     "extra": {
         "laravel": {
-            "providers": [
-                "Akvo\\Commands\\AkvoFlowServiceProvider"
-            ]
+            "providers": ["Akvo\\Commands\\AkvoFlowServiceProvider"]
         }
     }
 }

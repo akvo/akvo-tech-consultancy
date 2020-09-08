@@ -51,7 +51,7 @@ class Question extends Model
         return $this->belongsTo('Akvo\Models\Cascade');
     }
 
-    public function variables()
+    public function variable()
     {
         return $this->belongsTo('Akvo\Models\Variable');
     }

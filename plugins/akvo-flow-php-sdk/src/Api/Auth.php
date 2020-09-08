@@ -13,7 +13,9 @@ class Auth extends Controller
         if ($token) {
             $this->token = Cache::get('token');
         }
-        $this->token = self::getToken();
+        if (!$token) {
+            $this->token = self::getToken();
+        }
     }
 
     public function getHeaders()

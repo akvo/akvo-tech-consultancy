@@ -18,10 +18,10 @@ class AkvoFlowServiceProvider extends ServiceProvider
         });
         $this->commands('command.akvo.akvo-flow-php-sdk.migrations');
 
-        $this->app->singleton('command.akvo.akvo-flow-php-sdk.api', function($app){
-            return $app['Akvo\Commands\AkvoFlowApi'];
+        $this->app->singleton('command.akvo.akvo-flow-php-sdk.seed', function($app){
+            return $app['Akvo\Commands\AkvoFlowSeed'];
         });
-        $this->commands('command.akvo.akvo-flow-php-sdk.api');
+        $this->commands('command.akvo.akvo-flow-php-sdk.seed');
     }
 
     /**

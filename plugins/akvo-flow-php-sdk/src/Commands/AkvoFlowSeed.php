@@ -4,21 +4,23 @@ namespace Akvo\Commands;
 
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Akvo\Api\Auth;
 use Akvo\Api\FlowApi;
 use Akvo\Models\Survey;
 use Akvo\Seeds\FormSeeder;
+use Akvo\Seeds\DataPointSeeder;
 
-class AkvoFlowApi extends Command
+class AkvoFlowSeed extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'akvo:api {--instance="Akvo Flow Instance (e.g development)"}';
+    protected $signature = 'akvo:seed {--instance="Akvo Flow Instance (e.g development)"}';
 
     /**
      * The console command description.
@@ -48,6 +50,7 @@ class AkvoFlowApi extends Command
             'AKVOFLOW_AUTH_URL',
             'AKVOFLOW_CLIENT_ID',
             'AKVOFLOW_API_URL',
+            'AKVOFLOW_FORM_URL',
             'AKVOFLOW_INSTANCE',
             'AKVOFLOW_PASSWORD',
             'AKVOFLOW_USERNAME',
@@ -108,13 +111,13 @@ class AkvoFlowApi extends Command
             if ($type === "Surveys") {
                 $endpoint .= '/surveys/'.$id;
                 $data = $api->fetch($endpoint);
-                $survey = \Akvo\Models\Survey::create([
+                $survey = Survey::updateOrCreate([
                     'id' => (int) $data['id'],
                     'name' => $data['name'],
                     'registration_id' => (int) $data['registrationFormId']
                 ]);
                 foreach($data['forms'] as $form) {
-                    $input = \Akvo\Models\Form::create([
+                    $input = \Akvo\Models\Form::updateOrCreate([
                         'id' => (int) $form['id'],
                         'survey_id' => (int) $data['id'],
                         'name' => $form['name']
@@ -122,6 +125,8 @@ class AkvoFlowApi extends Command
                 }
                 $formSeeder = new FormSeeder($api);
                 $formSeeder->seed();
+                $dataPointSeeder = new DataPointSeeder($api, $id);
+                $dataPointSeeder->seed($data);
                 $continue = $this->confirm("Config added, do you want to continue?");
                 if ($continue) {
                     return $this->handle();

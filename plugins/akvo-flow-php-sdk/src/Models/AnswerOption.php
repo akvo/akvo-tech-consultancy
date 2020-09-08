@@ -13,4 +13,9 @@ class AnswerOption extends Model
     {
         return $this->belongsTo('Akvo\Models\Answer');
     }
+
+    public function option()
+    {
+        return $this->hasOne('Akvo\Models\Option','id','option_id');
+    }
 }

@@ -36,7 +36,7 @@ class FormSeeder
             $questions = isset($form['questionGroup']['question']['text'])
                 ? [$form['questionGroup']['question']]
                 : $form['questionGroup']['question'];
-            $questionGroup = QuestionGroup::create([
+            $questionGroup = QuestionGroup::updateOrCreate([
                 'form_id' => $formId,
                 'name' => $form['questionGroup']['heading'],
                 'repeat' => $repeat
@@ -50,7 +50,7 @@ class FormSeeder
                 $repeat = isset($questionGroup['repeatable']) 
                     ? $questionGroup['repeatable']
                     : false;
-                $questionGroup = QuestionGroup::create([
+                $questionGroup = QuestionGroup::updateOrCreate([
                     'form_id' => $formId,
                     'name' => $questionGroup['heading'],
                     'repeat' => $repeat
@@ -73,12 +73,11 @@ class FormSeeder
             $cascadeId = null;
             if ($type === 'cascade') {
                 $cascade = Cascade::where('name', $question['cascadeResource'])->first();
-                var_dump($cascade);
                 if ($cascade) {
                     $cascadeId = $cascade->id;
                 }
                 if (!$cascade) {
-                    $cascade = Cascade::create([
+                    $cascade = Cascade::updateOrCreate([
                         'parent_id' => null,
                         'code' => null,
                         'name' => $question['cascadeResource'],
@@ -100,16 +99,12 @@ class FormSeeder
             }
             $variableId = null;
             if (isset($question['variableName'])) {
-                $variable = Variable::where('name', $question['variableName'])->first();
-                if ($variable) {
-                    $variableId = $variable->id;
-                } else {
-                    $variableId = Variable::create(['name' => $question['variableName']])->id;
-                }
+                $variable = Variable::updateOrCreate(['name' => $question['variableName']]);
+                $variableId = $variable->id;
             }
             $dependency = isset($question['dependency']) ? (int) $question['dependency']['question'] : null;
             $dependency_answer = isset($question['dependency']) ? (string) $question['dependency']['answer-value'] : null;
-            $question = Question::create([
+            $question = Question::updateOrCreate([
                 'id' => (int) $question['id'],
                 'form_id' => $questionGroup->form_id,
                 'question_group_id' => $questionGroup->id,
@@ -122,7 +117,7 @@ class FormSeeder
             ]);
             if ($options) {
                 if (isset($options['text'])) {
-                    Option::create([
+                    Option::updateOrCreate([
                         'question_id' => $question->id,
                         'name' => $options['value'],
                         'code' => isset($options['code']) ? $options['code'] : null,
@@ -130,7 +125,7 @@ class FormSeeder
                     ]);
                 } else {
                     foreach($options as $option) {
-                        Option::create([
+                        Option::updateOrCreate([
                             'question_id' => $question->id,
                             'name' => $option['value'],
                             'code' => isset($option['code']) ? $option['code'] : null,
@@ -139,7 +134,7 @@ class FormSeeder
                     }
                 }
                 if ($allowOtherOption) {
-                    Option::create([
+                    Option::updateOrCreate([
                         'question_id' => $question->id,
                         'name' => 'Other',
                         'code' => null,
@@ -159,7 +154,7 @@ class FormSeeder
                 $code = Str::of($cascade['code'])->ltrim();
                 $name = Str::of($cascade['name'])->ltrim();
                 $pathId = $cascade['id'];
-                $cascadeId = Cascade::create([
+                $cascadeId = Cascade::updateOrCreate([
                     'parent_id' => $parentId,
                     'code' => Str::lower($code),
                     'name' => Str::lower($name),

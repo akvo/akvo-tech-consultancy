@@ -13,4 +13,13 @@ class Variable extends Model
     {
         return $this->hasMany('Akvo\Models\Question');
     }
+
+    public function answers()
+    {
+        return $this->hasManyTrough(
+            'Akvo\Models\Question',
+            'Akvo\Models\Answer'
+        );
+    }
+
 }

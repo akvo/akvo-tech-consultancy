@@ -19,13 +19,13 @@ class Answer extends Model
         return $this->belongsTo('Akvo\Models\Question');
     }
 
-    public function option()
+    public function options()
     {
-        return $this->hasOne('Akvo\Models\Option', 'answer_options');
+        return $this->hasOne('Akvo\Models\AnswerOption');
     }
 
     public function cascade()
     {
-        return $this->hasOne('Akvo\Models\Cascade', 'answer_cascades');
+        return $this->hasOne('Akvo\Models\AnswerCascade');
     }
 }

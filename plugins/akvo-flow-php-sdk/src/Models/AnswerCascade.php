@@ -13,4 +13,9 @@ class AnswerCascade extends Model
     {
         return $this->belongsTo('Akvo\Models\Answer');
     }
+
+    public function cascade()
+    {
+        return $this->belongsTo('Akvo\Models\Cascade');
+    }
 }
