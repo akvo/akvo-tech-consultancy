@@ -161,10 +161,11 @@ $("#generate-report-link").on('click', () => {
         } while(image < canvas.length);
     
         setTimeout(() => {
-            var url = document.querySelector('meta[name="app-url"]').content;
-            axios.post(url+'/api/rsr-report/', formData, {'Content-Type':'multipart/form-data', 'X-CSRF-TOKEN': token})
+            var appUrl = document.querySelector('meta[name="app-url"]').content;
+            var api = appUrl+'/api/rsr-report/';
+            console.log(api);
+            axios.post(api, formData, {'Content-Type':'multipart/form-data', 'X-CSRF-TOKEN': token})
             .then(res => {
-                // console.log(res);
                 $("#loader-spinner").remove();
                 $("#myModalAuthTitle").html("Report ready to download");
                 $("#myModalAuthBody").html('<a target="_blank" href="'+res.data+'">\
