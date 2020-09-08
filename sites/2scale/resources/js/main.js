@@ -161,9 +161,10 @@ $("#generate-report-link").on('click', () => {
         } while(image < canvas.length);
     
         setTimeout(() => {
-            axios.post('api/rsr-report/', formData, {'Content-Type':'multipart/form-data', 'X-CSRF-TOKEN': token})
+            var url = document.querySelector('meta[name="app-url"]').content;
+            axios.post(url+'/api/rsr-report/', formData, {'Content-Type':'multipart/form-data', 'X-CSRF-TOKEN': token})
             .then(res => {
-                console.log(res);
+                // console.log(res);
                 $("#loader-spinner").remove();
                 $("#myModalAuthTitle").html("Report ready to download");
                 $("#myModalAuthBody").html('<a target="_blank" href="'+res.data+'">\
@@ -172,6 +173,10 @@ $("#generate-report-link").on('click', () => {
                 $("#myModalBtnClose").show();
             }).catch(err => {
                 console.log("internal server error");
+                $("#loader-spinner").remove();
+                $("#myModalAuthTitle").html("Error");
+                $("#myModalAuthBody").html('<div class="alert alert-danger" role="alert">Please try again later!</div>');
+                $("#myModalBtnClose").show();
             });
         }, 10000);
     });
