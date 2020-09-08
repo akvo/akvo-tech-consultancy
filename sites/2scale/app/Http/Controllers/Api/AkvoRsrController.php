@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Arr;
 use App\Libraries\AkvoRsr;
 use App\Partnership;
+use Illuminate\Support\Facades\Storage;
 
 class AkvoRsrController extends Controller
 {
@@ -19,33 +20,40 @@ class AkvoRsrController extends Controller
 
     public function generateReport(Request $r, AkvoRsr $rsr, Partnership $pr)
     {
-        if ($r->partnership_id === "0") {
-            return [];
+        if ($r->input('partnership_id') === "0") {
+            $projectId = config('akvo-rsr.projects.parent');
         }
 
-        $partnership = $pr->find($r->partnership_id);
-        if ($partnership['parent_id'] !== null) {
-            $this->code = Str::lower($partnership['name']);
-            $partnership = $pr->find($partnership['parent_id']);
+        if ($r->input('partnership_id') !== "0") {
+            $partnership = $pr->find($r->input('partnership_id'));
+            if ($partnership['parent_id'] !== null) {
+                $this->code = Str::lower($partnership['name']);
+                $partnership = $pr->find($partnership['parent_id']);
+            }
+            $projectId = config('akvo-rsr.projects.childs.'.$partnership['code']);
         }
 
-        $projectId = config('akvo-rsr.projects.childs.'.$partnership['code']);
         if ($projectId === null) {
-            return [];
+            return "No Data";
         }
 
         # TO DELETE
-        $this->code = null; # testing
-        $projectId = 400; # testing
+        // $this->code = null; # testing
+        // $projectId = 400; # testing
         # EOL TO DELETEs
 
         $data = [
             "project" => $this->getProjects($rsr, $projectId),
             "updates" => $this->getUpdates($rsr, $projectId),
             "results" => $this->getResults($rsr, $projectId),
+            "charts" => $this->b64toImage($r),
         ];
         // return $data;
-        return view('reports.template', ['data' => $data]);
+        // return view('reports.template', ['data' => $data]);
+        $html = view('reports.template', ['data' => $data])->render();
+        $filename = (string) Str::uuid().'.html';
+        Storage::disk('local')->put('./public/reports/'.$filename, $html);
+        return env('APP_URL').Storage::url('reports/'.$filename);
     }
 
     private function getProjects($rsr, $projectId)
@@ -114,5 +122,21 @@ class AkvoRsrController extends Controller
             }
         });
         return;
+    }
+
+    public function b64toImage($requests)
+    {
+        $base64_images = $requests->input('images');
+        $files = collect();
+        foreach($base64_images as $key => $image) {
+            $filename = $requests->input('filename').'-'.$key.'.png';
+            if (preg_match('/^data:image\/(\w+);base64,/', $image)) {
+                $data = substr($image, strpos($image, ',') + 1);
+                $data = base64_decode($data);
+                Storage::disk('local')->put('./public/images/'.$filename, $data);
+                $files->push($filename);
+            }
+        }
+        return $files;
     }
 }

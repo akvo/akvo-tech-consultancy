@@ -11,7 +11,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('/favicon.ico') }}"/>
 
     <!-- Title Page-->
-    <title>2SCALE</title>
+    <title>2SCALE Report</title>
 
 	<!-- Bootstrap core CSS -->
 	<style>
@@ -25,11 +25,19 @@
     </style>
 
     <style>
+        body {
+            visibility: hidden;
+        }
         .next-page {
             page-break-before: always;
         }
         .page-break {
-            page-break-after: auto;
+            page-break-before: auto;
+            /* page-break-after: auto; */
+            /* page-break-inside:auto; */
+        }
+        tr.page-break {
+            page-break-before: auto;
         }
         th, td {
             padding-left: 20px!important;
@@ -48,16 +56,23 @@
         p.text-justify {
             padding: 8px;
         }
-        .table-responsive-md.p-results {
-            margin-bottom: 25px!important;
+        .table-responsive-sm.p-results {
+            margin-top:45px!important;
+        }
+
+        @media print {
+            body {
+                visibility: visible;
+            }
         }
     </style>
 </head>
-<body>
+<body onload="window.print()">
     @php 
         $project = $data['project'];
         $updates = $data['updates'];
         $results = $data['results'];
+        $charts = $data['charts'];
     @endphp
     <div class="container">
         {{-- Project Title --}}
@@ -96,6 +111,30 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-12 mt-4 mb-4 page-break">
+                <p class="font-weight-bold">CHARTS</p>
+                <div class="row text-center">
+                    @foreach ($charts as $key => $chart)
+                        @if ($key > 0)
+                        <div class="col-md-6 text-center mt-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <img src="{{ asset('storage/images/'.$chart) }}" alt="{{ $chart }}" class="img img-fluid">
+                                </div>
+                            </div>
+                        </div>
+                        @else
+                        <div class="col-md-12 text-center">
+                            <div class="card">
+                                <div class="card-body">
+                                    <img src="{{ asset('storage/images/'.$chart) }}" alt="{{ $chart }}" class="img img-fluid">
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+                    @endforeach
+                </div>
+            </div>
             <div class="col-md-12 mt-4 page-break">
                 <p class="font-weight-bold">PROJECT SUMMARY</p>
                 <p class="text-justify">{{ $project['project_plan_summary'] ?? '-' }}</p>
@@ -124,9 +163,15 @@
                     <table class="table">
                         <tbody>
                             @foreach ($updates as $item)
+                            @php
+                                $photo = $item['photo']; 
+                                if ($item['photo'] === null) {
+                                    $photo = "https://via.placeholder.com/300";
+                                }
+                            @endphp
                             <tr class="page-break">
                                 <td class="img">
-                                    <img width="100%" src="{{ $item['photo'] }}" class="img-fluid" alt="{{ $item['photo_caption'] }}">
+                                    <img width="100%" src="{{ $photo }}" class="img-fluid" alt="{{ $item['photo_caption'] }}">
                                 </td>
                                 <td class="title">
                                     <p class="font-weight-bolder">{{ $item['title'] }}</p>
@@ -147,10 +192,10 @@
         {{-- Project Results --}}
         @if (count($results) > 0)
         <div class="row">
-            <div class="col-md-12 mt-4 page-break">
+            <div class="col-md-12 mt-4">
                 <p class="font-weight-bold">PROJECT RESULTS</p>
                 @foreach ($results as $item)
-                    <div class="table-responsive-md p-results">
+                    {{-- <div class="table-responsive-sm p-results page-break"> --}}
                         <table class="table table-sm table-bordered">
                             <tbody>
                                 <tr class="page-break">
@@ -199,7 +244,7 @@
                                 @endif
                             </tbody>
                         </table>
-                    </div>
+                    {{-- </div> --}}
                 @endforeach
             </div>
         </div>
