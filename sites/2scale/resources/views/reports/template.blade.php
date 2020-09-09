@@ -28,11 +28,16 @@
         body {
             visibility: hidden;
         }
+        .container, .container-lg, .container-md, .container-sm {
+            padding-top: 25px!important;
+            padding-bottom: 25px!important;
+            page-break-inside: auto!important;
+        }
         .next-page {
             page-break-before: always;
         }
         .page-break {
-            page-break-before: auto!important;
+            /* page-break-before: auto!important; */
             page-break-after: auto!important;
             /* page-break-inside:auto; */
         }
@@ -66,10 +71,16 @@
             height: 5px;
             margin-bottom: 25px;
         }
+        tr.page-break {
+            page-break-before: auto;
+        }
 
         @media print {
             body {
                 visibility: visible;
+            }
+            tr.page-break {
+                page-break-before: auto;
             }
         }
     </style>
@@ -94,7 +105,7 @@
         {{-- EOL Project Title --}}
 
         {{-- Project Summary --}}
-        <div class="row page-break">
+        <div class="row">
             <div class="col-md-12 mt-4 mb-4">
                 <div class="row">
                     <div class="col-md-4">
@@ -120,39 +131,44 @@
                 </div>
             </div>
         </div>
+        <div class="page-break"></div>
 
         {{-- CHARTS --}}
-        <div class="row page-break">
+        <div class="row">
             <div class="col-md-12 mt-4 mb-4">
                 <p class="title font-weight-bold">CHARTS</p>
                 <div class="title-line"></div>
                 <div class="row text-center">
                     @foreach ($charts as $key => $chart)
                         @if ($columns[$key] === "1")
-                        <div class="col-md-6 text-center mt-4 page-break">
+                        <div class="col-md-6 text-center mt-4">
                             <div class="card">
                                 <div class="card-body">
                                     <img src="{{ asset('storage/images/'.$chart) }}" alt="{{ $chart }}" class="img img-fluid">
                                 </div>
                             </div>
                         </div>
+                        <div class="page-break"></div>
                         @else
-                        <div class="col-md-12 text-center page-break">
+                        <div class="col-md-12 text-center">
                             <div class="card">
                                 <div class="card-body">
                                     <img src="{{ asset('storage/images/'.$chart) }}" alt="{{ $chart }}" class="img img-fluid">
                                 </div>
                             </div>
                         </div>
+                        <div class="page-break"></div>
                         @endif
                     @endforeach
                 </div>
             </div>
         </div>
+        <div class="page-break"></div>
 
         {{-- PROJECT SUMMARY --}}
-        <div class="row page-break">
-            <div class="col-md-12 mt-4 page-break">
+        <div class="next-page"></div>
+        <div class="row">
+            <div class="col-md-12 mt-4">
                 <p class="title font-weight-bold">PROJECT SUMMARY</p>
                 <div class="title-line"></div>
                 @if ($project['project_plan_summary'] || $project['project_plan_summary'] !== "")
@@ -161,7 +177,8 @@
                     <p class="text-muted font-italic">No Description</p>
                 @endif
             </div>
-            <div class="col-md-12 mt-4 page-break">
+            <div class="page-break"></div>
+            <div class="col-md-12 mt-4">
                 <p class="title font-weight-bold">GOALS OVERVIEW</p>
                 <div class="title-line"></div>
                 @if ($project['goals_overview'] !== "")
@@ -170,7 +187,8 @@
                     <p class="text-muted font-italic">No Description</p>
                 @endif
             </div>
-            <div class="col-md-12 mt-4 page-break">
+            <div class="page-break"></div>
+            <div class="col-md-12 mt-4">
                 <p class="title font-weight-bold">BACKGROUND</p>
                 <div class="title-line"></div>
                 @if ($project['background'] !== "")
@@ -179,7 +197,8 @@
                     <p class="text-muted font-italic">No Description</p>
                 @endif
             </div>
-            <div class="col-md-12 mt-4 page-break">
+            <div class="page-break"></div>
+            <div class="col-md-12 mt-4">
                 <p class="title font-weight-bold">SUSTAINABILITY</p>
                 <div class="title-line"></div>
                 @if ($project['sustainability'] !== "")
@@ -189,11 +208,14 @@
                 @endif
             </div>
         </div>
+        <div class="page-break"></div>
         {{-- EOL Project Summary --}}
 
+        {{-- PROJECT UPDATE & RESULTS --}}
         {{-- Project Updates --}}
         @if (count($updates) > 0)
-        <div class="row page-break">
+        <div class="next-page"></div>
+        <div class="row">
             <div class="col-md-12 mt-4">
                 <p class="title font-weight-bold">PROJECT UPDATES</p>
                 <div class="title-line"></div>
@@ -224,12 +246,14 @@
                 </div>
             </div>
         </div>
+        <div class="page-break"></div>
         @endif
         {{-- EOL Project Updates --}}
 
         {{-- Project Results --}}
         @if (count($results) > 0)
-        <div class="row page-break">
+        <div class="next-page"></div>
+        <div class="row">
             <div class="col-md-12 mt-4">
                 <p class="title font-weight-bold">PROJECT RESULTS</p>
                 <div class="title-line"></div>
@@ -295,8 +319,10 @@
                 @endforeach
             </div>
         </div>
+        <div class="page-break"></div>
         @endif
         {{-- EOL Project Results --}}
     </div>
+
 </body>
 </html>
