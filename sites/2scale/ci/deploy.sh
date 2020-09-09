@@ -22,7 +22,7 @@ FOLDER="2scale-test"
 #FOLDER="2scale"
 
 if [[ "${TRAVIS_BRANCH}" == "master" ]]; then
-	FOLDER="2scale"
+#	FOLDER="2scale"
 	echo "Deploying Production"
 else
 	echo "Deploying Test"
