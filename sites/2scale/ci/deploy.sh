@@ -34,43 +34,45 @@ rsync \
     --progress \
     --exclude=ci \
     --exclude=node_modules \
-    --rsh="ssh -i ${SITES_SSH_KEY} -p 18765 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" \
-    . tcakvo@35.214.170.100:/home/tcakvo/public_html/$FOLDER/
+    --rsh="ssh -i ${SITES_SSH_KEY} -o BatchMode=yes -p 18765 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" \
+    . u7-nnfq7m4dqfyx@35.214.170.100:/home/tcakvo/public_html/$FOLDER/
 
 echo "Fixing permissions..."
 
-ssh -i "${SITES_SSH_KEY}" \
-    -p 18765 \
-    -o UserKnownHostsFile=/dev/null \
-    -o StrictHostKeyChecking=no \
-    tcakvo@35.214.170.100 "find ~/public_html/${FOLDER}/ -not -path "*.well-known*" -type f -print0 | xargs -0 -n1 chmod 644"
+ssh -o BatchMode=yes -i private-key.txt -p 18765 u7-nnfq7m4dqfyx@35.214.170.100
 
-ssh -i "${SITES_SSH_KEY}" \
+ssh -i "${SITES_SSH_KEY}" -o BatchMode=yes \
     -p 18765 \
     -o UserKnownHostsFile=/dev/null \
     -o StrictHostKeyChecking=no \
-    tcakvo@35.214.170.100 "find ~/public_html/${FOLDER}/ -type d -print0 | xargs -0 -n1 chmod 755"
+    u7-nnfq7m4dqfyx@35.214.170.100 "find ~/public_html/${FOLDER}/ -not -path "*.well-known*" -type f -print0 | xargs -0 -n1 chmod 644"
+
+ssh -i "${SITES_SSH_KEY}" -o BatchMode=yes \
+    -p 18765 \
+    -o UserKnownHostsFile=/dev/null \
+    -o StrictHostKeyChecking=no \
+    u7-nnfq7m4dqfyx@35.214.170.100 "find ~/public_html/${FOLDER}/ -type d -print0 | xargs -0 -n1 chmod 755"
 
 echo "Copy the config..."
 
-ssh -i "${SITES_SSH_KEY}" \
+ssh -i "${SITES_SSH_KEY}" -o BatchMode=yes \
     -p 18765 \
     -o UserKnownHostsFile=/dev/null \
     -o StrictHostKeyChecking=no \
-    tcakvo@35.214.170.100 "cp ~/etc/tc.akvo.org/${FOLDER}.env.prod ~/public_html/${FOLDER}/.env"
+    u7-nnfq7m4dqfyx@35.214.170.100 "cp ~/etc/tc.akvo.org/${FOLDER}.env.prod ~/public_html/${FOLDER}/.env"
 
 echo "Clearing cache..."
 
-ssh -i "${SITES_SSH_KEY}" \
+ssh -i "${SITES_SSH_KEY}" -o BatchMode=yes \
     -p 18765 \
     -o UserKnownHostsFile=/dev/null \
     -o StrictHostKeyChecking=no \
-    tcakvo@35.214.170.100 "cd ~/public_html/${FOLDER}/ && /usr/local/bin/php72 artisan cache:clear"
+    u7-nnfq7m4dqfyx@35.214.170.100 "cd ~/public_html/${FOLDER}/ && /usr/local/bin/php72 artisan cache:clear"
 
-ssh -i "${SITES_SSH_KEY}" \
+ssh -i "${SITES_SSH_KEY}" -o BatchMode=yes \
     -p 18765 \
     -o UserKnownHostsFile=/dev/null \
     -o StrictHostKeyChecking=no \
-    tcakvo@35.214.170.100 "cd ~/public_html/${FOLDER}/ && /usr/local/bin/composer dump-autoload"
+    u7-nnfq7m4dqfyx@35.214.170.100 "cd ~/public_html/${FOLDER}/ && /usr/local/bin/composer dump-autoload"
 
 echo "Done"
