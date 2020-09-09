@@ -7444,7 +7444,7 @@ $("#generate-report-link").on('click', function () {
 
     setTimeout(function () {
       var appUrl = document.querySelector('meta[name="app-url"]').content;
-      var api = appUrl + '/api/rsr-report/';
+      var api = appUrl + '/rsr-report/';
       console.log(api);
       axios.post(api, formData, {
         'Content-Type': 'multipart/form-data',
