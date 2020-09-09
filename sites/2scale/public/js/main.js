@@ -7441,24 +7441,27 @@ $("#generate-report-link").on('click', function () {
     do {
       var image_url = canvas[image].toDataURL('image/png');
       formData.append('images[]', image_url);
-      imgWidth.push(canvas[image].width);
-      minWidth.push(canvas[image].width);
+      imgWidth.push(parseInt(canvas[image].width));
+      minWidth.push(parseInt(canvas[image].width));
       image++;
     } while (image < canvas.length);
 
-    minWidth = minWidth.sort()[0];
+    minWidth = minWidth.sort(function (a, b) {
+      return a - b;
+    })[0];
     imgWidth.forEach(function (x) {
-      return formData.append('columns[]', Math.round(x / minWidth));
+      var column = Math.round(x / minWidth);
+      formData.append('columns[]', column);
     });
     setTimeout(function () {
-      var appUrl = document.querySelector('meta[name="app-url"]').content;
-      var api = appUrl + '/rsr-report/';
-      console.log(api);
-      axios.post(api, formData, {
+      // var appUrl = document.querySelector('meta[name="app-url"]').content;
+      // var api = appUrl+'/rsr-report/';
+      // console.log(api);
+      axios.post('rsr-report', formData, {
         'Content-Type': 'multipart/form-data',
         'X-CSRF-TOKEN': token
       }).then(function (res) {
-        console.log(res);
+        // console.log(res);
         $("#loader-spinner").remove();
         $("#myModalAuthTitle").html("Report ready to download");
         $("#myModalAuthBody").html('<a target="_blank" href="' + res.data + '">\
