@@ -7374,7 +7374,7 @@ var generatePartnershipChart = /*#__PURE__*/function () {
               $("#data-frame").attr("src", "/frame/partnership/" + params);
               setTimeout(function () {
                 resolve(console.log('generated'));
-              }, 5000);
+              }, 10000);
             });
 
           case 2:

@@ -108,7 +108,7 @@ const generatePartnershipChart = async () => {
         $("#data-frame").attr("src", "/frame/partnership/" + params);
         setTimeout(() => {
             resolve(console.log('generated'));
-        }, 5000); 
+        }, 10000); 
     });
     return;
 };

@@ -4,7 +4,8 @@
 /public/js
 /public/vendor
 /public/images
-/public/storage/
+/public/storage
+/public/uploads
 /storage/*.key
 /vendor
 *.sql

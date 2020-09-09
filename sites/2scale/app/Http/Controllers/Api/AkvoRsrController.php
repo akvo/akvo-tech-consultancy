@@ -53,8 +53,8 @@ class AkvoRsrController extends Controller
         // return view('reports.template', ['data' => $data]);
         $html = view('reports.template', ['data' => $data])->render();
         $filename = (string) Str::uuid().'.html';
-        Storage::disk('local')->put('./public/reports/'.$filename, $html);
-        return env('APP_URL').Storage::url('reports/'.$filename);
+        Storage::disk('public')->put('./reports/'.$filename, $html);
+        return Storage::disk('public')->url('reports/'.$filename);
     }
 
     private function getProjects($rsr, $projectId)
@@ -134,7 +134,7 @@ class AkvoRsrController extends Controller
             if (preg_match('/^data:image\/(\w+);base64,/', $image)) {
                 $data = substr($image, strpos($image, ',') + 1);
                 $data = base64_decode($data);
-                Storage::disk('local')->put('./public/images/'.$filename, $data);
+                Storage::disk('public')->put('./images/'.$filename, $data);
                 $files->push($filename);
             }
         }

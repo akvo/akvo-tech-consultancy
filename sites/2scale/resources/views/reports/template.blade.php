@@ -144,7 +144,7 @@
                         <div class="col-md-6 text-center mt-4">
                             <div class="card">
                                 <div class="card-body">
-                                    <img src="{{ asset('storage/images/'.$chart) }}" alt="{{ $chart }}" class="img img-fluid">
+                                    <img src="{{ asset('uploads/images/'.$chart) }}" alt="{{ $chart }}" class="img img-fluid">
                                 </div>
                             </div>
                         </div>
@@ -153,7 +153,7 @@
                         <div class="col-md-12 text-center">
                             <div class="card">
                                 <div class="card-body">
-                                    <img src="{{ asset('storage/images/'.$chart) }}" alt="{{ $chart }}" class="img img-fluid">
+                                    <img src="{{ asset('uploads/images/'.$chart) }}" alt="{{ $chart }}" class="img img-fluid">
                                 </div>
                             </div>
                         </div>
