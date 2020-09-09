@@ -6,7 +6,7 @@ $API_BRIDGE = "https://tech-consultancy.akvo.org/2scale-login/login";
 $BASE_AUTH_URL = 'https://akvo.eu.auth0.com/oauth/token';
 $BASE_API_URL = env('FLOW_API_URL', '').'/flow/orgs/' . $INSTANCE;
 $BASE_API_FLOW_WEB = env('XML_FORM_URL');
-$APP_STATUS = env('APP_STATUS', 'test');
+$APP_STATUS = env('APP_STATUS', 'test'); 
 
 return [
     'instance' => $INSTANCE,
