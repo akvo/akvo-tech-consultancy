@@ -39,8 +39,6 @@ rsync \
 
 echo "Fixing permissions..."
 
-ssh -o BatchMode=yes -i private-key.txt -p 18765 u7-nnfq7m4dqfyx@35.214.170.100
-
 ssh -i "${SITES_SSH_KEY}" -o BatchMode=yes \
     -p 18765 \
     -o UserKnownHostsFile=/dev/null \
