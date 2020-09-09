@@ -18,8 +18,8 @@ if [[ "${TRAVIS_PULL_REQUEST}" != "false" ]]; then
     exit 0
 fi
 
-#FOLDER="2scale-test"
-FOLDER="2scale"
+FOLDER="2scale-test"
+#FOLDER="2scale"
 
 if [[ "${TRAVIS_BRANCH}" == "master" ]]; then
 	FOLDER="2scale"
