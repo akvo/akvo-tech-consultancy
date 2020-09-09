@@ -46,6 +46,7 @@ class AkvoRsrController extends Controller
             "project" => $this->getProjects($rsr, $projectId),
             "updates" => $this->getUpdates($rsr, $projectId),
             "results" => $this->getResults($rsr, $projectId),
+            "columns" => $r->input('columns'),
             "charts" => $this->b64toImage($r),
         ];
         // return $data;

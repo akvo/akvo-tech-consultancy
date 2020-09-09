@@ -7435,13 +7435,21 @@ $("#generate-report-link").on('click', function () {
     formData.set('partnership_id', pid);
     formData.set('filename', filename);
     var image = 0;
+    var imgWidth = [];
+    var minWidth = [];
 
     do {
       var image_url = canvas[image].toDataURL('image/png');
       formData.append('images[]', image_url);
+      imgWidth.push(canvas[image].width);
+      minWidth.push(canvas[image].width);
       image++;
     } while (image < canvas.length);
 
+    minWidth = minWidth.sort()[0];
+    imgWidth.forEach(function (x) {
+      return formData.append('columns[]', Math.round(x / minWidth));
+    });
     setTimeout(function () {
       var appUrl = document.querySelector('meta[name="app-url"]').content;
       var api = appUrl + '/rsr-report/';
@@ -7450,6 +7458,7 @@ $("#generate-report-link").on('click', function () {
         'Content-Type': 'multipart/form-data',
         'X-CSRF-TOKEN': token
       }).then(function (res) {
+        console.log(res);
         $("#loader-spinner").remove();
         $("#myModalAuthTitle").html("Report ready to download");
         $("#myModalAuthBody").html('<a target="_blank" href="' + res.data + '">\

@@ -32,8 +32,8 @@
             page-break-before: always;
         }
         .page-break {
-            page-break-before: auto;
-            /* page-break-after: auto; */
+            page-break-before: auto!important;
+            page-break-after: auto!important;
             /* page-break-inside:auto; */
         }
         tr.page-break {
@@ -49,15 +49,22 @@
         td.title {
             width: 22%!important;
         }
-        p.font-weight-bold {
-            background-color: antiquewhite;
-            padding: 8px;
-        }
         p.text-justify {
             padding: 8px;
         }
         .table-responsive-sm.p-results {
             margin-top:45px!important;
+        }
+        .table.table-sm.table-bordered.p-results {
+            margin-bottom:45px!important;
+        }
+        p.title {
+            font-size: 20px;
+        }
+        .title-line {
+            background-color: #a5a5a5;
+            height: 5px;
+            margin-bottom: 25px;
         }
 
         @media print {
@@ -72,6 +79,7 @@
         $project = $data['project'];
         $updates = $data['updates'];
         $results = $data['results'];
+        $columns = $data['columns'];
         $charts = $data['charts'];
     @endphp
     <div class="container">
@@ -80,14 +88,14 @@
             <div class="col-md-12 mt-4">
                 <h3>{{ $project['title'] }}</h3>
                 <p>{{ $project['subtitle'] }}</p>
-                <hr>
+                <div class="title-line"></div>
             </div>
         </div>
         {{-- EOL Project Title --}}
 
         {{-- Project Summary --}}
-        <div class="row">
-            <div class="col-md-12 mt-4 mb-4 page-break">
+        <div class="row page-break">
+            <div class="col-md-12 mt-4 mb-4">
                 <div class="row">
                     <div class="col-md-4">
                         <img width="100%" src="{{ $project['current_image'] }}" class="img-fluid" alt="{{ $project['current_image_caption'] }}">
@@ -111,12 +119,17 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-12 mt-4 mb-4 page-break">
-                <p class="font-weight-bold">CHARTS</p>
+        </div>
+
+        {{-- CHARTS --}}
+        <div class="row page-break">
+            <div class="col-md-12 mt-4 mb-4">
+                <p class="title font-weight-bold">CHARTS</p>
+                <div class="title-line"></div>
                 <div class="row text-center">
                     @foreach ($charts as $key => $chart)
-                        @if ($key > 0)
-                        <div class="col-md-6 text-center mt-4">
+                        @if ($columns[$key] === "1")
+                        <div class="col-md-6 text-center mt-4 page-break">
                             <div class="card">
                                 <div class="card-body">
                                     <img src="{{ asset('storage/images/'.$chart) }}" alt="{{ $chart }}" class="img img-fluid">
@@ -124,7 +137,7 @@
                             </div>
                         </div>
                         @else
-                        <div class="col-md-12 text-center">
+                        <div class="col-md-12 text-center page-break">
                             <div class="card">
                                 <div class="card-body">
                                     <img src="{{ asset('storage/images/'.$chart) }}" alt="{{ $chart }}" class="img img-fluid">
@@ -135,30 +148,55 @@
                     @endforeach
                 </div>
             </div>
+        </div>
+
+        {{-- PROJECT SUMMARY --}}
+        <div class="row page-break">
             <div class="col-md-12 mt-4 page-break">
-                <p class="font-weight-bold">PROJECT SUMMARY</p>
-                <p class="text-justify">{{ $project['project_plan_summary'] ?? '-' }}</p>
+                <p class="title font-weight-bold">PROJECT SUMMARY</p>
+                <div class="title-line"></div>
+                @if ($project['project_plan_summary'] || $project['project_plan_summary'] !== "")
+                    <p class="text-justify">{{ $project['project_plan_summary'] }}</p>
+                @else
+                    <p class="text-muted font-italic">No Description</p>
+                @endif
             </div>
             <div class="col-md-12 mt-4 page-break">
-                <p class="font-weight-bold">GOALS OVERVIEW</p>
-                <p class="text-justify">{{ $project['goals_overview'] === "" ? "-" : $project['goals_overview'] }}</p>
+                <p class="title font-weight-bold">GOALS OVERVIEW</p>
+                <div class="title-line"></div>
+                @if ($project['goals_overview'] !== "")
+                    <p class="text-justify">{{ $project['goals_overview'] }}</p>
+                @else
+                    <p class="text-muted font-italic">No Description</p>
+                @endif
             </div>
             <div class="col-md-12 mt-4 page-break">
-                <p class="font-weight-bold">BACKGROUND</p>
-                <p class="text-justify">{{ $project['background'] === "" ? "-" : $project['background'] }}</p>
+                <p class="title font-weight-bold">BACKGROUND</p>
+                <div class="title-line"></div>
+                @if ($project['background'] !== "")
+                    <p class="text-justify">{{ $project['background'] }}</p>
+                @else
+                    <p class="text-muted font-italic">No Description</p>
+                @endif
             </div>
             <div class="col-md-12 mt-4 page-break">
-                <p class="font-weight-bold">SUSTAINABILITY</p>
-                <p class="text-justify">{{ $project['sustainability'] === "" ? "-" : $project['sustainability'] }}</p>
+                <p class="title font-weight-bold">SUSTAINABILITY</p>
+                <div class="title-line"></div>
+                @if ($project['sustainability'] !== "")
+                    <p class="text-justify">{{ $project['sustainability'] }}</p>
+                @else
+                    <p class="text-muted font-italic">No Description</p>
+                @endif
             </div>
         </div>
         {{-- EOL Project Summary --}}
 
         {{-- Project Updates --}}
         @if (count($updates) > 0)
-        <div class="row">
-            <div class="col-md-12 mt-4 page-break">
-                <p class="font-weight-bold">PROJECT UPDATES</p>
+        <div class="row page-break">
+            <div class="col-md-12 mt-4">
+                <p class="title font-weight-bold">PROJECT UPDATES</p>
+                <div class="title-line"></div>
                 <div class="table-responsive-md">
                     <table class="table">
                         <tbody>
@@ -191,17 +229,22 @@
 
         {{-- Project Results --}}
         @if (count($results) > 0)
-        <div class="row">
+        <div class="row page-break">
             <div class="col-md-12 mt-4">
-                <p class="font-weight-bold">PROJECT RESULTS</p>
+                <p class="title font-weight-bold">PROJECT RESULTS</p>
+                <div class="title-line"></div>
                 @foreach ($results as $item)
                     {{-- <div class="table-responsive-sm p-results page-break"> --}}
-                        <table class="table table-sm table-bordered">
+                        <table class="table table-sm table-bordered p-results">
                             <tbody>
                                 <tr class="page-break">
                                     <td colspan="3">
                                         <div class="font-weight-bolder">{{ $item['title'] }}</div>
-                                        <div class="text-muted">{{ empty($item['description']) ? "" : $item['description'] }}</div>
+                                        @if (empty($item['description']) || $item['description'] == "​" || $item['description'] == null)    
+                                            <div class="text-muted font-italic">No Description</div>
+                                        @else
+                                            <div class="text-muted">{{  $item['description'] }}</div>
+                                        @endif
                                     </td>
                                 </tr>
                                 @if (count($item['indicators']) > 0)
@@ -213,10 +256,14 @@
                                         </tr>
                                         <tr class="page-break">
                                             <td>
-                                                Baseline Year : {{ $indicator['baseline_year'] === null ? "-" : $indicator['baseline_year'] }}
+                                                <strong>
+                                                    Baseline Year : {{ $indicator['baseline_year'] === null ? "-" : $indicator['baseline_year'] }}
+                                                </strong> 
                                             </td>
                                             <td colspan="2" class="text-center">
-                                                Baseline Value : {{ $indicator['baseline_value'] === "" ? 0 : $indicator['baseline_value'] }}
+                                                <strong>
+                                                    Baseline Value : {{ $indicator['baseline_value'] === "" ? 0 : $indicator['baseline_value'] }}
+                                                </strong>
                                             </td>
                                         </tr>
                                         @if (count($indicator['periods']) > 0)

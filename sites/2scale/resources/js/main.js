@@ -154,18 +154,26 @@ $("#generate-report-link").on('click', () => {
         formData.set('filename', filename);
     
         let image = 0;
+        let imgWidth = [];
+        let minWidth = [];
         do {
             let image_url = canvas[image].toDataURL('image/png');
             formData.append('images[]', image_url);
+            imgWidth.push(canvas[image].width);
+            minWidth.push(canvas[image].width);
             image++;
         } while(image < canvas.length);
-    
+        
+        minWidth = minWidth.sort()[0];
+        imgWidth.forEach(x => formData.append('columns[]', Math.round(x/minWidth)));
+        
         setTimeout(() => {
             var appUrl = document.querySelector('meta[name="app-url"]').content;
             var api = appUrl+'/rsr-report/';
             console.log(api);
             axios.post(api, formData, {'Content-Type':'multipart/form-data', 'X-CSRF-TOKEN': token})
             .then(res => {
+                console.log(res);
                 $("#loader-spinner").remove();
                 $("#myModalAuthTitle").html("Report ready to download");
                 $("#myModalAuthBody").html('<a target="_blank" href="'+res.data+'">\
