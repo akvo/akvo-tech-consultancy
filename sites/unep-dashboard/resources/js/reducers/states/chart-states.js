@@ -1,3 +1,7 @@
+import intersectionBy from 'lodash/intersectionBy';
+import uniq from 'lodash/uniq';
+import uniqBy from 'lodash/uniqBy';
+
 export const chartState = {
     data: [
         {
@@ -56,9 +60,10 @@ export const chartState = {
 };
 
 export const appendData = (state, data) => {
+    let last_data = state.data.filter(x => x.id !== data.id);
     return {
         ...state,
-        data: [...state.data, data],
+        data: [...last_data, data],
         loading: false
     };
 };

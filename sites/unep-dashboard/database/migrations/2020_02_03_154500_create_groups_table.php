@@ -18,7 +18,6 @@ class CreateGroupsTable extends Migration
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->text('name');
             $table->string('code');
-            $table->text('description')->nullable();
 
             $table->foreign('parent_id')
                   ->references('id')

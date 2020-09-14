@@ -1,0 +1,4 @@
+ckanapi==4.3
+requests==2.21.0
+pandas==0.24.2
+unicodecsv==0.14.1
