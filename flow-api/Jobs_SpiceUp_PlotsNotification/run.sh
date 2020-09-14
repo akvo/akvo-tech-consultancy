@@ -1,3 +1,3 @@
 #!/bin/bash
 
-python app2.py
+python app3.py
