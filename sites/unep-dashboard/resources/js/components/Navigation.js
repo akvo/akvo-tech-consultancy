@@ -110,6 +110,7 @@ class Navigation extends Component {
                     <Nav.Link eventKey="funding" active={"funding" === page}>{lang.funding}</Nav.Link>
                     <Nav.Link eventKey="report" active={"report" === page}>{lang.report}</Nav.Link>
                     <Nav.Link eventKey="compare" active={"compare" === page}>{lang.compare}</Nav.Link>
+                    <Nav.Link eventKey="support" active={"support" === page}>Support</Nav.Link>
                     {/*
                     <Nav.Link eventKey="stakeholder" active={"stakeholder" === page}>Stakeholder</Nav.Link>
                     <Nav.Link eventKey="evaluation" active={"evaluation" === page}>Evaluation</Nav.Link>
@@ -118,6 +119,7 @@ class Navigation extends Component {
                     */}
                 </Nav>
                     <Form.Group
+                        data-tour={"multi-country"}
                         className="nav-right"
                         onChange={this.props.data.toggle.global}
                         controlId="formGroupGlobal">

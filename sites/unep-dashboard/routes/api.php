@@ -19,8 +19,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::get('data', 'Api\ApiController@data');
-Route::get('filters', 'Api\ApiController@filters');
-Route::get('countries', 'Api\ApiController@countries');
+Route::get('filters', 'Api\ApiController@filterlist');
+Route::get('countries', 'Api\ApiController@countrylist');
 Route::get('test', 'Api\ApiController@test');
 
 

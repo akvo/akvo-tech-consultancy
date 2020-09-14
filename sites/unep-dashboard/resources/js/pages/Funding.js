@@ -9,7 +9,6 @@ import { generateData } from "../data/chart-utils.js";
 import {
     flatten,
     getChildsData,
-    pushToParent,
     formatCurrency
 } from "../data/utils.js";
 import { Color, TextStyle } from '../data/features/animation.js';
@@ -145,10 +144,11 @@ class Funding extends Component {
 
     renderOptions(filterId, childs=true) {
         let active = this.props.value.data.filteredpoints;
+        let locale = this.props.value.locale.active;
         let thefilter = flatten(this.props.value.page.filters);
             thefilter = thefilter.filter(x => x.id === filterId);
         let datapoints = this.props.value.data.master.map(x => x.values);
-            thefilter = getChildsData(thefilter, datapoints, active);
+            thefilter = getChildsData(thefilter, datapoints, active, locale);
         let dpvalue = this.props.value.data.datapoints;
         if (thefilter.length > 0) {
             thefilter = thefilter[0].children;

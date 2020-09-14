@@ -994,3 +994,46 @@ button.btn.btn-sm.btn-primary.btn-download svg{
     border-left: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
 }
+
+/*Supports*/
+.card-supports.card{
+    border-radius: 0px;
+    margin-top:20px;
+}
+.card-supports.card .card-header{
+    background: #f1f1f5;
+    color: #1b1b1b;
+    border-radius: 0px!important;
+    border: 1px solid #FFF;
+    font-weight: 600;
+}
+.card-supports.card .card-body{
+    padding: .75rem 1.25rem;
+}
+
+/* Tour */
+.col-tour {
+    margin-top: 10px;
+    border-bottom: dashed 1px #ddd;
+}
+.reactour__helper.reactour__helper--is-open {
+    padding: 15px;
+    border-radius: 10px;
+}
+button.reactour__close {
+    top: 10px;
+    right: 10px;
+}
+.btn-pills {
+    border-radius: 20px!important;
+    border-bottom: none!important;
+    font-size: 12px;
+}
+.tour-info {
+    float: right;
+    display:inline-block;
+    margin-left: 10px;
+    padding: 6px 10px!important;
+    border: #ddd solid 1px!important;
+    font-size: 13px !important;
+}
