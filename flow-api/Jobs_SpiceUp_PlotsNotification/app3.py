@@ -39,7 +39,7 @@ if (day == '01' or day == '15'):
     EMAIL_BCC = ['hatami.nugraha@gmail.com','everschuren@verstegen.nl','joy@akvo.org','hatami@cinquer.co.id','d.kurniawati@icco.nl','dymanohara@gmail.com','aharton2002@yahoo.com','akhmadfa@apps.ipb.ac.id','otihrostiana@gmail.com','ima@akvo.org','deden@akvo.org','galih@akvo.org', 'wietze.suijker@nelen-schuurmans.nl']
 
     # EMAIL_RECEPIENTS = ['galih@akvo.org']
-    # EMAIL_BCC = ['galih@akvo.org']
+    # EMAIL_BCC = ['galih@akvo.org', 'joy@akvo.org']
 
     MAILJET_APIKEY = os.environ['MAILJET_APIKEY']
     MAILJET_SECRET = os.environ['MAILJET_SECRET']
@@ -183,7 +183,7 @@ if (day == '01' or day == '15'):
         # PLOT SUMMARY
         plant_submissionDate = plant['submissionDate'].split('T')[0]
         plot_submission_summary = 'First demonstration plots have been planted at '
-        plot_submission_summary =  plot_submission_summary + datetime.strptime(plant_submissionDate, '%Y-%m-%d').strftime('%B, %d')
+        plot_submission_summary =  plot_submission_summary + datetime.strptime(plant_submissionDate, '%Y-%m-%d').strftime('%B, %d %Y')
         plant_type = plant['Type of Plantation']
         plot_submission_summary = plot_submission_summary + ' with ' + plant_type + ' in ' + plot_location + '.'
         email_data.update({'plot_submission_summary':plot_submission_summary})
