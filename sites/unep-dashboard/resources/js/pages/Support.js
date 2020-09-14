@@ -3,11 +3,21 @@ import { Col, Row, Container, Card, Form, Button } from "react-bootstrap";
 import axios from 'axios';
 
 const contents = [{
-        q: "Lorem Ipsum?",
-        a: "Dolor sit amet"
+        q: "What data is represented in the dashboard and the repository?",
+        a: <p>The data has been mainly collected through an online stocktaking survey. More details on the set up of the survey can be found <a href="https://papersmart.unon.org/resolution/uploads/guidelines_for_marine_plastic_litter_stocktake_survey_2_hs1.pdf" target="_blank">here</a></p>,
+        list: false,
     },{
-        q: "Ipsum Lorem?",
-        a: "Dolor sit amet"
+        q: "Why is there an interactive dashboard and an online repository platform?",
+        a: "To enable access to the stocktake of global actions to reduce the flow of marine plastic and microplastic to the oceans for public use, two products have been developed. The dashboard aims to visually summarise the survey results, whereas the main goal of the repository is to store additional information on each individual action.",
+        list: ["You are currently visiting the interactive dashboard. The dashboard contains all survey submissions. The aim of the dashboard is to visually represent the survey data on a number of key attributes. The dashboard also allows for comparison on country/region level and downloading of the visuals.","The online repository platform can be accessed here. The repository contains all survey submissions and narrative submissions. A number of custom filters can be applied to search for individual actions. Thereon, users can visit pages of individual actions to read a summary and access additional information on each action, such as reports in PDF format or corresponding websites."]
+    },{
+        q: "Who are the dashboard and the repository for?",
+        a: "The dashboard and repository are both publicly available. Anyone with an interest in the global actions to reduce the flow of marine plastic and microplastic to the oceans. Users can for example be policy makers, researchers, students.",
+        list: false,
+    },{
+        q: "When are the dashboard and the repository built?",
+        a: "The project of building the dashboard and the repository started at the end of 2019 and both products have been published online in September 2020.",
+        list: false,
 }];
 
 const glossary = [{
@@ -55,6 +65,7 @@ class Support extends Component {
             <Col key={"faq-" + i} md={12}>
                 <strong>{i + 1}. {x.q}</strong>
                 <p>{x.a}</p>
+                {x.list ? (<ul>{x.list.map((l,il) => <li key={il}>{l}</li>)}</ul>) : ""}
                 {i < contents.length - 1? (<hr/>) : ""}
             </Col>
         ))
