@@ -38,8 +38,9 @@ class Auth0IndexController extends Controller
         );
 
         if ($error) {
-            return \Redirect::intended($logoutUrl)->with('status', $msg);
-        }
+            \Session::put('status', $msg);
+            return \Redirect::intended($logoutUrl);
+        } 
         return \Redirect::intended($logoutUrl);
     }
 }

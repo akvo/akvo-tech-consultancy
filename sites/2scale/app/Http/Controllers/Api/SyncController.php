@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use App\Libraries\FlowApi;
 use App\Libraries\FlowAuth0;
 use App\SurveyGroup;
@@ -13,9 +14,17 @@ use App\Question;
 use App\Option;
 use App\Datapoint;
 use App\Answer;
+use \Mailjet\Resources;
+use Mailjet\LaravelMailjet\Facades\Mailjet;
 
 class SyncController extends Controller
 {
+    public function __construct() {
+        $this->collections = collect();
+        $this->success = collect();
+        $this->error = collect();
+    }
+
     public function syncPartnerships(FlowApi $flow, Partnership $partnerships)
     {
        $id = 0;
@@ -47,8 +56,8 @@ class SyncController extends Controller
            if ($cascade['parent'] === null || $cascade['parent'] === 0) {
                 $cascade['level'] = 'country';
            }
-           if ($cascade['code'] === '') {
-               $cascade['code'] = null;
+           if ($cascade['code'] === '' || $cascade['code'] === null) {
+               $cascade['code'] = Str::before($cascade['name'], '_');
            }
            return collect($cascade)->forget(['id','parent']);
        })->toArray();
@@ -161,31 +170,28 @@ class SyncController extends Controller
     public function syncDataPoints(FlowAuth0 $flow, Form $forms, Partnership $partnerships, DataPoint $datapoints)
     {
         $forms = $forms->load('surveygroup')->all();
-        $collections = collect();
-		$forms = collect($forms)->each(function($form) use ($flow, $collections, $partnerships) {
+        $this->collections = collect();
+		$forms = collect($forms)->each(function($form) use ($flow, $partnerships) {
             $results = $flow->get('forminstances', $form->survey_id, $form->form_id);
             if($results === null){
                 return "No data";
             }
-			if($results === 500){
-				return "Internal Server Error";
-			}
-			$collections = $this->groupDataPoint($collections, $results, $form, $partnerships);
+			$this->groupDataPoint($results, $form, $partnerships);
 			$next_page = false;
-			if (isset($result['nextPageUrl'])) {
+			if (isset($results['nextPageUrl'])) {
 				$next_page = true;
 			}
 			do{
 				$next_page = false;
-				if (isset($result['nextPageUrl'])) {
+				if (isset($results['nextPageUrl'])) {
 					$next_page = true;
 					$results = $flow->fetch($results['nextPageUrl']);
-					$collections = $this->groupDataPoint($collections, $results, $form, $partnerships);
+					$this->groupDataPoint($results, $form, $partnerships);
 				}
 			}
 			while($next_page);
 		});
-        $data_points = $collections->map(function($data_point) use ($datapoints) {
+        $data_points = $this->collections->map(function($data_point) use ($datapoints) {
 			$data = collect($data_point["answers"])->map(function($answer) {
 				return new Answer($answer);
 			});
@@ -194,12 +200,42 @@ class SyncController extends Controller
 			$answers = $datapoints->find($id)->answers()->saveMany($data);
 			return ["answers" => $answers,"datapoints" => $datapoints];
         });
+
+        // generate report
+        $success = $forms->map(function ($form) {
+            $countdps = $this->success->filter(function ($value) use ($form) {
+                 return $value === $form['form_id']; 
+            });
+            return [
+                'survey_id' => $form['survey_id'],
+                'form_id' => $form['form_id'],
+                'name' => $form['name'],
+                'count' => count($countdps)
+            ];
+        });
+
+        $success_table = $this->generateTable($success, 'success');
+        $error_table = $this->generateTable($this->error, 'error');
+
+        $html = '<html>
+            <body>
+                <h4>Success</h4>
+                '.$success_table.'
+                <br/>
+                <h4>Error</h4>
+                '.$error_table.'
+            </body>
+        </html>';
+
+        // send email
+        $this->sendEmail('Report Sync Datapoints', $html);
         return $datapoints->with('answers')->get();
     }
 
-    private function groupDataPoint($collections, $response, $form, $partnerships)
+    private function groupDataPoint($response, $form, $partnerships)
     {
-        collect($response['formInstances'])->each(function($datapoints) use ($collections, $form, $partnerships) {
+        collect($response['formInstances'])->each(function($datapoints, $ii) use ($form, $partnerships) {
+            $instance_id = (int) $datapoints['id'];
             $datapoint_id = (int) $datapoints['dataPointId'];
             $submission_date = $datapoints['submissionDate'];
             $partner = collect();
@@ -261,17 +297,31 @@ class SyncController extends Controller
                     return $answers;
                 })->flatten(1);
             if($partner->isNotEmpty()){
-                $partnership_part = explode('_', $partner['partnership']);
+                $partnership_part = Str::before($partner['partnership'], '_');
                 $country_id = $partnerships->where('name', $partner['country'])->first();
-                $partnership_id = $partnerships->where('name', 'like', $partnership_part[0] . '%')->first();
+                $partnership_id = $partnerships->where('code', $partnership_part)->first();
                 $dt = DataPoint::where('datapoint_id', $datapoint_id)->first();
-                if ($dt === null) {
-                    $collections->push(
+
+                if ($country_id === null || $partnership_id === null) {
+                    $this->error->push(
+                        array(
+                            'survey_id' => $form['survey_id'],
+                            'form_id' => $form['form_id'],
+                            'name' => $form['name'],
+                            'instance_id' => $instance_id  
+                        )
+                    );
+                }
+                if ($country_id !== null && $partnership_id !== null) {
+                    $this->success->push($form['form_id']);
+                }
+                if ($dt === null && $country_id !== null && $partnership_id !== null) {
+                    $this->collections->push(
                         array(
                             'datapoint_id' => $datapoint_id,
                             'form_id' => $form['form_id'],
-                            'partnership_id' => $partnership_id->id,
-                            'country_id' => $country_id->id,
+                            'partnership_id' => $partnership_id['id'],
+                            'country_id' => $country_id['id'],
                             'survey_group_id' => $form['survey_group_id'],
                             'submission_date' => date('Y-m-d', strtotime($submission_date)),
                             'answers' => $group,
@@ -280,7 +330,136 @@ class SyncController extends Controller
                 }
             }
         });
-        return $collections;
+        return;
+    }
+
+    public function countSyncData(Form $forms, FlowAuth0 $flow, Partnership $partnerships, DataPoint $datapoints)
+    {
+        // sync
+        $this->syncDataPoints($flow, $forms, $partnerships, $datapoints);
+        // get forms with datapoints
+        $formData = $forms->with('datapoints')->get();
+        $formData = collect($formData)->transform(function ($form) use ($flow) {
+            $countdps = 0;
+            // get form instances from flow
+            $results = $flow->get('forminstances', $form['survey_id'], $form['form_id']);
+            if($results === null){
+                return [
+                    'survey_id' => $form['survey_id'],
+                    'form_id' => $form['form_id'],
+                    'name' => $form['name'],
+                    'flow_dps' => 0,
+                    'db_dps' => 0
+                ];
+            }
+            $countdps += count($results['formInstances']);
+			$next_page = false;
+			if (isset($results['nextPageUrl'])) {
+				$next_page = true;
+			}
+			do{
+				$next_page = false;
+				if (isset($results['nextPageUrl'])) {
+					$next_page = true;
+                    $results = $flow->fetch($results['nextPageUrl']);
+					$countdps += count($results['formInstances']);
+				}
+			}
+            while($next_page);
+            return [
+                'survey_id' => $form['survey_id'],
+                'form_id' => $form['form_id'],
+                'name' => $form['name'],
+                'flow_dps' => $countdps,
+                'db_dps' => count($form['datapoints'])
+            ];
+        })->reject(function ($x) {
+            return $x['flow_dps'] === $x['db_dps'];
+        })->values();
+
+        if (count($formData) === 0) {
+            return "No mismatch data";
+        }
+
+        $table = $this->generateTable($formData, 'check');
+        $html = '<html><body>'.$table.'</body></html>';
+
+        // send email
+        $this->sendEmail('Check Sync Datapoints', $html);
+        return $html;
+    }
+
+    private function generateTable($formData, $status)
+    {
+        $thead = '<tr>';
+        $thead .= '<th>Survey Id</th>';
+        $thead .= '<th>Form Id</th>';
+        $thead .= '<th>Name</th>';
+        if ($status === 'check') {
+            $thead .= '<th>Datapoints count on Flow</th>';
+            $thead .= '<th>Datapoints count on 2Scale Database</th>';
+        }
+        if ($status === 'success') {
+            $thead .= '<th>Datapoints count</th>';
+        }  
+        if ($status === 'error') {
+            $thead .= '<th>Instance id</th>';
+        }               
+        $thead .= '</tr>';
+        
+        
+        $tbody = '';
+        foreach ($formData as $key => $x) {
+            $tbody .= '<tr>';
+            $tbody .= '<td>'.$x['survey_id'].'</td>';
+            $tbody .= '<td>'.$x['form_id'].'</td>';
+            $tbody .= '<td>'.$x['name'].'</td>';
+            if ($status === 'check') {
+                $tbody .= '<td>'.$x['flow_dps'].'</td>';
+                $tbody .= '<td>'.$x['db_dps'].'</td>';
+            }
+            if ($status === 'success') {
+                $tbody .= '<td>'.$x['count'].'</td>';
+            }
+            if ($status === 'error') {
+                $tbody .= '<td>'.$x['instance_id'].'</td>';
+            }
+            $tbody .= '</tr>';
+        }
+
+        $table = '
+            <table border="1">
+                <thead>'.$thead.'</thead>
+                <tbody>'.$tbody.'</tbody>
+            </table>';
+        
+        return $table;
+    }
+
+    private function sendEmail($subject, $html)
+    {
+        $mails = ['joy@akvo.org', 'deden@akvo.org', 'galih@akvo.org'];
+        #$mails = ['galih@akvo.org'];
+        $recipients = collect();
+        collect($mails)->each(function ($mail) use ($recipients) {
+            $recipients->push(['Email' => $mail]);
+        });
+
+        $mj = Mailjet::getClient();
+        $body = [
+            'FromEmail' => config('mail.host'),
+            'FromName' => config('mail.host'),
+            'Subject' => $subject,
+            'Html-part' => $html,
+            'Recipients' => $recipients
+        ];
+
+        try {
+            $response =  $mj->post(Resources::$Email, ['body' => $body]);
+            $result = $response->success();
+        } catch (\Exception $e) {
+            logger()->error('Goutte client error ' . $e->getMessage());
+        }
     }
 
 }

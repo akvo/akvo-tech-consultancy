@@ -3,9 +3,14 @@ import { isJsonString } from '../util/QuestionHandler.js'
 import uuid from 'uuid/v4'
 import isoLangs from '../util/Languages.js'
 import { PARENT_URL } from '../util/Environment.js'
+import { validateMinMax, validateDoubleEntry } from '../util/Utilities.js'
+
+const clearDomain = (DOMAIN_ID) => {
+    return document.referrer.replace('/' + DOMAIN_ID, '');
+}
 
 const DOMAIN_ID = localStorage.getItem('_cache') !== null ? localStorage.getItem('_cache') : false;
-const DOMAIN = DOMAIN_ID ? document.referrer + '/' + DOMAIN_ID : document.referrer;
+const DOMAIN = DOMAIN_ID ? clearDomain(DOMAIN_ID) + '/' + DOMAIN_ID : document.referrer;
 
 const initialState = {
     error: false,
@@ -177,14 +182,14 @@ const getGroupAttributes = ((group, questions, answers) => {
         });
         let mandatories = answers.filter(x => x.mandatory);
         mandatories = mandatories.length === 0
-            ? 0 : (mandatories.length - questions.length) * - 1;
+        ? 0 : questions.filter(x => x.mandatory).length - mandatories.length;
+        mandatories = mandatories < 0 ? 0 : mandatories;
         hidden_questions = hidden_questions.length === 0
             ? 0 : (
                 hidden_questions.length > questions.length
                 ? (questions.length - hidden_questions.length) * - 1
                 : qgroup.length - questions.length
             )
-
         if (answers.length === 0) {
             mandatories = qgroup.filter(x => x.mandatory).length;
             if (hidden_questions !== 0) {
@@ -195,7 +200,6 @@ const getGroupAttributes = ((group, questions, answers) => {
         let badge = "badge-secondary";
         badge = questions.length >= answers.length ? badge : "badge-success";
         badge = mandatories > 0 ? "badge-red" : "badge-success";
-
         return {
             answers: answers.length,
             questions: questions.length,
@@ -405,8 +409,14 @@ const replaceAnswers = (questions, data, restore) => {
             answer = (stored ? stored : null)
             try {
                 answer = JSON.parse(answer)
-            } catch (err) { }
+            } catch (err) {}
         }
+        if (x.type === "cascade" && answer !== null) {
+            let levels = Array.isArray(x.levels.level) ? x.levels.level.length : 1;
+            answer = answer.length === levels ? answer : null;
+        }
+        answer = validateMinMax(answer, x);
+        answer = validateDoubleEntry(answer, x);
         return {
             id: x.id,
             answer: answer,
@@ -461,7 +471,8 @@ const getValidAnswers = (answers, questions) => {
         }
         i++;
     } while(i < questions.length);
-    return mandatory.filter(x => valid.find(z => x.id === z.id));
+    let results = mandatory.filter(x => valid.find(z => x.id === z.id));
+    return results;
 }
 
 const checkSubmission = (answers, questions) => {
@@ -499,7 +510,7 @@ const cloneQuestions = (questions, groups, group_id, restoring=false) => {
         let new_id = new_questions[i].id.split('-')[0] + '-' + new_iteration;
         if (new_questions[i].dependency !== undefined) {
             let dependency_question = new_questions[i].dependency.question;
-            let dependency_iteration = dependency_question.indexOf(group.questions) === -1 ? '0' : new_iteration;
+            let dependency_iteration = group.questions.indexOf(dependency_question) === -1 ? '0' : new_iteration;
             new_questions[i] = {
                 ...new_questions[i],
                 dependency: {
@@ -554,6 +565,19 @@ const removeQuestions = (questions, groups, data) => {
         new_iterated[k].forEach(q => {
             let answer = localStorage.getItem(q.id);
             let new_id = q.id.split('-')[0] + '-' + ix;
+            let qgroup = groups.list.find(qg => qg.index === q.group);
+            if (q.dependency !== undefined) {
+                let default_dependency = q.dependency.question.split('-')[0] + '-0';
+                let dependency_iteration = qgroup.questions.indexOf(default_dependency) === -1
+                    ? '0' : ix;
+                q = {
+                    ...q,
+                    dependency: {
+                        ...q.dependency,
+                        question: q.dependency.question.split('-')[0] + '-' + dependency_iteration
+                    }
+                }
+            }
             new_questions.push({...q, id: new_id, iteration: ix})
             if (q.id !== new_id && answer !== null) {
                 localStorage.setItem(new_id, answer);

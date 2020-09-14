@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { mapStateToProps, mapDispatchToProps } from '../reducers/actions.js'
 import { FaEdit } from "react-icons/fa";
+import { validateMinMax, validateDoubleEntry } from '../util/Utilities.js'
 import Dexie from 'dexie';
 
 const getPos = (question_id) => {
@@ -49,13 +50,17 @@ class OverviewQuestion extends Component {
         )
     }
 
-    renderAnswer(qid, answer, type) {
-        switch(type){
+    renderAnswer(qid, answer, question) {
+        let valid;
+        switch(question.type){
             case "cascade":
                 let cascade = [];
                 answer = JSON.parse(answer);
-                answer.forEach(x => cascade.push(x.text));
-                return cascade.join(' - ');
+                if (answer.length === question.levels.level.length) {
+                    answer.forEach(x => cascade.push(x.text));
+                    return cascade.join(' - ');
+                }
+                return false;
             case "option":
                 let options = [];
                 answer = JSON.parse(answer);
@@ -77,8 +82,13 @@ class OverviewQuestion extends Component {
             case "geo":
                 answer = answer.split('|')
                 return (<div>Latitude: {answer[0]}<br/>Longitude: {answer[0]}</div>);
+            case "number":
+                valid = validateMinMax(answer, question);
+                valid = valid !== null ? validateDoubleEntry(answer, question) : valid;
+                return valid !== null ? answer.toString() : false;
             default:
-                return answer;
+                valid = validateDoubleEntry(answer, question);
+                return valid !== null ? answer.toString() : false;
         }
     }
 
@@ -96,7 +106,7 @@ class OverviewQuestion extends Component {
 
         let answer = localStorage.getItem(qid);
         let divclass = answer === null ? "text-red" : "";
-        answer = answer === null ? false : this.renderAnswer(qid, answer, question.type);
+        answer = answer === null ? false : this.renderAnswer(qid, answer, question);
         if (question === undefined) {
             return (<div key="oq-loading"><p>Loading...</p></div>)
         }

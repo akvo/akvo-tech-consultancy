@@ -15,10 +15,15 @@ export const Mandatory = answered => {
 };
 
 export const ToolTip = (question) => {
-    return (
-        <span data-tip={question.help.text} className={"help-tooltip"}>
-            <FaInfoCircle color="#007bff"/>
-        <ReactTooltip className="tooltips" effect="solid"/>
-        </span>
-    )
+    question = question.help.text;
+    if (question !== null) {
+        question = "<div class='tooltip-short'>" + question + "</div>";
+        return (
+            <span data-tip={question} className={"help-tooltip"}>
+                <FaInfoCircle color="#007bff"/>
+                <ReactTooltip className="tooltips" effect="solid" multiline={true} html={true}/>
+            </span>
+        );
+    }
+    return "";
 }

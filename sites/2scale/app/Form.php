@@ -22,4 +22,8 @@ class Form extends Model
         return $this->hasMany('App\Data', 'form_id', 'form_id');
     }
     
+    public function datapoints()
+    {
+        return $this->hasMany('App\Datapoint', 'form_id', 'form_id');
+    }
 }

@@ -6,6 +6,11 @@ function log {
    echo "$(date +"%T") - INFO - $*"
 }
 
+## ABORT DEPLOY
+echo "ABORTING UDUMA JOBS MASTER DEPLOYMENT"
+exit 0
+## END ABORT DEPLOY
+
 export PROJECT_NAME=akvo-lumen
 
 if [[ "${TRAVIS_BRANCH}" != "develop" ]] && [[ "${TRAVIS_BRANCH}" != "master" ]]; then
@@ -47,3 +52,4 @@ sed -e "s/\${TRAVIS_COMMIT}/$TRAVIS_COMMIT/" ci/k8s/cronjob.yaml.template > cron
 #sed -e "s/\${TRAVIS_COMMIT}/$TRAVIS_COMMIT/" ci/k8s/job.yaml.template > job.yaml.donotcommit
 
 kubectl apply -f cronjob.yaml.donotcommit
+#kubectl apply -f job.yaml.donotcommit

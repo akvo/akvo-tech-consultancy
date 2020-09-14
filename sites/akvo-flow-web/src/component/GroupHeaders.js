@@ -17,8 +17,9 @@ class GroupHeaders extends Component {
     cloneGroup(group, restoring){
         if (!this.props.value.pages.data._isLoading) {
             this.props.cloneGroup(group.index, restoring);
-            this.props.reduceGroups()
-            this.props.checkSubmission()
+            this.props.reduceGroups();
+            this.props.checkSubmission();
+            this.props.changeGroup(this.props.value.groups.active)
         }
     }
 

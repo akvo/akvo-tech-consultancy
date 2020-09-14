@@ -2,6 +2,7 @@
 
 $INSTANCE = env('AKVO_INSTANCE', '');
 $API_FLOW = env('FLOW_API_URL', '').'/flow/orgs/'.$INSTANCE.'/folders?parentId=0';
+$API_BRIDGE = "https://tech-consultancy.akvo.org/2scale-login/login";
 $BASE_AUTH_URL = 'https://akvo.eu.auth0.com/oauth/token';
 $BASE_API_URL = env('FLOW_API_URL', '').'/flow/orgs/' . $INSTANCE;
 $BASE_API_FLOW_WEB = env('XML_FORM_URL');
@@ -22,7 +23,7 @@ return [
         'questions' => $BASE_API_FLOW_WEB . '/' . $INSTANCE  . '/', /* /surveyID/fetch */
         'cascades' => $BASE_API_FLOW_WEB . '/cascade/' .$INSTANCE . '/', /* /sqlite/{parentId} */
         'form_instances' => $BASE_API_FLOW_WEB . '/form-instance',
-        'fetch_flow' => $API_FLOW,
+        'fetch_flow' => $API_BRIDGE, // TODO:: change to $API_FLOW
     ],
     'cascadeMethod' => env('AKVO_CASCADE_METHOD', 'update')
 ];

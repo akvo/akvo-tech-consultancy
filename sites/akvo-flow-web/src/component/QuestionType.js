@@ -18,6 +18,7 @@ class QuestionType extends Component {
         this.state = {
             value: this.value ? this.value : '',
             other: this.other ? this.other : '',
+            invalid: false,
             cascade_selected: [],
             cascade_levels: 0
         }
@@ -43,13 +44,13 @@ class QuestionType extends Component {
 
     handleGlobal(questionid, qval){
         if (qval === "" || qval === null){
-            this.props.replaceAnswers(this.props.value.questions)
+            this.props.replaceAnswers(this.props.value.questions);
         } else {
-            this.props.replaceAnswers(this.props.value.questions)
+            this.props.replaceAnswers(this.props.value.questions);
         }
-        this.props.changeGroup(this.props.value.groups.active)
-        this.props.reduceGroups()
-        this.props.checkSubmission()
+        this.props.changeGroup(this.props.value.groups.active);
+        this.props.reduceGroups();
+        this.props.checkSubmission();
     }
 
     handleCascadeChange(targetLevel, text, id, value) {
@@ -62,10 +63,8 @@ class QuestionType extends Component {
         } else {
             vals = JSON.stringify([storage])
         }
-        if (targetLevel !== 0){
-            localStorage.setItem(this.props.data.id, vals)
-            this.handleGlobal(this.props.data.id, vals)
-        }
+        localStorage.setItem(this.props.data.id, vals)
+        this.handleGlobal(this.props.data.id, vals)
         return true
     }
 
@@ -73,14 +72,12 @@ class QuestionType extends Component {
         const file = event.target.files[0];
         const id = this.props.data.id
         const ext = file.name.substring(file.name.lastIndexOf('.'))
+        const acceptedformats = [".jpg", ".jpeg", ".png", ".gif", ".mp4"];
         const fileId = uuid() + ext;
         const that = this;
-
         const db = new Dexie('akvoflow');
         db.version(1).stores({files: 'id'});
-
         const reader = new FileReader();
-
         reader.addEventListener('load', () => {
             db.files.put({id: fileId, fileName: file.name, blob: reader.result, qid:id})
             .then(() => {
@@ -92,13 +89,18 @@ class QuestionType extends Component {
                 that.setState({ value: fileId })
                 that.handleGlobal(id, fileId)
                 that.setState({blob:reader.result});
+                if (!acceptedformats.includes(ext)) {
+                    alert("invalid formats");
+                    this.handleFileUndo(event);
+                }
+                return;
             })
             .catch((e) => {
                 console.error(e);
             });
         });
-
         reader.readAsDataURL(file);
+        return;
     }
 
     handleFileUndo(event) {
@@ -144,6 +146,12 @@ class QuestionType extends Component {
         let id = this.props.data.id
         let value = event.target.value
         let target = event.target.id;
+        if(event.target.attributes['data-validator']){
+            localStorage.setItem('V-' + id, value);
+            let lastanswer = localStorage.getItem(id);
+            this.handleGlobal(lastanswer, id);
+            return true;
+        };
         if (target.split("_")[0]) {
             return this.handleOther(target, value);
         }
@@ -222,6 +230,19 @@ class QuestionType extends Component {
             this.setState({value: optval})
             this.handleGlobal(id, optval)
         } else {
+            if (this.props.data.validation){
+                this.setState({invalid:false});
+                let min = this.props.data.validation.minVal;
+                let max = this.props.data.validation.maxVal;
+                let invalid = parseInt(value) < parseInt(min);
+                if (invalid) {
+                    this.setState({invalid:true});
+                }
+                invalid = parseInt(value) > parseInt(max);
+                if (invalid) {
+                    this.setState({invalid:true});
+                }
+            };
             localStorage.setItem(id, value)
             this.setState({value: value})
             this.handleGlobal(id, value)
@@ -545,17 +566,53 @@ class QuestionType extends Component {
     }
 
     getInput(data, unique, validation, answered, type) {
+        let validator = "";
+        let invalid = this.state.invalid ? " is-invalid" : "";
+        if (this.state.invalid) {
+            validator = validation.minVal ? "Min Value (" + parseInt(validation.minVal) + ") " : validator;
+            validator = validation.maxVal ? validator + "Max Value (" + parseInt(validation.maxVal) + ")" : validator;
+        }
         return (
+            <div>
+                <span className="text-danger text-sm">{validator}</span>
             <input
-                className={data.type === "photo" ? "form-control-file" : "form-control"}
+                className={"form-control" + invalid}
                 value={answered ? answered : ""}
-                min={validation.minVal ? validation.minVal : ""}
-                max={validation.maxVal ? validation.maxVal: ""}
-                key={unique}
                 type={type}
+                max={validation.maxVal ? parseInt(validation.maxVal) : ""}
+                min={validation.minVal ? parseInt(validation.minVal) : ""}
+                key={unique}
                 name={'Q-' + data.id.toString()}
                 onChange={this.handleChange}
             />
+            </div>
+        )
+    }
+
+    getDoubleEntry(data, unique, answered, type) {
+        let validator = localStorage.getItem('V-'+data.id);
+        validator = validator !== null ? validator : "";
+        return (
+            <div>
+            <input
+                className="form-control"
+                type={type}
+                defaultValue={validator}
+                key={'validation-' + unique}
+                name={'V-' + data.id.toString()}
+                data-validator={true}
+                onChange={this.handleChange}
+            />
+                <div>Confirm Input</div>
+            <input
+                className="form-control"
+                value={answered ? answered : ""}
+                type={type}
+                key={unique}
+                name={'Q-' + data.id.toString()}
+                onChange={this.handleChange}
+            />
+            </div>
         )
     }
 
@@ -573,7 +630,6 @@ class QuestionType extends Component {
     }
 
     getFile(data, unique, answered, type) {
-
         if (answered) {
             const fileName = localStorage.getItem(answered)
             return (
@@ -704,6 +760,9 @@ class QuestionType extends Component {
             case "cascade":
                 return this.getCascade(data,0, key)
             case "number":
+                if(data.requireDoubleEntry) {
+                    return this.getDoubleEntry(data, key, answered, formtype);
+                }
                 return this.getInput(data, key, data.validationRule, answered, formtype)
             case "photo":
                 return this.getFile(data, key, answered, "image")
@@ -714,6 +773,9 @@ class QuestionType extends Component {
             case "geo":
                 return this.getGeo(data, key)
             default:
+                if(data.requireDoubleEntry) {
+                    return this.getDoubleEntry(data, key, answered, formtype);
+                }
                 return this.getTextArea(data, key, answered, formtype)
         }
     }
