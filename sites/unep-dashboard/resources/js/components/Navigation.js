@@ -144,12 +144,14 @@ class Navigation extends Component {
                         icon={["fas", "print"]}
                         onClick={e => this.printPage()}
                     />
+                  {/*
                   <Dropdown className="dropdown-lang">
-                      <Dropdown.Toggle variant="primary">{LocaleName[this.props.value.locale.active]}</Dropdown.Toggle>
+                  <Dropdown.Toggle variant="primary">{LocaleName[this.props.value.locale.active]}</Dropdown.Toggle>
                       <Dropdown.Menu>
-                          {this.renderLangList()}
+                      {this.renderLangList()}
                       </Dropdown.Menu>
-                </Dropdown>
+                  </Dropdown>
+                  */}
               </Navbar.Collapse>
               </Container>
             </Navbar>
