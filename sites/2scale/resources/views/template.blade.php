@@ -4,7 +4,9 @@
     <!-- Required meta tags-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="cache-version" value="1.1.0">
+    <meta name="cache-version" value="1.1.1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="app-url" content="{{ env('APP_URL') }}">
     <meta name="description" content="2SCALE website">
     <meta name="author" content="Akvo">
     <meta name="keywords" content="2SCALE">

@@ -14,6 +14,7 @@
     },
     "devDependencies": {
         "@babel/preset-react": "^7.0.0",
+        "@popperjs/core": "^2.4.4",
         "@testing-library/jest-dom": "^5.1.1",
         "@testing-library/react": "^9.4.1",
         "axios": "^0.19.2",
@@ -24,14 +25,11 @@
         "cross-env": "^7.0",
         "jest": "^25.1.0",
         "jquery": "^3.5.1",
-        "laravel-mix": "^5.0.1",
+        "laravel-mix": "^5.0.5",
         "laravel-mix-bundle-analyzer": "^1.0.5",
         "lodash": "^4.17.19",
-        "@popperjs/core": "^2.4.4",
         "react": "^16.13.0",
         "react-dom": "^16.13.0",
-        "react-shallow-testutils": "^3.0.1",
-        "react-test-render": "^1.1.2",
         "resolve-url-loader": "^3.1.0",
         "sass": "^1.26.1",
         "sass-loader": "^8.0.0"
@@ -55,6 +53,7 @@
         "react-loading": "^2.0.3",
         "react-localization": "^1.0.15",
         "react-redux": "^7.2.0",
+        "reactour": "^1.18.0",
         "redux": "^4.0.5",
         "redux-logger": "^3.0.6",
         "styled-components": "^5.1.1"

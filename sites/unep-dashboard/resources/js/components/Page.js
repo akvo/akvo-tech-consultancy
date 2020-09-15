@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import Tour from 'reactour';
 import { createStore } from 'redux';
 import { connect } from 'react-redux';
 import { mapStateToProps, mapDispatchToProps } from '../reducers/actions';
@@ -25,6 +26,7 @@ import Actions from '../pages/Actions';
 import Funding from '../pages/Funding';
 import Compare from '../pages/Compare';
 import Reports from '../pages/Reports';
+import Support from '../pages/Support';
 import { forEach } from 'lodash';
 
 const API_WEB = process.env.MIX_PUBLIC_URL + "/";
@@ -39,6 +41,38 @@ const call = (endpoint) => {
     });
 }
 
+const toursteps = [
+    {
+        selector: '[data-tour="filter-filters"]',
+        content: ({ goTo, inDOM }) => (
+          <div className="col-tour">
+              <strong>Indicator Filters</strong><br/><br/>
+              <p>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...</p>
+          </div>
+        ),
+    },
+    {
+        selector: '[data-tour="filter-countries"]',
+        content: ({ goTo, inDOM }) => (
+          <div className="col-tour">
+              <strong>Country / Region Filters</strong><br/><br/>
+              <p>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...</p>
+          </div>
+        ),
+    },
+    {
+        selector: '[data-tour="multi-country"]',
+        content: ({ goTo, inDOM }) => (
+          <div className="col-tour">
+              <strong>Multi-Country Switcher</strong><br/><br/>
+              <p>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...</p>
+          </div>
+        ),
+    },
+]
+
+
+
 class Page extends Component {
 
     constructor(props) {
@@ -50,6 +84,8 @@ class Page extends Component {
         this.downloadReport = this.downloadReport.bind(this);
         this.resetDownload = this.resetDownload.bind(this);
         this.selectAllDatapoint = this.selectAllDatapoint.bind(this);
+        this.closeTour = this.closeTour.bind(this);
+        this.state = {isTourOpen: true};
     }
 
     componentDidMount() {
@@ -117,6 +153,8 @@ class Page extends Component {
                 return <Compare/>
             case "report":
                 return <Reports/>
+            case "support":
+                return <Support/>
             default:
                 return ""
         }
@@ -177,15 +215,18 @@ class Page extends Component {
         switch(page){
             case "compare":
                 return "";
+            case "support":
+                return "";
             default:
                 buttons = ["filters","countries"];
-                return buttons.map(x => (
+                return buttons.map((x) => (
                     <button size="sm"
                         key={x}
+                        data-tour={"filter-"  + x}
                         className={
                             sidebar.selected === x && sidebar.active
                             ?  "btn btn-selected btn-sm"
-                            : "btn btn-primary btn-sm"
+                            : "btn btn-primary btn-sm " + x
                         }
                         onClick={e => this.props.page.sidebar.toggle(x)}>
                         {lang[x]} {this.renderCount(x)}
@@ -253,6 +294,8 @@ class Page extends Component {
                 )
             case "compare":
                 return "";
+            case "support":
+                return "";
             default:
                 let fp = this.props.value.data.filteredpoints;
                 let ct = this.props.value.data.countries;
@@ -290,6 +333,14 @@ class Page extends Component {
         }
     }
 
+    closeTour () {
+        this.props.page.tour();
+    }
+
+    renderCloseTour() {
+        return <div className="btn btn-primary btn-sm btn-pills">Close</div>
+    }
+
     render() {
         let page = this.props.value.page.name;
         let loading = this.props.value.page.loading;
@@ -300,6 +351,14 @@ class Page extends Component {
                 <Navigation/>
                 <Container className="top-container">
                     {this.renderHeaderButtons(page, sidebar, lang)}
+                    {page === "overviews" ? (
+                    <button
+                        onClick={e => this.props.page.tour()}
+                        className="tour-info btn btn-secondary btn-sm">
+                        <FontAwesomeIcon
+                            icon={["fas", "info-circle"]} /> Page Tour
+                    </button>)
+                    : ""}
                     {this.renderHeaderButtonsRight(page, lang)}
                     <Filters/>
                 </Container>
@@ -313,6 +372,14 @@ class Page extends Component {
                 <div onClick={e => scrollWindow(1)} className="section-scroll" >
                     <span></span>
                 </div>
+                    {loading ? "" :
+                        <Tour
+                            steps={toursteps}
+                            isOpen={this.props.value.page.tour}
+                            onRequestClose={e => this.closeTour()}
+                            lastStepNextButton={this.renderCloseTour()}
+                        />
+                    }
             </Fragment>
         );
     }

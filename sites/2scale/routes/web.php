@@ -22,3 +22,4 @@ Route::get( '/auth0/callback', '\Auth0\Login\Auth0Controller@callback' )->name('
 Route::get( '/login', 'Auth\Auth0IndexController@login' )->name('login');
 Route::get( '/logout', 'Auth\Auth0IndexController@logout' )->name('logout');
 Route::get('support', 'PageController@support')->name('support');
+Route::post('/rsr-report', 'Api\AkvoRsrController@generateReport');

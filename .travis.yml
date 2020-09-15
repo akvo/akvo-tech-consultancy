@@ -6,14 +6,15 @@ cache:
   directories:
   - "${HOME}/google-cloud-sdk"
 before_install:
-- openssl aes-256-cbc -K $encrypted_83630750896a_key -iv $encrypted_83630750896a_iv -in credentials.tar.gz.enc -out credentials.tar.gz -d
+- openssl aes-256-cbc -K $encrypted_12c8071d2874_key -iv $encrypted_12c8071d2874_iv
+  -in credentials.tar.gz.enc -out credentials.tar.gz -d
 - tar xfz credentials.tar.gz
-- export GCLOUD_ACCOUNT_FILE=$(pwd)/akvo-lumen-ac813f2c346e.json
+- export GCLOUD_ACCOUNT_FILE=$(pwd)/akvo-lumen-a52cb7c6668a.json
 - export SITES_SSH_KEY=$(pwd)/id_rsa
 - if [[ ! -f "${HOME}/google-cloud-sdk/bin/gcloud" ]]; then rm -rf "${HOME}/google-cloud-sdk";
   curl https://sdk.cloud.google.com | bash > /dev/null; fi
 script:
-- ./monorepo-build.sh
+- "./monorepo-build.sh"
 env:
   global:
   - PATH=${HOME}/google-cloud-sdk/bin:$PATH

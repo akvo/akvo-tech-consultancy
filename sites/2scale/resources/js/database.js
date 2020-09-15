@@ -7,9 +7,7 @@ const fetchData = (endpoint) => {
         axios.get('/api/datatables' + endpoint) .then(res=> {
             // console.log('fetch network', res);
             // storeDB({
-            //     table : table,
-            //     data : {name: endpoint, data: res.data},
-            //     key : {name: endpoint}
+            //     table : table, data : {name: endpoint, data: res.data}, key : {name: endpoint}
             // });
             resolve(res.data);
         }).catch(error=> {
@@ -80,7 +78,7 @@ getdata.then(res=> {
         });
         let dtoptions = {
             dom: 'Birftp',
-			buttons: [ 'copy', 'excel', 'csv', 'colvis'],
+			buttons: [ 'copy', 'colvis'],
 			scrollX: true,
             scrollY: '75vh',
 			height: 400,

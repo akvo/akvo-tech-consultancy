@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, BigInteger, Integer, Text
+from sqlalchemy import create_engine, Column, BigInteger, Integer, Text, String
 # from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 from app.connection import engine_url
@@ -172,3 +172,23 @@ class Answers(Base):
     def __repr__(self):
         return "<Answers(id={}, datapoint_id={}, question_id={}, value={})>".format(
                 self.id, self.datapoint_id, self.question_id, self.value)
+
+class Translations(Base):
+
+    __tablename__ = "translations"
+
+    id = Column(BigInteger, primary_key=True, index=True, autoincrement=True)
+    translationable_type = Column(String)
+    translationable_id = Column(BigInteger)
+    lang = Column(Text)
+    text = Column(Text)
+
+    def __init__(self, data):
+        self.translationable_type = data['type']
+        self.translationable_id = data['translationable_id']
+        self.lang = data['lang']
+        self.text = data['text']
+
+    def __repr__(self):
+        return "<Translations(id={}, translationable_type={}, translationable_id={}, lang={}, text={})>".format(
+                self.id, self.translationable_type, self.translationable_id, self.lang, self.text)

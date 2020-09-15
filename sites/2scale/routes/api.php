@@ -82,3 +82,7 @@ Route::get('/partnership/{parent_id}','Api\ConfigController@getPartnership');
 
 // Email
 Route::post('/send_email', 'Api\SupportController@send');
+
+// RSR
+// Route::get('/rsr-report/{partnership_id}', 'Api\AkvoRsrController@generateReport');
+// Route::post('/rsr-image', 'Api\AkvoRsrController@b64toImage');

@@ -122,9 +122,9 @@ const Pie = (title, subtitle, props, data, extra, roseType=false, reports=false)
                         formatter: function(params) {
                             let values = params.data.value;
                             if (props.page.name === "funding") {
-                                return "Total\n"+ formatCurrency(values);
+                                return props.locale.lang.total + "\n" + formatCurrency(values);
                             }
-                            return "Total\n" + values;
+                            return props.locale.lang.total + "\n" + values;
                         },
                         show: true,
                         position: "center",
