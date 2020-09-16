@@ -26,8 +26,11 @@ This repository contains Akvo Tools custom integration pack development.
 | 2 Scale | 2Scale [Data portal](http://2scale.tc.akvo.org/). | Website | PHP, Laravel,Python, Javascripts| Mercy |
 | NABU | A regular job setup to update a postgres database which will be accessed via the qgis app. The job updates the Lumen dataset, fetches the data and imports it into postgres | Jobs | Python |Irene|
 | IUCN | 3 dashboards [plastics](https://iucn.tc.akvo.org/plastics),[TOF](https://iucn.tc.akvo.org/tof),[Plus](https://iucn.tc.akvo.org/plus) |Website | PHP, Javascript |Irene|
-| UNEP | Data Portal |Website | PHP, Javascript |Irene|
+| UNEP | Data Portal [https://unep.tc.akvo.org](https://unep.tc.akvo.org) | Website | PHP, Javascript, ReactJS | Irene |
 | UDUMA | Update Postres Jobs |Website | Python, Migrations |Banzou|
+| UNICEF UGANDA | Uganda WASH Covid19 Data Portal [https://covid-ug5w.tc.akvo.org](https://covid-ug5w.tc.akvo.org)  | Website | PHP, ReactJS | Franky |
+| WAI | Wai Lumen Dashboard [https://wai-eth.tc.akvo.org/](https://wai-eth.tc.akvo.org/)  | Website | Javascript | Joy |
+| WATERSHED | Kabarole WASH Dataportal [https://kabarole-wash.tc.akvo.org/](https://kabarole-wash.tc.akvo.org/) | Website | PHP, Javascript | Joy |
 
 -------
 

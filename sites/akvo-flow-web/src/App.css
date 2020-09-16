@@ -6,6 +6,10 @@ body {
     min-height:0;
 }
 
+h4 {
+    font-size: 1.2rem!important;
+}
+
 h5 {
     font-size: 1.2rem!important;
 }
@@ -23,6 +27,12 @@ nav.navbar-group {
 
 input {
     font-size: 12px;
+}
+
+.text-sm {
+    font-size: 14px;
+    margin-bottom: 5px;
+    display: block;
 }
 
 .sidebar-wrapper {
@@ -87,7 +97,7 @@ button.btn-repeatable{
 }
 
 .fixed-container {
-    height: calc(100% - 135px);
+    height: calc(100% - 130px);
     min-height:0px;
     overflow-y: scroll;
     min-height: 0;
@@ -233,12 +243,15 @@ img.responsive-image {
 /* Tooltip */
 .help-tooltip{
     cursor:pointer;
-    padding-left: 5px;
+    padding-left: 10px;
 }
 
 .tooltips{
-    font-size: 1rem !important;
+    max-width:30%;
+    font-size: .8rem !important;
     pointer-events: auto !important;
+    padding: 10px !important;
+    text-align: justify;
 }
 .tooltips:hover{
     visibility: visible !important;

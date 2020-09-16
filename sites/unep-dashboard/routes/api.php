@@ -18,15 +18,18 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-Route::get('groups', 'Api\SourceController@getGroups');
-Route::get('countries', 'Api\SourceController@getCountries');
-Route::get('values', 'Api\SourceController@getValues');
-Route::get('variables', 'Api\SourceController@getVariables');
+Route::get('data', 'Api\ApiController@data');
+Route::get('filters', 'Api\ApiController@filterlist');
+Route::get('countries', 'Api\ApiController@countrylist');
+Route::get('test', 'Api\ApiController@test');
 
-Route::get('count/country', 'Api\ChartController@getCountryValues');
-Route::get('count/values', 'Api\ChartController@getAllValues');
 
-Route::get('value/category/{id}', 'Api\ChartController@getValueByCategory');
-Route::get('value/{id}', 'Api\ChartController@getValueById');
+/*
+ * Route to initialize localisation
+ */
 
-Route::get('delete', 'Api\ChartController@deleteGroup');
+Route::get('list/questions', 'Api\PublicController@questions');
+Route::get('list/values', 'Api\PublicController@values');
+Route::get('list/actions', 'Api\PublicController@actions');
+Route::get('list/countries', 'Api\PublicController@countries');
+Route::get('list/regions', 'Api\PublicController@regions');

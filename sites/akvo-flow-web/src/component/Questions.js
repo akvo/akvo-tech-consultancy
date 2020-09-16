@@ -6,6 +6,7 @@ import QuestionType from "./QuestionType.js";
 import GroupPanels from "./GroupPanels.js";
 import { Mandatory, ToolTip } from "../util/Badges";
 import { Card, CardBody, CardTitle } from "reactstrap";
+import { validateMinMax, validateDoubleEntry } from '../util/Utilities.js'
 import "../App.css";
 
 //const API_ORIGIN = (PROD_URL ? ( window.location.origin + "/" + window.location.pathname.split('/')[1] + "-api/" ) : process.env.REACT_APP_API_URL);
@@ -30,34 +31,39 @@ class Questions extends Component {
     }
 
     renderQuestion(qid, question) {
-        return <QuestionType key={"question-type-" + qid} data={question} />;
+        return <QuestionType key={"question-type-" + qid} data={question}/>;
     }
 
     renderCachedImage(qid) {
         return ""
     }
 
-    renderMandatoryIcon(qid) {
+    renderMandatoryIcon(qid, question) {
         let answered = false;
+        let answer = localStorage.getItem(qid);
         if (localStorage.getItem(qid)) {
             answered = true;
         }
+        if (answered && question.type === "cascade") {
+            answer = JSON.parse(answer);
+            let levels = Array.isArray(question.levels.level) ? question.levels.level.length : 1;
+            answered = answer.length === levels;
+        }
+        answered = validateMinMax(answer, question) !== null;
+        answered = answered ? validateDoubleEntry(answer, question) !== null : answered;
         return Mandatory(answered);
     }
 
     getForms(questions) {
-        let total_active = questions.reduce((a, x, i) => {
-            let z = 0;
-            if (i === 1) {
-                a = 0;
-            }
-            if (questions.filter(b => b.group === 1).length === 1) {
-                a = 1;
-            }
-            z = x.group === this.props.value.groups.active ? 1 : 0;
-            z = x.show ? 1 : 0;
-            return a + z;
-        });
+        let active_group = this.props.value.groups.active;
+        let total_active = questions.filter(x => x.group === active_group)
+        total_active = total_active.reduce((a, x, i) => {
+                let z = 0;
+                a = i === 1 ? 0 : a;
+                a = questions.filter(b => b.show).length === 1 ? 1 : a;
+                z = x.show ? 1 : 0;
+                return a + z;
+            });
         if (total_active === 0) {
             return (
                 <Card key={"card-0"}>
@@ -85,7 +91,7 @@ class Questions extends Component {
                     <CardBody key={"card-body-" + qid} id={"card-body-" + qid}>
                         <CardTitle key={"card-title-" + qid}>
                             {question.order.toString() + ". " + localization}
-                            {question.mandatory ? this.renderMandatoryIcon(qid) : ""}
+                            {question.mandatory ? this.renderMandatoryIcon(qid, question) : ""}
                             {question.help !== undefined ? ToolTip(question) : ""}
                             {question.type === "photo" ? this.renderCachedImage(qid) : ""}
                         </CardTitle>

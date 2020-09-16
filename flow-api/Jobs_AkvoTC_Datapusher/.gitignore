@@ -1,0 +1,6 @@
+/tmp
+/*.csv
+.DS_Store
+.ipynb_checkpoints
+/ci/.ipynb_checkpoints
+/ci/k8s/.ipynb_checkpoints

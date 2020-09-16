@@ -29,6 +29,7 @@
 	</nav>
 	<div class="nav nav-md-4 align-right" style="margin-left:10px;">
       <button type="button" id="generate-partnership-page" class="btn btn-primary"> Generate Charts</button>
+      <button type="button" id="generate-report-link" class="btn btn-primary"> Generate Report</button>
 	</div>
 </div>
 

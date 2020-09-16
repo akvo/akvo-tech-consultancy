@@ -12,51 +12,93 @@ export const mapDispatchToProps = dispatch => {
                     type: "PAGE - LOADING PAGE",
                     status: status
                 }),
+            init: ({filters, countries, data, datapoints}) =>
+                dispatch({
+                    type: "PAGE - INIT PAGE",
+                    filters: filters,
+                    countries: countries,
+                    data: data,
+                    datapoints: datapoints
+                }),
+            tour: () =>
+                dispatch({
+                    type: "PAGE - SHOW TOUR",
+                }),
             change: page =>
                 dispatch({
                     type: "PAGE - CHANGE PAGE",
                     page: page
-                })
-        },
-        filter: {
-            program: {
-                init: list =>
+                }),
+            sidebar: {
+                toggle: (selected) =>
                     dispatch({
-                        type: "FILTERS - PROGRAM INIT",
-                        list: list
+                        type: "PAGE - SIDEBAR TOGGLE",
+                        selected:selected
                     }),
-                append: (list, depth) =>
+                switchgroup: () =>
                     dispatch({
-                        type: "FILTERS - PROGRAM APPEND",
-                        list: list,
-                        depth: depth
+                        type: "PAGE - SIDEBAR SWITCH GROUP",
                     }),
-                update: (id, parent_id, name, depth) =>
+            },
+            badge: {
+                store: (badges) =>
                     dispatch({
-                        type: "FILTERS - PROGRAM SELECT",
+                        type:"PAGE - BADGE STORE",
+                        badges:badges
+                    })
+            },
+            toggle: {
+                keepfilter: () =>
+                    dispatch({
+                        type:"PAGE - SWITCH KEEP FILTER"
+                    }),
+                fundcontrib: () =>
+                    dispatch({
+                        type:"PAGE - SWITCH FUND CONTRIBUTION"
+                    })
+
+            },
+            compare: {
+                additem: (id, itemtype) =>
+                    dispatch({
+                        type:"PAGE - COMPARE ADD ITEM",
                         id: id,
-                        parent_id: parent_id,
-                        name: name,
-                        depth: depth
+                        itemtype: itemtype
                     }),
-                change: list =>
+                removeitem: (id, itemtype) =>
                     dispatch({
-                        type: "FILTERS - PROGRAM CHANGE",
-                        list: list
+                        type:"PAGE - COMPARE REMOVE ITEM",
+                        id: id,
+                        itemtype: itemtype
                     })
-            },
-            country: {
-                init: countries =>
+            }
+        },
+        data: {
+            toggle: {
+                filters: (id) =>
                     dispatch({
-                        type: "FILTERS - COUNTRY INIT",
-                        countries: countries
+                        type: "DATA - TOGGLE FILTER",
+                        id: id,
                     }),
-                change: country =>
+                countries: (data, group) =>
                     dispatch({
-                        type: "FILTERS - COUNTRY CHANGE",
-                        country: country
-                    })
+                        type: "DATA - TOGGLE COUNTRY",
+                        data: data,
+                        group: group
+                    }),
+                global: () =>
+                    dispatch({
+                        type: "DATA - TOGGLE GLOBAL",
+                    }),
             },
+            remove: {
+                filters: (id, ids) =>
+                    dispatch({
+                        type: "DATA - REMOVE FILTERS",
+                        id: id,
+                        ids: ids
+                    })
+            }
         },
         chart: {
             value: {
@@ -98,6 +140,40 @@ export const mapDispatchToProps = dispatch => {
                         type: "CHART - STATE CHANGE",
                     }),
             }
+        },
+        report: {
+            append: (id) =>
+                dispatch({
+                    type: "REPORT - ADD",
+                    id: id
+                }),
+            delete: (id) =>
+                dispatch({
+                    type: "REPORT - REMOVE",
+                    id: id
+                }),
+            reset: () =>
+                dispatch({
+                    type: "REPORT - RESET",
+                }),
+            appendall: (data) =>
+                dispatch({
+                    type: "REPORT - ADD ALL",
+                    data: data
+                }),
+            download: (download) =>
+                dispatch({
+                    type: "REPORT - DOWNLOAD",
+                    download: download
+
+                })
+        },
+        locale: {
+            change: (lang) =>
+                dispatch({
+                    type: "LOCALE - CHANGE",
+                    lang: lang
+                })
         }
     };
 };

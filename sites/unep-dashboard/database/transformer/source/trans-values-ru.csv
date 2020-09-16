@@ -1,0 +1,242 @@
+source,translationable_id,text
+Reporting,1,Составление отчетов
+As an individual,2,Как человек
+On behalf of an organisation,3,От имени организации
+Other,4,Другой
+Type of Action,5,Тип действий
+"LEGISLATION, STANDARDS, RULES: e.g. agreeing new or changing rules or standards that others should comply with, new regulation, agreements, policies, economic instruments etc. including voluntary commitments.",6,"Законодательство, стандарты, правила: например, согласование нового или изменение правил или стандартов, что и другие должны соответствовать, новым правилам, соглашений, политика, экономическими инструментами и т.д., включая добровольные обязательства."
+"WORKING WITH PEOPLE: Encouraging or enabling others (e.g., education, training, communication, awareness raising, behaviour change programmes",7,"Работа с людьми: поощрение или позволяя другим (например, образование, обучение, общение, повышение осведомленности, программы изменения поведения"
+"TECHNOLOGY and PROCESSES: New technical developments/innovation (e.g., research and development, new product design, new materials, processes etc.) changes in practice, operations, environmental management and planning.",8,"Техники и технологии: новые технические разработки / инновации (например, научные исследования и разработки, новый дизайн продукта, новые материалы, процессы и т.д.) изменения в практике, операций, экологического менеджмента и планирования."
+"MONITORING and ANALYSIS: Collecting evidence around plastic discharge to the ocean/waterways? (e.g. monitoring, analysis)",9,"МОНИТОРИНГ И АНАЛИЗ: Сбор доказательств вокруг пластмассового сброса в океан / водные пути? (Например, мониторинг, анализ)"
+Official agreements,10,Официальные соглашения
+Policy change or development,11,Изменение политики или развития
+High-level strategy,12,Стратегия высокого уровня
+Legislation or regulations,13,Законодательство и нормативные акты
+Voluntary commitments,14,Добровольные обязательства
+New standard(s) or guideline(s),15,Новый стандарт (ы) или руководство (ы)
+Change in Taxes/Subsidies,16,Изменение налогов / субсидии
+Subsidy/financial incentives,17,Субсидии / финансовые стимулы
+Ban(s),18,Ban (s)
+Package of measures combining incentives and infrastructure (e.g. deposit reward schemes),19,"Пакет мер, сочетающих стимулы и инфраструктуру (например, схемы вознаграждения депозита)"
+Other,20,Другой
+Awareness raising and Behaviour change,21,Повышение осведомленности и изменение поведения
+Education/Training,22,Образование / Обучение
+Workshops,23,Мастерские
+Conferences,24,Конференции
+Other,25,Другой
+Information campaign,26,Информационная кампания
+Behaviour change campaign/programme,27,кампания изменения поведения / программы
+Community Engagement,28,Участие общественности
+Stakeholder Engagement,29,Взаимодействие с заинтересованными сторонами
+Citizen Science,30,Citizen Наука
+Creative/arts event; exhibition,31,Творческая / Живопись событий; выставка
+Other,32,Другой
+Curriculum development,33,разработка учебных программ
+Professional skills training,34,обучение Профессиональные навыки
+Other training programmes,35,Другие программы обучения
+Life-long learning,36,Пожизненное обучение
+Institutional development,37,Институциональное развитие
+Other,38,Другой
+Primary school,39,Начальная школа
+Secondary school,40,Средняя школа
+Tertiary higher education,41,Третичный высшее образование
+Other,42,Другой
+New product design,43,Новый дизайн продукта
+Change in service provision,44,Изменения в предоставлении услуг
+Environmental social planning,45,Экологическое социальное планирование
+Change in practice,46,Изменения в практике
+Change in operations,47,Изменение операций
+Industrial or production standard,48,Промышленное производство или стандарт
+Different environmental management of land based environments,49,Различные управления окружающей среды наземных условий
+Different environmental management of aquatic environments,50,Различные управления окружающей среды водной среды
+Research and Development,51,Исследование и разработка
+New infrastructure,52,Новая инфраструктура
+The use of compostable plastic,53,Использование компостирования пластика
+The use of bio-based plastic,54,Использование биологической основе пластика
+The use of biodegradable plastic,55,Использование биоразлагаемого пластика
+Other,56,Другой
+Reducing the environmental impact,57,Снижение воздействия на окружающую среду
+Developing a new material,58,Разработка нового материала
+Developing a new process,59,Разработка нового процесса
+Manufacturing and Production,60,Разработка и производство
+Standards,61,стандарты
+Waste Management,62,обращение с отходами
+Compostable plastic,63,Компост пластик
+Bio-based plastic,64,Био на основе пластиковых
+Bio-degradable pastic,65,Био разлагаемые Pastic
+Other,66,Другой
+Monitoring: On or near ocean surface,67,Мониторинг: На или вблизи поверхности океана
+Monitoring: Water column,68,Мониторинг: Толща воды
+Monitoring: On the seafloor,69,Мониторинг: На дне моря
+Monitoring: On the shoreline,70,Мониторинг: На береговой линии
+Monitoring: In Biota,71,Мониторинг: В биота
+Monitoring: Air,72,Мониторинг: Air
+Review and synthesis :Environmental,73,Обзор и синтез: Environmental
+Review and synthesis: Economic,74,Обзор и синтез: Экономический
+Review and synthesis: Materials,75,Обзор и синтез: Материалы
+Other,76,Другой
+Role Organisation,77,Роль организации
+We are only reporting it here,78,Мы только сообщать об этом здесь
+I/We developed it,79,Я / Мы разработали его
+I/We are implementing it,80,I / Мы реализуем его
+We are the funding body,81,Мы финансирующий орган
+Other,82,Другой
+Responsible Actor,83,Ответственный актер
+PUBLIC ADMINISTRATION (organisations concerned with government policies and programmes),84,"ГОСУДАРСТВЕННОЕ УПРАВЛЕНИЕ (организации, занимающиеся вопросами государственной политики и программ)"
+"PRIVATE SECTOR ORGANISATION (for-profit organisations run by individuals and groups, free from government ownership).",85,"ЧАСТНЫЙ СЕКТОР ОРГАНИЗАЦИЯ (для некоммерческих организаций в ведении отдельных лиц и группы, свободные от государственной собственности)."
+"THIRD SECTOR (e.g. non-governmental and non-profit-making organisations, including charity groups, community groups etc).",86,"ТРЕТИЙ СЕКТОР (например, неправительственные и некоммерческие организации, в том числе благотворительных групп, общественные групп и т.д.)."
+Other,87,Другой
+International body,88,Международный орган
+National ministry/agency,89,Национальное министерство / агентство
+Sub-national ministry/agency,90,Субнациональное министерство / агентство
+Other,91,Другой
+Multinational Corporation,92,Многонациональная корпорация
+National Corporation,93,Национальная корпорация
+Small-medium sized enterprise,94,Малые предприятия среднего размера
+Other,95,Другой
+Non-governmental organisation,96,Неправительственная организация
+Community based organisation,97,Сообщество на основе организации
+Educational sector,98,Образовательный сектор
+Other,99,Другой
+Reporting and Evaluations,100,Отчетность и Оценки
+Yes,101,да
+No,102,нет
+Not applicable,103,Непригодный
+There is a mandatory reporting mechanism,104,Существует обязательный механизм отчетности
+Reporting is voluntary,105,Отчетность является добровольным
+Other,106,Другой
+There is no reporting mechanism,107,Там нет механизма отчетности
+Reporting is voluntary,108,Отчетность является добровольным
+There is not enough resource to support reporting,109,Существует не хватает ресурсов для поддержки отчетности
+Reporting is too effortful,110,Отчетность слишком Effortful
+Other,111,Другой
+Outcome Evaluated,112,Результат Evaluated
+Yes,113,да
+No,114,нет
+Other,115,Другой
+Geography,116,география
+Global (it covers the whole world),117,Global (она охватывает весь мир)
+Regional (UN Regions),118,Региональные (Регионы ООН)
+"Transnational (several countries are involved, including bilateral)",119,"Транснациональный (несколько стран участвуют, в том числе двусторонний)"
+National (it covers one entire country),120,Национальный (она охватывает одну всю страну)
+Sub-national (it covers parts of one country),121,Субнациональный (она охватывает части одной страны)
+Global with elements in specific areas,122,Global с элементами в конкретных областях
+Other,123,Другой
+Source to Sea,124,Источник в море
+Mountains and upland area,125,Горы и нагорья область
+Agricultural land/soils,126,Сельскохозяйственная земля / почвы
+Entire water catchment,127,Вся водосбора
+Forests or Mangroves,128,Леса или Mangroves
+Freshwater rivers and lakes,129,Пресноводные реки и озера
+Urban environment,130,Городская среда
+Waste disposal sites,131,Отходы свалок
+Coastal zone,132,прибрежная зона
+Maritime area within national jurisdiction,133,Морская область в пределах национальной юрисдикции
+Areas beyond national jurisdiction,134,Районы за пределами действия национальной юрисдикции
+Open ocean and high seas,135,Открытый океан и в открытом море
+Air,136,Воздух
+All of the above,137,Все вышеперечисленное
+Not applicable,138,Непригодный
+Other,139,Другой
+Lifecycle of Plastics,140,Жизненный цикл пластмассы
+Raw materials,141,Сырье
+Design,142,дизайн
+Production / Manufacture,143,Производство / Производство
+Use / consumption,144,Использование / потребление
+Collection / sorting of plastics after use,145,Коллекция / сортировка пластмасс после использования
+Management of collected plastics,146,Управление собранных пластмасс
+Clean-up of plastic from the environment,147,Очистка пластика из окружающей среды
+All of the above,148,Все вышеперечисленное
+Not applicable,149,Непригодный
+Other,150,Другой
+Target Action,151,Целевое действие
+Reducing plastics,152,Снижение пластмасс
+Reusing plastic,153,Повторное использование пластика
+Recycling plastics,154,Переработка пластмасс
+Not Applicable,155,Непригодный
+Other,156,Другой
+Impact,157,Влияние
+Human health and wellbeing,158,Человеческое здоровье и благополучие
+Biodiversity,159,Биоразнообразие
+Marine organisms,160,Морские организмы
+Ecosystem Services,161,экосистемные услуги
+Food chain,162,Пищевая цепочка
+Economics and Trade,163,Экономика и торговля
+All of the above,164,Все вышеперечисленное
+Not applicable,165,Непригодный
+Other,166,Другой
+Pollutant Targeted,167,загрязнителя Targeted
+"Macroplastic (large, more than 20 mm, e.g. plastic bottles)",168,"Макропластическая (большая, более чем на 20 мм, например, пластиковые бутылки)"
+"Microplastics (tiny plastic particles less than 5 mm in diameter, e.g., found in personal care products/synthetic textiles)",169,"Microplastics (крошечные пластиковые частицы менее 5 мм в диаметре, например, в продуктах личной гигиены / синтетические ткани)"
+Additives incorporated into plastic items,170,Добавки включены в пластмассовые изделия
+Not applicable,171,Непригодный
+Other,172,Другой
+Bottles,173,Бутылки
+Plastic bags,174,Пластиковые пакеты
+"Food packaging (containers, wrappers etc.)",175,"Пищевая упаковка (контейнеры, обертки и т.д.)"
+"Non-food packaging (containers, wrappers etc.)",176,"Номера пищевой упаковки (контейнеры, обертки и т.д.)"
+Smoking related litter (cigarette butts and packets),177,Связанный с курением мусора (окурки и пакеты)
+Fishing related items,178,Рыбалка сопутствующих предметов
+Shipping related items,179,Доставки сопутствующие предметы
+"Cups (e.g., disposable coffee cups)",180,"Чашки (например, одноразовые чашки кофе)"
+"Plastic straws, stirrers, cutlery",181,"Пластиковые соломки, мешалка, столовые приборы"
+"Sewage-related items (this could include cotton bud sticks, feminine hygiene items and others disposed of via toilets)",182,"Сточная вода, связанные элементы (это может включать ватный тампон палочку, женские предметы гигиены и другие утилизирован через туалеты)"
+Natural disaster/hazard related debris,183,"/ Мусора, связанных с опасностью стихийных бедствий"
+Polystyrene items,184,пункты Полистирол
+All of the above,185,Все вышеперечисленное
+Not applicable,186,Непригодный
+Other,187,Другой
+Microbeads used in cosmetics,188,"Microbeads, используемый в косметике"
+Microplastics used in other products e.g. paints,189,"Microplastics, используемый в других продуктах, например краски"
+All of the above,190,Все вышеперечисленное
+Not applicable,191,Непригодный
+Other,192,Другой
+Sector,193,сектор
+Packaging,194,упаковка
+Textiles,195,Текстиль
+Transportation,196,Транспорт
+"Building, Construction, Demolition",197,"Строительство, Строительство, отбойные"
+Industrial Machinery,198,Промышленное оборудование
+Automotive,199,автомобильный
+Electrical and Electronics,200,Электротехника и электроника
+Agriculture,201,сельское хозяйство
+Fisheries,202,Рыболовство
+Aquaculture,203,аквакультура
+Food & Beverages,204,Продукты питания и напитки
+Personal Healthcare,205,Здоровье
+Medical,206,медицинская
+Retail,207,Розничная торговля
+Tourism,208,туризм
+Wastewater/Sewage management,209,Управление Сточные воды / сточных вод
+All of the above,210,Все вышеперечисленное
+Not applicable,211,Непригодный
+Other,212,Другой
+Funding,213,финансирование
+Crowdfunded,214,Crowdfunded
+Voluntary donations,215,Добровольные пожертвования
+Public Financing,216,государственное финансирование
+Private Sector,217,Частный сектор
+Mixed,218,смешанный
+All of the above,219,Все вышеперечисленное
+Not applicable,220,Непригодный
+Other,221,Другой
+Duration,222,продолжительность
+Single event,223,Одно событие
+Continuous activity less than one year,224,Непрерывная деятельность менее чем один год
+Continuous activity 1-3 Years,225,Непрерывная деятельность 1-3 лет
+Continuous activity more than 3 Years long,226,длительный непрерывная деятельность более 3-х лет
+Not applicable,227,Непригодный
+Other,228,Другой
+"Giving information to stakeholders (e.g., leaflets, posters)",229,"Предоставление информации заинтересованным лицам (например, листовки, плакаты)"
+"Consulting with stakeholders interactively (e.g., workshops)",230,"Консультации с заинтересованными сторонами в интерактивном режиме (например, мастерские)"
+Seeking feedback from stakeholders (e.g. online),231,"Ищу обратную связь от заинтересованных сторон (например, через Интернет)"
+Co-creating the action with stakeholders from the start,232,Совместное создание действий с заинтересованными сторонами с самого начала
+Other,233,Другой
+Yes,234,да
+No,235,нет
+Industry,236,Промышленность
+Government,237,Правительство
+Non Governmental Organisations (NGO's),238,Неправительственные организации (НПО)
+United Nations Agency,239,Агентство ООН
+Community/citizen group(s),240,Сообщество / горожанин группа (ы)
+Other,241,Другой
