@@ -19,4 +19,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/', [Api::class, 'index']);
+Route::get('/filters', [Api::class, 'filters']);
+Route::get('/data/{id}', [Api::class, 'data']);

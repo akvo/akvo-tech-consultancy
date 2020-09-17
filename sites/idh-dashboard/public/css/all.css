@@ -1,0 +1,94 @@
+html, body{
+    font-family:'Raleway',sans-serif!important;
+}
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6{
+    font-family:'Raleway',sans-serif!important;
+    margin:auto!important;
+}
+.page-title > h2 {
+    color: #FFF;
+    font-weight: 600!important;
+    font-size: 40px!important;
+    text-shadow: 0px 0px 20px #000000;
+}
+
+.page-header.row {
+    min-height: 120px;
+}
+
+.page-title .dropdown .btn {
+    font-weight: 500;
+}
+
+.page-content {
+    border-top: 1px #ddd solid;
+    margin: 20px;
+    padding: 20px;
+    display: block;
+}
+
+.btn.btn-primary {
+    background: #0174c6!important;
+    color: #FFF!important;
+}
+
+.dropdown-scroll {
+    max-height: 300px;
+    overflow-y: scroll;
+}
+.nav-link {
+    padding: 15px!important;
+    width: 100px;
+    text-align: center;
+}
+
+.nav-link.active {
+    border-bottom: solid 5px #0174c5;
+    color: #0174c5!important;
+}
+
+.page-title {
+    margin: auto;
+    padding-right: 48px!important;
+}
+
+.dropdown-toggle::after{
+    vertical-align: 2px!important;
+    margin-left: 10px!important;
+}
+
+.page-loading {
+    position: absolute;
+    min-width: 100%;
+    min-height: 100%;
+    background-color: #ffffff;
+    opacity: .9;
+    z-index: 999;
+    text-align: center;
+}
+
+.page-loading h3 {
+    position: absolute;
+    top: 30%;
+    left: calc(50% - 54.5px);
+    font-family: 'Assistant', sans-serif;
+    font-weight: normal;
+    font-size: 16px;
+}
+
+.page-loading .loading-animation {
+    position: absolute;
+    top: 35%;
+    left: calc(50% - 25px);
+}
+
+.page-container {
+    margin-top: 36px;
+    padding: 0px!important;
+}
+
+.jumbotron {
+    background-image: url('/images/banner.jpg');
+    background-size: cover;
+    border-radius:0px!important;
+}
