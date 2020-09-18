@@ -12,8 +12,6 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 
-const API = process.env.MIX_PUBLIC_URL + "/";
-
 class Navigation extends Component {
     constructor(props) {
         super(props);
@@ -47,7 +45,7 @@ class Navigation extends Component {
                 style={{padding: "0px"}}
             >
                 <Navbar.Brand href="#home" style={{padding: "0px"}}>
-                    <Image src={`${process.env.MIX_PUBLIC_URL}/images/logo.jpg`}
+                    <Image src={"images/logo.jpg"}
                         height="60px"
                     />
                 </Navbar.Brand>
