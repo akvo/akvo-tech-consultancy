@@ -1,5 +1,5 @@
 import axios from 'axios';
-const API = process.env.MIX_PUBLIC_URL + "/api/";
+const API = "/api/";
 
 const token = document.querySelector('meta[name="csrf-token"]').content;
 
