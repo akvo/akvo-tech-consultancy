@@ -8,7 +8,7 @@ import {
     Dropdown
 } from 'react-bootstrap';
 import Charts from '../components/Charts';
-import { call } from '../data/api';
+import { queueApi } from '../data/api';
 import { generateData } from "../charts/chart-generator.js";
 
 class Country extends Component {
@@ -25,17 +25,18 @@ class Country extends Component {
         };
     }
 
-    getCharts(res, info) {
+    getCharts(data, info) {
         let url = "data/" + info.id;
         let type = info.type === "option" ? "BAR" : "SCATTER";
-        if (res[url].length > 0) {
-            let data = res[url];
+            type = data.length < 3 ? "PIE" : type;
+        if (data.length > 0) {
             data = type === "SCATTER"
-                ? {xAxis: "Farm Size", yAxis: data.name, data: data} : data;
+                ? {xAxis: "Farm Size", yAxis: data.name, data: data}
+                : data;
             let chart = {
                 kind: type,
-                title: data.name,
-                config: generateData(6, true, "120vh"),
+                title: info.details,
+                config: generateData(6, true, "60vh"),
                 data: data
             };
             this.setState({charts: [...this.state.charts, chart]});
@@ -43,6 +44,7 @@ class Country extends Component {
     }
 
     addChildren(data) {
+        this.setState({charts: []})
         if (data.lv < 4) {
             let selected = this.state.selected;
             let current_level = data.lv - 2;
@@ -50,17 +52,12 @@ class Country extends Component {
             selected[current_level] = appends;
             if (current_level === 0) {
                 this.setState({selected: [appends]});
-                this.setState({charts: []})
             } else {
                 this.setState({selected: selected});
-                let calls = data.childrens.map(x => {
-                    return call('data/' + x.id);
-                })
-                Promise.all(calls).then(res => {
-                    for (let re in res) {
-                        this.getCharts(res[re], data.childrens[re]);
-                    }
+                let urls = data.childrens.map(x => {
+                    return 'data/' + x.id
                 });
+                queueApi(0, urls, urls.length, this.getCharts, data.childrens);
             }
         }
     }

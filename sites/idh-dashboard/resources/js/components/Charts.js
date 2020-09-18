@@ -23,6 +23,7 @@ class Charts extends Component {
                     option={options}
                     notMerge={true}
                     lazyUpdate={true}
+                    style={this.props.config.style}
                 />
                 {this.props.config.line ? <hr /> : ""}
             </Col>

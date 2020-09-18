@@ -11,7 +11,7 @@ import axios from 'axios';
 import Loading from '../pages/Loading';
 import Home from '../pages/Home';
 import Country from '../pages/Country';
-import { call } from '../data/api';
+import { getApi } from '../data/api';
 
 class Page extends Component {
 
@@ -30,7 +30,7 @@ class Page extends Component {
         if (now > cachetime || cache_version !== current_version) {
             localStorage.clear();
             const calls = [
-                call("filters"),
+                getApi("filters"),
             ];
             Promise.all(calls)
                 .then(res => {
@@ -44,7 +44,6 @@ class Page extends Component {
         }
         if (now < cachetime && cache_version === current_version) {
             caches = JSON.parse(caches);
-            console.log(caches);
             this.props.page.init(caches);
             this.props.page.loading(false);
         }
