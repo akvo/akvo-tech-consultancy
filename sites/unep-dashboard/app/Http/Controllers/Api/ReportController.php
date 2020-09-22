@@ -12,6 +12,7 @@ class ReportController extends Controller
     public function __construct()
     {
         $this->collection = collect();
+        $this->code = collect();
     }
 
     public function download(Request $r, Datapoint $dp, Value $vl)
@@ -39,6 +40,7 @@ class ReportController extends Controller
         $dps->transform(function ($q) use ($vls) {
             $q['countries'] = $q['countries']->transform(function ($c) {
                 $this->collection->push($c->country->name);
+                $this->code->push($c->country->code);
                 return $c->country->name;
             });
 
@@ -60,14 +62,15 @@ class ReportController extends Controller
                 "indicators" => $newIndicators
             ];
         });
-
         $results = [
             "all_countries" => $this->collection->unique(),
             "datapoints" => $dps,
             "charts" => $charts,
             "blocks" => $blocks, // 1 (colspan 2), 2 (no colspan)
         ];
-        return view('report', ['data' => $results]);
+        $title = "UNEP_STOCKTAKE_REPORT-";
+        $title .= implode('-', $this->code->unique()->values()->toArray());
+        return view('report', ['data' => $results, 'title' => $title]);
     }
 
     private function fillIndicators($parent, $indicators)
