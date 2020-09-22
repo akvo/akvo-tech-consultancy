@@ -298,7 +298,7 @@ class Sidebar extends Component {
                                 defaultChecked={this.props.value.page.sidebar.group}
                                 type="switch"
                                 id="custom-switch"
-                                label={lang.region}
+                                label={lang.group}
                               />
                             </Form.Group>) : ""}
                     </Form.Row>

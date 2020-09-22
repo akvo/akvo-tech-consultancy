@@ -1,10 +1,10 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { Col, Row, Container, Card, Form, Button } from "react-bootstrap";
 import axios from 'axios';
 
 const contents = [{
         q: "What data is represented in the dashboard and the repository?",
-        a: <p>The data has been mainly collected through an online stocktaking survey. More details on the set up of the survey can be found <a href="https://papersmart.unon.org/resolution/uploads/guidelines_for_marine_plastic_litter_stocktake_survey_2_hs1.pdf" target="_blank">here</a></p>,
+        a: <Fragment>The data has been mainly collected through an online stocktaking survey. More details on the set up of the survey can be found <a href="https://papersmart.unon.org/resolution/uploads/guidelines_for_marine_plastic_litter_stocktake_survey_2_hs1.pdf" target="_blank">here</a></Fragment>,
         list: false,
     },{
         q: "Why is there an interactive dashboard and an online repository platform?",
@@ -144,19 +144,22 @@ class Support extends Component {
                         <Card.Body>
                             {this.renderFaq()}
                         </Card.Body>
+                        {/*
                         <Card.Header>Glossary</Card.Header>
                         <Card.Body>
-                            <Col md={12}>
+                        <Col md={12}>
                             <table>
                                 <tbody>
                                     {this.renderGlossary()}
                                 </tbody>
                             </table>
-                            </Col>
+                        </Col>
                         </Card.Body>
+                        */}
                     </Card>
                     </Col>
                 </Row>
+                <hr/>
             </Container>
         )
     }

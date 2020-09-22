@@ -142,19 +142,19 @@ class Overviews extends Component {
             let filters = this.props.value.data.filters;
             let data = params.data.data;
             let values = [
-                {value: lang.country, count: data.total},
-                {value: lang.multiCountry, count: (data.global)},
+                {value: lang.multiCountry, count: data.total},
+                {value: lang.country, count: (data.global)},
                 {value: lang.total, count: (data.global + data.total)}
             ]
             let html = '<h3 class="table-title">'+ params.name +'</h3><br/>';
             html += '<table class="table table-bordered table-small">';
             html += '<thead class="thead-dark"><tr class="sm bg-dark text-white">';
-            html += '<td width="100">'+ lang.value +'</td><td width="50" align="center">' + lang.numberReportedActions + '</td>'
+            html += '<td width="100">'+ lang.actions +'</td><td width="50" align="center">' + lang.numberReportedActions + '</td>'
             html += '</tr></thead">';
             html += '<tbody>';
             values.forEach(x => {
                 html += '<tr class="sm">';
-                html += '<td width="50">'+ x.value +' Projects</td>';
+                html += '<td width="50">'+ x.value +'</td>';
                 html += '<td width="50" align="center">' + x.count +'</td>';
                 html += '</tr>';
             });
@@ -220,7 +220,7 @@ class Overviews extends Component {
             <table className="table table-bordered table-small">
                 <thead className="thead-dark">
                     <tr className="sm bg-dark text-white">
-                        <td>{lang.Country} {this.props.value.data.global ? lang.multiCountry : ""}</td>
+                        <td>{lang.country}</td>
                         <td align="center">{lang.actionsReported}</td>
                     </tr>
                 </thead>
