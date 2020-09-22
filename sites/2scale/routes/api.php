@@ -41,6 +41,7 @@ Route::get('/sync-question-options', 'Api\SyncController@syncQuestionOptions');
 Route::get('/sync-partnerships', 'Api\SyncController@syncPartnerships');
 Route::get('/sync-datapoints', 'Api\SyncController@syncDataPoints');
 Route::get('/count-sync-data', 'Api\SyncController@countSyncData');
+Route::get('/sync-data', 'Api\SyncController@SyncData');
 
 /*
 |

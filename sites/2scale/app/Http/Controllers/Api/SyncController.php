@@ -14,6 +14,7 @@ use App\Question;
 use App\Option;
 use App\Datapoint;
 use App\Answer;
+use App\Sync;
 use \Mailjet\Resources;
 use Mailjet\LaravelMailjet\Facades\Mailjet;
 
@@ -64,11 +65,16 @@ class SyncController extends Controller
        return $cascades;
     }
 
-    public function syncSurveyForms(SurveyGroup $surveyGroups)
+    public function syncSurveyForms(SurveyGroup $surveyGroups, FlowAuth0 $flow)
     {
+        // create sync URL
+        $sync = $flow->sync('sync');
+        $postSync = new Sync(['url' => $sync['nextSyncUrl']]);
+        $postSync->save();
+
         $surveyGroup = collect(config('surveys.forms'))
-			->map(function($group) use ($surveyGroups) {
-				$id = $surveyGroups->insertGetId(['name' => $group['name']]);
+			->map(function($group) use ($surveyGroups, $flow) {
+                $id = $surveyGroups->insertGetId(['name' => $group['name']]);
 				$forms = collect($group['list'])->map(function($form) {
 					$form = new Form($form);
 					return $form;
@@ -158,7 +164,8 @@ class SyncController extends Controller
             };
             $opts = collect($options['options']['option'])->map(function($opt) use ($type) {
                 $opt['type'] = $type;
-                $opt = collect($opt)->forget('value')->toArray();
+                // there was a translation on options, so we need to forget the altText
+                $opt = collect($opt)->forget(['value', 'altText'])->toArray();
                 return new Option($opt);
             });
             $insert = $questions->find($question->id)->options()->saveMany($opts);
@@ -189,7 +196,7 @@ class SyncController extends Controller
 					$this->groupDataPoint($results, $form, $partnerships);
 				}
 			}
-			while($next_page);
+            while($next_page);
 		});
         $data_points = $this->collections->map(function($data_point) use ($datapoints) {
 			$data = collect($data_point["answers"])->map(function($answer) {
@@ -237,9 +244,9 @@ class SyncController extends Controller
         return $datapoints->with('answers')->get();
     }
 
-    private function groupDataPoint($response, $form, $partnerships)
+    private function groupDataPoint($response, $form, $partnerships, $sync = false)
     {
-        collect($response['formInstances'])->each(function($datapoints, $ii) use ($form, $partnerships) {
+        collect($response['formInstances'])->each(function($datapoints, $ii) use ($form, $partnerships, $sync) {
             $instance_id = (int) $datapoints['id'];
             $datapoint_id = (int) $datapoints['dataPointId'];
             $submission_date = $datapoints['submissionDate'];
@@ -325,7 +332,7 @@ class SyncController extends Controller
                         )
                     );
                 }
-                if ($dt === null && $country_id !== null && $partnership_id !== null) {
+                if (($dt === null || $sync) && $country_id !== null && $partnership_id !== null) {
                     $this->collections->push(
                         array(
                             'datapoint_id' => $datapoint_id,
@@ -346,7 +353,12 @@ class SyncController extends Controller
     public function countSyncData(Form $forms, FlowAuth0 $flow, Partnership $partnerships, DataPoint $datapoints)
     {
         // sync
-        $this->syncDataPoints($flow, $forms, $partnerships, $datapoints);
+        //to delete $this->syncDataPoints($flow, $forms, $partnerships, $datapoints);
+        // run new sync here
+        $syncs = new Sync();
+        $answers = new Answer();
+        $this->syncData($flow, $syncs, $forms, $partnerships, $datapoints, $answers);
+
         // get forms with datapoints
         $formData = $forms->with('datapoints')->get();
         $formData = collect($formData)->transform(function ($form) use ($flow) {
@@ -448,8 +460,8 @@ class SyncController extends Controller
 
     private function sendEmail($subject, $html)
     {
-        $mails = ['joy@akvo.org', 'deden@akvo.org', 'galih@akvo.org'];
-        // $mails = ['galih@akvo.org'];
+        // $mails = ['joy@akvo.org', 'deden@akvo.org', 'galih@akvo.org'];
+        $mails = ['galih@akvo.org'];
         $recipients = collect();
         collect($mails)->each(function ($mail) use ($recipients) {
             $recipients->push(['Email' => $mail]);
@@ -468,8 +480,69 @@ class SyncController extends Controller
             $response =  $mj->post(Resources::$Email, ['body' => $body]);
             $result = $response->success();
         } catch (\Exception $e) {
-            logger()->error('Goutte client error ' . $e->getMessage());
+            logger()->error('Got client error ' . $e->getMessage());
         }
     }
 
+    public function syncData(FlowAuth0 $flow, Sync $syncs, Form $forms, Partnership $partnerships, Datapoint $datapoints, Answer $answers)
+    {
+        $sync = $syncs->orderBy('id', 'desc')->first();
+        $syncData = $flow->fetch($sync['url']);
+
+        if (!isset($syncData['changes'])) {
+            return "No data update";
+        }
+
+        $dpsChanged = [];
+        if (count($syncData['changes']['formInstanceChanged']) !== 0) {
+            $forms = $forms->all();
+            $this->collections = collect();
+            $formInstanceChanged = collect($syncData['changes']['formInstanceChanged'])->groupBy('formId');
+            $formInstanceChanged->each(function ($item, $key) use ($forms, $partnerships) {
+                $results['formInstances'] = $item;
+                $form = $forms->where('form_id', (int) $key)->first();
+                $this->groupDataPoint($results, $form, $partnerships, $sync = true);
+            });
+            // update or create
+            $dpsChanged = $this->collections->map(function ($data_point) use ($datapoints, $answers) {
+                $data_points = collect($data_point)->except('answers')->toArray();
+                $dp = $datapoints->updateOrCreate(
+                    ['datapoint_id' => $data_points['datapoint_id']], 
+                    $data_points
+                );
+                $answer = collect($data_point["answers"])->map(function ($answer) use ($dp, $answers) {
+                    $answer['datapoint_id'] = $dp['id'];
+                    $answer['options'] = strval($answer['options']);
+                    $answer = $answers->updateOrCreate(
+                        [
+                            'datapoint_id' => $answer['datapoint_id'],
+                            'question_id' => $answer['question_id'],
+                        ], 
+                        [
+                            'text' => $answer['text'],
+                            'value' => $answer['value'],
+                            'options' => $answer['options'],
+                        ], 
+                    );
+                    return $answer;
+                });
+                return ["answers" => $answer,"datapoints" => $dp];
+            });
+        }
+
+        $dpsDeleted = [];
+        if (count($syncData['changes']['formInstanceDeleted']) !== 0 || count($syncData['changes']['dataPointDeleted']) !== 0) {
+            $datapointDeleted = collect($syncData['changes']['dataPointDeleted'])->map(function ($item) { return (int) $item; });
+            $dpsDeleted = $datapoints->whereIn('datapoint_id', $datapointDeleted)->delete();
+        }
+        
+        // add new sync url
+        $postSync = new Sync(['url' => $syncData['nextSyncUrl']]);
+        $postSync->save();
+
+        return [
+            "formInstanceChanged" => $dpsChanged,
+            "datapointDeleted" => $dpsDeleted,
+        ];
+    }
 }
