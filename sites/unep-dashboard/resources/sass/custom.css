@@ -218,6 +218,10 @@ h3.popover-header {
     margin-top: 102px;
 }
 
+#wrapper-up {
+    margin-top: 60px;
+}
+
 #wrapper.toggled #sidebar-wrapper {
     margin-left: 0;
 }
@@ -233,6 +237,7 @@ h3.popover-header {
         min-width: 0;
         width: 100%;
     }
+    #wrapper-up.toggled #sidebar-wrapper,
     #wrapper.toggled #sidebar-wrapper {
         margin-left: -20rem;
     }
@@ -732,6 +737,12 @@ h3.table-title{
     max-width: 90%;
     padding: 10px;
 }
+table.vertical-align-top td{
+    vertical-align:top;
+    padding: 10px 0px;
+    border-bottom:solid #ddd 1px;
+}
+
 
 /* Nav Switcher */
 .nav-right-panel {
@@ -996,6 +1007,11 @@ button.btn.btn-sm.btn-download svg{
 }
 
 /*Supports*/
+.card-fixed {
+    position: fixed!important;
+    right: 0px;
+}
+
 .card-supports.card{
     border-radius: 0px;
     margin-top:20px;

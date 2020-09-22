@@ -362,10 +362,12 @@ class Page extends Component {
         let loading = this.props.value.page.loading;
         let sidebar = this.props.value.page.sidebar;
         let lang = this.props.value.locale.lang;
+        let hideContainer = (page === "support" || page === "compare") ? " hidden" : "";
+        let wrapperId = hideContainer === "" ? "wrapper" : "wrapper-up";
         return (
             <Fragment>
                 <Navigation/>
-                <Container className="top-container">
+                <Container className={"top-container" + hideContainer}>
                     {this.renderHeaderButtons(page, sidebar, lang)}
                     {page === "overviews" ? (
                     <button
@@ -378,7 +380,7 @@ class Page extends Component {
                     {this.renderHeaderButtonsRight(page, lang)}
                     <Filters/>
                 </Container>
-                <div className={sidebar.active ? "d-flex" : "d-flex toggled"} id="wrapper">
+                <div className={sidebar.active ? "d-flex" : "d-flex toggled"} id={wrapperId}>
                     {loading ? "" : <Sidebar/>}
                     <div id="page-content-wrapper">
                     {loading ? (<Loading/>) : ""}
