@@ -10,7 +10,7 @@ class Question extends Model
     protected $table = 'questions';
     protected $hidden = ['created_at', 'updated_at'];
     protected $appends = ['short_text'];
-    protected $fillable = ['question_id','datapoint_id','text','options','value'];
+    protected $fillable = ['question_id','form_id', 'type', 'text', 'personal_data', 'resource'];
 
     public function getShortTextAttribute() {
         return Str::limit($this->text, 10,'...');
