@@ -283,7 +283,7 @@ class SyncController extends Controller
         </html>';
 
         // send email
-        $this->sendEmail('Report Sync Datapoints', $html);
+        // $this->sendEmail('Report Sync Datapoints', $html);
         return $datapoints->with('answers')->get();
     }
 
@@ -505,8 +505,8 @@ class SyncController extends Controller
 
     private function sendEmail($subject, $html)
     {
-        // $mails = ['joy@akvo.org', 'deden@akvo.org', 'galih@akvo.org'];
-        $mails = ['galih@akvo.org'];
+        $mails = ['joy@akvo.org', 'deden@akvo.org', 'galih@akvo.org'];
+        // $mails = ['galih@akvo.org'];
         $recipients = collect();
         collect($mails)->each(function ($mail) use ($recipients) {
             $recipients->push(['Email' => $mail]);
