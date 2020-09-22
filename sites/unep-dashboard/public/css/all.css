@@ -764,14 +764,14 @@ h3.table-title{
 .btn.btn-selected .badge.badge-filters.badge-sm{
     background-color: #009fe2;
 }
-button.btn.btn-sm.btn-primary.btn-download {
+button.btn.btn-sm.btn-download {
     padding: 4px 15px!important;
     margin-right: 10px;
     border-radius: 30px!important;
     border: none!important;
     float: right;
 }
-button.btn.btn-sm.btn-primary.btn-download svg{
+button.btn.btn-sm.btn-download svg{
     margin-right:10px;
 }
 

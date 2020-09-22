@@ -82,10 +82,15 @@ class Page extends Component {
         this.renderHeaderButtons = this.renderHeaderButtons.bind(this);
         this.renderHeaderButtonsRight = this.renderHeaderButtonsRight.bind(this);
         this.downloadReport = this.downloadReport.bind(this);
+        this.openReport = this.openReport.bind(this);
         this.resetDownload = this.resetDownload.bind(this);
         this.selectAllDatapoint = this.selectAllDatapoint.bind(this);
         this.closeTour = this.closeTour.bind(this);
-        this.state = {isTourOpen: true};
+        this.state = {
+            isTourOpen: true,
+            isDownloadReady: false,
+            reportBlob: ""
+        };
     }
 
     componentDidMount() {
@@ -160,6 +165,14 @@ class Page extends Component {
         }
     }
 
+    openReport() {
+        let newWindow = window.open("/download");
+        newWindow.onload = () => {
+            newWindow.location = URL.createObjectURL(this.state.reportBlob);
+        };
+        this.setState({isDownloadReady : false});
+    }
+
     downloadReport() {
         this.props.report.download(true);
         let blocks = ["TREEMAP", "PIE", "PIE", "BAR", "BAR", "SANKEY", "BAR", "BARBUTPIE"]
@@ -188,12 +201,8 @@ class Page extends Component {
             axios.post(API_WEB + 'download', formData, {'Content-Type':'multipart/form-data', 'X-CSRF-TOKEN': token})
                 .then(res => {
                     this.props.report.download(false);
-                    const link = document.createElement('a');
-                    const url = window.URL.createObjectURL(new Blob([res.data]));
-                    let newWindow = window.open('/download')
-                    newWindow.onload = () => {
-                        newWindow.location = URL.createObjectURL(new Blob([res.data], {type: "text/html"}));
-                    };
+                    this.setState({reportBlob:new Blob([res.data], {type: "text/html"}), isDownloadReady:true});
+                    //this.openReport();
                 }).catch(err => {
                     this.props.report.download(false);
                     console.log("internal server error");
@@ -254,21 +263,28 @@ class Page extends Component {
                 let rcount = this.props.value.reports.list.length;
                 let dps = this.props.value.data.filteredpoints.length;
                 let disabled = (rcount > 0 && rcount <= 20) ? this.props.value.reports.download : true;
-                let spin = this.props.value.reports.download;
+                let downloadIcon = this.props.value.reports.download
+                    ? "spinner"
+                    : (this.state.isDownloadReady ? "check-circle" : "arrow-circle-down");
                 let resetdisabled = (rcount > 0) ? false : true;
                 let selectdisabled = (dps > 0 && dps <= 20) ? false : true;
+                let downloadAction = this.state.isDownloadReady ? this.openReport : this.downloadReport;
+                let downloadCss = this.state.isDownloadReady ? "btn-success" : "btn-primary";
+                    downloadCss = "btn btn-sm " + downloadCss + " btn-download";
                 return (
                     <Fragment>
                         <button
                             disabled={disabled}
-                            className="btn btn-sm btn-primary btn-download"
-                            onClick={e => this.downloadReport()}
+                            className={downloadCss}
+                            onClick={e => downloadAction()}
                         >
                             <FontAwesomeIcon
                                 className="fas-icon"
-                                spin={spin}
-                                icon={["fas", spin ? "spinner" : "arrow-circle-down"]} />
-                                {this.props.value.reports.download ? lang.generating : lang.download}
+                                spin={this.props.value.reports.download}
+                                icon={["fas", downloadIcon]} />
+                                {this.props.value.reports.download
+                                    ? lang.generating
+                                    : (this.state.isDownloadReady ? lang.clickToDownload : lang.generate)}
                         </button>
                         <button
                             disabled={resetdisabled}

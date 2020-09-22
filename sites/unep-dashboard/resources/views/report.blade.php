@@ -232,6 +232,7 @@
 
     <script>
         window.print();
+        setTimeout(window.close, 300);
     </script>
 </body>
 </html>
