@@ -64,7 +64,7 @@ class Support extends Component {
     renderGlossary() {
         return glossary.map((x, i) => (
             <tr key={"glossary-" + i}>
-                <td width={"40%"}><strong>{x.c}</strong>:</td>
+                <td width={"40%"}><strong>{x.c}</strong></td>
                 <td>{x.m}</td>
             </tr>
         ))

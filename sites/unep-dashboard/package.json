@@ -51,9 +51,9 @@
         "react-loading": "^2.0.3",
         "react-localization": "^1.0.15",
         "react-redux": "^7.2.0",
-        "reactour": "^1.18.0",
+        "reactour": "^1.9.1",
         "redux": "^4.0.5",
         "redux-logger": "^3.0.6",
-        "styled-components": "^5.1.1"
+        "styled-components": "^4.4.1"
     }
 }

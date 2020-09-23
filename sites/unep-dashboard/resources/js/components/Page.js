@@ -41,35 +41,110 @@ const call = (endpoint) => {
     });
 }
 
-const toursteps = [
-    {
-        selector: '[data-tour="filter-filters"]',
-        content: ({ goTo, inDOM }) => (
-          <div className="col-tour">
-              <strong>Indicator Filters</strong><br/><br/>
-              <p>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...</p>
-          </div>
-        ),
-    },
-    {
-        selector: '[data-tour="filter-countries"]',
-        content: ({ goTo, inDOM }) => (
-          <div className="col-tour">
-              <strong>Country / Region Filters</strong><br/><br/>
-              <p>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...</p>
-          </div>
-        ),
-    },
-    {
-        selector: '[data-tour="multi-country"]',
-        content: ({ goTo, inDOM }) => (
-          <div className="col-tour">
-              <strong>Multi-Country Switcher</strong><br/><br/>
-              <p>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...</p>
-          </div>
-        ),
-    },
-]
+const toursteps = (act) => {
+    const intro = {
+            content: ({ close, goTo, inDOM }) => (
+                <div className="col-tour text-center">
+                    <strong>Welcome Stocktaking Data Portal</strong><br/><br/>
+                    Click the following navigation below <br/>to take the tour or use <br/>keyboard cursor to navigate.<br/><br/>
+                    <a href="#" onClick={close}>Skip the tour</a><br/><br/>
+                </div>
+            ),
+            style: {borderRadius: 0}
+    };
+    return [
+        {
+            selector: '[data-tour="button-filters"]',
+            content: ({ goTo, inDOM }) => {
+                return (
+                    <p>Filter reported actions using various attribute combination.</p>
+                )
+            },
+            position: 'right',
+            style: {borderRadius: 0, marginLeft: 10},
+        },
+        {
+            selector: '[data-tour="tab-overview"]',
+            content: ({ goTo, inDOM }) => (
+              <div className="col-tour">
+                  <p>Shows the overview of the reported actions</p>
+              </div>
+            ),
+            position: 'bottom',
+            style: {borderRadius: 0},
+        },
+        {
+            selector: '[data-tour="tab-action"]',
+            content: ({ goTo, inDOM }) => (
+              <div className="col-tour">
+                  <p>View additional details of the reported actions</p>
+              </div>
+            ),
+            position: 'bottom',
+            style: {borderRadius: 0},
+        },
+        {
+            selector: '[data-tour="tab-funding"]',
+            content: ({ goTo, inDOM }) => (
+              <div className="col-tour">
+                  <p>View additional details of the reported actions</p>
+              </div>
+            ),
+            position: 'bottom',
+            style: {borderRadius: 0},
+        },
+        {
+            selector: '[data-tour="tab-reports"]',
+            content: ({ goTo, inDOM }) => (
+              <div className="col-tour">
+                  <p>Download data about the reported actions</p>
+              </div>
+            ),
+            position: 'bottom',
+            style: {borderRadius: 0},
+        },
+        {
+            selector: '[data-tour="tab-compare"]',
+            content: ({ goTo, inDOM }) => (
+              <div className="col-tour">
+                  <p>Compare reported actions across countries/groups</p>
+              </div>
+            ),
+            position: 'bottom',
+            style: {borderRadius: 0},
+        },
+        {
+            selector: '[data-tour="tab-support"]',
+            content: ({ goTo, inDOM }) => (
+              <div className="col-tour">
+                  <p>Get in touch with queries / suggestions</p>
+              </div>
+            ),
+            position: 'bottom',
+            style: {borderRadius: 0},
+        },
+        {
+            selector: '[data-tour="switcher-multi-country"]',
+            content: ({ goTo, inDOM }) => (
+              <div className="col-tour">
+                  <p>Include/Exclude  actions imbeing implemetnted across multiple countries</p>
+              </div>
+            ),
+            position: 'bottom',
+            style: {borderRadius: 0},
+        },
+        {
+            selector: '[data-tour="switcher-keep-filter"]',
+            content: ({ goTo, inDOM }) => (
+              <div className="col-tour">
+                  <p>Ensures that current filter is applicable to all the tabs</p>
+              </div>
+            ),
+            position: 'bottom',
+            style: {borderRadius: 0},
+        },
+    ]
+}
 
 
 
@@ -231,7 +306,7 @@ class Page extends Component {
                 return buttons.map((x) => (
                     <button size="sm"
                         key={x}
-                        data-tour={"filter-"  + x}
+                        data-tour={"button-" + x}
                         className={
                             sidebar.selected === x && sidebar.active
                             ?  "btn btn-selected btn-sm"
@@ -392,7 +467,12 @@ class Page extends Component {
                 </div>
                     {loading ? "" :
                         <Tour
-                            steps={toursteps}
+                            startAt={0}
+                            onAfterOpen={e => this.props.page.sidebar.toggle("filters")}
+                            onBeforeClose={e => this.props.page.sidebar.hide()}
+                            maskSpace={0}
+                            showNumber={false}
+                            steps={toursteps(this.props.page)}
                             isOpen={this.props.value.page.tour}
                             onRequestClose={e => this.closeTour()}
                             lastStepNextButton={this.renderCloseTour()}
