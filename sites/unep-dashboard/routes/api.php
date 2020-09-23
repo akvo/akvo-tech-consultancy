@@ -33,3 +33,5 @@ Route::get('list/values', 'Api\PublicController@values');
 Route::get('list/actions', 'Api\PublicController@actions');
 Route::get('list/countries', 'Api\PublicController@countries');
 Route::get('list/regions', 'Api\PublicController@regions');
+
+Route::post('send-email', 'Api\SupportController@send');
