@@ -1,6 +1,7 @@
 import { db, storeDB } from './dexie';
 const axios = window.axios;
 
+localStorage.removeItem('qgroups');
 const table = db.databases;
 const fetchData = (endpoint) => {
     return new Promise((resolve, reject) => {
@@ -27,18 +28,32 @@ const loadData = async (endpoint) => {
 }
 const getdata=loadData(endpoint);
 
-const createRows=(data, rowType)=> {
+const createRows=(data, rowType, colspan=false)=> {
     let html="<tr>";
-    data.forEach((d, i)=> {
+    data.forEach((d, i) => {
         let classname = i < 10 ? "default-hidden" : "";
         classname = d.text ? (classname + "") : (classname + " bg-light-grey");
+        let colspanOpt = colspan ? "colspan='" + d.questions.length + "'" : "";
         html += rowType === "head"
-            ? ("<th class='" + classname + "'>")
+            ? ("<th class='" + classname + "' " + colspanOpt + ">")
             : ("<td class='" + classname + "'>");
-        html += d.text ? d.text : "";
+        html += rowType === "head" ? (d.name ? d.name : "") : (d.text ? d.text : "");
         html += rowType === "head" ? "</th>" : "</td>";
     });
     html+="</tr>";
+    if (rowType === "head" && colspan) {
+        html+="<tr>";
+        data.forEach((g,i) => {
+            g.questions.forEach((d,i) => {
+                let classname = i < 10 ? "default-hidden" : "";
+                classname = d.text ? (classname + "") : (classname + " bg-light-grey");
+                html += ("<td class='" + classname + "'>");
+                html += (d.text ? d.text : "");
+                html += "</td>";
+            });
+        });
+        html+="</tr>";
+    }
     return html;
 }
 
@@ -50,15 +65,45 @@ const createTable=(data, rowType)=> {
         });
     }
     if (rowType==="head") {
-        html+=createRows(data, rowType);
+        html+=createRows(data, rowType, true);
     }
     html+="</t"+rowType+">";
     $("#datatables").append(html);
     return true;
 }
 
+$(document).on("click", "a.gtabs" , function() {
+    let gid = $(this).attr('dataId');
+    console.log(gid);
+    let test = JSON.parse(localStorage.getItem('qgroups'));
+    console.log(test);
+});
+
 getdata.then(res=> {
-    createTable(res.questions, "head");
+    // createTable(res.questions, "head");
+
+    let table = '<table id="datatables" class="table table-bordered" style="width:100%" cellspacing="0"></table>'
+    $("#datatableWrapper").append(table);
+
+    // new table headers with question groups
+    createTable(res.qgroups, "head");
+
+    // load qgroups tabs
+    let groups = res.qgroups.filter(x => x.repeat === 1);
+    localStorage.setItem('qgroups', JSON.stringify(groups));
+    let tabs = "<ul class='nav nav-pills'>";
+    groups.forEach((g,i) => {
+        let id = "gtabs-"+g.id;
+        tabs += '<li class="nav-item">';
+        tabs += '<a class="nav-link gtabs" dataId="'+g.id+'" id="'+id+'" href="javascript:void(0);">';
+        tabs += g.name.toUpperCase();
+        tabs += '</a>';
+        tabs += '</li>'
+    });
+    tabs += "</ul>";
+    // to active
+    // $("#grouptabs").append(tabs);
+
     $("#loader-spinner").remove();
 	return res;
 }).then(res=> {

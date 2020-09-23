@@ -11,6 +11,7 @@ use App\Datapoint;
 use App\Partnership;
 use App\Question;
 use App\User;
+use App\QuestionGroup;
 
 class DataTableController extends Controller
 {
@@ -20,7 +21,7 @@ class DataTableController extends Controller
         return $forms->with('questions.data')->get();
     }
 
-    public function getDataPoints(Request $request, Datapoint $datapoints, Partnership $partnerships, Question $questions)
+    public function getDataPoints(Request $request, Datapoint $datapoints, Partnership $partnerships, Question $questions, QuestionGroup $qgroups)
     {
         if (!isset($request->country)) {
             $country_id = $partnerships->select('id')->where('parent_id', null)->get()->pluck('id');
@@ -43,6 +44,9 @@ class DataTableController extends Controller
                 "data" => $data->answers
             ];
         });
+        // load question group
+        $qgroups = $qgroups->where('form_id', $request->form_id)
+                           ->with('questions')->get();
         $questions = $questions->where([
                         ['form_id', $request->form_id],
                         ['personal_data', '=', 0]
@@ -75,11 +79,16 @@ class DataTableController extends Controller
             $datapoint['data'] = $collections;
             return $datapoint;
         });
-        $questions = $questions->map(function($q) {
+        $questions = $questions->map(function($q) use ($qgroups) {
             $q['text'] = Str::before($q['text'], ' (');
             $q['text'] = Str::before($q['text'], ':');
+            $q['repeat'] = $qgroups->firstWhere('id', $q['question_group_id'])['repeat'];
             return $q;
         });
-        return ['datapoints' => $datapoints, 'questions' => $questions];
+        return [
+            'datapoints' => $datapoints, 
+            'questions' => $questions,
+            'qgroups' => $qgroups,
+        ];
     }
 }

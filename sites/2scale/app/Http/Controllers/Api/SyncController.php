@@ -15,6 +15,7 @@ use App\Option;
 use App\Datapoint;
 use App\Answer;
 use App\Sync;
+use App\QuestionGroup;
 use \Mailjet\Resources;
 use Mailjet\LaravelMailjet\Facades\Mailjet;
 
@@ -24,6 +25,7 @@ class SyncController extends Controller
         $this->collections = collect();
         $this->success = collect();
         $this->error = collect();
+        $this->repeat_index = 0;
     }
 
     public function syncPartnerships(FlowApi $flow, Partnership $partnerships, $sync = false, $cascadeResource = null)
@@ -97,7 +99,7 @@ class SyncController extends Controller
 		return $surveyGroup;
     }
 
-    private function breakQuestions($form_id, $question) {
+    private function breakQuestions($form_id, $question, $qgroup) {
         $questiontype = $question['type'];
         $cascade = null;
         $personalData = false;
@@ -120,6 +122,7 @@ class SyncController extends Controller
             'personal_data' => $personalData,
             'resource' => $cascade,
             'form_id' => $form_id,
+            'question_group_id' => $qgroup['id'],
         );
     }
 
@@ -138,10 +141,22 @@ class SyncController extends Controller
     {
         $isObject = Arr::isAssoc($groups['questionGroup']);
         if($isObject){
+            // update or create question group
+            $qgroup = QuestionGroup::updateOrCreate(
+                [
+                    'form_id' => $form_id,
+                    'name' => $groups['questionGroup']['heading']
+                ],
+                [
+                    'form_id' => $form_id,
+                    'name' => $groups['questionGroup']['heading'],
+                    'repeat' => $groups['questionGroup']['repeatable']
+                ]
+            );
             $questionlist = collect($groups['questionGroup']['question'])->map(function($question)
-                use ($questions, $form_id) {
+                use ($questions, $form_id, $qgroup) {
                 // return $this->breakQuestions($form_id, $question);
-                $qs = $this->breakQuestions($form_id, $question);
+                $qs = $this->breakQuestions($form_id, $question, $qgroup);
                 return $questions->updateOrCreate(
                     [
                         'question_id' => $qs['question_id'],
@@ -156,10 +171,22 @@ class SyncController extends Controller
         };
         $groupList = collect($groups['questionGroup'])->map(function($group)
             use ($questions, $form_id) {
+            // update or create question group
+            $qgroup = QuestionGroup::updateOrCreate(
+                [
+                    'form_id' => $form_id,
+                    'name' => $group['heading']
+                ],
+                [
+                    'form_id' => $form_id,
+                    'name' => $group['heading'],
+                    'repeat' => $group['repeatable']
+                ]
+            );
             $questionlist = collect($group['question'])->map(function($question)
-                use ($form_id, $questions) {
+                use ($form_id, $questions, $qgroup) {
                 // return $this->breakQuestions($form_id, $question);
-                $qs = $this->breakQuestions($form_id, $question);
+                $qs = $this->breakQuestions($form_id, $question, $qgroup);
                 return $questions->updateOrCreate(
                     [
                         'question_id' => $qs['question_id'],
@@ -294,6 +321,7 @@ class SyncController extends Controller
             $datapoint_id = (int) $datapoints['dataPointId'];
             $submission_date = $datapoints['submissionDate'];
             $partner = collect();
+            $this->repeat_index = 0;
             $group = collect($datapoints['responses'])
                 ->flatten(1)
                 ->map(function($data) use ($datapoint_id, $form, $partner) {
@@ -341,12 +369,19 @@ class SyncController extends Controller
                         if(!is_array($answer) && (int) $answer) {
                             $value = (int) $answer;
                         }
+                        // check repeatable
+                        $question = Question::where('question_id', $question_id)->first();
+                        $qgroup = QuestionGroup::find($question['question_group_id']);
+                        if ($qgroup['repeat']) {
+                            $this->repeat_index++;
+                        }
                         return array(
                             'datapoint_id' => $datapoint_id,
                             'question_id' => $question_id,
                             'text' => $text,
                             'value' => $value,
                             'options' => $options,
+                            'repeat_index' => $this->repeat_index,
                         );
                     });
                     return $answers;
@@ -396,8 +431,6 @@ class SyncController extends Controller
     public function countSyncData(Form $forms, FlowAuth0 $flow, Partnership $partnerships, DataPoint $datapoints)
     {
         // sync
-        //to delete $this->syncDataPoints($flow, $forms, $partnerships, $datapoints);
-        // run new sync here
         $flowApi = new FlowApi();
         $syncs = new Sync();
         $answers = new Answer();
@@ -529,10 +562,14 @@ class SyncController extends Controller
         }
     }
 
-    public function syncData(FlowApi $flowApi, FlowAuth0 $flow, Sync $syncs, Form $forms, Partnership $partnerships, Datapoint $datapoints, Answer $answers, Question $questions)
+    public function syncData(
+        FlowApi $flowApi, FlowAuth0 $flow, Sync $syncs, Form $forms, 
+        Partnership $partnerships, Datapoint $datapoints, Answer $answers, Question $questions
+    )
     {
         $sync = $syncs->orderBy('id', 'desc')->first();
         $syncData = $flow->fetch($sync['url']);
+        // return $syncData;
 
         if (!isset($syncData['changes'])) {
             return "No data update";
@@ -546,7 +583,10 @@ class SyncController extends Controller
             $formInstanceChanged->each(function ($item, $key) use ($forms, $partnerships) {
                 $results['formInstances'] = $item;
                 $form = $forms->where('form_id', (int) $key)->first();
-                $this->groupDataPoint($results, $form, $partnerships, $sync = true);
+                // ignore sync datapoints when form id not in db
+                if ($form !== null) {
+                    $this->groupDataPoint($results, $form, $partnerships, $sync = true);
+                }
             });
             // update or create
             $dpsChanged = $this->collections->map(function ($data_point) use ($datapoints, $answers) {

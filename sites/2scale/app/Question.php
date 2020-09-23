@@ -10,7 +10,7 @@ class Question extends Model
     protected $table = 'questions';
     protected $hidden = ['created_at', 'updated_at'];
     protected $appends = ['short_text'];
-    protected $fillable = ['question_id','form_id', 'type', 'text', 'personal_data', 'resource'];
+    protected $fillable = ['question_id','form_id', 'type', 'text', 'personal_data', 'resource', 'question_group_id'];
 
     public function getShortTextAttribute() {
         return Str::limit($this->text, 10,'...');
@@ -30,5 +30,10 @@ class Question extends Model
     public function options() {
         return $this->hasMany('App\Option');
     } 
+
+    public function questiongroup()
+    {
+        return $this->belongsTo('App\QuestionGroup');
+    }
 
 }
