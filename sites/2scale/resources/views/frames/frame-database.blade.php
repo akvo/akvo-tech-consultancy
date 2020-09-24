@@ -69,8 +69,8 @@ main.inner.cover {
     <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
       <main role="main" class="inner cover">
         <div class="table-wrapper-scroll-y my-custom-scrollbar">
-            <div id="grouptabs"></div>
-            <div id="datatableWrapper"></div>
+            <div id="grouptabsWrapper"></div>
+            <div id="datatableWrapper" class="tab-content"></div>
 		</div>
       </main>
     </div>

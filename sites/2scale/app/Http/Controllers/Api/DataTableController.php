@@ -45,26 +45,45 @@ class DataTableController extends Controller
             ];
         });
         // load question group
-        $qgroups = $qgroups->where('form_id', $request->form_id)
-                           ->with('questions')->get();
+        $qgroups = $qgroups->where('form_id', $request->form_id)->get();
         $questions = $questions->where([
                         ['form_id', $request->form_id],
                         ['personal_data', '=', 0]
                     ])->get();
         $total_questions = collect($questions)->count();
-        $datapoints = $datapoints->map(function($datapoint) use ($total_questions, $questions) {
+        $datapoints = $datapoints->map(function($datapoint) use ($total_questions, $questions, $qgroups) {
             $ids = collect($datapoint)->get('data')->map(function($data){
                 return $data['question_id'];
             });
             $data = $datapoint['data'];
             $datapoint_id = $datapoint['datapoint_id'];
-            $collections = $questions->map(function($question) use ($ids, $data, $datapoint_id) {
+            $collections = $questions->map(function($question) use ($ids, $data, $datapoint_id, $qgroups) {
                 $id = $question['question_id'];
+                $repeat = $qgroups->firstWhere('id', $question['question_group_id'])['repeat'];
                 if ($ids->contains($id)){
-                    $answer = collect($data)->where('question_id', $id)->first();
-                    if ($question['type'] == 'date') {
-                        $answer['text'] = Str::before($answer['text'], 'T');
+                    if ($repeat === 0) {
+                        $answer = collect($data)->where('question_id', $id)->first();
+                        if ($question['type'] == 'date') {
+                            $answer['text'] = Str::before($answer['text'], 'T');
+                        }
+                        $answer['repeat_answers'] = [];
                     }
+                    if ($repeat === 1) {
+                        $repeats = collect($data)->where('question_id', $id);
+                        $temp = collect();
+                        $repeats->each(function ($val) use ($temp, $question) {
+                            if ($question['type'] == 'date') {
+                                $val['text'] = Str::before($val['text'], 'T');
+                            }
+                            $temp->push($val);
+                        });
+                        $answer['question_id'] = $id;
+                        $answer['text'] = $repeats->first()->text;
+                        $answer['value'] = $repeats->first()->value;
+                        $answer['options'] = $repeats->first()->options;
+                        $answer['repeat_answers'] = $temp;
+                    }
+                    $answer['repeat'] = $repeat;
                     return $answer;
                 };
                 return array (
@@ -74,6 +93,9 @@ class DataTableController extends Controller
                     "text" => null,
                     "value" => null,
                     "options" => null,
+                    "repeat_index" => 0,
+                    "repeat_answers" => [],
+                    "repeat" => $repeat,
                 );
             });
             $datapoint['data'] = $collections;
