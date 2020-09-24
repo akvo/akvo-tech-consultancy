@@ -213,7 +213,7 @@ class SyncController extends Controller
     }
 
     private function updateOrCreateQuestionOptions($forms, $questions)
-    {
+    {   
         $forms = collect($forms)->map(function($form){
             if (Arr::has($form, 'question')) {
                 return [$form['question']];
@@ -575,6 +575,76 @@ class SyncController extends Controller
             return "No data update";
         }
 
+        $formChanged = [];
+        if (count($syncData['changes']['formChanged']) !== 0) {
+            $this->collections = collect();
+            $formChanged = collect($syncData['changes']['formChanged'])->map(function ($form) use ($flowApi, $forms, $partnerships, $questions) {
+                // update the form on flow api
+                $updatedFlowApi = $flowApi->questions($form['id'], $update = true);
+
+                // updateOrCreate partnership table
+                $partner_qids = collect(config('surveys.forms'))->map(function ($item) { 
+                    return $item['list']; 
+                })->flatten(1)->pluck('partner_qid');
+                // get the partnership questions
+                $isObject = Arr::isAssoc($updatedFlowApi['questionGroup']);
+                if ($isObject) {
+                    $partner_qs = collect($updatedFlowApi['questionGroup']['question'])->map(function ($q) { 
+                        $q['id'] = (int) $q['id'];
+                        return $q;
+                    })->reject(function ($item) use ($partner_qids) {
+                        return collect($item)->whereNotIn('id', $partner_qids);;
+                    });
+                }
+                if (!$isObject) {
+                    $partner_qs = collect($updatedFlowApi['questionGroup'])->map(function ($qgroup) use ($partner_qids) {
+                        $qs = collect($qgroup['question'])->map(function ($q) { 
+                            $q['id'] = (int) $q['id'];
+                            return $q; 
+                        });
+                        return $qs->whereIn('id', $partner_qids);
+                    })->reject(function ($item) {
+                        return count($item) === 0;
+                    })->flatten(1);
+                }
+                // check if cascade same cascade resource
+                $partnerUpdated = [];
+                if (count($partner_qs) !== 0 && $partner_qs[0]['cascadeResource'] !== config('surveys.cascade')) {
+                    // do partnership update
+                    $partnerUpdated = $this->syncPartnerships($flowApi, $partnerships, $sync = true, $cascadeResource = $partner_qs['cascadeResource']);
+                }
+                // eol updateOrCreate partnership table
+
+                // updateOrCreate form table
+                $formUpdated = Form::updateOrCreate(
+                    [
+                        'form_id' => (int) $updatedFlowApi['surveyId'],
+                        'survey_id' => (int) $updatedFlowApi['surveyGroupId'],
+                    ],
+                    ['name' => $updatedFlowApi['surveyGroupName']]
+                );
+                // eol updateOrCreate form table
+
+                // updateOrCreate question table
+                $questionUpated = $this->updateOrCreateQuestions((int) $form['id'], $updatedFlowApi, $questions);
+                // eol updateOrCreate question table
+
+                // collect questions
+                $this->collections->push($updatedFlowApi['questionGroup']);
+                
+                return [
+                    'partnershipUpdated' => $partnerUpdated,
+                    'formUpdated' => $formUpdated,
+                    'questionUpdated' => $questionUpated,
+                ];
+            });
+
+            // updateOrCreate options table
+            $optionUpdated = $this->updateOrCreateQuestionOptions($this->collections, $questions);
+            $formChanged['optionUpdated'] = $optionUpdated;
+            // eol updateOrCreate options table
+        }
+
         $dpsChanged = [];
         if (count($syncData['changes']['formInstanceChanged']) !== 0) {
             $forms = $forms->all();
@@ -620,81 +690,15 @@ class SyncController extends Controller
             $datapointDeleted = collect($syncData['changes']['dataPointDeleted'])->map(function ($item) { return (int) $item; });
             $dpsDeleted = $datapoints->whereIn('datapoint_id', $datapointDeleted)->delete();
         }
-        
-        $formChanged = [];
-        if (count($syncData['changes']['formChanged']) !== 0) {
-            $formChanged = collect($syncData['changes']['formChanged'])->map(function ($form) use ($flowApi, $forms, $partnerships, $questions) {
-                // update the form on flow api
-                $updatedFlowApi = $flowApi->questions($form['id'], $update = true);
-
-                // updateOrCreate partnership table
-                $partner_qids = collect(config('surveys.forms'))->map(function ($item) { 
-                    return $item['list']; 
-                })->flatten(1)->pluck('partner_qid');
-                // get the partnership questions
-                $isObject = Arr::isAssoc($updatedFlowApi['questionGroup']);
-                if ($isObject) {
-                    $partner_qs = collect($updatedFlowApi['questionGroup']['question'])->map(function ($q) { 
-                        $q['id'] = (int) $q['id'];
-                        return $q;
-                    })->reject(function ($item) use ($partner_qids) {
-                        return $item->whereNotIn('id', $partner_qids);;
-                    })[0];
-                }
-                if (!$isObject) {
-                    $partner_qs = collect($updatedFlowApi['questionGroup'])->map(function ($qgroup) use ($partner_qids) {
-                        $qs = collect($qgroup['question'])->map(function ($q) { 
-                            $q['id'] = (int) $q['id'];
-                            return $q; 
-                        });
-                        return $qs->whereIn('id', $partner_qids);
-                    })->reject(function ($item) {
-                        return count($item) === 0;
-                    })->flatten(1)[0];
-                }
-                // check if cascade same cascade resource
-                $partnerUpdated = [];
-                if ($partner_qs['cascadeResource'] !== config('surveys.cascade')) {
-                    // do partnership update
-                    $partnerUpdated = $this->syncPartnerships($flowApi, $partnerships, $sync = true, $cascadeResource = $partner_qs['cascadeResource']);
-                }
-                // eol updateOrCreate partnership table
-
-                // updateOrCreate form table
-                $formUpdated = Form::updateOrCreate(
-                    [
-                        'form_id' => (int) $updatedFlowApi['surveyId'],
-                        'survey_id' => (int) $updatedFlowApi['surveyGroupId'],
-                    ],
-                    ['name' => $updatedFlowApi['surveyGroupName']]
-                );
-                // eol updateOrCreate form table
-
-                // updateOrCreate question table
-                $questionUpated = $this->updateOrCreateQuestions((int) $form['id'], $updatedFlowApi, $questions);
-                // eol updateOrCreate question table
-
-                // updateOrCreate options table
-                $optionUpdated = $this->updateOrCreateQuestionOptions($updatedFlowApi['questionGroup'], $questions);
-                // eol updateOrCreate options table
-                
-                return [
-                    'partnerUpdated' => $partnerUpdated,
-                    'formUpdated' => $formUpdated,
-                    'questionUpdated' => $questionUpated,
-                    'optionUpdated' => $optionUpdated,
-                ];
-            });
-        }
 
         // add new sync url
         $postSync = new Sync(['url' => $syncData['nextSyncUrl']]);
         $postSync->save();
 
         return [
+            "formChanged" => $formChanged,
             "formInstanceChanged" => $dpsChanged,
             "datapointDeleted" => $dpsDeleted,
-            "formChanged" => $formChanged,
         ];
     }
 }
