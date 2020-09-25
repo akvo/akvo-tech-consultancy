@@ -1,5 +1,6 @@
 import { db, storeDB } from './dexie';
 const axios = window.axios;
+const _ = require('lodash');
 
 localStorage.removeItem('datatables');
 const table = db.databases;
@@ -56,23 +57,23 @@ const createRows=(datas, rowType, colspan=false, res)=> {
     }
     // repeat group
     if (rowType === "bodyRepeat") {
-        let counts = data.map(x => (x.repeat === 1) ? x.repeat_answers.length : 0);
-        let count = counts.sort((a,b) => b-a)[0];
-        let qlength = res.questions.length;
         let repeats = data.filter(x => (x.repeat === 1 && x.repeat_answers.length > 0));
+        // console.log(repeats);
         if (repeats.length > 0) {
-            let answers = [];
-            for (let index=0; index<count; index++) {
-                answers[index] = repeats.map((x) => {
-                    return (x.repeat_answers[index]) 
-                                ? x.repeat_answers[index]
-                                : null;
-                });
-            }
+            // refactor repeat answers by datapoint_id and repeat_index
+            let repeat_answers = [];
+            repeats.forEach(x => x.repeat_answers.forEach(y => repeat_answers.push(y)));
+            let datapoints = _.values(_.groupBy(repeat_answers, x => x.datapoint_id));
+            let answers = _.values(_.groupBy(datapoints[0], x => x.repeat_index));
+            
+            // starting creating row
             answers.forEach((repeat,y) => {
-                let column = repeat.length;
-                if (qlength !== column) {
-
+                // remap repeat answer to meet question length (fill with null)
+                if (repeat.length !== res.questions.length) {
+                    repeat = res.questions.map(x => {
+                        let find = _.find(repeat, y => y.question_id === x.question_id);
+                        return (find === undefined) ? null : find;
+                    });
                 }
                 html+="<tr>";
                 repeat.forEach((d,i) => {
@@ -237,7 +238,7 @@ const datatableOptions = (id, res) => {
     });
     let dtoptions = {
         dom: 'Birftp',
-        buttons: [ 'copy', 'colvis'],
+        buttons: ['excel', 'copy', 'colvis'],
         scrollX: true,
         scrollY: '75vh',
         height: 400,

@@ -78,6 +78,7 @@ class DataTableController extends Controller
                             $temp->push($val);
                         });
                         $answer['question_id'] = $id;
+                        $answer['datapoint_id'] = $datapoint_id;
                         $answer['text'] = $repeats->first()->text;
                         $answer['value'] = $repeats->first()->value;
                         $answer['options'] = $repeats->first()->options;

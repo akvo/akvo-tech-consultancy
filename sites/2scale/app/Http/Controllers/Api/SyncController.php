@@ -25,7 +25,7 @@ class SyncController extends Controller
         $this->collections = collect();
         $this->success = collect();
         $this->error = collect();
-        $this->repeat_index = 0;
+        $this->repeat_temp = [];
     }
 
     public function syncPartnerships(FlowApi $flow, Partnership $partnerships, $sync = false, $cascadeResource = null)
@@ -321,11 +321,11 @@ class SyncController extends Controller
             $datapoint_id = (int) $datapoints['dataPointId'];
             $submission_date = $datapoints['submissionDate'];
             $partner = collect();
-            $this->repeat_index = 0;
             $group = collect($datapoints['responses'])
                 ->flatten(1)
                 ->map(function($data) use ($datapoint_id, $form, $partner) {
-                    $answers = collect($data)->map(function($answer, $question_id) use ($datapoint_id, $form, $partner) {
+                    $answerData = collect($data);
+                    $answers = $answerData->map(function($answer, $question_id) use ($datapoint_id, $form, $partner, $answerData) {
                         if ($question_id === $form['partner_qid']) {
                             $partnership_name = isset($answer[1]) ? $answer[1]['name'] : '';
                             $partner->put('country', $answer[0]['name']);
@@ -372,8 +372,23 @@ class SyncController extends Controller
                         // check repeatable
                         $question = Question::where('question_id', $question_id)->first();
                         $qgroup = QuestionGroup::find($question['question_group_id']);
+                        $repeat_index = 0;
                         if ($qgroup['repeat']) {
-                            $this->repeat_index++;
+                            if (isset($this->repeat_temp[$question_id])) {
+                                $this->repeat_temp[$question_id] = $this->repeat_temp[$question_id] + 1;
+                            } else {
+                                $this->repeat_temp[$question_id] = 1;
+                            }
+                            $repeat_index = $this->repeat_temp[$question_id];
+                            
+                            $check = $answerData->keys();
+                            $qids = Question::where('question_group_id', $qgroup['id'])->pluck('question_id');
+                            $diff = $qids->diff($check);
+                            if (count($diff) > 0) {
+                                $diff->each(function ($val) use ($repeat_index) {
+                                    $this->repeat_temp[$val] = $repeat_index;
+                                });
+                            }
                         }
                         return array(
                             'datapoint_id' => $datapoint_id,
@@ -381,7 +396,7 @@ class SyncController extends Controller
                             'text' => $text,
                             'value' => $value,
                             'options' => $options,
-                            'repeat_index' => $this->repeat_index,
+                            'repeat_index' => $repeat_index,
                         );
                     });
                     return $answers;
