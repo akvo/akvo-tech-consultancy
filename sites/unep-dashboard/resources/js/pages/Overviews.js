@@ -144,7 +144,7 @@ class Overviews extends Component {
             let values = [
                 {value: lang.multiCountry, count: data.total},
                 {value: lang.country, count: (data.global)},
-                {value: lang.total, count: (data.global + data.total)}
+                {value: lang.total, count: (data.total + data.global)}
             ]
             let html = '<h3 class="table-title">'+ params.name +'</h3><br/>';
             html += '<table class="table table-bordered table-small">';

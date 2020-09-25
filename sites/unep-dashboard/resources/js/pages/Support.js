@@ -120,7 +120,6 @@ class Support extends Component {
                     this.setState({sending:false});
                     this.setState({warning: "Internal Server Error"});
                 });
-            console.log(mailing);
         }
     }
 
