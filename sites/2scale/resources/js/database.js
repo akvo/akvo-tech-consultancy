@@ -132,19 +132,29 @@ const fetchLocalData = (key) => {
 
 $(document).on("click", "a.gtabs" , function() {
     let gid = $(this).attr('dataId');
+    let question_group_id = gid.split('-')[1];
+    console.log(question_group_id);
     let dtId = "datatables-"+gid+"";
-    if (gid === "gtabs-qgroup") {
+    if (gid !== "gtabs-parent") {
         // generate table
         fetchLocalData('datatables').then(res => {
             // filter repeat group data
-            res['qgroups'] = res.qgroups.filter(x => x.repeat === 1);
-            res['questions'] = res.questions.filter(x => x.repeat === 1);
+
+            // one repeat group tab
+            // res['qgroups'] = res.qgroups.filter(x => x.repeat === 1);
+            // res['questions'] = res.questions.filter(x => x.repeat === 1);
+
+            // each repeat group tab
+            res['qgroups'] = res.qgroups.filter(x => x.id == question_group_id);
+            res['questions'] = res.questions.filter(x => x.question_group_id == question_group_id);
+            
             res['datapoints'] = res.datapoints.map(dp => {
                 let qids = res.questions.map(x => x.question_id);
                 let data = dp.data.filter(d => qids.includes(d.question_id));
                 dp['data'] = data;
                 return dp;
             });
+            console.log(res);
             
             let table = '<table id="'+dtId+'" class="table table-bordered" style="width:100%" cellspacing="0"></table>'
             $("#"+gid+"").html(table);
@@ -208,7 +218,14 @@ getdata.then(res => {
         let ultabs = "<ul id='grouptabs' class='nav nav-tabs' style='margin-bottom:15px;'></ul>";
         $("#grouptabsWrapper").append(ultabs);
         createaNavTab('parent', 'All Data',true);
-        createaNavTab('qgroup', 'Repeat Group Data');
+        
+        // one repeat group tab
+        // createaNavTab('qgroup', 'Repeat Group Data');
+        
+        // each repeat group tab
+        groups.forEach(x => {
+            createaNavTab(x.id, x.name);
+        });
     }
 
     // new table headers with question groups
