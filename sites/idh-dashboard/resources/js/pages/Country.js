@@ -7,89 +7,108 @@ import {
     Jumbotron,
     Dropdown
 } from 'react-bootstrap';
-import Charts from '../components/Charts';
-import { queueApi } from '../data/api';
+import Charts from '../components/Charts.js';
+import { queueApi, getApi } from '../data/api.js';
+import { getHighest } from '../data/utils.js';
 import { generateData } from "../charts/chart-generator.js";
+import countBy from 'lodash/countBy';
+import groupBy from 'lodash/groupBy';
+import flatten from 'lodash/flatten';
+
+const visualconfigs = {
+    "pi_location_cascade_county": {
+        desc: {
+            rows: [{
+                func: (records) => {
+                    return {name:'', value: records.length};
+                },
+                text: "Of the farmers are included in the analysis"
+            },{
+                func: (records) => {
+                    return getHighest(records,'f_first_crop');
+                },
+                text: "Of the farmers main crop was rice ###"
+            }]
+        }
+    }
+}
 
 class Country extends Component {
 
     constructor(props) {
         super(props);
-        this.renderDropdowns = this.renderDropdowns.bind(this);
-        this.getDropdown = this.getDropdown.bind(this);
-        this.addChildren = this.addChildren.bind(this);
-        this.getCharts = this.getCharts.bind(this);
+        this.getData = this.getData.bind(this);
         this.state = {
-            selected: [],
             charts: []
         };
     }
 
-    getCharts(data, info) {
-        let url = "data/" + info.id;
-        let type = info.type === "option" ? "BAR" : "SCATTER";
-            type = data.length < 3 ? "PIE" : type;
-        if (data.length > 0) {
-            data = type === "SCATTER"
-                ? {xAxis: "Farm Size", yAxis: data.name, data: data}
-                : data;
-            let chart = {
-                kind: type,
-                title: info.details,
-                config: generateData(6, true, "60vh"),
-                data: data
-            };
-            this.setState({charts: [...this.state.charts, chart]});
-        }
-    }
-
-    addChildren(data) {
-        this.setState({charts: []})
-        if (data.lv < 4) {
-            let selected = this.state.selected;
-            let current_level = data.lv - 2;
-            let appends = data.lv < 3 ? data : {name: data.name, lv: data.lv, childrens:[]};
-            selected[current_level] = appends;
-            if (current_level === 0) {
-                this.setState({selected: [appends]});
-            } else {
-                this.setState({selected: selected});
-                let urls = data.childrens.map(x => {
-                    return 'data/' + x.id
+    getData() {
+        let base = this.props.value.page;
+        let source = base.filters.find(x => x.name === base.subpage.country);
+        let ids = source.childrens.map(x => {
+            let url = 'data/' + x.id;
+            getApi(url).then(res => {
+                let data = res[url];
+                data = data.map(d => {
+                    let attr = d.attributes;
+                    let records = d.records;
+                    attr = attr.map(x => {
+                        let extras = [];
+                        let kind = "SCATTER";
+                        let config = generateData(6, true, "60vh");
+                        let extra_config = generateData(4, true, "30vh");
+                        let grouped = records.map(r => {
+                            return isNaN(r[x.variable])
+                                ? r[x.variable].split('|')
+                                : [r['f_size'], r[x.variable]];
+                        });
+                        if (x.type === "option") {
+                            grouped = countBy(flatten(grouped));
+                            let stacked = [];
+                            for (let group in grouped) {
+                                stacked = [...stacked, {name:group.toTitle(), value:grouped[group]}];
+                            }
+                            grouped = stacked;
+                            kind = grouped.length > 3 ? "BAR" : "PIE";
+                        }
+                        if (x.variable === "pi_location_cascade_county") {
+                            kind = "MAPS";
+                            config = generateData(4, false, "60vh");
+                            grouped = {maps:this.props.value.page.subpage.country.toLowerCase(), records:grouped};
+                            let desc = visualconfigs[x.variable].desc;
+                            desc.rows.map(d => {
+                                extras.push({data:d.func(records), text: d.text,config: extra_config});
+                            });
+                        }
+                        if (x.variable === "farmer_sample"){
+                            config = generateData(4, false, "60vh");
+                        }
+                        grouped = kind === "SCATTER"
+                            ? {xAxis: "Farm Size", yAxis: x.name, data: grouped}
+                            : grouped;
+                        let sets = {
+                            title:x.name,
+                            data: grouped,
+                            kind: kind,
+                            config: config,
+                            extras: extras
+                        };
+                        this.setState({charts: [...this.state.charts, sets]});
+                    });
+                    return {
+                        attr: attr,
+                        total: records.length,
+                        records: records
+                    };
                 });
-                queueApi(0, urls, urls.length, this.getCharts, data.childrens);
-            }
-        }
+                return data;
+            });
+        });
     }
 
-    renderDropdowns(x, i) {
-        return (
-            <Dropdown.Item
-                key={'dropdown-child-' + x.lv + '-' + i}
-                onClick={e => this.addChildren(x)}>
-            {x.name}
-            </Dropdown.Item>
-        )
-    }
-
-    getDropdown(data, index) {
-        let level =  data[0].lv - 2;
-        let selected = this.state.selected[level];
-            selected = selected ? selected.name : "Select " + data[0].sel;
-        return (
-            <Dropdown style={{display:"inline-block", margin:"10px"}} key={'dropdown' + index}>
-              <Dropdown.Toggle variant="primary">
-                  {selected}
-              </Dropdown.Toggle>
-                <Dropdown.Menu className={data.length > 9 ? "dropdown-scroll" : ""}>
-                  { data.map((x, i) => this.renderDropdowns(x, i))}
-              </Dropdown.Menu>
-            </Dropdown>
-        )
-    }
-
-    UNSAFE_componentWillReceiveProps() {
-        this.setState({selected:[]});
+    componentDidMount() {
+        this.getData();
     }
 
     render() {
@@ -99,11 +118,7 @@ class Country extends Component {
             <Fragment>
                 <Jumbotron>
                     <Row className="page-header">
-                        <Col md={6} className="page-title">
-                            {this.getDropdown(data.childrens, 0)}
-                            {this.state.selected.map((x, i) => x.childrens.length > 0 ? this.getDropdown(x.childrens, i + 1) : "")}
-                        </Col>
-                        <Col md={6} className="page-title text-right">
+                        <Col md={12} className="page-title text-center">
                             <h2>Project in {country}</h2>
                         </Col>
                     </Row>
@@ -117,6 +132,7 @@ class Country extends Component {
                                 dataset={x.data}
                                 kind={x.kind}
                                 config={x.config}
+                                extras={x.extras}
                             />
                         )}
                     </Row>

@@ -10,7 +10,7 @@ class QuestionGroup extends AkvoQuestionGroup
     protected $hidden = ['repeat','created_at','updated_at','form_id','id'];
 
     public function questions() {
-        return $this->hasMany('App\Models\Question');
+        return $this->hasMany('\App\Models\Question');
     }
 
     public function childrens() {

@@ -4,85 +4,70 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use Akvo\Models\Datapoint;
-use Akvo\Models\AnswerOption;
-use App\Models\Answer;
+use Illuminate\Support\Str;
 use App\Models\Survey;
-use App\Models\Question;
+use App\Models\Form;
+use App\Models\Answer;
+use League\Csv\Reader;
 
 class ApiController extends Controller
 {
 
     public function filters(Survey $surveys)
     {
-        $data = $surveys->with(['fsize','childrens.childrens'])->get();
-        $data = $data->groupBy('country');
-        $data = collect($data)->map(function($data, $key){
-            $childrens = $data->makeHidden('country');
-            $data = collect($data)->map(function($survey){
-                $groups = collect($survey->childrens)->map(function($group){
-                    $vars = collect($group->childrens)->map(function($var){
-                        return [
-                            'id' => $var->id,
-                            'lv'  => 4,
-                            'sel'  => 'var',
-                            'name' => $var->variable_name,
-                            'type' => $var->type,
-                            'var_id' => $var->variable_id,
-                            'details' => $var->name
-                        ];
-                    });
-                    return [
-                        'name' => $group->name,
-                        'lv'  => 3,
-                        'sel'  => 'groups',
-                        'childrens' => $vars,
-                    ];
-                });
-                return [
-                    'name' => $survey->name,
-                    'lv'  => 2,
-                    'sel'  => 'survey',
-                    'childrens'=> $groups,
-                    'fsize' => $survey->fsize->first()->id,
-                ];
-            });
+        $data = $surveys->get()->groupBy('country');
+        $data = collect($data)->map(function($list, $key){
             return [
                 'name' => $key,
-                'sel'  => 'country',
-                'lv'  => 1,
-                'childrens' => $data
+                'childrens' => $list->makeHidden('country')
             ];
         })->values();
         return $data;
     }
 
-    public function data(Request $request, Question $questions)
+    public function data(Request $request, Form $forms)
     {
-        $question = $questions->find($request->id);
-        if ($question->type === "option") {
-            $options = $question->options->pluck('id');
-            $options = AnswerOption::whereIn('option_id', $options)->get();
-            $options = collect($options)->groupBy('option_id')->map(function($opt, $key){
-                return [
-                    'name' => \Akvo\Models\Option::find($key)->name,
-                    'value' => $opt->count()
-                ];
+        $forms = $forms->where('survey_id', $request->id)->get('id');
+        $formdata = collect($forms)->map(function($form) {
+            $data = collect(config('data.sources'))->where('form_id', $form->id)->first();
+            $csv = Reader::createFromPath(base_path().$data['file'], 'r');
+            $csv->setHeaderOffset(0);
+            $headers = $csv->getHeader();
+            $records = iterator_to_array($csv, true);
+            $headers = collect($headers)->reject(function ($value) use ($data){
+                return $value === 'identifier';
             })->values();
-            return $options;
-        }
-        if ($question->type === "numeric") {
-            $questions = $question->load('questionGroup.form.survey');
-            $survey = Survey::where('id', $question->questionGroup->form->survey->id)->with('fsize')->first();
-            $fsize = $survey->fsize->first()->id;
-            $values = Answer::where('question_id', $request->id)->get();
-            $values = collect($values)->map(function($data) use ($fsize) {
-                $fsize = Answer::where('question_id', $fsize)->where('form_instance_id', $data->form_instance_id)->first();
-                return [ $fsize->value, $data->value ];
-            });
-            return $values;
-        }
-        return $answers;
+            $collection = collect();
+            foreach($records as $record){
+                $answers = collect();
+                foreach($headers as $header) {
+                    $value = $record[$header];
+                    $value = is_numeric($value) ? (float) $value : $value;
+                    $value = $value === "NA" ? 0 : $value;
+                    $header = Str::before($header, ' (');
+                    $answers[$header] = $value;
+                }
+                $collection->push($answers);
+            }
+            $attributes = collect();
+            $samplerec = $collection->first();
+            foreach($headers as $header) {
+                $name = Str::after($header, '_');
+                $name = str_replace('_', ' ', $name);
+                $name = Str::title($name);
+                $header = Str::before($header, ' (');
+                $attributes->push([
+                    'name' => $name,
+                    'variable' => $header,
+                    'type' => is_numeric($samplerec[$header]) ? 'numeric' : 'option',
+                ]);
+            }
+            return [
+                'attributes' => $attributes,
+                'records' => $collection
+            ];
+        });
+        return $formdata;
     }
 
 }

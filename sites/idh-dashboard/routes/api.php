@@ -21,3 +21,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('/filters', [Api::class, 'filters']);
 Route::get('/data/{id}', [Api::class, 'data']);
+Route::get('/test', [Api::class, 'test']);

@@ -11,9 +11,10 @@ import {
 import echarts from 'echarts';
 import maxBy from 'lodash/maxBy';
 import minBy from 'lodash/minBy';
-const world = require('../world.js');
 
 const Maps = (title, data) => {
+    const world = require('../'+data.maps+'.js');
+    let records = data.records;
     return {
         title: {
             text: splitTitle(title),
@@ -37,13 +38,13 @@ const Maps = (title, data) => {
             ...TextStyle
         },
         visualMap: {
-            top: '10px',
-            left: 'left',
+            bottom: '10px',
+            left: 'center',
             orient: 'horizontal',
             itemHeight: 'auto',
             itemWidth: 10,
-            min: minBy(data, 'value').value,
-            max: maxBy(data, 'value').value,
+            min: records.length > 1 ? minBy(records, 'value').value : 0,
+            max: records.length > 1 ? maxBy(records, 'value').value : records[0]['value'],
             text: ['Max', 'Min'],
             realtime: false,
             calculable: true,
@@ -137,7 +138,7 @@ const Maps = (title, data) => {
             name: title,
             type: 'map',
             roam: 'move',
-            map: 'world',
+            map: data.maps,
             aspectScale: 1,
             emphasis: {
                 label: {
@@ -153,7 +154,7 @@ const Maps = (title, data) => {
                     shadowBlur: 10
                 }
             },
-            data: data,
+            data: records,
         }],
         ...Color,
         ...Easing,

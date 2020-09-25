@@ -25,6 +25,5 @@ const world = require('./world.json');
         log('ECharts Map is not loaded')
         return;
     }
-    echarts.registerMap('world', world)
+    echarts.registerMap('world', world);
 }));
-

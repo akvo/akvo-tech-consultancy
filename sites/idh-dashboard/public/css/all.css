@@ -49,7 +49,6 @@ html, body{
 
 .page-title {
     margin: auto;
-    padding-right: 48px!important;
 }
 
 .dropdown-toggle::after{
@@ -91,4 +90,15 @@ html, body{
     background-image: url('/images/banner.jpg');
     background-size: cover;
     border-radius:0px!important;
+}
+
+h2.extra-counter {
+    text-align: center;
+    padding: 3vh;
+    margin-bottom: 2vh!important;
+    border-top: 5px solid #00adef;
+    background: #e6e6e6;
+    color: #0174c6;
+    font-size: 40px;
+    display: block;
 }

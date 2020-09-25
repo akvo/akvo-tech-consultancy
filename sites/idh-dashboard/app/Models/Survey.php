@@ -9,7 +9,6 @@ class Survey extends AkvoSurvey
 {
 
     protected $hidden = [
-        'id',
         'created_at',
         'updated_at',
         'registration_id',
@@ -20,16 +19,28 @@ class Survey extends AkvoSurvey
         'country'
     ];
 
+    public function form() {
+        return $this->hasOne('\App\Models\Form');
+    }
+
+    public function forms() {
+        return $this->hasMany('\App\Models\Form');
+    }
+
+    public function formInstances() {
+        return $this->hasManyThrough('\App\Models\FormInstance','\App\Models\Form');
+    }
+
     public function childrens() {
-        return $this->hasManyThrough('App\Models\QuestionGroup', 'Akvo\Models\Form');
+        return $this->hasManyThrough('\App\Models\QuestionGroup', '\App\Models\Form');
     }
 
     public function questions() {
-        return $this->hasManyThrough('App\Models\Question','Akvo\Models\Form');
+        return $this->hasManyThrough('\App\Models\Question','\App\Models\Form');
     }
 
     public function fsize() {
-        $farm_size = \Akvo\Models\Variable::where('name','F_size')->first();
+        $farm_size = \Akvo\Models\Variable::where('name','f_size (acre)')->first();
         return $this->questions()->where('variable_id',$farm_size->id);
     }
 

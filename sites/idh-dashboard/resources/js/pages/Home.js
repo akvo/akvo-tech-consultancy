@@ -27,15 +27,16 @@ class Home extends Component {
         });
         let maps =  {
             title: "Country Project",
-            data: data,
+            data: {maps:'world', records:data},
             kind: "MAPS",
-            config: generateData(12, true, "80vh")
+            config: generateData(12, true, "80vh"),
+            extras: []
         }
         return (
             <Fragment>
             <Jumbotron>
                 <Row className="page-header">
-                    <Col md={12} className="page-title text-right">
+                    <Col md={12} className="page-title text-center">
                         <h2>Welcome to IDH Dataportal</h2>
                     </Col>
                 </Row>
@@ -47,6 +48,7 @@ class Home extends Component {
                             dataset={maps.data}
                             kind={maps.kind}
                             config={maps.config}
+                            extras={maps.extras}
                         />
                     </Row>
                 </div>
