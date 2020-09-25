@@ -20,6 +20,17 @@ p.top-ten{
     font-size: 12px;
 }
 
+a.bold {
+    font-weight: 600;
+    padding: 0px 3px;
+    color: #009fe3;
+}
+a.bold:hover {
+    background-color: #009fe3;
+    text-decoration:none;
+    color: #fff;
+}
+
 .top-container.container {
     position: fixed;
     z-index: 1;
