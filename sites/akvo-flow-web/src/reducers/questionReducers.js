@@ -193,9 +193,9 @@ const getGroupAttributes = ((group, questions, answers) => {
         mandatories = qgroup.filter(x => x.mandatory).length;
         if (hidden_questions !== 0) {
             mandatories = questions.filter(x => x.mandatory).length;
-            if (answers.length > 0) {
-                mandatories = mandatories - answers.filter(x => x.mandatory).length;
-            }
+        }
+        if (answers.length > 0) {
+            mandatories = mandatories - answers.filter(x => x.mandatory).length;
         }
         let badge = "badge-secondary";
         badge = questions.length >= answers.length ? badge : "badge-success";
