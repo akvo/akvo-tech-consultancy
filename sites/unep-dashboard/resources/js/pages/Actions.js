@@ -92,7 +92,7 @@ class Actions extends Component {
                 },
                 {
                     kind: "SANKEY",
-                    title: "pollutantTarget",
+                    title: "pollutantTargeted",
                     subtitle: "numberReportedActions",
                     config: generateData(8, true, "65vh"),
                     data: {id: 167, childs:true},
@@ -116,16 +116,18 @@ class Actions extends Component {
 
     renderOptions(filterId, childs=true) {
         let active = this.props.value.data.filteredpoints;
+        let locale = this.props.value.locale.active;
         let thefilter = flatten(this.props.value.page.filters);
             thefilter = thefilter.filter(x => x.id === filterId);
         let datapoints = this.props.value.data.master.map(x => x.values);
-            thefilter = getChildsData(thefilter, datapoints, active);
+            thefilter = getChildsData(thefilter, datapoints, active, locale);
         if (thefilter.length > 0) {
             thefilter = thefilter[0].children;
         }
         if (thefilter.length > 0 && childs === false) {
-            thefilter = pushToParent(thefilter)
+            thefilter = pushToParent(thefilter, locale)
         }
+        console.log(thefilter);
         return thefilter;
     }
 

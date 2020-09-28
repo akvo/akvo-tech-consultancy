@@ -55,17 +55,29 @@ export const digDataPoints = (data, id, active) => {
     return datapoints;
 }
 
-export const getChildsData = (data, countries, active) => {
+export const translateValue = (data, locale) => {
+    let name = data.name;
+    if (locale !== 'en' && data.locale) {
+        name = data.locale.filter(a => a.lang === locale);
+        name = name.length > 0 ? name[0].text : data.name;
+    }
+    return name;
+}
+
+export const getChildsData = (data, countries, active, locale) => {
     data = data.map(x => {
+        let name = translateValue(x, locale);
         if (x.childrens.length > 0){
             return {
                 ...x,
-                children:getChildsData(x.childrens, countries, active),
+                name: name,
+                children:getChildsData(x.childrens, countries, active, locale),
             }
         }
         let datapoints = digDataPoints(countries, x.id, active);
         return {
             ...x,
+            name: name,
             children: x.childrens,
             value: datapoints.length,
             datapoints: datapoints
@@ -88,17 +100,20 @@ export const getChildPoints = (parent, points) => {
     return uniq(points);
 }
 
-export const pushToParent = (parent)  => {
+export const pushToParent = (parent, locale)  => {
     return parent.map(x => {
+        let name = translateValue(x, locale);
         if (x.children.length > 0) {
             return {
-                name: x.name,
+                name: name,
                 value: getChildPoints(x.children, []).length,
+                locale: x.locale
             }
         }
         return {
-            name: x.name,
+            name: name,
             value: x.datapoints.length,
+            locale: x.locale
         }
     });
 }

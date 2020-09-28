@@ -18,17 +18,18 @@ class ApiController extends Controller
         $this->collection = collect();
     }
 
-    public function filters(Value $values)
+    public function filterlist(Value $values)
     {
         $filters = $values
             ->whereNull('parent_id')
             ->has('childrens')
             ->with('childrens')
+            ->with('locale')
             ->get();
         return $filters;
     }
 
-    public function countries(Country $countries)
+    public function countrylist(Country $countries)
     {
         return $countries->with('groups')->get();
     }

@@ -201,10 +201,15 @@ class SyncController extends Controller
 			return ["answers" => $answers,"datapoints" => $datapoints];
         });
 
+        // delete datapoints where not found on flow data
+        $dps = collect($datapoints->all());
+        $deletes = $dps->whereNotIn('datapoint_id', $this->success->pluck('datapoint_id'))->values();
+        $datapoints->whereIn('id', $deletes->pluck('id'))->delete();
+
         // generate report
         $success = $forms->map(function ($form) {
             $countdps = $this->success->filter(function ($value) use ($form) {
-                 return $value === $form['form_id']; 
+                 return $value['form_id'] === $form['form_id']; 
             });
             return [
                 'survey_id' => $form['survey_id'],
@@ -308,12 +313,17 @@ class SyncController extends Controller
                             'survey_id' => $form['survey_id'],
                             'form_id' => $form['form_id'],
                             'name' => $form['name'],
-                            'instance_id' => $instance_id  
+                            'instance_id' => $instance_id,
                         )
                     );
                 }
                 if ($country_id !== null && $partnership_id !== null) {
-                    $this->success->push($form['form_id']);
+                    $this->success->push(
+                        array(
+                            'form_id' => $form['form_id'],
+                            'datapoint_id' => $datapoint_id,
+                        )
+                    );
                 }
                 if ($dt === null && $country_id !== null && $partnership_id !== null) {
                     $this->collections->push(
@@ -439,7 +449,7 @@ class SyncController extends Controller
     private function sendEmail($subject, $html)
     {
         $mails = ['joy@akvo.org', 'deden@akvo.org', 'galih@akvo.org'];
-        #$mails = ['galih@akvo.org'];
+        // $mails = ['galih@akvo.org'];
         $recipients = collect();
         collect($mails)->each(function ($mail) use ($recipients) {
             $recipients->push(['Email' => $mail]);

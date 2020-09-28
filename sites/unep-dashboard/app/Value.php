@@ -27,7 +27,7 @@ class Value extends Model
 
     public function childrens()
     {
-        return $this->hasMany('App\Value', 'parent_id', 'id')->with('childrens');
+        return $this->hasMany('App\Value', 'parent_id', 'id')->with(['childrens','locale']);
     }
 
     public function parents()
@@ -43,5 +43,10 @@ class Value extends Model
     public function questions()
     {
         return $this->hasMany('question');
+    }
+
+    public function locale()
+    {
+        return $this->morphMany('App\Translation','translationable');
     }
 }
