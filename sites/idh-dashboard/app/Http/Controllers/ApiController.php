@@ -8,10 +8,18 @@ use Illuminate\Support\Str;
 use App\Models\Survey;
 use App\Models\Form;
 use App\Models\Answer;
+use App\Models\FormInstance;
+use App\Models\Variable;
 use League\Csv\Reader;
 
 class ApiController extends Controller
 {
+
+    public function test()
+    {
+        return Variable::paginate(10);
+        return FormInstance::with('answers.options')->paginate(10);
+    }
 
     public function filters(Survey $surveys)
     {

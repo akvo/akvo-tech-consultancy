@@ -17,6 +17,7 @@ class CreateVariableOptionsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('variable_id');
             $table->text('name');
+            $table->text('description')->nullable();
             $table->timestamps();
 
             $table->foreign('variable_id')
