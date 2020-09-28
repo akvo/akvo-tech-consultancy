@@ -626,7 +626,7 @@ class SyncController extends Controller
                 $partnerUpdated = [];
                 if (count($partner_qs) !== 0 && $partner_qs[0]['cascadeResource'] !== config('surveys.cascade')) {
                     // do partnership update
-                    $partnerUpdated = $this->syncPartnerships($flowApi, $partnerships, $sync = true, $cascadeResource = $partner_qs['cascadeResource']);
+                    $partnerUpdated = $this->syncPartnerships($flowApi, $partnerships, $sync = true, $cascadeResource = $partner_qs[0]['cascadeResource']);
                 }
                 // eol updateOrCreate partnership table
 
