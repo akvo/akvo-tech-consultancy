@@ -36,16 +36,16 @@ class OverviewQuestion extends Component {
         }, 300)
     }
 
-
-    renderEdit(qid, group) {
+    renderEdit(mandatory, qid, group) {
+        let badge = mandatory ? " badge-red" : " badge-secondary";
         return (
             <div
                 className="badge-overview"
                 key={qid}
                 onClick={e => this.goToAnswer(group, qid)}
             >
-                <div className="badge badge-left badge-red"><FaEdit /></div>
-                <div className="badge badge-right badge-secondary">Edit</div>
+                <div className={"badge badge-left" + badge}><FaEdit /></div>
+                <div className={"badge badge-right" + badge}>Edit</div>
             </div>
         )
     }
@@ -114,13 +114,13 @@ class OverviewQuestion extends Component {
             return (
                 <div className="row ov-list" key={"oq-" + this.props.group.index + qid}>
                     <div className="col-md-8 ov-question">
-                        <span className="mr-2">{this.props.index + 1}</span>
-                            {localization}
+                        <div className="ln-index">{this.props.index + 1}</div>
+                        <div className="ln-question">{localization}</div>
                     </div>
                             <div className="col-md-4">
                         { answer ? (
                             <div className={"ov-answer" + divclass}>{answer}</div>
-                        ) : this.renderEdit(qid, this.props.group)}
+                        ) : this.renderEdit(question.mandatory, qid, this.props.group)}
                     </div>
                 </div>
             );

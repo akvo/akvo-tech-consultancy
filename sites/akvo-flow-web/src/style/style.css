@@ -44,3 +44,14 @@ span.question-group-button{
     max-width: 240px;
     display: inline-block;
 }
+
+.ln-index {
+    display: inline-block;
+    width: 10%;
+    vertical-align: top;
+}
+.ln-question {
+    display: inline-block;
+    width: 90%;
+    vertical-align: top;
+}
