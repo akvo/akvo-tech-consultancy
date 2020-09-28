@@ -7339,6 +7339,19 @@ $("#btn-data-inspect").click(function () {
     $("#data-frame").attr("src", url + '/' + date[0] + '/' + date[1]);
   }
 });
+$("#btn-data-download").click(function () {
+  var iframe = $("#data-frame");
+  $("#btn-data-inspect").click();
+  var checkTable = setInterval(function () {
+    var btnExcel = iframe.contents().find('.buttons-excel');
+    var table = iframe.contents().find('table');
+
+    if (table && btnExcel) {
+      btnExcel.click();
+      clearInterval(checkTable);
+    }
+  }, 1000);
+});
 /* Partnership API */
 
 var changePartnershipCode = function changePartnershipCode(data) {

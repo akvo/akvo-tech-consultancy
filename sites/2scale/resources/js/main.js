@@ -68,13 +68,26 @@ $("#btn-data-inspect").click(() => {
     if (country_select) {
         url += '/' + country_select;
     }
-	if (form_select === "") {
-		$('#notable').modal('show')
-	}
-	if (form_select !== "") {
-    	$("#data-frame").attr("src", url + '/' + date[0] + '/' + date[1]);
-	}
-})
+    if (form_select === "") {
+        $('#notable').modal('show')
+    }
+    if (form_select !== "") {
+        $("#data-frame").attr("src", url + '/' + date[0] + '/' + date[1]);
+    }
+});
+
+$("#btn-data-download").click(() => {
+    let iframe = $("#data-frame");
+    $("#btn-data-inspect").click();
+    var checkTable = setInterval(() => {
+        let btnExcel = iframe.contents().find('.buttons-excel');
+        let table = iframe.contents().find('table');
+        if (table && btnExcel) {
+            btnExcel.click();
+            clearInterval(checkTable);
+        }
+    }, 1000);
+});
 
 /* Partnership API */
 

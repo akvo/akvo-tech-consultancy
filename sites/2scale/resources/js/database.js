@@ -133,7 +133,6 @@ const fetchLocalData = (key) => {
 $(document).on("click", "a.gtabs" , function() {
     let gid = $(this).attr('dataId');
     let question_group_id = gid.split('-')[1];
-    console.log(question_group_id);
     let dtId = "datatables-"+gid+"";
     if (gid !== "gtabs-parent") {
         // generate table
@@ -154,7 +153,6 @@ $(document).on("click", "a.gtabs" , function() {
                 dp['data'] = data;
                 return dp;
             });
-            console.log(res);
             
             let table = '<table id="'+dtId+'" class="table table-bordered" style="width:100%" cellspacing="0"></table>'
             $("#"+gid+"").html(table);
@@ -253,9 +251,17 @@ const datatableOptions = (id, res) => {
             }
         });
     });
+    let optSelected = window.parent.$("#select-database-survey option:selected").text().trim();
     let dtoptions = {
         dom: 'Birftp',
-        buttons: ['excel', 'copy', 'colvis'],
+        buttons: [
+            {
+                extend: 'excel',
+                filename: optSelected,
+            },
+            'copy', 
+            'colvis'
+        ],
         scrollX: true,
         scrollY: '75vh',
         height: 400,
