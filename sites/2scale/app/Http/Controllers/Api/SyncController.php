@@ -26,6 +26,9 @@ class SyncController extends Controller
         $this->success = collect();
         $this->error = collect();
         $this->repeat_temp = [];
+        $this->formChanged = collect();
+        $this->dpsChanged = collect();
+        $this->dpsDeleted = 0;
     }
 
     public function syncPartnerships(FlowApi $flow, Partnership $partnerships, $sync = false, $cascadeResource = null)
@@ -579,18 +582,37 @@ class SyncController extends Controller
 
     public function syncData(
         FlowApi $flowApi, FlowAuth0 $flow, Sync $syncs, Form $forms, 
-        Partnership $partnerships, Datapoint $datapoints, Answer $answers, Question $questions
+        Partnership $partnerships, Datapoint $datapoints, Answer $answers, Question $questions,
+        $syncUrl=false
     )
     {
-        $sync = $syncs->orderBy('id', 'desc')->first();
-        $syncData = $flow->fetch($sync['url']);
-        // return $syncData;
+        if (!$syncUrl) {
+            $sync = $syncs->orderBy('id', 'desc')->first();
+            $syncUrl = $sync['url'];
+        }
+        // $sync = $syncs->orderBy('id', 'desc')->first();
+        // $syncData = $flow->fetch($sync['url']);
+        $syncData = $flow->fetch($syncUrl);
 
-        if (!isset($syncData['changes'])) {
-            return "No data update";
+        if (!isset($syncData['changes']) || $syncData === 204) {
+            // add new sync url
+            if ($syncUrl) {
+                $postSync = new Sync(['url' => $syncUrl]);
+                $postSync->save();
+            }
+            
+            if (count($this->formChanged) === 0 && count($this->dpsChanged) === 0 && $this->dpsDeleted === 0) {
+                return "No data update";
+            }
+
+            return [
+                "formChanged" => $this->formChanged,
+                "formInstanceChanged" => $this->dpsChanged,
+                "datapointDeleted" => $this->dpsDeleted,
+            ];
         }
 
-        $formChanged = [];
+        // $formChanged = [];
         if (count($syncData['changes']['formChanged']) !== 0) {
             $this->collections = collect();
             $formChanged = collect($syncData['changes']['formChanged'])->map(function ($form) use ($flowApi, $forms, $partnerships, $questions) {
@@ -658,9 +680,11 @@ class SyncController extends Controller
             $optionUpdated = $this->updateOrCreateQuestionOptions($this->collections, $questions);
             $formChanged['optionUpdated'] = $optionUpdated;
             // eol updateOrCreate options table
+
+            $this->formChanged->push($formChanged);
         }
 
-        $dpsChanged = [];
+        // $dpsChanged = [];
         if (count($syncData['changes']['formInstanceChanged']) !== 0) {
             $forms = $forms->all();
             $this->collections = collect();
@@ -698,22 +722,34 @@ class SyncController extends Controller
                 });
                 return ["answers" => $answer,"datapoints" => $dp];
             });
+
+            $this->dpsChanged->push($dpsChanged);
         }
 
-        $dpsDeleted = [];
+        // $dpsDeleted = 0;
         if (count($syncData['changes']['formInstanceDeleted']) !== 0 || count($syncData['changes']['dataPointDeleted']) !== 0) {
             $datapointDeleted = collect($syncData['changes']['dataPointDeleted'])->map(function ($item) { return (int) $item; });
             $dpsDeleted = $datapoints->whereIn('datapoint_id', $datapointDeleted)->delete();
+        
+            $this->dpsDeleted = $this->dpsDeleted + $dpsDeleted;
+        }
+
+        // check nextSyncUrl if contains any data
+        if (isset($syncData['nextSyncUrl'])) {
+            $this->syncData($flowApi, $flow, $syncs, $forms, 
+                            $partnerships, $datapoints, $answers, $questions,
+                            $syncData['nextSyncUrl']
+                        );
         }
 
         // add new sync url
-        $postSync = new Sync(['url' => $syncData['nextSyncUrl']]);
-        $postSync->save();
+        // $postSync = new Sync(['url' => $syncData['nextSyncUrl']]);
+        // $postSync->save();
 
-        return [
-            "formChanged" => $formChanged,
-            "formInstanceChanged" => $dpsChanged,
-            "datapointDeleted" => $dpsDeleted,
-        ];
+        // return [
+        //     "formChanged" => $this->formChanged,
+        //     "formInstanceChanged" => $this->dpsChanged,
+        //     "datapointDeleted" => $this->dpsDeleted,
+        // ];
     }
 }
