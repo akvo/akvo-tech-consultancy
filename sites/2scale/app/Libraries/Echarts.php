@@ -274,4 +274,56 @@ class Echarts
     private function titler($name) {
         return ucwords(str_replace('_',' ', strtolower($name)));
     }
+
+    public function generateBarLineCharts() 
+	{
+		return [
+			'tooltip' => array (
+				'trigger' => 'axis',
+				'axisPointer' => array ('type' => 'shadow'),
+			),
+            "legend" => array (
+                "data" => ["Target", "Actual"]
+            ),
+			"yAxis" => [
+                array(
+                    "type" => "value",
+                    "min" => 0,
+                    "max" => 250,
+                    "interval" => 50,
+                    "axisLabel" => [
+                        "formatter" => "USD {value}"
+                    ]
+                ),
+                array(
+                    "type" => "value",
+                    "min" => 0,
+                    "max" => 250,
+                    "interval" => 50,
+                    "axisLabel" => [
+                        "formatter" => "USD {value}"
+                    ],
+                    "show" => false,
+                )
+			],
+			"xAxis" => [
+                "type" => "category",
+                "data" => ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+                "axisPointer" => ["type" => "shadow"]
+			],
+			"series" => [
+                [
+                    "name" => "Target",
+                    "type" => 'line',
+                    "yAxisIndex" => 1,
+                    "data" => [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3]
+                ],
+                [
+                    "name" => 'Actual',
+                    "type" => 'bar',
+                    "data" => [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 155.6, 152.2, 48.7, 18.8, 6.0, 2.3]
+                ],
+            ]
+		];
+    }
 }

@@ -27,3 +27,6 @@ getCharts('partnership/project-total/' + endpoints, 'second-row', info, "6");
 
 // $("main").append("<div class='row' id='third-row'></div>");
 // getCharts('reachreact/gender/' + endpoints, 'third-row', info, "12");
+
+// $("main").append("<div class='row' id='third-row'></div>");
+// getCharts('test/'+ endpoints, 'third-row', info, "12");

@@ -667,4 +667,8 @@ class ChartController extends Controller
         return $datapoints->get()->pluck('id');
     }
 
+    public function test()
+    {
+        return $this->echarts->generateBarLineCharts();
+    }
 }

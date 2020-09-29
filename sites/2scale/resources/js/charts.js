@@ -57,6 +57,7 @@ const generateCards = (info, color, rank) => {
 }
 
 const fetchData = (endpoint) => {
+    console.log(endpoint);
     const split = endpoint.split('/');
     const filter = [split[1], split[2], split[3], split[4]].join('/');
     return new Promise((resolve, reject) => {

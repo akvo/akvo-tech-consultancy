@@ -56,3 +56,10 @@ Route::get('/partnership/top-three/{country_id}/{partnership_id}/{start}/{end}',
 Route::get('/partnership/commodities/{country_id}/{partnership_id}/{start}/{end}', 'Api\ChartController@partnershipCharts');
 Route::get('/partnership/countries-total/{country_id}/{partnership_id}/{start}/{end}', 'Api\ChartController@partnershipTotalCharts');
 Route::get('/partnership/project-total/{country_id}/{partnership_id}/{start}/{end}', 'Api\ChartController@partnershipCommodityCharts');
+
+
+/**
+ * Test
+ */
+
+ Route::get('/test/{country_id}/{partnership_id}/{start}/{end}', 'Api\ChartController@test');

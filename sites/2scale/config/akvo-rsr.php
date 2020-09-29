@@ -12,14 +12,103 @@ return [
     'projects' => [
         'parent' => 8759, # 2scale program
         'childs' => [
-            'NG' => 8808, # Nigeria
-            'GH' => 8761, # Ghana
-            'ET' => 8804, # Ethiopia
-            'CI' => 8805, # Cote d'Ivoire
-            'KE' => 8806, # Kenya
-            'ML' => 8807, # Mali
-            'NE' => 8809, # Niger
-            'BF' => null, # Burkina Faso
+
+            'NG' => [ # Nigeria
+                'parent' => 8808,
+                'childs' => [
+                    'NG01' => null,
+                    'NG09' => null,
+                    'NG11' => null,
+                    'NG12' => null,
+                    'NG21' => null,
+                    'NG22' => null,
+                    'NG23' => null,
+                    'NG24' => null,
+                ],
+            ], # Nigeria
+
+            'GH' => [ # Ghana
+                'parent' => 8761,
+                'childs' => [
+                    'GH09' => null,
+                    'GH21' => null,
+                    'GH22' => null,
+                ],
+            ], # Ghana
+
+            'ET' => [ # Ethiopia
+                'parent' => 8804,
+                'childs' => [
+                    'ET06' => 9009,
+                    'ET10' => null,
+                    'ET21' => null,
+                    'ET22' => null,
+                    'ET23' => null,
+                    'ET24' => null,
+                    'ET25' => null,
+                    'ET26' => null,
+                ],
+            ], # Ethiopia
+
+            'CI' => [ # Cote d'Ivoire
+                'parent' => 8805,
+                'childs' => [
+                    'CI21' => null,
+                    'CI22' => null,
+                    'CI23' => null,
+                ],
+            ], # Cote d'Ivoire
+
+            'KE' => [ # Kenya
+                'parent' => 8806,
+                'childs' => [
+                    'KE11' => null,
+                    'KE21' => null,
+                    'KE22' => null,
+                    'KE23' => null,
+                    'KE24' => null,
+                    'KE25' => null,
+                    'KE26' => null,
+                    'KE27' => null,
+                    'KE28' => null,
+                    'KE29' => null,
+                ],
+            ], # Kenya
+            
+            'ML' => [ # Mali
+                'parent' => 8807,
+                'childs' => [
+                    'ML05' => null,
+                    'ML21' => null,
+                    'ML22' => null,
+                    'ML23' => null,
+                    'ML24' => null,
+                ],
+            ], # Mali
+            
+            'NE' => [ # Niger
+                'parent' => 8809,
+                'childs' => [
+                    'NE21' => null,
+                    'NE22' => null,
+                    'NE23' => null,
+                    'NE24' => null,
+                    'NE25' => null,
+                    'NE26' => null,
+                    'NE27' => null,
+                ],
+            ], # Niger
+            
+            'BF' => [ # Burkina Faso
+                'parent' => null,
+                'childs' => [
+                    'BF21' => null,
+                    'BF22' => null,
+                    'BF23' => null,
+                    'BF24' => null,
+                    'BF25' => null,
+                ],
+            ], # Burkina Faso
         ],
     ],
 ];

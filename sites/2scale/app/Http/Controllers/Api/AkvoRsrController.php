@@ -25,12 +25,15 @@ class AkvoRsrController extends Controller
         }
 
         if ($r->input('partnership_id') !== "0") {
-            $partnership = $pr->find($r->input('partnership_id'));
+            $partnership = $pr->where('id', $r->input('partnership_id'))
+                              ->with('parents')->first();
+            $projectId = config('akvo-rsr.projects.childs.'.$partnership['code'].'.parent');
             if ($partnership['parent_id'] !== null) {
-                $this->code = Str::lower($partnership['name']);
-                $partnership = $pr->find($partnership['parent_id']);
+                // $this->code = Str::lower($partnership['name']);
+                // $partnership = $pr->find($partnership['parent_id']);
+                $projectId = config('akvo-rsr.projects.childs.'.$partnership['parents']['code'].'.childs.'.$partnership['code']);
             }
-            $projectId = config('akvo-rsr.projects.childs.'.$partnership['code']);
+            // $projectId = config('akvo-rsr.projects.childs.'.$partnership['code']);
         }
 
         if ($projectId === null) {
@@ -50,7 +53,6 @@ class AkvoRsrController extends Controller
             "charts" => $this->b64toImage($r),
         ];
         // return $data;
-        // return view('reports.template', ['data' => $data]);
         $html = view('reports.template', ['data' => $data])->render();
         $filename = (string) Str::uuid().'.html';
         Storage::disk('public')->put('./reports/'.$filename, $html);
