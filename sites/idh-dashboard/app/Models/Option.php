@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Option extends Model
 {
@@ -19,6 +20,6 @@ class Option extends Model
 
     public function getTextAttribute()
     {
-        return ucfirst($this->name);
+        return Str::title($this->name);
     }
 }
