@@ -1,5 +1,5 @@
 export const backgroundColor = {
-    backgroundColor: "#fff"
+    backgroundColor: "transparent",
 };
 
 export const Easing = {
@@ -16,7 +16,7 @@ export const Easing = {
 export const TextStyle = {
     textStyle: {
         color: "#222",
-        fontFamily: "Raleway",
+        fontFamily: "Open Sans",
         fontSize: 14
     }
 };
@@ -40,7 +40,7 @@ export const Legend = {
     x: "center",
     bottom: "40px",
     textStyle: {
-        fontFamily: "Raleway",
+        fontFamily: "Open Sans",
         fontWeight: 300,
         fontSize: 12
     },

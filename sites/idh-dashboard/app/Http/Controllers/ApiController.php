@@ -5,12 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use App\Models\Survey;
 use App\Models\Form;
-use App\Models\Answer;
-use App\Models\FormInstance;
 use App\Models\Variable;
-use League\Csv\Reader;
+use App\Models\Option;
+use App\Helpers\Utils;
 
 class ApiController extends Controller
 {
@@ -21,9 +19,9 @@ class ApiController extends Controller
         return FormInstance::with('answers.options')->paginate(10);
     }
 
-    public function filters(Survey $surveys)
+    public function filters(Form $form)
     {
-        $data = $surveys->get()->groupBy('country');
+        $data = $form->get()->groupBy('country');
         $data = collect($data)->map(function($list, $key){
             return [
                 'name' => $key,
@@ -33,49 +31,71 @@ class ApiController extends Controller
         return $data;
     }
 
-    public function data(Request $request, Form $forms)
+    public function countryData(Request $request)
     {
-        $forms = $forms->where('survey_id', $request->id)->get('id');
-        $formdata = collect($forms)->map(function($form) {
-            $data = collect(config('data.sources'))->where('form_id', $form->id)->first();
-            $csv = Reader::createFromPath(base_path().$data['file'], 'r');
-            $csv->setHeaderOffset(0);
-            $headers = $csv->getHeader();
-            $records = iterator_to_array($csv, true);
-            $headers = collect($headers)->reject(function ($value) use ($data){
-                return $value === 'identifier';
-            })->values();
-            $collection = collect();
-            foreach($records as $record){
-                $answers = collect();
-                foreach($headers as $header) {
-                    $value = $record[$header];
-                    $value = is_numeric($value) ? (float) $value : $value;
-                    $value = $value === "NA" ? 0 : $value;
-                    $header = Str::before($header, ' (');
-                    $answers[$header] = $value;
-                }
-                $collection->push($answers);
-            }
-            $attributes = collect();
-            $samplerec = $collection->first();
-            foreach($headers as $header) {
-                $name = Str::after($header, '_');
-                $name = str_replace('_', ' ', $name);
-                $name = Str::title($name);
-                $header = Str::before($header, ' (');
-                $attributes->push([
-                    'name' => $name,
-                    'variable' => $header,
-                    'type' => is_numeric($samplerec[$header]) ? 'numeric' : 'option',
-                ]);
-            }
-            return [
-                'attributes' => $attributes,
-                'records' => $collection
-            ];
-        });
-        return $formdata;
+        $form_id = $request->id;
+        $form = Form::where('id',$form_id)
+                       ->withCount('formInstances')
+                       ->first();
+        $total = $form->form_instances_count;
+        $first_crop = Utils::getValues($form_id, 'f_first_crop');
+        $first_crop = Utils::getMax($first_crop);
+        $second_crop = Utils::getValues($form_id, 'f_second_crop');
+        $dedicated = collect($second_crop)
+            ->where('name', "I don't have a second main crop")
+            ->values()
+            ->first();
+        $farm_size = Utils::getValues($form_id, 'f_size (acre)');
+        return [
+            [
+                'title' => "Household Surveyed",
+                'data' => [
+                    'records' => Utils::getValues($form_id, 'pi_location_cascade_county'),
+                    'maps' => strtolower($form->country),
+                ],
+                'kind' => 'MAPS',
+                'description' => false,
+                'width' => 6
+            ],[
+                'title' => "Was the farmer surveyed part of the sample?",
+                'data' => Utils::getValues($form_id, 'farmer_sample'),
+                'kind' => 'PIE',
+                'description' => false,
+                'width' => 4,
+            ],[
+                'title' => false,
+                'data' => [
+                    [
+                        'title' => false,
+                        'data' => $total,
+                        'kind' => 'NUM',
+                        'description' => ' Of the farmers are included in the analysis',
+                        'width' => 12
+                    ],[
+                        'title' => false,
+                        'data' => round($first_crop['value'] / $total, 2) * 100,
+                        'kind' => 'PERCENT',
+                        'description' => ' Of the farmers main crop was '.$first_crop['name'],
+                        'width' => 12
+                    ],[
+                        'title' => false,
+                        'data' => round(collect($farm_size)->avg(), 2),
+                        'kind' => 'NUM',
+                        'description' => ' Acres is the avarage farm size',
+                        'width' => 12
+                    ],[
+                        'title' => false,
+                        'data' => 100 - (round($dedicated['value'] / $total, 2) * 100),
+                        'kind' => 'PERCENT',
+                        'description' => ' Of the farmers had more than one crop',
+                        'width' => 12
+                    ]
+                ],
+                'kind' => 'CARDS',
+                'description' => false,
+                'width' => 2,
+            ]
+        ];
     }
 
 }

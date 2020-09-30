@@ -20,5 +20,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/filters', [Api::class, 'filters']);
-Route::get('/data/{id}', [Api::class, 'data']);
+Route::get('/country-data/{id}', [Api::class, 'countryData']);
 Route::get('/test', [Api::class, 'test']);

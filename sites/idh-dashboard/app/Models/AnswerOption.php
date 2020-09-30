@@ -7,18 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class AnswerOption extends Model
 {
-    protected $hidden = ['id','answer_id','created_at','updated_at'];
-    protected $fillable = ['answer_id', 'variable_option_id'];
-    protected $appends = ['name'];
+    use HasFactory;
 
-    public function answer()
-    {
-        return $this->belongsTo('\App\Models\Answer');
+    protected $fillable = ['answer_id','option_id'];
+    protected $hidden = ['id','answer_id','created_at', 'updated_at'];
+
+    public function option() {
+        return $this->belongsTo('App\Models\Option');
     }
 
-    public function getNameAttribute()
-    {
-        return \App\Models\VariableOption::where('id', $this->variable_option_id)->first()->name;
+    public function answer() {
+        return $this->belongsTo('App\Models\Answer');
     }
-
 }

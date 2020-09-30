@@ -30,7 +30,6 @@ class Home extends Component {
             data: {maps:'world', records:data},
             kind: "MAPS",
             config: generateData(12, true, "80vh"),
-            extras: []
         }
         return (
             <Fragment>
@@ -48,7 +47,6 @@ class Home extends Component {
                             dataset={maps.data}
                             kind={maps.kind}
                             config={maps.config}
-                            extras={maps.extras}
                         />
                     </Row>
                 </div>

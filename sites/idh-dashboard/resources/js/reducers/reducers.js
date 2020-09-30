@@ -7,7 +7,10 @@ const initialState = {
         },
         filters: [{
             name: "Loading",
-            childrens: [],
+            childrens: [{
+                id: 0,
+                kind: "Loading"
+            }],
         }],
     },
     charts: []

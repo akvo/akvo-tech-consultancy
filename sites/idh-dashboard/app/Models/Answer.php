@@ -7,24 +7,21 @@ use Illuminate\Database\Eloquent\Model;
 
 class Answer extends Model
 {
+    use HasFactory;
 
-    protected $appends = ['type'];
-    protected $hidden = ['form_instance_id','type','created_at','updated_at'];
-    protected $fillable = ['id','form_instance_id', 'variable_id','value','created_at','updated_at'];
-
-    public function getTypeAttribute() {
-        return \App\Models\Variable::select('type')
-            ->where('id', $this->variable_id)
-            ->first()
-            ->type;
-    }
+    protected $fillable = ['id','form_instance_id','variable_id', 'value'];
+    protected $hidden = ['created_at', 'updated_at'];
 
     public function variable() {
-        return $this->belongsTo('\App\Models\Variable');
+        return $this->belongsTo('App\Models\Variable');
+    }
+
+    public function formInstance() {
+        return $this->belongsTo('App\Models\FormInstance');
     }
 
     public function options() {
-        return $this->hasMany('\App\Models\AnswerOption');
+        return $this->hasMany('App\Models\AnswerOption');
     }
 
 }

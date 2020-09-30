@@ -19,7 +19,7 @@ const Maps = (title, data) => {
         title: {
             text: splitTitle(title),
             right: 'center',
-            top: '10px',
+            top: '0px',
             ...TextStyle
         },
         tooltip: {
@@ -38,11 +38,11 @@ const Maps = (title, data) => {
             ...TextStyle
         },
         visualMap: {
-            bottom: '10px',
+            bottom: '40px',
             left: 'center',
             orient: 'horizontal',
-            itemHeight: 'auto',
-            itemWidth: 10,
+            itemHeight: '200px',
+            itemWidth: '9px',
             min: records.length > 1 ? minBy(records, 'value').value : 0,
             max: records.length > 1 ? maxBy(records, 'value').value : records[0]['value'],
             text: ['Max', 'Min'],
@@ -54,8 +54,8 @@ const Maps = (title, data) => {
         },
         toolbox: {
             orient: "horizontal",
-            left: "right",
-            top: "10px",
+            left: "center",
+            bottom: "0px",
             feature: {
                 saveAsImage: {
                     type: "jpg",

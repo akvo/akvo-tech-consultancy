@@ -23,7 +23,7 @@ export const Bar = (title, data) => {
         title: {
             text: splitTitle(title),
             right: 'center',
-            top: '30px',
+            top: '0px',
             ...TextStyle
         },
         grid: {
@@ -47,7 +47,7 @@ export const Bar = (title, data) => {
         toolbox: {
             orient: "horizontal",
             left: "center",
-            top: "0px",
+            bottom: "0px",
             feature: {
                 dataView: {
                     title: "View Table",

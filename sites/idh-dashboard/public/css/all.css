@@ -1,13 +1,13 @@
 html, body{
-    font-family:'Raleway',sans-serif!important;
+    font-family:'Open Sans',sans-serif!important;
 }
 .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6{
-    font-family:'Raleway',sans-serif!important;
+    font-family:'Open Sans',sans-serif!important;
     margin:auto!important;
 }
 .page-title > h2 {
     color: #FFF;
-    font-weight: 600!important;
+    font-weight: 700!important;
     font-size: 40px!important;
     text-shadow: 0px 0px 20px #000000;
 }
@@ -21,9 +21,8 @@ html, body{
 }
 
 .page-content {
-    border-top: 1px #ddd solid;
-    margin: 20px;
-    padding: 20px;
+    padding:20px;
+    margin:20px;
     display: block;
 }
 
@@ -32,19 +31,45 @@ html, body{
     color: #FFF!important;
 }
 
+.dropdown-menu.show{
+    border-radius:0px!important;
+    padding:0px!important;
+    box-shadow:0px 4px 8px 0px rgba(0,0,0,.4);
+}
+
+.dropdown-item{
+    padding: 18px!important;
+}
+.dropdown-item.active, .dropdown-item:active {
+    background-color:#fff!important;
+    color:#0072c6!important;
+    font-weight:600;
+}
+a.dropdown-toggle.nav-link {
+    width:100%;
+}
+
 .dropdown-scroll {
     max-height: 300px;
     overflow-y: scroll;
 }
+.NavBlue {
+    background-color:#0072c6;
+    border-bottom: solid 1px #fff;
+    box-shadow: 0 0 8px 1px black;
+}
 .nav-link {
-    padding: 15px!important;
-    width: 100px;
+    padding-top: 18px!important;
+    padding-bottom: 18px!important;
+    min-width: 120px;
     text-align: center;
+    color: #fff!important;
 }
 
 .nav-link.active {
-    border-bottom: solid 5px #0174c5;
-    color: #0174c5!important;
+    color: #fff!important;
+    background-color:rgba(255, 255, 255,.3)!important;
+    font-weight:600;
 }
 
 .page-title {
@@ -90,6 +115,53 @@ html, body{
     background-image: url('/images/banner.jpg');
     background-size: cover;
     border-radius:0px!important;
+}
+
+.sub-content a {
+    color: #fff!important;
+    font-size: 23px;
+    display: inline-block;
+    padding: 12px 19px;
+    cursor: pointer;
+}
+.sub-content a:hover {
+    border-bottom: solid #fff 4px!important;
+    padding-bottom: 8px!important;
+    text-decoration:none!important;
+}
+
+.sub-content a.active {
+    padding-bottom: 8px!important;
+    border-bottom: solid #fff 4px;
+}
+
+.card-chart {
+    background-color: #f0f5fb;
+    padding: 12px;
+    border-radius: 10px;
+}
+
+.card-info {
+    background: #0072c6;
+    color: #fff;
+    padding: 12px;
+    border-bottom: #ddd solid 1px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.card-info h2{
+    font-family: sans-serif!important;
+    font-size: 28px;
+    font-weight:300;
+}
+
+.card-info p{
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 0px!important;
+    max-width: 200px;
+    margin: 10px auto;
 }
 
 h2.extra-counter {

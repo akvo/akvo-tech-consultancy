@@ -37,10 +37,9 @@ class Navigation extends Component {
         let page = this.props.value.page.active;
         return (
             <Navbar
-                bg="light"
                 fixed="top"
                 variant="light"
-                className="NavLight"
+                className="NavBlue"
                 expand="lg"
                 style={{padding: "0px"}}
             >
@@ -61,6 +60,9 @@ class Navigation extends Component {
                         >
                             {this.renderCountries()}
                         </NavDropdown>
+                        <Nav.Link eventKey="compare" href={"#compare"} active={"compare" === page}>
+                            Compare
+                        </Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>

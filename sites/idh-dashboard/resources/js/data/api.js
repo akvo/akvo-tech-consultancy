@@ -10,13 +10,20 @@ const header = {
 
 export const getApi = (endpoint) => {
     return new Promise((resolve, reject) => {
-        setTimeout(() => {
+        const cached = localStorage.getItem(endpoint);
+        if (cached!== null) {
+            resolve ({
+                [endpoint]: JSON.parse(cached)
+            })
+        } else {
             axios.get(API + endpoint).then(res => {
+                const data = JSON.stringify(res.data);
+                localStorage.setItem(endpoint, data);
                 resolve({
                     [endpoint] : res.data
                 })
-            });
-        }, 300)
+            }).catch(err => reject("internal server error"));
+        }
     });
 }
 

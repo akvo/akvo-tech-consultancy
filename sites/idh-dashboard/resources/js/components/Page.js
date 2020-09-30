@@ -11,6 +11,7 @@ import axios from 'axios';
 import Loading from '../pages/Loading';
 import Home from '../pages/Home';
 import Country from '../pages/Country';
+import Compare from '../pages/Compare';
 import { getApi } from '../data/api';
 
 class Page extends Component {
@@ -55,6 +56,8 @@ class Page extends Component {
                 return <Home/>
             case "country":
                 return <Country/>
+            case "compare":
+                return <Compare/>
             default:
                 return ""
         }

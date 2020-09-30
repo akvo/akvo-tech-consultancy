@@ -7,18 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class FormInstance extends Model
 {
-    protected $hidden = ['identifier','form_id','created_at', 'updated_at'];
+    use HasFactory;
 
-    public function form()
-    {
-        return $this->belongsTo('\App\Models\Form');
+    protected $fillable = ['form_id','identifier'];
+    protected $hidden = ['created_at', 'updated_at'];
+
+    public function form() {
+        return $this->belongsTo('App\Models\Form');
     }
 
-    public function answers()
-    {
-        $value = $this->hasMany('\App\Models\Answer')
-                      ->with(['variable','options']);
-        return $value;
+    public function answers() {
+        return $this->hasMany('App\Models\Answer');
     }
+
 }
-
