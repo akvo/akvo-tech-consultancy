@@ -5,17 +5,12 @@ import {
     Row,
     Col,
     Jumbotron,
-    Dropdown,
-    Button,
 } from 'react-bootstrap';
 import Charts from '../components/Charts.js';
 import Cards from '../components/Cards.js';
 import { queueApi, getApi } from '../data/api.js';
 import { getHighest } from '../data/utils.js';
 import { generateData } from "../charts/chart-generator.js";
-import countBy from 'lodash/countBy';
-import groupBy from 'lodash/groupBy';
-import flatten from 'lodash/flatten';
 
 class Country extends Component {
 
@@ -108,11 +103,11 @@ class Country extends Component {
                             <h2>Project in {country}</h2>
                             <div className="sub-content">
                             {tabs.childrens.map((x, i) => (
-                                    <a key={i}
-                                        className={x.id === this.state.active ? "active" : ""}
-                                        onClick={e => this.getData(x.id)}>
-                                        {x.kind}
-                                    </a>
+                                <a key={i}
+                                    className={x.id === this.state.active ? "active" : ""}
+                                    onClick={e => this.getData(x.id)}>
+                                    {x.kind}
+                                </a>
                             ))}
                             </div>
                         </Col>

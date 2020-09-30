@@ -33,6 +33,19 @@ export const mapDispatchToProps = dispatch => {
                 dispatch({
                     type: "PAGE - REFRESH",
                 }),
+            compare: {
+                additem: (id) =>
+                    dispatch({
+                        type:"PAGE - COMPARE ADD ITEM",
+                        id: id,
+                    }),
+                removeitem: (id) =>
+                    dispatch({
+                        type:"PAGE - COMPARE REMOVE ITEM",
+                        id: id,
+                    })
+            }
+
         },
         chart: {
             append: (page, options) =>

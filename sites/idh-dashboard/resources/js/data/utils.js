@@ -9,3 +9,18 @@ export const getHighest = (records, object_key) => {
     records = maxBy(records, 'value');
     return records;
 }
+
+export const flatFilters = (filters) => {
+    let source = []
+    filters.map(x => {
+        x.childrens.map(c => {
+            let name = x.name + ' - ' + c.kind;
+            source.push({id:c.id, name: name});
+        })
+    });
+    return source;
+}
+
+export const randomVal = () => {
+    return Math.floor(Math.random() * 11);
+}

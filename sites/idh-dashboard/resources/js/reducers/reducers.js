@@ -1,3 +1,4 @@
+import { flatFilters } from '../data/utils.js';
 const initialState = {
     page: {
         loading: true,
@@ -12,8 +13,21 @@ const initialState = {
                 kind: "Loading"
             }],
         }],
+        compare: {
+            items: [],
+            init: true
+        }
     },
     charts: []
+}
+
+export const addComparison = (state, item, id) => {
+    let filters = flatFilters(item);
+    let newitem = filters.find(x => x.id === id);
+    return [
+        ...state,
+        {id: newitem.id, name: newitem.name}
+    ];
 }
 
 export const states = (state = initialState, action) => {
@@ -44,6 +58,31 @@ export const states = (state = initialState, action) => {
                 page: {
                     ...state.page,
                     filters:action.filters
+                }
+            }
+        case 'PAGE - COMPARE ADD ITEM':
+            return {
+                ...state,
+                page: {
+                    ...state.page,
+                    compare: {
+                        items: addComparison(state.page.compare.items, state.page.filters, action.id),
+                        init: false
+                    }
+                }
+            }
+        case 'PAGE - COMPARE REMOVE ITEM':
+            let data = state.page.compare.items;
+            let rm = data.find(x => x.id === action.id);
+            data = data.filter(x => x.id !== rm.id);
+            return {
+                ...state,
+                page: {
+                    ...state.page,
+                    compare: {
+                        items: data,
+                        init: data.length > 0 ? false : true
+                    }
                 }
             }
         default:

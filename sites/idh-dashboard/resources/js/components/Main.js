@@ -6,7 +6,15 @@ import { createStore, applyMiddleware } from "redux";
 import { states, middleware } from "../reducers/reducers.js";
 import logger from "redux-logger";
 import Page from "./Page.js";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import {
+    fas,
+    faCheckCircle,
+    faPlusCircle,
+    faArrowCircleDown,
+} from "@fortawesome/free-solid-svg-icons";
 
+library.add(fas, faCheckCircle, faPlusCircle, faArrowCircleDown);
 const store = createStore(states, applyMiddleware(middleware));
 
 class Main extends Component {
