@@ -20,6 +20,11 @@ class Option extends Model
 
     public function getTextAttribute()
     {
-        return Str::title($this->name);
+        $name = Str::title($this->name);
+        if(Str::contains($name, "I Don't")) {
+            $variable = \App\Models\Variable::where('id', $this->variable_id)->first();
+            $name = "No " . $variable->text;
+        }
+        return $name;
     }
 }

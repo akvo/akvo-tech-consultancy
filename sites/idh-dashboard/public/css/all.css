@@ -223,6 +223,14 @@ h2.extra-counter {
 }
 
 /*Compare*/
+.chart-div{
+    box-sizing: border-box;
+    padding:15px;
+}
+.table-charts{
+    max-width:100%;
+    display:table;
+}
 .card-compare{
     margin: 10px 0px;
 }

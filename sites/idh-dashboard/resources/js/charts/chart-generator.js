@@ -8,7 +8,9 @@ export const generateData = (col, line, height) => {
         column: col,
         line: line,
         style: {
-            height: height
+            height: height,
+            maxWidth: "100%",
+            width: "100%"
         }
     }
 }

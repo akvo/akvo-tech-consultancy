@@ -47,4 +47,17 @@ class Utils {
         return $answers->get();
     }
 
+    public static function completeVariables()
+    {
+        $variables = FormInstance::get()->unique('form_id')->values()->transform(function($data){
+            return $data->answers;
+        });
+        $form_samples = count($variables);
+        $variables = $variables->flatten(0)->groupBy('variable_id')->values();
+        $variables = $variables->reject(function($data) use ($form_samples){
+            return count($data) < $form_samples;
+        })->values()->flatten(0)->unique('variable_id')->values()->pluck('variable_id');
+        return Variable::whereIn('id',$variables)->get();
+    }
+
 }

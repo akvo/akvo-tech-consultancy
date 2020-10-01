@@ -25,11 +25,15 @@ class Compare extends Component {
         this.renderIndicator = this.renderIndicator.bind(this);
         this.renderTableHeader = this.renderTableHeader.bind(this);
         this.renderSearchItem = this.renderSearchItem.bind(this);
-        this.renderChart = this.renderChart.bind(this);
         this.changeSearchItem = this.changeSearchItem.bind(this);
         this.toggleDropDown = this.toggleDropDown.bind(this);
         this.toggleAutoComplete = this.toggleAutoComplete.bind(this);
+        this.appendChart = this.appendChart.bind(this);
+        this.saveChart = this.saveChart.bind(this);
+        this.removeChart = this.removeChart.bind(this);
+        this.renderChart = this.renderChart.bind(this);
         this.state = {
+            charts: [],
             autocomplete: false,
             searched: [],
             excluded: [1]
@@ -87,9 +91,22 @@ class Compare extends Component {
         return;
     }
 
-    appendColumn(id) {
-        this.setState({searched:[], autocomplete: false});
+    appendChart(data, id) {
+        let charts = this.state.charts;
+            charts = charts.filter(x => x.id !== id);
+        charts = [
+            ...charts,
+            {id:id, data:data}
+        ];
         this.props.page.compare.additem(id);
+        this.setState({charts:charts})
+    }
+
+    saveChart(id) {
+        this.setState({searched:[], autocomplete: false});
+        let params = [id];
+        let urls = ['compare-data/' + id];
+        queueApi(0, urls, 1, this.appendChart ,params);
         return;
     }
 
@@ -98,7 +115,7 @@ class Compare extends Component {
         return data.map((x, i) => {
             return (
                 <div
-                    onClick={e => this.appendColumn(x.id)}
+                    onClick={e => this.saveChart(x.id)}
                     className="search-suggest"
                     key={'item-' + x.id}>
                     {x.name}
@@ -107,14 +124,21 @@ class Compare extends Component {
         })
     }
 
+    removeChart(id) {
+        this.props.page.compare.removeitem(id);
+        let charts = this.state.charts.filter(x => x.id !== id);
+        this.setState({charts:charts});
+    }
+
     renderTableHeader() {
         let items = this.props.value.page.compare.items;
+        let width = 'calc(100% / ' + this.state.charts.length  + ')';
         return items.map((x, i) => {
             return(
-                <Col md={12/items.length} key={"header-" + x.id}>
+                <div className="chart-div" style={{width:width}} key={'head-' + x.id}>
                     <Card className="card-compare">
                         <FontAwesomeIcon
-                            onClick={e => this.props.page.compare.removeitem(x.id)}
+                            onClick={e => this.removeChart(x.id)}
                             className="fas-corner fas-delete"
                             color="red"
                             icon={["fas", "times-circle"]} />
@@ -122,38 +146,47 @@ class Compare extends Component {
                             <h5>{x.name}</h5>
                        </Card.Body>
                     </Card>
-                </Col>
+                </div>
             )
         });
     }
 
     renderChart() {
-        let items = this.props.value.page.compare.items;
-        let config =  generateData(12/items.length, false,  "50vh");
-        return items.map((x, i) => {
-            let example = [{name:"A", value:randomVal()},{name:"B", value:randomVal()}];
-            return(
-                <Charts
-                    key={"chart-" + x.id}
-                    title={"example"}
-                    dataset={example}
-                    kind={"PIE"}
-                    config={config}
-                />
-            )
+        let width = 'calc(100% / ' + this.state.charts.length  + ')';
+        return this.state.charts.map((c, i) => {
+            let chartlist = c.data.map((x, ix) => {
+                let cardtype = x.kind === "CARDS" || x.kind === "NUM" || x.kind === "PERCENT";
+                if (cardtype) {
+                    return (
+                        <Cards
+                            identifier={c.id + '-' + x.kind + '-' + ix}
+                            title={x.title}
+                            key={'card-' + c.id + '-' + ix}
+                            kind={x.kind}
+                            dataset={x.data}
+                            description={x.description}
+                            config={generateData(0, false,  "50vh")}
+                        />
+                    );
+                };
+                return (
+                    <Charts
+                        identifier={c.id + '-' + x.kind + '-' + ix}
+                        title={x.title}
+                        key={'chart-' + c.id + '-' + ix}
+                        dataset={x.data}
+                        kind={x.kind}
+                        config={generateData(0, false,  "50vh")}
+                    />
+                );
+            });
+            return (<div key={c.id} className="chart-div" style={{width:width}}>{chartlist.map(x => x)}</div>);
         });
     }
 
     render() {
         return (
             <Fragment>
-                <Jumbotron>
-                    <Row className="page-header">
-                        <Col md={12} className="page-title text-center">
-                            <h2>Page Comparison</h2>
-                        </Col>
-                    </Row>
-                </Jumbotron>
                 <div className="page-content">
                     <Row>
                         <Col md={12}>

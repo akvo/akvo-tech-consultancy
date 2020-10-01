@@ -17,9 +17,14 @@ class Cards extends Component {
     }
 
     render() {
+        let props = this.props;
+        if (props.kind === "NUM" || props.kind === "PERCENT") {
+            let data = {...props.config, data:props.dataset, description:props.description, kind:props.kind};
+            return this.generateRows(data, props.identifier);
+        }
         return (
-            <Col md={this.props.config.column}>
-                {this.props.dataset.map((x,i) => this.generateRows(x,i))}
+            <Col md={props.config.column}>
+                {props.dataset.map((x,i) => this.generateRows(x,i))}
             </Col>
         );
     }

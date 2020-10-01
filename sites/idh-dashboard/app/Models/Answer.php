@@ -11,6 +11,7 @@ class Answer extends Model
 
     protected $fillable = ['id','form_instance_id','variable_id', 'value'];
     protected $hidden = ['created_at', 'updated_at'];
+    protected $appends = ['form_id'];
 
     public function variable() {
         return $this->belongsTo('App\Models\Variable');
@@ -22,6 +23,10 @@ class Answer extends Model
 
     public function options() {
         return $this->hasMany('App\Models\AnswerOption');
+    }
+
+    public function getFormIdAttribute() {
+        return \App\Models\FormInstance::where('id', $this->form_instance_id)->first()->form_id;
     }
 
 }

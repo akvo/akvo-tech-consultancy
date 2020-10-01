@@ -43,6 +43,7 @@ class Home extends Component {
                 <div className="page-content">
                     <Row>
                         <Charts
+                            identifier={'map-home'}
                             title={maps.title}
                             dataset={maps.data}
                             kind={maps.kind}

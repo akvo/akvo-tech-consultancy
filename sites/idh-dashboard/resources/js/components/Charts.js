@@ -19,14 +19,12 @@ class Charts extends Component {
         );
         if (this.props.config.column === 0) {
             return (
-                <Col>
                 <ReactEcharts
                     option={options}
                     notMerge={true}
                     lazyUpdate={true}
                     style={this.props.config.style}
                 />
-                </Col>
             )
         }
         return (

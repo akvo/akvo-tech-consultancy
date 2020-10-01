@@ -22,10 +22,5 @@ return [
                 'name' => 'pi_location_cascade_county',
             ]
         ],
-    ],
-    'variable' =>  [
-        'main_crop' => 'f_first_crop',
-        'sample' => 'farmer_sample',
-        'county' => 'pi_location_cascade_county'
     ]
 ];

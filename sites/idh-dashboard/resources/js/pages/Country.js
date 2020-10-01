@@ -29,9 +29,10 @@ class Country extends Component {
         let url = 'country-data/' + id;
         getApi(url).then(res => {
             let data = res[url];
-            data = data.map(d => {
+            data = data.map((d, ix) => {
                 let maxheight = 60;
                 let chart =  {
+                    identifier: d.kind + '-' + id + '-' + ix,
                     title: d.title,
                     data: d.data,
                     kind: d.kind,
@@ -39,8 +40,9 @@ class Country extends Component {
                 }
                 if (chart.kind === "CARDS") {
                     maxheight = maxheight / chart.data.length;
-                    let rows = chart.data.map(c => {
+                    let rows = chart.data.map((c,i) => {
                         return {
+                            identifier: 'cards-' + ix + '-' + i,
                             title: c.title,
                             data: c.data,
                             kind: c.kind,
@@ -64,6 +66,7 @@ class Country extends Component {
         if (x.kind === "CARDS") {
             return (
                 <Cards
+                    identifier={x.identifier}
                     title={x.title}
                     key={'card-' + i}
                     dataset={x.data}
@@ -73,6 +76,7 @@ class Country extends Component {
         }
         return (
             <Charts
+                identifier={x.identifier}
                 title={x.title}
                 key={'chart-'+ i}
                 dataset={x.data}
