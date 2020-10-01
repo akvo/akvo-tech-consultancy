@@ -7423,8 +7423,7 @@ var selectPicker = function selectPicker() {
 $("#generate-report-link").on('click', function () {
   var country = $("#partnership-country").val();
   var code = $("#partnership-code").val();
-  var pid = code == 0 ? country : code;
-  console.log(pid); // Loading
+  var pid = code == 0 ? country : code; // Loading
 
   $("#myModalBtnClose").hide();
   $("#myModalAuthTitle").html("Please Wait");
@@ -7443,8 +7442,13 @@ $("#generate-report-link").on('click', function () {
     var iframe = document.getElementsByTagName("iframe");
     var token = document.querySelector('meta[name="csrf-token"]').content;
     var canvas = iframe[0].contentWindow.document.getElementsByTagName("canvas");
+    var canvasTitles = iframe[0].contentWindow.document.getElementsByClassName('card-header');
     var formData = new FormData();
-    var filename = 'partnership-' + selectPicker().join('-');
+    var country = $("#partnership-country option:selected").text().trim();
+    var partnership = $("#partnership-code option:selected").text().trim();
+    var filename = partnership === "Select Partnership" ? country === "Select Country" ? "2SCALE Program" : country : partnership;
+    filename = filename + ' - ' + moment().format('MMM D, YYYY');
+    console.log(filename);
     formData.set('partnership_id', pid);
     formData.set('filename', filename);
     var image = 0;
@@ -7466,6 +7470,11 @@ $("#generate-report-link").on('click', function () {
       var column = Math.round(x / minWidth);
       formData.append('columns[]', column);
     });
+
+    for (var index = 0; index < canvasTitles.length; index++) {
+      formData.append('titles[]', canvasTitles[index].textContent);
+    }
+
     setTimeout(function () {
       // var appUrl = document.querySelector('meta[name="app-url"]').content;
       // var api = appUrl+'/rsr-report/';
@@ -7482,7 +7491,7 @@ $("#generate-report-link").on('click', function () {
                 </a>');
         $("#myModalBtnClose").show();
       })["catch"](function (err) {
-        console.log("internal server error");
+        console.log("internal server error", err);
         $("#loader-spinner").remove();
         $("#myModalAuthTitle").html("Error");
         $("#myModalAuthBody").html('<div class="alert alert-danger" role="alert">Please try again later!</div>');

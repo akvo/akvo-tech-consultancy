@@ -595,12 +595,6 @@ class SyncController extends Controller
         $syncData = $flow->fetch($syncUrl);
 
         if (!isset($syncData['changes']) || $syncData === 204) {
-            // add new sync url
-            if ($syncUrl) {
-                $postSync = new Sync(['url' => $syncUrl]);
-                $postSync->save();
-            }
-            
             if (count($this->formChanged) === 0 && count($this->dpsChanged) === 0 && $this->dpsDeleted === 0) {
                 return "No data update";
             }
@@ -736,6 +730,9 @@ class SyncController extends Controller
 
         // check nextSyncUrl if contains any data
         if (isset($syncData['nextSyncUrl'])) {
+            $postSync = new Sync(['url' => $syncData['nextSyncUrl']]);
+            $postSync->save();
+            $forms = new Form();
             $this->syncData($flowApi, $flow, $syncs, $forms, 
                             $partnerships, $datapoints, $answers, $questions,
                             $syncData['nextSyncUrl']

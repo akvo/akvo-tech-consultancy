@@ -5,13 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="cache-version" value="1.1.0">
-    <meta name="description" content="2SCALE report">
+    <meta name="description" content="{{ $data['filename'] }}">
     <meta name="author" content="Akvo">
     <meta name="keywords" content="2SCALE">
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('/favicon.ico') }}"/>
 
     <!-- Title Page-->
-    <title>2SCALE Report</title>
+    <title>{{ $data['filename'] }}</title>
 
 	<!-- Bootstrap core CSS -->
 	<style>
@@ -37,12 +37,11 @@
             page-break-before: always;
         }
         .page-break {
-            /* page-break-before: auto!important; */
-            page-break-after: auto!important;
-            /* page-break-inside:auto; */
+            page-break-before: auto!important;
+            /* page-break-after: auto!important; */
         }
-        tr.page-break {
-            page-break-before: auto;
+        .row {
+            page-break-inside:avoid!important;
         }
         th, td {
             padding-left: 20px!important;
@@ -71,17 +70,15 @@
             height: 5px;
             margin-bottom: 25px;
         }
-        tr.page-break {
-            page-break-before: auto;
-        }
+        table { page-break-inside:auto }
+        tr    { page-break-inside:avoid; page-break-after:auto }
 
         @media print {
             body {
                 visibility: visible;
             }
-            tr.page-break {
-                page-break-before: auto;
-            }
+            table { page-break-inside:auto }
+            tr    { page-break-inside:avoid; page-break-after:auto }
         }
     </style>
 </head>
@@ -92,6 +89,7 @@
         $results = $data['results'];
         $columns = $data['columns'];
         $charts = $data['charts'];
+        $titles = $data['titles'];
     @endphp
     <div class="container">
         {{-- Project Title --}}
@@ -116,11 +114,11 @@
                             <dt class="col-md-6">STATUS</dt>
                             <dd class="col-md-6 text-right">{{ $project['status_label'] }}</dd>
                             <dt class="col-md-6">START DATE (PLANNED)</dt>
-                            <dd class="col-md-6 text-right">{{ $project['date_start_planned'] }}</dd>
+                            <dd class="col-md-6 text-right">{{ date('F j, Y', strtotime($project['date_start_planned'])) }}</dd>
                             <dt class="col-md-6">END DATE (PLANNED)</dt>
-                            <dd class="col-md-6 text-right">{{ $project['date_end_planned'] }}</dd>
+                            <dd class="col-md-6 text-right">{{ date('F j, Y', strtotime($project['date_end_planned'])) }}</dd>
                             <dt class="col-md-6">FINANCE</dt>
-                            <dd class="col-md-6 text-right">{{ $project['budget'] }}</dd>
+                            <dd class="col-md-6 text-right">@money($project['budget'])</dd>
                         </dl>
                         {{-- <hr>
                         <dl class="row">
@@ -133,37 +131,43 @@
         </div>
         <div class="page-break"></div>
 
+
         {{-- CHARTS --}}
         <div class="row">
             <div class="col-md-12 mt-4 mb-4">
                 <p class="title font-weight-bold">CHARTS</p>
                 <div class="title-line"></div>
-                <div class="row text-center">
-                    @foreach ($charts as $key => $chart)
-                        @if ($columns[$key] === "1")
-                        <div class="col-md-6 text-center mt-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <img src="{{ asset('uploads/images/'.$chart) }}" alt="{{ $chart }}" class="img img-fluid">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="page-break"></div>
-                        @else
-                        <div class="col-md-12 text-center">
-                            <div class="card">
-                                <div class="card-body">
-                                    <img src="{{ asset('uploads/images/'.$chart) }}" alt="{{ $chart }}" class="img img-fluid">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="page-break"></div>
-                        @endif
-                    @endforeach
-                </div>
             </div>
         </div>
+        <div class="row text-center">
+            @foreach ($charts as $key => $chart)
+                @if ($columns[$key] === "1")
+                <div class="col-md-6 text-center mt-4">
+                    <div class="card">
+                        <div class="card-header">
+                            {{ $titles[$key] }}
+                        </div>
+                        <div class="card-body">
+                            <img src="{{ asset('uploads/images/'.$chart) }}" alt="{{ $chart }}" class="img img-fluid">
+                        </div>
+                    </div>
+                </div>
+                @else
+                <div class="col-md-12 text-center {{ ($key !== 0) ? "mt-4" : "" }}">
+                    <div class="card">
+                        <div class="card-header">
+                            {{ $titles[$key] }}
+                        </div>
+                        <div class="card-body">
+                            <img src="{{ asset('uploads/images/'.$chart) }}" alt="{{ $chart }}" class="img img-fluid">
+                        </div>
+                    </div>
+                </div>
+                @endif
+            @endforeach
+        </div>
         <div class="page-break"></div>
+
 
         {{-- PROJECT SUMMARY --}}
         <div class="next-page"></div>
@@ -211,115 +215,112 @@
         <div class="page-break"></div>
         {{-- EOL Project Summary --}}
 
+
         {{-- PROJECT UPDATE & RESULTS --}}
         {{-- Project Updates --}}
         @if (count($updates) > 0)
-        <div class="next-page"></div>
-        <div class="row">
-            <div class="col-md-12 mt-4">
-                <p class="title font-weight-bold">PROJECT UPDATES</p>
-                <div class="title-line"></div>
-                <div class="table-responsive-md">
-                    <table class="table">
-                        <tbody>
-                            @foreach ($updates as $item)
-                            @php
-                                $photo = $item['photo']; 
-                                if ($item['photo'] === null) {
-                                    $photo = "https://via.placeholder.com/300";
-                                }
-                            @endphp
-                            <tr class="page-break">
-                                <td class="img">
-                                    <img width="100%" src="{{ $photo }}" class="img-fluid" alt="{{ $item['photo_caption'] }}">
-                                </td>
-                                <td class="title">
-                                    <p class="font-weight-bolder">{{ $item['title'] }}</p>
-                                </td>
-                                <td>
-                                    <p>{{ $item['text'] }}</p>
-                                </td>
-                            </tr>    
-                            @endforeach
-                        </tbody>
-                    </table>
+            <div class="next-page"></div>
+            <div class="row">
+                <div class="col-md-12 mt-4">
+                    <p class="title font-weight-bold">PROJECT UPDATES</p>
+                    <div class="title-line"></div>
                 </div>
             </div>
-        </div>
-        <div class="page-break"></div>
+            <table class="table">
+                <tbody>
+                    @foreach ($updates as $item)
+                    @php
+                        $photo = $item['photo']; 
+                        if ($item['photo'] === null) {
+                            $photo = "https://via.placeholder.com/300";
+                        }
+                    @endphp
+                    <tr class="page-break">
+                        <td class="img">
+                            <img width="100%" src="{{ $photo }}" class="img-fluid" alt="{{ $item['photo_caption'] }}">
+                        </td>
+                        <td class="title">
+                            <p class="font-weight-bolder">{{ $item['title'] }}</p>
+                        </td>
+                        <td>
+                            <p>{{ $item['text'] }}</p>
+                        </td>
+                    </tr>    
+                    @endforeach
+                </tbody>
+            </table>
+            <div class="page-break"></div>
         @endif
         {{-- EOL Project Updates --}}
 
         {{-- Project Results --}}
         @if (count($results) > 0)
-        <div class="next-page"></div>
-        <div class="row">
-            <div class="col-md-12 mt-4">
-                <p class="title font-weight-bold">PROJECT RESULTS</p>
-                <div class="title-line"></div>
-                @foreach ($results as $item)
-                    {{-- <div class="table-responsive-sm p-results page-break"> --}}
-                        <table class="table table-sm table-bordered p-results">
-                            <tbody>
+            <div class="next-page"></div>
+            <div class="row">
+                <div class="col-md-12 mt-4">
+                    <p class="title font-weight-bold">PROJECT RESULTS</p>
+                    <div class="title-line"></div>
+                </div>
+            </div>
+            @foreach ($results as $item)
+                <table class="table table-sm table-bordered p-results">
+                    <tbody>
+                        <tr class="page-break">
+                            <td colspan="3">
+                                <div class="font-weight-bolder">{{ $item['title'] }}</div>
+                                @if (empty($item['description']) || $item['description'] == "​" || $item['description'] == null)    
+                                    <div class="text-muted font-italic">No Description</div>
+                                @else
+                                    <div class="text-muted">{{  $item['description'] }}</div>
+                                @endif
+                            </td>
+                        </tr>
+                        @if (count($item['indicators']) > 0)
+                            @foreach ($item['indicators'] as $indicator)
                                 <tr class="page-break">
                                     <td colspan="3">
-                                        <div class="font-weight-bolder">{{ $item['title'] }}</div>
-                                        @if (empty($item['description']) || $item['description'] == "​" || $item['description'] == null)    
-                                            <div class="text-muted font-italic">No Description</div>
-                                        @else
-                                            <div class="text-muted">{{  $item['description'] }}</div>
-                                        @endif
+                                        <strong>Indicator : </strong>{{ $indicator['title'] }}
                                     </td>
                                 </tr>
-                                @if (count($item['indicators']) > 0)
-                                    @foreach ($item['indicators'] as $indicator)
-                                        <tr class="page-break">
-                                            <td colspan="3">
-                                                <strong>Indicator : </strong>{{ $indicator['title'] }}
-                                            </td>
-                                        </tr>
-                                        <tr class="page-break">
-                                            <td>
-                                                <strong>
-                                                    Baseline Year : {{ $indicator['baseline_year'] === null ? "-" : $indicator['baseline_year'] }}
-                                                </strong> 
-                                            </td>
-                                            <td colspan="2" class="text-center">
-                                                <strong>
-                                                    Baseline Value : {{ $indicator['baseline_value'] === "" ? 0 : $indicator['baseline_value'] }}
-                                                </strong>
-                                            </td>
-                                        </tr>
-                                        @if (count($indicator['periods']) > 0)
-                                            <tr class="page-break">
-                                                <th>Periods</th>
-                                                <th class="text-center">Target Value</th>
-                                                <th class="text-center">Actual Value</th>
-                                            </tr>
-                                            @foreach ($indicator['periods'] as $period)
-                                            <tr class="page-break">
-                                                <td>
-                                                    {{ $period['period_start'] === null ? " - " : $period['period_start'] }} 
-                                                    {{ $period['period_end'] === null ? "" : " - ".$period['period_end'] }}
-                                                </td>
-                                                <td class="text-center">{{ $period['target_value'] === "" ? 0 : $period['target_value'] }}</td>
-                                                <td class="text-center">{{ $period['actual_value'] === "" ? 0 : $period['actual_value'] }}</td>
-                                            </tr>
-                                            @endforeach
-                                        @endif
-                                    @endforeach
-                                @else
+                                <tr class="page-break">
+                                    <td>
+                                        <strong>
+                                            Baseline Year : {{ $indicator['baseline_year'] === null ? "-" : $indicator['baseline_year'] }}
+                                        </strong> 
+                                    </td>
+                                    <td colspan="2" class="text-center">
+                                        <strong>
+                                            Baseline Value : {{ $indicator['baseline_value'] === "" ? 0 : $indicator['baseline_value'] }}
+                                        </strong>
+                                    </td>
+                                </tr>
+                                @if (count($indicator['periods']) > 0)
                                     <tr class="page-break">
-                                        <td colspan="3" class="text-center font-italic">No indicators</td>
-                                    </tr>       
+                                        <th>Periods</th>
+                                        <th class="text-center">Target Value</th>
+                                        <th class="text-center">Actual Value</th>
+                                    </tr>
+                                    @foreach ($indicator['periods'] as $period)
+                                    <tr class="page-break">
+                                        <td>
+                                            {{ $period['period_start'] === null ? " - " : $period['period_start'] }} 
+                                            {{ $period['period_end'] === null ? "" : " - ".$period['period_end'] }}
+                                        </td>
+                                        <td class="text-center">{{ $period['target_value'] === "" ? 0 : $period['target_value'] }}</td>
+                                        <td class="text-center">{{ $period['actual_value'] === "" ? 0 : $period['actual_value'] }}</td>
+                                    </tr>
+                                    @endforeach
                                 @endif
-                            </tbody>
-                        </table>
-                    {{-- </div> --}}
-                @endforeach
-            </div>
-        </div>
-        <div class="page-break"></div>
+                            @endforeach
+                        @else
+                            <tr class="page-break">
+                                <td colspan="3" class="text-center font-italic">No indicators</td>
+                            </tr>       
+                        @endif
+                    </tbody>
+                </table>
+            @endforeach
+            <div class="page-break"></div>
         @endif
         {{-- EOL Project Results --}}
     </div>

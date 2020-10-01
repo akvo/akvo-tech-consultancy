@@ -37,9 +37,9 @@ class AppServiceProvider extends ServiceProvider
         // Update defaultStringLength
         Builder::defaultStringLength(191);
 
-        Blade::directive('date', function ($val) {
-            $date = date('d m Y', strtotime($val));
-            return "<?php echo $date; ?>";
+        Blade::directive('money', function ($amount) {
+            $amount = (int) $amount;
+            return "<?php echo 'EUR ' . number_format($amount, 2); ?>";
         });
     }
 }

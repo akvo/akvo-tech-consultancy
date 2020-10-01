@@ -46,11 +46,13 @@ class AkvoRsrController extends Controller
         # EOL TO DELETEs
 
         $data = [
+            "filename" => $r->input('filename'),
             "project" => $this->getProjects($rsr, $projectId),
             "updates" => $this->getUpdates($rsr, $projectId),
             "results" => $this->getResults($rsr, $projectId),
             "columns" => $r->input('columns'),
             "charts" => $this->b64toImage($r),
+            "titles" => $r->input('titles'),
         ];
         // return $data;
         $html = view('reports.template', ['data' => $data])->render();

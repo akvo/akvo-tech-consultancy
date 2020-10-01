@@ -142,7 +142,6 @@ $("#generate-report-link").on('click', () => {
     let country = $("#partnership-country").val();
     let code = $("#partnership-code").val();
     let pid = (code == 0) ? country : code;
-    console.log(pid);
 
     // Loading
     $("#myModalBtnClose").hide();
@@ -160,9 +159,16 @@ $("#generate-report-link").on('click', () => {
         let iframe = document.getElementsByTagName("iframe");
         let token = document.querySelector('meta[name="csrf-token"]').content;
         let canvas = iframe[0].contentWindow.document.getElementsByTagName("canvas");
+        let canvasTitles = iframe[0].contentWindow.document.getElementsByClassName('card-header');
         let formData = new FormData();
     
-        let filename = 'partnership-' + selectPicker().join('-');
+        let country = $("#partnership-country option:selected").text().trim();
+        let partnership = $("#partnership-code option:selected").text().trim();
+        let filename = (partnership === "Select Partnership") 
+                            ? ((country === "Select Country") ? "2SCALE Program" : country ) 
+                            : partnership;
+        filename = filename + ' - ' + moment().format('MMM D, YYYY');
+        console.log(filename);
         formData.set('partnership_id', pid);
         formData.set('filename', filename);
     
@@ -182,6 +188,10 @@ $("#generate-report-link").on('click', () => {
             let column = Math.round(x/minWidth);
             formData.append('columns[]', column)
         });
+
+        for (let index=0; index<canvasTitles.length; index++) {
+            formData.append('titles[]', canvasTitles[index].textContent);
+        }
         
         setTimeout(() => {
             // var appUrl = document.querySelector('meta[name="app-url"]').content;
@@ -197,7 +207,7 @@ $("#generate-report-link").on('click', () => {
                 </a>');
                 $("#myModalBtnClose").show();
             }).catch(err => {
-                console.log("internal server error");
+                console.log("internal server error", err);
                 $("#loader-spinner").remove();
                 $("#myModalAuthTitle").html("Error");
                 $("#myModalAuthBody").html('<div class="alert alert-danger" role="alert">Please try again later!</div>');

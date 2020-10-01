@@ -28,4 +28,14 @@ class Partnership extends Model
     {
         return $this->hasMany('\App\Datapoint','partnership_id','id');
     }
+
+    public function rsr_report()
+    {
+        return $this->hasOne('\App\RsrProject');
+    }
+
+    public function rsr_results()
+    {
+        return $this->hasManyThrough('\App\RsrResult', '\App\RsrProject');
+    }
 }

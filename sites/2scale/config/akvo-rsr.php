@@ -40,8 +40,8 @@ return [
                 'parent' => 8804,
                 'childs' => [
                     'ET06' => 9009,
-                    'ET10' => null,
-                    'ET21' => null,
+                    'ET10' => 9258,
+                    'ET21' => 9259,
                     'ET22' => null,
                     'ET23' => null,
                     'ET24' => null,
@@ -63,11 +63,11 @@ return [
                 'parent' => 8806,
                 'childs' => [
                     'KE11' => null,
-                    'KE21' => null,
-                    'KE22' => null,
-                    'KE23' => null,
+                    'KE21' => 9230,
+                    'KE22' => 9254,
+                    'KE23' => 9255,
                     'KE24' => null,
-                    'KE25' => null,
+                    'KE25' => 9256,
                     'KE26' => null,
                     'KE27' => null,
                     'KE28' => null,
@@ -78,9 +78,9 @@ return [
             'ML' => [ # Mali
                 'parent' => 8807,
                 'childs' => [
-                    'ML05' => null,
-                    'ML21' => null,
-                    'ML22' => null,
+                    'ML05' => 9227,
+                    'ML21' => 9243,
+                    'ML22' => 9251,
                     'ML23' => null,
                     'ML24' => null,
                 ],
@@ -100,7 +100,7 @@ return [
             ], # Niger
             
             'BF' => [ # Burkina Faso
-                'parent' => null,
+                'parent' => 8760,
                 'childs' => [
                     'BF21' => null,
                     'BF22' => null,
