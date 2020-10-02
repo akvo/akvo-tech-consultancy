@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class RsrResult extends Model
 {
     protected $hidden = ['created_at','updated_at'];
-    protected $fillable = ['rsr_project_id', 'title', 'description', 'order', 'aggregation'];
+    protected $fillable = ['id', 'rsr_project_id', 'parent_result', 'title', 'description', 'order'];
 
     public function rsr_project()
     {

@@ -87,3 +87,6 @@ Route::post('/send_email', 'Api\SupportController@send');
 // RSR
 // Route::get('/rsr-report/{partnership_id}', 'Api\AkvoRsrController@generateReport');
 // Route::post('/rsr-image', 'Api\AkvoRsrController@b64toImage');
+Route::get('/seed-rsr', 'Api\RsrSeedController@seedRsr');
+Route::get('/seed-rsr-projects', 'Api\RsrSeedController@seedRsrProjects');
+Route::get('/seed-rsr-results', 'Api\RsrSeedController@seedRsrResults');

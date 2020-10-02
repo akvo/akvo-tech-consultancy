@@ -20,7 +20,6 @@ class CreateRsrResultsTable extends Migration
             $table->text('title');
             $table->longText('description')->nullable();
             $table->unsignedInteger('order')->nullable();
-            $table->boolean('aggregation');
             $table->timestamps();
 
             $table->foreign('rsr_project_id')->references('id')

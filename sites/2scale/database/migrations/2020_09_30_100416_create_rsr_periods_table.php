@@ -17,10 +17,10 @@ class CreateRsrPeriodsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('rsr_indicator_id');
             $table->unsignedBigInteger('parent_period')->nullable();
-            $table->float('target_value');
-            $table->float('actual_value');
-            $table->date('period_start');
-            $table->date('period_end');
+            $table->float('target_value', 8, 2)->nullable();
+            $table->float('actual_value', 8, 2)->nullable();
+            $table->date('period_start')->nullable();
+            $table->date('period_end')->nullable();
             $table->timestamps();
 
             $table->foreign('rsr_indicator_id')->references('id')

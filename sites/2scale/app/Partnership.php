@@ -29,7 +29,7 @@ class Partnership extends Model
         return $this->hasMany('\App\Datapoint','partnership_id','id');
     }
 
-    public function rsr_report()
+    public function rsr_project()
     {
         return $this->hasOne('\App\RsrProject');
     }

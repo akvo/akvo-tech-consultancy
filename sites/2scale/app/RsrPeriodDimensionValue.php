@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class RsrPeriodDimensionValue extends Model
 {
     protected $hidden = ['created_at','updated_at'];
-    protected $fillable = ['rsr_period_id', 'rsr_dimension_value_id', 'value'];
+    protected $fillable = ['id', 'rsr_period_id', 'rsr_dimension_value_id', 'value'];
 
     public function rsr_period()
     {

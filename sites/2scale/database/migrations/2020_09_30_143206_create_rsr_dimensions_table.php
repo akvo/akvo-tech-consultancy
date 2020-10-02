@@ -16,6 +16,7 @@ class CreateRsrDimensionsTable extends Migration
         Schema::create('rsr_dimensions', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('rsr_indicator_id');
+            $table->unsignedBigInteger('rsr_project_id');
             $table->unsignedBigInteger('parent_dimension_name')->nullable();
             $table->text('name');
             $table->timestamps();

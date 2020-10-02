@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class RsrDimensionValue extends Model
 {
     protected $hidden = ['created_at','updated_at'];
-    protected $fillable = ['rsr_dimension_id', 'parent_dimension_value', 'name', 'value'];
+    protected $fillable = ['id', 'rsr_dimension_id', 'parent_dimension_value', 'name', 'value'];
 
     public function rsr_dimension()
     {

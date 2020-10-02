@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRsrPeriodDimensionValuesTable extends Migration
+class CreateRsrPeriodDataTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,15 @@ class CreateRsrPeriodDimensionValuesTable extends Migration
      */
     public function up()
     {
-        // mapping disaggragation target value per periods
-        Schema::create('rsr_period_dimension_values', function (Blueprint $table) {
+        Schema::create('rsr_period_data', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('rsr_period_id');
-            $table->unsignedBigInteger('rsr_dimension_value_id');
             $table->float('value', 8, 2)->nullable();
+            $table->longText('text')->nullable();
             $table->timestamps();
 
             $table->foreign('rsr_period_id')->references('id')
                 ->on('rsr_periods')->onDelete('cascade');
-            
-            $table->foreign('rsr_dimension_value_id')->references('id')
-                ->on('rsr_dimension_values')->onDelete('cascade');
         });
     }
 
@@ -36,6 +32,6 @@ class CreateRsrPeriodDimensionValuesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('rsr_period_dimension_values');
+        Schema::dropIfExists('rsr_period_data');
     }
 }

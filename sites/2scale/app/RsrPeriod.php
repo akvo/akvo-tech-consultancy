@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class RsrPeriod extends Model
 {
     protected $hidden = ['created_at','updated_at'];
-    protected $fillable = ['rsr_indicator_id', 'parent_period', 'target_value', 
+    protected $fillable = ['id', 'rsr_indicator_id', 'parent_period', 'target_value', 
                             'actual_value', 'period_start', 'period_end'
                         ];
 
@@ -29,5 +29,10 @@ class RsrPeriod extends Model
     public function parents()
     {
         return $this->belongsTo('\App\RsrPeriod','parent_period','id');
-    } 
+    }
+
+    public function rsr_period_data()
+    {
+        return $this->hasMany('\App\RsrPeriodData');
+    }
 }

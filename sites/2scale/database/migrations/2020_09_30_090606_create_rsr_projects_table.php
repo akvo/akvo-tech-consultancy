@@ -15,12 +15,12 @@ class CreateRsrProjectsTable extends Migration
     {
         Schema::create('rsr_projects', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('partnership_id');
+            $table->unsignedBigInteger('partnership_id')->nullable();
             $table->text('title');
             $table->text('subtitle')->nullable();
-            $table->float('budget')->default(0);
-            $table->float('funds')->default(0);
-            $table->float('funds_needed')->default(0);
+            $table->float('budget', 9, 2)->default(0);
+            $table->float('funds',  9, 2)->default(0);
+            $table->float('funds_needed',  9, 2)->default(0);
             $table->text('currency');
             $table->longText('project_plan_summary')->nullable();
             $table->longText('goals_overview')->nullable();
@@ -29,10 +29,10 @@ class CreateRsrProjectsTable extends Migration
             $table->text('current_image')->nullable();
             $table->text('current_image_caption')->nullable();
             $table->text('status_label')->nullable();
-            $table->date('date_start_planned');
-            $table->date('date_start_actual');
-            $table->date('date_end_planned');
-            $table->date('date_end_actual');
+            $table->date('date_start_planned')->nullable();
+            $table->date('date_start_actual')->nullable();
+            $table->date('date_end_planned')->nullable();
+            $table->date('date_end_actual')->nullable();
             $table->timestamps();
 
             $table->foreign('partnership_id')->references('id')

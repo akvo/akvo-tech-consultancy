@@ -7,7 +7,7 @@ return [
     'endpoints' => [
         'projects' => $ROOT_API . '/project', # /param
         'updates' => $ROOT_API . '/project_update', # /param
-        'results' => $ROOT_API . '/results_framework_lite', # /param
+        'results' => $ROOT_API . '/results_framework', # /param
     ],
     'projects' => [
         'parent' => 8759, # 2scale program
