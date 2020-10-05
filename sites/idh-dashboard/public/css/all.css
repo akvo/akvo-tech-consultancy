@@ -1,9 +1,21 @@
 html, body{
     font-family:'Open Sans',sans-serif!important;
 }
-.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6{
+.navbar-brand {
+    margin-right: 0!important;
+}
+h1, h2, h3, h4, h5, h6{
     font-family:'Open Sans',sans-serif!important;
     margin:auto!important;
+}
+.page-title h2::after{
+    content: "\A";
+    height: 8px;
+    display: block;
+    border-bottom: solid 4px #fff;
+    width: 100px;
+    margin: auto;
+    padding-top: 20px;
 }
 
 ::-webkit-scrollbar {
@@ -77,7 +89,6 @@ a.dropdown-toggle.nav-link {
 }
 .NavBlue {
     background-color:#0072c6;
-    border-bottom: solid 1px #fff;
     box-shadow: 0 0 8px 1px black;
 }
 .nav-link {
@@ -171,7 +182,6 @@ a.dropdown-toggle.nav-link {
     border-radius: 10px;
     margin-bottom: 10px;
 }
-
 .card-info h2{
     font-family: sans-serif!important;
     font-size: 28px;
@@ -256,6 +266,9 @@ h2.extra-counter {
 }
 .card-add-column.card:hover{
     background-color:#fff;
+}
+.dropdown-select.input-group-text{
+    font-size:16px!important;
 }
 
 /* Checkbox */

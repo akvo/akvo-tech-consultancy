@@ -98,20 +98,34 @@ class Compare extends Component {
             ...charts,
             {id:id, data:data}
         ];
-        this.props.page.compare.additem(id);
-        this.setState({charts:charts})
+        let isAvailable = this.props.value.page.compare.items.find(x => x.id === id);
+        if (!isAvailable) {
+            this.props.page.compare.additem(id);
+        }
+        this.setState({charts:charts});
+        this.props.page.loading(false);
     }
 
     saveChart(id) {
+        this.props.page.loading(true);
         this.setState({searched:[], autocomplete: false});
         let params = [id];
         let urls = ['compare-data/' + id];
+        this.setState({loading:true});
         queueApi(0, urls, 1, this.appendChart ,params);
         return;
     }
 
+    removeChart(id) {
+        this.props.page.compare.removeitem(id);
+        let charts = this.state.charts.filter(x => x.id !== id);
+        this.setState({charts:charts});
+    }
+
     renderSearchItem() {
         let data = this.state.searched;
+        let items = this.props.value.page.compare.items;
+        data = data.filter(x => !items.find(z => z.id === x.id));
         return data.map((x, i) => {
             return (
                 <div
@@ -122,12 +136,6 @@ class Compare extends Component {
                 </div>
             )
         })
-    }
-
-    removeChart(id) {
-        this.props.page.compare.removeitem(id);
-        let charts = this.state.charts.filter(x => x.id !== id);
-        this.setState({charts:charts});
     }
 
     renderTableHeader() {
@@ -148,6 +156,12 @@ class Compare extends Component {
                     </Card>
                 </div>
             )
+        });
+    }
+
+    componentDidMount() {
+        this.props.value.page.compare.items.map(x => {
+            this.saveChart(x.id);
         });
     }
 
@@ -185,6 +199,8 @@ class Compare extends Component {
     }
 
     render() {
+        let source = flatFilters(this.props.value.page.filters);
+        let searchEnabled = this.props.value.page.compare.items.length !== source.length;
         return (
             <Fragment>
                 <div className="page-content">
@@ -194,6 +210,7 @@ class Compare extends Component {
                             <InputGroup>
                                 <FormControl
                                     onClick={e => this.toggleDropDown()}
+                                    disabled={!searchEnabled}
                                     onChange={this.changeSearchItem}
                                     type="text"
                                     placeholder="Type Keywords (e.g. Kenya)"
@@ -207,14 +224,14 @@ class Compare extends Component {
                                     }>
                                     <FontAwesomeIcon
                                         color={this.state.searched.length > 0 ? "red" : "grey"}
-                                        icon={["fas", this.state.searched.length > 0
+                                        icon={["fas", this.state.searched.length > 0 && searchEnabled
                                             ? "times-circle"
                                             : "chevron-circle-down"
                                         ]} />
                                     </InputGroup.Text>
                                 </InputGroup.Append>
                             </InputGroup>
-                            {this.state.searched.length !== 0 ? (
+                            {this.state.searched.length !== 0 && searchEnabled ? (
                                 <div className="search-item-bar">{this.renderSearchItem()}</div>
                             ) : ""}
                         </Form>

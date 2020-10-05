@@ -44,7 +44,7 @@ class Navigation extends Component {
                 style={{padding: "0px"}}
             >
                 <Navbar.Brand href="#home" style={{padding: "0px"}}>
-                    <Image src={"images/logo.jpg"}
+                    <Image src={"images/logo-farmfit.png"}
                         height="60px"
                     />
                 </Navbar.Brand>

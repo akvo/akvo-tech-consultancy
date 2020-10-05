@@ -27,6 +27,7 @@ class Country extends Component {
     getData(id) {
         this.setState({active:id});
         let url = 'country-data/' + id;
+        this.props.page.loading(true);
         getApi(url).then(res => {
             let data = res[url];
             data = data.map((d, ix) => {
@@ -55,6 +56,7 @@ class Country extends Component {
                         data: rows,
                     }
                 }
+                this.props.page.loading(false);
                 return chart;
             });
             this.setState({charts: data});

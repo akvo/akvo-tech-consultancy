@@ -28,8 +28,8 @@ export const Bar = (title, data) => {
         },
         grid: {
             top: 100,
-            right: 100,
-            left: 100,
+            right: 50,
+            left: 10,
             show: true,
             label: {
                 color: "#222",
