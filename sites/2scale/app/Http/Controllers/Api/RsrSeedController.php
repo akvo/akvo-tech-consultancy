@@ -14,7 +14,10 @@ use App\RsrDimension;
 use App\RsrDimensionValue;
 use App\RsrPeriodDimensionValue;
 use App\RsrPeriodData;
+use App\RsrTitle;
+use App\RsrTitleable;
 use Carbon\Carbon;
+use Illuminate\Support\Arr;
 
 class RsrSeedController extends Controller
 {
@@ -123,17 +126,19 @@ class RsrSeedController extends Controller
                 return [];
             }
             $this->collections->push($val['indicators']);
-            return $result->updateOrCreate(
+            $results = $result->updateOrCreate(
                 ['id' => $val['id']],
                 [
                     'id' => $val['id'],
                     'rsr_project_id' => $val['project'],
                     'parent_result' => $val['parent_result'],
-                    'title' => $val['title'],
-                    'description' => $val['description'],
+                    // 'title' => $val['title'],
+                    // 'description' => $val['description'],
                     'order' => $val['order'],
                 ]
             );
+            $this->seedRsrTitleable($val, 'App\RsrResult');
+            return $results;
         });
         
         $indicatorTable = $this->collections->flatten(1)->map(function ($val) use ($indicator) {
@@ -149,14 +154,14 @@ class RsrSeedController extends Controller
                     ]
                 );
             }
-            return $indicator->updateOrCreate(
+            $indicators = $indicator->updateOrCreate(
                 ['id' => $val['id']],
                 [
                     'id' => $val['id'],
                     'rsr_result_id' => $val['result'],
                     'parent_indicator' => $val['parent_indicator'],
-                    'title' => $val['title'],
-                    'description' => $val['description'],
+                    // 'title' => $val['title'],
+                    // 'description' => $val['description'],
                     'baseline_year' => $val['baseline_year'],
                     'baseline_value' => floatval($val['baseline_value']),
                     'target_value' => floatval($val['target_value']),
@@ -164,6 +169,8 @@ class RsrSeedController extends Controller
                     'has_dimension' => $has_dimension,
                 ],
             );
+            $this->seedRsrTitleable($val, 'App\RsrIndicator');
+            return $indicators;
         });
 
         // transform
@@ -199,15 +206,20 @@ class RsrSeedController extends Controller
 
         $dimensionTable = $dimensionTransform->flatten(1)->map(function ($val) use ($dimension, $dimensionValue) {
             $dimension_values = $dimension->updateOrCreate(['id' => $val['dimensions']['id']], $val['dimensions']);
+            $this->seedRsrTitleable($val['dimensions'], 'App\RsrDimension');
             $values = collect($val['dimension_values'])->map(function ($v) use ($dimensionValue) {
-                return $dimensionValue->updateOrCreate(['id' => $v['id']], $v);
+                $dimensionValues = $dimensionValue->updateOrCreate(['id' => $v['id']], $v);
+                $this->seedRsrTitleable($v, 'App\RsrDimensionValue');
+                return $dimensionValues;
             });
+            return $dimension_values;
         });
 
         $this->collections = collect();
         $periodTable = $this->periods->flatten(1)->map(function ($val) use ($period) {
-            if (count($val['disaggregation_targets']) > 0) {
-                $this->collections->push($val['disaggregation_targets']);
+            if (count($val['disaggregations']) > 0) {
+                $val['disaggregations']['period'] = $val['id'];
+                $this->collections->push($val['disaggregations']); // dimension value per period
             }
             if (count($val['data']) > 0) {
                 $this->periodData->push($val['data']);
@@ -259,6 +271,32 @@ class RsrSeedController extends Controller
             );
         });
         return;
+    }
+
+    private function seedRsrTitleable($titleData, $type)
+    {
+        // seed Title
+        $titles = [];
+        if ($type === 'App\RsrResult' || $type === 'App\RsrIndicator') {
+            $titles['title'] = $titleData['title'];
+            if (strlen($titleData['description']) > 0 || $titleData['description'] !== null) {
+                $titles['description'] = $titleData['description'];
+            }
+        }
+        if ($type === 'App\RsrDimension' || $type === 'App\RsrDimensionValue') {
+            $titles['title'] = $titleData['name'];
+        }
+        $title = RsrTitle::where('title', $titles['title'])->first();
+        if (!$title) {
+            $title = RsrTitle::updateOrCreate($titles, $titles);
+        } 
+
+        // seed Titleable
+        $titleable = [];
+        $titleable['rsr_title_id'] = $title->id;
+        $titleable['rsr_titleable_id'] = $titleData['id'];
+        $titleable['rsr_titleable_type'] = $type;
+        return RsrTitleable::updateOrCreate($titleable, $titleable);
     }
 
     private function getResults($projectId)

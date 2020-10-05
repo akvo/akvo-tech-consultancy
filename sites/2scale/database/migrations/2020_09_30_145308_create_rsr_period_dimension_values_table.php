@@ -18,7 +18,7 @@ class CreateRsrPeriodDimensionValuesTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('rsr_period_id');
             $table->unsignedBigInteger('rsr_dimension_value_id');
-            $table->float('value', 8, 2)->nullable();
+            $table->float('value', 12, 2)->nullable();
             $table->timestamps();
 
             $table->foreign('rsr_period_id')->references('id')

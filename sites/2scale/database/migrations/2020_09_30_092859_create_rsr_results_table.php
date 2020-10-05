@@ -17,8 +17,8 @@ class CreateRsrResultsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('rsr_project_id');
             $table->unsignedBigInteger('parent_result')->nullable();
-            $table->text('title');
-            $table->longText('description')->nullable();
+            // $table->text('title');
+            // $table->longText('description')->nullable();
             $table->unsignedInteger('order')->nullable();
             $table->timestamps();
 

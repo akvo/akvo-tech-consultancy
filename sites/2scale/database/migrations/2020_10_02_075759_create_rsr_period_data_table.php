@@ -16,7 +16,7 @@ class CreateRsrPeriodDataTable extends Migration
         Schema::create('rsr_period_data', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('rsr_period_id');
-            $table->float('value', 8, 2)->nullable();
+            $table->float('value', 12, 2)->nullable();
             $table->longText('text')->nullable();
             $table->timestamps();
 

@@ -38,8 +38,7 @@ class AppServiceProvider extends ServiceProvider
         Builder::defaultStringLength(191);
 
         Blade::directive('money', function ($amount) {
-            $amount = (int) $amount;
-            return "<?php echo 'EUR ' . number_format($amount, 2); ?>";
+            return "<?php echo  number_format($amount, 2); ?>";
         });
     }
 }

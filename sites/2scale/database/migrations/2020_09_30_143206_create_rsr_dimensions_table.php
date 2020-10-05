@@ -18,7 +18,7 @@ class CreateRsrDimensionsTable extends Migration
             $table->unsignedBigInteger('rsr_indicator_id');
             $table->unsignedBigInteger('rsr_project_id');
             $table->unsignedBigInteger('parent_dimension_name')->nullable();
-            $table->text('name');
+            // $table->text('name');
             $table->timestamps();
 
             $table->foreign('rsr_indicator_id')->references('id')

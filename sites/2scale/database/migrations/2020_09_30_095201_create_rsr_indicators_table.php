@@ -17,11 +17,11 @@ class CreateRsrIndicatorsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('rsr_result_id');
             $table->unsignedBigInteger('parent_indicator')->nullable();
-            $table->text('title');
-            $table->longText('description')->nullable();
+            // $table->text('title');
+            // $table->longText('description')->nullable();
             $table->year('baseline_year')->nullable();
-            $table->float('baseline_value', 8, 2)->nullable();
-            $table->float('target_value', 8, 2)->nullable();
+            $table->float('baseline_value', 12, 2)->nullable();
+            $table->float('target_value', 12, 2)->nullable();
             $table->unsignedInteger('order')->nullable();
             $table->boolean('has_dimension');
             $table->timestamps();

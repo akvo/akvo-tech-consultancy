@@ -17,8 +17,8 @@ class CreateRsrDimensionValuesTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('rsr_dimension_id');
             $table->unsignedBigInteger('parent_dimension_value')->nullable();
-            $table->text('name'); // from dimension value
-            $table->float('value', 8, 2)->nullable(); // from disaggregation target value map by dimension_value
+            // $table->text('name'); // from dimension value
+            $table->float('value', 12, 2)->nullable(); // from disaggregation target value map by dimension_value
             $table->timestamps();
 
             $table->foreign('rsr_dimension_id')->references('id')

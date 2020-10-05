@@ -13,8 +13,13 @@ class RsrProject extends Model
                             'date_start_planned', 'date_start_actual', 'date_end_planned', 'date_end_actual',
                         ];
 
-    public function partnetship()
+    public function partnership()
     {
         return $this->belongsTo('\App\Partnership');
+    }
+
+    public function rsr_results()
+    {
+        return $this->hasMany('\App\RsrResult');
     }
 }

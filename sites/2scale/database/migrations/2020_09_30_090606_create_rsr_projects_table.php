@@ -18,9 +18,9 @@ class CreateRsrProjectsTable extends Migration
             $table->unsignedBigInteger('partnership_id')->nullable();
             $table->text('title');
             $table->text('subtitle')->nullable();
-            $table->float('budget', 9, 2)->default(0);
-            $table->float('funds',  9, 2)->default(0);
-            $table->float('funds_needed',  9, 2)->default(0);
+            $table->float('budget', 12, 2)->default(0);
+            $table->float('funds',  12, 2)->default(0);
+            $table->float('funds_needed',  12, 2)->default(0);
             $table->text('currency');
             $table->longText('project_plan_summary')->nullable();
             $table->longText('goals_overview')->nullable();

@@ -194,10 +194,7 @@ $("#generate-report-link").on('click', () => {
         }
         
         setTimeout(() => {
-            // var appUrl = document.querySelector('meta[name="app-url"]').content;
-            // var api = appUrl+'/rsr-report/';
-            // console.log(api);
-            axios.post('rsr-report', formData, {'Content-Type':'multipart/form-data', 'X-CSRF-TOKEN': token})
+            axios.post('api/rsr-report', formData, {'Content-Type':'multipart/form-data', 'X-CSRF-TOKEN': token})
             .then(res => {
                 // console.log(res);
                 $("#loader-spinner").remove();
