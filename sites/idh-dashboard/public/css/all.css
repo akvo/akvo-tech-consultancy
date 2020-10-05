@@ -171,6 +171,7 @@ a.dropdown-toggle.nav-link {
 .card-chart {
     background-color: #f0f5fb;
     padding: 12px;
+    margin-bottom: 30px;
     border-radius: 10px;
 }
 

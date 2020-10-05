@@ -38,10 +38,15 @@ class ApiController extends Controller
         $first_crop = Utils::getMax($first_crop);
         $second_crop = Utils::getValues($form_id, 'f_second_crop');
         $dedicated = collect($second_crop)
-            ->where('name', "I don't have a second main crop")
+            ->where('name', "No Second Crop")
             ->values()
             ->first();
+        $no_second_crop = round((1 - $dedicated['value'] / $total) * 100, 0);
         $farm_size = Utils::getValues($form_id, 'f_size (acre)');
+        $second_crop = Utils::getValues($form_id,'f_second_crop');
+        $landownership = Utils::getValues($form_id, 'f_ownership');
+        $owned_land = collect($landownership)->where('name','I Own All The Land')->first();
+        $owned_land = round(($owned_land['value'] / $total) * 100, 0);
         return [
             [
                 'id' => $form_id,
@@ -85,19 +90,57 @@ class ApiController extends Controller
                         'kind' => 'NUM',
                         'description' => 'Acres is the avarage farm size',
                         'width' => 12
-                    ],[
-                        'id' => $form_id,
-                        'title' => false,
-                        'data' => 100 - (round($dedicated['value'] / $total, 2) * 100),
-                        'kind' => 'PERCENT',
-                        'description' => 'Of the farmers had more than one crop',
-                        'width' => 12
                     ]
                 ],
                 'id' => $form_id,
                 'kind' => 'CARDS',
                 'description' => false,
                 'width' => 2,
+            ],[
+                'data' => [
+                    [
+                        'id' => $form_id,
+                        'title' => false,
+                        'data' => 100 - (round($dedicated['value'] / $total, 2) * 100),
+                        'kind' => 'PERCENT',
+                        'description' => 'Of the farmers had more than one crop',
+                        'width' => 12
+                    ],[
+                        'id' => $form_id,
+                        'title' => false,
+                        'data' => $no_second_crop,
+                        'kind' => 'PERCENT',
+                        'description' => 'Of the farmers had more than one crop',
+                        'width' => 12
+                    ], [
+                        'id' => $form_id,
+                        'title' => false,
+                        'data' => $owned_land,
+                        'kind' => 'PERCENT',
+                        'description' => 'Of the farmers owns the land they use to grow crops',
+                        'width' => 12
+                    ],
+                ],
+                'id' => $form_id,
+                'kind' => 'CARDS',
+                'description' => false,
+                'width' => 2,
+            ],[
+                'id' => $form_id,
+                'title' => "Farmers' land ownership status",
+                'data' => $landownership,
+                'kind' => 'BAR',
+                'description' => false,
+                'width' => 5,
+            ],[
+                'id' => $form_id,
+                'title' => "Livestock",
+                'data' => collect(Utils::getValues($form_id, 'f_livestock'))->reject(function($data){
+                    return Str::contains($data['name'],"No");
+                })->values(),
+                'kind' => 'BAR',
+                'description' => false,
+                'width' => 5,
             ]
         ];
     }
@@ -149,7 +192,7 @@ class ApiController extends Controller
     {
         $data = Utils::getMax($data);
         return [
-            'value' => round($data['value'] / $total, 1) * 100,
+            'value' => round($data['value'] / $total, 2) * 100,
             'desc' => 'Of the ' . strtolower($variable) . ' was '.$data['name'],
         ];
     }

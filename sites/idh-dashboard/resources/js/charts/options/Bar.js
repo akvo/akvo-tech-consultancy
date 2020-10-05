@@ -12,6 +12,7 @@ import sum from 'lodash/sum';
 import sortBy from 'lodash/sortBy';
 
 export const Bar = (title, data) => {
+    data = sortBy(data, 'value');
     let axisLabels = data.map(x => x.name);
     let values = data.map(x => x.value);
     let avg = 0;
@@ -23,7 +24,7 @@ export const Bar = (title, data) => {
         title: {
             text: splitTitle(title),
             right: 'center',
-            top: '0px',
+            top: '40px',
             ...TextStyle
         },
         grid: {
