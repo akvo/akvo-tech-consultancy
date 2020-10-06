@@ -253,9 +253,9 @@ class ApiController extends Controller
         $soldcrops = Utils::mergeValues($soldcrops, 'f_crops', 100);
         $farmpractices = [[
                 'id' => $form_id,
-                'title' => 'Age of Farmer',
+                'title' => 'Crops',
                 'data' => $crops,
-                'kind' => 'HORIZONTAL BAR',
+                'kind' => 'BAR',
                 'description' => false,
                 'width' => 12,
             ],[
