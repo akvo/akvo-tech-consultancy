@@ -27,7 +27,9 @@ export const generateOptions = (type, title, data) => {
         case "HISTOGRAM":
             return Histogram(title, data);
         case "HORIZONTAL BAR":
-            return Bar(title, data, true);
+            return Bar(title, data, true, false);
+        case "UNSORTED HORIZONTAL BAR":
+            return Bar(title, data, true, true);
         default:
             return Bar(title, data);
     }

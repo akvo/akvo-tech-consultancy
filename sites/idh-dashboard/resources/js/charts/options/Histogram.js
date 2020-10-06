@@ -8,13 +8,15 @@ import {
     splitTitle,
     dataZoom,
 } from '../chart-options.js';
+import maxBy from 'lodash/maxBy';
 
 export const Histogram = (title, data) => {
     let values = data.data.map(x => {
         return {
             name: x.name,
             type: 'bar',
-            data: x.data
+            data: x.data,
+            showBackground: true,
         };
     });
     let legend = data.data.map(x => x.name);
@@ -66,14 +68,16 @@ export const Histogram = (title, data) => {
         legend: {
             data: legend
         },
-        xAxis: [{
+        xAxis: {
+            min: data.min,
+            max: data.max,
             type: 'category',
-            data: data.list,
             axisPointer: {
                 type: 'shadow'
             }
-        }],
+        },
         yAxis: {
+            type: 'value',
             name: 'Count',
             axisLabel: {
                 ...TextStyle

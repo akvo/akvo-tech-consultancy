@@ -11,8 +11,8 @@ import {
 import sum from 'lodash/sum';
 import sortBy from 'lodash/sortBy';
 
-export const Bar = (title, data, horizontal=false) => {
-    data = sortBy(data, 'value');
+export const Bar = (title, data, horizontal=false, unsorted=false) => {
+    data = sortBy(data, unsorted ? 'name' : 'value');
     let axisLabels = data.map(x => x.name);
     let values = data.map(x => x.value);
     let avg = 0;

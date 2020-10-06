@@ -101,13 +101,6 @@ class ApiController extends Controller
                     [
                         'id' => $form_id,
                         'title' => false,
-                        'data' => 100 - (round($dedicated['value'] / $total, 2) * 100),
-                        'kind' => 'PERCENT',
-                        'description' => 'Of the farmers had more than one crop',
-                        'width' => 12
-                    ],[
-                        'id' => $form_id,
-                        'title' => false,
                         'data' => $no_second_crop,
                         'kind' => 'PERCENT',
                         'description' => 'Of the farmers had more than one crop',
@@ -205,7 +198,7 @@ class ApiController extends Controller
                 'data' => $household->countBy()->map(function($d, $k){ 
                     return ['name' => $k, 'value' => $d]; 
                 })->values(),
-                'kind' => 'HORIZONTAL BAR',
+                'kind' => 'UNSORTED HORIZONTAL BAR',
                 'description' => false,
                 'width' => 6
             ],[
@@ -215,7 +208,7 @@ class ApiController extends Controller
                     'title' => false,
                     'data' => round($household->avg(), 2),
                     'kind' => 'NUM',
-                    'description' => 'Acres is the avarage farm size',
+                    'description' => ' is the avarage HH Size',
                     'width' => 12,
                 ]],
                 'kind' => 'CARDS',
@@ -246,11 +239,21 @@ class ApiController extends Controller
 
         $crops = Utils::getValues($form_id, 'f_crops');
         $producedcrops = Utils::getValues($form_id, 'f_produced (kilograms)', false);
-        $producedcrops = Utils::mergeValues($producedcrops, 'f_crops', 100);
-        $sdmcrops = Utils::getValues($form_id, 'f_sdm_size (acre)', false);
-        $sdmcrops = Utils::mergeValues($sdmcrops, 'f_crops', 0.5);
+        $fsdmId = Variable::where('name', 'f_sdm_size (acre)')->first();
+        $producedcrops = $producedcrops->map(function($p) use ($fsdmId){
+            $fsdmVal = Answer::where('form_instance_id', $p['form_instance_id'])
+                ->where('variable_id', $fsdmId->id)->first()->value;
+            return [
+                'id' => $p->id,
+                'form_instance_id' => $p->form_instance_id,
+                'variable_id' => $p->variable_id,
+                'form_id' => $p->form_id,
+                'value' => $fsdmVal > 0 ? $p->value / $fsdmVal : 0,
+            ];
+        });
+        $producedcrops = Utils::mergeValues($producedcrops, 'f_first_crop', 50);
         $soldcrops = Utils::getValues($form_id, 'f_sold (kilograms)', false);
-        $soldcrops = Utils::mergeValues($soldcrops, 'f_crops', 100);
+        $soldcrops = Utils::mergeValues($soldcrops, 'f_first_crop', 100);
         $farmpractices = [[
                 'id' => $form_id,
                 'title' => 'Crops',
@@ -260,15 +263,8 @@ class ApiController extends Controller
                 'width' => 12,
             ],[
                 'id' => $form_id,
-                'title' => "Produced Crops (Kilograms)",
+                'title' => "Productivity (Kilograms / Acre)",
                 'data' => $producedcrops,
-                'kind' => 'HISTOGRAM',
-                'description' => false,
-                'width' => 12,
-            ],[
-                'id' => $form_id,
-                'title' => "SDM Size (Acre)",
-                'data' => $sdmcrops,
                 'kind' => 'HISTOGRAM',
                 'description' => false,
                 'width' => 12,
@@ -285,6 +281,13 @@ class ApiController extends Controller
                 'data' => collect(Utils::getValues($form_id, 'f_livestock'))->reject(function($data){
                     return Str::contains($data['name'],"No");
                 })->values(),
+                'kind' => 'BAR',
+                'description' => false,
+                'width' => 12,
+            ],[
+                'id' => $form_id,
+                'title' => "Education Level",
+                'data' => Utils::getValues($form_id,'hh_education_farmer'),
                 'kind' => 'BAR',
                 'description' => false,
                 'width' => 12,

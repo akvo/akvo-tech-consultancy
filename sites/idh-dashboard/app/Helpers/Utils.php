@@ -56,8 +56,9 @@ class Utils {
             ->where('variable_id', $var->id);
         if ($var->type === 'option') {
             $answers = $answers->with('options');
+            return $answers->get();
         }
-        return $answers->get();
+        return $answers->whereNotNull('value')->get();
     }
 
     public static function completeVariables()
@@ -77,52 +78,41 @@ class Utils {
         $current = $values[0]['variable_id'];
         $current = Variable::where('id', $current)->first();
         $variable = Variable::where('name', $variable_name)->first();
-        $min = collect();
-        $max = collect();
-        $values = $values->map(function($data) use ($current, $variable) {
+        $list = collect();
+        $values = $values->map(function($data) use ($current, $variable, $list) {
             $option = Answer::where('form_instance_id', $data['form_instance_id'])
                 ->where('variable_id', $variable->id)->with('options.option')->first();
             $option = $option->options->first()->option->name;
+            $list->push($data['value']);
             return [
                 $variable->name => $option,
                 $current->name => $data['value'],
             ];
-        })->groupBy($variable->name)->map(function($data, $key) use ($current, $max, $min){
+        })->groupBy($variable->name)->map(function($data, $key) use ($current){
             $value = $data->pluck($current->name)->countBy()->map(function($a, $k){
                 return ['name' => $k, 'value'=> $a];
             })->sortByDesc('name')->values();
-            $min->push($value->min('name'));
-            $max->push($value->max('name'));
             return [
                 'name' => $key,
                 'data' => $value
             ];
         })->values();
-        $min = $min->min();
-        $max = $max->max();
-        $list = collect();
-        $max = $max / $interval;
-        for ($i=$min; $i<=$max; $i++) {
-            $list->push($i);
-        }
-        $values = $values->map(function($data) use ($min, $max, $list, $interval){
-            $filled = collect();
-            for ($i=$min; $i<=$max; $i++) {
-                $unfilled = collect($data['data'])->where('name', $i * $interval)->first();
-                if (!$unfilled) {
-                    $unfilled = [
-                        'name' => $i,
-                        'value' => 0
-                    ];
+        $values = $values->map(function($data) use ($list){
+            $unlisted = collect();
+            foreach($list as $l){
+                $listed = collect($data['data'])->where('name', $l)->first();
+                if ($listed){
+                    $unlisted->push($listed);
+                } else {
+                    $unlisted->push(['name' => $l,'value' => 0]);
                 }
-                $filled->push($unfilled);
-            };
+            }
             return [
                 'name' => $data['name'],
-                'data' => $filled->pluck('value'),
+                'data' => $unlisted->pluck('value'),
             ];
         });
-        return ['data' => $values, 'list' => $list];
+        return ['data' => $values, 'min' => 0, 'max' => count($list)];
     }
 
 

@@ -57,7 +57,7 @@ class SeedController extends Controller
                 $variable_id = $variables[$header['name']];
                 $input = $record[$header['name']];
                 if ($header['type'] === 'number') {
-                    $value = (float) $input;
+                    $value = $input === "NA" ? null : (float) $input;
                 }
                 $answer = \App\Models\Answer::updateOrCreate([
                     'variable_id' => $variable_id,
