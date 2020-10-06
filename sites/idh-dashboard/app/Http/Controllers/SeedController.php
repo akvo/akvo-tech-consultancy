@@ -24,6 +24,7 @@ class SeedController extends Controller
             'fid' => $data['fid'],
             'kind' => $data['kind'],
             'country' => $data['country'],
+            'company' => $data['company']
         ]);
         $csv = Reader::createFromPath(base_path().$data['file'], 'r');
         $csv->setHeaderOffset(0);

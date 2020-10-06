@@ -23,6 +23,11 @@ export const mapDispatchToProps = dispatch => {
                     page: page,
                     country: country
                 }),
+            changeTab: (tab) =>
+                dispatch({
+                    type: "PAGE - CHANGE PAGE TAB",
+                    tab: tab,
+                }),
             create: (page, name) =>
                 dispatch({
                     type: "PAGE - CREATE PAGE",

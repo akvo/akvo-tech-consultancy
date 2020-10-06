@@ -110,7 +110,7 @@ class Compare extends Component {
         this.props.page.loading(true);
         this.setState({searched:[], autocomplete: false});
         let params = [id];
-        let urls = ['country-data/' + id];
+        let urls = ['compare-data/' + id];
         this.setState({loading:true});
         queueApi(0, urls, 1, this.appendChart ,params);
         return;

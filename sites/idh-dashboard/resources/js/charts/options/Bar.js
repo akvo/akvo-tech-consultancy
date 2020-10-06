@@ -11,7 +11,7 @@ import {
 import sum from 'lodash/sum';
 import sortBy from 'lodash/sortBy';
 
-export const Bar = (title, data) => {
+export const Bar = (title, data, horizontal=false) => {
     data = sortBy(data, 'value');
     let axisLabels = data.map(x => x.name);
     let values = data.map(x => x.value);
@@ -20,11 +20,25 @@ export const Bar = (title, data) => {
         avg = sum(values) / values.length;
         avg = avg < 100 ? true : false;
     }
+    let horizontalxAxis = {
+            data: axisLabels,
+            axisLabel: {
+                show: true
+            },
+            axisTick: {
+                show: true
+            }
+        };
+    let horizontalyAxis = {
+            axisLabel: {
+                ...TextStyle
+            },
+        };
     return {
         title: {
             text: splitTitle(title),
             right: 'center',
-            top: '40px',
+            top: '30px',
             ...TextStyle
         },
         grid: {
@@ -38,15 +52,11 @@ export const Bar = (title, data) => {
             }
         },
         tooltip: {
-            show: true,
-            trigger: "item",
-            formatter: "{b}",
-            padding:5,
-            backgroundColor: "#f2f2f2",
-            ...TextStyle,
+            trigger: 'item',
+            formatter: '{a} <br/>{b}: {c}'
         },
         toolbox: {
-            orient: "horizontal",
+            orient: horizontal ? "horizontal" : "vertical",
             left: "center",
             bottom: "0px",
             feature: {
@@ -64,12 +74,12 @@ export const Bar = (title, data) => {
             },
             backgroundColor: "#ffffff"
         },
-        xAxis: {
+        xAxis: horizontal ? horizontalxAxis : {
             axisLabel: {
                 ...TextStyle
             },
         },
-        yAxis: {
+        yAxis: horizontal ? horizontalyAxis : {
             data: axisLabels,
             axisLabel: {
                 show: false
@@ -90,9 +100,11 @@ export const Bar = (title, data) => {
                 color: "#222",
                 fontFamily: "Raleway",
                 padding: 5,
-                borderRadius: avg ? 20 : 5,
-                backgroundColor: 'rgba(255,255,255,.3)',
-                ...TextStyle,
+                backgroundColor: 'rgba(255,255,255,.8)',
+                textStyle: {
+                    ...TextStyle.textStyle,
+                    fontSize: 12,
+                }
             }
         }],
         ...dataZoom,

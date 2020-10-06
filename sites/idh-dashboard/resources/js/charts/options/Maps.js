@@ -19,7 +19,7 @@ const Maps = (title, data) => {
         title: {
             text: splitTitle(title),
             right: 'center',
-            top: '0px',
+            top: '30px',
             ...TextStyle
         },
         tooltip: {

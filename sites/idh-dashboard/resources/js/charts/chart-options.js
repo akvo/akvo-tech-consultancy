@@ -23,7 +23,7 @@ export const TextStyle = {
 
 export const Color = {
     color: [
-        "#00adef",
+        "#0072c6",
         "#e21836",
         "#f68e1f",
         "#ec008b",

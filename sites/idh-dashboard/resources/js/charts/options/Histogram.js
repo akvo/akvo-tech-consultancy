@@ -4,27 +4,44 @@ import {
     Easing,
     Legend,
     TextStyle,
-    dataZoom,
     backgroundColor,
     splitTitle,
+    dataZoom,
 } from '../chart-options.js';
 
-export const Scatter = (title, data) => {
+export const Histogram = (title, data) => {
+    let values = data.data.map(x => {
+        return {
+            name: x.name,
+            type: 'bar',
+            data: x.data
+        };
+    });
+    let legend = data.data.map(x => x.name);
     return {
         title: {
             text: splitTitle(title),
             right: 'center',
             top: '30px',
-            ...TextStyle,
+            ...TextStyle
         },
         grid: {
             top: 100,
-            right: 100,
-            left: 100,
+            right: 30,
+            left: 30,
             show: true,
             label: {
                 color: "#222",
                 ...TextStyle,
+            }
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
             }
         },
         toolbox: {
@@ -32,13 +49,6 @@ export const Scatter = (title, data) => {
             left: "center",
             bottom: "0px",
             feature: {
-                brush: {
-                    title: {
-                        "polygon" : "Polygon Select",
-                        "clear" : "Clear Selection",
-                    },
-                    type: ['rect', 'clear']
-                },
                 dataView: {
                     title: "View Table",
                     icon: Icons.dataView,
@@ -49,39 +59,32 @@ export const Scatter = (title, data) => {
                     title: "Save Image",
                     icon: Icons.saveAsImage,
                     backgroundColor: "#ffffff"
-                },
+                }
             },
             backgroundColor: "#ffffff"
         },
-        xAxis: {
-            type: 'value',
-            name: data.xAxis,
-            nameLocation: 'end',
-            nameGap: 20,
-            nameTextStyle: {
-                ...TextStyle.textStyle,
-            }
+        legend: {
+            data: legend
         },
-        yAxis: {
-            type: 'value',
-            name: data.yAxis,
-            nameLocation: 'end',
-            nameGap: 20,
-            nameTextStyle: {
-                ...TextStyle.textStyle
+        xAxis: [{
+            type: 'category',
+            data: data.list,
+            axisPointer: {
+                type: 'shadow'
             }
-        },
-        series: [{
-            symbolSize: 20,
-            data: data.data,
-            symbolSize: 15,
-            type: 'scatter'
         }],
+        yAxis: {
+            name: 'Count',
+            axisLabel: {
+                ...TextStyle
+            },
+        },
+        series: values,
         ...dataZoom,
         ...Color,
         ...Easing,
         ...backgroundColor
-    };
+    }
 }
 
-export default Scatter;
+export default Histogram;

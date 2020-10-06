@@ -11,7 +11,17 @@ use App\Models\Answer;
 
 class Utils {
 
-    public static function getValues($form_id, $variable_name)
+
+    public function getPercentage($data, $total, $variable)
+    {
+        $data = self::getMax($data);
+        return [
+            'value' => round($data['value'] / $total, 2) * 100,
+            'desc' => 'Of the ' . strtolower($variable) . ' was '.$data['name'],
+        ];
+    }
+
+    public static function getValues($form_id, $variable_name, $pluck=true)
     {
         $var = Variable::where('name',$variable_name)->first();
         $data = self::getVarValue($form_id, $var);
@@ -27,7 +37,10 @@ class Utils {
                         })->values();
             return $data;
         }
-        return $data->pluck('value');
+        if ($pluck){
+            return $data->pluck('value');
+        }
+        return $data;
     }
 
     public static function getMax($data)
@@ -59,5 +72,58 @@ class Utils {
         })->values()->flatten(0)->unique('variable_id')->values()->pluck('variable_id');
         return Variable::whereIn('id',$variables)->get();
     }
+
+    public static function mergeValues($values, $variable_name, $interval=1) {
+        $current = $values[0]['variable_id'];
+        $current = Variable::where('id', $current)->first();
+        $variable = Variable::where('name', $variable_name)->first();
+        $min = collect();
+        $max = collect();
+        $values = $values->map(function($data) use ($current, $variable) {
+            $option = Answer::where('form_instance_id', $data['form_instance_id'])
+                ->where('variable_id', $variable->id)->with('options.option')->first();
+            $option = $option->options->first()->option->name;
+            return [
+                $variable->name => $option,
+                $current->name => $data['value'],
+            ];
+        })->groupBy($variable->name)->map(function($data, $key) use ($current, $max, $min){
+            $value = $data->pluck($current->name)->countBy()->map(function($a, $k){
+                return ['name' => $k, 'value'=> $a];
+            })->sortByDesc('name')->values();
+            $min->push($value->min('name'));
+            $max->push($value->max('name'));
+            return [
+                'name' => $key,
+                'data' => $value
+            ];
+        })->values();
+        $min = $min->min();
+        $max = $max->max();
+        $list = collect();
+        $max = $max / $interval;
+        for ($i=$min; $i<=$max; $i++) {
+            $list->push($i);
+        }
+        $values = $values->map(function($data) use ($min, $max, $list, $interval){
+            $filled = collect();
+            for ($i=$min; $i<=$max; $i++) {
+                $unfilled = collect($data['data'])->where('name', $i * $interval)->first();
+                if (!$unfilled) {
+                    $unfilled = [
+                        'name' => $i,
+                        'value' => 0
+                    ];
+                }
+                $filled->push($unfilled);
+            };
+            return [
+                'name' => $data['name'],
+                'data' => $filled->pluck('value'),
+            ];
+        });
+        return ['data' => $values, 'list' => $list];
+    }
+
 
 }

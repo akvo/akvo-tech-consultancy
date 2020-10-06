@@ -9,7 +9,7 @@ class Cards extends Component {
 
     generateRows(x, i) {
         return (
-            <Col key={'col-' + i} md={12} className="card-info text-center">
+            <Col key={'col-' + i} md={x.width} className="card-info text-center">
                 <h2>{x.kind ==="PERCENT" ? x.data + "%" : x.data}</h2>
                 <p>{x.description}</p>
             </Col>

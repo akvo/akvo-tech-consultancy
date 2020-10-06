@@ -271,6 +271,36 @@ h2.extra-counter {
 .dropdown-select.input-group-text{
     font-size:16px!important;
 }
+.jumbotron.has-navigation{
+    padding-bottom:0px!important;
+}
+
+.nav-jumbotron.nav{
+    margin-top: 28px;
+    margin-left: auto!important;
+    margin-right: auto!important;
+}
+
+.nav-jumbotron.nav a.nav-link{
+    color: #0174c6!important;
+    background: #fff;
+    font-weight: 600;
+    border-right: 1px solid #ddd;
+    border-bottom: solid 2px #0174c6!important;
+    padding: 5px !important;
+    min-width:150px;
+}
+
+.nav-jumbotron.nav a.nav-link:last-child{
+    border-right: none !important;
+}
+
+.nav-jumbotron.nav a.nav-link.active,
+.nav-jumbotron.nav a.nav-link:hover{
+    background: #0174c6!important;
+    color: #fff!important;
+    border-bottom: solid 2px #0174c6!important;
+}
 
 /* Checkbox */
 .fas-icon {

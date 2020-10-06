@@ -4,7 +4,8 @@ const initialState = {
         loading: true,
         active: 'home',
         subpage: {
-            country: false
+            country: false,
+            tab: 'overview'
         },
         filters: [{
             name: "Loading",
@@ -49,6 +50,17 @@ export const states = (state = initialState, action) => {
                     subpage: {
                         ...state.page.subpage,
                         country: action.country
+                    }
+                }
+            }
+        case 'PAGE - CHANGE PAGE TAB':
+            return {
+                ...state,
+                page: {
+                    ...state.page,
+                    subpage: {
+                        ...state.page.subpage,
+                        tab: action.tab
                     }
                 }
             }

@@ -17,6 +17,7 @@ class CreateFormsTable extends Migration
             $table->id();
             $table->bigInteger('fid');
             $table->text('kind');
+            $table->text('company');
             $table->text('country');
             $table->timestamps();
         });

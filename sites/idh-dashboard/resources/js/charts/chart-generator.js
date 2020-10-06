@@ -1,4 +1,5 @@
 import Bar from './options/Bar';
+import Histogram from './options/Histogram';
 import Pie from './options/Pie';
 import Scatter from './options/Scatter';
 import Maps from './options/Maps';
@@ -23,6 +24,10 @@ export const generateOptions = (type, title, data) => {
             return Pie(title, data);
         case "SCATTER":
             return Scatter(title, data);
+        case "HISTOGRAM":
+            return Histogram(title, data);
+        case "HORIZONTAL BAR":
+            return Bar(title, data, true);
         default:
             return Bar(title, data);
     }
