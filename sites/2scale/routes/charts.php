@@ -59,6 +59,12 @@ Route::get('/partnership/project-total/{country_id}/{partnership_id}/{start}/{en
 
 
 /**
+ * Chart for PDF Report
+ */
+Route::get('/report/reachreact/card/{country_id}/{partnership_id}/{start}/{end}', 'Api\ChartController@reportReactReactCard');
+Route::get('/report/{type}/{country_id}/{partnership_id}/{start}/{end}', 'Api\ChartController@reportReachReactBarChart');
+
+/**
  * Test
  */
 

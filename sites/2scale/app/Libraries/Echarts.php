@@ -82,7 +82,7 @@ class Echarts
           ),
         );
     }
-    public function generateSimpleBarCharts($categories, $values) 
+    public function generateSimpleBarCharts($categories, $values, $showLabel=false) 
 	{
         $categories = collect($categories)->map(function($l) {
             return $this->titler($l);
@@ -100,7 +100,11 @@ class Echarts
 				"left" => "50%",
 				"top" => "0px",
 				"bottom" => "0px",
-			),
+            ),
+            "label" => [
+                "show" => $showLabel,
+                "position" => "inside"
+            ],
 			"yAxis" => [
 				"type" => "category",
 				"data" => $categories,

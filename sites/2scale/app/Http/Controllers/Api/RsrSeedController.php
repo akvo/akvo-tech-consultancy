@@ -219,7 +219,7 @@ class RsrSeedController extends Controller
         $periodTable = $this->periods->flatten(1)->map(function ($val) use ($period) {
             if (count($val['disaggregations']) > 0) {
                 $val['disaggregations']['period'] = $val['id'];
-                $this->collections->push($val['disaggregations']); // dimension value per period
+                $this->collections->push($val['disaggregations']); // dimension value updated per period
             }
             if (count($val['data']) > 0) {
                 $this->periodData->push($val['data']);
@@ -233,8 +233,7 @@ class RsrSeedController extends Controller
                     'target_value' => floatval($val['target_value']),
                     'actual_value' => floatval($val['actual_value']),
                     'period_start' => ($val['period_start'] === null) ? $val['period_start'] : Carbon::createFromFormat('Y-m-d', $val['period_start'])->toDateString(),
-                    'period_end' => ($val['period_end']) ? $val['period_end'] : Carbon::createFromFormat('Y-m-d', $val['period_end'])->toDateString(),
-
+                    'period_end' => ($val['period_end'] === null) ? $val['period_end'] : Carbon::createFromFormat('Y-m-d', $val['period_end'])->toDateString(),
                 ]
             );
         });

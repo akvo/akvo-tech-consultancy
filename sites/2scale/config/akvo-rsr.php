@@ -9,6 +9,24 @@ return [
         'updates' => $ROOT_API . '/project_update', # /param
         'results' => $ROOT_API . '/results_framework', # /param
     ],
+    'charts' => [
+        'reachreact' => [
+            'form_id' => 20020001,
+            'title' => 'Number of Activity Reported'
+        ],
+        'work-stream' => [
+            'question_id' => 30120028,
+            'title' => 'Link to Work Stream'
+        ],
+        'program-theme' => [
+            'question_id' => 30100022,
+            'title' => 'Which program theme(s) is the activity linked to?'
+        ],
+        'target-audience' => [
+            'question_id' => 16050004,
+            'title' => 'Target Audience(s)'
+        ],
+    ],
     'projects' => [
         'parent' => 8759, # 2scale program
         'childs' => [
@@ -16,13 +34,13 @@ return [
             'NG' => [ # Nigeria
                 'parent' => 8808,
                 'childs' => [
-                    'NG01' => null,
-                    'NG09' => null,
+                    'NG01' => 9264,
+                    'NG09' => 9030,
                     'NG11' => null,
-                    'NG12' => null,
+                    'NG12' => 9268,
                     'NG21' => null,
                     'NG22' => null,
-                    'NG23' => null,
+                    'NG23' => 9342,
                     'NG24' => null,
                 ],
             ], # Nigeria
@@ -30,9 +48,9 @@ return [
             'GH' => [ # Ghana
                 'parent' => 8761,
                 'childs' => [
-                    'GH09' => null,
-                    'GH21' => null,
-                    'GH22' => null,
+                    'GH09' => 8833,
+                    'GH21' => 9334,
+                    'GH22' => 9336,
                 ],
             ], # Ghana
 
@@ -42,36 +60,36 @@ return [
                     'ET06' => 9009,
                     'ET10' => 9258,
                     'ET21' => 9259,
-                    'ET22' => null,
-                    'ET23' => null,
-                    'ET24' => null,
-                    'ET25' => null,
-                    'ET26' => null,
+                    'ET22' => 9281,
+                    'ET23' => 9282,
+                    'ET24' => 9324,
+                    'ET25' => 9326,
+                    'ET26' => 9328,
                 ],
             ], # Ethiopia
 
             'CI' => [ # Cote d'Ivoire
                 'parent' => 8805,
                 'childs' => [
-                    'CI21' => null,
-                    'CI22' => null,
-                    'CI23' => null,
+                    'CI21' => 9333,
+                    'CI22' => 9335,
+                    'CI23' => 9337,
                 ],
             ], # Cote d'Ivoire
 
             'KE' => [ # Kenya
                 'parent' => 8806,
                 'childs' => [
-                    'KE11' => null,
+                    'KE11' => 9206,
                     'KE21' => 9230,
                     'KE22' => 9254,
                     'KE23' => 9255,
-                    'KE24' => null,
+                    'KE24' => 9257,
                     'KE25' => 9256,
-                    'KE26' => null,
-                    'KE27' => null,
-                    'KE28' => null,
-                    'KE29' => null,
+                    'KE26' => 9329,
+                    'KE27' => 9330,
+                    'KE28' => 9331,
+                    'KE29' => 9332,
                 ],
             ], # Kenya
             
@@ -90,8 +108,8 @@ return [
                 'parent' => 8809,
                 'childs' => [
                     'NE21' => null,
-                    'NE22' => null,
-                    'NE23' => null,
+                    'NE22' => 9276,
+                    'NE23' => 9277,
                     'NE24' => null,
                     'NE25' => null,
                     'NE26' => null,
@@ -102,11 +120,11 @@ return [
             'BF' => [ # Burkina Faso
                 'parent' => 8760,
                 'childs' => [
-                    'BF21' => null,
-                    'BF22' => null,
+                    'BF21' => 9266,
+                    'BF22' => 9269,
                     'BF23' => null,
                     'BF24' => null,
-                    'BF25' => null,
+                    'BF25' => 9348,
                 ],
             ], # Burkina Faso
         ],

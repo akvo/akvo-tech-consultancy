@@ -50,12 +50,14 @@ class RsrReportController extends Controller
             return $res;
         });
         // return $rsrProject;
+        $cards = explode('|', $r->card);
         $data = [
             "filename" => $r->input('filename'),
             "project" => $rsrProject,
             // "updates" => $this->getUpdates($rsr, $projectId),
             "updates" => [],
             "columns" => $r->input('columns'),
+            "cards" => ["title" => $cards[0], "value" => $cards[1]],
             "charts" => $this->b64toImage($r),
             "titles" => $r->input('titles'),
         ];

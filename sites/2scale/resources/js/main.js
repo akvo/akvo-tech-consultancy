@@ -118,7 +118,7 @@ const generatePartnershipChart = async () => {
             return moment(x).format('YYYY-MM-DD');
         });
         params = params.join("/");
-        $("#data-frame").attr("src", "/frame/partnership/" + params);
+        $("#data-frame").attr("src", "/frame/partnership/" + params);        
         setTimeout(() => {
             resolve(console.log('generated'));
         }, 10000); 
@@ -158,8 +158,9 @@ $("#generate-report-link").on('click', () => {
         console.log('get canvas');
         let iframe = document.getElementsByTagName("iframe");
         let token = document.querySelector('meta[name="csrf-token"]').content;
-        let canvas = iframe[0].contentWindow.document.getElementsByTagName("canvas");
-        let canvasTitles = iframe[0].contentWindow.document.getElementsByClassName('card-header');
+        let charts = iframe[0].contentWindow.document.getElementById("chart-report-container");
+        let canvas = charts.getElementsByTagName("canvas");
+        let canvasTitles = charts.getElementsByClassName('card-header');
         let formData = new FormData();
     
         let country = $("#partnership-country option:selected").text().trim();
@@ -168,10 +169,12 @@ $("#generate-report-link").on('click', () => {
                             ? ((country === "Select Country") ? "2SCALE Program" : country ) 
                             : partnership;
         filename = filename + ' - ' + moment().format('MMM D, YYYY');
-        console.log(filename);
         formData.set('partnership_id', pid);
         formData.set('filename', filename);
     
+        let cards = iframe[0].contentWindow.document.getElementById("third-row-value");
+        formData.set('card', cards.getAttribute('dataTitle')+'|'+cards.getAttribute('dataValue'));
+
         let image = 0;
         let imgWidth = [];
         let minWidth = [];
@@ -211,6 +214,7 @@ $("#generate-report-link").on('click', () => {
                 $("#myModalBtnClose").show();
             });
         }, 10000);
+
     });
 });
 

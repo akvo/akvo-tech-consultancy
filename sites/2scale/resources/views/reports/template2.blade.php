@@ -100,6 +100,7 @@
         $columns = $data['columns'];
         $charts = $data['charts'];
         $titles = $data['titles'];
+        $cards = $data['cards'];
     @endphp
     <div class="container">
         {{-- Project Title --}}
@@ -146,6 +147,22 @@
         </div>
         <table style="width:100%">
             <tbody>
+                <tr>
+                    <td colspan="2" style="padding:0px!important;">
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <div class="card">
+                                    <div class="card-header">
+                                        {{ $cards['title'] }}
+                                    </div>
+                                    <div class="card-body">
+                                        <h3>{{ $cards['value'] }}</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
                 @for ($key=0; $key < count($charts); $key++)
                     @if ($columns[$key] === "1")
                     <tr>
@@ -183,7 +200,7 @@
                     <tr>
                         <td colspan="2" style="padding:0px!important;">
                             <div class="row">
-                                <div class="col-md-12 text-center {{ ($key !== 0) ? "mt-4" : "" }}">
+                                <div class="col-md-12 text-center {{ ($key !== 0) ? "mt-4" : "mt-4" }}">
                                     <div class="card">
                                         <div class="card-header">
                                             {{ $titles[$key] }}

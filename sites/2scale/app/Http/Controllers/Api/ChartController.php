@@ -15,6 +15,7 @@ use App\Question;
 use App\Answer;
 use App\Datapoint;
 use App\Partnership;
+use App\Option;
 
 class ChartController extends Controller
 {
@@ -670,5 +671,67 @@ class ChartController extends Controller
     public function test()
     {
         return $this->echarts->generateBarLineCharts();
+    }
+
+    public function reportReactReactCard(Request $request)
+    {
+        $reachReactId = config('akvo-rsr.charts.reachreact.form_id');
+        $datapoints = Datapoint::where('form_id', $reachReactId)->get();
+        if (isset($request->country_id) && $request->country_id !== "0") {
+            $datapoints = $datapoints->where('country_id', $request->country_id);
+        }
+        if (isset($request->partnership_id) && $request->partnership_id !== "0") {
+            $datapoints = $datapoints->where('partnership_id', $request->partnership_id);
+        }
+        return [
+            "title" => config('akvo-rsr.charts.reachreact.title'),
+            "value" => count($datapoints),
+        ];
+    }
+
+    public function reportReachReactBarChart(Request $request)
+    {
+        $config = config('akvo-rsr.charts.'.$request->type);
+        $question = Question::where('question_id', $config['question_id'])->first();
+        $options = Option::where('question_id', $question->id)->get();
+        $answers = Answer::where('question_id', $config['question_id'])->with('datapoints')->get();
+        if (isset($request->country_id) && $request->country_id !== "0") {
+            $answers = $answers->where('datapoints.country_id', $request->country_id);
+        }
+        if (isset($request->partnership_id) && $request->partnership_id !== "0") {
+            $answers = $answers->where('datapoints.partnership_id', $request->partnership_id);
+        }
+        $data = collect();
+        $answers->map(function ($answer) use ($data) {
+            $values = str_replace('[', '', $answer['options']);
+            $values = str_replace(']', '', $values);
+            $values = explode(',', $values);
+            foreach ($values as $value) {
+                $data->push($value);
+            }
+            return;
+        });
+        $results = $data->countBy();
+        if (count($results) === 0) {
+            return response('no data available', 503);
+        };
+        $series = $options->map(function($option) use ($results, $request) {
+            $name = $option['text'];
+            if ($request->type === 'target-audience' && Str::contains($option['text'], '(')) {
+                $name = explode('(', $option['text']);
+                $name = $name[0];
+            }
+            return [
+                "name" => $name,
+                "value" => (isset($results[$option['id']])) ? $results[$option['id']] : 0,
+            ];
+        })->values();
+        $legends = $series->map(function($d){
+            return $d['name'];
+        });
+		$values = $series->map(function($d) {
+            return $d['value'];
+        });
+		return $this->echarts->generateSimpleBarCharts($legends, $values, true);
     }
 }
