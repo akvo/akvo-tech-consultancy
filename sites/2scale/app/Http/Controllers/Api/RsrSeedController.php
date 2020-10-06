@@ -205,10 +205,10 @@ class RsrSeedController extends Controller
         });
 
         $dimensionTable = $dimensionTransform->flatten(1)->map(function ($val) use ($dimension, $dimensionValue) {
-            $dimension_values = $dimension->updateOrCreate(['id' => $val['dimensions']['id']], $val['dimensions']);
+            $dimension_values = $dimension->updateOrCreate(['id' => $val['dimensions']['id']], Arr::except($val['dimensions'], 'name'));
             $this->seedRsrTitleable($val['dimensions'], 'App\RsrDimension');
             $values = collect($val['dimension_values'])->map(function ($v) use ($dimensionValue) {
-                $dimensionValues = $dimensionValue->updateOrCreate(['id' => $v['id']], $v);
+                $dimensionValues = $dimensionValue->updateOrCreate(['id' => $v['id']], Arr::except($v, 'name'));
                 $this->seedRsrTitleable($v, 'App\RsrDimensionValue');
                 return $dimensionValues;
             });
