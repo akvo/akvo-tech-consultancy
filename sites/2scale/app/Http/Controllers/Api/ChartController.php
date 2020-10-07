@@ -668,9 +668,113 @@ class ChartController extends Controller
         return $datapoints->get()->pluck('id');
     }
 
-    public function test()
+    public function test(Request $request)
     {
-        return $this->echarts->generateBarLineCharts();
+        // return $this->echarts->generateBarLineCharts();
+        $partnershipId = null;
+        if (isset($request->country_id) && $request->country_id !== "0") {
+            $partnershipId = $request->country_id;
+        }
+        if (isset($request->partnership_id) && $request->partnership_id !== "0") {
+            $partnershipId = $request->partnership_id;
+        }
+
+        $data = \App\RsrProject::where('partnership_id', $partnershipId)
+                ->with(['rsr_results' => function ($query) {
+                    $query->orderBy('order');
+                    $query->with('rsr_indicators.rsr_dimensions.rsr_dimension_values');
+                    $query->with('rsr_indicators.rsr_periods.rsr_period_dimension_values');
+                    $query->with(['childrens' => function ($query) {
+                        $query->orderBy('order');
+                        $query->with('rsr_indicators.rsr_dimensions.rsr_dimension_values');
+                        $query->with('rsr_indicators.rsr_periods.rsr_period_dimension_values');
+                        $query->with(['childrens' => function ($query) {
+                            $query->orderBy('order');
+                            $query->with('rsr_indicators.rsr_dimensions.rsr_dimension_values');
+                            $query->with('rsr_indicators.rsr_periods.rsr_period_dimension_values');
+                        }]);
+                    }]);
+                }])->first();
+        
+        $data = $data['rsr_results']->transform(function ($res) {
+            $res = $this->aggregateRsrValues($res);
+            $res = $this->aggregateRsrChildrenValues($res);
+            return $res;
+        });
+
+        return [
+            "columns" => $data->pluck('title'),
+            "data" => $data
+        ];
+    }
+
+    private function aggregateRsrChildrenValues($res)
+    {
+        if (count($res['childrens']) === 0) {
+            return $res;
+        }
+        $collections = collect();
+        $res['childrens'] = $res['childrens']->transform(function ($child) use ($collections, $res) {
+            $child = $this->aggregateRsrValues($child);
+            // collect all childs dimensions value
+            if (count($child['rsr_dimensions']) > 0) {
+                foreach ($child['rsr_dimensions'] as $dim) {
+                    $collections->push($dim['rsr_dimension_values']);
+                }
+            }
+            $child = $this->aggregateRsrChildrenValues($child);
+            return $child;
+        });
+        $res['total_target_value'] = $res['childrens']->pluck('total_target_value')->sum();
+        $res['total_actual_value'] = $res['childrens']->pluck('total_actual_value')->sum();
+        if (count($res['rsr_dimensions']) > 0 && count($res['childrens']) !== 0) {
+            // aggregate dimension value
+            $res['rsr_dimensions'] = $res['rsr_dimensions']->transform(function ($dim) 
+                use ($collections) {
+                $dim['rsr_dimension_values'] = $dim['rsr_dimension_values']->transform(function ($dimVal) 
+                    use ($collections) {
+                    $values = $collections->flatten(1)->where('parent_dimension_value', $dimVal['id']);
+                    $dimVal['value'] = $values->pluck('value')->sum();
+                    $dimVal['total_actual_value'] = $values->pluck('total_actual_value')->sum();
+                    return $dimVal;
+                });
+                return $dim;
+            });
+        }
+        return $res;
+    }
+
+    private function aggregateRsrValues($res)
+    {
+        $res['rsr_indicators'] = $res['rsr_indicators']->transform(function ($ind) {
+            $ind['total_actual_value'] = $ind['rsr_periods']->pluck('actual_value')->sum();
+            if ($ind['has_dimension']) {
+                // collect dimensions value all period
+                $periodDimensionValues = $ind['rsr_periods']->map(function ($per) {
+                    return $per['rsr_period_dimension_values'];
+                })->flatten(1);
+                // aggregate dimension value
+                $ind['rsr_dimensions'] = $ind['rsr_dimensions']->transform(function ($dim) 
+                    use ($periodDimensionValues) {
+                    $dim['rsr_dimension_values'] = $dim['rsr_dimension_values']->transform(function ($dimVal) 
+                        use ($periodDimensionValues) {
+                        $dimVal['total_actual_value'] = $periodDimensionValues
+                                                        ->where('rsr_dimension_value_id', $dimVal['id'])
+                                                        ->pluck('value')
+                                                        ->sum();
+                        return $dimVal;
+                    });
+                    return $dim;
+                });
+            }
+            $ind = Arr::except($ind, ['rsr_periods']);
+            return $ind;
+        });
+        $res['rsr_dimensions'] = $res['rsr_indicators']->pluck('rsr_dimensions')->flatten(1);
+        $res['total_target_value'] = $res['rsr_indicators']->pluck('target_value')->sum();
+        $res['total_actual_value'] = $res['rsr_indicators']->pluck('total_actual_value')->sum();
+        $res = Arr::except($res, ['rsr_indicators']);
+        return $res;
     }
 
     public function reportReactReactCard(Request $request)
