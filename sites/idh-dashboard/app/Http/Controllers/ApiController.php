@@ -144,9 +144,6 @@ class ApiController extends Controller
                        ->withCount('formInstances')
                        ->first();
         $total = $form->form_instances_count;
-        $summary = "This dashboard display the primary data for ";
-        $summary .= $total." ".$form->kind." farmers in ". $form->country;
-        $summary .= "This data collected during the SDM generation for " . $form->company .".";
         $farm_size = Utils::getValues($form_id, 'f_size (acre)');
         $household = Utils::getValues($form_id, 'hh_size');
         $overview = [[
@@ -188,7 +185,8 @@ class ApiController extends Controller
             'width' => 12,
         ]];
 
-        $hhprofile = [[
+        $hhGenderAvg = Utils::getAvg($form_id, 'hh_gender_farmer', 'hh_size');
+        $hhprofile = collect([[
                 'id' => $form_id,
                 'title' => "Gender",
                 'data' => Utils::getValues($form_id, 'hh_gender_farmer'),
@@ -204,20 +202,37 @@ class ApiController extends Controller
                 'kind' => 'UNSORTED HORIZONTAL BAR',
                 'description' => false,
                 'width' => 6
-            ],[
+        ]]);
+        $hhGenderAvg->each(function($avg) use ($form_id, $hhGenderAvg, $hhprofile){
+            $hhprofile->push([
                 'id' => $form_id,
                 'data' => [[
                     'id' => $form_id,
                     'title' => false,
-                    'data' => round($household->avg(), 2),
-                    'kind' => 'NUM',
-                    'description' => ' is the avarage HH Size',
+                    'data' => $avg['value'],
+                    'kind' => "NUM",
+                    'description' => " is the average of HH size (" . Str::title($avg['name']) .")",
                     'width' => 12,
                 ]],
                 'kind' => 'CARDS',
                 'description' => false,
+                'width' => 6 / count($hhGenderAvg),
+            ]);
+        });
+        $hhprofile->push([
+            'id' => $form_id,
+            'data' => [[
+                'id' => $form_id,
+                'title' => false,
+                'data' => round($household->avg(), 2),
+                'kind' => 'NUM',
+                'description' => ' is the avarage HH Size',
                 'width' => 12,
-        ]];
+            ]],
+            'kind' => 'CARDS',
+            'description' => false,
+            'width' => 6,
+        ]);
 
         $age = Utils::getValues($form_id, 'hh_age_farmer', false);
         $genderAge = Utils::mergeValues($age, 'hh_gender_farmer');
@@ -254,9 +269,9 @@ class ApiController extends Controller
                 'value' => $fsdmVal > 0 ? $p->value / $fsdmVal : 0,
             ];
         });
-        $producedcrops = Utils::mergeValues($producedcrops, 'f_first_crop');
+        $producedcrops = Utils::mergeValues($producedcrops, 'f_first_crop', strtolower($form->kind));
         $soldcrops = Utils::getValues($form_id, 'f_sold (kilograms)', false);
-        $soldcrops = Utils::mergeValues($soldcrops, 'f_first_crop', 100);
+        $soldcrops = Utils::mergeValues($soldcrops, 'f_first_crop', strtolower($form->kind));
         $farmpractices = [[
                 'id' => $form_id,
                 'title' => 'Crops',
@@ -297,7 +312,7 @@ class ApiController extends Controller
         ]];
 
         return [
-            'summary' => $summary,
+            'summary' => [$total, $form->kind, $form->country, $form->company],
             'tabs' => [[
                 'name' => 'overview',
                 'charts' => $overview,

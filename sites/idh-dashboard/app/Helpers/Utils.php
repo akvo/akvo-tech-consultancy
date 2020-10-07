@@ -43,6 +43,30 @@ class Utils {
         return $data;
     }
 
+    public static function getAvg($form_id, $variable_name, $variable_count)
+    {
+        $var = Variable::where('name', $variable_name)->first();
+        $cnt = Variable::where('name', $variable_count)->first();
+        $answers = Answer::where('form_id', $form_id)
+            ->whereIn('variable_id', [$var->id, $cnt->id])
+            ->with('options.option')
+            ->get()->groupBy('form_instance_id')->values();
+        $answers = $answers->map(function($a) use ($var, $cnt) {
+            $opt = $a->where('variable_id', $var->id)->first();
+            $val = $a->where('variable_id', $cnt->id)->first();
+            return [
+                'name' => $opt->options->first()->option->name,
+                'value' => $val->value,
+            ];
+        })->groupBy('name')->map(function($data, $key){
+            return [
+                'name' => $key,
+                'value' => round($data->pluck('value')->avg(), 1)
+            ];
+        })->values();
+        return $answers;
+    }
+
     public static function getMax($data)
     {
         return collect($data)->sortByDesc('value')->first();
@@ -72,7 +96,7 @@ class Utils {
         return Variable::whereIn('id',$variables)->get();
     }
 
-    public static function mergeValues($values, $variable_name) {
+    public static function mergeValues($values, $variable_name, $only=false) {
         $current = $values[0]['variable_id'];
         $current = Variable::where('id', $current)->first();
         $variable = Variable::where('name', $variable_name)->first();
@@ -93,12 +117,7 @@ class Utils {
                 'data' => $value
             ];
         })->values();
-        $all = $values->pluck('data')->flatten(1);
-        $all = $all->groupBy('name')->map(function($d, $k){
-            return [$k, $d->sum('value')];
-        })->values();
-        $all = ['name' => 'all','data' => $all];
-        $values = $values->map(function($data) {
+        $results = $values->map(function($data) {
             $value = $data['data']->groupBy('name')->map(function($d, $k){
                 return [$k, $d->sum('value')];
             })->values();
@@ -107,8 +126,16 @@ class Utils {
                 'data' => $value,
             ];
         });
-        $values->push($all);
-        return ['data' => $values];
+        if (!$only) {
+            $all = $values->pluck('data')->flatten(1);
+            $all = $all->groupBy('name')->map(function($d, $k){
+                return [$k, $d->sum('value')];
+            })->values();
+            $all = ['name' => 'all','data' => $all];
+            $results->push($all);
+        }
+        $results = $only ? $results->where('name', $only) : $results;
+        return ['data' => $results];
     }
 
 

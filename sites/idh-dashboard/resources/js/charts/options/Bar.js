@@ -40,10 +40,10 @@ export const Bar = (title, data, horizontal=false, unsorted=false) => {
         };
     let horizontalyAxis = {
             axisLabel: {
-                show: horizontal ? true : false
+                show: true
             },
             axisTick: {
-                show: horizontal ? true : false
+                show: true
             }
     };
     return {

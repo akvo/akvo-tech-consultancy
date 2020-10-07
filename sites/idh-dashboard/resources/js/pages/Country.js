@@ -5,16 +5,24 @@ import {
     Row,
     Col,
     Card,
+    Form,
     Button,
     Jumbotron,
     Nav,
 } from 'react-bootstrap';
 import Charts from '../components/Charts.js';
 import Cards from '../components/Cards.js';
+import LoadingContainer from './LoadingContainer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { queueApi, getApi } from '../data/api.js';
 import { getHighest } from '../data/utils.js';
 import { generateData } from "../charts/chart-generator.js";
+
+const generateSummary = ([total, kind, country, company]) => (
+    <div>
+        This dashboard is created from the primary data of <b className="text-highlight">{total} {kind}</b> farmers in <b className="text-highlight">{country}</b>. This data was collected during the SDM generation for <b className="text-highlight">{company}</b>.
+    </div>
+)
 
 class Country extends Component {
 
@@ -24,7 +32,7 @@ class Country extends Component {
         this.getData = this.getData.bind(this);
         this.generateView = this.generateView.bind(this);
         this.generateResources = this.generateResources.bind(this);
-        this.downloadReport = this.downloadReport.bind(this);
+        this.handleCheckDownload = this.handleCheckDownload.bind(this);
         this.state = {
             charts: {
                 overview:[],
@@ -33,6 +41,8 @@ class Country extends Component {
                 farm_practices:[],
             },
             summary: "Loading",
+            loading: false,
+            download: false,
             active: 0,
         };
     }
@@ -45,11 +55,11 @@ class Country extends Component {
     }
 
     getData(id) {
-        this.setState({active:id, summary: "Loading"});
+        this.setState({active:id, loading: true, summary: "Loading"});
         let url = 'country-data/' + id;
         getApi(url).then(res => {
             let response = res[url];
-            this.setState({summary:response.summary});
+            this.setState({summary:generateSummary(response.summary), loading:false});
             response = response.tabs.map((tab) => {
                 let data = tab.charts.map((d, ix) => {
                     let maxheight = 60;
@@ -121,8 +131,9 @@ class Country extends Component {
         );
     }
 
-    downloadReport (type) {
-        console.log(type);
+    handleCheckDownload () {
+        this.setState({download: this.state.download ? false : true});
+        console.log(this.state);
     }
 
     generateResources(country, list) {
@@ -131,9 +142,11 @@ class Country extends Component {
             file = file.toLowerCase();
             file = file.replace(' ', '_');
         const reports = [
-            {type: "raw", text:"Raw data", href:".xlsx"},
-            {type: "report", text:"Report", href:".pdf"},
+            {type: "raw", text:"Raw data", href:".xlsx"}
         ];
+        const label = "This file contains confidential data that belongs to IDH. Please do not share with client.";
+        let aClass = "btn btn-sm btn-block";
+            aClass += this.state.download ? " btn-success" : " btn-secondary"
         return reports.map((x,i) => (
             <Col md={4} key={"report-" + i}>
             <Card>
@@ -141,11 +154,20 @@ class Country extends Component {
                 <Card.Text className="text-center">{x.text} ({x.href})</Card.Text>
               </Card.Body>
                 <Card.Footer>
-                <a
-                    href={"/files/" + file + x.href}
-                    target="_blank"
-                    className="btn btn-sm btn-block btn-primary">Download
-                </a>
+                    <Form>
+                        <Form.Group controlId="formBasicCheckbox" onChange={this.handleCheckDownload}>
+                        <Form.Check type="checkbox" label={label} defaultChecked={this.state.download}/>
+                        </Form.Group>
+                    </Form>
+                        <hr/>
+                    {this.state.download
+                        ? (
+                            <a href={"/files/" + file + x.href}
+                                target="_blank"
+                                className={aClass}>Download</a>
+                        ) : (
+                            <button className={aClass} disabled>Download</button>
+                        )}
                 </Card.Footer>
             </Card>
             </Col>
@@ -216,11 +238,12 @@ class Country extends Component {
                     </Nav>
                     </Row>
                 </Jumbotron>
-                <div className="page-content has-jumbotron">
-                    <Row className="text-center">
-                        <div className="summary">{this.state.summary}</div>
-                    </Row>
-                    <Row>
+                 <div className="page-content has-jumbotron">
+                    {this.state.loading
+                        ? (<LoadingContainer/>)
+                        : (<Row className="text-center"><div className="summary">{this.state.summary}</div></Row>)
+                    }
+                    <Row className="justify-content-md-center">
                         {charts.map((x, i) => this.generateView(x, i))}
                         { tab === "download" ? this.generateResources(country, list) : ""}
                     </Row>

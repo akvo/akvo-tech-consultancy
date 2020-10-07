@@ -27,7 +27,13 @@ export const Histogram = (title, data) => {
             name: x.name,
             type: 'bar',
             data: x.data,
-            showBackground: true,
+            markPoint: {
+                data: [
+                    {type: 'max', name: 'min'},
+                    {type: 'min', name: 'max'}
+                ],
+                symbolSize: 30,
+            },
         };
     });
     return {
