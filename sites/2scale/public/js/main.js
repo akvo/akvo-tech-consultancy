@@ -7339,7 +7339,7 @@ $("#btn-data-inspect").click(function () {
     $("#data-frame").attr("src", url + '/' + date[0] + '/' + date[1]);
   }
 });
-$("#btn-data-download").click(function () {
+$("#btn-data-download").on('click', function () {
   var iframe = $("#data-frame");
   $("#btn-data-inspect").click();
   var checkTable = setInterval(function () {
@@ -7350,7 +7350,7 @@ $("#btn-data-download").click(function () {
       btnExcel.click();
       clearInterval(checkTable);
     }
-  }, 1000);
+  }, 500);
 });
 /* Partnership API */
 

@@ -76,7 +76,7 @@ $("#btn-data-inspect").click(() => {
     }
 });
 
-$("#btn-data-download").click(() => {
+$("#btn-data-download").on('click', () => {
     let iframe = $("#data-frame");
     $("#btn-data-inspect").click();
     var checkTable = setInterval(() => {
@@ -86,7 +86,7 @@ $("#btn-data-download").click(() => {
             btnExcel.click();
             clearInterval(checkTable);
         }
-    }, 1000);
+    }, 500);
 });
 
 /* Partnership API */
