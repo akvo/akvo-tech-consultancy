@@ -50,9 +50,7 @@ class Utils {
 
     public static function getVarValue($form_id, $var)
     {
-        $formInstances = FormInstance::where('form_id', $form_id)->get('id');
-        $formInstanceIds = $formInstances->pluck('id');
-        $answers = Answer::whereIn('form_instance_id', $formInstanceIds)
+        $answers = Answer::where('form_id', $form_id)
             ->where('variable_id', $var->id);
         if ($var->type === 'option') {
             $answers = $answers->with('options');
@@ -74,16 +72,14 @@ class Utils {
         return Variable::whereIn('id',$variables)->get();
     }
 
-    public static function mergeValues($values, $variable_name, $interval=1) {
+    public static function mergeValues($values, $variable_name) {
         $current = $values[0]['variable_id'];
         $current = Variable::where('id', $current)->first();
         $variable = Variable::where('name', $variable_name)->first();
-        $list = collect();
-        $values = $values->map(function($data) use ($current, $variable, $list) {
+        $values = $values->map(function($data) use ($current, $variable) {
             $option = Answer::where('form_instance_id', $data['form_instance_id'])
                 ->where('variable_id', $variable->id)->with('options.option')->first();
             $option = $option->options->first()->option->name;
-            $list->push($data['value']);
             return [
                 $variable->name => $option,
                 $current->name => $data['value'],
@@ -97,22 +93,22 @@ class Utils {
                 'data' => $value
             ];
         })->values();
-        $values = $values->map(function($data) use ($list){
-            $unlisted = collect();
-            foreach($list as $l){
-                $listed = collect($data['data'])->where('name', $l)->first();
-                if ($listed){
-                    $unlisted->push($listed);
-                } else {
-                    $unlisted->push(['name' => $l,'value' => 0]);
-                }
-            }
+        $all = $values->pluck('data')->flatten(1);
+        $all = $all->groupBy('name')->map(function($d, $k){
+            return [$k, $d->sum('value')];
+        })->values();
+        $all = ['name' => 'all','data' => $all];
+        $values = $values->map(function($data) {
+            $value = $data['data']->groupBy('name')->map(function($d, $k){
+                return [$k, $d->sum('value')];
+            })->values();
             return [
                 'name' => $data['name'],
-                'data' => $unlisted->pluck('value'),
+                'data' => $value,
             ];
         });
-        return ['data' => $values, 'min' => 0, 'max' => count($list)];
+        $values->push($all);
+        return ['data' => $values];
     }
 
 

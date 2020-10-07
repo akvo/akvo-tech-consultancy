@@ -1,3 +1,5 @@
+import echarts from 'echarts';
+
 export const backgroundColor = {
     backgroundColor: "transparent",
 };
@@ -38,7 +40,7 @@ export const Color = {
 export const Legend = {
     orient: "horizontal",
     x: "center",
-    bottom: "40px",
+    top: "50px",
     textStyle: {
         fontFamily: "Open Sans",
         fontWeight: 300,
@@ -92,3 +94,122 @@ export const Icons = {
     resetZoom: "path://M16.382,15.015h0.455h0.457V4.985h-0.457h-0.455V15.015z M16.837,4.985c1.008,0,1.824-0.816,1.824-1.822c0-1.008-0.816-1.824-1.824-1.824c-1.006,0-1.822,0.816-1.822,1.824C15.015,4.169,15.831,4.985,16.837,4.985z M16.837,2.25c0.504,0,0.913,0.409,0.913,0.913c0,0.502-0.409,0.911-0.913,0.911c-0.502,0-0.911-0.409-0.911-0.911C15.926,2.659,16.335,2.25,16.837,2.25z M15.015,3.618V3.163V2.706H4.986v0.457v0.455H15.015z M3.162,15.01c-1.007,0-1.823,0.816-1.823,1.822c0,1.008,0.816,1.824,1.823,1.824s1.824-0.816,1.824-1.824C4.986,15.831,4.169,15.015,3.162,15.015z M3.162,17.75c-0.503,0-0.911-0.409-0.911-0.913c0-0.502,0.408-0.911,0.911-0.911c0.504,0,0.912,0.409,0.912,0.911C4.074,17.341,3.666,17.75,3.162,17.75z M4.986,16.382v0.455v0.457h10.029v-0.457v-0.455H4.986zM16.837,15.015c-1.006,0-1.822,0.816-1.822,1.822c0,1.008,0.816,1.824,1.822,1.824c1.008,0,1.824-0.816,1.824-1.824C18.661,15.831,17.845,15.015,16.837,15.015z M16.837,17.75c-0.502,0-0.911-0.409-0.911-0.913c0-0.502,0.409-0.911,0.911-0.911c0.504,0,0.913,0.409,0.913,0.911C17.75,17.341,17.341,17.75,16.837,17.75z M3.618,4.985H3.162H2.707v10.029h0.456h0.456V4.985zM4.986,3.163c0-1.008-0.817-1.824-1.824-1.824S1.339,2.155,1.339,3.163c0,1.006,0.816,1.822,1.823,1.822S4.986,4.169,4.986,3.163zM3.162,4.074c-0.503,0-0.911-0.409-0.911-0.911c0-0.504,0.408-0.913,0.911-0.913c0.504,0,0.912,0.409,0.912,0.913C4.074,3.665,3.666,4.074,3.162,4.074z",
     reset: "path://M19.305,9.61c-0.235-0.235-0.615-0.235-0.85,0l-1.339,1.339c0.045-0.311,0.073-0.626,0.073-0.949,c0-3.812-3.09-6.901-6.901-6.901c-2.213,0-4.177,1.045-5.44,2.664l0.897,0.719c1.053-1.356,2.693-2.232,4.543-2.232,c3.176,0,5.751,2.574,5.751,5.751c0,0.342-0.037,0.675-0.095,1l-1.746-1.39c-0.234-0.235-0.614-0.235-0.849,0,c-0.235,0.235-0.235,0.615,0,0.85l2.823,2.25c0.122,0.121,0.282,0.177,0.441,0.172c0.159,0.005,0.32-0.051,0.44-0.172l2.25-2.25,C19.539,10.225,19.539,9.845,19.305,9.61z M10.288,15.752c-3.177,0-5.751-2.575-5.751-5.752c0-0.276,0.025-0.547,0.062-0.813,l1.203,1.203c0.235,0.234,0.615,0.234,0.85,0c0.234-0.235,0.234-0.615,0-0.85l-2.25-2.25C4.281,7.169,4.121,7.114,3.961,7.118,C3.802,7.114,3.642,7.169,3.52,7.291l-2.824,2.25c-0.234,0.235-0.234,0.615,0,0.85c0.235,0.234,0.615,0.234,0.85,0l1.957-1.559,C3.435,9.212,3.386,9.6,3.386,10c0,3.812,3.09,6.901,6.902,6.901c2.083,0,3.946-0.927,5.212-2.387l-0.898-0.719,C13.547,14.992,12.008,15.752,10.288,15.752z"
 };
+
+export const optionToContent = () => {
+    return function(params) {
+        let data = params.data.data;
+        let header = params.data.header;
+        let html = "<div class='row'><div class='col-md-12'>";
+            html = "<table class='table table-striped'><thead class='thead-dark'><tr>";
+        header.forEach((x,i) => {
+            html += "<th>" + x + "</th>"
+        });
+        html += "</tr></thead><tbody>";
+        data.forEach((x, i) => {
+            html += "<tr>";
+            x.forEach((y, iy) => {
+                html += "<td>" + y + "</td>";
+            });
+            html += "</tr>";
+        });
+        html += "</tbody></table></div></div>";
+        return html;
+    }
+}
+
+export const ToolBox = {
+    toolbox: {
+        top: "5px",
+        right: "5px",
+        feature: {
+            dataView: {
+                title: "Table View",
+                lang: ["Table View", "Close Table", "Refresh"],
+                icon: Icons.dataView,
+                buttonColor: "#009fe2",
+                readOnly: true,
+                textAreaBorderColor: "#fff",
+                backgroundColor: "#f0f5fb",
+                optionToContent: optionToContent()
+            },
+            saveAsImage: {
+                type: "jpg",
+                title: "Save Image",
+                icon: Icons.saveAsImage,
+                backgroundColor: "#ffffff"
+            }
+        },
+        backgroundColor: backgroundColor.backgroundColor
+    }
+}
+
+export const ToolBoxMaps = {
+    myTool1: {
+        show: true,
+        title: "zoom in",
+        icon: Icons.zoomIn,
+        onclick: function(params, charts) {
+            let new_zoom = params.option.series[0].zoom + 1;
+            if (new_zoom > 4) {
+                new_zoom = 4;
+            }
+            let new_series = {
+                ...params.option.series[0],
+                zoom: new_zoom
+            };
+            let options = charts.getOption();
+            options = {
+                ...options,
+                series: [new_series]
+            }
+            let id = charts.getDom();
+            const thecharts = echarts.init(id);
+            thecharts.setOption(options);
+            return;
+        },
+    },
+    myTool2: {
+        show: true,
+        title: "zoom out",
+        icon: Icons.zoomOut,
+        onclick: function(params, charts) {
+            let new_zoom = params.option.series[0].zoom - 1;
+            if (new_zoom < 0) {
+                new_zoom = 0;
+            }
+            let new_series = {
+                ...params.option.series[0],
+                zoom: new_zoom
+            };
+            let options = charts.getOption();
+            options = {
+                ...options,
+                series: [new_series]
+            }
+            let id = charts.getDom();
+            const thecharts = echarts.init(id);
+            thecharts.setOption(options);
+            return;
+        },
+    },
+    myTool3: {
+        show: true,
+        title: "reset zoom",
+        icon: Icons.reset,
+        onclick: function(params, charts) {
+            let new_series = {
+                ...params.option.series[0],
+                zoom: 0
+            };
+            let options = charts.getOption();
+            options = {
+                ...options,
+                series: [new_series]
+            }
+            let id = charts.getDom();
+            const thecharts = echarts.init(id);
+            thecharts.setOption(options);
+            return;
+        },
+    }
+}

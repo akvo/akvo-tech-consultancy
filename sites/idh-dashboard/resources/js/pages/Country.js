@@ -4,11 +4,14 @@ import { mapStateToProps, mapDispatchToProps } from '../reducers/actions';
 import {
     Row,
     Col,
+    Card,
+    Button,
     Jumbotron,
     Nav,
 } from 'react-bootstrap';
 import Charts from '../components/Charts.js';
 import Cards from '../components/Cards.js';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { queueApi, getApi } from '../data/api.js';
 import { getHighest } from '../data/utils.js';
 import { generateData } from "../charts/chart-generator.js";
@@ -20,6 +23,8 @@ class Country extends Component {
         this.changeTab = this.changeTab.bind(this);
         this.getData = this.getData.bind(this);
         this.generateView = this.generateView.bind(this);
+        this.generateResources = this.generateResources.bind(this);
+        this.downloadReport = this.downloadReport.bind(this);
         this.state = {
             charts: {
                 overview:[],
@@ -27,6 +32,7 @@ class Country extends Component {
                 farmer_profile:[],
                 farm_practices:[],
             },
+            summary: "Loading",
             active: 0,
         };
     }
@@ -39,12 +45,12 @@ class Country extends Component {
     }
 
     getData(id) {
-        this.setState({active:id});
+        this.setState({active:id, summary: "Loading"});
         let url = 'country-data/' + id;
-        this.props.page.loading(true);
         getApi(url).then(res => {
             let response = res[url];
-            response = response.map((tab) => {
+            this.setState({summary:response.summary});
+            response = response.tabs.map((tab) => {
                 let data = tab.charts.map((d, ix) => {
                     let maxheight = 60;
                     let chart =  {
@@ -85,8 +91,6 @@ class Country extends Component {
                 return data;
             });
             return response;
-        }).then(res => {
-            this.props.page.loading(false);
         });
     }
 
@@ -117,6 +121,37 @@ class Country extends Component {
         );
     }
 
+    downloadReport (type) {
+        console.log(type);
+    }
+
+    generateResources(country, list) {
+        let file = list.childrens.find(x => x.id === this.state.active);
+            file = country + "-" + file.company;
+            file = file.toLowerCase();
+            file = file.replace(' ', '_');
+        const reports = [
+            {type: "raw", text:"Raw data", href:".xlsx"},
+            {type: "report", text:"Report", href:".pdf"},
+        ];
+        return reports.map((x,i) => (
+            <Col md={4} key={"report-" + i}>
+            <Card>
+              <Card.Body>
+                <Card.Text className="text-center">{x.text} ({x.href})</Card.Text>
+              </Card.Body>
+                <Card.Footer>
+                <a
+                    href={"/files/" + file + x.href}
+                    target="_blank"
+                    className="btn btn-sm btn-block btn-primary">Download
+                </a>
+                </Card.Footer>
+            </Card>
+            </Col>
+        ));
+    }
+
     componentDidMount() {
         let country = this.props.value.page.subpage.country;
         let data = this.props.value.page.filters.find(x => x.name === country);
@@ -131,7 +166,7 @@ class Country extends Component {
         let base = this.props.value.page;
         let list = base.filters.find(x => x.name === base.subpage.country);
         let tab = base.subpage.tab;
-        let charts = this.state.charts[tab];
+        let charts = tab === "download" || this.state.summary === "Loading" ? [] : this.state.charts[tab];
         return (
             <Fragment>
                 <Jumbotron className="has-navigation">
@@ -171,12 +206,23 @@ class Country extends Component {
                             active={"farm_practices" === tab}
                             href={"#country/"+country+"/farm-practices"}>Farm Practices
                       </Nav.Link>
+                      <Nav.Link
+                            active={"download" === tab}
+                            href={"#country/"+country+"/download"}>
+                            <FontAwesomeIcon
+                                icon={["fas", "download"]} />
+                            Resources
+                      </Nav.Link>
                     </Nav>
                     </Row>
                 </Jumbotron>
-                <div className="page-content">
+                <div className="page-content has-jumbotron">
+                    <Row className="text-center">
+                        <div className="summary">{this.state.summary}</div>
+                    </Row>
                     <Row>
                         {charts.map((x, i) => this.generateView(x, i))}
+                        { tab === "download" ? this.generateResources(country, list) : ""}
                     </Row>
                 </div>
             </Fragment>

@@ -144,6 +144,9 @@ class ApiController extends Controller
                        ->withCount('formInstances')
                        ->first();
         $total = $form->form_instances_count;
+        $summary = "This dashboard display the primary data for ";
+        $summary .= $total." ".$form->kind." farmers in ". $form->country;
+        $summary .= "This data collected during the SDM generation for " . $form->company .".";
         $farm_size = Utils::getValues($form_id, 'f_size (acre)');
         $household = Utils::getValues($form_id, 'hh_size');
         $overview = [[
@@ -155,21 +158,21 @@ class ApiController extends Controller
             ],
             'kind' => 'MAPS',
             'description' => false,
-            'width' => 4
+            'width' => 6
         ],[
             'id' => $form_id,
             'title' => "Was the farmer surveyed part of the sample?",
             'data' => Utils::getValues($form_id, 'farmer_sample'),
             'kind' => 'PIE',
             'description' => false,
-            'width' => 4,
+            'width' => 6,
         ],[
             'id' => $form_id,
             'title' => "Farmer First Crop",
             'data' => Utils::getValues($form_id, 'f_first_crop'),
             'kind' => 'BAR',
             'description' => false,
-            'width' => 4,
+            'width' => 12,
         ],[
             'id' => $form_id,
             'data' => [[
@@ -251,7 +254,7 @@ class ApiController extends Controller
                 'value' => $fsdmVal > 0 ? $p->value / $fsdmVal : 0,
             ];
         });
-        $producedcrops = Utils::mergeValues($producedcrops, 'f_first_crop', 50);
+        $producedcrops = Utils::mergeValues($producedcrops, 'f_first_crop');
         $soldcrops = Utils::getValues($form_id, 'f_sold (kilograms)', false);
         $soldcrops = Utils::mergeValues($soldcrops, 'f_first_crop', 100);
         $farmpractices = [[
@@ -293,19 +296,22 @@ class ApiController extends Controller
                 'width' => 12,
         ]];
 
-        return [[
-            'name' => 'overview',
-            'charts' => $overview,
-            ],[
-            'name' => 'hh_profile',
-            'charts' => $hhprofile,
-            ],[
-            'name' => 'farmer_profile',
-            'charts' => $farmerprofile,
-            ],[
-            'name' => 'farm_practices',
-            'charts' => $farmpractices,
-        ]];
+        return [
+            'summary' => $summary,
+            'tabs' => [[
+                'name' => 'overview',
+                'charts' => $overview,
+                ],[
+                'name' => 'hh_profile',
+                'charts' => $hhprofile,
+                ],[
+                'name' => 'farmer_profile',
+                'charts' => $farmerprofile,
+                ],[
+                'name' => 'farm_practices',
+                'charts' => $farmpractices
+            ]]
+        ];
     }
 
 }

@@ -16,9 +16,15 @@ class CreateAnswersTable extends Migration
         Schema::create('answers', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('form_instance_id');
+            $table->unsignedBigInteger('form_id');
             $table->unsignedBigInteger('variable_id');
             $table->float('value')->nullable();
             $table->timestamps();
+
+            $table->foreign('form_id')
+                  ->references('id')
+                  ->on('forms')
+                  ->onDelete('cascade');
 
             $table->foreign('form_instance_id')
                   ->references('id')

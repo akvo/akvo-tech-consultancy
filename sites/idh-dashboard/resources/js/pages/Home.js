@@ -40,7 +40,7 @@ class Home extends Component {
                     </Col>
                 </Row>
             </Jumbotron>
-                <div className="page-content">
+                <div className="page-content has-jumbotron">
                     <Row>
                         <Charts
                             identifier={'map-home'}

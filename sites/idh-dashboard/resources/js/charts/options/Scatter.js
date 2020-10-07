@@ -4,6 +4,7 @@ import {
     Easing,
     Legend,
     TextStyle,
+    ToolBox,
     dataZoom,
     backgroundColor,
     splitTitle,
@@ -26,32 +27,6 @@ export const Scatter = (title, data) => {
                 color: "#222",
                 ...TextStyle,
             }
-        },
-        toolbox: {
-            orient: "horizontal",
-            left: "center",
-            bottom: "0px",
-            feature: {
-                brush: {
-                    title: {
-                        "polygon" : "Polygon Select",
-                        "clear" : "Clear Selection",
-                    },
-                    type: ['rect', 'clear']
-                },
-                dataView: {
-                    title: "View Table",
-                    icon: Icons.dataView,
-                    backgroundColor: "#ffffff"
-                },
-                saveAsImage: {
-                    type: "jpg",
-                    title: "Save Image",
-                    icon: Icons.saveAsImage,
-                    backgroundColor: "#ffffff"
-                },
-            },
-            backgroundColor: "#ffffff"
         },
         xAxis: {
             type: 'value',
@@ -80,7 +55,8 @@ export const Scatter = (title, data) => {
         ...dataZoom,
         ...Color,
         ...Easing,
-        ...backgroundColor
+        ...backgroundColor,
+        ...ToolBox,
     };
 }
 

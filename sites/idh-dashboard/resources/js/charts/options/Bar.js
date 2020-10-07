@@ -3,6 +3,7 @@ import {
     Icons,
     Easing,
     Legend,
+    ToolBox,
     TextStyle,
     backgroundColor,
     splitTitle,
@@ -12,6 +13,14 @@ import sum from 'lodash/sum';
 import sortBy from 'lodash/sortBy';
 
 export const Bar = (title, data, horizontal=false, unsorted=false) => {
+    let tableData = sortBy(data, 'name');
+        tableData = tableData.map(x => {
+            return [x.name, x.value];
+        });
+        tableData = {
+            header: [title, 'Count'],
+            data: tableData
+        }
     data = sortBy(data, unsorted ? 'name' : 'value');
     let axisLabels = data.map(x => x.name);
     let values = data.map(x => x.value);
@@ -23,17 +32,20 @@ export const Bar = (title, data, horizontal=false, unsorted=false) => {
     let horizontalxAxis = {
             data: axisLabels,
             axisLabel: {
-                show: true
+                show: horizontal ? true : false
             },
             axisTick: {
-                show: true
+                show: horizontal ? true : false
             }
         };
     let horizontalyAxis = {
             axisLabel: {
-                ...TextStyle
+                show: horizontal ? true : false
             },
-        };
+            axisTick: {
+                show: horizontal ? true : false
+            }
+    };
     return {
         title: {
             text: splitTitle(title),
@@ -44,7 +56,7 @@ export const Bar = (title, data, horizontal=false, unsorted=false) => {
         grid: {
             top: 100,
             right: 50,
-            left: 10,
+            left: horizontal ? 35 : 10,
             show: true,
             label: {
                 color: "#222",
@@ -55,39 +67,11 @@ export const Bar = (title, data, horizontal=false, unsorted=false) => {
             trigger: 'item',
             formatter: '{a} <br/>{b}: {c}'
         },
-        toolbox: {
-            orient: horizontal ? "horizontal" : "vertical",
-            left: "center",
-            bottom: "0px",
-            feature: {
-                dataView: {
-                    title: "View Table",
-                    icon: Icons.dataView,
-                    backgroundColor: "#ffffff"
-                },
-                saveAsImage: {
-                    type: "jpg",
-                    title: "Save Image",
-                    icon: Icons.saveAsImage,
-                    backgroundColor: "#ffffff"
-                }
-            },
-            backgroundColor: "#ffffff"
+        legend: {
+            ...Legend
         },
-        xAxis: horizontal ? horizontalxAxis : {
-            axisLabel: {
-                ...TextStyle
-            },
-        },
-        yAxis: horizontal ? horizontalyAxis : {
-            data: axisLabels,
-            axisLabel: {
-                show: false
-            },
-            axisTick: {
-                show: false
-            }
-        },
+        xAxis: horizontal ? horizontalxAxis : horizontalyAxis,
+        yAxis: horizontal ? horizontalyAxis : horizontalxAxis,
         series: [{
             data: data,
             type: 'bar',
@@ -96,7 +80,7 @@ export const Bar = (title, data, horizontal=false, unsorted=false) => {
                     return params.data.name;
                 },
                 position: 'insideLeft',
-                show: true,
+                show: horizontal ? false : true,
                 color: "#222",
                 fontFamily: "Raleway",
                 padding: 5,
@@ -107,10 +91,12 @@ export const Bar = (title, data, horizontal=false, unsorted=false) => {
                 }
             }
         }],
+        data: tableData,
         ...dataZoom,
         ...Color,
         ...Easing,
-        ...backgroundColor
+        ...backgroundColor,
+        ...ToolBox,
     }
 }
 

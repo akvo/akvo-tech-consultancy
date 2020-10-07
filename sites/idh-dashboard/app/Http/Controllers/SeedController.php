@@ -61,6 +61,7 @@ class SeedController extends Controller
                 }
                 $answer = \App\Models\Answer::updateOrCreate([
                     'variable_id' => $variable_id,
+                    'form_id' => $form->id,
                     'form_instance_id' => $form_instance->id,
                     'value' => $value
                 ]);

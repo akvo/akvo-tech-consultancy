@@ -1,9 +1,9 @@
 import {
     Color,
-    Icons,
     Easing,
     Legend,
     TextStyle,
+    ToolBox,
     backgroundColor,
     splitTitle,
     dataZoom,
@@ -11,6 +11,17 @@ import {
 import maxBy from 'lodash/maxBy';
 
 export const Histogram = (title, data) => {
+    let legend = data.data.map(x => x.name);
+    let tableData = [];
+    data.data.map(x => {
+        return x.data.map(d => {
+            tableData.push([x.name,d[0],d[1]]);
+        });
+    });
+    tableData = {
+        header: ['Category',title, 'Count'],
+        data: tableData
+    };
     let values = data.data.map(x => {
         return {
             name: x.name,
@@ -19,7 +30,6 @@ export const Histogram = (title, data) => {
             showBackground: true,
         };
     });
-    let legend = data.data.map(x => x.name);
     return {
         title: {
             text: splitTitle(title),
@@ -30,7 +40,7 @@ export const Histogram = (title, data) => {
         grid: {
             top: 100,
             right: 30,
-            left: 30,
+            left: 35,
             show: true,
             label: {
                 color: "#222",
@@ -46,32 +56,12 @@ export const Histogram = (title, data) => {
                 }
             }
         },
-        toolbox: {
-            orient: "horizontal",
-            left: "center",
-            bottom: "0px",
-            feature: {
-                dataView: {
-                    title: "View Table",
-                    icon: Icons.dataView,
-                    backgroundColor: "#ffffff"
-                },
-                saveAsImage: {
-                    type: "jpg",
-                    title: "Save Image",
-                    icon: Icons.saveAsImage,
-                    backgroundColor: "#ffffff"
-                }
-            },
-            backgroundColor: "#ffffff"
-        },
         legend: {
-            data: legend
+            data: legend,
+            ...Legend
         },
         xAxis: {
-            min: data.min,
-            max: data.max,
-            type: 'category',
+            logBase: 10,
             axisPointer: {
                 type: 'shadow'
             }
@@ -84,10 +74,12 @@ export const Histogram = (title, data) => {
             },
         },
         series: values,
+        data: tableData,
         ...dataZoom,
         ...Color,
         ...Easing,
-        ...backgroundColor
+        ...backgroundColor,
+        ...ToolBox,
     }
 }
 

@@ -1,14 +1,14 @@
 import {
     Color,
-    Icons,
     Easing,
     Legend,
     TextStyle,
+    ToolBox,
+    ToolBoxMaps,
     backgroundColor,
     splitTitle,
     dataZoom,
 } from '../chart-options.js';
-import echarts from 'echarts';
 import maxBy from 'lodash/maxBy';
 import minBy from 'lodash/minBy';
 
@@ -53,86 +53,11 @@ const Maps = (title, data) => {
             }
         },
         toolbox: {
-            orient: "horizontal",
-            left: "center",
-            bottom: "0px",
+            ...ToolBox.toolbox,
             feature: {
-                saveAsImage: {
-                    type: "jpg",
-                    title: "Save Image",
-                    icon: Icons.saveAsImage,
-                    backgroundColor: "#ffffff"
-                },
-                myTool1: {
-                    show: true,
-                    title: "zoom in",
-                    icon: Icons.zoomIn,
-                    onclick: function(params, charts) {
-                        let new_zoom = params.option.series[0].zoom + 1;
-                        if (new_zoom > 4) {
-                            new_zoom = 4;
-                        }
-                        let new_series = {
-                            ...params.option.series[0],
-                            zoom: new_zoom
-                        };
-                        let options = charts.getOption();
-                        options = {
-                            ...options,
-                            series: [new_series]
-                        }
-                        let id = charts.getDom();
-                        const thecharts = echarts.init(id);
-                        thecharts.setOption(options);
-                        return;
-                    },
-                },
-                myTool2: {
-                    show: true,
-                    title: "zoom out",
-                    icon: Icons.zoomOut,
-                    onclick: function(params, charts) {
-                        let new_zoom = params.option.series[0].zoom - 1;
-                        if (new_zoom < 0) {
-                            new_zoom = 0;
-                        }
-                        let new_series = {
-                            ...params.option.series[0],
-                            zoom: new_zoom
-                        };
-                        let options = charts.getOption();
-                        options = {
-                            ...options,
-                            series: [new_series]
-                        }
-                        let id = charts.getDom();
-                        const thecharts = echarts.init(id);
-                        thecharts.setOption(options);
-                        return;
-                    },
-                },
-                myTool3: {
-                    show: true,
-                    title: "reset zoom",
-                    icon: Icons.reset,
-                    onclick: function(params, charts) {
-                        let new_series = {
-                            ...params.option.series[0],
-                            zoom: 0
-                        };
-                        let options = charts.getOption();
-                        options = {
-                            ...options,
-                            series: [new_series]
-                        }
-                        let id = charts.getDom();
-                        const thecharts = echarts.init(id);
-                        thecharts.setOption(options);
-                        return;
-                    },
-                }
+                saveAsImage: ToolBox.toolbox.feature.saveAsImage,
+                ...ToolBoxMaps,
             },
-            backgroundColor: "#FFF",
         },
         series: [{
             name: title,

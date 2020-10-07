@@ -1,15 +1,24 @@
 import {
     Color,
-    Icons,
     Easing,
     Legend,
     TextStyle,
+    ToolBox,
     backgroundColor,
     splitTitle,
 } from '../chart-options.js';
 import sumBy from 'lodash/sumBy';
+import sortBy from 'lodash/sortBy';
 
 export const Pie = (title, data) => {
+    let tableData = sortBy(data, 'name');
+        tableData = tableData.map(x => {
+            return [x.name, x.value];
+        });
+        tableData = {
+            header: [title, 'Count'],
+            data: tableData
+        }
     let legends = data.map(x => x.name);
     let total = [{name: 'total', value: sumBy(data, 'value')}];
     return {
@@ -23,31 +32,13 @@ export const Pie = (title, data) => {
             trigger: 'item',
             formatter: '{a} <br/>{b}: {c} ({d}%)'
         },
-        toolbox: {
-            orient: "horizontal",
-            left: "center",
-            bottom: "0px",
-            feature: {
-                dataView: {
-                    title: "View Table",
-                    icon: Icons.dataView,
-                    backgroundColor: "#ffffff"
-                },
-                saveAsImage: {
-                    type: "jpg",
-                    title: "Save Image",
-                    icon: Icons.saveAsImage,
-                    backgroundColor: "#ffffff"
-                }
-            },
-            backgroundColor: "#ffffff"
-        },
         legend: {
             data: legends,
             ...Legend,
         },
         series: [{
                 type: 'pie',
+                top: 50,
                 radius: ['40%', '60%'],
                 avoidLabelOverlap: false,
                 label: {
@@ -65,6 +56,7 @@ export const Pie = (title, data) => {
                 data: data
             },{
                 type: 'pie',
+                top: 50,
                 radius: ['0%', '0%'],
                 label: {
                     show: true,
@@ -82,9 +74,11 @@ export const Pie = (title, data) => {
                 color: ['#fff'],
             }
         ],
+        data: tableData,
         ...Color,
         ...Easing,
-        ...backgroundColor
+        ...backgroundColor,
+        ...ToolBox
     };
 }
 

@@ -55,9 +55,23 @@ h1, h2, h3, h4, h5, h6{
 }
 
 .page-content {
-    padding:20px;
-    margin:20px;
+    margin: 60px 20px 20px;
     display: block;
+}
+
+.summary {
+    padding: 20px;
+    display: block;
+    text-align: center;
+    margin: auto;
+    color: #0072c6;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    border-bottom: solid 5px #0072c6;
+}
+
+.page-content.has-jumbotron {
+    margin: 20px 20px 20px;
 }
 
 .btn.btn-primary {
@@ -295,11 +309,27 @@ h2.extra-counter {
     border-right: none !important;
 }
 
+.nav-jumbotron a svg{
+    margin-right: 10px;
+}
+
 .nav-jumbotron.nav a.nav-link.active,
 .nav-jumbotron.nav a.nav-link:hover{
     background: #0174c6!important;
     color: #fff!important;
     border-bottom: solid 2px #0174c6!important;
+}
+
+.echarts-for-react h4 {
+    text-align: center;
+    padding-bottom: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    padding-top: 20px;
+}
+
+.table {
+    font-size: 14px;
 }
 
 /* Checkbox */
