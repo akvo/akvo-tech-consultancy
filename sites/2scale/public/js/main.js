@@ -7387,7 +7387,7 @@ var generatePartnershipChart = /*#__PURE__*/function () {
               $("#data-frame").attr("src", "/frame/partnership/" + params);
               setTimeout(function () {
                 resolve(console.log('generated'));
-              }, 10000);
+              }, 15000);
             });
 
           case 2:
@@ -7438,7 +7438,7 @@ $("#generate-report-link").on('click', function () {
     keyboard: false
   });
   generatePartnershipChart().then(function (res) {
-    console.log('get canvas');
+    // console.log('get canvas');
     var iframe = document.getElementsByTagName("iframe");
     var token = document.querySelector('meta[name="csrf-token"]').content;
     var charts = iframe[0].contentWindow.document.getElementById("chart-report-container");

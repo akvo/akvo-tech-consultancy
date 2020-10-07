@@ -121,7 +121,7 @@ const generatePartnershipChart = async () => {
         $("#data-frame").attr("src", "/frame/partnership/" + params);        
         setTimeout(() => {
             resolve(console.log('generated'));
-        }, 10000); 
+        }, 15000); 
     });
     return;
 };
@@ -155,7 +155,7 @@ $("#generate-report-link").on('click', () => {
     $("#myModalAuth").modal({backdrop: 'static', keyboard: false});
     
     generatePartnershipChart().then(res => {
-        console.log('get canvas');
+        // console.log('get canvas');
         let iframe = document.getElementsByTagName("iframe");
         let token = document.querySelector('meta[name="csrf-token"]').content;
         let charts = iframe[0].contentWindow.document.getElementById("chart-report-container");
@@ -214,7 +214,6 @@ $("#generate-report-link").on('click', () => {
                 $("#myModalBtnClose").show();
             });
         }, 10000);
-
     });
 });
 
