@@ -142,7 +142,7 @@ class Country extends Component {
             file = file.toLowerCase();
             file = file.replace(' ', '_');
         const reports = [
-            {type: "raw", text:"Raw data", href:".xlsx"}
+            {type: "raw", text:"Analyzed Farmer Data", href:".xlsx"}
         ];
         const label = "This file contains confidential data that belongs to IDH. Please do not share with client.";
         let aClass = "btn btn-sm btn-block";

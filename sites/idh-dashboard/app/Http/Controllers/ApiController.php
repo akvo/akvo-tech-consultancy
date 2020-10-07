@@ -248,6 +248,13 @@ class ApiController extends Controller
                 'width' => 12,
             ],[
                 'id' => $form_id,
+                'title' => "Education Level",
+                'data' => Utils::getValues($form_id,'hh_education_farmer'),
+                'kind' => 'BAR',
+                'description' => false,
+                'width' => 12,
+            ],[
+                'id' => $form_id,
                 'title' => "Farmers' land ownership status",
                 'data' => $landownership,
                 'kind' => 'BAR',
@@ -299,13 +306,6 @@ class ApiController extends Controller
                 'data' => collect(Utils::getValues($form_id, 'f_livestock'))->reject(function($data){
                     return Str::contains($data['name'],"No");
                 })->values(),
-                'kind' => 'BAR',
-                'description' => false,
-                'width' => 12,
-            ],[
-                'id' => $form_id,
-                'title' => "Education Level",
-                'data' => Utils::getValues($form_id,'hh_education_farmer'),
                 'kind' => 'BAR',
                 'description' => false,
                 'width' => 12,
