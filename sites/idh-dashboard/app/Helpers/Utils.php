@@ -135,6 +135,20 @@ class Utils {
             $results->push($all);
         }
         $results = $only ? $results->where('name', $only) : $results;
+        $results = $results->map(function($data){
+            $counts = collect();
+            $total = $data['data']->map(function($d) use ($counts){
+                $counts->push($d[1]);
+                return $d[0] * $d[1];
+            });
+            $total = $total->sum();
+            $counts = $counts->sum();
+            $average = $total / $counts;
+            $data['total'] = $total;
+            $data['count'] = $counts;
+            $data['avg'] = round($average, 2);
+            return $data;
+        });
         return ['data' => $results];
     }
 

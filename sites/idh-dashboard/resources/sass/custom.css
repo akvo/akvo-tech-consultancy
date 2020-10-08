@@ -170,16 +170,17 @@ a.dropdown-toggle.nav-link {
     display: inline-block;
     padding: 12px 19px;
     cursor: pointer;
+    text-shadow: 0px 0px 6px #000000;
 }
 .sub-content a:hover {
-    border-bottom: solid #fff 4px!important;
-    padding-bottom: 8px!important;
+    background: rgba(255,255,255,.3);
     text-decoration:none!important;
 }
 
 .sub-content a.active {
-    padding-bottom: 8px!important;
-    border-bottom: solid #fff 4px;
+    padding: 10px 17px;
+    background: rgba(255,255,255,.2);
+    border: solid #fff 4px;
 }
 
 .card-chart {
@@ -207,7 +208,7 @@ a.dropdown-toggle.nav-link {
     font-size: 14px;
     font-weight: 600;
     margin-bottom: 0px!important;
-    max-width: 200px;
+    max-width: 240px;
     margin: 10px auto;
 }
 
@@ -286,13 +287,16 @@ h2.extra-counter {
     font-size:16px!important;
 }
 .jumbotron.has-navigation{
-    padding-bottom:0px!important;
+    padding: 0px!important;
+    padding-top: 4rem !important;
 }
 
 .nav-jumbotron.nav{
     margin-top: 28px;
     margin-left: auto!important;
     margin-right: auto!important;
+    display:table;
+    width:100%;
 }
 
 .nav-jumbotron.nav a.nav-link{
@@ -300,9 +304,10 @@ h2.extra-counter {
     background: #fff;
     font-weight: 600;
     border-right: 1px solid #ddd;
-    border-bottom: solid 2px #0174c6!important;
-    padding: 5px !important;
+    border-bottom: solid 2px #dddddd!important;
+    padding: 10px !important;
     min-width:150px;
+    display:table-cell;
 }
 
 .nav-jumbotron.nav a.nav-link:last-child{
@@ -358,4 +363,42 @@ h2.extra-counter {
     position: absolute;
     right: 10px;
     top: 10px;
+}
+
+.navbar-light .navbar-toggler {
+    background-color: #fff!important;
+    margin-right: 10px;
+}
+
+@media (max-width: 992px) {
+    .dropdown-toggle::after {
+        display: none!important;
+    }
+    .dropdown-menu{
+        box-shadow:none!important;
+    }
+    .dropdown-item{
+        text-align:center!important;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-jumbotron.nav{
+        display:inline-block;
+    }
+    .nav-jumbotron.nav a.nav-link{
+        display:inline-block;
+        min-width:100%;
+        width: 100%;
+        border: 1px solid #ddd;
+    }
+    .dropdown-toggle::after {
+        display: none!important;
+    }
+    .dropdown-menu{
+        box-shadow:none!important;
+    }
+    .dropdown-item{
+        text-align:center!important;
+    }
 }

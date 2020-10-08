@@ -51,57 +51,60 @@ class Country extends Component {
         let tab = key.split("/");
         tab = tab[2].replace('-','_');
         this.props.page.changeTab(tab);
+        this.getData(this.state.active, tab);
         return true;
     }
 
-    getData(id) {
+    getData(id, tab=this.props.value.page.subpage.tab) {
         this.setState({active:id, loading: true, summary: "Loading"});
-        let url = 'country-data/' + id;
+        let url = 'country-data/' + id + '/' + tab;
         getApi(url).then(res => {
             let response = res[url];
             this.setState({summary:generateSummary(response.summary), loading:false});
-            response = response.tabs.map((tab) => {
-                let data = tab.charts.map((d, ix) => {
-                    let maxheight = 60;
-                    let chart =  {
-                        identifier: d.kind + '-' + id + '-' + ix,
-                        title: d.title,
-                        data: d.data,
-                        kind: d.kind,
-                        desc: d.description,
-                        config: generateData(d.width, false, maxheight + "vh"),
-                        width: d.width,
-                    }
-                    if (chart.kind === "CARDS") {
-                        maxheight = maxheight / chart.data.length;
-                        let rows = chart.data.map((c,i) => {
-                            return {
-                                identifier: 'cards-' + ix + '-' + i,
-                                title: c.title,
-                                data: c.data,
-                                kind: c.kind,
-                                config: generateData(c.width, false,  maxheight + "vh"),
-                                description: c.description,
-                                width: c.width,
-                            }
-                        });
-                        chart = {
-                            ...chart,
-                            data: rows,
+            console.log(response.tabs.length);
+            if (response.tabs.length !== 0) {
+                response = response.tabs.map((tab) => {
+                    let data = tab.charts.map((d, ix) => {
+                        let maxheight = 60;
+                        let chart =  {
+                            identifier: d.kind + '-' + id + '-' + ix,
+                            title: d.title,
+                            data: d.data,
+                            kind: d.kind,
+                            config: generateData(d.width, false, maxheight + "vh"),
+                            width: d.width,
                         }
-                    };
-                    return chart;
+                        if (chart.kind === "CARDS") {
+                            maxheight = maxheight / chart.data.length;
+                            let rows = chart.data.map((c,i) => {
+                                return {
+                                    identifier: 'cards-' + ix + '-' + i,
+                                    title: c.title,
+                                    data: c.data,
+                                    kind: c.kind,
+                                    config: generateData(c.width, false,  maxheight + "vh"),
+                                    width: c.width,
+                                }
+                            });
+                            chart = {
+                                ...chart,
+                                data: rows,
+                            }
+                        };
+                        return chart;
+                    });
+                    this.setState({
+                        charts: {
+                            ...this.state.charts,
+                            [tab.name]: data,
+                        }
+                    });
+                    return data;
                 });
-                this.setState({
-                    charts: {
-                        ...this.state.charts,
-                        [tab.name]: data,
-                    }
-                });
-                return data;
-            });
-            return response;
+                return response;
+            }
         });
+        return;
     }
 
     generateView(x, i) {
@@ -113,7 +116,6 @@ class Country extends Component {
                     title={x.title}
                     kind={x.kind}
                     key={'card-' + i}
-                    description={x.desc}
                     dataset={x.data}
                     config={x.config}
                 />
@@ -133,7 +135,6 @@ class Country extends Component {
 
     handleCheckDownload () {
         this.setState({download: this.state.download ? false : true});
-        console.log(this.state);
     }
 
     generateResources(country, list) {
@@ -188,22 +189,26 @@ class Country extends Component {
         let base = this.props.value.page;
         let list = base.filters.find(x => x.name === base.subpage.country);
         let tab = base.subpage.tab;
-        let charts = tab === "download" || this.state.summary === "Loading" ? [] : this.state.charts[tab];
+        let charts = tab === "resources" || this.state.summary === "Loading" ? [] : this.state.charts[tab];
         return (
             <Fragment>
                 <Jumbotron className="has-navigation">
                     <Row className="page-header">
                         <Col md={12} className="page-title text-center">
                             <h2>Project in {country}</h2>
-                            <div className="sub-content">
-                            {list.childrens.map((x, i) => (
-                                <a key={i}
-                                    className={x.id === this.state.active ? "active" : ""}
-                                    onClick={e => this.getData(x.id)}>
-                                    {x.company}
-                                </a>
-                            ))}
-                            </div>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md={12} className="page-title text-center">
+                        <div className="sub-content">
+                        {list.childrens.map((x, i) => (
+                            <a key={i}
+                                className={x.id === this.state.active ? "active" : ""}
+                                onClick={e => this.getData(x.id)}>
+                                {x.company}
+                            </a>
+                        ))}
+                        </div>
                         </Col>
                     </Row>
                     <Row>
@@ -229,8 +234,8 @@ class Country extends Component {
                             href={"#country/"+country+"/farm-practices"}>Farm Practices
                       </Nav.Link>
                       <Nav.Link
-                            active={"download" === tab}
-                            href={"#country/"+country+"/download"}>
+                            active={"resources" === tab}
+                            href={"#country/"+country+"/resources"}>
                             <FontAwesomeIcon
                                 icon={["fas", "download"]} />
                             Resources
@@ -245,7 +250,7 @@ class Country extends Component {
                     }
                     <Row className="justify-content-md-center">
                         {charts.map((x, i) => this.generateView(x, i))}
-                        { tab === "download" ? this.generateResources(country, list) : ""}
+                        { tab === "resources" ? this.generateResources(country, list) : ""}
                     </Row>
                 </div>
             </Fragment>

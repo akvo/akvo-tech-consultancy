@@ -11,7 +11,7 @@ class Cards extends Component {
         return (
             <Col key={'col-' + i} md={x.width} className="card-info text-center">
                 <h2>{x.kind ==="PERCENT" ? x.data + "%" : x.data}</h2>
-                <p>{x.description}</p>
+                <p>{x.title}</p>
             </Col>
         )
     }
@@ -19,7 +19,7 @@ class Cards extends Component {
     render() {
         let props = this.props;
         if (props.kind === "NUM" || props.kind === "PERCENT") {
-            let data = {...props.config, data:props.dataset, description:props.description, kind:props.kind};
+            let data = {...props.config, data:props.dataset, title:props.title, kind:props.kind};
             return this.generateRows(data, props.identifier);
         }
         return (

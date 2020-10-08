@@ -8,17 +8,17 @@ class LoadingContainer extends Component {
         return (
             <>
             <Row className="text-center">
+                <div className="loading-text">
+                    <b>Loading Content</b>
+                </div>
+            </Row>
+            <Row className="text-center">
                 <div className="loading-spinner">
                 <ReactLoading
                     className={'loading-animation'}
                     type={'spin'}
                     color={'#0072c6'}
                     height={50} width={50} />
-                </div>
-            </Row>
-            <Row className="text-center">
-                <div className="loading-text">
-                    <b>Loading</b>
                 </div>
             </Row>
             </>
