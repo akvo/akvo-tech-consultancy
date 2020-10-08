@@ -20,7 +20,8 @@ use App\Option;
 class ChartController extends Controller
 {
 	public function __construct() {
-		$this->echarts = new Echarts();
+        $this->echarts = new Echarts();
+        $this->collections = collect();
 	}
 
     public function workStream(Request $request, Question $questions)
@@ -696,25 +697,58 @@ class ChartController extends Controller
                     }]);
                 }])->first();
         
+        $this->collections = collect();
         $data = $data['rsr_results']->transform(function ($res) {
+            $res['parent_project'] = null;
+            $res['level'] = 1;
             $res = $this->aggregateRsrValues($res);
-            $res = $this->aggregateRsrChildrenValues($res);
+            $res = $this->aggregateRsrChildrenValues($res, 2);
+            $res = Arr::except($res, ['childrens']);
+            $this->collections->push($res);
             return $res;
         });
 
+        $parents = $this->collections->where('level', 1)->values();
+        $results = $parents->first()->only('rsr_project_id', 'project');
+        $results['columns'] = $parents;
+
+        $childs = $this->collections->where('parent_project', $results['rsr_project_id']);
+        $results['childrens'] = $childs->unique('project')->values();
+        if (count($results['childrens']) > 0) {
+            $results['childrens'] = $results['childrens']->transform(function ($child) use ($childs) {
+                $child = $child->only('rsr_project_id', 'project');
+                $child['columns'] = $childs->where('rsr_project_id', $child['rsr_project_id'])->values();
+
+                $childs = $this->collections->where('parent_project', $child['rsr_project_id']);
+                $child['childrens'] = $childs->unique('project')->values();
+                if (count($child['childrens']) > 0) {
+                    $child['childrens'] = $child['childrens']->transform(function ($child) use ($childs) {
+                        $child = $child->only('rsr_project_id', 'project');
+                        $child['columns'] = $childs->where('rsr_project_id', $child['rsr_project_id'])->values();
+                        return $child;
+                    });
+                }
+
+                return $child;
+            });
+        }
+
         return [
             "columns" => $data->pluck('title'),
-            "data" => $data
+            // "data" => $this->collections->groupBy('project')->reverse(),
+            "data" => [$results],
         ];
     }
 
-    private function aggregateRsrChildrenValues($res)
+    private function aggregateRsrChildrenValues($res, $level)
     {
         if (count($res['childrens']) === 0) {
             return $res;
         }
         $collections = collect();
-        $res['childrens'] = $res['childrens']->transform(function ($child) use ($collections, $res) {
+        $res['childrens'] = $res['childrens']->transform(function ($child) use ($collections, $res, $level) {
+            $child['parent_project'] = $res['rsr_project_id'];
+            $child['level'] = $level;
             $child = $this->aggregateRsrValues($child);
             // collect all childs dimensions value
             if (count($child['rsr_dimensions']) > 0) {
@@ -722,11 +756,14 @@ class ChartController extends Controller
                     $collections->push($dim['rsr_dimension_values']);
                 }
             }
-            $child = $this->aggregateRsrChildrenValues($child);
+            $level += 1;
+            $child = $this->aggregateRsrChildrenValues($child, $level);
+            $child = Arr::except($child, ['childrens']);
+            $this->collections->push($child);
             return $child;
         });
-        $res['total_target_value'] = $res['childrens']->pluck('total_target_value')->sum();
-        $res['total_actual_value'] = $res['childrens']->pluck('total_actual_value')->sum();
+        $res['total_target_value'] = $res['childrens']->sum('total_target_value');
+        $res['total_actual_value'] = $res['childrens']->sum('total_actual_value');
         if (count($res['rsr_dimensions']) > 0 && count($res['childrens']) !== 0) {
             // aggregate dimension value
             $res['rsr_dimensions'] = $res['rsr_dimensions']->transform(function ($dim) 
@@ -734,8 +771,8 @@ class ChartController extends Controller
                 $dim['rsr_dimension_values'] = $dim['rsr_dimension_values']->transform(function ($dimVal) 
                     use ($collections) {
                     $values = $collections->flatten(1)->where('parent_dimension_value', $dimVal['id']);
-                    $dimVal['value'] = $values->pluck('value')->sum();
-                    $dimVal['total_actual_value'] = $values->pluck('total_actual_value')->sum();
+                    $dimVal['value'] = $values->sum('value');
+                    $dimVal['total_actual_value'] = $values->sum('total_actual_value');
                     return $dimVal;
                 });
                 return $dim;
@@ -747,7 +784,7 @@ class ChartController extends Controller
     private function aggregateRsrValues($res)
     {
         $res['rsr_indicators'] = $res['rsr_indicators']->transform(function ($ind) {
-            $ind['total_actual_value'] = $ind['rsr_periods']->pluck('actual_value')->sum();
+            $ind['total_actual_value'] = $ind['rsr_periods']->sum('actual_value');
             if ($ind['has_dimension']) {
                 // collect dimensions value all period
                 $periodDimensionValues = $ind['rsr_periods']->map(function ($per) {
@@ -760,8 +797,7 @@ class ChartController extends Controller
                         use ($periodDimensionValues) {
                         $dimVal['total_actual_value'] = $periodDimensionValues
                                                         ->where('rsr_dimension_value_id', $dimVal['id'])
-                                                        ->pluck('value')
-                                                        ->sum();
+                                                        ->sum('value');
                         return $dimVal;
                     });
                     return $dim;
@@ -771,8 +807,8 @@ class ChartController extends Controller
             return $ind;
         });
         $res['rsr_dimensions'] = $res['rsr_indicators']->pluck('rsr_dimensions')->flatten(1);
-        $res['total_target_value'] = $res['rsr_indicators']->pluck('target_value')->sum();
-        $res['total_actual_value'] = $res['rsr_indicators']->pluck('total_actual_value')->sum();
+        $res['total_target_value'] = $res['rsr_indicators']->sum('target_value');
+        $res['total_actual_value'] = $res['rsr_indicators']->sum('total_actual_value');
         $res = Arr::except($res, ['rsr_indicators']);
         return $res;
     }
