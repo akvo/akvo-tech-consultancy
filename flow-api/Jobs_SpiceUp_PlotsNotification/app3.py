@@ -9,10 +9,12 @@ from jinja2 import Environment, FileSystemLoader
 from itertools import groupby # Need to add into requirements.txt
 
 
+# Change frequency to 30 days (every month)
+f = 30
 today_date = datetime.today().date()
-week_ago = today_date - timedelta(days=15)
-start_date_raw = (today_date - timedelta(days=15))
-start_date = (today_date - timedelta(days=15)).strftime('%Y-%m-%d')
+week_ago = today_date - timedelta(days=f)
+start_date_raw = (today_date - timedelta(days=f))
+start_date = (today_date - timedelta(days=f)).strftime('%Y-%m-%d')
 end_date = today_date.strftime('%Y-%m-%d')
 day = today_date.strftime('%d')
 
@@ -23,7 +25,6 @@ day = today_date.strftime('%d')
 # Change the date to 15 of September 2020 - Just run once on 15 Sept 2020
 if today_date == date(2020, 9, 15):
     calculate_day = (today_date - date(2020, 7, 21)).days
-
     week_ago = today_date - timedelta(days=calculate_day)
     start_date_raw = (today_date - timedelta(days=calculate_day))
     start_date = (today_date - timedelta(days=calculate_day)).strftime('%Y-%m-%d')
@@ -31,7 +32,7 @@ if today_date == date(2020, 9, 15):
 
 
 # # Starting Process
-if (day == '01' or day == '15'):
+if (day == '01'):
     instanceURI = 'spiceup'
     requestURI = "https://api-auth0.akvo.org/flow/orgs/{}".format(instanceURI)
 
@@ -39,7 +40,7 @@ if (day == '01' or day == '15'):
     EMAIL_BCC = ['hatami.nugraha@gmail.com','everschuren@verstegen.nl','joy@akvo.org','hatami@cinquer.co.id','d.kurniawati@icco.nl','dymanohara@gmail.com','aharton2002@yahoo.com','akhmadfa@apps.ipb.ac.id','otihrostiana@gmail.com','ima@akvo.org','deden@akvo.org','galih@akvo.org', 'wietze.suijker@nelen-schuurmans.nl']
 
     # EMAIL_RECEPIENTS = ['galih@akvo.org']
-    # EMAIL_BCC = ['galih@akvo.org', 'joy@akvo.org']
+    # EMAIL_BCC = ['galih@akvo.org']
 
     MAILJET_APIKEY = os.environ['MAILJET_APIKEY']
     MAILJET_SECRET = os.environ['MAILJET_SECRET']
