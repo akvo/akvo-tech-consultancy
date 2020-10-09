@@ -7343,14 +7343,15 @@ $("#btn-data-download").on('click', function () {
   var iframe = $("#data-frame");
   $("#btn-data-inspect").click();
   var checkTable = setInterval(function () {
-    var btnExcel = iframe.contents().find('.buttons-excel');
     var table = iframe.contents().find('table');
+    var btnExcel = iframe.contents().find('.buttons-excel');
+    console.log('interval');
 
-    if (table && btnExcel) {
+    if (table.length > 0 && btnExcel.length > 0) {
       btnExcel.click();
       clearInterval(checkTable);
     }
-  }, 500);
+  }, 1000);
 });
 /* Partnership API */
 

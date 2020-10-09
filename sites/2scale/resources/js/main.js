@@ -80,13 +80,14 @@ $("#btn-data-download").on('click', () => {
     let iframe = $("#data-frame");
     $("#btn-data-inspect").click();
     var checkTable = setInterval(() => {
-        let btnExcel = iframe.contents().find('.buttons-excel');
         let table = iframe.contents().find('table');
-        if (table && btnExcel) {
+        let btnExcel = iframe.contents().find('.buttons-excel');
+        console.log('interval');
+        if (table.length > 0 && btnExcel.length > 0) {
             btnExcel.click();
             clearInterval(checkTable);
         }
-    }, 500);
+    }, 1000);
 });
 
 /* Partnership API */

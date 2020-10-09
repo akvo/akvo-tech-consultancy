@@ -227,7 +227,7 @@ const datatableOptions = (id, res) => {
     };
     let hideColumns = {
         columnDefs: [
-            { targets: [0,1,2,3,4,5,6,7,8,9], visible: true},
+            { targets: [0,1,2,3,4,5,6,7], visible: true},
             { targets: '_all', visible: false },
         ],
     };

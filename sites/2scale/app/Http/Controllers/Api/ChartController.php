@@ -697,6 +697,7 @@ class ChartController extends Controller
                     }]);
                 }])->first();
         
+        // return $data;
         $this->collections = collect();
         $data = $data['rsr_results']->transform(function ($res) {
             $res['parent_project'] = null;
@@ -762,28 +763,31 @@ class ChartController extends Controller
             $this->collections->push($child);
             return $child;
         });
-        $res['total_target_value'] = $res['childrens']->sum('total_target_value');
-        $res['total_actual_value'] = $res['childrens']->sum('total_actual_value');
-        if (count($res['rsr_dimensions']) > 0 && count($res['childrens']) !== 0) {
-            // aggregate dimension value
-            $res['rsr_dimensions'] = $res['rsr_dimensions']->transform(function ($dim) 
-                use ($collections) {
-                $dim['rsr_dimension_values'] = $dim['rsr_dimension_values']->transform(function ($dimVal) 
-                    use ($collections) {
-                    $values = $collections->flatten(1)->where('parent_dimension_value', $dimVal['id']);
-                    $dimVal['value'] = $values->sum('value');
-                    $dimVal['total_actual_value'] = $values->sum('total_actual_value');
-                    return $dimVal;
-                });
-                return $dim;
-            });
-        }
+        // aggregate all value from children
+        // $res['total_target_value'] = $res['childrens']->sum('total_target_value');
+        // $res['total_actual_value'] = $res['childrens']->sum('total_actual_value');
+        // if (count($res['rsr_dimensions']) > 0 && count($res['childrens']) !== 0) {
+        //     // aggregate dimension value
+        //     $res['rsr_dimensions'] = $res['rsr_dimensions']->transform(function ($dim) 
+        //         use ($collections) {
+        //         $dim['rsr_dimension_values'] = $dim['rsr_dimension_values']->transform(function ($dimVal) 
+        //             use ($collections) {
+        //             $values = $collections->flatten(1)->where('parent_dimension_value', $dimVal['id']);
+        //             $dimVal['value'] = $values->sum('value');
+        //             $dimVal['total_actual_value'] = $values->sum('total_actual_value');
+        //             return $dimVal;
+        //         });
+        //         return $dim;
+        //     });
+        // }
+        // eol aggregate all value from children
         return $res;
     }
 
     private function aggregateRsrValues($res)
     {
         $res['rsr_indicators'] = $res['rsr_indicators']->transform(function ($ind) {
+            // $ind['target_value'] = $ind['rsr_periods']->sum('target_value');
             $ind['total_actual_value'] = $ind['rsr_periods']->sum('actual_value');
             if ($ind['has_dimension']) {
                 // collect dimensions value all period
