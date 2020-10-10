@@ -21,4 +21,6 @@ Route::get('/', function () {
 Route::get('/data-source', [DataSourceController::class, 'index']);
 Route::get('/data-source/{id}', [DataSourceController::class, 'view']);
 
-Route::get('/test', [ApiController::class,'test']);
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

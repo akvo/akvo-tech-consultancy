@@ -17,6 +17,7 @@ class CreateUserFormsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('form_id');
+            $table->boolean('download');
             $table->timestamps();
 
             $table->foreign('form_id')

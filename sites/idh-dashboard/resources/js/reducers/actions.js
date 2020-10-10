@@ -1,27 +1,27 @@
-export const mapStateToProps = state => {
+export const mapStateToProps = (state) => {
     return {
-        value: state
+        value: state,
     };
 };
 
-export const mapDispatchToProps = dispatch => {
+export const mapDispatchToProps = (dispatch) => {
     return {
         page: {
             loading: (status) =>
                 dispatch({
                     type: "PAGE - LOADING PAGE",
-                    status: status
+                    status: status,
                 }),
-            init: ({filters}) =>
+            init: ({ filters }) =>
                 dispatch({
                     type: "PAGE - INIT PAGE",
                     filters: filters,
                 }),
-            change: (page, country=false) =>
+            change: (page, country = false) =>
                 dispatch({
                     type: "PAGE - CHANGE PAGE",
                     page: page,
-                    country: country
+                    country: country,
                 }),
             changeTab: (tab) =>
                 dispatch({
@@ -32,7 +32,7 @@ export const mapDispatchToProps = dispatch => {
                 dispatch({
                     type: "PAGE - CREATE PAGE",
                     page: page,
-                    name: name
+                    name: name,
                 }),
             refresh: () =>
                 dispatch({
@@ -41,23 +41,33 @@ export const mapDispatchToProps = dispatch => {
             compare: {
                 additem: (id) =>
                     dispatch({
-                        type:"PAGE - COMPARE ADD ITEM",
+                        type: "PAGE - COMPARE ADD ITEM",
                         id: id,
                     }),
                 removeitem: (id) =>
                     dispatch({
-                        type:"PAGE - COMPARE REMOVE ITEM",
+                        type: "PAGE - COMPARE REMOVE ITEM",
                         id: id,
-                    })
-            }
-
+                    }),
+            },
+        },
+        user: {
+            login: (user) =>
+                dispatch({
+                    type: "USER - LOGIN",
+                    user: user,
+                }),
+            logout: () =>
+                dispatch({
+                    type: "USER - LOGOUT",
+                }),
         },
         chart: {
             append: (page, options) =>
                 dispatch({
                     type: "CHART - APPEND",
                     page: page,
-                    options: options
+                    options: options,
                 }),
         },
     };

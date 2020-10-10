@@ -12,31 +12,24 @@ class Charts extends Component {
     }
 
     render() {
-        let options = generateOptions(
-            this.props.kind,
-            this.props.title,
-            this.props.dataset
-        );
+        let options = generateOptions(this.props.kind, this.props.title, this.props.dataset);
         if (this.props.config.column === 0) {
-            return (
+            return
                 <ReactEcharts
                     option={options}
                     notMerge={true}
                     lazyUpdate={true}
-                    style={this.props.config.style}
-                />
-            )
+                    style={this.props.config.style}/>;
         }
         return (
             <Col md={this.props.config.column}>
                 <div className="card-chart">
-                <ReactEcharts
-                    option={options}
-                    notMerge={true}
-                    lazyUpdate={true}
-                    style={this.props.config.style}
-                />
-                {this.props.config.line ? <hr /> : ""}
+                    <ReactEcharts
+                        option={options}
+                        notMerge={true}
+                        lazyUpdate={true}
+                        style={this.props.config.style}/>
+                    {this.props.config.line ? <hr /> : ""}
                 </div>
             </Col>
         );

@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiController as Api;
+use App\Http\Controllers\AuthController as Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,3 +23,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('/filters', [Api::class, 'filters']);
 Route::get('/country-data/{id}/{tab}', [Api::class, 'countryData']);
 Route::get('/compare-data/{id}', [Api::class, 'compareData']);
+
+Route::post('/auth/login', [Auth::class,'login']);
+
+Route::get('/user', [Auth::class, 'info'])->middleware('auth:api');

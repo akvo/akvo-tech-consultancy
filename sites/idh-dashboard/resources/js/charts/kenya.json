@@ -1,11 +1,19 @@
 {
     "type": "FeatureCollection",
     "name": "kenya",
-    "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+    "crs": {
+        "type": "name",
+        "properties": {
+            "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+        }
+    },
     "features": [
         {
             "type": "Feature",
-            "properties": { "name": "Baringo", "cd": "KE030" },
+            "properties": {
+                "name": "Baringo",
+                "cd": "KE030"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [
@@ -68,7 +76,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "name": "Bomet", "cd": "KE036" },
+            "properties": {
+                "name": "Bomet",
+                "cd": "KE036"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [
@@ -108,7 +119,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "name": "Bungoma", "cd": "KE039" },
+            "properties": {
+                "name": "Bungoma",
+                "cd": "KE039"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [
@@ -150,7 +164,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "name": "Busia", "cd": "KE040" },
+            "properties": {
+                "name": "Busia",
+                "cd": "KE040"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [
@@ -184,7 +201,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "name": "Elgeyo-Marakwet", "cd": "KE028" },
+            "properties": {
+                "name": "Elgeyo-Marakwet",
+                "cd": "KE028"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [
@@ -228,7 +248,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "name": "Embu", "cd": "KE014" },
+            "properties": {
+                "name": "Embu",
+                "cd": "KE014"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [
@@ -268,7 +291,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "name": "Garissa", "cd": "KE007" },
+            "properties": {
+                "name": "Garissa",
+                "cd": "KE007"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [
@@ -321,7 +347,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "name": "Homa Bay", "cd": "KE043" },
+            "properties": {
+                "name": "Homa Bay",
+                "cd": "KE043"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [
@@ -354,7 +383,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "name": "Isiolo", "cd": "KE011" },
+            "properties": {
+                "name": "Isiolo",
+                "cd": "KE011"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [
@@ -426,7 +458,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "name": "Kajiado", "cd": "KE034" },
+            "properties": {
+                "name": "Kajiado",
+                "cd": "KE034"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [
@@ -475,7 +510,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "name": "Kakamega", "cd": "KE037" },
+            "properties": {
+                "name": "Kakamega",
+                "cd": "KE037"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [
@@ -532,7 +570,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "name": "Kericho", "cd": "KE035" },
+            "properties": {
+                "name": "Kericho",
+                "cd": "KE035"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [
@@ -582,7 +623,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "name": "Kiambu", "cd": "KE022" },
+            "properties": {
+                "name": "Kiambu",
+                "cd": "KE022"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [
@@ -627,7 +671,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "name": "Kilifi", "cd": "KE003" },
+            "properties": {
+                "name": "Kilifi",
+                "cd": "KE003"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [
@@ -678,7 +725,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "name": "Kirinyaga", "cd": "KE020" },
+            "properties": {
+                "name": "Kirinyaga",
+                "cd": "KE020"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [
@@ -704,7 +754,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "name": "Kisii", "cd": "KE045" },
+            "properties": {
+                "name": "Kisii",
+                "cd": "KE045"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [
@@ -729,7 +782,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "name": "Kisumu", "cd": "KE042" },
+            "properties": {
+                "name": "Kisumu",
+                "cd": "KE042"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [
@@ -766,7 +822,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "name": "Kitui", "cd": "KE015" },
+            "properties": {
+                "name": "Kitui",
+                "cd": "KE015"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [
@@ -825,7 +884,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "name": "Kwale", "cd": "KE002" },
+            "properties": {
+                "name": "Kwale",
+                "cd": "KE002"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [
@@ -1019,7 +1081,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "name": "Laikipia", "cd": "KE031" },
+            "properties": {
+                "name": "Laikipia",
+                "cd": "KE031"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [
@@ -1080,7 +1145,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "name": "Lamu", "cd": "KE005" },
+            "properties": {
+                "name": "Lamu",
+                "cd": "KE005"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [
@@ -1308,7 +1376,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "name": "Machakos", "cd": "KE016" },
+            "properties": {
+                "name": "Machakos",
+                "cd": "KE016"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [
@@ -1376,7 +1447,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "name": "Makueni", "cd": "KE017" },
+            "properties": {
+                "name": "Makueni",
+                "cd": "KE017"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [
@@ -1430,7 +1504,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "name": "Mandera", "cd": "KE009" },
+            "properties": {
+                "name": "Mandera",
+                "cd": "KE009"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [
@@ -1473,7 +1550,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "name": "Marsabit", "cd": "KE010" },
+            "properties": {
+                "name": "Marsabit",
+                "cd": "KE010"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [
@@ -1545,7 +1625,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "name": "Meru", "cd": "KE012" },
+            "properties": {
+                "name": "Meru",
+                "cd": "KE012"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [
@@ -1588,7 +1671,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "name": "Migori", "cd": "KE044" },
+            "properties": {
+                "name": "Migori",
+                "cd": "KE044"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [
@@ -1623,7 +1709,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "name": "Mombasa", "cd": "KE001" },
+            "properties": {
+                "name": "Mombasa",
+                "cd": "KE001"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [
@@ -1680,7 +1769,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "name": "Murang'a", "cd": "KE021" },
+            "properties": {
+                "name": "Murang'a",
+                "cd": "KE021"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [
@@ -1717,7 +1809,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "name": "Nairobi", "cd": "KE047" },
+            "properties": {
+                "name": "Nairobi",
+                "cd": "KE047"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [
@@ -1752,7 +1847,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "name": "Nandi", "cd": "KE029" },
+            "properties": {
+                "name": "Nandi",
+                "cd": "KE029"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [
@@ -1796,7 +1894,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "name": "Narok", "cd": "KE033" },
+            "properties": {
+                "name": "Narok",
+                "cd": "KE033"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [
@@ -1849,7 +1950,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "name": "Nyamira", "cd": "KE046" },
+            "properties": {
+                "name": "Nyamira",
+                "cd": "KE046"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [
@@ -1875,7 +1979,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "name": "Nyandarua", "cd": "KE018" },
+            "properties": {
+                "name": "Nyandarua",
+                "cd": "KE018"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [
@@ -1926,7 +2033,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "name": "Nyeri", "cd": "KE019" },
+            "properties": {
+                "name": "Nyeri",
+                "cd": "KE019"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [
@@ -1962,7 +2072,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "name": "Samburu", "cd": "KE025" },
+            "properties": {
+                "name": "Samburu",
+                "cd": "KE025"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [
@@ -2037,7 +2150,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "name": "Siaya", "cd": "KE041" },
+            "properties": {
+                "name": "Siaya",
+                "cd": "KE041"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [
@@ -2072,7 +2188,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "name": "Taita Taveta", "cd": "KE006" },
+            "properties": {
+                "name": "Taita Taveta",
+                "cd": "KE006"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [
@@ -2113,7 +2232,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "name": "Tana River", "cd": "KE004" },
+            "properties": {
+                "name": "Tana River",
+                "cd": "KE004"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [
@@ -2168,7 +2290,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "name": "Tharaka-Nithi", "cd": "KE013" },
+            "properties": {
+                "name": "Tharaka-Nithi",
+                "cd": "KE013"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [
@@ -2204,7 +2329,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "name": "Trans Nzoia", "cd": "KE026" },
+            "properties": {
+                "name": "Trans Nzoia",
+                "cd": "KE026"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [
@@ -2238,7 +2366,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "name": "Turkana", "cd": "KE023" },
+            "properties": {
+                "name": "Turkana",
+                "cd": "KE023"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [
@@ -2348,7 +2479,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "name": "Uasin Gishu", "cd": "KE027" },
+            "properties": {
+                "name": "Uasin Gishu",
+                "cd": "KE027"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [
@@ -2397,7 +2531,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "name": "Vihiga", "cd": "KE038" },
+            "properties": {
+                "name": "Vihiga",
+                "cd": "KE038"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [
@@ -2425,7 +2562,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "name": "Wajir", "cd": "KE008" },
+            "properties": {
+                "name": "Wajir",
+                "cd": "KE008"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [
@@ -2485,7 +2625,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "name": "West Pokot", "cd": "KE024" },
+            "properties": {
+                "name": "West Pokot",
+                "cd": "KE024"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [
@@ -2531,7 +2674,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "name": "Nakuru", "cd": "KE032" },
+            "properties": {
+                "name": "Nakuru",
+                "cd": "KE032"
+            },
             "geometry": {
                 "type": "MultiPolygon",
                 "coordinates": [

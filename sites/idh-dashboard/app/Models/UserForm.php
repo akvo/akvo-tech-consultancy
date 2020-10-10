@@ -8,13 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class UserForm extends Model
 {
     use HasFactory;
-    protected $fillable = ['user_id', 'form_id'];
+    protected $fillable = ['user_id', 'form_id', 'download'];
+    protected $hidden = ['user_id','created_at','updated_at'];
 
     public function user() {
         return $this->belongsTo('App\Models\User');
     }
 
-    public function forms() {
-        return $this->hasMany('App\Models\Form');
+    public function form() {
+        return $this->belongsTo('App\Models\Form');
     }
+
 }

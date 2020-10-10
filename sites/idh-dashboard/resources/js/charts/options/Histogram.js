@@ -1,36 +1,27 @@
-import {
-    Color,
-    Easing,
-    Legend,
-    TextStyle,
-    ToolBox,
-    backgroundColor,
-    splitTitle,
-    dataZoom,
-} from '../chart-options.js';
-import maxBy from 'lodash/maxBy';
+import { Color, Easing, Legend, TextStyle, ToolBox, backgroundColor, splitTitle, dataZoom } from "../chart-options.js";
+import maxBy from "lodash/maxBy";
 
 export const Histogram = (title, data) => {
-    let legend = data.data.map(x => x.name);
+    let legend = data.data.map((x) => x.name);
     let tableData = [];
-    data.data.map(x => {
-        return x.data.map(d => {
-            tableData.push([x.name,d[0],d[1]]);
+    data.data.map((x) => {
+        return x.data.map((d) => {
+            tableData.push([x.name, d[0], d[1]]);
         });
     });
     tableData = {
-        header: ['Category',title, 'Count'],
-        data: tableData
+        header: ["Category", title, "Count"],
+        data: tableData,
     };
-    let values = data.data.map(x => {
+    let values = data.data.map((x) => {
         return {
             name: x.name,
-            type: 'bar',
+            type: "bar",
             data: x.data,
             markPoint: {
                 data: [
-                    {type: 'max', name: 'min'},
-                    {type: 'min', name: 'max'}
+                    { type: "max", name: "min" },
+                    { type: "min", name: "max" },
                 ],
                 symbolSize: 30,
             },
@@ -39,9 +30,9 @@ export const Histogram = (title, data) => {
     return {
         title: {
             text: splitTitle(title),
-            right: 'center',
-            top: '30px',
-            ...TextStyle
+            right: "center",
+            top: "30px",
+            ...TextStyle,
         },
         grid: {
             top: 100,
@@ -51,32 +42,32 @@ export const Histogram = (title, data) => {
             label: {
                 color: "#222",
                 ...TextStyle,
-            }
+            },
         },
         tooltip: {
-            trigger: 'axis',
+            trigger: "axis",
             axisPointer: {
-                type: 'cross',
+                type: "cross",
                 crossStyle: {
-                    color: '#999'
-                }
-            }
+                    color: "#999",
+                },
+            },
         },
         legend: {
             data: legend,
-            ...Legend
+            ...Legend,
         },
         xAxis: {
             logBase: 10,
             axisPointer: {
-                type: 'shadow'
-            }
+                type: "shadow",
+            },
         },
         yAxis: {
-            type: 'value',
-            name: 'Count',
+            type: "value",
+            name: "Count",
             axisLabel: {
-                ...TextStyle
+                ...TextStyle,
             },
         },
         series: values,
@@ -86,7 +77,7 @@ export const Histogram = (title, data) => {
         ...Easing,
         ...backgroundColor,
         ...ToolBox,
-    }
-}
+    };
+};
 
 export default Histogram;

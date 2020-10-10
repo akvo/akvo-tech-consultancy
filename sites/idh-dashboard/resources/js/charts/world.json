@@ -1,13 +1,62 @@
 {
     "type": "FeatureCollection",
     "features": [
-        { "geometry": null, "properties": { "name": "Ashmore and Cartier Islands", "cd": null }, "type": "Feature" },
-        { "geometry": null, "properties": { "name": "Bassas da India", "cd": null }, "type": "Feature" },
-        { "geometry": null, "properties": { "name": "Clipperton Island", "cd": null }, "type": "Feature" },
-        { "geometry": null, "properties": { "name": "Europa Island", "cd": null }, "type": "Feature" },
-        { "geometry": null, "properties": { "name": "Glorioso Island", "cd": null }, "type": "Feature" },
-        { "geometry": null, "properties": { "name": "Juan de Nova Island", "cd": null }, "type": "Feature" },
-        { "geometry": null, "properties": { "name": "Tromelin Island", "cd": null }, "type": "Feature" },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Ashmore and Cartier Islands",
+                "cd": null
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Bassas da India",
+                "cd": null
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Clipperton Island",
+                "cd": null
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Europa Island",
+                "cd": null
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Glorioso Island",
+                "cd": null
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Juan de Nova Island",
+                "cd": null
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Tromelin Island",
+                "cd": null
+            },
+            "type": "Feature"
+        },
         {
             "geometry": {
                 "type": "Polygon",
@@ -20,7 +69,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Gaza Strip", "cd": "PSE" },
+            "properties": {
+                "name": "Gaza Strip",
+                "cd": "PSE"
+            },
             "type": "Feature"
         },
         {
@@ -38,7 +90,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "West Bank", "cd": "PSE" },
+            "properties": {
+                "name": "West Bank",
+                "cd": "PSE"
+            },
             "type": "Feature"
         },
         {
@@ -54,7 +109,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "West Bank", "cd": "PSE" },
+            "properties": {
+                "name": "West Bank",
+                "cd": "PSE"
+            },
             "type": "Feature"
         },
         {
@@ -69,7 +127,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Madeira Islands", "cd": "PRT" },
+            "properties": {
+                "name": "Madeira Islands",
+                "cd": "PRT"
+            },
             "type": "Feature"
         },
         {
@@ -90,7 +151,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Aksai Chin", "cd": "XXX" },
+            "properties": {
+                "name": "Aksai Chin",
+                "cd": "XXX"
+            },
             "type": "Feature"
         },
         {
@@ -120,7 +184,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Arunachal Pradesh", "cd": "XXX" },
+            "properties": {
+                "name": "Arunachal Pradesh",
+                "cd": "XXX"
+            },
             "type": "Feature"
         },
         {
@@ -163,7 +230,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "China/India", "cd": "XXX" },
+            "properties": {
+                "name": "China/India",
+                "cd": "XXX"
+            },
             "type": "Feature"
         },
         {
@@ -178,7 +248,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Ilemi triangle", "cd": "XXX" },
+            "properties": {
+                "name": "Ilemi triangle",
+                "cd": "XXX"
+            },
             "type": "Feature"
         },
         {
@@ -217,7 +290,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Jammu and Kashmir", "cd": "XXX" },
+            "properties": {
+                "name": "Jammu and Kashmir",
+                "cd": "XXX"
+            },
             "type": "Feature"
         },
         {
@@ -253,13 +329,44 @@
                     ]
                 ]
             },
-            "properties": { "name": "Kuril islands", "cd": "RUS" },
+            "properties": {
+                "name": "Kuril islands",
+                "cd": "RUS"
+            },
             "type": "Feature"
         },
-        { "geometry": null, "properties": { "name": "Paracel Islands", "cd": "XXX" }, "type": "Feature" },
-        { "geometry": null, "properties": { "name": "Scarborough Reef", "cd": "XXX" }, "type": "Feature" },
-        { "geometry": null, "properties": { "name": "Senkaku Islands", "cd": "JPN" }, "type": "Feature" },
-        { "geometry": null, "properties": { "name": "Spratly Islands", "cd": "XXX" }, "type": "Feature" },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Paracel Islands",
+                "cd": "XXX"
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Scarborough Reef",
+                "cd": "XXX"
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Senkaku Islands",
+                "cd": "JPN"
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Spratly Islands",
+                "cd": "XXX"
+            },
+            "type": "Feature"
+        },
         {
             "geometry": {
                 "type": "Polygon",
@@ -272,14 +379,52 @@
                     ]
                 ]
             },
-            "properties": { "name": "Jersey", "cd": "JEY" },
+            "properties": {
+                "name": "Jersey",
+                "cd": "JEY"
+            },
             "type": "Feature"
         },
-        { "geometry": null, "properties": { "name": "Howland Island", "cd": null }, "type": "Feature" },
-        { "geometry": null, "properties": { "name": "Jarvis Island", "cd": null }, "type": "Feature" },
-        { "geometry": null, "properties": { "name": "Kingman Reef", "cd": null }, "type": "Feature" },
-        { "geometry": null, "properties": { "name": "Bird Island", "cd": null }, "type": "Feature" },
-        { "geometry": null, "properties": { "name": "Aruba", "cd": "ABW" }, "type": "Feature" },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Howland Island",
+                "cd": null
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Jarvis Island",
+                "cd": null
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Kingman Reef",
+                "cd": null
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Bird Island",
+                "cd": null
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Aruba",
+                "cd": "ABW"
+            },
+            "type": "Feature"
+        },
         {
             "geometry": {
                 "type": "Polygon",
@@ -341,7 +486,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Afghanistan", "cd": "AFG" },
+            "properties": {
+                "name": "Afghanistan",
+                "cd": "AFG"
+            },
             "type": "Feature"
         },
         {
@@ -396,10 +544,20 @@
                     ]
                 ]
             },
-            "properties": { "name": "Angola", "cd": "AGO" },
+            "properties": {
+                "name": "Angola",
+                "cd": "AGO"
+            },
             "type": "Feature"
         },
-        { "geometry": null, "properties": { "name": "Anguilla", "cd": "AIA" }, "type": "Feature" },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Anguilla",
+                "cd": "AIA"
+            },
+            "type": "Feature"
+        },
         {
             "geometry": {
                 "type": "Polygon",
@@ -419,7 +577,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Albania", "cd": "ALB" },
+            "properties": {
+                "name": "Albania",
+                "cd": "ALB"
+            },
             "type": "Feature"
         },
         {
@@ -435,7 +596,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Andorra", "cd": "AND" },
+            "properties": {
+                "name": "Andorra",
+                "cd": "AND"
+            },
             "type": "Feature"
         },
         {
@@ -461,7 +625,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Netherlands Antilles", "cd": "ANT" },
+            "properties": {
+                "name": "Netherlands Antilles",
+                "cd": "ANT"
+            },
             "type": "Feature"
         },
         {
@@ -503,7 +670,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "United Arab Emirates", "cd": "ARE" },
+            "properties": {
+                "name": "United Arab Emirates",
+                "cd": "ARE"
+            },
             "type": "Feature"
         },
         {
@@ -648,7 +818,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Argentina", "cd": "ARG" },
+            "properties": {
+                "name": "Argentina",
+                "cd": "ARG"
+            },
             "type": "Feature"
         },
         {
@@ -674,7 +847,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Armenia", "cd": "ARM" },
+            "properties": {
+                "name": "Armenia",
+                "cd": "ARM"
+            },
             "type": "Feature"
         },
         {
@@ -689,7 +865,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "American Samoa", "cd": "ASM" },
+            "properties": {
+                "name": "American Samoa",
+                "cd": "ASM"
+            },
             "type": "Feature"
         },
         {
@@ -737,7 +916,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "French Southern and Antarctic Territories", "cd": "ATF" },
+            "properties": {
+                "name": "French Southern and Antarctic Territories",
+                "cd": "ATF"
+            },
             "type": "Feature"
         },
         {
@@ -752,7 +934,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Antigua and Barbuda", "cd": "ATG" },
+            "properties": {
+                "name": "Antigua and Barbuda",
+                "cd": "ATG"
+            },
             "type": "Feature"
         },
         {
@@ -1283,7 +1468,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Australia", "cd": "AUS" },
+            "properties": {
+                "name": "Australia",
+                "cd": "AUS"
+            },
             "type": "Feature"
         },
         {
@@ -1315,7 +1503,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Austria", "cd": "AUT" },
+            "properties": {
+                "name": "Austria",
+                "cd": "AUT"
+            },
             "type": "Feature"
         },
         {
@@ -1360,7 +1551,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Azerbaijan", "cd": "AZE" },
+            "properties": {
+                "name": "Azerbaijan",
+                "cd": "AZE"
+            },
             "type": "Feature"
         },
         {
@@ -1381,7 +1575,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Burundi", "cd": "BDI" },
+            "properties": {
+                "name": "Burundi",
+                "cd": "BDI"
+            },
             "type": "Feature"
         },
         {
@@ -1405,7 +1602,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Belgium", "cd": "BEL" },
+            "properties": {
+                "name": "Belgium",
+                "cd": "BEL"
+            },
             "type": "Feature"
         },
         {
@@ -1429,7 +1629,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Benin", "cd": "BEN" },
+            "properties": {
+                "name": "Benin",
+                "cd": "BEN"
+            },
             "type": "Feature"
         },
         {
@@ -1472,7 +1675,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Burkina Faso", "cd": "BFA" },
+            "properties": {
+                "name": "Burkina Faso",
+                "cd": "BFA"
+            },
             "type": "Feature"
         },
         {
@@ -1608,7 +1814,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Bangladesh", "cd": "BGD" },
+            "properties": {
+                "name": "Bangladesh",
+                "cd": "BGD"
+            },
             "type": "Feature"
         },
         {
@@ -1638,7 +1847,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Bulgaria", "cd": "BGR" },
+            "properties": {
+                "name": "Bulgaria",
+                "cd": "BGR"
+            },
             "type": "Feature"
         },
         {
@@ -1653,7 +1865,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Bahrain", "cd": "BHR" },
+            "properties": {
+                "name": "Bahrain",
+                "cd": "BHR"
+            },
             "type": "Feature"
         },
         {
@@ -1794,7 +2009,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Bahamas", "cd": "BHS" },
+            "properties": {
+                "name": "Bahamas",
+                "cd": "BHS"
+            },
             "type": "Feature"
         },
         {
@@ -1818,7 +2036,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Bosnia and Herzegovina", "cd": "BIH" },
+            "properties": {
+                "name": "Bosnia and Herzegovina",
+                "cd": "BIH"
+            },
             "type": "Feature"
         },
         {
@@ -1854,7 +2075,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Belarus", "cd": "BLR" },
+            "properties": {
+                "name": "Belarus",
+                "cd": "BLR"
+            },
             "type": "Feature"
         },
         {
@@ -1873,10 +2097,20 @@
                     ]
                 ]
             },
-            "properties": { "name": "Belize", "cd": "BLZ" },
+            "properties": {
+                "name": "Belize",
+                "cd": "BLZ"
+            },
             "type": "Feature"
         },
-        { "geometry": null, "properties": { "name": "Bermuda", "cd": "BMU" }, "type": "Feature" },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Bermuda",
+                "cd": "BMU"
+            },
+            "type": "Feature"
+        },
         {
             "geometry": {
                 "type": "Polygon",
@@ -1932,7 +2166,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Bolivia (Plurinational State of)", "cd": "BOL" },
+            "properties": {
+                "name": "Bolivia (Plurinational State of)",
+                "cd": "BOL"
+            },
             "type": "Feature"
         },
         {
@@ -2234,7 +2471,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Brazil", "cd": "BRA" },
+            "properties": {
+                "name": "Brazil",
+                "cd": "BRA"
+            },
             "type": "Feature"
         },
         {
@@ -2249,7 +2489,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Barbados", "cd": "BRB" },
+            "properties": {
+                "name": "Barbados",
+                "cd": "BRB"
+            },
             "type": "Feature"
         },
         {
@@ -2276,7 +2519,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Brunei Darussalam", "cd": "BRN" },
+            "properties": {
+                "name": "Brunei Darussalam",
+                "cd": "BRN"
+            },
             "type": "Feature"
         },
         {
@@ -2295,10 +2541,20 @@
                     ]
                 ]
             },
-            "properties": { "name": "Bhutan", "cd": "BTN" },
+            "properties": {
+                "name": "Bhutan",
+                "cd": "BTN"
+            },
             "type": "Feature"
         },
-        { "geometry": null, "properties": { "name": "Bouvet Island", "cd": "BVT" }, "type": "Feature" },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Bouvet Island",
+                "cd": "BVT"
+            },
+            "type": "Feature"
+        },
         {
             "geometry": {
                 "type": "Polygon",
@@ -2333,7 +2589,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Botswana", "cd": "BWA" },
+            "properties": {
+                "name": "Botswana",
+                "cd": "BWA"
+            },
             "type": "Feature"
         },
         {
@@ -2382,7 +2641,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Central African Republic", "cd": "CAF" },
+            "properties": {
+                "name": "Central African Republic",
+                "cd": "CAF"
+            },
             "type": "Feature"
         },
         {
@@ -5193,10 +5455,20 @@
                     ]
                 ]
             },
-            "properties": { "name": "Canada", "cd": "CAN" },
+            "properties": {
+                "name": "Canada",
+                "cd": "CAN"
+            },
             "type": "Feature"
         },
-        { "geometry": null, "properties": { "name": "Cocos (Keeling) Islands", "cd": "CCK" }, "type": "Feature" },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Cocos (Keeling) Islands",
+                "cd": "CCK"
+            },
+            "type": "Feature"
+        },
         {
             "geometry": {
                 "type": "Polygon",
@@ -5222,7 +5494,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Switzerland", "cd": "CHE" },
+            "properties": {
+                "name": "Switzerland",
+                "cd": "CHE"
+            },
             "type": "Feature"
         },
         {
@@ -6180,7 +6455,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Chile", "cd": "CHL" },
+            "properties": {
+                "name": "Chile",
+                "cd": "CHL"
+            },
             "type": "Feature"
         },
         {
@@ -6581,7 +6859,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "China", "cd": "CHN" },
+            "properties": {
+                "name": "China",
+                "cd": "CHN"
+            },
             "type": "Feature"
         },
         {
@@ -6615,7 +6896,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Côte d’Ivoire", "cd": "CIV" },
+            "properties": {
+                "name": "Côte d’Ivoire",
+                "cd": "CIV"
+            },
             "type": "Feature"
         },
         {
@@ -6658,7 +6942,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Cameroon", "cd": "CMR" },
+            "properties": {
+                "name": "Cameroon",
+                "cd": "CMR"
+            },
             "type": "Feature"
         },
         {
@@ -6739,7 +7026,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Democratic Republic of the Congo", "cd": "COD" },
+            "properties": {
+                "name": "Democratic Republic of the Congo",
+                "cd": "COD"
+            },
             "type": "Feature"
         },
         {
@@ -6786,10 +7076,20 @@
                     ]
                 ]
             },
-            "properties": { "name": "Congo", "cd": "COG" },
+            "properties": {
+                "name": "Congo",
+                "cd": "COG"
+            },
             "type": "Feature"
         },
-        { "geometry": null, "properties": { "name": "Cook Islands", "cd": "COK" }, "type": "Feature" },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Cook Islands",
+                "cd": "COK"
+            },
+            "type": "Feature"
+        },
         {
             "geometry": {
                 "type": "Polygon",
@@ -6870,7 +7170,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Colombia", "cd": "COL" },
+            "properties": {
+                "name": "Colombia",
+                "cd": "COL"
+            },
             "type": "Feature"
         },
         {
@@ -6895,7 +7198,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Comoros", "cd": "COM" },
+            "properties": {
+                "name": "Comoros",
+                "cd": "COM"
+            },
             "type": "Feature"
         },
         {
@@ -6956,7 +7262,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Cape Verde", "cd": "CPV" },
+            "properties": {
+                "name": "Cape Verde",
+                "cd": "CPV"
+            },
             "type": "Feature"
         },
         {
@@ -6992,7 +7301,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Costa Rica", "cd": "CRI" },
+            "properties": {
+                "name": "Costa Rica",
+                "cd": "CRI"
+            },
             "type": "Feature"
         },
         {
@@ -7063,10 +7375,20 @@
                     ]
                 ]
             },
-            "properties": { "name": "Cuba", "cd": "CUB" },
+            "properties": {
+                "name": "Cuba",
+                "cd": "CUB"
+            },
             "type": "Feature"
         },
-        { "geometry": null, "properties": { "name": "Christmas Island", "cd": "CXR" }, "type": "Feature" },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Christmas Island",
+                "cd": "CXR"
+            },
+            "type": "Feature"
+        },
         {
             "geometry": {
                 "type": "Polygon",
@@ -7079,7 +7401,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Cayman Islands", "cd": "CYM" },
+            "properties": {
+                "name": "Cayman Islands",
+                "cd": "CYM"
+            },
             "type": "Feature"
         },
         {
@@ -7097,7 +7422,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Cyprus", "cd": "CYP" },
+            "properties": {
+                "name": "Cyprus",
+                "cd": "CYP"
+            },
             "type": "Feature"
         },
         {
@@ -7124,7 +7452,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Czech Republic", "cd": "CZE" },
+            "properties": {
+                "name": "Czech Republic",
+                "cd": "CZE"
+            },
             "type": "Feature"
         },
         {
@@ -7214,7 +7545,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Germany", "cd": "DEU" },
+            "properties": {
+                "name": "Germany",
+                "cd": "DEU"
+            },
             "type": "Feature"
         },
         {
@@ -7234,7 +7568,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Djibouti", "cd": "DJI" },
+            "properties": {
+                "name": "Djibouti",
+                "cd": "DJI"
+            },
             "type": "Feature"
         },
         {
@@ -7249,7 +7586,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Dominica", "cd": "DMA" },
+            "properties": {
+                "name": "Dominica",
+                "cd": "DMA"
+            },
             "type": "Feature"
         },
         {
@@ -7369,7 +7709,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Denmark", "cd": "DNK" },
+            "properties": {
+                "name": "Denmark",
+                "cd": "DNK"
+            },
             "type": "Feature"
         },
         {
@@ -7397,7 +7740,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Dominican Republic", "cd": "DOM" },
+            "properties": {
+                "name": "Dominican Republic",
+                "cd": "DOM"
+            },
             "type": "Feature"
         },
         {
@@ -7448,7 +7794,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Algeria", "cd": "DZA" },
+            "properties": {
+                "name": "Algeria",
+                "cd": "DZA"
+            },
             "type": "Feature"
         },
         {
@@ -7550,7 +7899,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Ecuador", "cd": "ECU" },
+            "properties": {
+                "name": "Ecuador",
+                "cd": "ECU"
+            },
             "type": "Feature"
         },
         {
@@ -7599,7 +7951,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Egypt", "cd": "EGY" },
+            "properties": {
+                "name": "Egypt",
+                "cd": "EGY"
+            },
             "type": "Feature"
         },
         {
@@ -7652,7 +8007,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Eritrea", "cd": "ERI" },
+            "properties": {
+                "name": "Eritrea",
+                "cd": "ERI"
+            },
             "type": "Feature"
         },
         {
@@ -7680,7 +8038,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Western Sahara", "cd": "ESH" },
+            "properties": {
+                "name": "Western Sahara",
+                "cd": "ESH"
+            },
             "type": "Feature"
         },
         {
@@ -7831,7 +8192,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Spain", "cd": "ESP" },
+            "properties": {
+                "name": "Spain",
+                "cd": "ESP"
+            },
             "type": "Feature"
         },
         {
@@ -7887,7 +8251,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Estonia", "cd": "EST" },
+            "properties": {
+                "name": "Estonia",
+                "cd": "EST"
+            },
             "type": "Feature"
         },
         {
@@ -7935,7 +8302,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Ethiopia", "cd": "ETH" },
+            "properties": {
+                "name": "Ethiopia",
+                "cd": "ETH"
+            },
             "type": "Feature"
         },
         {
@@ -8056,7 +8426,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Finland", "cd": "FIN" },
+            "properties": {
+                "name": "Finland",
+                "cd": "FIN"
+            },
             "type": "Feature"
         },
         {
@@ -8111,7 +8484,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Fiji", "cd": "FJI" },
+            "properties": {
+                "name": "Fiji",
+                "cd": "FJI"
+            },
             "type": "Feature"
         },
         {
@@ -8171,7 +8547,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Falkland Islands (Malvinas)", "cd": "FLK" },
+            "properties": {
+                "name": "Falkland Islands (Malvinas)",
+                "cd": "FLK"
+            },
             "type": "Feature"
         },
         {
@@ -8260,7 +8639,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "France", "cd": "FRA" },
+            "properties": {
+                "name": "France",
+                "cd": "FRA"
+            },
             "type": "Feature"
         },
         {
@@ -8275,10 +8657,20 @@
                     ]
                 ]
             },
-            "properties": { "name": "Faroe Islands", "cd": "FRO" },
+            "properties": {
+                "name": "Faroe Islands",
+                "cd": "FRO"
+            },
             "type": "Feature"
         },
-        { "geometry": null, "properties": { "name": "Micronesia (Federated States of)", "cd": "FSM" }, "type": "Feature" },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Micronesia (Federated States of)",
+                "cd": "FSM"
+            },
+            "type": "Feature"
+        },
         {
             "geometry": {
                 "type": "Polygon",
@@ -8320,7 +8712,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Gabon", "cd": "GAB" },
+            "properties": {
+                "name": "Gabon",
+                "cd": "GAB"
+            },
             "type": "Feature"
         },
         {
@@ -8564,10 +8959,20 @@
                     ]
                 ]
             },
-            "properties": { "name": "U.K. of Great Britain and Northern Ireland", "cd": "GBR" },
+            "properties": {
+                "name": "U.K. of Great Britain and Northern Ireland",
+                "cd": "GBR"
+            },
             "type": "Feature"
         },
-        { "geometry": null, "properties": { "name": "Guernsey", "cd": "GBR" }, "type": "Feature" },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Guernsey",
+                "cd": "GBR"
+            },
+            "type": "Feature"
+        },
         {
             "geometry": {
                 "type": "Polygon",
@@ -8592,7 +8997,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Georgia", "cd": "GEO" },
+            "properties": {
+                "name": "Georgia",
+                "cd": "GEO"
+            },
             "type": "Feature"
         },
         {
@@ -8621,10 +9029,20 @@
                     ]
                 ]
             },
-            "properties": { "name": "Ghana", "cd": "GHA" },
+            "properties": {
+                "name": "Ghana",
+                "cd": "GHA"
+            },
             "type": "Feature"
         },
-        { "geometry": null, "properties": { "name": "Gibraltar", "cd": "GIB" }, "type": "Feature" },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Gibraltar",
+                "cd": "GIB"
+            },
+            "type": "Feature"
+        },
         {
             "geometry": {
                 "type": "MultiPolygon",
@@ -8687,7 +9105,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Guinea", "cd": "GIN" },
+            "properties": {
+                "name": "Guinea",
+                "cd": "GIN"
+            },
             "type": "Feature"
         },
         {
@@ -8712,7 +9133,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Guadeloupe", "cd": "GLP" },
+            "properties": {
+                "name": "Guadeloupe",
+                "cd": "GLP"
+            },
             "type": "Feature"
         },
         {
@@ -8734,7 +9158,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Gambia", "cd": "GMB" },
+            "properties": {
+                "name": "Gambia",
+                "cd": "GMB"
+            },
             "type": "Feature"
         },
         {
@@ -8789,7 +9216,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Guinea-Bissau", "cd": "GNB" },
+            "properties": {
+                "name": "Guinea-Bissau",
+                "cd": "GNB"
+            },
             "type": "Feature"
         },
         {
@@ -8816,7 +9246,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Equatorial Guinea", "cd": "GNQ" },
+            "properties": {
+                "name": "Equatorial Guinea",
+                "cd": "GNQ"
+            },
             "type": "Feature"
         },
         {
@@ -9055,7 +9488,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Greece", "cd": "GRC" },
+            "properties": {
+                "name": "Greece",
+                "cd": "GRC"
+            },
             "type": "Feature"
         },
         {
@@ -9070,7 +9506,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Grenada", "cd": "GRD" },
+            "properties": {
+                "name": "Grenada",
+                "cd": "GRD"
+            },
             "type": "Feature"
         },
         {
@@ -9895,7 +10334,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Greenland", "cd": "GRL" },
+            "properties": {
+                "name": "Greenland",
+                "cd": "GRL"
+            },
             "type": "Feature"
         },
         {
@@ -9922,7 +10364,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Guatemala", "cd": "GTM" },
+            "properties": {
+                "name": "Guatemala",
+                "cd": "GTM"
+            },
             "type": "Feature"
         },
         {
@@ -9941,7 +10386,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "French Guiana", "cd": "GUF" },
+            "properties": {
+                "name": "French Guiana",
+                "cd": "GUF"
+            },
             "type": "Feature"
         },
         {
@@ -9956,7 +10404,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Guam", "cd": "GUM" },
+            "properties": {
+                "name": "Guam",
+                "cd": "GUM"
+            },
             "type": "Feature"
         },
         {
@@ -9993,7 +10444,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Guyana", "cd": "GUY" },
+            "properties": {
+                "name": "Guyana",
+                "cd": "GUY"
+            },
             "type": "Feature"
         },
         {
@@ -10009,7 +10463,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Hong Kong", "cd": "HKG" },
+            "properties": {
+                "name": "Hong Kong",
+                "cd": "HKG"
+            },
             "type": "Feature"
         },
         {
@@ -10024,7 +10481,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Heard Island and McDonald Islands", "cd": "HMD" },
+            "properties": {
+                "name": "Heard Island and McDonald Islands",
+                "cd": "HMD"
+            },
             "type": "Feature"
         },
         {
@@ -10066,7 +10526,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Honduras", "cd": "HND" },
+            "properties": {
+                "name": "Honduras",
+                "cd": "HND"
+            },
             "type": "Feature"
         },
         {
@@ -10150,7 +10613,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Croatia", "cd": "HRV" },
+            "properties": {
+                "name": "Croatia",
+                "cd": "HRV"
+            },
             "type": "Feature"
         },
         {
@@ -10194,7 +10660,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Haiti", "cd": "HTI" },
+            "properties": {
+                "name": "Haiti",
+                "cd": "HTI"
+            },
             "type": "Feature"
         },
         {
@@ -10223,7 +10692,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Hungary", "cd": "HUN" },
+            "properties": {
+                "name": "Hungary",
+                "cd": "HUN"
+            },
             "type": "Feature"
         },
         {
@@ -11438,7 +11910,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Indonesia", "cd": "IDN" },
+            "properties": {
+                "name": "Indonesia",
+                "cd": "IDN"
+            },
             "type": "Feature"
         },
         {
@@ -11453,7 +11928,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Isle of Man", "cd": "IMN" },
+            "properties": {
+                "name": "Isle of Man",
+                "cd": "IMN"
+            },
             "type": "Feature"
         },
         {
@@ -11643,10 +12121,20 @@
                     ]
                 ]
             },
-            "properties": { "name": "India", "cd": "IND" },
+            "properties": {
+                "name": "India",
+                "cd": "IND"
+            },
             "type": "Feature"
         },
-        { "geometry": null, "properties": { "name": "British Indian Ocean Territory", "cd": "IOT" }, "type": "Feature" },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "British Indian Ocean Territory",
+                "cd": "IOT"
+            },
+            "type": "Feature"
+        },
         {
             "geometry": {
                 "type": "MultiPolygon",
@@ -11709,7 +12197,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Ireland", "cd": "IRL" },
+            "properties": {
+                "name": "Ireland",
+                "cd": "IRL"
+            },
             "type": "Feature"
         },
         {
@@ -11801,7 +12292,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Iran (Islamic Republic of)", "cd": "IRN" },
+            "properties": {
+                "name": "Iran (Islamic Republic of)",
+                "cd": "IRN"
+            },
             "type": "Feature"
         },
         {
@@ -11840,7 +12334,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Iraq", "cd": "IRQ" },
+            "properties": {
+                "name": "Iraq",
+                "cd": "IRQ"
+            },
             "type": "Feature"
         },
         {
@@ -11923,7 +12420,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Iceland", "cd": "ISL" },
+            "properties": {
+                "name": "Iceland",
+                "cd": "ISL"
+            },
             "type": "Feature"
         },
         {
@@ -11945,7 +12445,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Israel", "cd": "ISR" },
+            "properties": {
+                "name": "Israel",
+                "cd": "ISR"
+            },
             "type": "Feature"
         },
         {
@@ -12039,7 +12542,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Italy", "cd": "ITA" },
+            "properties": {
+                "name": "Italy",
+                "cd": "ITA"
+            },
             "type": "Feature"
         },
         {
@@ -12057,7 +12563,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Jamaica", "cd": "JAM" },
+            "properties": {
+                "name": "Jamaica",
+                "cd": "JAM"
+            },
             "type": "Feature"
         },
         {
@@ -12079,7 +12588,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Jordan", "cd": "JOR" },
+            "properties": {
+                "name": "Jordan",
+                "cd": "JOR"
+            },
             "type": "Feature"
         },
         {
@@ -12365,10 +12877,20 @@
                     ]
                 ]
             },
-            "properties": { "name": "Japan", "cd": "JPN" },
+            "properties": {
+                "name": "Japan",
+                "cd": "JPN"
+            },
             "type": "Feature"
         },
-        { "geometry": null, "properties": { "name": "Johnston Atoll", "cd": "JTN" }, "type": "Feature" },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Johnston Atoll",
+                "cd": "JTN"
+            },
+            "type": "Feature"
+        },
         {
             "geometry": {
                 "type": "Polygon",
@@ -12492,7 +13014,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Kazakhstan", "cd": "KAZ" },
+            "properties": {
+                "name": "Kazakhstan",
+                "cd": "KAZ"
+            },
             "type": "Feature"
         },
         {
@@ -12525,7 +13050,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Kenya", "cd": "KEN" },
+            "properties": {
+                "name": "Kenya",
+                "cd": "KEN"
+            },
             "type": "Feature"
         },
         {
@@ -12588,7 +13116,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Kyrgyzstan", "cd": "KGZ" },
+            "properties": {
+                "name": "Kyrgyzstan",
+                "cd": "KGZ"
+            },
             "type": "Feature"
         },
         {
@@ -12624,7 +13155,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Cambodia", "cd": "KHM" },
+            "properties": {
+                "name": "Cambodia",
+                "cd": "KHM"
+            },
             "type": "Feature"
         },
         {
@@ -12640,10 +13174,20 @@
                     ]
                 ]
             },
-            "properties": { "name": "Kiribati", "cd": "KIR" },
+            "properties": {
+                "name": "Kiribati",
+                "cd": "KIR"
+            },
             "type": "Feature"
         },
-        { "geometry": null, "properties": { "name": "Saint Kitts and Nevis", "cd": "KNA" }, "type": "Feature" },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Saint Kitts and Nevis",
+                "cd": "KNA"
+            },
+            "type": "Feature"
+        },
         {
             "geometry": {
                 "type": "MultiPolygon",
@@ -12733,7 +13277,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Republic of Korea", "cd": "KOR" },
+            "properties": {
+                "name": "Republic of Korea",
+                "cd": "KOR"
+            },
             "type": "Feature"
         },
         {
@@ -12765,7 +13312,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Kuwait", "cd": "KWT" },
+            "properties": {
+                "name": "Kuwait",
+                "cd": "KWT"
+            },
             "type": "Feature"
         },
         {
@@ -12814,7 +13364,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Lao People's Democratic Republic", "cd": "LAO" },
+            "properties": {
+                "name": "Lao People's Democratic Republic",
+                "cd": "LAO"
+            },
             "type": "Feature"
         },
         {
@@ -12831,7 +13384,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Lebanon", "cd": "LBN" },
+            "properties": {
+                "name": "Lebanon",
+                "cd": "LBN"
+            },
             "type": "Feature"
         },
         {
@@ -12855,7 +13411,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Liberia", "cd": "LBR" },
+            "properties": {
+                "name": "Liberia",
+                "cd": "LBR"
+            },
             "type": "Feature"
         },
         {
@@ -12897,7 +13456,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Libya", "cd": "LBY" },
+            "properties": {
+                "name": "Libya",
+                "cd": "LBY"
+            },
             "type": "Feature"
         },
         {
@@ -12912,10 +13474,20 @@
                     ]
                 ]
             },
-            "properties": { "name": "Saint Lucia", "cd": "LCA" },
+            "properties": {
+                "name": "Saint Lucia",
+                "cd": "LCA"
+            },
             "type": "Feature"
         },
-        { "geometry": null, "properties": { "name": "Liechtenstein", "cd": "LIE" }, "type": "Feature" },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Liechtenstein",
+                "cd": "LIE"
+            },
+            "type": "Feature"
+        },
         {
             "geometry": {
                 "type": "Polygon",
@@ -12937,7 +13509,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Sri Lanka", "cd": "LKA" },
+            "properties": {
+                "name": "Sri Lanka",
+                "cd": "LKA"
+            },
             "type": "Feature"
         },
         {
@@ -12957,7 +13532,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Lesotho", "cd": "LSO" },
+            "properties": {
+                "name": "Lesotho",
+                "cd": "LSO"
+            },
             "type": "Feature"
         },
         {
@@ -12983,7 +13561,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Lithuania", "cd": "LTU" },
+            "properties": {
+                "name": "Lithuania",
+                "cd": "LTU"
+            },
             "type": "Feature"
         },
         {
@@ -13000,7 +13581,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Luxembourg", "cd": "LUX" },
+            "properties": {
+                "name": "Luxembourg",
+                "cd": "LUX"
+            },
             "type": "Feature"
         },
         {
@@ -13029,10 +13613,20 @@
                     ]
                 ]
             },
-            "properties": { "name": "Latvia", "cd": "LVA" },
+            "properties": {
+                "name": "Latvia",
+                "cd": "LVA"
+            },
             "type": "Feature"
         },
-        { "geometry": null, "properties": { "name": "Macau", "cd": "MAC" }, "type": "Feature" },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Macau",
+                "cd": "MAC"
+            },
+            "type": "Feature"
+        },
         {
             "geometry": {
                 "type": "Polygon",
@@ -13069,10 +13663,20 @@
                     ]
                 ]
             },
-            "properties": { "name": "Morocco", "cd": "MAR" },
+            "properties": {
+                "name": "Morocco",
+                "cd": "MAR"
+            },
             "type": "Feature"
         },
-        { "geometry": null, "properties": { "name": "Monaco", "cd": "MCO" }, "type": "Feature" },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Monaco",
+                "cd": "MCO"
+            },
+            "type": "Feature"
+        },
         {
             "geometry": {
                 "type": "Polygon",
@@ -13092,7 +13696,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Moldova, Republic of", "cd": "MDA" },
+            "properties": {
+                "name": "Moldova, Republic of",
+                "cd": "MDA"
+            },
             "type": "Feature"
         },
         {
@@ -13164,10 +13771,20 @@
                     ]
                 ]
             },
-            "properties": { "name": "Madagascar", "cd": "MDG" },
+            "properties": {
+                "name": "Madagascar",
+                "cd": "MDG"
+            },
             "type": "Feature"
         },
-        { "geometry": null, "properties": { "name": "Maldives", "cd": "MDV" }, "type": "Feature" },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Maldives",
+                "cd": "MDV"
+            },
+            "type": "Feature"
+        },
         {
             "geometry": {
                 "type": "MultiPolygon",
@@ -13330,11 +13947,28 @@
                     ]
                 ]
             },
-            "properties": { "name": "Mexico", "cd": "MEX" },
+            "properties": {
+                "name": "Mexico",
+                "cd": "MEX"
+            },
             "type": "Feature"
         },
-        { "geometry": null, "properties": { "name": "Marshall Islands", "cd": "MHL" }, "type": "Feature" },
-        { "geometry": null, "properties": { "name": "Midway Island", "cd": "MID" }, "type": "Feature" },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Marshall Islands",
+                "cd": "MHL"
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Midway Island",
+                "cd": "MID"
+            },
+            "type": "Feature"
+        },
         {
             "geometry": {
                 "type": "Polygon",
@@ -13350,7 +13984,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "The former Yugoslav Republic of Macedonia", "cd": "MKD" },
+            "properties": {
+                "name": "The former Yugoslav Republic of Macedonia",
+                "cd": "MKD"
+            },
             "type": "Feature"
         },
         {
@@ -13414,7 +14051,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Mali", "cd": "MLI" },
+            "properties": {
+                "name": "Mali",
+                "cd": "MLI"
+            },
             "type": "Feature"
         },
         {
@@ -13429,7 +14069,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Malta", "cd": "MLT" },
+            "properties": {
+                "name": "Malta",
+                "cd": "MLT"
+            },
             "type": "Feature"
         },
         {
@@ -13662,7 +14305,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Myanmar", "cd": "MMR" },
+            "properties": {
+                "name": "Myanmar",
+                "cd": "MMR"
+            },
             "type": "Feature"
         },
         {
@@ -13681,7 +14327,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Montenegro", "cd": "MNE" },
+            "properties": {
+                "name": "Montenegro",
+                "cd": "MNE"
+            },
             "type": "Feature"
         },
         {
@@ -13742,10 +14391,20 @@
                     ]
                 ]
             },
-            "properties": { "name": "Mongolia", "cd": "MNG" },
+            "properties": {
+                "name": "Mongolia",
+                "cd": "MNG"
+            },
             "type": "Feature"
         },
-        { "geometry": null, "properties": { "name": "Northern Mariana Islands", "cd": "MNP" }, "type": "Feature" },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Northern Mariana Islands",
+                "cd": "MNP"
+            },
+            "type": "Feature"
+        },
         {
             "geometry": {
                 "type": "Polygon",
@@ -13816,7 +14475,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Mozambique", "cd": "MOZ" },
+            "properties": {
+                "name": "Mozambique",
+                "cd": "MOZ"
+            },
             "type": "Feature"
         },
         {
@@ -13857,10 +14519,20 @@
                     ]
                 ]
             },
-            "properties": { "name": "Mauritania", "cd": "MRT" },
+            "properties": {
+                "name": "Mauritania",
+                "cd": "MRT"
+            },
             "type": "Feature"
         },
-        { "geometry": null, "properties": { "name": "Montserrat", "cd": "MSR" }, "type": "Feature" },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Montserrat",
+                "cd": "MSR"
+            },
+            "type": "Feature"
+        },
         {
             "geometry": {
                 "type": "Polygon",
@@ -13874,7 +14546,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Martinique", "cd": "MTQ" },
+            "properties": {
+                "name": "Martinique",
+                "cd": "MTQ"
+            },
             "type": "Feature"
         },
         {
@@ -13889,7 +14564,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Mauritius", "cd": "MUS" },
+            "properties": {
+                "name": "Mauritius",
+                "cd": "MUS"
+            },
             "type": "Feature"
         },
         {
@@ -13923,7 +14601,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Malawi", "cd": "MWI" },
+            "properties": {
+                "name": "Malawi",
+                "cd": "MWI"
+            },
             "type": "Feature"
         },
         {
@@ -14065,7 +14746,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Malaysia", "cd": "MYS" },
+            "properties": {
+                "name": "Malaysia",
+                "cd": "MYS"
+            },
             "type": "Feature"
         },
         {
@@ -14080,7 +14764,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Mayotte", "cd": "MYT" },
+            "properties": {
+                "name": "Mayotte",
+                "cd": "MYT"
+            },
             "type": "Feature"
         },
         {
@@ -14115,7 +14802,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Namibia", "cd": "NAM" },
+            "properties": {
+                "name": "Namibia",
+                "cd": "NAM"
+            },
             "type": "Feature"
         },
         {
@@ -14153,7 +14843,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "New Caledonia", "cd": "NCL" },
+            "properties": {
+                "name": "New Caledonia",
+                "cd": "NCL"
+            },
             "type": "Feature"
         },
         {
@@ -14200,10 +14893,20 @@
                     ]
                 ]
             },
-            "properties": { "name": "Niger", "cd": "NER" },
+            "properties": {
+                "name": "Niger",
+                "cd": "NER"
+            },
             "type": "Feature"
         },
-        { "geometry": null, "properties": { "name": "Norfolk Island", "cd": "NFK" }, "type": "Feature" },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Norfolk Island",
+                "cd": "NFK"
+            },
+            "type": "Feature"
+        },
         {
             "geometry": {
                 "type": "Polygon",
@@ -14243,7 +14946,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Nigeria", "cd": "NGA" },
+            "properties": {
+                "name": "Nigeria",
+                "cd": "NGA"
+            },
             "type": "Feature"
         },
         {
@@ -14267,7 +14973,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Nicaragua", "cd": "NIC" },
+            "properties": {
+                "name": "Nicaragua",
+                "cd": "NIC"
+            },
             "type": "Feature"
         },
         {
@@ -14282,7 +14991,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Niue", "cd": "NIU" },
+            "properties": {
+                "name": "Niue",
+                "cd": "NIU"
+            },
             "type": "Feature"
         },
         {
@@ -14341,7 +15053,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Netherlands", "cd": "NLD" },
+            "properties": {
+                "name": "Netherlands",
+                "cd": "NLD"
+            },
             "type": "Feature"
         },
         {
@@ -14879,7 +15594,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Norway", "cd": "NOR" },
+            "properties": {
+                "name": "Norway",
+                "cd": "NOR"
+            },
             "type": "Feature"
         },
         {
@@ -14911,10 +15629,20 @@
                     ]
                 ]
             },
-            "properties": { "name": "Nepal", "cd": "NPL" },
+            "properties": {
+                "name": "Nepal",
+                "cd": "NPL"
+            },
             "type": "Feature"
         },
-        { "geometry": null, "properties": { "name": "Nauru", "cd": "NRU" }, "type": "Feature" },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Nauru",
+                "cd": "NRU"
+            },
+            "type": "Feature"
+        },
         {
             "geometry": {
                 "type": "MultiPolygon",
@@ -15069,7 +15797,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "New Zealand", "cd": "NZL" },
+            "properties": {
+                "name": "New Zealand",
+                "cd": "NZL"
+            },
             "type": "Feature"
         },
         {
@@ -15123,7 +15854,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Oman", "cd": "OMN" },
+            "properties": {
+                "name": "Oman",
+                "cd": "OMN"
+            },
             "type": "Feature"
         },
         {
@@ -15199,7 +15933,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Pakistan", "cd": "PAK" },
+            "properties": {
+                "name": "Pakistan",
+                "cd": "PAK"
+            },
             "type": "Feature"
         },
         {
@@ -15253,10 +15990,20 @@
                     ]
                 ]
             },
-            "properties": { "name": "Panama", "cd": "PAN" },
+            "properties": {
+                "name": "Panama",
+                "cd": "PAN"
+            },
             "type": "Feature"
         },
-        { "geometry": null, "properties": { "name": "Pitcairn", "cd": "PCN" }, "type": "Feature" },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Pitcairn",
+                "cd": "PCN"
+            },
+            "type": "Feature"
+        },
         {
             "geometry": {
                 "type": "Polygon",
@@ -15321,7 +16068,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Peru", "cd": "PER" },
+            "properties": {
+                "name": "Peru",
+                "cd": "PER"
+            },
             "type": "Feature"
         },
         {
@@ -15714,7 +16464,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Philippines", "cd": "PHL" },
+            "properties": {
+                "name": "Philippines",
+                "cd": "PHL"
+            },
             "type": "Feature"
         },
         {
@@ -15729,7 +16482,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Palau", "cd": "PLW" },
+            "properties": {
+                "name": "Palau",
+                "cd": "PLW"
+            },
             "type": "Feature"
         },
         {
@@ -15992,7 +16748,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Papua New Guinea", "cd": "PNG" },
+            "properties": {
+                "name": "Papua New Guinea",
+                "cd": "PNG"
+            },
             "type": "Feature"
         },
         {
@@ -16052,7 +16811,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Poland", "cd": "POL" },
+            "properties": {
+                "name": "Poland",
+                "cd": "POL"
+            },
             "type": "Feature"
         },
         {
@@ -16068,7 +16830,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Puerto Rico", "cd": "PRI" },
+            "properties": {
+                "name": "Puerto Rico",
+                "cd": "PRI"
+            },
             "type": "Feature"
         },
         {
@@ -16112,7 +16877,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Dem People's Rep of Korea", "cd": "PRK" },
+            "properties": {
+                "name": "Dem People's Rep of Korea",
+                "cd": "PRK"
+            },
             "type": "Feature"
         },
         {
@@ -16149,7 +16917,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Portugal", "cd": "PRT" },
+            "properties": {
+                "name": "Portugal",
+                "cd": "PRT"
+            },
             "type": "Feature"
         },
         {
@@ -16206,7 +16977,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Azores Islands", "cd": "PRT" },
+            "properties": {
+                "name": "Azores Islands",
+                "cd": "PRT"
+            },
             "type": "Feature"
         },
         {
@@ -16237,7 +17011,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Paraguay", "cd": "PRY" },
+            "properties": {
+                "name": "Paraguay",
+                "cd": "PRY"
+            },
             "type": "Feature"
         },
         {
@@ -16279,7 +17056,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "French Polynesia", "cd": "PYF" },
+            "properties": {
+                "name": "French Polynesia",
+                "cd": "PYF"
+            },
             "type": "Feature"
         },
         {
@@ -16297,7 +17077,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Qatar", "cd": "QAT" },
+            "properties": {
+                "name": "Qatar",
+                "cd": "QAT"
+            },
             "type": "Feature"
         },
         {
@@ -16313,7 +17096,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "R\u00e9union", "cd": "REU" },
+            "properties": {
+                "name": "R\u00e9union",
+                "cd": "REU"
+            },
             "type": "Feature"
         },
         {
@@ -16345,7 +17131,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Romania", "cd": "ROU" },
+            "properties": {
+                "name": "Romania",
+                "cd": "ROU"
+            },
             "type": "Feature"
         },
         {
@@ -17842,7 +18631,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Russian Federation", "cd": "RUS" },
+            "properties": {
+                "name": "Russian Federation",
+                "cd": "RUS"
+            },
             "type": "Feature"
         },
         {
@@ -17861,7 +18653,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Rwanda", "cd": "RWA" },
+            "properties": {
+                "name": "Rwanda",
+                "cd": "RWA"
+            },
             "type": "Feature"
         },
         {
@@ -17953,7 +18748,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Saudi Arabia", "cd": "SAU" },
+            "properties": {
+                "name": "Saudi Arabia",
+                "cd": "SAU"
+            },
             "type": "Feature"
         },
         {
@@ -17987,7 +18785,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Senegal", "cd": "SEN" },
+            "properties": {
+                "name": "Senegal",
+                "cd": "SEN"
+            },
             "type": "Feature"
         },
         {
@@ -18002,7 +18803,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Singapore", "cd": "SGP" },
+            "properties": {
+                "name": "Singapore",
+                "cd": "SGP"
+            },
             "type": "Feature"
         },
         {
@@ -18021,10 +18825,20 @@
                     ]
                 ]
             },
-            "properties": { "name": "South Georgia and the South Sandwich Islands", "cd": "SGS" },
+            "properties": {
+                "name": "South Georgia and the South Sandwich Islands",
+                "cd": "SGS"
+            },
             "type": "Feature"
         },
-        { "geometry": null, "properties": { "name": "Saint Helena", "cd": "SHN" }, "type": "Feature" },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Saint Helena",
+                "cd": "SHN"
+            },
+            "type": "Feature"
+        },
         {
             "geometry": {
                 "type": "MultiPolygon",
@@ -18173,7 +18987,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Svalbard and Jan Mayen Islands", "cd": "SJM" },
+            "properties": {
+                "name": "Svalbard and Jan Mayen Islands",
+                "cd": "SJM"
+            },
             "type": "Feature"
         },
         {
@@ -18344,7 +19161,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Solomon Islands", "cd": "SLB" },
+            "properties": {
+                "name": "Solomon Islands",
+                "cd": "SLB"
+            },
             "type": "Feature"
         },
         {
@@ -18382,7 +19202,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Sierra Leone", "cd": "SLE" },
+            "properties": {
+                "name": "Sierra Leone",
+                "cd": "SLE"
+            },
             "type": "Feature"
         },
         {
@@ -18400,10 +19223,20 @@
                     ]
                 ]
             },
-            "properties": { "name": "El Salvador", "cd": "SLV" },
+            "properties": {
+                "name": "El Salvador",
+                "cd": "SLV"
+            },
             "type": "Feature"
         },
-        { "geometry": null, "properties": { "name": "San Marino", "cd": "SMR" }, "type": "Feature" },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "San Marino",
+                "cd": "SMR"
+            },
+            "type": "Feature"
+        },
         {
             "geometry": {
                 "type": "Polygon",
@@ -18441,10 +19274,20 @@
                     ]
                 ]
             },
-            "properties": { "name": "Somalia", "cd": "SOM" },
+            "properties": {
+                "name": "Somalia",
+                "cd": "SOM"
+            },
             "type": "Feature"
         },
-        { "geometry": null, "properties": { "name": "Saint Pierre et Miquelon", "cd": "SPM" }, "type": "Feature" },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Saint Pierre et Miquelon",
+                "cd": "SPM"
+            },
+            "type": "Feature"
+        },
         {
             "geometry": {
                 "type": "Polygon",
@@ -18480,7 +19323,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Serbia", "cd": "SRB" },
+            "properties": {
+                "name": "Serbia",
+                "cd": "SRB"
+            },
             "type": "Feature"
         },
         {
@@ -18496,7 +19342,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Sao Tome and Principe", "cd": "STP" },
+            "properties": {
+                "name": "Sao Tome and Principe",
+                "cd": "STP"
+            },
             "type": "Feature"
         },
         {
@@ -18525,7 +19374,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Suriname", "cd": "SUR" },
+            "properties": {
+                "name": "Suriname",
+                "cd": "SUR"
+            },
             "type": "Feature"
         },
         {
@@ -18551,7 +19403,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Slovakia", "cd": "SVK" },
+            "properties": {
+                "name": "Slovakia",
+                "cd": "SVK"
+            },
             "type": "Feature"
         },
         {
@@ -18572,7 +19427,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Slovenia", "cd": "SVN" },
+            "properties": {
+                "name": "Slovenia",
+                "cd": "SVN"
+            },
             "type": "Feature"
         },
         {
@@ -18742,7 +19600,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Sweden", "cd": "SWE" },
+            "properties": {
+                "name": "Sweden",
+                "cd": "SWE"
+            },
             "type": "Feature"
         },
         {
@@ -18760,7 +19621,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Eswatini", "cd": "SWZ" },
+            "properties": {
+                "name": "Eswatini",
+                "cd": "SWZ"
+            },
             "type": "Feature"
         },
         {
@@ -18775,7 +19639,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Seychelles", "cd": "SYC" },
+            "properties": {
+                "name": "Seychelles",
+                "cd": "SYC"
+            },
             "type": "Feature"
         },
         {
@@ -18802,7 +19669,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Syrian Arab Republic", "cd": "SYR" },
+            "properties": {
+                "name": "Syrian Arab Republic",
+                "cd": "SYR"
+            },
             "type": "Feature"
         },
         {
@@ -18827,7 +19697,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Turks and Caicos islands", "cd": "TCA" },
+            "properties": {
+                "name": "Turks and Caicos islands",
+                "cd": "TCA"
+            },
             "type": "Feature"
         },
         {
@@ -18873,7 +19746,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Chad", "cd": "TCD" },
+            "properties": {
+                "name": "Chad",
+                "cd": "TCD"
+            },
             "type": "Feature"
         },
         {
@@ -18897,7 +19773,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Togo", "cd": "TGO" },
+            "properties": {
+                "name": "Togo",
+                "cd": "TGO"
+            },
             "type": "Feature"
         },
         {
@@ -18984,7 +19863,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Thailand", "cd": "THA" },
+            "properties": {
+                "name": "Thailand",
+                "cd": "THA"
+            },
             "type": "Feature"
         },
         {
@@ -19046,10 +19928,20 @@
                     ]
                 ]
             },
-            "properties": { "name": "Tajikistan", "cd": "TJK" },
+            "properties": {
+                "name": "Tajikistan",
+                "cd": "TJK"
+            },
             "type": "Feature"
         },
-        { "geometry": null, "properties": { "name": "Tokelau", "cd": "TKL" }, "type": "Feature" },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Tokelau",
+                "cd": "TKL"
+            },
+            "type": "Feature"
+        },
         {
             "geometry": {
                 "type": "Polygon",
@@ -19097,7 +19989,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Turkmenistan", "cd": "TKM" },
+            "properties": {
+                "name": "Turkmenistan",
+                "cd": "TKM"
+            },
             "type": "Feature"
         },
         {
@@ -19124,7 +20019,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Timor-Leste", "cd": "TLS" },
+            "properties": {
+                "name": "Timor-Leste",
+                "cd": "TLS"
+            },
             "type": "Feature"
         },
         {
@@ -19139,7 +20037,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Tonga", "cd": "TON" },
+            "properties": {
+                "name": "Tonga",
+                "cd": "TON"
+            },
             "type": "Feature"
         },
         {
@@ -19156,7 +20057,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Trinidad and Tobago", "cd": "TTO" },
+            "properties": {
+                "name": "Trinidad and Tobago",
+                "cd": "TTO"
+            },
             "type": "Feature"
         },
         {
@@ -19200,7 +20104,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Tunisia", "cd": "TUN" },
+            "properties": {
+                "name": "Tunisia",
+                "cd": "TUN"
+            },
             "type": "Feature"
         },
         {
@@ -19300,10 +20207,20 @@
                     ]
                 ]
             },
-            "properties": { "name": "Turkey", "cd": "TUR" },
+            "properties": {
+                "name": "Turkey",
+                "cd": "TUR"
+            },
             "type": "Feature"
         },
-        { "geometry": null, "properties": { "name": "Tuvalu", "cd": "TUV" }, "type": "Feature" },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Tuvalu",
+                "cd": "TUV"
+            },
+            "type": "Feature"
+        },
         {
             "geometry": {
                 "type": "Polygon",
@@ -19319,7 +20236,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Taiwan", "cd": "TWN" },
+            "properties": {
+                "name": "Taiwan",
+                "cd": "TWN"
+            },
             "type": "Feature"
         },
         {
@@ -19386,7 +20306,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "United Republic of Tanzania", "cd": "TZA" },
+            "properties": {
+                "name": "United Republic of Tanzania",
+                "cd": "TZA"
+            },
             "type": "Feature"
         },
         {
@@ -19413,7 +20336,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Uganda", "cd": "UGA" },
+            "properties": {
+                "name": "Uganda",
+                "cd": "UGA"
+            },
             "type": "Feature"
         },
         {
@@ -19509,10 +20435,20 @@
                     ]
                 ]
             },
-            "properties": { "name": "Ukraine", "cd": "UKR" },
+            "properties": {
+                "name": "Ukraine",
+                "cd": "UKR"
+            },
             "type": "Feature"
         },
-        { "geometry": null, "properties": { "name": "Baker Island", "cd": "UMI" }, "type": "Feature" },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Baker Island",
+                "cd": "UMI"
+            },
+            "type": "Feature"
+        },
         {
             "geometry": {
                 "type": "Polygon",
@@ -19539,7 +20475,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Uruguay", "cd": "URY" },
+            "properties": {
+                "name": "Uruguay",
+                "cd": "URY"
+            },
             "type": "Feature"
         },
         {
@@ -20842,7 +21781,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "United States of America", "cd": "USA" },
+            "properties": {
+                "name": "United States of America",
+                "cd": "USA"
+            },
             "type": "Feature"
         },
         {
@@ -20918,10 +21860,20 @@
                     ]
                 ]
             },
-            "properties": { "name": "Uzbekistan", "cd": "UZB" },
+            "properties": {
+                "name": "Uzbekistan",
+                "cd": "UZB"
+            },
             "type": "Feature"
         },
-        { "geometry": null, "properties": { "name": "Holy See", "cd": "VAT" }, "type": "Feature" },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Holy See",
+                "cd": "VAT"
+            },
+            "type": "Feature"
+        },
         {
             "geometry": {
                 "type": "Polygon",
@@ -20934,7 +21886,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Saint Vincent and the Grenadines", "cd": "VCT" },
+            "properties": {
+                "name": "Saint Vincent and the Grenadines",
+                "cd": "VCT"
+            },
             "type": "Feature"
         },
         {
@@ -21034,10 +21989,20 @@
                     ]
                 ]
             },
-            "properties": { "name": "Venezuela (Bolivarian Republic of)", "cd": "VEN" },
+            "properties": {
+                "name": "Venezuela (Bolivarian Republic of)",
+                "cd": "VEN"
+            },
             "type": "Feature"
         },
-        { "geometry": null, "properties": { "name": "British Virgin Islands", "cd": "VGB" }, "type": "Feature" },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "British Virgin Islands",
+                "cd": "VGB"
+            },
+            "type": "Feature"
+        },
         {
             "geometry": {
                 "type": "Polygon",
@@ -21050,7 +22015,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "United States Virgin Islands", "cd": "VIR" },
+            "properties": {
+                "name": "United States Virgin Islands",
+                "cd": "VIR"
+            },
             "type": "Feature"
         },
         {
@@ -21136,7 +22104,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Viet Nam", "cd": "VNM" },
+            "properties": {
+                "name": "Viet Nam",
+                "cd": "VNM"
+            },
             "type": "Feature"
         },
         {
@@ -21240,11 +22211,28 @@
                     ]
                 ]
             },
-            "properties": { "name": "Vanuatu", "cd": "VUT" },
+            "properties": {
+                "name": "Vanuatu",
+                "cd": "VUT"
+            },
             "type": "Feature"
         },
-        { "geometry": null, "properties": { "name": "Wake Island", "cd": "WAK" }, "type": "Feature" },
-        { "geometry": null, "properties": { "name": "Wallis and Futuna", "cd": "WLF" }, "type": "Feature" },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Wake Island",
+                "cd": "WAK"
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Wallis and Futuna",
+                "cd": "WLF"
+            },
+            "type": "Feature"
+        },
         {
             "geometry": {
                 "type": "MultiPolygon",
@@ -21267,7 +22255,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Samoa", "cd": "WSM" },
+            "properties": {
+                "name": "Samoa",
+                "cd": "WSM"
+            },
             "type": "Feature"
         },
         {
@@ -21282,7 +22273,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Hala'ib triangle", "cd": "XXX" },
+            "properties": {
+                "name": "Hala'ib triangle",
+                "cd": "XXX"
+            },
             "type": "Feature"
         },
         {
@@ -21297,11 +22291,28 @@
                     ]
                 ]
             },
-            "properties": { "name": "Ma'tan al-Sarra", "cd": "XXX" },
+            "properties": {
+                "name": "Ma'tan al-Sarra",
+                "cd": "XXX"
+            },
             "type": "Feature"
         },
-        { "geometry": null, "properties": { "name": "Navassa Island", "cd": "XXX" }, "type": "Feature" },
-        { "geometry": null, "properties": { "name": "Palmyra Atoll", "cd": "XXX" }, "type": "Feature" },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Navassa Island",
+                "cd": "XXX"
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": null,
+            "properties": {
+                "name": "Palmyra Atoll",
+                "cd": "XXX"
+            },
+            "type": "Feature"
+        },
         {
             "geometry": {
                 "type": "MultiPolygon",
@@ -21346,7 +22357,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Yemen", "cd": "YEM" },
+            "properties": {
+                "name": "Yemen",
+                "cd": "YEM"
+            },
             "type": "Feature"
         },
         {
@@ -21423,7 +22437,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "South Africa", "cd": "ZAF" },
+            "properties": {
+                "name": "South Africa",
+                "cd": "ZAF"
+            },
             "type": "Feature"
         },
         {
@@ -21475,7 +22492,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Zambia", "cd": "ZMB" },
+            "properties": {
+                "name": "Zambia",
+                "cd": "ZMB"
+            },
             "type": "Feature"
         },
         {
@@ -21509,7 +22529,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Zimbabwe", "cd": "ZWE" },
+            "properties": {
+                "name": "Zimbabwe",
+                "cd": "ZWE"
+            },
             "type": "Feature"
         },
         {
@@ -21577,7 +22600,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Sudan", "cd": "SDN" },
+            "properties": {
+                "name": "Sudan",
+                "cd": "SDN"
+            },
             "type": "Feature"
         },
         {
@@ -21629,7 +22655,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "South Sudan", "cd": "SSD" },
+            "properties": {
+                "name": "South Sudan",
+                "cd": "SSD"
+            },
             "type": "Feature"
         },
         {
@@ -21646,7 +22675,10 @@
                     ]
                 ]
             },
-            "properties": { "name": "Abyei", "cd": "XXX" },
+            "properties": {
+                "name": "Abyei",
+                "cd": "XXX"
+            },
             "type": "Feature"
         }
     ]

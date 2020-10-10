@@ -1,8 +1,8 @@
-import Bar from './options/Bar';
-import Histogram from './options/Histogram';
-import Pie from './options/Pie';
-import Scatter from './options/Scatter';
-import Maps from './options/Maps';
+import Bar from "./options/Bar";
+import Histogram from "./options/Histogram";
+import Pie from "./options/Pie";
+import Scatter from "./options/Scatter";
+import Maps from "./options/Maps";
 
 export const generateData = (col, line, height) => {
     return {
@@ -11,10 +11,10 @@ export const generateData = (col, line, height) => {
         style: {
             height: height,
             maxWidth: "100%",
-            width: "100%"
-        }
-    }
-}
+            width: "100%",
+        },
+    };
+};
 
 export const generateOptions = (type, title, data) => {
     switch (type) {
@@ -33,4 +33,4 @@ export const generateOptions = (type, title, data) => {
         default:
             return Bar(title, data);
     }
-}
+};
