@@ -14,13 +14,11 @@ use App\Http\Controllers\DataSourceController;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
-
 Route::get('/data-source', [DataSourceController::class, 'index']);
 Route::get('/data-source/{id}', [DataSourceController::class, 'view']);
 
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('{path?}', function(){
+    return view('index');
+})->where('{path}', '^((?!api).)*$')
+  ->where('{path}', '^((?!files).)*$')
+  ->name('home');

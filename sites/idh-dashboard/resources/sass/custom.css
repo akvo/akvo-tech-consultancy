@@ -108,6 +108,12 @@ h6 {
 a.dropdown-toggle.nav-link {
     width: 100%;
 }
+.dropdown-right.show.dropdown.nav-item .dropdown-menu.show{
+    width: auto;
+    text-align: right;
+    left: -40px;
+    position: absolute;
+}
 
 .dropdown-scroll {
     max-height: 300px;
@@ -412,6 +418,10 @@ h2.extra-counter {
     }
     .dropdown-item {
         text-align: center !important;
+    }
+    .dropdown-right.show.dropdown.nav-item .dropdown-menu.show{
+        width:100%;
+        left:0px;
     }
 }
 

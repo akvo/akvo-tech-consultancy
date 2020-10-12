@@ -17,27 +17,6 @@ export const mapDispatchToProps = (dispatch) => {
                     type: "PAGE - INIT PAGE",
                     filters: filters,
                 }),
-            change: (page, country = false) =>
-                dispatch({
-                    type: "PAGE - CHANGE PAGE",
-                    page: page,
-                    country: country,
-                }),
-            changeTab: (tab) =>
-                dispatch({
-                    type: "PAGE - CHANGE PAGE TAB",
-                    tab: tab,
-                }),
-            create: (page, name) =>
-                dispatch({
-                    type: "PAGE - CREATE PAGE",
-                    page: page,
-                    name: name,
-                }),
-            refresh: () =>
-                dispatch({
-                    type: "PAGE - REFRESH",
-                }),
             compare: {
                 additem: (id) =>
                     dispatch({
@@ -49,6 +28,10 @@ export const mapDispatchToProps = (dispatch) => {
                         type: "PAGE - COMPARE REMOVE ITEM",
                         id: id,
                     }),
+                reset: () =>
+                    dispatch({
+                        type: "PAGE - COMPARE RESET ITEM"
+                    })
             },
         },
         user: {

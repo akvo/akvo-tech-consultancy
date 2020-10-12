@@ -17,6 +17,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { queueApi, getApi } from '../data/api.js';
 import { flatFilters, randomVal } from '../data/utils.js';
 import { generateData } from "../charts/chart-generator.js";
+import intersectionBy from "lodash/intersectionBy";
 
 class Compare extends Component {
 
@@ -50,6 +51,11 @@ class Compare extends Component {
             return;
         }
         let source = flatFilters(this.props.value.page.filters);
+        let access = this.props.value.user.forms;
+            access = access.map(x => {
+                return {...x, id: x.form_id};
+            });
+            source = intersectionBy(source, access, 'id');
         this.setState({searched: source});
         return;
     }
@@ -67,6 +73,11 @@ class Compare extends Component {
         this.setState({searched:[]})
         let keywords = e.target.value.toLowerCase().split(' ');
         let source = flatFilters(this.props.value.page.filters);
+        let access = this.props.value.user.forms;
+            access = access.map(x => {
+                return {...x, id: x.form_id};
+            });
+            source = intersectionBy(source, access, 'id');
         let selected = this.props.value.page.compare.items;
         if (selected.length > 0) {
             selected = selected.map(x => x.id);

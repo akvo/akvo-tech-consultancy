@@ -1,32 +1,38 @@
 import React, { Component } from "react";
 import { redux } from "react-redux";
 import { connect } from "react-redux";
+import { Link } from 'react-router-dom';
 import { mapStateToProps, mapDispatchToProps } from "../reducers/actions";
 import { Navbar, Nav, NavDropdown, Container, Dropdown, Image } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
+import intersectionBy from "lodash/intersectionBy";
 
 class Navigation extends Component {
     constructor(props) {
         super(props);
-        this.changePage = this.changePage.bind(this);
         this.renderCountries = this.renderCountries.bind(this);
     }
 
-    changePage(key) {
-        let page = key.split("/");
-        let subpage = page[1] ? page[1] : false;
-        window.scrollTo(0, 0);
-        this.props.page.change(page[0], subpage);
-        return true;
-    }
-
     renderCountries() {
-        return this.props.value.page.filters.map((c) => (
-            <NavDropdown.Item key={c.name} eventKey={"country/" + c.name} href={"#country/" + c.name}>
+        let access = this.props.value.user.forms;
+            access = access.map(x => {
+                return {...x, id: x.form_id};
+            });
+        let filters = this.props.value.page.filters;
+        filters = filters.map(x => {
+            let childs = intersectionBy(x.childrens, access, 'id');
+            return {...x, childrens: childs};
+        });
+        filters = filters.filter(x => x.childrens.length !== 0);
+        return filters.map((c) => {
+            let url = "/country/" + c.name.toLowerCase() + "/" + c.childrens[0].id + "/overview";
+            return (
+                <NavDropdown.Item key={c.name} as={Link} to={url}>
                 {c.name}
-            </NavDropdown.Item>
-        ));
+                </NavDropdown.Item>
+            )
+        });
     }
 
     render() {
@@ -35,21 +41,21 @@ class Navigation extends Component {
         let loginText = user.login ? user.name.split(" ")[0] : "Login";
         return (
             <Navbar fixed="top" variant="light" className="NavBlue" expand="lg" style={{ padding: "0px" }}>
-                <Navbar.Brand href="#home" style={{ padding: "0px" }}>
+                <Navbar.Brand as={Link } to="/" style={{ padding: "0px" }}>
                     <Image src={"images/logo-farmfit.png"} height="60px" />
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse>
-                    <Nav className="mr-auto" activeKey={page.name} onSelect={this.changePage}>
-                        <Nav.Link eventKey="home" href="#home" active={"home" === page}>
+                    <Nav className="mr-auto">
+                        <Nav.Link as={Link} to="/">
                             Home
                         </Nav.Link>
                         {user.login ? (
                             <>
-                                <NavDropdown active={"country" === page.active} title="Country">
+                                <NavDropdown title="Country">
                                     {this.renderCountries()}
                                 </NavDropdown>
-                                <Nav.Link eventKey="compare" href="#compare" active={"compare" === page.active}>
+                                <Nav.Link as={Link} to="/compare">
                                     Compare
                                 </Nav.Link>
                             </>
@@ -57,11 +63,26 @@ class Navigation extends Component {
                             ""
                         )}
                     </Nav>
-                    <Nav className="justify-content-end" activeKey={page.name} onSelect={this.changePage}>
+                    <Nav className="justify-content-end">
                         <Nav.Item>
-                            <Nav.Link eventKey="login" href="#login" active={"login" === page.active}>
-                                <FontAwesomeIcon className="mr-2" icon={["fas", "user"]} /> {loginText}
-                            </Nav.Link>
+                            {user.login ? (
+                                <NavDropdown
+                                    className={"dropdown-right"}
+                                    title={
+                                        <div style={{display: "inline-block"}}>
+                                            <FontAwesomeIcon className="mr-2" icon={["fas", "user"]}/>
+                                            {loginText}
+                                        </div>
+                                    }>
+                                    <NavDropdown.Item as={Link} to="/setting">Settings</NavDropdown.Item>
+                                    <NavDropdown.Item as={Link} to="/manage-user">Manage User</NavDropdown.Item>
+                                    <NavDropdown.Item as={Link} to="/logout">Logout</NavDropdown.Item>
+                                </NavDropdown>
+                            ) : (
+                                <Nav.Link as={Link} to="/login">
+                                    <FontAwesomeIcon className="mr-2" icon={["fas", "lock"]} /> {loginText}
+                                </Nav.Link>
+                            )}
                         </Nav.Item>
                     </Nav>
                 </Navbar.Collapse>

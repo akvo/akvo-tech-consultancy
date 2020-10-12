@@ -15,10 +15,10 @@ const store = createStore(states, applyMiddleware(middleware));
 class Main extends Component {
     render() {
         return (
-            <Provider store={store}>
-                {" "}
-                <Page />{" "}
-            </Provider>
+                <Provider store={store}>
+                    {" "}
+                    <Page />{" "}
+                </Provider>
         );
     }
 }

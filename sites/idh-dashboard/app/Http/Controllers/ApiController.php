@@ -15,23 +15,6 @@ use App\Helpers\Cards;
 
 class ApiController extends Controller
 {
-
-    public function login(Request $request)
-    {
-        $loginData = $request->validate([
-            'email' => 'email|required',
-            'password' => 'required'
-        ]);
-
-        if (!auth()->attempt($loginData)) {
-            return response(['message' => 'Invalid Credentials']);
-        }
-
-        $accessToken = auth()->user()->createToken('authToken')->accessToken;
-        return response(['user' => auth()->user(), 'access_token' => $accessToken]);
-
-    }
-
     public function filters(Form $form)
     {
         $data = $form->get()->groupBy('country');
@@ -130,7 +113,7 @@ class ApiController extends Controller
             ];
         }
 
-        if ($request->tab === "hh_profile") {
+        if ($request->tab === "hh-profile") {
             $hhGenderAvg = Utils::getAvg($id, 'hh_gender_farmer', 'hh_size');
             $hhSize = $household->countBy()
                                 ->map(function($d, $k){return ['name' => $k, 'value' => $d];})
@@ -164,7 +147,7 @@ class ApiController extends Controller
             ];
         }
 
-        if ($request->tab === "farmer_profile") {
+        if ($request->tab === "farmer-profile") {
             $age = Utils::getValues($id, 'hh_age_farmer', false);
             $genderAge = Utils::mergeValues($age, 'hh_gender_farmer');
             $landownership = Utils::getValues($id, 'f_ownership');
@@ -184,7 +167,7 @@ class ApiController extends Controller
             ];
         }
 
-        if ($request->tab === "farm_practices") {
+        if ($request->tab === "farm-practices") {
             $crops = Utils::getValues($id, 'f_crops');
             $producedCrops = Utils::getValues($id, 'f_produced (kilograms)', false);
             $fsdmId = Variable::where('name', 'f_sdm_size (acre)')->first();

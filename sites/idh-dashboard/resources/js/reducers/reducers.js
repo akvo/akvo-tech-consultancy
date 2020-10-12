@@ -14,11 +14,6 @@ const initialState = {
     },
     page: {
         loading: true,
-        active: "home",
-        subpage: {
-            country: false,
-            tab: "overview",
-        },
         filters: [
             {
                 name: "Loading",
@@ -54,29 +49,6 @@ export const states = (state = initialState, action) => {
                     loading: action.status,
                 },
             };
-        case "PAGE - CHANGE PAGE":
-            return {
-                ...state,
-                page: {
-                    ...state.page,
-                    active: action.page,
-                    subpage: {
-                        ...state.page.subpage,
-                        country: action.country,
-                    },
-                },
-            };
-        case "PAGE - CHANGE PAGE TAB":
-            return {
-                ...state,
-                page: {
-                    ...state.page,
-                    subpage: {
-                        ...state.page.subpage,
-                        tab: action.tab,
-                    },
-                },
-            };
         case "PAGE - INIT PAGE":
             return {
                 ...state,
@@ -110,6 +82,14 @@ export const states = (state = initialState, action) => {
                     },
                 },
             };
+        case "PAGE - COMPARE RESET ITEM":
+            return {
+                ...state,
+                page: {
+                    ...state.page,
+                    compare: initialState.page.compare
+                }
+            }
         case "USER - LOGIN":
             return {
                 ...state,

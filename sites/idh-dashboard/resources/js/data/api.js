@@ -89,6 +89,25 @@ export const login = (credentials) => {
     });
 };
 
+export const logout = (access_token) => {
+    return new Promise((resolve, reject) => {
+        axios
+            .post("/api/auth/logout", {
+                headers: {
+                    Accept: "application/json",
+                    Authorization: "Bearer " + access_token,
+                },
+            })
+            .then((res) => {
+                localStorage.removeItem("access_token")
+                resolve({ login: false });
+            })
+            .catch((err) => {
+                resolve(err.message);
+            });
+    });
+};
+
 export const auth = (access_token) => {
     return new Promise((resolve, reject) => {
         axios

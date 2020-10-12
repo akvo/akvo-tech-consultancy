@@ -1,22 +1,23 @@
 import React, { Component, Fragment } from "react";
 import { createStore } from "redux";
 import { connect } from "react-redux";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import { mapStateToProps, mapDispatchToProps } from "../reducers/actions";
 import Navigation from "./Navigation";
 import Filters from "./Filters";
 import { Container } from "react-bootstrap";
 import axios from "axios";
-import Loading from "../pages/Loading";
+import Loading from "./Loading";
 import Home from "../pages/Home";
 import Country from "../pages/Country";
 import Compare from "../pages/Compare";
 import Login from "../pages/Login";
+import NotFound from "../pages/NotFound";
 import { getApi, auth } from "../data/api";
 
 class Page extends Component {
     constructor(props) {
         super(props);
-        this.renderPage = this.renderPage.bind(this);
         this.initPage = this.initPage.bind(this);
     }
 
@@ -64,33 +65,27 @@ class Page extends Component {
         }
     }
 
-    renderPage(page) {
-        switch (page) {
-            case "home":
-                return <Home />;
-            case "country":
-                return <Country />;
-            case "compare":
-                return <Compare />;
-            case "login":
-                return <Login />;
-            default:
-                return "";
-        }
-    }
-
     render() {
         let page = this.props.value.page.active;
         let loading = this.props.value.page.loading;
         return (
-            <Fragment>
-                <Navigation />
-                <Filters />
-                {loading ? <Loading /> : ""}
-                <Container className={"page-container"} fluid={true}>
-                    {this.renderPage(page)}
-                </Container>
-            </Fragment>
+            <BrowserRouter>
+            <Navigation />
+            <Filters />
+            {loading ? <Loading /> : ""}
+            <Container className={"page-container"} fluid={true}>
+                <Switch>
+                    <Route exact path='/' component={Home} />
+                    <Route exact path='/country/:country/:companyId/:tab' component={Country} />
+                    <Route exact path='/compare' component={Compare} />
+                    <Route exact path='/login' component={Login} />
+                    <Route exact path='/logout' component={Login}>
+                        <Redirect to="/login" />
+                    </Route>
+                    <Route render={function () { return <NotFound/>}} />
+                </Switch>
+            </Container>
+            </BrowserRouter>
         );
     }
 }

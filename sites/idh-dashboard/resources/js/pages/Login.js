@@ -26,7 +26,6 @@ class Login extends Component {
         this.setState({ formSubmitting: true });
         login(this.state.user)
             .then((res) => {
-                console.log(res);
                 this.props.user.login(res);
                 localStorage.setItem("access_token", res.access_token);
             })
@@ -49,6 +48,15 @@ class Login extends Component {
         this.setState((prevState) => ({
             user: { ...prevState.user, password: value },
         }));
+    }
+
+    componentDidMount() {
+        let access_token = localStorage.getItem("access_token");
+        if (access_token !== null){
+            localStorage.removeItem("access_token");
+            this.props.page.compare.reset();
+            this.props.user.logout();
+        }
     }
 
     render() {
@@ -76,15 +84,15 @@ class Login extends Component {
                             <Form onSubmit={this.handleSubmit}>
                                 <Form.Group controlId="formBasicEmail" onChange={this.handleEmail}>
                                     <Form.Label>Email address</Form.Label>
-                                    <Form.Control type="email" placeholder="Enter email" />
+                                    <Form.Control type="email" placeholder="Enter email"/>
                                     <Form.Text className="text-muted">We'll never share your email with anyone else.</Form.Text>
                                 </Form.Group>
                                 <Form.Group controlId="formBasicPassword" onChange={this.handlePassword}>
                                     <Form.Label>Password</Form.Label>
-                                    <Form.Control type="password" placeholder="Password" />
+                                    <Form.Control type="password" placeholder="Password"/>
                                 </Form.Group>
                                 <Form.Group controlId="formBasicCheckbox">
-                                    <Form.Check type="checkbox" label="Remember Login" />
+                                    <Form.Check type="checkbox" label="Remember Login"/>
                                 </Form.Group>
                                 <Button variant="primary" type="submit">
                                     Submit
