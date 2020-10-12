@@ -95,7 +95,7 @@ getData.then(res => {
     localStorage.removeItem('dtcache');
     html += '<thead>';
     html += '<tr>';
-    html += '<th rowspan="2"></th>'
+    // html += '<th rowspan="2"></th>'
     html += '<th rowspan="2"></th>';
     res.columns.forEach(column => {
         html += '<th colspan="2">'+column+'</th>';
@@ -118,11 +118,16 @@ getData.then(res => {
         let css = (val.childrens.length > 0) ? 'parent' : '';
         dtcache.push({'id': val.rsr_project_id, 'columns': val.columns});
         html += '<tr data-value='+val.rsr_project_id+' style="background-color:#E2E3E5;">';
-        html += '<td class="details-control"></td>';
+        // html += '<td class="details-control"></td>';
         html += '<td class="'+css+'">'+val.project+'</td>';
         val.columns.forEach(val => {
-            html += '<td class="'+css+' text-right">'+val.total_target_value+'</td>'
-            html += '<td class="'+css+' text-right">'+val.total_actual_value+'</td>'
+            let has_dimension = (val.rsr_dimensions.length > 0) ? 'has-dimension' : '';
+            html += "<td class='"+css+" text-right "+has_dimension+"' data-details='"+JSON.stringify(val)+"'>";
+            html += val.total_target_value;
+            html += "</td>";
+            html += "<td class='"+css+" text-right "+has_dimension+"' data-details='"+JSON.stringify(val)+"'>";
+            html += val.total_actual_value;
+            html += "</td>";
         });
         html += '</tr>';
         if (val.childrens.length > 0) {
@@ -131,22 +136,32 @@ getData.then(res => {
                 let bgcolor = (val.childrens.length > 0) ? 'style="background-color:#F2F2F2;"' : '';
                 dtcache.push({'id': val.rsr_project_id, 'columns': val.columns});
                 html += '<tr data-value='+val.rsr_project_id+' '+bgcolor+'>';
-                html += '<td class="details-control"></td>';
+                // html += '<td class="details-control"></td>';
                 html += '<td class="'+css+'" style="padding-left:20px;">'+val.project+'</td>';
                 val.columns.forEach(val => {
-                    html += '<td class="'+css+' text-right">'+val.total_target_value+'</td>'
-                    html += '<td class="'+css+' text-right">'+val.total_actual_value+'</td>'
+                    let has_dimension = (val.rsr_dimensions.length > 0) ? 'has-dimension' : '';
+                    html += "<td class='"+css+" text-right "+has_dimension+"' data-details='"+JSON.stringify(val)+"'>";
+                    html += val.total_target_value;
+                    html += "</td>";
+                    html += "<td class='"+css+" text-right "+has_dimension+"' data-details='"+JSON.stringify(val)+"'>";
+                    html += val.total_actual_value;
+                    html += "</td>";
                 });
                 html += '</tr>';
                 if (val.childrens.length > 0) {
                     val.childrens.forEach(val => {
                         dtcache.push({'id': val.rsr_project_id, 'columns': val.columns});
                         html += '<tr data-value='+val.rsr_project_id+'>';
-                        html += '<td class="details-control"></td>';
+                        // html += '<td class="details-control"></td>';
                         html += '<td style="padding-left:40px;">'+val.project+'</td>';
                         val.columns.forEach(val => {
-                            html += '<td class="text-right">'+val.total_target_value+'</td>'
-                            html += '<td class="text-right">'+val.total_actual_value+'</td>'
+                            let has_dimension = (val.rsr_dimensions.length > 0) ? 'has-dimension' : '';
+                            html += "<td class='text-right "+has_dimension+"' data-details='"+JSON.stringify(val)+"'>";
+                            html += val.total_target_value;
+                            html += "</td>";
+                            html += "<td class='text-right "+has_dimension+"' data-details='"+JSON.stringify(val)+"'>";
+                            html += val.total_actual_value;
+                            html += "</td>";
                         });
                         html += '</tr>';
                     });
@@ -164,6 +179,7 @@ getData.then(res => {
     }
     return true;
 }).then(table => {
+    // plus button click
     $("#datatables tbody").on('click', 'td.details-control', function () {
         let tr = $(this).closest('tr');
         let row = table.row(tr);
@@ -179,6 +195,32 @@ getData.then(res => {
             tr.addClass('shown');
             shown = row.child;
         }
+    });
+
+    // value click to show pop up dimension
+    $("#datatables tbody").on('click', 'td.has-dimension', function () {
+        let details = JSON.parse($(this).attr('data-details'));
+        $("#modalTitle").html(details.title);
+        let detailTable = '<table class="table table-bordered" id="dimensionDataTable" style="width:100%;" cellspacing="0">';
+        detailTable += '<tbody>';
+        details.rsr_dimensions.forEach(val => {
+            detailTable += '<tr style="background-color:#F2F2F2;">';
+            detailTable += '<td class="parent">'+val.name+'</td>';
+            detailTable += '<td class="parent text-center">Target</td>';
+            detailTable += '<td class="parent text-center">Actual</td>';
+            detailTable += '</tr>';
+            val.rsr_dimension_values.forEach(val => {
+                detailTable += '<tr>';
+                detailTable += '<td>'+val.name+'</td>';
+                detailTable += '<td class="text-right">'+val.value+'</td>';
+                detailTable += '<td class="text-right">'+val.total_actual_value+'</td>';
+                detailTable += '</tr>';
+            });
+        });
+        detailTable += '</tbody>';
+        detailTable += '</table>';
+        $("#modalBody").html(detailTable);
+        $("#modal").modal({backdrop: 'static', keyboard: false});
     });
 });
 
@@ -227,7 +269,7 @@ const datatableOptions = (id, res) => {
     };
     let hideColumns = {
         columnDefs: [
-            { targets: [0,1,2,3,4,5,6,7], visible: true},
+            { targets: [1,2,3,4,5,6,7], visible: true},
             { targets: '_all', visible: false },
         ],
     };

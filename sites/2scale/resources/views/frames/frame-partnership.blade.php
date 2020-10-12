@@ -45,6 +45,13 @@ td.details-control {
 td.parent {
     font-weight: bold;
 }
+td.text-right.has-dimension {
+    cursor: pointer;
+    /* color: #4285F4; */
+}
+td.text-right.has-dimension:hover {
+    text-decoration: underline;
+}
 </style>
 <body>
     <!-- Jumbotron -->
@@ -56,6 +63,26 @@ td.parent {
       <main role="main" class="inner cover">
       </main>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title" id="modalTitle"></h6>
+                    <button id="myModalBtnClose" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="modalBody"></div>
+                {{-- <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div> --}}
+            </div>
+        </div>
+    </div>
+
     <!-- Global Dependencies -->
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
