@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-4" style="margin-top: 10%;">
             <div class="login-logo"></div> 
-            <h4 class="text-center"><small>Government of</small><br><strong>SOLOMON ISLANDS</strong></h4>
+            <h4 class="text-center"><small>Government of</small><br><strong>KABAROLE</strong></h4>
             <div class="card">
                 <div class="card-header" style="font-size:14;font-weight:bold;text-align:center;background-color:#343a40;color:#fff;">Input Code</div>
 

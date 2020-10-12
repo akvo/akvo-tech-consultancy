@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
-use Excel;
+// use Excel;
 use App\Database as DB;
 use ResponseCache;
 

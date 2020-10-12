@@ -4,16 +4,17 @@
  *
  */
 
-var appVersion = 'v2019.02.27A';
-if (localStorage.getItem('app-version') !== appVersion) {
-    window.localStorage.clear();
-    localStorage.setItem('app-version', appVersion);
-}
+// var appVersion = 'v2019.02.27A';
+// if (localStorage.getItem('app-version') !== appVersion) {
+//     window.localStorage.clear();
+//     localStorage.setItem('app-version', appVersion);
+// }
 
 let maps;
 let customs;
 let goToView;
 let zoomMap;
+let getTemplates;
 
 // var nainclude = [
 //     'identifier',
@@ -28,16 +29,16 @@ let zoomMap;
 //     'duration'
 // ];
 
-const getTemplate = () => {
-    let data = JSON.parse(localStorage.getItem('data'));
-    const template = customs.custom(data);
-    let js = localStorage.getItem("template");
-    return (js === null) ? false : template[js];
-};
+// const getTemplate = () => {
+//     let data = JSON.parse(localStorage.getItem('data'));
+//     const template = customs.custom(data);
+//     let js = localStorage.getItem("template");
+//     return (js === null) ? false : template[js];
+// };
 
 // pop up details
 const getDetails = (a, atype) => {
-    let template = getTemplate();
+    let template = getTemplates();
     let datapointid = (atype === 'id') ? a : $(a).attr('data');
     template.popup(datapointid);
     $('#profile-menu').click();
@@ -56,7 +57,7 @@ const focusTo = () => {
 
 const focusNormal = () => {
     let latlng = JSON.parse(localStorage.getItem('configs')).center;
-    goToView(new L.LatLng(latlng[0], latlng[1]), 3);
+    goToView(new L.LatLng(latlng[0], latlng[1]), 11);
 };
 
 const searchData = (request) => {
@@ -84,14 +85,16 @@ const jqUI = () => {
             response(searchData(request));
         },
         focus: (event, ui) => {
-            $("#find").val(ui.item[ui.item.searchKey]);
+            // $("#find").val(ui.item[ui.item.searchKey]);
+            $("#find").val(ui.item[ui.item.popup]);
             $("#find").attr('data-search', ui.item.data_point_id);
             $("#zoom_find").val(ui.item.PTS);
             return false;
         },
         select: (event, ui) => {
+            // $("#find").val(ui.item[ui.item.searchKey]);
             console.log(ui.item);
-            $("#find").val(ui.item[ui.item.searchKey]);
+            $("#find").val(ui.item[ui.item.popup]);
             return false;
         }
     })
@@ -116,19 +119,34 @@ const restartCluster = (el, key) => {
 };
 
 const downloadData = () => {
+    let configs = JSON.parse(localStorage.getItem('configs'));
     let data = JSON.parse(localStorage.getItem('data'));
-    let filter = data.features.filter(x => x.properties.status === 'active');
-    let dwl = filter.map(x => x.properties);
-    exportExcel(dwl);
+    let filter, dwl = [];
+    if (!configs.shapefile) {
+        filter = data.features.filter(x => x.properties.status === 'active');
+        dwl = filter.map(x => x.properties);
+    }
+    if (configs.shapefile) {
+        data.features.features.filter(x => {
+            if (x.properties.data) {
+                x.properties.data.filter(y => {
+                    if (y.status === 'active') {
+                        dwl.push(y);
+                    }
+                }); 
+            }
+        });
+    }
+    exportExcel(dwl, configs);
 };
 
-const exportExcel = (filter) => {
-    let configs = JSON.parse(localStorage.getItem('configs'));
+const exportExcel = (filter, configs) => {
+    // let configs = JSON.parse(localStorage.getItem('configs'));
     var CsvString = "";
     var lines = [];
     let headers = [];
 
-    const configsExcept = ["center", "js", "name", "popup", "search"];
+    const configsExcept = ["center", "js", "name", "popup", "search", "css", "shapefile", "shapename"];
     configsExcept.forEach(x => delete configs[x]);
     Object.keys(configs).map((key, index) => {
         headers.push(configs[key]);

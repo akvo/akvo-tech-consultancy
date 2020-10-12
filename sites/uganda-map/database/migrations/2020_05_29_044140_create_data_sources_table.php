@@ -18,13 +18,13 @@ class CreateDataSourcesTable extends Migration
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->string('source');
             $table->string('type');
-            $table->json('config')->nullable();
-            $table->json('categories')->nullable();
-            $table->json('second_categories')->nullable();
-            $table->json('data')->nullable();
+            $table->longText('config')->nullable();
+            $table->longText('categories')->nullable();
+            $table->longText('second_categories')->nullable();
+            $table->longText('data')->nullable();
             $table->string('css')->nullable();
             $table->string('js')->nullable();
-            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('created_at');
         
             $table->foreign('parent_id')->references('id')->on('data_sources')->onDelete('cascade');
         });

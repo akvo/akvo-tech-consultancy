@@ -34,5 +34,5 @@ class ApiController extends Controller
             'message'=>$message
         );
         return response()->json($resp, $code);
-	}
+    }
 }

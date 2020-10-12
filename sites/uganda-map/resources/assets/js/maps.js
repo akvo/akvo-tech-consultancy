@@ -1,5 +1,4 @@
 import 'leaflet';
-import { local } from 'd3';
 
 const custom = require('./custom.js'); 
 const _ = require('lodash');
@@ -33,12 +32,21 @@ let removeAllMap = () => map.eachLayer((layer) => {
     map.removeLayer(layer);
 });
 
-
-let geojson,
+let appVersion = localStorage.getItem('app-version'),
+    geojson,
+    geojsonPoly = null,
+    legendPoly = null,
+    labelPoly = null,
+    popupPoly = false,
+    activePoly = null,
+    pieChart,
+    pieClicked = false,
+    activePie = null,
     metadata,
     clustered = true,
     cfg = [],
     sourcedata = [],
+    defaultSurvey = localStorage.getItem('default-survey'),
     defaultSelect = localStorage.getItem('default-api'),
     geojsonPath = '/api/data/',
     categoryField,
@@ -47,7 +55,8 @@ let geojson,
     rmax = 30,
     selects = ["1", "2", "3", "4", "5"],
     markerclusters,
-    map;
+    map,
+    indicatorColors = ["#28a745", "#dc3545", "#FA0", "#0288d1", "#ab47bc", "#40b1e6", "#ffca29"];
 
 let cacheMem = JSON.parse(localStorage.getItem('data'));
 
@@ -64,7 +73,7 @@ const fetchAPI = (endpoint) => {
     });
 };
     
-const setConfig = (defaultSelect) => { 
+const setConfig = (defaultSelect) => {
     fetchAPI('config/' + defaultSelect).then( // solve promise
         (res) => {
             localStorage.setItem("template", res.data.js)
@@ -82,6 +91,53 @@ const setConfig = (defaultSelect) => {
     );
 };
 
+const clearFilteredData = () => {
+    let dbs = JSON.parse(localStorage.getItem('data'));
+    let cfg = JSON.parse(localStorage.getItem('configs'));
+    if (!cfg.shapefile) {
+        dbs['features'] = dbs['features'].map(x => {
+            x.properties['status'] = 'active';
+            return x;
+        });
+    }
+
+    if (cfg.shapefile) {
+        dbs['features']['features'] = dbs['features']['features'].map(x => {
+            if (x.properties.data) {
+                x.properties.data.map(y => {
+                    y['status'] = 'active';
+                    return y;
+                });
+            }
+            return x;
+        });
+    }
+    // return indicators into default
+    dbs['properties']['attribution'] = dbs.properties.fields[cfg.name];
+    localStorage.setItem('data', JSON.stringify(dbs));
+};
+
+const loadLocalData = () => {
+    clearFilteredData();
+    if (localStorage.getItem('configs')) {
+        cfg = JSON.parse(localStorage.getItem('configs'));
+        categoryField = cfg.name;
+        iconField = categoryField;
+        popupFields = cfg.popup;
+        startRenderMap();
+        cacheMem = JSON.parse(localStorage.getItem('data'));
+        // geojsonPath = '/api/data/' + defaultSelect;
+        // getGeoJson();
+        loadData(cacheMem, 2);
+        d3.select("#main-filter-list").html("");
+        (localStorage.getItem('second-filter') !== null)
+            ? renderSecondFilter()
+            : "";
+    } else {
+        setConfig(defaultSelect);
+    }
+};
+
 const setSelectedCategory = (id) => {
     let selected = false;
     let tagselected = "";
@@ -96,35 +152,47 @@ const setSelectedCategory = (id) => {
 
 /* set category selected based on data load */
 const fetchdata = () => {
-    fetchAPI('source').then( // solve promise
-        (a) => {
-            if (!defaultSelect) {
-                $('#category-dropdown').append('<option id="source-init" value=0 selected>SELECT SURVEY</option>');
-                emptyMap();
-            }
-            a.data.forEach((x, i) => {
-                $('#category-dropdown').append('<optgroup label="'+ x["source"].toUpperCase() +'" id='+ x["id"] +'></optgroup>'); 
-                if (x.childrens.length > 0) {
-                    x.childrens.forEach((y, i) => {
-                        let selected = setSelectedCategory(y["id"]);
-                        let id = "#" + x["id"];
-                        $(id).append('<option value='+ y["id"] +' '+ selected + '>' + y["source"].toUpperCase() + '</option>');
-
-                        if (y.childrens.length > 0) {
-                            y.childrens.forEach((z, i) => {
-                                let selected = setSelectedCategory(z["id"]);
-                                $(id).append('<option value='+ z["id"] +' '+ selected + '>' + z["source"].toUpperCase() + '</option>');
-                            });
-                        }
-                    });
-                }
-                geojsonPath = '/api/data/' + defaultSelect;
-            }); 
-            return defaultSelect;
+    fetchAPI('source').then((a) => {
+        if (!defaultSelect) {
+            $('#category-dropdown').append('<option id="source-init" value=0 selected>SELECT SURVEY</option>');
+            emptyMap();
         }
-    ).then(val => {
+        a.data.forEach((x, i) => {
+            $('#category-dropdown').append('<optgroup label="'+ x["source"].toUpperCase() +'" id='+ x["id"] +'></optgroup>');
+            let timestamp = Date.parse(x.created_at);
+            if (x.childrens.length > 0) {
+                x.childrens.forEach((y, i) => {
+                    let selected = setSelectedCategory(y["id"]);
+                    let id = "#" + x["id"];
+                    $(id).append('<option version='+ timestamp +' surveyid='+ y["parent_id"] +' value='+ y["id"] +' '+ selected + '>' + y["source"].toUpperCase() + '</option>');
+
+                    if (y.childrens.length > 0) {
+                        y.childrens.forEach((z, i) => {
+                            let selected = setSelectedCategory(z["id"]);
+                            $(id).append('<option version='+ timestamp +' surveyid='+ y["parent_id"] +' value='+ z["id"] +' '+ selected + '>' + z["source"].toUpperCase() + '</option>');
+                        });
+                    }
+                });
+            }
+            geojsonPath = '/api/data/' + defaultSelect;
+        });
+        if (defaultSelect) {
+            // check data version
+            let activeSurvey = a.data.filter(x => x.id == defaultSurvey)[0];
+            let newVersion = Date.parse(activeSurvey.created_at);
+            if (appVersion != newVersion) {
+                // window.localStorage.clear();
+                localStorage.removeItem('data');
+                localStorage.removeItem('default-properties');
+                localStorage.removeItem('configs');
+                localStorage.removeItem('second-filter');
+                localStorage.setItem('app-version', newVersion);
+            }
+        }
+        return defaultSelect;
+    }).then(val => {
         if (val) {
-            setConfig(val);
+            (localStorage.getItem('data')) ? loadLocalData() : setConfig(val);
         }
     });
 };
@@ -133,6 +201,8 @@ fetchdata();
 
 $("#category-dropdown").on('change', () => {
     defaultSelect = $("#category-dropdown").val();
+    defaultSurvey = $("#category-dropdown :selected").attr('surveyid');
+    appVersion = $("#category-dropdown :selected").attr('version');
     if (defaultSelect == 0) {
         emptyMap();
     } else {
@@ -144,7 +214,9 @@ $("#category-dropdown").on('change', () => {
         localStorage.removeItem('configs');
         localStorage.removeItem('second-filter');
         localStorage.setItem('default-api', defaultSelect);
-        if (!localStorage.getItem('status')) {
+        localStorage.setItem('default-survey', defaultSurvey);
+        localStorage.setItem('app-version', appVersion);
+        if (!localStorage.getItem('status') && !cfg.shapefile) {
             map.removeLayer(markerclusters);
         } 
         $('#legend').remove();
@@ -177,7 +249,7 @@ const emptyMap = () => {
         localStorage.setItem('status', 'init');
         map = L.map('mapid', {
             zoomControl: false
-        }).setView([52.3667, 4.8945], 2);
+        }).setView([52.3667, 4.8945], 4);
         L.tileLayer(tileServer, {
             attribution: tileAttribution,
             maxZoom: 18
@@ -186,11 +258,267 @@ const emptyMap = () => {
     }
 };
 
-const startRenderMap = () => {
-    markerclusters = L.markerClusterGroup({
-        maxClusterRadius: 2 * rmax,
-        iconCreateFunction: defineClusterIcon
+function hoverStyle(layer) {
+    layer.setStyle({
+        weight: 5,
+        color: '#666',
+        dashArray: '',
+        fillOpacity: 0.7
     });
+
+    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+        layer.bringToFront();
+    }
+}
+
+function highlightFeature(e) {
+    var layer = e.target;
+    let name = layer.feature.properties[cfg.shapename.match].toLowerCase();
+    let dbs = (cacheMem === null && geojson === undefined) 
+        ? JSON.parse(localStorage.getItem('data')) 
+        : (geojson === undefined) ? cacheMem : geojson;
+    if (!popupPoly && name === activePoly) {
+        activePoly = null;
+    }
+    if (popupPoly) {
+        info.update(null);
+        setPolygonMap(dbs, false, false);
+        popupPoly = false;
+        // clickOutsideLayer(layer);
+    }
+    if (name !== activePoly) {
+        hoverStyle(layer);
+        popupPoly = true;
+        activePoly = layer.feature.properties[cfg.shapename.match].toLowerCase();
+        setPolygonMap(dbs, false, true);
+        info.update(layer.feature.properties);
+    }
+}
+
+function tooltipFeature(e) {
+    var layer = e.target;
+    hoverStyle(layer);
+    layer.bindTooltip(layer.feature.properties[cfg.shapename.match]).openTooltip();
+}
+
+function resetHighlight(e) {
+    geojsonPoly.resetStyle(e.target);
+    // info.update(null);
+}
+
+function zoomToFeature(e) {
+    map.fitBounds(e.target.getBounds());
+}
+
+function onEachFeature(feature, layer) {
+    // add polygon labels
+    let count = (feature.properties.data) 
+        ? _.filter(feature.properties.data, x => x.status === 'active').length 
+        : 0;
+    let latlng = layer.getBounds().getCenter();
+    if (feature.properties[cfg.shapename.match].toLowerCase() === "karambi") {
+        latlng['lat'] = latlng['lat'] + 0.000000001;
+        latlng['lng'] = latlng['lng'] - 0.02;
+    }
+    labelPoly = L.marker(latlng, {
+        icon: L.divIcon({
+            className: 'polygon-label',
+            html: '<div class="polygon-label-container">('+count+')</div>',
+            // iconSize: [40, 20]
+        })
+    }).addTo(map);
+    // eol add labels
+    layer.on({
+        mouseover: tooltipFeature,
+        mouseout: resetHighlight,
+        // click: zoomToFeature
+        click: highlightFeature
+    });
+}
+
+// Custom info
+var info = L.control();
+info.onAdd = function (map) {
+    this._div = L.DomUtil.create('div', 'info-temp'); // create a div with a class "info"
+    this.update();
+    return this._div;
+};
+
+const getTemplate = () => {
+    let data = JSON.parse(localStorage.getItem('data'));
+    const template = custom.custom(data);
+    let js = localStorage.getItem("template");
+    return (js === null) ? false : template[js];
+};
+
+// method that we will use to update the control based on feature properties passed
+info.update = function (props) {
+    let template = getTemplate();
+    props ? template.popup(props, categoryField, indicatorColors) : $('#geoshape-info').remove();
+};
+
+function getColor(d) {
+    return d > 1000 ? '#800026' :
+           d > 500  ? '#BD0026' :
+           d > 200  ? '#E31A1C' :
+           d > 100  ? '#FC4E2A' :
+           d > 50   ? '#FD8D3C' :
+           d > 20   ? '#FEB24C' :
+           d > 10   ? '#FED976' :
+                      '#FFEDA0';
+}
+
+function style(feature) {
+    return {
+        fillColor: getColor(feature.properties.density),
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3',
+        fillOpacity: 0.7
+    };
+}
+
+function grayStyle(feature) {
+    let color = (activePoly === feature.properties[cfg.shapename.match].toLowerCase())
+        ? getColor(feature.properties.density)
+        : "#666";
+    return {
+        fillColor: color,
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3',
+        fillOpacity: 0.7
+    };
+}
+
+const fetchPolygonMap = (cfg) => {
+    return fetchAPI('geoshape/' + cfg.shapefile ).then(res => {
+        localStorage.setItem('geojsonPoly', JSON.stringify(res.data));
+        return res.data;
+    });
+};
+
+const removePolygonMap = (removeLegend=false) => {
+    (geojsonPoly) ? map.removeLayer(geojsonPoly) : null;
+    (labelPoly) ? $(".polygon-label").remove() : null;
+    if (removeLegend) {
+        (legendPoly) ? $(".info.legend").remove() : null;
+    }
+};
+
+const setPolygonMap = (data, init=false, changeStyle=false) => {
+    removePolygonMap();
+    let selected = (changeStyle) ? grayStyle : style;
+    geojsonPoly = L.geoJson(data['features'], {style: selected, onEachFeature: onEachFeature});
+    geojsonPoly.addTo(map);
+    // map.fitBounds(geojsonPoly.getBounds()); // zoom map to position
+    setView(cfg.center, 11); // zoom by level
+    if (init) {
+        pieChartEvent();
+    }
+    renderPieChart(data);
+};
+
+const filterPieData = (dbs) => {
+    let attribution = dbs.properties.attribution;
+    let filter = dbs.features.features.filter(x => x.properties.data !== null);
+    let data = [];
+    _.each(filter, x => {
+        _.each(x.properties.data, y => {
+            if (y.status === 'active') {
+                data.push(y)
+            }
+        });
+    });
+
+    let tmp = [];
+    _.each(attribution.lookup, (item, index) => {
+        let value = [];
+        // value = _.filter(data, (x) => x[attribution.id].toLowerCase() === item.toLowerCase());
+        value = _.filter(data, (x) => x[attribution.id].toLowerCase() === attribution.sources[index].toLowerCase());
+        tmp.push({
+            value: value.length, 
+            name: item
+        });
+    });
+    return tmp;
+};
+
+const renderPieChart = (dbs, clicked=false) => {
+    let attribution = dbs.properties.attribution;
+    let pieData = filterPieData(dbs);
+    let option = {
+        title: {
+            text: attribution.name,
+            left: 'center'
+        },
+        tooltip: {
+            show: false,
+            trigger: 'item',
+            formatter: '{a} <br/>{b} : {c} ({d}%)'
+        },
+        series: [
+            {
+                name: attribution.name,
+                type: 'pie',
+                startAngle: 180,
+                radius: ['5%', '40%'],
+                center: ['50%', '55%'],
+                roseType: 'area',
+                label: {
+                    formatter: '{b} \n{c} ({d}%)',
+                    fontWeight: 200,
+                    alignTo: 'edge'
+                },
+                data: pieData
+            }
+        ],
+    };
+
+    if(attribution.type === "list") {
+        option['color'] = (attribution.color.length > 0) ? attribution.color : indicatorColors.slice(0, attribution.lookup.length);
+    }
+    if (attribution.type === "num") {
+        option["color"] = indicatorColors.slice(0, 1);
+    }
+    pieChart.setOption(option);
+    return;
+};
+
+const pieChartEvent = () => {
+    let pie = pieChart.getZr();
+    pie.on('click', function (params) {
+        let dbs = JSON.parse(localStorage.getItem('data'));
+        if (params.target !== undefined && pieClicked && activePie === params.target.dataIndex) {
+            pieClicked = false;
+            activePie = null;
+            $(".category-" + params.target.dataIndex).click();
+            changeValue(dbs, []);
+            return;
+        }
+        if (params.target !== undefined && !pieClicked && activePie == null) {
+            pieClicked = true;
+            activePie = params.target.dataIndex;
+            $(".category-" + params.target.dataIndex).click();
+            // let del = dbs.properties.attribution.lookup;
+            let del = dbs.properties.attribution.sources;
+            del = del.filter(x => x.toLowerCase() !== del[activePie].toLowerCase());
+            changeValue(dbs, del);
+            return;
+        }
+    });
+};
+
+const startRenderMap = () => {
+    if (!cfg.shapefile) {
+        $('#piechart-tmp').remove();
+        markerclusters = L.markerClusterGroup({
+            maxClusterRadius: 2 * rmax,
+            iconCreateFunction: defineClusterIcon
+        });
+    }
 
     if (!map) {
         map = L.map('mapid', {
@@ -202,7 +530,41 @@ const startRenderMap = () => {
         }).addTo(map);
         d3.select('body').append('div').attr('id', 'main-filter-list');
     }
-    map.addLayer(markerclusters);
+    // polygon
+    if (cfg.shapefile) {
+        // render pie chart template
+        let pieId = 'piechart-tmp';
+        d3.select('body').append('div').attr('id', pieId);
+        $('#'+pieId).draggable(); // Make the DIV element draggable:
+        pieChart = echarts.init(document.getElementById(pieId));
+
+        (localStorage.getItem('data')) 
+            ? setPolygonMap(JSON.parse(localStorage.getItem('data')), true)
+            : fetchPolygonMap(cfg).then(res => res);
+        info.addTo(map);
+
+        legendPoly = L.control({position: 'bottomleft'});
+        legendPoly.onAdd = function (map) {
+            var div = L.DomUtil.create('div', 'info legend'),
+                grades = [0, 10, 20, 50, 100, 200, 500, 1000],
+                labels = [];
+
+            // loop through our density intervals and generate a label with a colored square for each interval
+            for (var i = 0; i < grades.length; i++) {
+                div.innerHTML +=
+                    '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+                    grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+            }
+
+            return div;
+        };
+        legendPoly.addTo(map);
+    }
+    // cluster
+    if (!cfg.shapefile) {
+        removePolygonMap(true);
+        map.addLayer(markerclusters);
+    }
 };
 
 const mapParentFeatures = (parents, features) => {
@@ -216,6 +578,7 @@ const mapParentFeatures = (parents, features) => {
 //Ready to go, load the geojson
 const getGeoJson = () => {
     d3.json(geojsonPath, (error, response) => {
+        // data will be agreagated value if map is polygon
         if (response.second_categories !== 'null') {   
             localStorage.setItem('second-filter', response.second_categories);
         }
@@ -230,8 +593,48 @@ const getGeoJson = () => {
                     id: categoryField
                 }),
                 attributes: categories
-            },
-            features: source.map(val => {
+            }
+        }
+
+        // poly
+        if (configs.shapefile) {
+            let groupData = _.groupBy(source, configs.shapename.sources);
+            fetchPolygonMap(configs).then(res => {
+                data['features'] = {
+                    type: "FeatureCollection",
+                    features: res.features.map(val => {
+                        let match = val.properties[configs.shapename.match];
+                        return {
+                            ...val,
+                            properties: {
+                                ...val.properties,
+                                density: (groupData[""+match+""]) ? groupData[""+match+""].length : 0,
+                                data: (groupData[""+match+""]) 
+                                        ? groupData[""+match+""].map(x => {
+                                            return { ...x, status: "active" }
+                                        }) 
+                                        : null,
+                                status: "active"
+                            }
+                        }
+                    })
+                }
+
+                localStorage.setItem('data', JSON.stringify(data));
+                let retrievedObject = localStorage.getItem('data');
+                data = JSON.parse(retrievedObject);
+                setPolygonMap(data, true);
+                loadData(data, 2);
+                d3.select("#main-filter-list").html("");
+                (localStorage.getItem('second-filter') !== null)
+                    ? renderSecondFilter()
+                    : "";
+            });
+        }
+
+        // clusters
+        if (!configs.shapefile) {
+            data['features'] = source.map(val => {
                 return {
                     type: "Feature",
                     geometry: {
@@ -243,10 +646,10 @@ const getGeoJson = () => {
                         status: "active"
                     }
                 }
-            })
+            });
         }
         localStorage.setItem('default-properties', JSON.stringify(data.properties));
-        if (response.type === 'registration') {
+        if (response.type === 'registration' && !configs.shapefile) {
             let parent_points = source.map(x => {
                 return {
                     geometry : x.PTS,
@@ -256,21 +659,24 @@ const getGeoJson = () => {
             localStorage.setItem('parent_'+response.id, JSON.stringify(parent_points));    
         }
 
-        if (response.type === 'monitoring') {
+        if (response.type === 'monitoring' && !configs.shapefile) {
             let parents = JSON.parse(localStorage.getItem('parent_' + response.parent_id));
             data = {
                 ...data,
                 features: mapParentFeatures(parents, data.features)
             };
         }
-        localStorage.setItem('data', JSON.stringify(data));
-        let retrievedObject = localStorage.getItem('data');
-        data = JSON.parse(retrievedObject);
-        loadData(data, 2);
-        d3.select("#main-filter-list").html("");
-        (localStorage.getItem('second-filter') !== null)
-            ? renderSecondFilter()
-            : "";
+
+        if (!configs.shapefile) {
+            localStorage.setItem('data', JSON.stringify(data));
+            let retrievedObject = localStorage.getItem('data');
+            data = JSON.parse(retrievedObject);
+            loadData(data, 2);
+            d3.select("#main-filter-list").html("");
+            (localStorage.getItem('second-filter') !== null)
+                ? renderSecondFilter()
+                : "";
+        }
     });
 }
 
@@ -287,7 +693,7 @@ const renderSecondFilter = () => {
         if (item.type === 'cascade') {
             values = item.values.filter(x => x.level === 0);
         }
-        values = values.slice(0, 10); // sample
+        // values = values.slice(0, 10); // sample shound be not used
         // consider about sf-list-index class and sf-all-index class, if more than 2 filter need to create more css
         values.forEach((x, i) => {
             // create second filter item
@@ -301,7 +707,7 @@ const renderSecondFilter = () => {
                 .attr('id', ''+name+'-'+i)
                 .text(text)
                 .on('click', function (a) {
-                    filterBySecondFilter(text, 'sf-' + index + '', ''+name+'-'+i, item.id, item.type);
+                    filterBySecondFilter(text, 'sf-' + index + '', ''+name+'-'+i, item.id, item.type, name);
                 });
         });
         d3.select('#sf-'+index+'-list').append('button')
@@ -310,7 +716,7 @@ const renderSecondFilter = () => {
             .attr('data-select', 'remove')
             .text('Disable All')
             .on('click', function(a) {
-                filterBySecondFilter('options', 'sf-'+index+'', 'all', item.id, item.type);
+                filterBySecondFilter('options', 'sf-'+index+'', 'all', item.id, item.type, name);
             });
         $('.legend_'+index+'').click(function(e) {
             $('#sf-'+index+'-list').slideToggle();
@@ -330,7 +736,7 @@ const renderSecondFilter = () => {
     });  
 };
 
-const filterBySecondFilter = (dataName, type, dataId, key, filterType) => {
+const filterBySecondFilter = (dataName, type, dataId, key, filterType, name) => {
     var dbs = JSON.parse(localStorage.getItem('data'));
     if (dataName === 'options') {
         var dataSelection = $('#' + type + '-all').attr('data-select');
@@ -351,39 +757,77 @@ const filterBySecondFilter = (dataName, type, dataId, key, filterType) => {
         $('#' + type + '-all').attr('data-select', 'add');
     }
     
-    dbs["features"] = $.map(dbs.features, (x) => {
-        x = x;
-        if (dataName === 'options') {
-            if (dataSelection === 'add') {
-                x.properties['status'] = 'active';
-            } else {
-                x.properties['status'] = 'inactive';
-            }
-        } else {
-            let answer = x.properties[key].toLowerCase();
-            // let condition = (filterType === 'cascade') ? answer.includes(dataName.toLowerCase()) : answer === dataName.toLowerCase();
-            let condition = answer.includes(dataName.toLowerCase());
-            if (condition) {
-                if (x.properties['status'] === "active") {
-                    x.properties['status'] = "inactive";
-                    $('#' + dataId).addClass('inactive');
+    if (!cfg.shapefile) {
+        dbs["features"] = $.map(dbs.features, (x) => {
+            x = x;
+            // if (x.properties['status'] === 'active') {
+                if (dataName === 'options') {
+                    if (dataSelection === 'add') {
+                        x.properties['status'] = 'active';
+                    } else {
+                        x.properties['status'] = 'inactive';
+                    }
                 } else {
-                    x.properties['status'] = "active";
-                    $('#' + dataId).removeClass('inactive');
+                    let answer = x.properties[key].toLowerCase();
+                    // let condition = (filterType === 'cascade') ? answer.includes(dataName.toLowerCase()) : answer === dataName.toLowerCase();
+                    let condition = answer.includes(dataName.toLowerCase());
+                    if (condition) {
+                        if (x.properties['status'] === "active") {
+                            x.properties['status'] = "inactive";
+                            $('#' + dataId).addClass('inactive');
+                        } else {
+                            x.properties['status'] = "active";
+                            $('#' + dataId).removeClass('inactive');
+                        }
+                    }
+                    // else {
+                    //     if (x.properties['status_tmp'] === "active" || x.properties['status_tmp'] === undefined) {
+                    //         x.properties['status_tmp'] = "inactive";
+                    //         $('#' + dataId).addClass('inactive');
+                    //     } else {
+                    //         x.properties['status_tmp'] = "active";
+                    //         $('#' + dataId).removeClass('inactive');
+                    //     }
+                    // }
                 }
-            }
-            // else {
-            //     if (x.properties['status_tmp'] === "active" || x.properties['status_tmp'] === undefined) {
-            //         x.properties['status_tmp'] = "inactive";
-            //         $('#' + dataId).addClass('inactive');
-            //     } else {
-            //         x.properties['status_tmp'] = "active";
-            //         $('#' + dataId).removeClass('inactive');
-            //     }
             // }
-        }
-        return x;
-    });
+            return x;
+        });
+    }
+    if (cfg.shapefile) {
+        dbs["features"]["features"] = $.map(dbs.features.features, (x) => {
+            x = x;
+            if (x.properties.data) {
+                $.map(x.properties.data, y => {
+                    // if (y['status'] === 'active') {
+                        if (dataName === 'options') {
+                            if (dataSelection === 'add') {
+                                y['status'] = 'active';
+                            } else {
+                                y['status'] = 'inactive';
+                            }
+                        } else {
+                            let answer = y[key].toLowerCase();
+                            // let condition = (filterType === 'cascade') ? answer.includes(dataName.toLowerCase()) : answer === dataName.toLowerCase();
+                            let condition = answer.includes(dataName.toLowerCase());
+                            if (condition) {
+                                if (y['status'] === "active") {
+                                    y['status'] = "inactive";
+                                    $('#' + dataId).addClass('inactive');
+                                } else {
+                                    y['status'] = "active";
+                                    $('#' + dataId).removeClass('inactive');
+                                }
+                            }
+                        }
+                    // }
+                    return y;
+                });
+            }
+            return x;
+        });
+        renderPieChart(dbs);
+    }
     refreshLayer(dbs);
 };
 
@@ -396,15 +840,18 @@ const loadData = (allPoints, callType) => {
         });
         allPoints.properties = defaultProp;
     }
-    geojson = allPoints;
+    
     metadata = allPoints.properties;
-    let markers = L.geoJson(geojson, {
-        pointToLayer: defineFeature,
-        onEachFeature: defineFeaturePopup
-    });
-    markerclusters.addLayer(markers);
-    map.fitBounds(markers.getBounds());
-    map.attributionControl.addAttribution(metadata.attribution);
+    geojson = allPoints;
+    if (!cfg.shapefile) {
+        let markers = L.geoJson(geojson, {
+            pointToLayer: defineFeature,
+            onEachFeature: defineFeaturePopup
+        });
+        markerclusters.addLayer(markers);
+        map.fitBounds(markers.getBounds());
+        map.attributionControl.addAttribution(metadata.attribution);
+    }
     renderLegend(allPoints);
 }
 
@@ -558,6 +1005,7 @@ const bakeThePie = (options) => {
 
 /*Function for generating a legend with the same categories as in the clusterPie*/
 const renderLegend = (database) => {
+    let id = 'css-single-click'; // custom css form single selection
     let data = d3.entries(metadata.fields[categoryField].lookup),
         legenddiv = d3.select('body').append('div')
             .attr('id', 'legend');
@@ -574,6 +1022,13 @@ const renderLegend = (database) => {
     let dropdown = d3.select('#indicators');
     dropdown
         .on('change', function (a) {
+            // change active pie to null when dropdown change
+            pieClicked = false;
+            activePie = null;
+            if (document.getElementById(id)) {
+                document.getElementById(id).remove(); 
+            }
+            // eol
             let selectedVal = this.value.split('$')[0],
                 selectedInd = selectedVal.split('-');
             let dbs = JSON.parse(localStorage.getItem('data'));
@@ -589,6 +1044,7 @@ const renderLegend = (database) => {
                 changeValue(dbs, []);
                 renderLegend(dbs);
             } else {
+                $('#piechart-tmp').remove();
                 createHistogram();
                 categoryField = selectedVal;
                 iconField = categoryField;
@@ -602,29 +1058,65 @@ const renderLegend = (database) => {
     let legenditems = legenddiv.selectAll('.legenditem')
         .data(data);
    
+    // create new css for the indicators, if there was color setup
     createCss(metadata.fields[categoryField]);
+    let ind = (cfg.shapefile) ? "indicator" : "";
+    let counts = (cfg.shapefile) ? filterPieData(database) : null;
     legenditems
         .enter()
         .append('div')
-        .attr('class', (d => 'category-' + d.key))
+        .attr('class', (d => ind + ' category-' + d.key))
         .attr('data-value', (d => d.key))
         .attr('id', (d => 'legend-select-' + d.value))
         .on('click', function (d) {
-            $('.leaflet-marker-icon').remove();
-            if ($(this).hasClass('inactive-legend')) {
-                $(this).removeClass('inactive-legend');
-                if ($('.inactive-legend').length > 1) {
-                    let inactive = $('.inactive-legend').attr('class').split(' ')[0];
+            if (!cfg.shapefile) {
+                $('.leaflet-marker-icon').remove();
+                if ($(this).hasClass('inactive-legend')) {
+                    $(this).removeClass('inactive-legend');
+                    if ($('.inactive-legend').length > 1) {
+                        let inactive = $('.inactive-legend').attr('class').split(' ')[0];
+                    }
+                } else {
+                    $(this).addClass('inactive-legend');
+                };
+            }
+            if (cfg.shapefile) {
+                if (document.getElementById(id)) {
+                    document.getElementById(id).remove(); 
                 }
-            } else {
-                $(this).addClass('inactive-legend');
-            };
+                let style = document.createElement('style');
+                style.type = 'text/css';
+                style.id = id;
+                style.innerHTML = '.indicator{ background-color: #222; pointer-events : none; }.indicator:before{ font-family: "FontAwesome"; font-weight: 900; padding-right: 10px; content: "\\f057"; }';
+                document.getElementsByTagName('head')[0].appendChild(style);
+                
+                if ($(this).hasClass('active-indicator')) {
+                    $(this).removeClass('active-indicator');
+                    $(this).addClass('indicator');
+                    document.getElementById(id).remove(); 
+                    if ($('.active-indicator').length > 1) {
+                        let active = $('.active-indicator').attr('class').split(' ')[0];
+                    }
+                } else {
+                    $(this).removeClass('indicator');
+                    $(this).addClass('active-indicator');
+                };
+            }
             changeValue(database, getFilterData());
         })
         .classed({
             'legenditem': true
         })
-        .text((d => d.value));
+        .text(function(d) {
+            if (cfg.shapefile) {
+                let count = counts.filter(x => x.name.toLowerCase() === d.value.toLowerCase());
+                count = ' ('+count[0].value+')';
+                return d.value + count;
+            }
+            if (!cfg.shapefile) {
+                return d.value;
+            }
+        });
 };
 
 const createCss = (conf) => {
@@ -649,10 +1141,22 @@ const createCss = (conf) => {
 const getFilterData = () => {
     let selects = ["1", "2", "3", "4", "5"];
     let deletes = [];
-    $('.inactive-legend').each(function() {
-        let inactive = $(this).attr('class').split(' ')[0];
-        deletes.push(metadata.attribution.lookup[inactive.split('-')[1]]);
-    });
+    
+    if (!cfg.shapefile) {
+        $('.inactive-legend').each(function() {
+            let inactive = $(this).attr('class').split(' ')[0];
+            // deletes.push(metadata.attribution.lookup[inactive.split('-')[1]]);
+            deletes.push(metadata.attribution.sources[inactive.split('-')[1]]);
+        });
+    }
+    if (cfg.shapefile) {
+        $('.active-indicator').each(function() {
+            let active = $(this).attr('class').split(' ')[0];
+            // deletes = metadata.attribution.lookup.filter(x => x.toLowerCase() !== metadata.attribution.lookup[active.split('-')[1]].toLowerCase()); // remove the active indicators
+            let index = _.findIndex(metadata.attribution.lookup, x => x.toLowerCase() === metadata.attribution.lookup[active.split('-')[1]].toLowerCase());
+            deletes = metadata.attribution.sources.filter(x => x.toLowerCase() !== metadata.attribution.sources[index].toLowerCase()); // remove the active indicators
+        });
+    }
     // let filterData = $.map(selects, (x) => {
     //     if (deletes.indexOf(x) >= 0) {
     //         return;
@@ -666,73 +1170,159 @@ const refreshLayer = (dbs) => {
     localStorage.setItem('data', JSON.stringify(dbs));
     geojson = dbs;
     metadata = dbs.properties;
-    if (clustered) {
-        map.removeLayer(markerclusters);
-        markerclusters = L.markerClusterGroup({
-            maxClusterRadius: 2 * rmax,
-            iconCreateFunction: defineClusterIcon
+    if (!cfg.shapefile) {
+        if (clustered) {
+            map.removeLayer(markerclusters);
+            markerclusters = L.markerClusterGroup({
+                maxClusterRadius: 2 * rmax,
+                iconCreateFunction: defineClusterIcon
+            });
+            map.addLayer(markerclusters);
+            let markers = L.geoJson(dbs, {
+                pointToLayer: defineFeature,
+                onEachFeature: defineFeaturePopup
+            });
+            markerclusters.addLayer(markers);
+            map.attributionControl.addAttribution(metadata.attribution);
+        } else {
+            map.removeLayer(mkr);
+            mkr = L.geoJson(dbs, {
+                pointToLayer: defineFeature,
+                onEachFeature: defineFeaturePopup
+            });
+            map.addLayer(mkr);
+            map.attributionControl.addAttribution(metadata.attribution);
+        }
+    }
+    if (cfg.shapefile) {
+        geojson["features"]["features"] = _.map(geojson["features"]["features"], val => {
+            return {
+                ...val,
+                properties: {
+                    ...val.properties,
+                    density: _.filter(val.properties.data, (x) => { return x.status === 'active' }).length,
+                }
+            }
         });
-        map.addLayer(markerclusters);
-        let markers = L.geoJson(dbs, {
-            pointToLayer: defineFeature,
-            onEachFeature: defineFeaturePopup
-        });
-        markerclusters.addLayer(markers);
-        map.attributionControl.addAttribution(metadata.attribution);
-    } else {
-        map.removeLayer(mkr);
-        mkr = L.geoJson(dbs, {
-            pointToLayer: defineFeature,
-            onEachFeature: defineFeaturePopup
-        });
-        map.addLayer(mkr);
-        map.attributionControl.addAttribution(metadata.attribution);
+        // reset popup
+        activePoly = null;
+        popupPoly = false;
+        info.update(null);
+        // eol reset popup 
+        setPolygonMap(geojson);
     }
 };
 
 const changeValue = (database, deletes) => {
-    let dbs = JSON.parse(localStorage.getItem('data'));
-    dbs["features"] = $.map(dbs.features, (x) => {
-        x = x;
-        x.properties.status = "active";
-        if (deletes.indexOf(x.properties[iconField]) >= 0) {
-            x.properties.status = "inactive";
-        }
-        return x;
-    });
+    var dbs = JSON.parse(localStorage.getItem('data'));
+    if (!cfg.shapefile) {
+        dbs["features"] = $.map(dbs.features, (x) => {
+            x = x;
+            x.properties.status = "active";
+            if (deletes.indexOf(x.properties[iconField]) >= 0) {
+                x.properties.status = "inactive";
+            }
+            return x;
+        });
+    }
+    if (cfg.shapefile) {
+        dbs["features"]["features"] = $.map(dbs.features.features, (x) => {
+            x = x;
+            if (x.properties.data) {
+                $.map(x.properties.data, y => {
+                    y.status = "active";
+                    if (deletes.indexOf(y[iconField]) >= 0) {
+                        y.status = "inactive";
+                    }
+                    return y;
+                });
+            }
+            return x;
+        });
+    }
     refreshLayer(dbs);
 }
 
 const filterMaps = (minVal, maxVal, attributeName) => {
-    let dbs = JSON.parse(localStorage.getItem('data'));
-    dbs["features"] = $.map(dbs.features, (x) => {
-        if (minVal === 0 && maxVal === 0) {
-            x.properties.status = "active";
-        } else {
-            x.properties.status = "inactive";
-            if (x.properties[attributeName] >= minVal && x.properties[attributeName] <= maxVal || x.properties[attributeName] === maxVal) {
+    var dbs = JSON.parse(localStorage.getItem('data'));
+    if (!cfg.shapefile) {
+        dbs["features"] = $.map(dbs.features, (x) => {
+            if (minVal === 0 && maxVal === 0) {
                 x.properties.status = "active";
-            }
-            if (x.properties[attributeName] === 0) {
+            } else {
                 x.properties.status = "inactive";
+                if (x.properties[attributeName] >= minVal && x.properties[attributeName] <= maxVal || x.properties[attributeName] === maxVal) {
+                    x.properties.status = "active";
+                }
+                if (x.properties[attributeName] === 0) {
+                    x.properties.status = "inactive";
+                }
             }
-        }
-        return x;
-    });
+            return x;
+        });
+    }
+    if (cfg.shapefile) {
+        dbs["features"]["features"] = $.map(dbs.features.features, (x) => {
+            if (x.properties.data) {
+                $.map(x.properties.data, (y) => {
+                    if (minVal === 0 && maxVal === 0) {
+                        y.status = "active";
+                    } else {
+                        y.status = "inactive";
+                        if (y[attributeName] >= minVal && y[attributeName] <= maxVal || y[attributeName] === maxVal) {
+                            y.status = "active";
+                        }
+                        if (y[attributeName] === 0) {
+                            y.status = "inactive";
+                        }
+                    }
+                    return y;
+                });
+            }
+            return x;
+        });
+    }
     refreshLayer(dbs);
 }
 
 const createHistogram = () => {
     let dbs = JSON.parse(localStorage.getItem('data'));
+    // ignore construction year with 0 value (M index)
+    if (!cfg.shapefile) {
+        dbs.features = _.filter(dbs.features, x => x.properties["M"] > 0);
+    }
+    // eol ignore construction year with 0 value
     let attr_name = dbs.properties.attribution.id;
-    let barData = dbs.features.map((x) => {
-        // let obj = {};
-        return {
-            'datapoint name': x.properties[cfg.name],
-            'indicator': attr_name,
-            'value': x.properties[attr_name],
-        };
-    });
+    let barData = [];
+    if (!cfg.shapefile) {
+        barData = dbs.features.map((x) => {
+            // let obj = {};
+            return {
+                'datapoint name': x.properties[cfg.name],
+                'indicator': attr_name,
+                'value': x.properties[attr_name],
+            };
+        });
+    }
+    if (cfg.shapefile) {
+        let temp = []
+        dbs.features.features.map(x => {
+            if (x.properties.data) {
+                x.properties.data.map(y => {
+                    temp.push(y);
+                });
+            }
+            return;
+        });
+        barData = temp.map((x) => {
+            // let obj = {};
+            return {
+                'datapoint name': x[cfg.name],
+                'indicator': attr_name,
+                'value': x[attr_name],
+            };
+        });
+    }
     let dataGroup = _.groupBy(barData, 'value');
     let histogram = _.map(dataGroup, (v, i) => {
         return {
@@ -885,3 +1475,4 @@ maps = map;
 customs = custom;
 goToView = setView;
 zoomMap = zoomView;
+getTemplates = getTemplate;

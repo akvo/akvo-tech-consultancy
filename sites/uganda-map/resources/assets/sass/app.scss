@@ -371,6 +371,7 @@ tbody tr:hover{
     padding-right: 10px;
     content: "\f00c";
 }
+/* Disable i symbol
 .legenditem:after{
     font-family: "FontAwesome";
     content: "\F05A";
@@ -379,6 +380,7 @@ tbody tr:hover{
     position: absolute;
     right: 10px;
 }
+*/
 .legend-red{
     color:#dc3545;
 }
@@ -698,18 +700,20 @@ span.search-province{
     margin-top:20px;
 }
 .sig-logo{
+    display:none;
     position: absolute;
     bottom: 60px;
     left: 30px;
     height: 100px;
     width: 85px;
-    background: url(/images/logo/solomon-island-logo.png);
+    background: url(/images/logo/app-logo.png);
     background-color: transparent;
     z-index: 1000;
     background-size: contain;
     opacity: .8;
 }
 .unicef-logo{
+    display:none;
     position: absolute;
     bottom: 20px;
     left: 20px;
@@ -726,7 +730,7 @@ span.search-province{
     margin-bottom:10px;
     height: 100px;
     width: 85px;
-    background: url(/images/logo/solomon-island-logo.png);
+    background: url(/images/logo/app-logo.png);
     background-size: contain;
 }
 
@@ -811,4 +815,62 @@ select#category-dropdown {
 select#subcategory-dropdown {
 	display: none;
     font-size: small;
+}
+
+/*Polygon*/
+.info {
+    padding: 6px 8px;
+    font: 14px/16px Arial, Helvetica, sans-serif;
+    background: white;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+}
+.info h4 {
+    margin: 0 0 5px;
+    color: #777;
+}
+.legend {
+    line-height: 18px;
+    color: #555;
+}
+.legend i {
+    width: 15px;
+    height: 15px;
+    float: left;
+    margin-right: 8px;
+    opacity: 0.7;
+    font-size: 12px;
+}
+.info.legend.leaflet-control {
+    margin-bottom: 50px;
+}
+.polygon-label {
+    font-weight: 600;
+}
+.polygon-label-container {
+    background-color: white;;
+    width: fit-content; 
+    padding: 2px 4px;
+    border: 1px solid #666;
+    border-radius: 5px;
+}
+/* pie chart */
+#piechart-tmp {
+    cursor: move;
+    position: absolute;
+    top: 333px;
+    right: 0px;
+    margin: 10px;
+    padding: 25px 5px 5px 5px;
+    font-size: 12px;
+    font-family: inherit;
+    width: 450px;
+    height: 300px;
+    background: rgb(255, 255, 255);
+    z-index: 1000;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.17);
+}
+#piechart-tmp.sliding{
+    right: 250px;
 }
