@@ -1,5 +1,5 @@
 RewriteEngine on
-RewriteCond %{HTTPS_HOST} ^kabarole-wash.tc.akvo.org$ [NC,OR]
+RewriteCond %{HTTPS_HOST} ^si-hcf-wash.tc.akvo.org$ [NC,OR]
 RewriteCond %{REQUEST_URI} !public/
 RewriteRule (.*) /public/$1 [L]
 
