@@ -230,9 +230,9 @@ def get_payload(rec, _uuid, webform=False):
                 values = []
                 for rc in list(ast.literal_eval(rec[ids])):
                     try:
-                        values.append(json.dumps({"code": rc["code"], "name": rc["text"]}))
+                        values.append({"code": rc["code"], "name": rc["text"]})
                     except:
-                        values.append(json.dumps({"code": "", "name": rc["text"]}))
+                        values.append({"code": "", "name": rc["text"]})
                 val = json.dumps(values)
             elif answer_type[i] == "DATE":
                 obj_date = datetime.strptime(rec[ids], "%Y-%m-%d")
