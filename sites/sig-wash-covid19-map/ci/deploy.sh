@@ -18,10 +18,10 @@ if [[ "${TRAVIS_PULL_REQUEST}" != "false" ]]; then
     exit 0
 fi
 
-FOLDER="sig-wash-covid19-map"
+FOLDER="si-hcf-wash"
 
 if [[ "${TRAVIS_BRANCH}" == "master" ]]; then
-	FOLDER="sig-wash-covid19-map"
+	FOLDER="si-hcf-wash"
 	echo "Deploying Production"
 else
 	echo "Deploying ${TRAVIS_BRANCH}"
