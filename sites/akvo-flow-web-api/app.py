@@ -230,7 +230,7 @@ def get_payload(rec, _uuid, webform=False):
                 values = []
                 for rc in list(ast.literal_eval(rec[ids])):
                     try:
-                        values.append({"code": rc["code"]+":"+rc["text"], "name": rc["text"]})
+                        values.append({"code": rc["code"]+":"+rc["text"], "name": rc["code"]+":"+rc["text"]})
                     except:
                         values.append({"code": rc["text"], "name": rc["text"]})
                 val = json.dumps(values)
