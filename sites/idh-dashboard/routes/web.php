@@ -22,3 +22,7 @@ Route::get('{path?}', function(){
 })->where('{path}', '^((?!api).)*$')
   ->where('{path}', '^((?!files).)*$')
   ->name('home');
+
+Route::get('/country/{country}/{company}/{tab}', function(){
+    return view('index');
+})->name('country');

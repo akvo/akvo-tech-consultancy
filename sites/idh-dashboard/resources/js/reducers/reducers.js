@@ -5,10 +5,12 @@ const initialState = {
         name: false,
         role: false,
         forms: [
+            /*
             {
                 form_id: 1,
                 download: 0,
             },
+            */
         ],
         login: false,
     },

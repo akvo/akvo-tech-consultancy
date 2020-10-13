@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Route, Redirect } from "react-router-dom";
 import { mapStateToProps, mapDispatchToProps } from "../reducers/actions";
-import { Row, Col, Form, Button, Alert, Jumbotron } from "react-bootstrap";
+import { Row, Col, Form, Button, Alert, Jumbotron, Card } from "react-bootstrap";
 import { login } from "../data/api";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 
 class Login extends Component {
@@ -50,24 +52,18 @@ class Login extends Component {
         }));
     }
 
-    componentDidMount() {
-        let access_token = localStorage.getItem("access_token");
-        if (access_token !== null){
-            localStorage.removeItem("access_token");
-            this.props.page.compare.reset();
-            this.props.user.logout();
-        }
-    }
-
     render() {
         let error = this.state.error === "" ? false : this.state.error;
         let user = this.props.value.user;
+        if (user.login) {
+            return <Redirect to="/setting" />;
+        }
         return (
             <>
                 <Jumbotron>
                     <Row className="page-header">
                         <Col md={12} className="page-title text-center">
-                            <h2>Welcome {user.login ? user.name : "to IDH Dataportal"}!</h2>
+                            <h2>Welcome to IDH Dataportal</h2>
                         </Col>
                     </Row>
                 </Jumbotron>
@@ -81,23 +77,38 @@ class Login extends Component {
                             ) : (
                                 ""
                             )}
-                            <Form onSubmit={this.handleSubmit}>
-                                <Form.Group controlId="formBasicEmail" onChange={this.handleEmail}>
-                                    <Form.Label>Email address</Form.Label>
-                                    <Form.Control type="email" placeholder="Enter email"/>
-                                    <Form.Text className="text-muted">We'll never share your email with anyone else.</Form.Text>
-                                </Form.Group>
-                                <Form.Group controlId="formBasicPassword" onChange={this.handlePassword}>
-                                    <Form.Label>Password</Form.Label>
-                                    <Form.Control type="password" placeholder="Password"/>
-                                </Form.Group>
-                                <Form.Group controlId="formBasicCheckbox">
-                                    <Form.Check type="checkbox" label="Remember Login"/>
-                                </Form.Group>
-                                <Button variant="primary" type="submit">
-                                    Submit
-                                </Button>
-                            </Form>
+                            <Card>
+                                <Card.Header>Login</Card.Header>
+                                <Card.Body>
+                                    <Form onSubmit={this.handleSubmit}>
+                                        <Form.Group controlId="formBasicEmail" onChange={this.handleEmail}>
+                                            <Form.Label>Email address</Form.Label>
+                                            <Form.Control type="email" placeholder="Enter email" />
+                                            <Form.Text className="text-muted">
+                                            We'll never share your email with anyone else.
+                                            </Form.Text>
+                                        </Form.Group>
+                                        <Form.Group controlId="formBasicPassword" onChange={this.handlePassword}>
+                                            <Form.Label>Password</Form.Label>
+                                            <Form.Control type="password" placeholder="Password" />
+                                        </Form.Group>
+                                        <Form.Group controlId="formBasicCheckbox">
+                                            <Form.Check type="checkbox" label="Remember Login" />
+                                        </Form.Group>
+                                        <Row>
+                                            <Col md={6}>
+                                                <Button variant="primary" type="submit">
+                                                    Submit
+                                                </Button>
+                                            </Col>
+                                            <Col md={6} className="text-right">
+                                                <FontAwesomeIcon className="mr-2" icon={["fas", "key"]} />
+                                                Forgot Password
+                                            </Col>
+                                        </Row>
+                                    </Form>
+                                </Card.Body>
+                            </Card>
                         </Col>
                     </Row>
                 </div>

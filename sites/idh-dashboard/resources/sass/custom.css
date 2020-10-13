@@ -288,6 +288,10 @@ h2.extra-counter {
     margin: 10px 0px;
 }
 
+.card-body {
+    border-bottom: 1px solid #ddd;
+}
+
 .card-compare.card-body {
     padding: 20px;
 }
@@ -319,6 +323,10 @@ h2.extra-counter {
 
 .dropdown-select.input-group-text {
     font-size: 16px !important;
+}
+
+.input-group-append .input-group-text{
+    cursor:pointer;
 }
 
 .jumbotron.has-navigation {

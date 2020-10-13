@@ -125,3 +125,58 @@ export const auth = (access_token) => {
             });
     });
 };
+
+export const updateUser = (access_token, credentials) => {
+    return new Promise((resolve, reject) => {
+        axios
+            .post("/api/user/update", credentials, {
+                headers: {
+                    Accept: "application/json",
+                    Authorization: "Bearer " + access_token,
+                },
+            })
+            .then((res) => {
+                resolve({variant: "success", message:res.data.message, active:true})
+            })
+            .catch((err) => {
+                resolve({variant: "danger", message:"invalid password", active:true})
+            })
+
+    });
+}
+
+export const searchUser = (access_token, email) => {
+    return new Promise((resolve, reject) => {
+        axios
+            .post("/api/user/search", {email: email}, {
+                headers: {
+                    Accept: "application/json",
+                    Authorization: "Bearer " + access_token,
+                },
+            })
+            .then((res) => {
+                resolve({type: "success", message:res.data.message, active:true, forms: res.data.access})
+            })
+            .catch((err) => {
+                resolve({type: "danger", message:"user not found", active:true, forms:[]})
+            })
+    })
+}
+
+export const accessUser = (access_token, data) => {
+    return new Promise((resolve, reject) => {
+        axios
+            .post("/api/user/access", data, {
+                headers: {
+                    Accept: "application/json",
+                    Authorization: "Bearer " + access_token,
+                },
+            })
+            .then((res) => {
+                resolve({variant: "success", message:res.data.message, active:true})
+            })
+            .catch((err) => {
+                resolve({variant: "danger", message:"user not found", active:true})
+            })
+    })
+}
