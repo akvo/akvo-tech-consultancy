@@ -33,18 +33,18 @@ rsync \
     --progress \
     --exclude=ci \
     --exclude=node_modules \
-    --rsh="ssh -i ${SITES_SSH_KEY} -p 18765 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" \
+    --rsh="ssh -i ${SITES_SSH_KEY} -o BatchMode=yes -p 18765 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" \
     . u7-nnfq7m4dqfyx@35.214.170.100:/home/customer/www/tc.akvo.org/public_html/$FOLDER/
 
 echo "Fixing permissions..."
 
-ssh -i "${SITES_SSH_KEY}" \
+ssh -i "${SITES_SSH_KEY}" -o BatchMode=yes \
     -p 18765 \
     -o UserKnownHostsFile=/dev/null \
     -o StrictHostKeyChecking=no \
     u7-nnfq7m4dqfyx@35.214.170.100 "find www/tc.akvo.org/public_html/${FOLDER}/ -not -path "*.well-known*" -type f -print0 | xargs -0 -n1 chmod 644"
 
-ssh -i "${SITES_SSH_KEY}" \
+ssh -i "${SITES_SSH_KEY}" -o BatchMode=yes \
     -p 18765 \
     -o UserKnownHostsFile=/dev/null \
     -o StrictHostKeyChecking=no \
@@ -52,7 +52,7 @@ ssh -i "${SITES_SSH_KEY}" \
 
 echo "Copy the config..."
 
-ssh -i "${SITES_SSH_KEY}" \
+ssh -i "${SITES_SSH_KEY}" -o BatchMode=yes \
     -p 18765 \
     -o UserKnownHostsFile=/dev/null \
     -o StrictHostKeyChecking=no \
@@ -60,13 +60,13 @@ ssh -i "${SITES_SSH_KEY}" \
 
 echo "Clearing cache..."
 
-ssh -i "${SITES_SSH_KEY}" \
+ssh -i "${SITES_SSH_KEY}" -o BatchMode=yes \
     -p 18765 \
     -o UserKnownHostsFile=/dev/null \
     -o StrictHostKeyChecking=no \
     u7-nnfq7m4dqfyx@35.214.170.100 "cd www/tc.akvo.org/public_html/${FOLDER}/ && /usr/local/bin/php72 artisan cache:clear"
 
-ssh -i "${SITES_SSH_KEY}" \
+ssh -i "${SITES_SSH_KEY}" -o BatchMode=yes \
     -p 18765 \
     -o UserKnownHostsFile=/dev/null \
     -o StrictHostKeyChecking=no \
