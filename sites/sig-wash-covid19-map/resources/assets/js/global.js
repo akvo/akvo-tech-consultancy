@@ -4,41 +4,23 @@
  *
  */
 
-// var appVersion = 'v2019.02.27A';
-// if (localStorage.getItem('app-version') !== appVersion) {
-//     window.localStorage.clear();
-//     localStorage.setItem('app-version', appVersion);
-// }
-
 let maps;
 let customs;
 let goToView;
 let zoomMap;
 let getTemplates;
 
-// var nainclude = [
-//     'identifier',
-//     'latitude',
-//     'longitude',
-//     'elevation',
-//     'display name',
-//     'device identifier',
-//     'instance',
-//     'submission date',
-//     'submitter',
-//     'duration'
-// ];
 
-// const getTemplate = () => {
-//     let data = JSON.parse(localStorage.getItem('data'));
-//     const template = customs.custom(data);
-//     let js = localStorage.getItem("template");
-//     return (js === null) ? false : template[js];
-// };
+const getTemplate = () => {
+    let data = JSON.parse(localStorage.getItem('data'));
+    const template = customs.custom(data);
+    let js = localStorage.getItem("template");
+    return (js === null) ? false : template[js];
+};
 
 // pop up details
 const getDetails = (a, atype) => {
-    let template = getTemplates();
+    let template = getTemplate();
     let datapointid = (atype === 'id') ? a : $(a).attr('data');
     template.popup(datapointid);
     $('#profile-menu').click();
@@ -99,9 +81,6 @@ const jqUI = () => {
         }
     })
     .autocomplete("instance")._renderItem = (ul, item) => {
-        // if (schoolType === null) {
-        //     schoolType = item.school_type_other;
-        // }
         return $("<li>")
             .append("<div><span class='search-province'>" + item[item.popup] + "</span><span class='badge badge-small badge-primary'>"+ item[item.searchKey] +"</span></div>")
             .appendTo(ul);

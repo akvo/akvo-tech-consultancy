@@ -797,14 +797,18 @@ span.search-province{
 
 
 /* NEW V2 */
-li.nav-item{
-	width: 250px;
-    min-width: 250px;
+li.nav-item {
+	// width: 250px;
+    // min-width: 250px;
     display: inline-grid;
     margin: 0px 10px;
 }
 
-li.nav-item .form-group{
+li.nav-item.hidden {
+    display: none;
+}
+
+li.nav-item .form-group {
 	margin-bottom: 0px;	
 }
 
@@ -859,13 +863,13 @@ select#subcategory-dropdown {
 #piechart-tmp {
     cursor: move;
     position: absolute;
-    top: 333px;
-    right: 0px;
+    top: 500px;
+    left: 0px;
     margin: 10px;
     padding: 25px 5px 5px 5px;
     font-size: 12px;
     font-family: inherit;
-    width: 450px;
+    width: 550px;
     height: 300px;
     background: rgb(255, 255, 255);
     z-index: 1000;
@@ -873,4 +877,16 @@ select#subcategory-dropdown {
 }
 #piechart-tmp.sliding{
     right: 250px;
+}
+
+// datatables
+.dataTables_info {
+    float: right;
+}
+.dataTables_paginate {
+    float: left;
+}
+.dt-button-collection {
+    max-height: 300px;
+    overflow-y: scroll;
 }

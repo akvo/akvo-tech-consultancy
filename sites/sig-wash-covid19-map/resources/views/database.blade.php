@@ -2,28 +2,8 @@
 
 @section('content')
 <main role="main" class="col-md-12">
-    <table class="table table-bordered" id="school_table">
-        <thead>
-            <tr>
-                <th>School</th>
-                <th>Province</th>
-                <th>Type</th>
-                <th>Reg</th>
-                <th>Class</th>
-                <th>Students</th>
-                <th>Teacher</th>
-                <th>Toilets</th>
-                <th>Saperated</th>
-                <th>Wash Fac</th>
-                <th>Safe to Drink</th>
-                <th>Grant</th>
-                <th>Com Support</th>
-            </tr>
-        </thead>
-    </table>
+    <table class="table table-bordered" id="databaseDataTable"></table>
 </main>
-
-<div class="data-source">{!!Config::get('app.data-sources')!!}</div>
 @endsection
 
 @push('scripts')

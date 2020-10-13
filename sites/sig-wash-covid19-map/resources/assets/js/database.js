@@ -1,42 +1,134 @@
+const custom = require('./custom.js'); 
+const _ = require('lodash');
+const axios = require('axios');
+
+/* Global Variabel */
+let appVersion = localStorage.getItem('app-version'),
+    defaultSelect = localStorage.getItem('default-api'),
+    defaultSurvey = localStorage.getItem('default-survey'),
+    geojsonPath = '/api/data/';
+
+const fetchAPI = (endpoint) => {
+    return new Promise((resolve, reject) => {
+        axios.get('/api/' + endpoint).then(res => {
+            resolve(res);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+};
+
+const setSelectedCategory = (id) => {
+    let selected = false;
+    let tagselected = "";
+    if (defaultSelect === id.toString()) {
+        selected = true;
+    }
+    if (selected) {
+        tagselected = "selected";
+    }
+    return tagselected;
+};
+
+/* set category selected based on data load */    
+const fetchdata = () => {
+    fetchAPI('source').then((a) => {
+        if (!defaultSelect) {
+            $('#category-dropdown').append('<option id="source-init" value=0 selected>SELECT SURVEY</option>');
+            // emptyMap();
+        }
+        a.data.forEach((x, i) => {
+            $('#category-dropdown').append('<optgroup label="'+ x["source"].toUpperCase() +'" id='+ x["id"] +'></optgroup>');
+            let timestamp = Date.parse(x.created_at);
+            if (x.childrens.length > 0) {
+                x.childrens.forEach((y, i) => {
+                    let selected = setSelectedCategory(y["id"]);
+                    let id = "#" + x["id"];
+                    $(id).append('<option version='+ timestamp +' surveyid='+ y["parent_id"] +' value='+ y["id"] +' '+ selected + '>' + y["source"].toUpperCase() + '</option>');
+
+                    if (y.childrens.length > 0) {
+                        y.childrens.forEach((z, i) => {
+                            let selected = setSelectedCategory(z["id"]);
+                            $(id).append('<option version='+ timestamp +' surveyid='+ y["parent_id"] +' value='+ z["id"] +' '+ selected + '>' + z["source"].toUpperCase() + '</option>');
+                        });
+                    }
+                });
+            }
+            geojsonPath = '/api/data/' + defaultSelect;
+        });
+        if (defaultSelect) {
+            // check data version
+            let activeSurvey = a.data.filter(x => x.id == defaultSurvey)[0];
+            let newVersion = Date.parse(activeSurvey.created_at);
+            if (appVersion != newVersion) {
+                // window.localStorage.clear();
+                localStorage.removeItem('data');
+                localStorage.removeItem('default-properties');
+                localStorage.removeItem('configs');
+                localStorage.removeItem('second-filter');
+                localStorage.setItem('app-version', newVersion);
+            }
+        }
+        return defaultSelect;
+    }).then(val => {
+        if (val) {
+            // (localStorage.getItem('data')) ? loadLocalData() : setConfig(val);
+            (localStorage.getItem('data')) ? $("#databaseNav").removeClass('hidden') : '';
+        }
+    });
+};
+fetchdata();
+
+
+// Start edit from here
+
 var frm = $("form#stack_search");
 $(frm).removeAttr('onsubmit');
 
 var btn4 = $('#stack_search a:last-child');
 $(btn4).removeAttr('onclick');
 
-function icon(fa){
+function icon(fa) {
     return "<i class='fa fa-"+fa+"'></i>";
 }
-function col(id, order, searchable){
-    return {data:id,name:id,orderable:order,searchable:searchable};
-}
+
+const getColumns = () => {
+    let config = JSON.parse(localStorage.getItem('configs'));
+    config = _.omit(config, [
+        'center', 'css', 'js', 'name', 'popup', 'search', 'shapefile', 'shapename'
+    ]);
+    let columns = [];
+    for (const index in config) {
+        columns.push({
+            title: config[index], 
+            searchable: true,
+            orderable: true,
+        });
+    }
+    return columns;
+};
+
+const getData = () => {
+    let data = JSON.parse(localStorage.getItem('data'));
+    data = data.features.map(x => {
+        let temp = [];
+        let object = _.omit(x.properties, ['PTS', 'status']);
+        for (const index in object) {
+            temp.push(x.properties[index]);
+        }
+        return temp;
+    });
+    return data;
+};
 
 $.fn.dataTable.Buttons.defaults.dom.button.className = 'btn btn-light my-2 my-sm-0';
 
-var data_table = $('#school_table').DataTable({
+var data_table = $('#databaseDataTable').DataTable({
     pageLength:10,
     autoWidth: false,
 	processing: true,
-	serverSide: true,
-	ajax: {
-		url: 'api/database',
-		method: 'POST'
-	},
-	columns: [
-        col('L', true, true),
-        col('province', true, true),
-        col('school_type', true, true),
-        col('registration', true, true),
-        col('R', false, true),
-        col('total_students', true, false),
-        col('total_teacher', true, false),
-        col('total_toilet', true, false),
-        col('bg_toilet', false, false),
-        col('washing_facilities', false, false),
-        col('safe_to_drink', false, false),
-        col('annual_grant', false, false),
-        col('community_support', false, false),
-	],
+    data: getData(),
+    columns: getColumns(),
     lengthMenu: [
         [ 10, 25, 50, 100, -1 ],
         [ '10 rows', '25 rows', '50 rows', '100 rows', 'Show all' ]
@@ -59,6 +151,19 @@ var data_table = $('#school_table').DataTable({
         { extend: 'colvis', fade:0, text: icon('table')},
         { extend: 'pageLength', fade:0},
     ],
+    scrollX: true,
+    scrollY: '75vh',
+    height: 400,
+    fixedHeader: true,
+    scrollCollapse: true,
+    columnDefs: [
+        { targets: [0,1,2,3,4,5,6,7,8,9],
+          visible: true,
+        },
+        { targets: '_all',
+          visible: false,
+        }
+    ],
 	initComplete: function () {
 		$('.dt-buttons.btn-group').prependTo('.form-inline');
 		$('.dt-buttons.btn-group').show();
@@ -66,9 +171,10 @@ var data_table = $('#school_table').DataTable({
 });
 
 $("#find").removeAttr('onkeydown');
-$('#school_table tbody').on('click', 'tr', function () {
-	var data = data_table.row( this ).data();
-	getDetails(data['A'],'id');
+$('#databaseDataTable tbody').on('click', 'tr', function (e) {
+    var data = data_table.row(this).data();
+    console.log(data[data.length-1]);
+	getDetails(data[data.length-1],'id');
 });
 
 $(btn4).on('click', function () {
@@ -87,3 +193,4 @@ function searchTable(){
 	data_table.search(search_val).draw();
 }
 
+customs = custom;
