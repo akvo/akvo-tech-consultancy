@@ -135,19 +135,22 @@ var data_table = $('#databaseDataTable').DataTable({
     ],
 	dom: 'Brtpi',
     buttons: [
-        { extend: 'print',
-          text: icon('print'),
-          key: { key: 'p', altkey: true }
-        },
+        // { extend: 'print',
+        //   text: icon('print'),
+        //   key: { key: 'p', altkey: true }
+        // },
         { extend: 'excel',
           text: icon('file-excel-o'),
-          key: { key: 'x', altkey: true }},
+          key: { key: 'x', altkey: true }
+        },
         { extend: 'pdf',
           text: icon('file-pdf-o'),
-          key: { key: 'd', altkey: true }},
+          key: { key: 'd', altkey: true }
+        },
         { extend: 'csv',
           text: icon('file-text-o'),
-          key: { key: 'c', altkey: true }},
+          key: { key: 'c', altkey: true }
+        },
         { extend: 'colvis', fade:0, text: icon('table')},
         { extend: 'pageLength', fade:0},
     ],
