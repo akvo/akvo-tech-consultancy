@@ -871,10 +871,9 @@ select#subcategory-dropdown {
     font-family: inherit;
     width: 400px;
     height: 325px;
-    background: rgb(255, 255, 255);
+    background: rgba(255, 255, 255, 0.8);
     z-index: 1000;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.17);
-    opacity: 80%;
 }
 #piechart-tmp.sliding{
     left: 250px;
