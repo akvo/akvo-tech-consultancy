@@ -863,20 +863,21 @@ select#subcategory-dropdown {
 #piechart-tmp {
     cursor: move;
     position: absolute;
-    top: 500px;
+    bottom: 5%;
     left: 0px;
     margin: 10px;
-    padding: 25px 5px 5px 5px;
+    padding: 5px 5px 5px 5px;
     font-size: 12px;
     font-family: inherit;
-    width: 550px;
-    height: 300px;
+    width: 400px;
+    height: 325px;
     background: rgb(255, 255, 255);
     z-index: 1000;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.17);
+    opacity: 80%;
 }
 #piechart-tmp.sliding{
-    right: 250px;
+    left: 250px;
 }
 
 // datatables

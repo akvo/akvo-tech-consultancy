@@ -56,7 +56,7 @@ let appVersion = localStorage.getItem('app-version'),
     selects = ["1", "2", "3", "4", "5"],
     markerclusters,
     map,
-    indicatorColors = ["#28a745", "#dc3545", "#FA0", "#0288d1", "#ab47bc", "#40b1e6", "#ffca29"];
+    indicatorColors = ["#28a745", "#dc3545", "#FA0", "#0288d1", "#ab47bc", "#40b1e6", "#ffca29", "#ab47bc"];
 
 let cacheMem = JSON.parse(localStorage.getItem('data'));
 
@@ -449,7 +449,7 @@ const filterPieData = (dbs) => {
         value = _.filter(data, (x) => x[attribution.id].toLowerCase() === attribution.sources[index].toLowerCase());
         tmp.push({
             value: value.length, 
-            name: item
+            name: item,
         });
     });
     return tmp;
@@ -458,29 +458,58 @@ const filterPieData = (dbs) => {
 const renderPieChart = (dbs, clicked=false) => {
     let attribution = dbs.properties.attribution;
     let pieData = filterPieData(dbs);
+    let title = attribution.name.split(' ').map((x,i) => {
+        if (i % 6 === 0) {
+            return "\n" + x;
+        }
+        return x;
+    });
+    title = title.join(' ');
     let option = {
         title: {
-            text: attribution.name,
-            left: 'center'
+            text: title,
+            top: 10,
+            bottom: 15,
+            left: 'center',
+            textStyle: {
+                fontStyle: 'normal',
+                fontSize: 15,
+            },
         },
         tooltip: {
-            show: false,
+            show: true,
             trigger: 'item',
-            formatter: '{a} <br/>{b} : {c} ({d}%)'
+            formatter: '{b} : {c} ({d}%)',
+            // formatter: '{a} <br/>{b} : {c} ({d}%)',
+            position: ['50%', '50%'],
         },
+        // legend: {
+        //     show: 'true',
+        //     top: 'bottom',
+        // },
         series: [
             {
-                name: attribution.name,
+                name: title,
                 type: 'pie',
-                startAngle: 180,
-                radius: ['5%', '40%'],
-                center: ['50%', '55%'],
+                startAngle: 0,
+                radius: ['15%', '50%'],
+                center: ['50%', '57%'],
                 roseType: 'area',
+                avoidLabelOverlap: true,
                 label: {
-                    formatter: '{b} \n{c} ({d}%)',
-                    fontWeight: 200,
-                    alignTo: 'edge'
+                    show: true,
+                    formatter: '{d}%',
+                    fontSize: 12,
+                    fontWeight: 'normal',
                 },
+                // emphasis: {
+                //     label: {
+                //         show: true,
+                //         formatter: '{b} \n{c} ({d}%)',
+                //         fontWeight: 'bolder',
+                //         position: 'inner',
+                //     },
+                // },
                 data: pieData
             }
         ],
