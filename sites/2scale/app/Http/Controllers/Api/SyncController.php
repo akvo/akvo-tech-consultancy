@@ -590,8 +590,6 @@ class SyncController extends Controller
             $sync = $syncs->orderBy('id', 'desc')->first();
             $syncUrl = $sync['url'];
         }
-        // $sync = $syncs->orderBy('id', 'desc')->first();
-        // $syncData = $flow->fetch($sync['url']);
         $syncData = $flow->fetch($syncUrl);
 
         if (!isset($syncData['changes']) || $syncData === 204) {
@@ -738,15 +736,7 @@ class SyncController extends Controller
                             $syncData['nextSyncUrl']
                         );
         }
-
-        // add new sync url
-        // $postSync = new Sync(['url' => $syncData['nextSyncUrl']]);
-        // $postSync->save();
-
-        // return [
-        //     "formChanged" => $this->formChanged,
-        //     "formInstanceChanged" => $this->dpsChanged,
-        //     "datapointDeleted" => $this->dpsDeleted,
-        // ];
+        
+        return "Done";
     }
 }
