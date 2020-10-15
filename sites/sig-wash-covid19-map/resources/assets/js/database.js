@@ -33,6 +33,7 @@ const setSelectedCategory = (id) => {
 /* set category selected based on data load */    
 const fetchdata = () => {
     fetchAPI('source').then((a) => {
+        $('#category-dropdown').html('');
         if (!defaultSelect) {
             $('#category-dropdown').append('<option id="source-init" value=0 selected>SELECT SURVEY</option>');
             // emptyMap();
@@ -44,12 +45,12 @@ const fetchdata = () => {
                 x.childrens.forEach((y, i) => {
                     let selected = setSelectedCategory(y["id"]);
                     let id = "#" + x["id"];
-                    $(id).append('<option version='+ timestamp +' surveyid='+ y["parent_id"] +' value='+ y["id"] +' '+ selected + '>' + y["source"].toUpperCase() + '</option>');
+                    $(id).append('<option version='+ timestamp +' surveyid='+ y["parent_id"] +' value='+ y["id"] +' '+ selected + '>' + y["source"].toUpperCase() + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>');
 
                     if (y.childrens.length > 0) {
                         y.childrens.forEach((z, i) => {
                             let selected = setSelectedCategory(z["id"]);
-                            $(id).append('<option version='+ timestamp +' surveyid='+ y["parent_id"] +' value='+ z["id"] +' '+ selected + '>' + z["source"].toUpperCase() + '</option>');
+                            $(id).append('<option version='+ timestamp +' surveyid='+ y["parent_id"] +' value='+ z["id"] +' '+ selected + '>' + z["source"].toUpperCase() + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>');
                         });
                     }
                 });
@@ -72,16 +73,15 @@ const fetchdata = () => {
         return defaultSelect;
     }).then(val => {
         if (val) {
+            $("#pre-loader").fadeOut('slow');
             // (localStorage.getItem('data')) ? loadLocalData() : setConfig(val);
-            (localStorage.getItem('data')) ? $("#databaseNav").removeClass('hidden') : '';
+            (localStorage.getItem('data')) ? $("#databaseNav").removeClass('hidden') : window.location.replace(window.location.origin);
         }
     });
 };
-fetchdata();
+// fetchdata();
 
-
-// Start edit from here
-
+(localStorage.getItem('data')) ? $("#databaseNav").removeClass('hidden') : window.location.replace(window.location.origin);
 var frm = $("form#stack_search");
 $(frm).removeAttr('onsubmit');
 
@@ -118,6 +118,7 @@ const getData = () => {
         }
         return temp;
     });
+    $("#pre-loader").fadeOut('slow');
     return data;
 };
 
@@ -143,10 +144,10 @@ var data_table = $('#databaseDataTable').DataTable({
           text: icon('file-excel-o'),
           key: { key: 'x', altkey: true }
         },
-        { extend: 'pdf',
-          text: icon('file-pdf-o'),
-          key: { key: 'd', altkey: true }
-        },
+        // { extend: 'pdf',
+        //   text: icon('file-pdf-o'),
+        //   key: { key: 'd', altkey: true }
+        // },
         { extend: 'csv',
           text: icon('file-text-o'),
           key: { key: 'c', altkey: true }
@@ -176,7 +177,6 @@ var data_table = $('#databaseDataTable').DataTable({
 $("#find").removeAttr('onkeydown');
 $('#databaseDataTable tbody').on('click', 'tr', function (e) {
     var data = data_table.row(this).data();
-    console.log(data[data.length-1]);
 	getDetails(data[data.length-1],'id');
 });
 

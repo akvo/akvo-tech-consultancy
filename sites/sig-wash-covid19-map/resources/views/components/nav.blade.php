@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
         aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         Menu
@@ -6,11 +6,15 @@
 
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-			<div class="form-group">
-                <select class="form-control" id="category-dropdown">
-                </select>
-			</div>
+            <a class="navbar-brand" href="#">
+                <img src="{{ asset('/images/logo/si-government.png') }}" width="40" height="40" class="d-inline-block align-middle" alt="">
+            </a>
+            <li class="nav-item" style="display: none;">
+                <div class="form-group">
+                    <select class="form-control" id="category-dropdown">
+                        <option id="loading-survey" value=0 selected>LOADING SURVEY... &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                    </select>
+                </div>
             </li>
             @if ($user = Auth::user())
             <li class="nav-item">

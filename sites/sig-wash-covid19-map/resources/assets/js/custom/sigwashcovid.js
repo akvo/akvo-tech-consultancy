@@ -126,7 +126,7 @@ class SigWashCovid {
             '<nav>\
               <div class="nav nav-tabs" id="nav-tab" role="tablist">\
                 <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Profile</a>\
-                <a class="nav-item nav-link" id="nav-covid-tab" data-toggle="tab" href="#nav-covid" role="tab" aria-controls="nav-covid" aria-selected="false">Covid-19 Response</a>\
+                <a class="nav-item nav-link" id="nav-comparisons-tab" data-toggle="tab" href="#nav-comparisons" role="tab" aria-controls="nav-comparisons" aria-selected="false">Comparisons</a>\
                 <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">\
                   <i class="fa fa-camera"></i>\
                 </a>\
@@ -150,14 +150,15 @@ class SigWashCovid {
                   </div>\
                   <hr>\
                 </div>\
+              </div>\
+            \
+              <div class="tab-pane fade" id="nav-comparisons" role="tabpanel" aria-labelledby="nav-comparisons-tab">\
                 <div class="row">\
                   <div class="col-sm-12">\
                     <div id="patient-visit-cart" style="position: relative; overflow: hidden; width: 720px; height: 400px; padding: 0px; margin: 0px; border-width: 0px; cursor: default;"></div>\
                   </div>\
                 </div >\
-              </div>\
-            \
-              <div class="tab-pane fade" id="nav-covid" role="tabpanel" aria-labelledby="nav-covid-tab">\
+                <hr>\
                 <div class="row">\
                   <div class="col-sm-6">\
                     <div id="bed-total-cart" style="position: relative; overflow: hidden; width: 360px; height: 400px; padding: 0px; margin: 0px; border-width: 0px; cursor: default;"></div>\
@@ -166,11 +167,13 @@ class SigWashCovid {
                     <div id="staff-total-cart" style="position: relative; overflow: hidden; width: 360px; height: 400px; padding: 0px; margin: 0px; border-width: 0px; cursor: default;"></div>\
                   </div>\
                 </div>\
+                <hr>\
                 <div class="row">\
                   <div class="col-sm-12">\
                     <div id="occupancy-cart" style="position: relative; overflow: hidden; width: 720px; height: 400px; padding: 0px; margin: 0px; border-width: 0px; cursor: default;"></div>\
                   </div>\
                 </div >\
+                <hr>\
                 <div class="row">\
                   <div class="col-sm-6">\
                     <div id="water-demand-cart" style="position: relative; overflow: hidden; width: 360px; height: 400px; padding: 0px; margin: 0px; border-width: 0px; cursor: default;"></div>\
@@ -179,6 +182,7 @@ class SigWashCovid {
                     <div id="grey-water-cart" style="position: relative; overflow: hidden; width: 360px; height: 400px; padding: 0px; margin: 0px; border-width: 0px; cursor: default;"></div>\
                   </div>\
                 </div >\
+                <hr>\
                 <div class="row">\
                   <div class="col-sm-6">\
                     <div id="black-water-cart" style="position: relative; overflow: hidden; width: 360px; height: 400px; padding: 0px; margin: 0px; border-width: 0px; cursor: default;"></div>\
@@ -206,6 +210,17 @@ class SigWashCovid {
             </div>\
             '
         );
+
+        // append basic information
+        this.data.properties.attributes.forEach(x => {
+          $("#basic-info").append('\
+            <div>\
+              <b>'+x.name+' :</b>  '+data.properties[x.id]+'\
+            </div>\
+            <hr>\
+          ');
+        });
+        // eol basic information
         
         // 281751020|What is the estimated number of patients visiting this facility in a typical day? : AF
         this.createBarChart("patient-visit-cart", "Number of patients visiting Facility Mean Comparisons", this.generateBarChartData("AF"));

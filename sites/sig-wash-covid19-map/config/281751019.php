@@ -277,40 +277,489 @@ return [
         ],
       ],
       "color" => [
-        // M-Is the water point currently functional?
-        // [
-        //   "question_id" =>  null,
-        //   "question" => "M-Is the water point currently functional?",
-        //   "code" => "Functional in use",
-        //   "text" => null,
-        //   "color" => "#28a745",
-        //   "order" => 1,
-        // ],
-        // [
-        //   "question_id" =>  null,
-        //   "question" => "M-Is the water point currently functional?",
-        //   "code" => "Functional and not in use",
-        //   "text" => null,
-        //   "color" => "#FA0",
-        //   "order" => 2,
-        // ],
-        // [
-        //   "question_id" =>  null,
-        //   "question" => "M-Is the water point currently functional?",
-        //   "code" => "Non-Functional",
-        //   "text" => null,
-        //   "color" => "#dc3545",
-        //   "order" => 3,
-        // ],
-        // [
-        //   "question_id" =>  null,
-        //   "question" => "M-Is the water point currently functional?",
-        //   "code" => "Decommissioned",
-        //   "text" => null,
-        //   "color" => "#666",
-        //   "order" => 4,
-        // ],
-        // EOL M-Is the water point currently functional?
+        // Is the main water source functioning on the day of visit? (meaning water is flowing into the pipes and taps on the day of visit)
+        [
+          "question_id" =>  285750980,
+          "question" => "Is the main water source functioning on the day of visit? (meaning water is flowing into the pipes and taps on the day of visit)",
+          "code" => "Yes",
+          "text" => null,
+          "color" => "#28a745",
+          "order" => 1,
+        ],
+        [
+          "question_id" =>  285750980,
+          "question" => "Is the main water source functioning on the day of visit? (meaning water is flowing into the pipes and taps on the day of visit)",
+          "code" => "No",
+          "text" => null,
+          "color" => "#dc3545",
+          "order" => 2,
+        ],
+        // EOL Is the main water source functioning on the day of visit? (meaning water is flowing into the pipes and taps on the day of visit)
+        
+        // Where is the HCF main water source located?
+        [
+          "question_id" =>  275690986,
+          "question" => "Where is the HCF main water source located?",
+          "code" => "On premises",
+          "text" => null,
+          "color" => "#28a745",
+          "order" => 1,
+        ],
+        [
+          "question_id" =>  275690986,
+          "question" => "Where is the HCF main water source located?",
+          "code" => "Within 500 mts",
+          "text" => null,
+          "color" => "#F8AA02",
+          "order" => 2,
+        ],
+        [
+          "question_id" =>  275690986,
+          "question" => "Where is the HCF main water source located?",
+          "code" => "More than 500 mts",
+          "text" => null,
+          "color" => "#dc3545",
+          "order" => 3,
+        ],
+        // EOL Where is the HCF main water source located?
+
+        // Are these separate for men and women?
+        [
+          "question_id" =>  259791023,
+          "question" => "Are these separate for men and women?",
+          "code" => "Yes",
+          "text" => null,
+          "color" => "#28a745",
+          "order" => 1,
+        ],
+        [
+          "question_id" =>  259791023,
+          "question" => "Are these separate for men and women?",
+          "code" => "No",
+          "text" => null,
+          "color" => "#dc3545",
+          "order" => 2,
+        ],
+        // EOL Are these separate for men and women?
+
+        // Are all toilets functioning at the time of the survey?
+        [
+          "question_id" =>  267630980,
+          "question" => "Are all toilets functioning at the time of the survey?",
+          "code" => "Yes",
+          "text" => null,
+          "color" => "#28a745",
+          "order" => 1,
+        ],
+        [
+          "question_id" =>  267630980,
+          "question" => "Are all toilets functioning at the time of the survey?",
+          "code" => "No",
+          "text" => null,
+          "color" => "#dc3545",
+          "order" => 2,
+        ],
+        // EOL Are all toilets functioning at the time of the survey?
+
+        // Does the toilet provide separate bins for menstrual waste?
+        [
+          "question_id" =>  285741007,
+          "question" => "Does the toilet provide separate bins for menstrual waste?",
+          "code" => "Yes",
+          "text" => null,
+          "color" => "#28a745",
+          "order" => 1,
+        ],
+        [
+          "question_id" =>  285741007,
+          "question" => "Does the toilet provide separate bins for menstrual waste?",
+          "code" => "No",
+          "text" => null,
+          "color" => "#dc3545",
+          "order" => 2,
+        ],
+        // EOL Does the toilet provide separate bins for menstrual waste?
+
+        // Does the HCF provide incinerators for menstrual waste?
+        [
+          "question_id" =>  263701011,
+          "question" => "Does the HCF provide incinerators for menstrual waste?",
+          "code" => "Yes",
+          "text" => null,
+          "color" => "#28a745",
+          "order" => 1,
+        ],
+        [
+          "question_id" =>  263701011,
+          "question" => "Does the HCF provide incinerators for menstrual waste?",
+          "code" => "No",
+          "text" => null,
+          "color" => "#dc3545",
+          "order" => 2,
+        ],
+        // EOL Does the HCF provide incinerators for menstrual waste?
+
+        // Does this toilet meet the needs of people with reduced mobility? (People living with disabilities)
+        [
+          "question_id" =>  263721025,
+          "question" => "Does this toilet meet the needs of people with reduced mobility? (People living with disabilities)",
+          "code" => "Yes",
+          "text" => null,
+          "color" => "#28a745",
+          "order" => 1,
+        ],
+        [
+          "question_id" =>  263721025,
+          "question" => "Does this toilet meet the needs of people with reduced mobility? (People living with disabilities)",
+          "code" => "No",
+          "text" => null,
+          "color" => "#dc3545",
+          "order" => 2,
+        ],
+        // EOL Does this toilet meet the needs of people with reduced mobility? (People living with disabilities)
+      
+        // Is there water available in the delivery room at the time of the survey?
+        [
+          "question_id" =>  265690930,
+          "question" => "Is there water available in the delivery room at the time of the survey?",
+          "code" => "Yes",
+          "text" => null,
+          "color" => "#28a745",
+          "order" => 1,
+        ],
+        [
+          "question_id" =>  265690930,
+          "question" => "Is there water available in the delivery room at the time of the survey?",
+          "code" => "No",
+          "text" => null,
+          "color" => "#dc3545",
+          "order" => 2,
+        ],
+        [
+          "question_id" =>  265690930,
+          "question" => "Is there water available in the delivery room at the time of the survey?",
+          "code" => "Unknown",
+          "text" => null,
+          "color" => "#666",
+          "order" => 3,
+        ],
+        // EOL Is there water available in the delivery room at the time of the survey?
+
+        // Is there a latrine / toilet available for use by women during and after labour and childbirth?
+        [
+          "question_id" =>  263721026,
+          "question" => "Is there a latrine / toilet available for use by women during and after labour and childbirth?",
+          "code" => "Yes",
+          "text" => null,
+          "color" => "#28a745",
+          "order" => 1,
+        ],
+        [
+          "question_id" =>  263721026,
+          "question" => "Is there a latrine / toilet available for use by women during and after labour and childbirth?",
+          "code" => "No",
+          "text" => null,
+          "color" => "#dc3545",
+          "order" => 2,
+        ],
+        [
+          "question_id" =>  263721026,
+          "question" => "Is there a latrine / toilet available for use by women during and after labour and childbirth?",
+          "code" => "Unknown",
+          "text" => null,
+          "color" => "#666",
+          "order" => 3,
+        ],
+        // EOL Is there a latrine / toilet available for use by women during and after labour and childbirth?
+        
+        // Is that toilet/latrine functional?
+        [
+          "question_id" =>  285750992,
+          "question" => "Is that toilet/latrine functional?",
+          "code" => "Yes",
+          "text" => null,
+          "color" => "#28a745",
+          "order" => 1,
+        ],
+        [
+          "question_id" =>  285750992,
+          "question" => "Is that toilet/latrine functional?",
+          "code" => "No",
+          "text" => null,
+          "color" => "#dc3545",
+          "order" => 2,
+        ],
+        [
+          "question_id" =>  285750992,
+          "question" => "Is that toilet/latrine functional?",
+          "code" => "Unknown",
+          "text" => null,
+          "color" => "#666",
+          "order" => 3,
+        ],
+        // EOL Is that toilet/latrine functional?
+
+        // Is the toilet/latrine accessible to women in labour?
+        [
+          "question_id" =>  253651020,
+          "question" => "Is the toilet/latrine accessible to women in labour?",
+          "code" => "Yes",
+          "text" => null,
+          "color" => "#28a745",
+          "order" => 1,
+        ],
+        [
+          "question_id" =>  253651020,
+          "question" => "Is the toilet/latrine accessible to women in labour?",
+          "code" => "No",
+          "text" => null,
+          "color" => "#dc3545",
+          "order" => 2,
+        ],
+        [
+          "question_id" =>  253651020,
+          "question" => "Is the toilet/latrine accessible to women in labour?",
+          "code" => "Unknown",
+          "text" => null,
+          "color" => "#666",
+          "order" => 3,
+        ],
+        // EOL Is the toilet/latrine accessible to women in labour?
+
+        // Is at least one functional handwashing station in the delivery room?
+        [
+          "question_id" =>  275701004,
+          "question" => "Is at least one functional handwashing station in the delivery room?",
+          "code" => "Yes (has both soap and water)",
+          "text" => null,
+          "color" => "#28a745",
+          "order" => 1,
+        ],
+        [
+          "question_id" =>  275701004,
+          "question" => "Is at least one functional handwashing station in the delivery room?",
+          "code" => "No, has alcohol based disinfectant",
+          "text" => null,
+          "color" => "#F8AA02",
+          "order" => 2,
+        ],
+        [
+          "question_id" =>  275701004,
+          "question" => "Is at least one functional handwashing station in the delivery room?",
+          "code" => "No (lacks either soap or water)",
+          "text" => null,
+          "color" => "#AB47BC",
+          "order" => 3,
+        ],
+        [
+          "question_id" =>  275701004,
+          "question" => "Is at least one functional handwashing station in the delivery room?",
+          "code" => "Not available",
+          "text" => null,
+          "color" => "#dc3545",
+          "order" => 4,
+        ],
+        [
+          "question_id" =>  275701004,
+          "question" => "Is at least one functional handwashing station in the delivery room?",
+          "code" => "Unknown",
+          "text" => null,
+          "color" => "#666",
+          "order" => 5,
+        ],
+        // EOL Is at least one functional handwashing station in the delivery room?
+
+        // Is a designated area for women to shower or bathe during/after labour available?
+        [
+          "question_id" =>  277740991,
+          "question" => "Is a designated area for women to shower or bathe during/after labour available?",
+          "code" => "Yes",
+          "text" => null,
+          "color" => "#28a745",
+          "order" => 1,
+        ],
+        [
+          "question_id" =>  277740991,
+          "question" => "Is a designated area for women to shower or bathe during/after labour available?",
+          "code" => "No",
+          "text" => null,
+          "color" => "#dc3545",
+          "order" => 2,
+        ],
+        [
+          "question_id" =>  277740991,
+          "question" => "Is a designated area for women to shower or bathe during/after labour available?",
+          "code" => "Unknown",
+          "text" => null,
+          "color" => "#666",
+          "order" => 3,
+        ],
+        // EOL Is a designated area for women to shower or bathe during/after labour available?
+
+        // is the shower functional?
+        [
+          "question_id" =>  285750995,
+          "question" => "is the shower functional?",
+          "code" => "Yes",
+          "text" => null,
+          "color" => "#28a745",
+          "order" => 1,
+        ],
+        [
+          "question_id" =>  285750995,
+          "question" => "is the shower functional?",
+          "code" => "No",
+          "text" => null,
+          "color" => "#dc3545",
+          "order" => 2,
+        ],
+        [
+          "question_id" =>  285750995,
+          "question" => "is the shower functional?",
+          "code" => "Unknown",
+          "text" => null,
+          "color" => "#666",
+          "order" => 3,
+        ],
+        // EOL is the shower functional?
+
+        // Are the basic sterile resources required for a clean delivery available in the delivery room?
+        [
+          "question_id" =>  281741010,
+          "question" => "Are the basic sterile resources required for a clean delivery available in the delivery room?",
+          "code" => "Yes (all resources are available)",
+          "text" => null,
+          "color" => "#28a745",
+          "order" => 1,
+        ],
+        [
+          "question_id" =>  281741010,
+          "question" => "Are the basic sterile resources required for a clean delivery available in the delivery room?",
+          "code" => "No (non or some are available)",
+          "text" => null,
+          "color" => "#dc3545",
+          "order" => 2,
+        ],
+        [
+          "question_id" =>  281741010,
+          "question" => "Are the basic sterile resources required for a clean delivery available in the delivery room?",
+          "code" => "Unknown",
+          "text" => null,
+          "color" => "#666",
+          "order" => 3,
+        ],
+        // EOL Are the basic sterile resources required for a clean delivery available in the delivery room?
+      
+        // Are basic standard written policies and protocols available within the facility relating to cleaning the delivery room?
+        [
+          "question_id" =>  281741011,
+          "question" => "Are basic standard written policies and protocols available within the facility relating to cleaning the delivery room?",
+          "code" => "Yes",
+          "text" => null,
+          "color" => "#28a745",
+          "order" => 1,
+        ],
+        [
+          "question_id" =>  281741011,
+          "question" => "Are basic standard written policies and protocols available within the facility relating to cleaning the delivery room?",
+          "code" => "No",
+          "text" => null,
+          "color" => "#dc3545",
+          "order" => 2,
+        ],
+        [
+          "question_id" =>  281741011,
+          "question" => "Are basic standard written policies and protocols available within the facility relating to cleaning the delivery room?",
+          "code" => "Unknown",
+          "text" => null,
+          "color" => "#666",
+          "order" => 3,
+        ],
+        // EOL Are basic standard written policies and protocols available within the facility relating to cleaning the delivery room?
+      
+        // Have cleaning staff responsible for cleaning the delivery room received training in the last 24 months?
+        [
+          "question_id" =>  275690995,
+          "question" => "Have cleaning staff responsible for cleaning the delivery room received training in the last 24 months?",
+          "code" => "Yes",
+          "text" => null,
+          "color" => "#28a745",
+          "order" => 1,
+        ],
+        [
+          "question_id" =>  275690995,
+          "question" => "Have cleaning staff responsible for cleaning the delivery room received training in the last 24 months?",
+          "code" => "No",
+          "text" => null,
+          "color" => "#dc3545",
+          "order" => 2,
+        ],
+        [
+          "question_id" =>  275690995,
+          "question" => "Have cleaning staff responsible for cleaning the delivery room received training in the last 24 months?",
+          "code" => "Unknown",
+          "text" => null,
+          "color" => "#666",
+          "order" => 3,
+        ],
+        // EOL Have cleaning staff responsible for cleaning the delivery room received training in the last 24 months?
+      
+        // is there at least one set of bins in place for safety segregation of health care waste?
+        [
+          "question_id" =>  285741014,
+          "question" => "is there at least one set of bins in place for safety segregation of health care waste?",
+          "code" => "Yes",
+          "text" => null,
+          "color" => "#28a745",
+          "order" => 1,
+        ],
+        [
+          "question_id" =>  285741014,
+          "question" => "is there at least one set of bins in place for safety segregation of health care waste?",
+          "code" => "No",
+          "text" => null,
+          "color" => "#dc3545",
+          "order" => 2,
+        ],
+        // EOL is there at least one set of bins in place for safety segregation of health care waste?
+
+        // Are there hand hygiene stations (with water and soap or alcohol based hand rub) available in or near all the toilet?
+        [
+          "question_id" =>  273641025,
+          "question" => "Are there hand hygiene stations (with water and soap or alcohol based hand rub) available in or near all the toilet?",
+          "code" => "Yes",
+          "text" => null,
+          "color" => "#28a745",
+          "order" => 1,
+        ],
+        [
+          "question_id" =>  273641025,
+          "question" => "Are there hand hygiene stations (with water and soap or alcohol based hand rub) available in or near all the toilet?",
+          "code" => "No",
+          "text" => null,
+          "color" => "#dc3545",
+          "order" => 2,
+        ],
+        // EOL Are there hand hygiene stations (with water and soap or alcohol based hand rub) available in or near all the toilet?
+        
+        // Are functioning hand washing stations (soap and water or alcohol hand rubs) available near food preparation areas?
+        [
+          "question_id" =>  255841045,
+          "question" => "Are functioning hand washing stations (soap and water or alcohol hand rubs) available near food preparation areas?",
+          "code" => "Yes",
+          "text" => null,
+          "color" => "#28a745",
+          "order" => 1,
+        ],
+        [
+          "question_id" =>  255841045,
+          "question" => "Are functioning hand washing stations (soap and water or alcohol hand rubs) available near food preparation areas?",
+          "code" => "No",
+          "text" => null,
+          "color" => "#dc3545",
+          "order" => 2,
+        ],
+        // EOL Are functioning hand washing stations (soap and water or alcohol hand rubs) available near food preparation areas?
       ],
       "template" => [
         [ 

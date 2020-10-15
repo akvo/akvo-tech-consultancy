@@ -1,6 +1,7 @@
 @include('components.header')
 <body>
     @include('components.nav')
+    @include('components.loader')
     @yield('content')
     @include('components.modal')
     @include('components.security')

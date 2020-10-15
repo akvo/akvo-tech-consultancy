@@ -42,6 +42,8 @@ let appVersion = localStorage.getItem('app-version'),
     pieChart,
     pieClicked = false,
     activePie = null,
+    filterClicked = false,
+    filterIndex = null,
     metadata,
     clustered = true,
     cfg = [],
@@ -56,7 +58,7 @@ let appVersion = localStorage.getItem('app-version'),
     selects = ["1", "2", "3", "4", "5"],
     markerclusters,
     map,
-    indicatorColors = ["#28a745", "#dc3545", "#FA0", "#0288d1", "#ab47bc", "#40b1e6", "#ffca29", "#ab47bc"];
+    indicatorColors = ["#28a745", "#dc3545", "#FA0", "#0288d1", "#ab47bc", "#40b1e6", "#ffca29", "#666", "black"];
 
 let cacheMem = JSON.parse(localStorage.getItem('data'));
 
@@ -91,6 +93,7 @@ const setConfig = (defaultSelect) => {
     }).then(res => {
         // show hidden menu
         $("#databaseNav").removeClass('hidden');
+        $("#pre-loader").fadeOut('slow');
     });
 };
 
@@ -156,30 +159,48 @@ const setSelectedCategory = (id) => {
 /* set category selected based on data load */
 const fetchdata = () => {
     fetchAPI('source').then((a) => {
+        $('#category-dropdown').html('');
         if (!defaultSelect) {
-            $('#category-dropdown').append('<option id="source-init" value=0 selected>SELECT SURVEY</option>');
-            emptyMap();
-        }
-        a.data.forEach((x, i) => {
-            $('#category-dropdown').append('<optgroup label="'+ x["source"].toUpperCase() +'" id='+ x["id"] +'></optgroup>');
-            let timestamp = Date.parse(x.created_at);
-            if (x.childrens.length > 0) {
-                x.childrens.forEach((y, i) => {
-                    let selected = setSelectedCategory(y["id"]);
-                    let id = "#" + x["id"];
-                    $(id).append('<option version='+ timestamp +' surveyid='+ y["parent_id"] +' value='+ y["id"] +' '+ selected + '>' + y["source"].toUpperCase() + '</option>');
-
-                    if (y.childrens.length > 0) {
-                        y.childrens.forEach((z, i) => {
-                            let selected = setSelectedCategory(z["id"]);
-                            $(id).append('<option version='+ timestamp +' surveyid='+ y["parent_id"] +' value='+ z["id"] +' '+ selected + '>' + z["source"].toUpperCase() + '</option>');
-                        });
-                    }
-                });
-            }
+            // $('#category-dropdown').append('<option id="source-init" value=0 selected>SELECT SURVEY</option>');
+            // emptyMap();
+            // one data
+            defaultSelect = a.data[0].childrens[0].id;
+            defaultSurvey = a.data[0].id;
+            appVersion = Date.parse(a.data[0].created_at);
+            $("#source-init").remove();
             geojsonPath = '/api/data/' + defaultSelect;
-        });
+            $("#legend").children().remove();
+            localStorage.removeItem('data');
+            localStorage.removeItem('default-properties');
+            localStorage.removeItem('configs');
+            localStorage.removeItem('second-filter');
+            localStorage.setItem('default-api', defaultSelect);
+            localStorage.setItem('default-survey', defaultSurvey);
+            localStorage.setItem('app-version', appVersion);
+            $('#legend').remove();
+            $('#bar-legend').remove();
+            // eol one data
+        }
+        // a.data.forEach((x, i) => {
+        //     $('#category-dropdown').append('<optgroup label="'+ x["source"].toUpperCase() +'" id='+ x["id"] +'></optgroup>');
+        //     let timestamp = Date.parse(x.created_at);
+        //     if (x.childrens.length > 0) {
+        //         x.childrens.forEach((y, i) => {
+        //             let selected = setSelectedCategory(y["id"]);
+        //             let id = "#" + x["id"];
+        //             $(id).append('<option version='+ timestamp +' surveyid='+ y["parent_id"] +' value='+ y["id"] +' '+ selected + '>' + y["source"].toUpperCase() + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>');
+
+        //             if (y.childrens.length > 0) {
+        //                 y.childrens.forEach((z, i) => {
+        //                     let selected = setSelectedCategory(z["id"]);
+        //                     $(id).append('<option version='+ timestamp +' surveyid='+ y["parent_id"] +' value='+ z["id"] +' '+ selected + '>' + z["source"].toUpperCase() + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>');
+        //                 });
+        //             }
+        //         });
+        //     }
+        // });
         if (defaultSelect) {
+            geojsonPath = '/api/data/' + defaultSelect;
             // check data version
             let activeSurvey = a.data.filter(x => x.id == defaultSurvey)[0];
             let newVersion = Date.parse(activeSurvey.created_at);
@@ -194,6 +215,7 @@ const fetchdata = () => {
         }
         return defaultSelect;
     }).then(val => {
+        $("#pre-loader").fadeOut('slow');
         if (val) {
             (localStorage.getItem('data')) ? loadLocalData() : setConfig(val);
             (localStorage.getItem('data')) ? $("#databaseNav").removeClass('hidden') : '';
@@ -204,6 +226,7 @@ fetchdata();
 
 
 $("#category-dropdown").on('change', () => {
+    $("#pre-loader").fadeIn();
     defaultSelect = $("#category-dropdown").val();
     defaultSurvey = $("#category-dropdown :selected").attr('surveyid');
     appVersion = $("#category-dropdown :selected").attr('version');
@@ -500,7 +523,7 @@ const renderPieChart = (dbs, clicked=false) => {
                     show: true,
                     formatter: '{d}%',
                     fontSize: 12,
-                    fontWeight: 'normal',
+                    fontWeight: 'bold',
                 },
                 // emphasis: {
                 //     label: {
@@ -529,21 +552,25 @@ const pieChartEvent = () => {
     let pie = pieChart.getZr();
     pie.on('click', function (params) {
         let dbs = JSON.parse(localStorage.getItem('data'));
-        if (params.target !== undefined && pieClicked && activePie === params.target.dataIndex) {
+        if (params.target !== undefined && pieClicked && activePie === params.target.dataIndex || filterClicked) {
             pieClicked = false;
             activePie = null;
-            $(".category-" + params.target.dataIndex).click();
+            let index = (filterClicked) ? filterIndex : params.target.dataIndex;
+            $(".category-" + index).click();
             changeValue(dbs, []);
+            filterClicked = false;
             return;
         }
-        if (params.target !== undefined && !pieClicked && activePie == null) {
+        if (params.target !== undefined && !pieClicked && activePie == null || filterClicked) {
             pieClicked = true;
-            activePie = params.target.dataIndex;
-            $(".category-" + params.target.dataIndex).click();
+            let index = (filterClicked) ? filterIndex : params.target.dataIndex;
+            activePie = index;
+            $(".category-" + index).click();
             // let del = dbs.properties.attribution.lookup;
             let del = dbs.properties.attribution.sources;
             del = del.filter(x => x.toLowerCase() !== del[activePie].toLowerCase());
             changeValue(dbs, del);
+            filterClicked = false;
             return;
         }
     });
@@ -1118,6 +1145,8 @@ const renderLegend = (database) => {
         .attr('data-value', (d => d.key))
         .attr('id', (d => 'legend-select-' + d.value))
         .on('click', function (d) {
+            // filterClicked = true;
+            // filterIndex = d.key;
             // if (!cfg.shapefile) {
             //     $('.leaflet-marker-icon').remove();
             //     if ($(this).hasClass('inactive-legend')) {
@@ -1144,7 +1173,8 @@ const renderLegend = (database) => {
                     $(this).addClass('indicator');
                     document.getElementById(id).remove(); 
                     if ($('.active-indicator').length > 1) {
-                        let active = $('.active-indicator').attr('class').split(' ')[0];
+                        // let active = $('.active-indicator').attr('class').split(' ')[0];
+                        $('.active-indicator').attr('class').split(' ')[0];
                     }
                 } else {
                     $(this).removeClass('indicator');

@@ -25,7 +25,7 @@ class ApiController extends Controller
 	{
         $code = 401;
         $message = 'Wrong Code'; 
-		if ($request->security_code === 'wins12345'){
+		if ($request->security_code === 'hcf12345'){
             $code = 200;
             $message = 'Granted';
 		}
