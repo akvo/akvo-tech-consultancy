@@ -703,6 +703,25 @@ return [
           "order" => 3,
         ],
         // EOL Have cleaning staff responsible for cleaning the delivery room received training in the last 24 months?
+
+        // What type of toilets does the facility have/use?
+        // [
+        //   "question_id" =>  281741006,
+        //   "question" => "What type of toilets does the facility have/use?",
+        //   "code" => "Flush to sewer",
+        //   "text" => null,
+        //   "color" => "#AB47BC",
+        //   "order" => 4,
+        // ],
+        // [
+        //   "question_id" =>  281741006,
+        //   "question" => "What type of toilets does the facility have/use?",
+        //   "code" => "Unknown",
+        //   "text" => null,
+        //   "color" => "#666",
+        //   "order" => 5,
+        // ],
+        // EOL What type of toilets does the facility have/use?
       
         // is there at least one set of bins in place for safety segregation of health care waste?
         [

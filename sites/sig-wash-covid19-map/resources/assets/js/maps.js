@@ -35,6 +35,7 @@ let removeAllMap = () => map.eachLayer((layer) => {
 let appVersion = localStorage.getItem('app-version'),
     geojson,
     geojsonPoly = null,
+    legend = null,
     legendPoly = null,
     labelPoly = null,
     popupPoly = false,
@@ -58,7 +59,7 @@ let appVersion = localStorage.getItem('app-version'),
     selects = ["1", "2", "3", "4", "5"],
     markerclusters,
     map,
-    indicatorColors = ["#28a745", "#dc3545", "#FA0", "#0288d1", "#ab47bc", "#40b1e6", "#ffca29", "#666", "black"];
+    indicatorColors = ["#28a745", "#dc3545", "#FA0", "#0288d1", "#ab47bc", "#666", "#ffca29", "#40b1e6", "black"];
 
 let cacheMem = JSON.parse(localStorage.getItem('data'));
 
@@ -1145,6 +1146,7 @@ const renderLegend = (database) => {
         .attr('data-value', (d => d.key))
         .attr('id', (d => 'legend-select-' + d.value))
         .on('click', function (d) {
+            legend = (legend === d) ? null : d;
             // filterClicked = true;
             // filterIndex = d.key;
             // if (!cfg.shapefile) {
@@ -1294,6 +1296,20 @@ const refreshLayer = (dbs) => {
         // eol reset popup 
         setPolygonMap(geojson);
     }
+
+    // css for multiple value
+    // if (legend) {
+    //     if ($('.category-undefined').length > 0) {
+    //         $('.category-undefined').addClass('category-'+legend.key, 'icon-'+legend.key);
+    //         $('.category-undefined').removeClass('category-undefined', 'icon-undefined');
+    //     }
+    // }
+    // if (!legend) {
+    //     if ($('.category-undefined').length > 0) {
+    //         $('.category-undefined').addClass('category-undefined', 'icon-undefined');
+    //     }
+    // }
+    // eol css for multiple value
 };
 
 const changeValue = (database, deletes) => {

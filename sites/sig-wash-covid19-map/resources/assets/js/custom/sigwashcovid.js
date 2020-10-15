@@ -90,6 +90,9 @@ class SigWashCovid {
         xAxis: {
             type: 'category',
             data: axis.x,
+            axisLabel: {
+              rotate: 30,
+            },
         },
         yAxis: {
             type: 'value',
