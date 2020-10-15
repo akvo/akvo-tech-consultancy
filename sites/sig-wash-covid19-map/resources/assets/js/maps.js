@@ -215,7 +215,7 @@ const fetchdata = () => {
         }
         return defaultSelect;
     }).then(val => {
-        $("#pre-loader").fadeOut('slow');
+        (localStorage.getItem('data')) ? $("#pre-loader").fadeOut('slow') : '';
         if (val) {
             (localStorage.getItem('data')) ? loadLocalData() : setConfig(val);
             (localStorage.getItem('data')) ? $("#databaseNav").removeClass('hidden') : '';
