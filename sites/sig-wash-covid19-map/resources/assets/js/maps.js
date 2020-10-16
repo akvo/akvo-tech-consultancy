@@ -35,6 +35,7 @@ let removeAllMap = () => map.eachLayer((layer) => {
 let appVersion = localStorage.getItem('app-version'),
     geojson,
     geojsonPoly = null,
+    activeLegend = null,
     legend = null,
     legendPoly = null,
     labelPoly = null,
@@ -470,7 +471,8 @@ const filterPieData = (dbs) => {
     let tmp = [];
     _.each(attribution.lookup, (item, index) => {
         let value = [];
-        value = _.filter(data, (x) => x[attribution.id].toLowerCase() === attribution.sources[index].toLowerCase());
+        // value = _.filter(data, (x) => x[attribution.id].toLowerCase() === attribution.sources[index].toLowerCase());
+        value = _.filter(data, (x) => x[attribution.id].toLowerCase().includes(attribution.sources[index].toLowerCase()));
         tmp.push({
             value: value.length, 
             name: item,
@@ -553,25 +555,34 @@ const pieChartEvent = () => {
     let pie = pieChart.getZr();
     pie.on('click', function (params) {
         let dbs = JSON.parse(localStorage.getItem('data'));
-        if (params.target !== undefined && pieClicked && activePie === params.target.dataIndex || filterClicked) {
+        if (params.target !== undefined && pieClicked && activePie === params.target.dataIndex || filterIndex === activePie) {
             pieClicked = false;
             activePie = null;
-            let index = (filterClicked) ? filterIndex : params.target.dataIndex;
-            $(".category-" + index).click();
+            let index = (filterClicked) 
+                            ? filterIndex 
+                            : (params.target !== undefined) 
+                                ? params.target.dataIndex
+                                : null;
             changeValue(dbs, []);
             filterClicked = false;
+            $(".category-" + index).click();
             return;
         }
-        if (params.target !== undefined && !pieClicked && activePie == null || filterClicked) {
+        if (params.target !== undefined && !pieClicked && activePie == null || filterIndex == null) {
+            // Initial click
             pieClicked = true;
-            let index = (filterClicked) ? filterIndex : params.target.dataIndex;
+            let index = (filterClicked) 
+                            ? filterIndex 
+                            : (params.target !== undefined) 
+                                ? params.target.dataIndex
+                                : null;
             activePie = index;
-            $(".category-" + index).click();
             // let del = dbs.properties.attribution.lookup;
             let del = dbs.properties.attribution.sources;
             del = del.filter(x => x.toLowerCase() !== del[activePie].toLowerCase());
             changeValue(dbs, del);
-            filterClicked = false;
+            filterClicked = true;
+            $(".category-" + index).click();
             return;
         }
     });
@@ -1147,8 +1158,20 @@ const renderLegend = (database) => {
         .attr('id', (d => 'legend-select-' + d.value))
         .on('click', function (d) {
             legend = (legend === d) ? null : d;
-            // filterClicked = true;
-            // filterIndex = d.key;
+            // manage pie event
+            if (!filterClicked) {
+                // Init click
+                filterIndex = (!pieClicked) ? activePie : d.key;
+                activePie = filterIndex;
+                filterClicked = (!pieClicked) ? false : true;
+            }
+            else if (filterClicked) {
+                filterIndex = (pieClicked) ? activePie : d.key;
+                activePie = filterIndex;
+                filterClicked = (pieClicked) ? false : true;
+            }
+            // eol manage pie event
+
             // if (!cfg.shapefile) {
             //     $('.leaflet-marker-icon').remove();
             //     if ($(this).hasClass('inactive-legend')) {
@@ -1190,7 +1213,8 @@ const renderLegend = (database) => {
         })
         .text(function(d) {
             // if (cfg.shapefile) {
-                let count = counts.filter(x => x.name.toLowerCase() === d.value.toLowerCase());
+                // let count = counts.filter(x => x.name.toLowerCase() === d.value.toLowerCase());
+                let count = counts.filter(x => x.name.toLowerCase().includes(d.value.toLowerCase()));
                 count = ' ('+count[0].value+')';
                 return d.value + count;
             // }
@@ -1236,6 +1260,7 @@ const getFilterData = () => {
             // deletes = metadata.attribution.lookup.filter(x => x.toLowerCase() !== metadata.attribution.lookup[active.split('-')[1]].toLowerCase()); // remove the active indicators
             let index = _.findIndex(metadata.attribution.lookup, x => x.toLowerCase() === metadata.attribution.lookup[active.split('-')[1]].toLowerCase());
             deletes = metadata.attribution.sources.filter(x => x.toLowerCase() !== metadata.attribution.sources[index].toLowerCase()); // remove the active indicators
+            activeLegend = _.xor(metadata.attribution.sources, deletes)[0];
         });
     // }
 
@@ -1318,9 +1343,24 @@ const changeValue = (database, deletes) => {
         dbs["features"] = $.map(dbs.features, (x) => {
             x = x;
             x.properties.status = "active";
-            if (deletes.indexOf(x.properties[iconField]) >= 0) {
-                x.properties.status = "inactive";
+            // new method to delete beacuse of multipe answer
+            deletes.forEach(d => {
+                if (x.properties[iconField].toLowerCase().includes(d.toLowerCase())) {
+                    x.properties.status = "inactive"; 
+                }
+            });
+            if (activeLegend !== null 
+                && x.properties[iconField].toLowerCase().includes(activeLegend.toLowerCase()) 
+                && x.properties[iconField].includes('|')
+            ) {
+                x.properties.status = "active";
             }
+            // eol new method to delete beacuse of multipe answer
+            
+            // old method
+            // if (deletes.indexOf(x.properties[iconField]) >= 0) {
+            //     x.properties.status = "inactive";
+            // }
             return x;
         });
     }

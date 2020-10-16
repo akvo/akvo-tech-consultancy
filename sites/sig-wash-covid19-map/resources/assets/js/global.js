@@ -189,3 +189,15 @@ const sendRequest = () => {
         }
     });
 };
+
+const renderPanel = () => {
+    let checkInterval = setInterval(() => {
+        let data = JSON.parse(localStorage.getItem('data'));
+        if (data) {
+            $("#panel-total-data-count").empty();
+            $("#panel-total-data-count").append(data.features.length);
+            clearInterval(checkInterval);
+        }
+    }, 1000);
+};
+renderPanel();

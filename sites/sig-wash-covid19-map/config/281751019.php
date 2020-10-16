@@ -13,7 +13,7 @@ return [
       "sources" => null, // nama kolom data nya
       "match" => null // nama object di geoshape
     ], // data
-    "center_map" => [9.6457, 160.1562], // center lat lng of location
+    "center_map" => [-9.642625, 160.156290], // center lat lng of location
     "dataset" => "DATA_CLEANING-281751019.xlsx", // filename .xls
     "join_column" => null,
   ],
@@ -87,7 +87,7 @@ return [
           "question_id" => 281741006,
           "question" => "What type of toilets does the facility have/use?",
           "text" => "Type of toilets",
-          "type" => "option",
+          "type" => "multiple",
           "default" => 0,
           "order" => 5,
         ],
@@ -119,7 +119,7 @@ return [
           "question_id" => 283691020,
           "question" => "Who is this toilet designated for?",
           "text" => "Toilet designated for",
-          "type" => "option",
+          "type" => "multiple",
           "default" => 0,
           "order" => 9,
         ],
@@ -704,25 +704,6 @@ return [
         ],
         // EOL Have cleaning staff responsible for cleaning the delivery room received training in the last 24 months?
 
-        // What type of toilets does the facility have/use?
-        // [
-        //   "question_id" =>  281741006,
-        //   "question" => "What type of toilets does the facility have/use?",
-        //   "code" => "Flush to sewer",
-        //   "text" => null,
-        //   "color" => "#AB47BC",
-        //   "order" => 4,
-        // ],
-        // [
-        //   "question_id" =>  281741006,
-        //   "question" => "What type of toilets does the facility have/use?",
-        //   "code" => "Unknown",
-        //   "text" => null,
-        //   "color" => "#666",
-        //   "order" => 5,
-        // ],
-        // EOL What type of toilets does the facility have/use?
-      
         // is there at least one set of bins in place for safety segregation of health care waste?
         [
           "question_id" =>  285741014,
@@ -779,6 +760,190 @@ return [
           "order" => 2,
         ],
         // EOL Are functioning hand washing stations (soap and water or alcohol hand rubs) available near food preparation areas?
+      
+        // Multiple Answer
+        // What type of toilets does the facility have/use?
+        [
+          "question_id" =>  281741006,
+          "question" => "What type of toilets does the facility have/use?",
+          "code" => "Flush to septic tank",
+          "text" => null,
+          "color" => "#2EA745",
+          "order" => 1,
+        ],
+        [
+          "question_id" =>  281741006,
+          "question" => "What type of toilets does the facility have/use?",
+          "code" => "Flust to pit",
+          "text" => null,
+          "color" => "#DC3545",
+          "order" => 2,
+        ],
+        [
+          "question_id" =>  281741006,
+          "question" => "What type of toilets does the facility have/use?",
+          "code" => "Pit toilet to slab",
+          "text" => null,
+          "color" => "#F8AA02",
+          "order" => 3,
+        ],
+        [
+          "question_id" =>  281741006,
+          "question" => "What type of toilets does the facility have/use?",
+          "code" => "Ventilated improved pit toilet",
+          "text" => null,
+          "color" => "#3188D1",
+          "order" => 4,
+        ],
+        [
+          "question_id" =>  281741006,
+          "question" => "What type of toilets does the facility have/use?",
+          "code" => "Flush to sewer",
+          "text" => null,
+          "color" => "#AB47BC",
+          "order" => 5,
+        ],
+        [
+          "question_id" =>  281741006,
+          "question" => "What type of toilets does the facility have/use?",
+          "code" => "Unknown",
+          "text" => null,
+          "color" => "#666",
+          "order" => 6,
+        ],
+        // EOL What type of toilets does the facility have/use?
+
+        // Multiple Answer
+        // What is the source of water in the delivery room?
+        [
+          "question_id" =>  263711003,
+          "question" => "What is the source of water in the delivery room?",
+          "code" => "Piped Water in the room",
+          "text" => null,
+          "color" => "#2EA745",
+          "order" => 1,
+        ],
+        [
+          "question_id" =>  263711003,
+          "question" => "What is the source of water in the delivery room?",
+          "code" => "Stored water with a tap is available in the room",
+          "text" => null,
+          "color" => "#F8AA02",
+          "order" => 2,
+        ],
+        [
+          "question_id" =>  263711003,
+          "question" => "What is the source of water in the delivery room?",
+          "code" => "Stored water without a tap is available in the room",
+          "text" => null,
+          "color" => "#DC3545",
+          "order" => 3,
+        ],
+        [
+          "question_id" =>  263711003,
+          "question" => "What is the source of water in the delivery room?",
+          "code" => "Unknown",
+          "text" => null,
+          "color" => "#666",
+          "order" => 4,
+        ],
+        // EOL What is the source of water in the delivery room?
+
+        // Multiple Answer
+        // How are sharps and disposable syringes that have been used stored?
+        [
+          "question_id" =>  259791034,
+          "question" => "How are sharps and disposable syringes that have been used stored?",
+          "code" => "Plastic bucket",
+          "text" => null,
+          "color" => "#2EA745",
+          "order" => 1,
+        ],
+        [
+          "question_id" =>  259791034,
+          "question" => "How are sharps and disposable syringes that have been used stored?",
+          "code" => "Plastic Bag",
+          "text" => null,
+          "color" => "#DC3545",
+          "order" => 2,
+        ],
+        [
+          "question_id" =>  259791034,
+          "question" => "How are sharps and disposable syringes that have been used stored?",
+          "code" => "Sharps container",
+          "text" => null,
+          "color" => "#F8AA02",
+          "order" => 3,
+        ],
+        [
+          "question_id" =>  259791034,
+          "question" => "How are sharps and disposable syringes that have been used stored?",
+          "code" => "Unknown",
+          "text" => null,
+          "color" => "#666",
+          "order" => 4,
+        ],
+        // EOL How are sharps and disposable syringes that have been used stored?
+
+        // Multiple Answer
+        // Who is this toilet designated for?
+        [
+          "question_id" =>  283691020,
+          "question" => "Who is this toilet designated for?",
+          "code" => "Staff Only",
+          "text" => null,
+          "color" => "#DC3545",
+          "order" => 1,
+        ],
+        [
+          "question_id" =>  283691020,
+          "question" => "Who is this toilet designated for?",
+          "code" => "Patients only",
+          "text" => null,
+          "color" => "#F9CA29",
+          "order" => 2,
+        ],
+        [
+          "question_id" =>  283691020,
+          "question" => "Who is this toilet designated for?",
+          "code" => "Patient/staff/visitor",
+          "text" => null,
+          "color" => "#2EA745",
+          "order" => 3,
+        ],
+        [
+          "question_id" =>  283691020,
+          "question" => "Who is this toilet designated for?",
+          "code" => "Staff and patients",
+          "text" => null,
+          "color" => "#F8AA02",
+          "order" => 4,
+        ],
+        [
+          "question_id" =>  283691020,
+          "question" => "Who is this toilet designated for?",
+          "code" => "Patients and Visitors",
+          "text" => null,
+          "color" => "#3188D1",
+          "order" => 5,
+        ],
+        [
+          "question_id" =>  283691020,
+          "question" => "Who is this toilet designated for?",
+          "code" => "Visitors only",
+          "text" => null,
+          "color" => "#AB47BC",
+          "order" => 6,
+        ],
+        [
+          "question_id" =>  283691020,
+          "question" => "Who is this toilet designated for?",
+          "code" => "Unknown",
+          "text" => null,
+          "color" => "#666",
+          "order" => 7,
+        ],
+        // EOL Who is this toilet designated for?
       ],
       "template" => [
         [ 

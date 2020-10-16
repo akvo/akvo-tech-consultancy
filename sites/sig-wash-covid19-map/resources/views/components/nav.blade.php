@@ -5,9 +5,10 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        
         <ul class="navbar-nav mr-auto">
             <a class="navbar-brand" href="#">
-                <img src="{{ asset('/images/logo/si-government.png') }}" width="40" height="40" class="d-inline-block align-middle" alt="">
+                <img src="{{ asset('/images/logo/si-government.png') }}" width="40" height="40" class="d-inline-block justify-contentle" alt="">
             </a>
             <li class="nav-item" style="display: none;">
                 <div class="form-group">
@@ -28,12 +29,19 @@
                 <a class="nav-link" href="{{route('database')}}">Database</a>
             </li>
         </ul>
+
+        <ul class="navbar-nav mr-auto" style="color:white;">
+            <li class="nav-item" style="display: inline;">
+                This dashboard displays the data collected for <b id="panel-total-data-count">0</b> health care facilities in Solomon Islands
+            </li>
+        </ul>
+
         @if ($user = Auth::user())
         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
             @csrf
         </form>
         @endif
-		<div class="form-inline my-2 my-lg-0">
+        <div class="form-inline my-2 my-lg-0">
             <form onsubmit="focusTo()" id="stack_search">
                 <a href="#" id="change-cluster" class="mp-btn btn btn-light my-2 my-sm-0" data-cluster="yes"><i class="fa fa-pie-chart"></i></a>
                 @if ($user = Auth::user())
@@ -50,5 +58,6 @@
                 <a href="#" onclick="focusTo()" class="btn btn-primary my-2 my-sm-0"><i class="fa fa-search"></i></a>
             </form>
         </div>
+        
     </div>
 </nav>
