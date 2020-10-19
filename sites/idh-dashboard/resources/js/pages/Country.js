@@ -1,11 +1,20 @@
 import React, { Component, Fragment, useState } from "react";
 import { connect } from "react-redux";
 import { mapStateToProps, mapDispatchToProps } from "../reducers/actions";
+import { Redirect } from "react-router-dom";
 import { Link, Switch, Route } from 'react-router-dom';
 import { Row, Col, Card, Jumbotron, Nav } from "react-bootstrap";
 import CountryTab from "./countryTab.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import intersectionBy from "lodash/intersectionBy";
+import Loading from '../components/Loading';
+import NotFound from './NotFound';
+
+String.prototype.toTitle = function() {
+    return this.replace(/(^|\s)\S/g, function(t) {
+        return t.toUpperCase();
+    });
+};
 
 function NavLink({country, company, tab, active}) {
     const tabName = tab.replace('-', ' ').toTitle();
@@ -23,14 +32,32 @@ class Country extends Component {
 
     constructor(props) {
         super(props);
+        this.state={
+            loading:true,
+            redirect:false
+        }
     }
 
     componentWillUnmount() {
         CountryTab;
     }
 
+    componentDidMount() {
+        const token = localStorage.getItem("access_token");
+        if (token === null) {
+            this.setState({redirect:true});
+        }
+    }
+
     render() {
+        if (this.state.redirect) {
+            return <Redirect to="/not-found" />;
+        }
+        if (this.props.value.page.loading) {
+            return <Loading />
+        }
         let params = this.props.match.params;
+        let user = this.props.value.user;
         let access = this.props.value.user.forms;
             access = access.map(x => {
                 return {...x, id: x.form_id};
@@ -40,6 +67,9 @@ class Country extends Component {
             companies = intersectionBy(companies.childrens, access, 'id');
         let companyId = parseInt(params.companyId);
         let resource = access.find(x => x.id === companyId);
+        if (!resource) {
+            return <Loading />
+        }
         let tab = params.tab;
         let tabs = ["overview", "hh-profile", "farmer-profile", "farm-practices"];
             tabs = resource.download ? [...tabs, "resources"] : tabs;

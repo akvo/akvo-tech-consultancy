@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { mapStateToProps, mapDispatchToProps } from '../reducers/actions';
+import { Redirect } from "react-router-dom";
 import {
     Row,
     Col,
@@ -37,7 +38,8 @@ class Compare extends Component {
             charts: [],
             autocomplete: false,
             searched: [],
-            excluded: [1]
+            excluded: [1],
+            redirect: false
         };
     }
 
@@ -171,12 +173,19 @@ class Compare extends Component {
     }
 
     componentDidMount() {
+        const token = localStorage.getItem("access_token");
+        if (token === null) {
+            this.setState({redirect:true});
+        }
         this.props.value.page.compare.items.map(x => {
             this.saveChart(x.id);
         });
     }
 
     renderChart() {
+        if (this.state.redirect) {
+            return <Redirect to="/not-found" />;
+        }
         let width = 'calc(100% / ' + this.state.charts.length  + ')';
         return this.state.charts.map((c, i) => {
             let chartlist = c.data.map((x, ix) => {

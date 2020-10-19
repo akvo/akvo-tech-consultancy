@@ -19,7 +19,7 @@ class NotFound extends Component {
                 <div className="page-content has-jumbotron text-center">
                     <Row className="justify-content-md-center">
                         <Col md={3}>
-                            <Button variant={"primary"}>Go to Home</Button>
+                            The page is not available
                         </Col>
                     </Row>
                 </div>

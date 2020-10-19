@@ -56,7 +56,7 @@ class Login extends Component {
         let error = this.state.error === "" ? false : this.state.error;
         let user = this.props.value.user;
         if (user.login) {
-            return <Redirect to="/setting" />;
+            return <Redirect to="/" />;
         }
         return (
             <>

@@ -39,18 +39,19 @@ class Page extends Component {
                 localStorage.setItem("caches", caches);
                 localStorage.setItem("cache-time", now.getTime());
                 localStorage.setItem("cache-version", cache_version);
-                this.props.page.loading(false);
             });
+            return;
         }
         if (now < cachetime && cache_version === current_version) {
             caches = JSON.parse(caches);
             this.props.page.init(caches);
-            this.props.page.loading(false);
+            return
         }
     }
 
     componentDidMount() {
         let access_token = localStorage.getItem("access_token");
+        this.props.page.loading(true);
         if (access_token !== null) {
             auth(access_token)
                 .then((res) => {

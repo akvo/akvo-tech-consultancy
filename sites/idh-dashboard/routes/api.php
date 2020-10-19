@@ -28,5 +28,5 @@ Route::post('/auth/login', [Auth::class,'login']);
 
 Route::get('/user', [Auth::class, 'info'])->middleware('auth:api');
 Route::post('/user/update', [Auth::class, 'update'])->middleware('auth:api');
-Route::post('/user/search', [Auth::class, 'search'])->middleware('auth:api');
+Route::post('/user/list', [Auth::class, 'list'])->middleware('auth:api');
 Route::post('/user/access', [Auth::class, 'access'])->middleware('auth:api');

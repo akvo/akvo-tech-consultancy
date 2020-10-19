@@ -417,6 +417,19 @@ h2.extra-counter {
     margin-right: 10px;
 }
 
+.dropdown-item-sm.dropdown-item {
+    padding: 10px!important;
+    text-align: center;
+    width: auto!important;
+    min-width: 0!important;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
+}
+.dropdown-show-sm.show .dropdown-menu.show{
+    width:auto!important;
+    box-shadow: none;
+}
+
 @media (max-width: 992px) {
     .dropdown-toggle::after {
         display: none !important;

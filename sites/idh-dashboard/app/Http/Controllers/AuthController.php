@@ -58,17 +58,17 @@ class AuthController extends Controller
         return response(['message' => 'invalid password'], 401);
     }
 
-    public function search(Request $request)
+    public function list(Request $request)
     {
-        $user = \App\Models\User::where('email', $request->email)->first();
-        $access = \App\Models\UserForm::where('user_id', $user->id)->get();
-        if (!Auth::user()) {
+        $user = Auth::user();
+        if (!$user) {
             return response(['message' => 'session is expired'], 401);
         }
-        if (!$user){
-            return response(['message' => 'user not found'], 401);
+        if ($user->role !== 'user') {
+            $users = \App\Models\User::with('forms')->get();
+            return $users;
         }
-        return response(['message' => 'user is exist', 'access' => $access]);
+        return response(['message' => 'unathorized'], 401);
     }
 
     public function access(Request $request)

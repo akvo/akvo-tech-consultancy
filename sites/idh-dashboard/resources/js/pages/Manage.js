@@ -2,11 +2,33 @@ import React, { Component, Fragment } from 'react';
 import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { mapStateToProps, mapDispatchToProps } from "../reducers/actions";
-import { Row, Col, Form, Button, Alert, Jumbotron, Card, Accordion, InputGroup } from "react-bootstrap";
+import {
+    Row,
+    Col,
+    Form,
+    Button,
+    Alert,
+    Jumbotron,
+    Card,
+    ListGroup,
+    InputGroup,
+    DropdownButton,
+    Dropdown
+} from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { flatFilters, initialNotification } from '../data/utils.js';
-import { searchUser, accessUser } from "../data/api";
+import { getUser , accessUser } from "../data/api";
+import DataTable from 'react-data-table-component';
 import intersectionBy from "lodash/intersectionBy";
+import Loading from '../components/Loading';
+
+const customTableStyle = {
+    rows: {
+        style: {
+            cursor: "pointer"
+        }
+    }
+}
 
 const initialPropsForm = [
     {
@@ -15,33 +37,61 @@ const initialPropsForm = [
     }
 ];
 
+const tableColumns = [
+    {
+        name: 'Name',
+        selector: 'name',
+        sortable: true,
+    },
+    {
+        name: 'Email',
+        selector: 'email',
+        sortable: true,
+    },
+    {
+        name: 'Role',
+        selector: 'role',
+        sortable: true,
+    },
+    {
+        name: 'SDM Access',
+        selector: 'formLength',
+        sortable: true,
+    }
+]
+
 class Manage extends Component {
     constructor(props) {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleEmail = this.handleEmail.bind(this);
         this.handleAccess = this.handleAccess.bind(this);
         this.renderForms = this.renderForms.bind(this);
         this.renderCountries = this.renderCountries.bind(this);
         this.searchEmail = this.searchEmail.bind(this);
+        this.renderDetail = this.renderDetail.bind(this);
+        this.showDetail = this.showDetail.bind(this);
         this.state = {
             error: "",
+            admin: this.props.value.user,
             messages: {
                 user: {type:"success", message:""},
             },
             notification: initialNotification,
-            user: {
-                email:"",
-                forms:[],
-            },
+            users: [{
+                name: "Loading",
+                role: "Loading",
+                forms: [{
+                    id: 0,
+                    access: 0
+                }]
+            }],
+            selected: 0,
+            forms: [{
+                id: 0,
+                access:0
+            }],
+            redirect: false
         };
-    }
-
-    handleEmail(e) {
-        let value = e.target.value;
-        this.setState((prevState) => (
-            {...prevState, user: {email: value, forms:prevState.user.forms}}
-        ));
     }
 
     handleSubmit(e) {
@@ -50,7 +100,8 @@ class Manage extends Component {
         if (token === null) {
             return;
         }
-        accessUser(token, this.state.user).then(res => {
+        let user = this.state.users.find(x => x.selected);
+        accessUser(token, user).then(res => {
             this.setState({notification:res});
             setTimeout(() => {
                 this.setState({notification:initialNotification})
@@ -59,106 +110,63 @@ class Manage extends Component {
     }
 
     handleAccess(id, access) {
-        let user = this.state.user;
-        let forms = user.forms;
-            forms = forms.filter(x => x.id !== id);
-            forms = [...forms, {id:id, access: access}];
-        this.setState({user: {email: user.email, forms: forms}});
     }
 
     searchEmail() {
-        if (this.state.user.email === "") {
-            return;
-        }
-        const token = localStorage.getItem("access_token");
-        if (token === null) {
-            return;
-        }
-        searchUser(token, this.state.user.email).then(res => {
-            let forms = res.forms.map(x => ({
-                id: x.form_id,
-                access: x.download + 1,
-            }));
-            this.setState({
-                messages: {...this.state.messages, user: res},
-                user: {...this.state.user, forms: forms}
-            });
-        });
+    }
+
+    showDetail(user) {
+        this.setState({selected: user.id});
+    }
+
+    renderDetail() {
     }
 
     renderForms(country, ix) {
-        return country.childrens.map((c, i) => {
-            let access = 0;
-            let form = this.state.user.forms.find(x => x.id === c.id);
-            if (form){
-                access = form.access;
-            }
-            return (
-            <Accordion.Collapse eventKey={ix.toString()} key={i}>
-                <Card.Body>
-                    <Row>
-                        <Col md={4}>
-                            {c.company}
-                        </Col>
-                        <Col md={8} className={"text-right"}>
-                            <Form.Check
-                                onChange={e => this.handleAccess(c.id, 0)}
-                                inline
-                                type="radio"
-                                name={"company-" + c.id}
-                                label="None"
-                                defaultChecked={access === 0}
-                            />
-                            <Form.Check
-                                onChange={e => this.handleAccess(c.id, 1)}
-                                inline
-                                type="radio"
-                                name={"company-" + c.id}
-                                label="View"
-                                checked={access === 1}/>
-                            <Form.Check
-                                onChange={e => this.handleAccess(c.id, 2)}
-                                inline
-                                type="radio"
-                                name={"company-" + c.id}
-                                label="Full Access"
-                                checked={access === 2}/>
-                        </Col>
-                    </Row>
-                </Card.Body>
-            </Accordion.Collapse>
-            )
-        });
     }
 
     renderCountries(countries) {
-        return countries.map((x, i) => (
-            <Fragment key={i}>
-                <Accordion.Toggle as={Card.Header} variant="link" eventKey={i.toString()}>
-                    <FontAwesomeIcon className="mr-2" icon={["fas", "plus-circle"]} /> {x.name}
-                </Accordion.Toggle>
-                {this.renderForms(x, i)}
-            </Fragment>
-        ));
+    }
+
+    componentDidMount() {
+        const token = localStorage.getItem("access_token");
+        if (token === null) {
+            this.setState({redirect:true});
+        }
+        if (token !== null) {
+            getUser(token).then(res => {
+                if (res === "unauthorized") {
+                    this.setState({redirect: true});
+                }
+                if (res !== "unauthorized") {
+                    let users = res.map(x => {
+                        return {
+                            ...x, formLength: x.role !== 'user' ? "All" : x.forms.length
+                        }
+                    })
+                    this.setState({users: users});
+                }
+            });
+        }
     }
 
     render() {
+        const conditionalRowStyles = [
+          {
+            when: row => row.id === this.state.selected,
+            style: {
+                backgroundColor: '#ebf7ff',
+            },
+          },
+        ];
+        let admin = this.state.admin;
         let error = this.state.error === "" ? false : this.state.error;
-        let user = this.props.value.user;
-        let access = user.forms;
-            access = access.map(x => {
-                return {...x, id: x.form_id};
-            });
-        let source = this.props.value.page.filters.map(x => {
-            return {
-                ...x,
-                childrens: intersectionBy(x.childrens, access, 'id'),
-            }
-        });
-        source = source.filter(x => x.childrens.length > 0);
         let notification = this.state.notification;
-        let updated = this.state.user;
-        if (user.role !== "admin") {
+        let forms = flatFilters(this.props.value.page.filters);
+        if (this.props.value.page.loading) {
+            return <Loading />
+        }
+        if (this.state.redirect) {
             return <Redirect to="/not-found" />;
         }
         return (
@@ -166,14 +174,14 @@ class Manage extends Component {
                 <Jumbotron>
                     <Row className="page-header">
                         <Col md={12} className="page-title text-center">
-                            <h2>{user.login ? "Welcome " + user.name : "Not Found"}!</h2>
+                            <h2>{"Welcome " + admin.name}!</h2>
                         </Col>
                     </Row>
                 </Jumbotron>
                 <div className="page-content has-jumbotron">
                     {notification.active ? (
                         <Row className="justify-content-md-center">
-                        <Col md={10}>
+                        <Col md={12}>
                         <Alert
                             variant={notification.variant}
                             onClose={() => this.setState({ notification: {...notification, active: false} })}
@@ -184,43 +192,115 @@ class Manage extends Component {
                         </Row>
                     ) : ("")}
                     <Row className="justify-content-md-center">
-                        <Col md={4}>
+                        <Col md={7}>
                             <Card>
-                                <Form>
-                                <Card.Header>Email Address</Card.Header>
-                                <Card.Body>
-                                    <InputGroup>
-                                        <Form.Control
-                                            type="email"
-                                            placeholder="(e.g. john@mail.com)"
-                                            onChange={this.handleEmail}
-                                        />
-                                        <InputGroup.Append>
-                                            <InputGroup.Text onClick={e => this.searchEmail()}>Search</InputGroup.Text>
-                                        </InputGroup.Append>
-                                    </InputGroup>
-                                     <Form.Text
-                                        className={"text-" + this.state.messages.user.type}
-                                     >{this.state.messages.user.message}
-                                     </Form.Text>
-                                </Card.Body>
-                                </Form>
+                            <Card.Header>Users</Card.Header>
+                            <Card.Body style={{padding: "0px"}}>
+                            <DataTable
+                                className="table table-bordered table-sm"
+                                columns={tableColumns}
+                                data={this.state.users}
+                                noHeader={true}
+                                fixedHeader={true}
+                                fixedHeaderScrollHeight={"500px"}
+                                onRowClicked={this.showDetail}
+                                defaultSortField="name"
+                                conditionalRowStyles={conditionalRowStyles}
+                                customStyles={customTableStyle}
+                                highlightOnHover={true}/>
+                            </Card.Body>
                             </Card>
                         </Col>
-                        <Col md={6}>
-                            <Accordion>
+                        <Col md={5}>
                             <Card>
-                                <Card.Header>Access</Card.Header>
-                                {this.renderCountries(source)}
-                                <Card.Footer>
-                                    <Form onSubmit={this.handleSubmit}>
-                                     <Button variant="primary" type="submit" block>
-                                         Update
-                                     </Button>
-                                    </Form>
-                                </Card.Footer>
+                            <Card.Header>User</Card.Header>
+                            <ListGroup variant="flush">
+                                <ListGroup.Item>
+                                    <Row>
+                                        <Col md={8}>
+                                            Name
+                                        </Col>
+                                        <Col md={4} align={"right"}>
+                                            Annemae Wyman II
+                                        </Col>
+                                    </Row>
+                                </ListGroup.Item>
+                                <ListGroup.Item>
+                                    <Row>
+                                        <Col md={8}>
+                                            Role
+                                        </Col>
+                                        <Col md={4} align={"right"}>
+                                            <DropdownButton
+                                                alignRight
+                                                size="sm"
+                                                title="User"
+                                                id="dropdown-menu-align-right"
+                                                className="dropdown-show-sm"
+                                            >
+                                                <Dropdown.Item className="dropdown-item-sm">User</Dropdown.Item>
+                                                <Dropdown.Item className="dropdown-item-sm">Admin</Dropdown.Item>
+                                                <Dropdown.Item className="dropdown-item-sm">Staff</Dropdown.Item>
+                                            </DropdownButton>
+                                        </Col>
+                                    </Row>
+                                </ListGroup.Item>
+                                <ListGroup.Item>
+                                    <Row>
+                                        <Col md={12}>
+                                            <Button size="sm" variant={"danger"} block>Delete User</Button>
+                                        </Col>
+                                    </Row>
+                                </ListGroup.Item>
+                            </ListGroup>
                             </Card>
-                            </Accordion>
+                        <hr/>
+                            <Card>
+                            <Card.Header>Access</Card.Header>
+                            <ListGroup variant="flush">
+                                <ListGroup.Item>
+                                    <Row>
+                                        <Col md={8}>
+                                            Kenya Mwa Rice
+                                        </Col>
+                                        <Col md={4} align={"right"}>
+                                            <DropdownButton
+                                                variant={"secondary"}
+                                                alignRight
+                                                size="sm"
+                                                title="No Access"
+                                                id="dropdown-menu-align-right"
+                                                className="dropdown-show-sm"
+                                            >
+                                                <Dropdown.Item className="dropdown-item-sm">Read Access</Dropdown.Item>
+                                                <Dropdown.Item className="dropdown-item-sm">Full Access</Dropdown.Item>
+                                            </DropdownButton>
+                                        </Col>
+                                    </Row>
+                                </ListGroup.Item>
+
+                                <ListGroup.Item>
+                                    <Row>
+                                        <Col md={8}>
+                                            Egranary
+                                        </Col>
+                                        <Col md={4} align={"right"}>
+                                            <DropdownButton
+                                                variant={"success"}
+                                                alignRight
+                                                size="sm"
+                                                title="Full Access"
+                                                id="dropdown-menu-align-right"
+                                                className="dropdown-show-sm"
+                                            >
+                                                <Dropdown.Item className="dropdown-item-sm">No Access</Dropdown.Item>
+                                                <Dropdown.Item className="dropdown-item-sm">View Access</Dropdown.Item>
+                                            </DropdownButton>
+                                        </Col>
+                                    </Row>
+                                </ListGroup.Item>
+                            </ListGroup>
+                            </Card>
                         </Col>
                     </Row>
                 </div>

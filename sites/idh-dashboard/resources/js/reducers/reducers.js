@@ -57,6 +57,7 @@ export const states = (state = initialState, action) => {
                 page: {
                     ...state.page,
                     filters: action.filters,
+                    loading: false
                 },
             };
         case "PAGE - COMPARE ADD ITEM":
@@ -93,9 +94,22 @@ export const states = (state = initialState, action) => {
                 }
             }
         case "USER - LOGIN":
+            let user = action.user;
+            if (user.role !== 'user') {
+                let access = state.page.filters;
+                    access = flatFilters(access);
+                    access = access.map(x => ({
+                        form_id: x.id,
+                        download: user.role === 'admin' ? 1 : 0
+                    }));
+                user = {
+                    ...user,
+                    forms: access
+                }
+            }
             return {
                 ...state,
-                user: action.user,
+                user: user,
             };
         case "USER - LOGOUT":
             return {

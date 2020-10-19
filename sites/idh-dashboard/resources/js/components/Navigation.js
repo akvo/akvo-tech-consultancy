@@ -53,16 +53,16 @@ class Navigation extends Component {
         return (
             <Navbar fixed="top" variant="light" className="NavBlue" expand="lg" style={{ padding: "0px" }}>
                 <Navbar.Brand as={Link} to="/" style={{ padding: "0px" }}>
-                    <Image src={"images/logo-farmfit.png"} height="60px" />
+                    <Image src={"/images/logo-farmfit.png"} height="60px" />
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse>
                     <Nav className="mr-auto">
-                        <Nav.Link as={Link} to="/">
-                            Home
-                        </Nav.Link>
                         {user.login ? (
                             <>
+                                <Nav.Link as={Link} to="/">
+                                    Home
+                                </Nav.Link>
                                 <NavDropdown title="Country">{this.renderCountries()}</NavDropdown>
                                 <Nav.Link as={Link} to="/compare">
                                     Compare

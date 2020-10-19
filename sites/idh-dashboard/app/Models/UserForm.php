@@ -9,7 +9,7 @@ class UserForm extends Model
 {
     use HasFactory;
     protected $fillable = ['user_id', 'form_id', 'download'];
-    protected $hidden = ['user_id','created_at','updated_at'];
+    protected $hidden = ['id','user_id','created_at','updated_at'];
 
     public function user() {
         return $this->belongsTo('App\Models\User');

@@ -100,7 +100,7 @@ class Setting extends Component {
                 <div className="page-content has-jumbotron">
                     {notification.active ? (
                         <Row className="justify-content-md-center">
-                        <Col md={10}>
+                        <Col md={user.role === "user" ? 10 : 6}>
                         <Alert
                             variant={notification.variant}
                             onClose={() => this.setState({ notification: {...notification, active: false} })}
@@ -111,11 +111,11 @@ class Setting extends Component {
                         </Row>
                     ) : ("")}
                     <Row className="justify-content-md-center">
-                        <Col md={6}>
+                        <Col md={user.role === "user" ? 6 : 6}>
                             <Card>
                             <Card.Header>Change Password</Card.Header>
-                            <Card.Body>
                             <Form noValidate validated={this.state.validated} onSubmit={this.handleSubmit}>
+                            <Card.Body>
                                 <Form.Group controlId="formBasicEmail">
                                     <Form.Label>Email address</Form.Label>
                                     <Form.Control type="email" placeholder={user.email} readOnly />
@@ -142,25 +142,29 @@ class Setting extends Component {
                                         Password didn't match
                                     </Form.Control.Feedback>
                                 </Form.Group>
-                                <Button variant="primary" type="submit">
+                            </Card.Body>
+                            <Card.Footer>
+                                <Button variant="primary" type="submit" block>
                                     Update
                                 </Button>
+                            </Card.Footer>
                             </Form>
-                            </Card.Body>
                             </Card>
                         </Col>
-                        <Col md={4}>
-                            <Card>
-                            <Card.Header>Access</Card.Header>
-                            <ListGroup variant="flush">
-                                { source.map((x, i) => (
-                                        <ListGroup.Item key={"access-"+x.id}>
-                                            {i+1}. {x.name} / {x.company}
-                                        </ListGroup.Item>
-                                ))}
-                            </ListGroup>
-                            </Card>
-                        </Col>
+                        { user.role === "user" ? (
+                            <Col md={4}>
+                                <Card>
+                                    <Card.Header>{user.role !== "user" ? "Role" : "Access"}</Card.Header>
+                                        <ListGroup variant="flush">
+                                        { source.map((x, i) => (
+                                            <ListGroup.Item key={"access-"+x.id}>
+                                                {i+1}. {x.name} / {x.company}
+                                            </ListGroup.Item>
+                                        ))}
+                                        </ListGroup>
+                                </Card>
+                            </Col>
+                        ) : "" }
                     </Row>
                 </div>
             </>

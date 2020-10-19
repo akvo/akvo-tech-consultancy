@@ -145,20 +145,20 @@ export const updateUser = (access_token, credentials) => {
     });
 }
 
-export const searchUser = (access_token, email) => {
+export const getUser = (access_token) => {
     return new Promise((resolve, reject) => {
         axios
-            .post("/api/user/search", {email: email}, {
+            .post("/api/user/list", false,{
                 headers: {
                     Accept: "application/json",
                     Authorization: "Bearer " + access_token,
                 },
             })
             .then((res) => {
-                resolve({type: "success", message:res.data.message, active:true, forms: res.data.access})
+                resolve(res.data)
             })
             .catch((err) => {
-                resolve({type: "danger", message:"user not found", active:true, forms:[]})
+                resolve("unauthorized")
             })
     })
 }
