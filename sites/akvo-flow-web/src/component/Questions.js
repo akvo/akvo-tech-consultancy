@@ -9,8 +9,6 @@ import { Card, CardBody, CardTitle } from "reactstrap";
 import { validateMinMax, validateDoubleEntry } from '../util/Utilities.js'
 import "../App.css";
 
-//const API_ORIGIN = (PROD_URL ? ( window.location.origin + "/" + window.location.pathname.split('/')[1] + "-api/" ) : process.env.REACT_APP_API_URL);
-
 class Questions extends Component {
     constructor(props) {
         super(props);
