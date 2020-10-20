@@ -41,19 +41,18 @@ $("#chart-report-container").append("<hr><div class='row' id='third-row'></div>"
 getSingleCards('report/reachreact/card/' + endpoints, 'third-row');
 
 $("#chart-report-container").append("<hr><div class='row' id='fourth-row'></div>");
-getCharts('report/work-stream/' + endpoints, 'fourth-row', info, "12");
+getCharts('report/workstream/' + endpoints, 'fourth-row', info, "12");
 
 $("#chart-report-container").append("<hr><div class='row' id='fifth-row'></div>");
-// getCharts('report/program-theme/' + endpoints, 'fifth-row', info, "12");
-getCharts('report/program-theme/' + endpoints, 'fifth-row', info, "6");
-getCharts('report/target-audience/' + endpoints, 'fifth-row', info, "6");
+getCharts('report/program-theme/' + endpoints, 'fifth-row', info, "12");
+// getCharts('report/program-theme/' + endpoints, 'fifth-row', info, "6");
+// getCharts('report/target-audience/' + endpoints, 'fifth-row', info, "6");
 
-
-// $("#chart-report-container").append("<hr><div class='row' id='sixth-row'></div>");
-// getCharts('report/target-audience/' + endpoints, 'sixth-row', info, "12");
+$("#chart-report-container").append("<hr><div class='row' id='sixth-row'></div>");
+getCharts('report/target-audience/' + endpoints, 'sixth-row', info, "12");
 
 $("#chart-report-container").append("<hr><div class='row' id='seventh-row'></div>");
-getCharts('reachreact/gender/' + endpoints, 'seventh-row', info, "12");
+getCharts('reachreact/gender/' + endpoints, 'seventh-row', info, "12", '', "age-category");
 
 // $("main").append("<hr><div class='row' id='fourth-row'></div>");
 // getCharts('reachreact/gender-total/' + endpoints, 'fourth-row', info, "6");

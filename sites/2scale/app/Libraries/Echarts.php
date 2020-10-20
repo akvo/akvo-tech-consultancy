@@ -82,12 +82,13 @@ class Echarts
           ),
         );
     }
-    public function generateSimpleBarCharts($categories, $values, $showLabel=false) 
+    
+    public function generateSimpleBarCharts($categories, $values, $showLabel=false, $yAxisLabel=false) 
 	{
         $categories = collect($categories)->map(function($l) {
             return $this->titler($l);
         });
-		return [
+		$option = [
             'dataZoom' => array(
                 'type' => 'inside',
                 'yAxisIndex' => [0]
@@ -111,7 +112,7 @@ class Echarts
 				"axisTick" => [
 					"alignWithLabel" => True,
 					"inside" => True
-				]
+                ],
 			],
 			"xAxis" => [
 				"type" => "value",
@@ -121,7 +122,13 @@ class Echarts
 				"data" => $values,
 				"type" => "bar"
 			]]
-		];
+        ];
+        if($yAxisLabel) {
+            $option["yAxis"]["axisLabel"] = [
+                "fontSize" => 16,
+            ];
+        }
+        return $option;
     }
 
     public function generateBarCharts($legend, $categories, $type, $series)

@@ -164,7 +164,7 @@
                     </td>
                 </tr>
                 @for ($key=0; $key < count($charts); $key++)
-                    @if ($columns[$key] === "1")
+                    @if ($columns[$key] === "1" && count(array_unique($columns)) !== 1)
                     <tr>
                         <td style="padding-left:0px!important;">
                             <div class="row">
@@ -222,7 +222,7 @@
         {{-- PROJECT SUMMARY --}}
         <div class="row mt-4">
             <div class="col-md-12 mt-4">
-                <p class="title font-weight-bold">PROJECT SUMMARY</p>
+                <p class="title font-weight-bold">PARTNERSHIP SUMMARY</p>
                 <div class="title-line"></div>
                 @if ($project['project_plan_summary'] || $project['project_plan_summary'] !== "")
                     <p class="text-justify">{{ $project['project_plan_summary'] }}</p>
@@ -277,7 +277,7 @@
             <div class="next-page"></div>
             <div class="row">
                 <div class="col-md-12 mt-4">
-                    <p class="title font-weight-bold">PROJECT UPDATES</p>
+                    <p class="title font-weight-bold">PARTNERSHIP UPDATES</p>
                     <div class="title-line"></div>
                 </div>
             </div>
@@ -313,7 +313,7 @@
             <div class="next-page"></div>
             <div class="row">
                 <div class="col-md-12 mt-4">
-                    <p class="title font-weight-bold">PROJECT RESULTS</p>
+                    <p class="title font-weight-bold">PARTNERSHIP RESULTS</p>
                     <div class="title-line"></div>
                 </div>
             </div>
@@ -407,23 +407,25 @@
                                         </td>
                                     </tr>
                                     <tr class="page-break">
-                                        <td class="text-center"><strong>Period Start<strong></td>
-                                        <td class="text-center"><strong>Period End<strong></td>
-                                        <td class="text-center"><strong>Target Value<strong></td>
+                                        <td colspan="3" class="text-center"><strong>Period<strong></td>
+                                        {{-- <td class="text-center"><strong>Target Value<strong></td> --}}
                                         <td class="text-center"><strong>Current Value<strong></td>
                                     </tr>
                                     @foreach ($indicator['rsr_periods'] as $period)
                                         <tr class="page-break">
-                                            <td>{{ date_format(date_create($period['period_start']),"F j, Y") }}</td>
-                                            <td>{{ date_format(date_create($period['period_end']),"F j, Y") }}</td>
-                                            <td class="text-right">{{ $period['target_value'] }}</td>
+                                            <td colspan="3">
+                                                {{ date_format(date_create($period['period_start']),"F j, Y") }}
+                                                 - 
+                                                {{ date_format(date_create($period['period_end']),"F j, Y") }}
+                                            </td>
+                                            {{-- <td class="text-right">{{ $period['target_value'] }}</td> --}}
                                             <td class="text-right">{{ $period['actual_value'] }}</td>
                                         </tr>
                                         {{-- If has dimensions --}}
                                         @if (isset($period['rsr_period_dimension_values']) && count($period['rsr_period_dimension_values']) > 0)
                                             <tr class="page-break">
-                                                <td colspan="2"><strong>Dimension Name<strong></td>
-                                                <td class="text-center"><strong>Target Value<strong></td>
+                                                <td colspan="3"><strong>Dimension Name<strong></td>
+                                                {{-- <td class="text-center"><strong>Target Value<strong></td> --}}
                                                 <td class="text-center"><strong>Current Value<strong></td>
                                             </tr>
                                         @endif

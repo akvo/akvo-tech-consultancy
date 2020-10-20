@@ -876,6 +876,6 @@ class ChartController extends Controller
 		$values = $series->map(function($d) {
             return $d['value'];
         });
-		return $this->echarts->generateSimpleBarCharts($legends, $values, true);
+		return $this->echarts->generateSimpleBarCharts($legends, $values, true, true);
     }
 }

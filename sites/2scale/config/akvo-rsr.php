@@ -12,9 +12,9 @@ return [
     'charts' => [
         'reachreact' => [
             'form_id' => 20020001,
-            'title' => 'Number of Activity Reported'
+            'title' => 'Number of Activities Reported'
         ],
-        'work-stream' => [
+        'workstream' => [
             'question_id' => 30120028,
             'title' => 'Link to Work Stream'
         ],

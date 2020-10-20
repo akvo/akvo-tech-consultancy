@@ -130,8 +130,9 @@ export const getSingleCards = (cards, id) => {
     single.then(res => generateSingleCards(res, gradients[2], id));
 }
 
-export const getCharts = (chart, row, info, md, color) => {
+export const getCharts = (chart, row, info, md, color, customTitle=null) => {
     let chartname = chart.split("/")[1];
+    chartname = (customTitle !== null) ? customTitle : chartname;
     let html = `<div class="col-md-` + md + `">
                 <div class="card">
                   <div class="card-header gradient-card-header ` + color + `-gradient">` + titleCase(chartname) + `</div>
