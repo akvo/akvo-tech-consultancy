@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
+use App\Http\Controllers\Api\RsrReportController;
 
 class RsrIndicator extends Model
 {
@@ -46,11 +48,17 @@ class RsrIndicator extends Model
 
     public function getTitleAttribute($value)
     {
-        return $this->rsr_titles()->pluck('title')[0];
+        return Str::replaceLast('.', '', $this->rsr_titles()->pluck('title')[0]);
     }
 
     public function getDescriptionAttribute($value)
     {
-        return $this->rsr_titles()->pluck('description')[0];
+        $desc = $this->rsr_titles()->pluck('description')[0];
+        $rsrReport = new RsrReportController();
+        $desc = $rsrReport->capitalizeAfterDelimiters($desc, ['.', '. ']);
+        if (empty($desc) || $desc == "​" || $desc == null) {
+            return $desc;
+        }
+        return (Str::endsWith($desc, '.')) ? $desc : $desc.'.';
     }
 }

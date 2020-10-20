@@ -7440,6 +7440,7 @@ $("#generate-report-link").on('click', function () {
   });
   generatePartnershipChart().then(function (res) {
     // console.log('get canvas');
+    var todayDate = new Date().toISOString().slice(0, 10);
     var iframe = document.getElementsByTagName("iframe");
     var token = document.querySelector('meta[name="csrf-token"]').content;
     var charts = iframe[0].contentWindow.document.getElementById("chart-report-container");
@@ -7452,6 +7453,7 @@ $("#generate-report-link").on('click', function () {
     filename = filename + ' - ' + moment().format('MMM D, YYYY');
     formData.set('partnership_id', pid);
     formData.set('filename', filename);
+    formData.set('date', todayDate);
     var cards = iframe[0].contentWindow.document.getElementById("third-row-value");
     formData.set('card', cards.getAttribute('dataTitle') + '|' + cards.getAttribute('dataValue'));
     var image = 0;

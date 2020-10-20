@@ -157,6 +157,7 @@ $("#generate-report-link").on('click', () => {
     
     generatePartnershipChart().then(res => {
         // console.log('get canvas');
+        let todayDate = new Date().toISOString().slice(0,10);
         let iframe = document.getElementsByTagName("iframe");
         let token = document.querySelector('meta[name="csrf-token"]').content;
         let charts = iframe[0].contentWindow.document.getElementById("chart-report-container");
@@ -172,6 +173,7 @@ $("#generate-report-link").on('click', () => {
         filename = filename + ' - ' + moment().format('MMM D, YYYY');
         formData.set('partnership_id', pid);
         formData.set('filename', filename);
+        formData.set('date', todayDate);
     
         let cards = iframe[0].contentWindow.document.getElementById("third-row-value");
         formData.set('card', cards.getAttribute('dataTitle')+'|'+cards.getAttribute('dataValue'));

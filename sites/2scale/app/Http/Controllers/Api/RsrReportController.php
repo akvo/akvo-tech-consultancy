@@ -24,8 +24,16 @@ class RsrReportController extends Controller
                             $query->with('rsr_indicators.rsr_periods.rsr_period_dimension_values');
                         }])->first();
         
-        $rsrProject['rsr_results'] = $rsrProject['rsr_results']->map(function ($res) {
-            $res['rsr_indicators'] = $res['rsr_indicators']->map(function ($ind) {
+        // capitalize
+        $rsrProject['subtitle'] = $this->capitalizeAfterDelimiters($rsrProject['subtitle'], ['.', '. ']);
+        $rsrProject['project_plan_summary'] = $this->capitalizeAfterDelimiters($rsrProject['project_plan_summary'], ['.', '. ']);
+        $rsrProject['goals_overview'] = $this->capitalizeAfterDelimiters($rsrProject['goals_overview'], ['.', '. ']);
+        $rsrProject['background'] = $this->capitalizeAfterDelimiters($rsrProject['background'], ['.', '. ']);
+        $rsrProject['sustainability'] = $this->capitalizeAfterDelimiters($rsrProject['sustainability'], ['.', '. ']);
+        // EOL capitalize
+
+        $rsrProject['rsr_results'] = $rsrProject['rsr_results']->map(function ($res) use ($r) {
+            $res['rsr_indicators'] = $res['rsr_indicators']->map(function ($ind) use ($r) {
                 $ind['period_actual_sum'] = $ind['rsr_periods']->pluck('actual_value')->sum();
                 if ($ind['has_dimension']) {
                     // collect dimensions value all period
@@ -45,7 +53,11 @@ class RsrReportController extends Controller
                         return $dim;
                     });
                 }
-                return Arr::except($ind, 'rsr_periods');
+                $ind['rsr_periods'] = $ind['rsr_periods']->filter(function ($period) use ($r) {
+                    return $period['period_end'] < $r->date;
+                });
+                // return Arr::except($ind, 'rsr_periods');
+                return $ind;
             });
             return $res;
         });
@@ -82,5 +94,18 @@ class RsrReportController extends Controller
             }
         }
         return $files;
+    }
+
+    public function capitalizeAfterDelimiters($string='', $delimiters=array())
+    {
+        foreach ($delimiters as $delimiter) {
+            $temp = explode($delimiter, $string);
+            array_walk($temp, function (&$value) { $value = ucfirst($value); });
+            $string = implode($temp, $delimiter);
+        }
+        if (empty($string) || $string == "​" || $string == null) {
+            return $string;
+        }
+        return (Str::endsWith($string, '.')) ? $string : $string.'.';
     }
 }

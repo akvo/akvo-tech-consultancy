@@ -128,8 +128,8 @@
                             <dd class="col-md-6 text-right">{{ date('F j, Y', strtotime($project['date_start_planned'])) }}</dd>
                             <dt class="col-md-6">END DATE (PLANNED)</dt>
                             <dd class="col-md-6 text-right">{{ date('F j, Y', strtotime($project['date_end_planned'])) }}</dd>
-                            <dt class="col-md-6">FINANCE</dt>
-                            <dd class="col-md-6 text-right">{{ $project['currency'] }} @money($project['budget'])</dd>
+                            {{-- <dt class="col-md-6">FINANCE</dt> --}}
+                            {{-- <dd class="col-md-6 text-right">{{ $project['currency'] }} @money($project['budget'])</dd> --}}
                         </dl>
                     </div>
                 </div>
@@ -272,7 +272,7 @@
 
 
         {{-- PROJECT UPDATE & RESULTS --}}
-        {{-- Project Updates --}}
+        {{-- Project Updates seems not used by any part of data --}}
         @if (count($updates) > 0)
             <div class="next-page"></div>
             <div class="row">
@@ -399,6 +399,38 @@
                                         @endforeach
                                     @endforeach
                                 @endif
+                                {{-- Periods --}}
+                                @if (isset($indicator['rsr_periods']) && count($indicator['rsr_periods']) > 0)
+                                    <tr class="page-break">
+                                        <td colspan="4" class="title-column">
+                                          Periods
+                                        </td>
+                                    </tr>
+                                    <tr class="page-break">
+                                        <td class="text-center"><strong>Period Start<strong></td>
+                                        <td class="text-center"><strong>Period End<strong></td>
+                                        <td class="text-center"><strong>Target Value<strong></td>
+                                        <td class="text-center"><strong>Current Value<strong></td>
+                                    </tr>
+                                    @foreach ($indicator['rsr_periods'] as $period)
+                                        <tr class="page-break">
+                                            <td>{{ date_format(date_create($period['period_start']),"F j, Y") }}</td>
+                                            <td>{{ date_format(date_create($period['period_end']),"F j, Y") }}</td>
+                                            <td class="text-right">{{ $period['target_value'] }}</td>
+                                            <td class="text-right">{{ $period['actual_value'] }}</td>
+                                        </tr>
+                                        {{-- If has dimensions --}}
+                                        @if (isset($period['rsr_period_dimension_values']) && count($period['rsr_period_dimension_values']) > 0)
+                                            <tr class="page-break">
+                                                <td colspan="2"><strong>Dimension Name<strong></td>
+                                                <td class="text-center"><strong>Target Value<strong></td>
+                                                <td class="text-center"><strong>Current Value<strong></td>
+                                            </tr>
+                                        @endif
+                                        {{-- EOL has dimensions --}}
+                                    @endforeach
+                                @endif
+                                {{-- EOL Periods --}}
                             @endif
                             </tbody>
                         </table>

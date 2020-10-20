@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
+use App\Http\Controllers\Api\RsrReportController;
 
 class RsrResult extends Model
 {
@@ -39,16 +41,22 @@ class RsrResult extends Model
 
     public function getTitleAttribute($value)
     {
-        return $this->rsr_titles()->pluck('title')[0];
+        return Str::replaceLast('.', '', $this->rsr_titles()->pluck('title')[0]);
     }
 
     public function getDescriptionAttribute($value)
     {
-        return $this->rsr_titles()->pluck('description')[0];
+        $desc = $this->rsr_titles()->pluck('description')[0];
+        $rsrReport = new RsrReportController();
+        $desc = $rsrReport->capitalizeAfterDelimiters($desc, ['.', '. ']);
+        if (empty($desc) || $desc == "​" || $desc == null) {
+            return $desc;
+        }
+        return (Str::endsWith($desc, '.')) ? $desc : $desc.'.';
     }
 
     public function getProjectAttribute($value)
     {
-        return $this->rsr_project()->pluck('title')[0];
+        return Str::replaceLast('.', '', $this->rsr_project()->pluck('title')[0]);
     }
 }
