@@ -334,6 +334,22 @@ h2.extra-counter {
     padding-top: 4rem !important;
 }
 
+.nav-jumbotron-container{
+    min-width:100%;
+}
+
+.nav-stop {
+    position: fixed;
+    top: 32px;
+    min-width: 100%;
+    width: 100%;
+    margin-left: 0px!important;
+    margin-right: 0px!important;
+    padding-bottom: 3px;
+    background: #fff;
+    z-index:1;
+}
+
 .nav-jumbotron.nav {
     margin-top: 28px;
     margin-left: auto !important;

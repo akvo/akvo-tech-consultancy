@@ -28,13 +28,13 @@ class Home extends Component {
         };
         return (
             <Fragment>
-                <Jumbotron>
-                    <Row className="page-header">
-                        <Col md={12} className="page-title text-center">
-                            <h2>Welcome to IDH Dataportal</h2>
-                        </Col>
-                    </Row>
-                </Jumbotron>
+                        <Jumbotron>
+                            <Row className="page-header">
+                                <Col md={12} className="page-title text-center">
+                                    <h2>Welcome to IDH Dataportal</h2>
+                                </Col>
+                            </Row>
+                        </Jumbotron>
                 <div className="page-content has-jumbotron">
                     <Row>
                         <Charts identifier={"map-home"} title={maps.title} dataset={maps.data} kind={maps.kind} config={maps.config} />

@@ -33,6 +33,13 @@ export const mapDispatchToProps = (dispatch) => {
                         type: "PAGE - COMPARE RESET ITEM"
                     })
             },
+            scroll: {
+                to: (pos) =>
+                    dispatch({
+                        type: "PAGE - SCROLL",
+                        pos: {scrollPos: pos}
+                    }),
+            }
         },
         user: {
             login: (user) =>

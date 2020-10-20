@@ -44,16 +44,12 @@ const Maps = (title, data) => {
         },
         toolbox: {
             ...ToolBox.toolbox,
-            feature: {
-                saveAsImage: ToolBox.toolbox.feature.saveAsImage,
-                ...ToolBoxMaps,
-            },
         },
         series: [
             {
                 name: title,
                 type: "map",
-                roam: "move",
+                roam: false,
                 map: data.maps,
                 aspectScale: 1,
                 emphasis: {

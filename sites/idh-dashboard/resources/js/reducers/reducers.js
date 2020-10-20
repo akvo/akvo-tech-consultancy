@@ -31,6 +31,7 @@ const initialState = {
             items: [],
             init: true,
         },
+        scollPos: 0
     },
     charts: [],
 };
@@ -43,6 +44,14 @@ const addComparison = (state, item, id) => {
 
 export const states = (state = initialState, action) => {
     switch (action.type) {
+        case "PAGE - SCROLL":
+            return {
+                ...state,
+                page: {
+                    ...state.page,
+                    ...action.pos
+                }
+            }
         case "PAGE - LOADING PAGE":
             return {
                 ...state,

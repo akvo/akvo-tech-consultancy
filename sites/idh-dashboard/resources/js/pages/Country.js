@@ -1,6 +1,7 @@
 import React, { Component, Fragment, useState } from "react";
 import { connect } from "react-redux";
 import { mapStateToProps, mapDispatchToProps } from "../reducers/actions";
+import { Sticky } from 'react-sticky';
 import { Redirect } from "react-router-dom";
 import { Link, Switch, Route } from 'react-router-dom';
 import { Row, Col, Card, Jumbotron, Nav } from "react-bootstrap";
@@ -32,6 +33,7 @@ class Country extends Component {
 
     constructor(props) {
         super(props);
+        this.handleScroll = this.handleScroll.bind(this);
         this.state={
             loading:true,
             redirect:false
@@ -39,7 +41,7 @@ class Country extends Component {
     }
 
     componentWillUnmount() {
-        CountryTab;
+        window.removeEventListener('scroll', this.handleScroll);
     }
 
     componentDidMount() {
@@ -47,6 +49,23 @@ class Country extends Component {
         if (token === null) {
             this.setState({redirect:true});
         }
+        if (this.props.value.page.scrollPos > 275) {
+            window.scrollTo(0, 276);
+        }
+        window.addEventListener('scroll', this.handleScroll);
+    }
+
+    handleScroll() {
+        const posStop =  window.pageYOffset > 275;
+        const stick = document.getElementById("component-will-stop");
+        const hasStop = stick.classList.contains('nav-stop')
+        if (posStop && !hasStop) {
+            stick.classList.add('nav-stop');
+        }
+        if (!posStop && hasStop) {
+            stick.classList.remove('nav-stop');
+        }
+        this.props.page.scroll.to(width.pageYOffset);
     }
 
     render() {
@@ -73,36 +92,37 @@ class Country extends Component {
         let tab = params.tab;
         let tabs = ["overview", "hh-profile", "farmer-profile", "farm-practices"];
             tabs = resource.download ? [...tabs, "resources"] : tabs;
+        console.log(window.pageYOffset);
         return (
             <Fragment>
                 <Jumbotron className="has-navigation">
-                    <Row className="page-header">
-                        <Col md={12} className="page-title text-center">
-                            <h2>Project in {country}</h2>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col md={12} className="page-title text-center">
-                            <div className="sub-content">
-                                { companies.map((x, i) => (
-                                    <Link
-                                        key={i}
-                                        to={"/country/"  + country.toLowerCase() + "/" + x.id + "/overview"}
-                                        className={x.id === companyId ? "active" : ""}
-                                    >
-                                        {x.company}
-                                    </Link>
-                                )) }
-                            </div>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Nav className="align-self-center nav-jumbotron">
-                            { tabs.map((x, i) =>
-                                <NavLink key={i} active={tab === x} country={country} company={companyId} tab={x}/>
-                            )}
-                        </Nav>
-                    </Row>
+                        <Row className="page-header">
+                            <Col md={12} className="page-title text-center">
+                                <h2>Project in {country}</h2>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col md={12} className="page-title text-center">
+                                <div className="sub-content">
+                                    { companies.map((x, i) => (
+                                        <Link
+                                            key={i}
+                                            to={"/country/"  + country.toLowerCase() + "/" + x.id + "/overview"}
+                                            className={x.id === companyId ? "active" : ""}
+                                        >
+                                            {x.company}
+                                        </Link>
+                                    )) }
+                                </div>
+                            </Col>
+                        </Row>
+                        <Row id="component-will-stop">
+                            <Nav className="align-self-center nav-jumbotron">
+                                { tabs.map((x, i) =>
+                                    <NavLink key={i} active={tab === x} country={country} company={companyId} tab={x}/>
+                                )}
+                            </Nav>
+                        </Row>
                 </Jumbotron>
                 <div className="page-content has-jumbotron">
                     <Switch>
