@@ -669,7 +669,7 @@ class ChartController extends Controller
         return $datapoints->get()->pluck('id');
     }
 
-    public function test(Request $request)
+    public function getRsrDatatable(Request $request)
     {
         // return $this->echarts->generateBarLineCharts();
         $partnershipId = null;
@@ -697,7 +697,6 @@ class ChartController extends Controller
                     }]);
                 }])->first();
         
-        // return $data;
         $this->collections = collect();
         $data = $data['rsr_results']->transform(function ($res) {
             $res['parent_project'] = null;
@@ -705,6 +704,36 @@ class ChartController extends Controller
             $res = $this->aggregateRsrValues($res);
             $res = $this->aggregateRsrChildrenValues($res, 2);
             $res = Arr::except($res, ['childrens']);
+            $res['columns']= [
+                'id' => $res['id'],
+                'title' => '# of '.Str::after($res['title'], ': '),
+                'dimension' => null,
+                'subtitle' => [],
+            ];
+            if (count($res['rsr_dimensions']) > 0) {
+                # UII 8 : 42855 => Male-led Female-led dimension id : 2832
+                $res['columns'] = $res['rsr_dimensions']->map(function ($dim) use ($res) {
+                    if ($res['id'] === 42855 || $res['parent_result'] === 42855) {
+                        if ($dim['id'] === 2832 || $dim['parent_dimension_name'] === 2832) {
+                            return [
+                                'id' => $res['id'],
+                                'title' => '# of '.Str::after($res['title'], ': '),
+                                'dimension' => $dim['name'],
+                                'subtitle' => $dim['rsr_dimension_values']->pluck('name'),
+                            ];
+                        }
+                        return;
+                    }
+                    return [
+                        'id' => $res['id'],
+                        'title' => '# of '.Str::after($res['title'], ': '),
+                        'dimension' => $dim['name'],
+                        'subtitle' => $dim['rsr_dimension_values']->pluck('name'),
+                    ];
+                })->reject(function ($dim) {
+                    return $dim === null;
+                })->values()[0];
+            }
             $this->collections->push($res);
             return $res;
         });
@@ -735,9 +764,11 @@ class ChartController extends Controller
         }
 
         return [
-            "columns" => $data->pluck('title'),
+            // "columns" => $data->pluck('title'),
+            "columns" => $data->pluck('columns'),
             // "data" => $this->collections->groupBy('project')->reverse(),
-            "data" => [$results],
+            // "data" => [$results],
+            "data" => $results,
         ];
     }
 

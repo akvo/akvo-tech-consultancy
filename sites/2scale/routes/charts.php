@@ -68,4 +68,4 @@ Route::get('/report/{type}/{country_id}/{partnership_id}/{start}/{end}', 'Api\Ch
  * Test
  */
 
- Route::get('/test/{country_id}/{partnership_id}', 'Api\ChartController@test');
+ Route::get('/rsr-datatables/{country_id}/{partnership_id}', 'Api\ChartController@getRsrDatatable');

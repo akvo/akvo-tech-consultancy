@@ -64,7 +64,8 @@ getCharts('reachreact/gender/' + endpoints, 'seventh-row', info, "12", '', "age-
 const table = db.databases;
 const fetchData = (endpoint) => {
     return new Promise((resolve, reject) => {
-        axios.get('/charts/test/' + endpoint) .then(res=> {
+        axios.get('/charts/rsr-datatables/' + endpoint) .then(res=> {
+                console.log('/charts/rsr-datatables/' + endpoint);
             // console.log('fetch network', res);
             // storeDB({
                 //     table : table, data : {name: endpoint, data: res.data}, key : {name: endpoint}
@@ -87,139 +88,353 @@ const loadData = async (endpoint) => {
 }
 const getData=loadData([country_id, partnership_id].join('/'));
 
+const refactorDimensionValue = (columns) => {
+    return columns.map(item => {
+        let tmp = [];
+        if (item.rsr_dimensions.length > 0) {
+            item.rsr_dimensions.forEach(dimensions => {
+                dimensions.rsr_dimension_values.forEach(dimension => {
+                    tmp.push({
+                        'name': dimension.name,
+                        'total_actual_value': dimension.total_actual_value,
+                        'value': dimension.value
+                    });
+                });
+            });
+        }
+        // UII 8 
+        if (item.id === 42855 || [42855, 42856, 42857, 42859, 42860, 42861, 42862, 43825].includes(item.parent_result)) { 
+            let rsr_custom_gender = {
+                male: 'Male',
+                male_actual: 0,
+                male_value: 0,
+                female: 'Female',
+                female_actual: 0,
+                female_value: 0,
+            };
+            tmp.forEach(value => {
+                let name = value.name.toLowerCase();
+                let isGender = name.includes('male');
+                let isFemale = name.includes('female');
+                if (isGender && !isFemale) {
+                    rsr_custom_gender = {
+                        ...rsr_custom_gender,
+                        male_actual: rsr_custom_gender.male_actual + value.total_actual_value,
+                        male_value: rsr_custom_gender.male_value + value.value,
+                    }
+                }
+                if (isFemale) {
+                    rsr_custom_gender = {
+                        ...rsr_custom_gender,
+                        female_actual: rsr_custom_gender.female_actual + value.total_actual_value,
+                        female_value: rsr_custom_gender.female_value + value.value,
+                    }
+                }
+            });
+            tmp = [
+                {
+                    'name': rsr_custom_gender.male,
+                    'total_actual_value': rsr_custom_gender.male_actual,
+                    'value': rsr_custom_gender.male_value
+                },
+                {
+                    'name': rsr_custom_gender.female,
+                    'total_actual_value': rsr_custom_gender.female_actual,
+                    'value': rsr_custom_gender.female_value
+                },
+            ];
+        }
+        item['dimensions'] = tmp;
+        return item;
+    });
+};
+
+const refactorChildrens = (childrens) => {
+    if (typeof childrens !== 'undefined' && childrens.length > 0) {
+        return childrens.map(child => {
+            child.columns = refactorDimensionValue(child.columns);
+            child.childrens = refactorChildrens(child.childrens);
+            child['extras'] = [];
+            if (child.childrens.length > 0) {
+                child['extras'] = agregateExtras(child.columns);
+            }
+            return child;
+        });
+    }
+    return [];
+};
+
+const titleFormat = (title) => {
+    let isHypen = title.includes('-');
+    let isUnderscore = title.includes('_');
+    if (isHypen && !isUnderscore) {
+        return title.split('-')[1];
+    }
+    if (isUnderscore) {
+        let titles = title.split('_');
+        return titles[1] + ' (' + titles[0] + ') - ' + titles[2];
+    }
+    return title;
+}
+
+const agregateExtras = (data) => {
+    let sum_values = [], target_values = [], gap_values = [], percent_values = [];
+    data.forEach(item => {
+        let sum = [], target = [], gap = [], percent = [];
+        let dim_sum = 0, dim_target = 0, dim_gap = 0, dim_percent = 0, has_dimension = false;
+        if (item.dimensions.length > 0) {
+            has_dimension = true;
+            item.dimensions.forEach(val => {
+                dim_sum += dim_sum + val.total_actual_value;
+                dim_target += dim_target + val.value;
+                dim_gap += dim_gap + (val.total_actual_value - val.value);
+                dim_percent += dim_percent + ((val.total_actual_value/val.value) * 100);
+
+                sum.push(val.total_actual_value);
+                target.push(val.value);
+                gap.push(val.total_actual_value - val.value);
+                let percentage = (val.value !== 0) ? ((val.total_actual_value/val.value) * 100).toFixed(2) + "%" : '-';
+                percent.push(percentage);
+            });
+        }
+        else {
+            sum.push(item.total_actual_value);
+            target.push(item.total_target_value);
+            gap.push(item.total_actual_value - item.total_target_value);
+            let percentage = (item.total_target_value !== 0) ? ((item.total_actual_value/item.total_target_value) * 100).toFixed(2) + "%" : '-';
+            percent.push(percentage);
+        }
+        sum_values.push({"total": sum, "dimension_total": dim_sum, "has_dimension": has_dimension});
+        target_values.push({"total": target, "dimension_total": dim_target, "has_dimension": has_dimension});
+        gap_values.push({"total": gap, "dimension_total": dim_gap, "has_dimension": has_dimension});
+        percent_values.push({"total": percent, "dimension_total": dim_percent, "has_dimension": has_dimension});
+    });
+    return [{
+        "name": "SUM",
+        "values": sum_values,
+    },
+    {
+        "name": "TARGET",
+        "values": target_values,
+    },
+    {
+        "name": "GAP",
+        "values": gap_values,
+    },
+    {
+        "name": "%",
+        "values": percent_values,
+    }];
+};
+
 let html = '';
-let shown = null;
+let data = {};
+let status = {};
 getData.then(res => {
+    data = res;
+    // data refactoring
+    data.columns = data.columns.map(column => {
+        if (column.subtitle.length > 0) {
+            column.subtitle = column.subtitle.map(subtitle => {
+                let name = subtitle.toLowerCase();
+                let isGender = name.includes('male');
+                let isFemale = name.includes('female');
+                let isSenior = name.includes('>');
+                let isJunior = name.includes('<');
+                if (isGender && !isFemale && isSenior) {
+                    return 'SM';
+                }
+                if (isFemale && isSenior) {
+                    return 'SF';
+                }
+                if (isGender && !isFemale && isJunior) {
+                    return 'JM';
+                }
+                if(isFemale && isJunior) {
+                    return 'JF';
+                }
+                if (isGender && !isFemale && !isSenior && !isJunior) {
+                    return 'M';
+                }
+                if (isFemale && !isSenior && !isJunior) {
+                    return 'F';
+                }
+            });
+            return column;
+        }
+        return column;
+    });
+
+    data.data.columns = refactorDimensionValue(data.data.columns);
+    data.data.childrens = refactorChildrens(data.data.childrens);
+    data.data['extras'] = agregateExtras(data.data.columns);
+    // EOL data refactoring
+    return data;
+}).then(res => {
     console.log(res);
-    localStorage.removeItem('dtcache');
     html += '<thead>';
     html += '<tr>';
-    // html += '<th rowspan="2"></th>'
     html += '<th rowspan="2"></th>';
     res.columns.forEach(column => {
-        html += '<th colspan="2">'+column+'</th>';
+        let colspan = column.subtitle.length;
+        let span = (colspan > 0) ? 'colspan="'+colspan+'"' : 'rowspan="2"'; 
+        html += '<th '+span+'>'+column.title+'</th>';
     });
     html += '</tr>';
     return res;
 }).then(res => {
     html += '<tr>';
     res.columns.forEach(column => {
-        html += '<th class="text-center">Target</th>';
-        html += '<th class="text-center">Actual</th>';
+        if (column.subtitle.length > 0) {
+            column.subtitle.forEach(subtitle => {
+                html += '<th class="text-center">'+subtitle+'</th>';
+            });
+        }
     });
     html += '</tr>';
     html += '</thead>';
     return res;
 }).then(res => {
-    let dtcache = [];
     html += '<tbody>';
-    res.data.forEach(val => {
-        let css = (val.childrens.length > 0) ? 'parent' : '';
-        dtcache.push({'id': val.rsr_project_id, 'columns': val.columns});
-        html += '<tr data-value='+val.rsr_project_id+' style="background-color:#E2E3E5;">';
-        // html += '<td class="details-control"></td>';
-        html += '<td class="'+css+'">'+val.project+'</td>';
-        val.columns.forEach(val => {
-            let has_dimension = (val.rsr_dimensions.length > 0) ? 'has-dimension' : '';
-            html += "<td class='"+css+" text-right "+has_dimension+"' data-details='"+JSON.stringify(val)+"'>";
-            html += val.total_target_value;
-            html += "</td>";
-            html += "<td class='"+css+" text-right "+has_dimension+"' data-details='"+JSON.stringify(val)+"'>";
-            html += val.total_actual_value;
-            html += "</td>";
-        });
-        html += '</tr>';
-        if (val.childrens.length > 0) {
-            val.childrens.forEach(val => {
-                css = (val.childrens.length > 0) ? 'parent' : '';
-                let bgcolor = (val.childrens.length > 0) ? 'style="background-color:#F2F2F2;"' : '';
-                dtcache.push({'id': val.rsr_project_id, 'columns': val.columns});
-                html += '<tr data-value='+val.rsr_project_id+' '+bgcolor+'>';
-                // html += '<td class="details-control"></td>';
-                html += '<td class="'+css+'" style="padding-left:20px;">'+val.project+'</td>';
-                val.columns.forEach(val => {
-                    let has_dimension = (val.rsr_dimensions.length > 0) ? 'has-dimension' : '';
-                    html += "<td class='"+css+" text-right "+has_dimension+"' data-details='"+JSON.stringify(val)+"'>";
-                    html += val.total_target_value;
-                    html += "</td>";
-                    html += "<td class='"+css+" text-right "+has_dimension+"' data-details='"+JSON.stringify(val)+"'>";
-                    html += val.total_actual_value;
-                    html += "</td>";
-                });
-                html += '</tr>';
-                if (val.childrens.length > 0) {
-                    val.childrens.forEach(val => {
-                        dtcache.push({'id': val.rsr_project_id, 'columns': val.columns});
-                        html += '<tr data-value='+val.rsr_project_id+'>';
-                        // html += '<td class="details-control"></td>';
-                        html += '<td style="padding-left:40px;">'+val.project+'</td>';
-                        val.columns.forEach(val => {
-                            let has_dimension = (val.rsr_dimensions.length > 0) ? 'has-dimension' : '';
-                            html += "<td class='text-right "+has_dimension+"' data-details='"+JSON.stringify(val)+"'>";
-                            html += val.total_target_value;
-                            html += "</td>";
-                            html += "<td class='text-right "+has_dimension+"' data-details='"+JSON.stringify(val)+"'>";
-                            html += val.total_actual_value;
-                            html += "</td>";
-                        });
-                        html += '</tr>';
-                    });
-                }
+    let css = (res.data.childrens.length > 0) ? 'parent' : '';
+    let parentId = res.data.rsr_project_id;
+    html += '<tr data-id="'+parentId+'" style="background-color:#E2E3E5;">';
+    html += '<td class="'+css+'">'+titleFormat(res.data.project)+'</td>';
+    res.data.columns.forEach(val => {
+        if (val.dimensions.length > 0) {
+            val.dimensions.forEach(val => {
+                html += "<td class='"+css+" text-right'>";
+                html += val.total_actual_value;
+                html += "</td>";
             });
         }
+        else {
+            html += "<td class='"+css+" text-right'>";
+            html += val.total_actual_value;
+            html += "</td>";
+        }
     });
+    html += '</tr>';
+    
+    if (res.data.childrens.length > 0) {
+        res.data.childrens.forEach(val => {
+            css = (val.childrens.length > 0) ? 'parent' : '';
+            let bgcolor = (val.childrens.length > 0) ? 'style="background-color:#F2F2F2;"' : '';
+            let childId = val.rsr_project_id;
+            html += '<tr data-id="'+childId+'" class="child '+parentId+'" '+bgcolor+'>';
+            html += '<td class="'+css+'" style="padding-left:20px;">'+titleFormat(val.project)+'</td>';
+            val.columns.forEach(val => {
+                if (val.dimensions.length > 0) {
+                    val.dimensions.forEach(val => {
+                        html += "<td class='"+css+" text-right'>";
+                        html += val.total_actual_value;
+                        html += "</td>";
+                    });
+                }
+                else {
+                    html += "<td class='"+css+" text-right'>";
+                    html += val.total_actual_value;
+                    html += "</td>";
+                }
+            });
+            html += '</tr>';
+
+            if (val.childrens.length > 0) {
+                val.childrens.forEach(val => {
+                    html += '<tr class="child child-'+parentId+' '+childId+'">';
+                    html += '<td style="padding-left:40px;">'+titleFormat(val.project)+'</td>';
+                    val.columns.forEach(val => {
+                        if (val.dimensions.length > 0) {
+                            val.dimensions.forEach(val => {
+                                html += "<td class='"+css+" text-right'>";
+                                html += val.total_actual_value;
+                                html += "</td>";
+                            });
+                        }
+                        else {
+                            html += "<td class='"+css+" text-right'>";
+                            html += val.total_actual_value;
+                            html += "</td>";
+                        }
+                    });
+                    html += '</tr>';
+                });
+            }
+
+            // extras
+            if (val.extras.length > 0) {
+                val.extras.forEach(val => {
+                    html += '<tr class="child child-'+parentId+' '+childId+'">';
+                    html += '<td>'+val.name+'</td>';
+                    val.values.forEach(val => {
+                        let span = (val.has_dimension) ? '' : '';
+                        val.total.forEach(val => {
+                            html += '<td class="text-right" '+span+'>'+val+'</td>';
+                        });
+                    });
+                    html += '</tr>';
+                    // html += '<tr>';
+                    // val.values.forEach(val => {
+                    //     if (val.has_dimension) {
+                    //         html += '<td class="text-center" colspan="'+val.total.length+'">'+val.dimension_total+'</td>';
+                    //     }
+                    // });
+                    // html += '</tr>';
+                });
+            }
+            // eol extras
+        });
+    }
+    
+    // extras
+    if (res.data.extras.length > 0) {
+        res.data.extras.forEach(val => {
+            html += '<tr class="child '+parentId+'">';
+            html += '<td>'+val.name+'</td>';
+            val.values.forEach(val => {
+                let span = (val.has_dimension) ? '' : '';
+                val.total.forEach(val => {
+                    html += '<td class="text-right" '+span+'>'+val+'</td>';
+                });
+            });
+            html += '</tr>';
+            // html += '<tr>';
+            // val.values.forEach(val => {
+            //     if (val.has_dimension) {
+            //         html += '<td class="text-center" colspan="'+val.total.length+'">'+val.dimension_total+'</td>';
+            //     }
+            // });
+            // html += '</tr>';
+        });
+    }
+    // eol extras
+    
     html += '</tbody>';
-    localStorage.setItem('dtcache', JSON.stringify(dtcache));
     $("#datatables").append(html);
     return res;
 }).then(res => {
     if (res) {
+        $('.child').hide('fast');
         return datatableOptions("#datatables", res);
     }
     return true;
 }).then(table => {
-    // plus button click
-    $("#datatables tbody").on('click', 'td.details-control', function () {
-        let tr = $(this).closest('tr');
-        let row = table.row(tr);
-        if ( row.child.isShown() ) {
-            // This row is already open - close it
-            row.child.hide();
-            tr.removeClass('shown');
-        }
-        else {
-            // Open this row
-            (shown !== null) ? shown.hide() : '';
-            row.child( formatDetails(tr.data('value')) ).show();
-            tr.addClass('shown');
-            shown = row.child;
-        }
-    });
-
     // value click to show pop up dimension
-    $("#datatables tbody").on('click', 'td.has-dimension', function () {
-        let details = JSON.parse($(this).attr('data-details'));
-        $("#modalTitle").html(details.title);
-        let detailTable = '<table class="table table-bordered" id="dimensionDataTable" style="width:100%;" cellspacing="0">';
-        detailTable += '<tbody>';
-        details.rsr_dimensions.forEach(val => {
-            detailTable += '<tr style="background-color:#F2F2F2;">';
-            detailTable += '<td class="parent">'+val.name+'</td>';
-            detailTable += '<td class="parent text-center">Target</td>';
-            detailTable += '<td class="parent text-center">Actual</td>';
-            detailTable += '</tr>';
-            val.rsr_dimension_values.forEach(val => {
-                detailTable += '<tr>';
-                detailTable += '<td>'+val.name+'</td>';
-                detailTable += '<td class="text-right">'+val.value+'</td>';
-                detailTable += '<td class="text-right">'+val.total_actual_value+'</td>';
-                detailTable += '</tr>';
-            });
-        });
-        detailTable += '</tbody>';
-        detailTable += '</table>';
-        $("#modalBody").html(detailTable);
-        $("#modal").modal({backdrop: 'static', keyboard: false});
+    $("#datatables tbody").on('click', 'tr', function () {
+        let classId = $(this).attr('data-id');
+        if (typeof status[classId] === 'undefined') {
+            $('.'+classId).fadeIn('slow');
+            status[classId] = true;
+        }
+        else if (status[classId]) {
+            $('.'+classId).fadeOut();
+            $('.child-'+classId).fadeOut();
+            status[classId] = false;
+        }
+        else if (!status[classId]) {
+            $('.'+classId).fadeIn('slow');
+            status[classId] = true;
+        }
     });
 });
 
@@ -258,7 +473,7 @@ const datatableOptions = (id, res) => {
     let dtoptions = {
         ordering: false,
         dom: 'Birftp',
-        buttons: ['colvis'],
+        buttons: ['colvis', 'excel'],
         scrollX: true,
         scrollY: '75vh',
         height: 400,
