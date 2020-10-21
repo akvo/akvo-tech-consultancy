@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: tc-test-container-${TRAVIS_COMMIT}
+spec:
+  template:
+    spec:
+      containers:
+        - name: tc-test-container
+          image: eu.gcr.io/akvo-lumen/tc-test-container:${TRAVIS_COMMIT}
+          resources:
+              requests:
+                cpu: "50m"
+                memory: "256Mi"
+              limits:
+                cpu: "1000m"
+                memory: "768Mi"
+      restartPolicy: Never
+  backoffLimit: 0
