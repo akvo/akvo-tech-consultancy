@@ -72,7 +72,6 @@ export const Histogram = (title, data) => {
         },
         series: values,
         data: tableData,
-        ...dataZoom,
         ...Color,
         ...Easing,
         ...backgroundColor,

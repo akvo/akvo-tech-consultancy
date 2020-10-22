@@ -84,7 +84,6 @@ export const Bar = (title, data, horizontal = false, unsorted = false) => {
             },
         ],
         data: tableData,
-        ...dataZoom,
         ...Color,
         ...Easing,
         ...backgroundColor,

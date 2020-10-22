@@ -238,9 +238,10 @@ class Manage extends Component {
                                                 id="dropdown-menu-align-right"
                                                 className="dropdown-show-sm"
                                             >
-                                                <Dropdown.Item className="dropdown-item-sm">User</Dropdown.Item>
                                                 <Dropdown.Item className="dropdown-item-sm">Admin</Dropdown.Item>
-                                                <Dropdown.Item className="dropdown-item-sm">Staff</Dropdown.Item>
+                                                <Dropdown.Item className="dropdown-item-sm">Analyst</Dropdown.Item>
+                                                <Dropdown.Item className="dropdown-item-sm">General Staff</Dropdown.Item>
+                                                <Dropdown.Item className="dropdown-item-sm">Guest</Dropdown.Item>
                                             </DropdownButton>
                                         </Col>
                                     </Row>

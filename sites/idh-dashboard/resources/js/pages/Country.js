@@ -1,7 +1,6 @@
 import React, { Component, Fragment, useState } from "react";
 import { connect } from "react-redux";
 import { mapStateToProps, mapDispatchToProps } from "../reducers/actions";
-import { Sticky } from 'react-sticky';
 import { Redirect } from "react-router-dom";
 import { Link, Switch, Route } from 'react-router-dom';
 import { Row, Col, Card, Jumbotron, Nav } from "react-bootstrap";
@@ -49,23 +48,21 @@ class Country extends Component {
         if (token === null) {
             this.setState({redirect:true});
         }
-        if (this.props.value.page.scrollPos > 275) {
-            window.scrollTo(0, 276);
-        }
         window.addEventListener('scroll', this.handleScroll);
     }
 
     handleScroll() {
         const posStop =  window.pageYOffset > 275;
         const stick = document.getElementById("component-will-stop");
-        const hasStop = stick.classList.contains('nav-stop')
-        if (posStop && !hasStop) {
-            stick.classList.add('nav-stop');
+        if (stick) {
+            const hasStop = stick.classList.contains('nav-stop')
+            if (posStop && !hasStop) {
+                stick.classList.add('nav-stop');
+            }
+            if (!posStop && hasStop) {
+                stick.classList.remove('nav-stop');
+            }
         }
-        if (!posStop && hasStop) {
-            stick.classList.remove('nav-stop');
-        }
-        this.props.page.scroll.to(width.pageYOffset);
     }
 
     render() {
@@ -92,7 +89,6 @@ class Country extends Component {
         let tab = params.tab;
         let tabs = ["overview", "hh-profile", "farmer-profile", "farm-practices"];
             tabs = resource.download ? [...tabs, "resources"] : tabs;
-        console.log(window.pageYOffset);
         return (
             <Fragment>
                 <Jumbotron className="has-navigation">

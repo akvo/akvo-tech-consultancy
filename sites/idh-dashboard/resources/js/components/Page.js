@@ -3,7 +3,6 @@ import { createStore } from "redux";
 import { connect } from "react-redux";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import { mapStateToProps, mapDispatchToProps } from "../reducers/actions";
-import { StickyContainer } from 'react-sticky';
 import Navigation from "./Navigation";
 import Filters from "./Filters";
 import { Container } from "react-bootstrap";
@@ -73,7 +72,6 @@ class Page extends Component {
         let loading = this.props.value.page.loading;
         return (
             <BrowserRouter>
-            <StickyContainer>
             <Navigation />
             <Filters />
             {loading ? <Loading /> : ""}
@@ -91,7 +89,6 @@ class Page extends Component {
                     <Route render={function () { return <NotFound/>}} />
                 </Switch>
             </Container>
-            </StickyContainer>
             </BrowserRouter>
         );
     }
