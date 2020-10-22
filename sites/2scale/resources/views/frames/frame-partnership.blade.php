@@ -19,6 +19,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/4.6.0/echarts-en.min.js" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.1/axios.min.js" type="text/javascript"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.20/b-1.6.1/b-colvis-1.6.1/b-flash-1.6.1/b-html5-1.6.1/b-print-1.6.1/fh-3.1.6/kt-2.5.1/r-2.2.3/datatables.min.css"/>
+    <link rel="stylesheet" href="{{mix('css/print.css')}}">
 </head>
 <style>
 html,
@@ -38,21 +39,8 @@ body{
 #maps {
 	height: 500px;
 }
-td.details-control {
-    background: url('https://datatables.net/examples/resources/details_open.png') no-repeat center center;
-    cursor: pointer;
-}
-td.parent {
-    font-weight: bold;
-}
-td.text-right.has-dimension {
-    cursor: pointer;
-    /* color: #4285F4; */
-}
-td.text-right.has-dimension:hover {
-    text-decoration: underline;
-}
 </style>
+
 <body>
     <!-- Jumbotron -->
     <div class="text-white text-center py-2 px-4">
@@ -92,7 +80,8 @@ td.text-right.has-dimension:hover {
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
 	<!-- MDB core JavaScript -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.11/js/mdb.min.js"></script>
-	<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.20/b-1.6.1/b-colvis-1.6.1/b-flash-1.6.1/b-html5-1.6.1/b-print-1.6.1/fh-3.1.6/kt-2.5.1/r-2.2.3/datatables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.20/b-1.6.1/b-colvis-1.6.1/b-flash-1.6.1/b-html5-1.6.1/b-print-1.6.1/fh-3.1.6/kt-2.5.1/r-2.2.3/datatables.min.js"></script>
+    {{-- <script type="text/javascript" src="https://cdn.datatables.net/fixedcolumns/3.2.1/js/dataTables.fixedColumns.min.js"></script> --}}
 	<!-- Bootstrap Select -->
     <script src="{{ mix('/js/partnership.js') }}"></script>
 </body>

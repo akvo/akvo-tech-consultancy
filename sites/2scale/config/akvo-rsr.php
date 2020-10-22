@@ -27,6 +27,11 @@ return [
             'title' => 'Target Audience(s)'
         ],
     ],
+    'datatables' => [
+        // uii 8 & IP-A (Immediate outcome) - ET06_Indigenous Oilseeds_Tsehay MFCU
+        'uii8_results_ids' => [42855, 44813, 44856, 43825, 4286, 42861, 42862, 42859, 42856, 42857, 42860, 43951],
+        'ui8_dimension_ids' => [2832, 2832, 3005, 2837, 2838, 2839, 2836, 2833, 2834, 2837, 3038],
+    ],
     'projects' => [
         'parent' => 8759, # 2scale program
         'childs' => [

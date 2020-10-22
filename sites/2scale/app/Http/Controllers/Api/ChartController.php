@@ -711,10 +711,12 @@ class ChartController extends Controller
                 'subtitle' => [],
             ];
             if (count($res['rsr_dimensions']) > 0) {
-                # UII 8 : 42855 => Male-led Female-led dimension id : 2832
+                # UII 8 : Male-led - Female-led
                 $res['columns'] = $res['rsr_dimensions']->map(function ($dim) use ($res) {
-                    if ($res['id'] === 42855 || $res['parent_result'] === 42855) {
-                        if ($dim['id'] === 2832 || $dim['parent_dimension_name'] === 2832) {
+                    $resultIds = collect(config('akvo-rsr.datatables.uii8_results_ids'));
+                    if ($resultIds->contains($res['id']) || $resultIds->contains($res['parent_result'])) {
+                        $dimensionIds = collect(config('akvo-rsr.datatables.ui8_dimension_ids'));
+                        if ($dimensionIds->contains($dim['id']) || $dimensionIds->contains($dim['parent_dimension_name'])) {
                             return [
                                 'id' => $res['id'],
                                 'title' => '# of '.Str::after($res['title'], ': '),
@@ -733,6 +735,7 @@ class ChartController extends Controller
                 })->reject(function ($dim) {
                     return $dim === null;
                 })->values()[0];
+                # EOL UII 8 : Male-led - Female-led
             }
             $this->collections->push($res);
             return $res;
@@ -764,10 +767,10 @@ class ChartController extends Controller
         }
 
         return [
-            // "columns" => $data->pluck('title'),
+            "config" => [
+                "result_ids" => config('akvo-rsr.datatables.uii8_results_ids'),
+            ],
             "columns" => $data->pluck('columns'),
-            // "data" => $this->collections->groupBy('project')->reverse(),
-            // "data" => [$results],
             "data" => $results,
         ];
     }

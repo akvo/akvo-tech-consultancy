@@ -1,6 +1,7 @@
 import { db, storeDB } from './dexie';
 const axios = window.axios;
 import {getCharts, getCards, getSingleCards} from './charts.js';
+const baseurl = $("meta[name=path]").attr("content");
 
 /* Static */
 const country_id = $("meta[name='country']").attr("content");
@@ -29,7 +30,7 @@ getCharts('partnership/project-total/' + endpoints, 'second-row', info, "6");
 // Table container
 $("main").append('<hr><div class="table-wrapper-scroll-y my-custom-scrollbar" style="margin-top:25px; margin-bottom:25px;">\
         <div id="table-container">\
-            <table id="datatables" class="table table-bordered" style="width:100%" cellspacing="0"></table>\
+            <table id="datatables" class="table table-bordered" cellspacing="0" style="width:100%;"></table>\
         </div>\
         <div id="datatableWrapper" class="tab-content"></div>\
     </div>');
@@ -103,7 +104,8 @@ const refactorDimensionValue = (columns) => {
             });
         }
         // UII 8 
-        if (item.id === 42855 || [42855, 42856, 42857, 42859, 42860, 42861, 42862, 43825].includes(item.parent_result)) { 
+        let resultIds = data.config.result_ids;
+        if (resultIds.includes(item.id) || resultIds.includes(item.parent_result)) { 
             let rsr_custom_gender = {
                 male: 'Male',
                 male_actual: 0,
@@ -116,14 +118,18 @@ const refactorDimensionValue = (columns) => {
                 let name = value.name.toLowerCase();
                 let isGender = name.includes('male');
                 let isFemale = name.includes('female');
-                if (isGender && !isFemale) {
+
+                let isMen = name.includes('men');
+                let isWomen = name.includes('women');
+
+                if (isGender && !isFemale || isMen && !isWomen) {
                     rsr_custom_gender = {
                         ...rsr_custom_gender,
                         male_actual: rsr_custom_gender.male_actual + value.total_actual_value,
                         male_value: rsr_custom_gender.male_value + value.value,
                     }
                 }
-                if (isFemale) {
+                if (isFemale || isWomen) {
                     rsr_custom_gender = {
                         ...rsr_custom_gender,
                         female_actual: rsr_custom_gender.female_actual + value.total_actual_value,
@@ -164,7 +170,8 @@ const refactorChildrens = (childrens) => {
     return [];
 };
 
-const titleFormat = (title) => {
+const titleFormat = (title, css) => {
+    let td = '';
     let isHypen = title.includes('-');
     let isUnderscore = title.includes('_');
     if (isHypen && !isUnderscore) {
@@ -204,6 +211,7 @@ const agregateExtras = (data) => {
             let percentage = (item.total_target_value !== 0) ? ((item.total_actual_value/item.total_target_value) * 100).toFixed(2) + "%" : '-';
             percent.push(percentage);
         }
+        dim_percent = (isNaN(dim_percent)) ? ' - ' : dim_percent.toFixed(2) + "%";
         sum_values.push({"total": sum, "dimension_total": dim_sum, "has_dimension": has_dimension});
         target_values.push({"total": target, "dimension_total": dim_target, "has_dimension": has_dimension});
         gap_values.push({"total": gap, "dimension_total": dim_gap, "has_dimension": has_dimension});
@@ -259,6 +267,7 @@ getData.then(res => {
                 if (isFemale && !isSenior && !isJunior) {
                     return 'F';
                 }
+                return subtitle;
             });
             return column;
         }
@@ -272,13 +281,13 @@ getData.then(res => {
     return data;
 }).then(res => {
     console.log(res);
-    html += '<thead>';
+    html += '<thead class="thead-dark">';
     html += '<tr>';
-    html += '<th rowspan="2"></th>';
+    html += '<th rowspan="2">Country / Partnership / Partner</th>';
     res.columns.forEach(column => {
         let colspan = column.subtitle.length;
         let span = (colspan > 0) ? 'colspan="'+colspan+'"' : 'rowspan="2"'; 
-        html += '<th '+span+'>'+column.title+'</th>';
+        html += '<th scope="col" '+span+'>'+column.title+'</th>';
     });
     html += '</tr>';
     return res;
@@ -287,7 +296,7 @@ getData.then(res => {
     res.columns.forEach(column => {
         if (column.subtitle.length > 0) {
             column.subtitle.forEach(subtitle => {
-                html += '<th class="text-center">'+subtitle+'</th>';
+                html += '<th scope="col" class="text-center">'+subtitle+'</th>';
             });
         }
     });
@@ -295,22 +304,25 @@ getData.then(res => {
     html += '</thead>';
     return res;
 }).then(res => {
+    let icon_plus = '<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus" fill="currentColor" xmlns="http://www.w3.org/2000/svg">\
+        <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>\
+    </svg>';
     html += '<tbody>';
     let css = (res.data.childrens.length > 0) ? 'parent' : '';
     let parentId = res.data.rsr_project_id;
-    html += '<tr data-id="'+parentId+'" style="background-color:#E2E3E5;">';
+    html += '<tr data-id="'+parentId+'" data-level="1" style="background-color:#E2E3E5;">';
     html += '<td class="'+css+'">'+titleFormat(res.data.project)+'</td>';
     res.data.columns.forEach(val => {
         if (val.dimensions.length > 0) {
             val.dimensions.forEach(val => {
                 html += "<td class='"+css+" text-right'>";
-                html += val.total_actual_value;
+                html += val.total_actual_value.toLocaleString();
                 html += "</td>";
             });
         }
         else {
             html += "<td class='"+css+" text-right'>";
-            html += val.total_actual_value;
+            html += val.total_actual_value.toLocaleString();
             html += "</td>";
         }
     });
@@ -321,19 +333,19 @@ getData.then(res => {
             css = (val.childrens.length > 0) ? 'parent' : '';
             let bgcolor = (val.childrens.length > 0) ? 'style="background-color:#F2F2F2;"' : '';
             let childId = val.rsr_project_id;
-            html += '<tr data-id="'+childId+'" class="child '+parentId+'" '+bgcolor+'>';
-            html += '<td class="'+css+'" style="padding-left:20px;">'+titleFormat(val.project)+'</td>';
+            html += '<tr data-id="'+childId+'" data-level="2" class="child '+parentId+'" '+bgcolor+'>';
+            html += '<td class="'+css+'">'+icon_plus+' ' +titleFormat(val.project)+'</td>';
             val.columns.forEach(val => {
                 if (val.dimensions.length > 0) {
                     val.dimensions.forEach(val => {
                         html += "<td class='"+css+" text-right'>";
-                        html += val.total_actual_value;
+                        html += val.total_actual_value.toLocaleString();
                         html += "</td>";
                     });
                 }
                 else {
                     html += "<td class='"+css+" text-right'>";
-                    html += val.total_actual_value;
+                    html += val.total_actual_value.toLocaleString();
                     html += "</td>";
                 }
             });
@@ -341,19 +353,19 @@ getData.then(res => {
 
             if (val.childrens.length > 0) {
                 val.childrens.forEach(val => {
-                    html += '<tr class="child child-'+parentId+' '+childId+'">';
-                    html += '<td style="padding-left:40px;">'+titleFormat(val.project)+'</td>';
+                    html += '<tr data-level="3" class="child child-'+parentId+' '+childId+'">';
+                    html += '<td style="padding-left:25px;">'+icon_plus+' '+titleFormat(val.project)+'</td>';
                     val.columns.forEach(val => {
                         if (val.dimensions.length > 0) {
                             val.dimensions.forEach(val => {
-                                html += "<td class='"+css+" text-right'>";
-                                html += val.total_actual_value;
+                                html += "<td class='text-right'>";
+                                html += val.total_actual_value.toLocaleString();
                                 html += "</td>";
                             });
                         }
                         else {
-                            html += "<td class='"+css+" text-right'>";
-                            html += val.total_actual_value;
+                            html += "<td class='text-right'>";
+                            html += val.total_actual_value.toLocaleString();
                             html += "</td>";
                         }
                     });
@@ -364,22 +376,27 @@ getData.then(res => {
             // extras
             if (val.extras.length > 0) {
                 val.extras.forEach(val => {
-                    html += '<tr class="child child-'+parentId+' '+childId+'">';
-                    html += '<td>'+val.name+'</td>';
+                    html += '<tr class="extras child child-'+parentId+' '+childId+'">';
+                    html += '<td rowspan="2">'+val.name+'</td>';
                     val.values.forEach(val => {
-                        let span = (val.has_dimension) ? '' : '';
+                        let span = (val.has_dimension) ? '' : 'rowspan="2"';
                         val.total.forEach(val => {
-                            html += '<td class="text-right" '+span+'>'+val+'</td>';
+                            html += '<td class="text-right" '+span+'>'+val.toLocaleString()+'</td>';
                         });
                     });
                     html += '</tr>';
-                    // html += '<tr>';
-                    // val.values.forEach(val => {
-                    //     if (val.has_dimension) {
-                    //         html += '<td class="text-center" colspan="'+val.total.length+'">'+val.dimension_total+'</td>';
-                    //     }
-                    // });
-                    // html += '</tr>';
+
+                    html += '<tr class="extras child child-'+parentId+' '+childId+'">';
+                    html += '<td style="display:none;">&nbsp</td>';
+                    val.values.forEach(val => {
+                        if (val.has_dimension) {
+                            html += '<td class="text-right" colspan="'+val.total.length+'">'+val.dimension_total.toLocaleString()+'</td>';
+                        }
+                        val.total.forEach(val => {
+                            html += '<td style="display:none;">&nbsp</td>';
+                        });
+                    });
+                    html += '</tr>';
                 });
             }
             // eol extras
@@ -389,22 +406,27 @@ getData.then(res => {
     // extras
     if (res.data.extras.length > 0) {
         res.data.extras.forEach(val => {
-            html += '<tr class="child '+parentId+'">';
-            html += '<td>'+val.name+'</td>';
+            html += '<tr class="extras child '+parentId+'">';
+            html += '<td rowspan="2">'+val.name+'</td>';
             val.values.forEach(val => {
-                let span = (val.has_dimension) ? '' : '';
+                let span = (val.has_dimension) ? '' : 'rowspan="2"';
                 val.total.forEach(val => {
-                    html += '<td class="text-right" '+span+'>'+val+'</td>';
+                    html += '<td class="text-right" '+span+'>'+val.toLocaleString()+'</td>';
                 });
             });
             html += '</tr>';
-            // html += '<tr>';
-            // val.values.forEach(val => {
-            //     if (val.has_dimension) {
-            //         html += '<td class="text-center" colspan="'+val.total.length+'">'+val.dimension_total+'</td>';
-            //     }
-            // });
-            // html += '</tr>';
+
+            html += '<tr class="extras child '+parentId+'">';
+            html += '<td style="display:none;">&nbsp</td>';
+            val.values.forEach(val => {
+                if (val.has_dimension) {
+                    html += '<td class="text-right" colspan="'+val.total.length+'">'+val.dimension_total.toLocaleString()+'</td>';
+                }
+                val.total.forEach(val => {
+                    html += '<td style="display:none;">&nbsp</td>';
+                });
+            });
+            html += '</tr>';
         });
     }
     // eol extras
@@ -422,19 +444,26 @@ getData.then(res => {
     // value click to show pop up dimension
     $("#datatables tbody").on('click', 'tr', function () {
         let classId = $(this).attr('data-id');
+        let level = $(this).attr('data-level');
         if (typeof status[classId] === 'undefined') {
-            $('.'+classId).fadeIn('slow');
+            $('.'+classId).show();
             status[classId] = true;
         }
         else if (status[classId]) {
-            $('.'+classId).fadeOut();
-            $('.child-'+classId).fadeOut();
-            status[classId] = false;
+            $('.'+classId).hide();
+            $('.child-'+classId).hide();
+            (level == 1) ? status = {} : status[classId] = false;
         }
         else if (!status[classId]) {
-            $('.'+classId).fadeIn('slow');
+            $('.'+classId).show();
             status[classId] = true;
         }
+    });
+
+    // search event expand all hidden row and hide extra row
+    $('#datatables_filter').children('input[type=search]').click(() => {
+        $('.child').show();
+        $('.extras').hide();
     });
 });
 
@@ -469,25 +498,48 @@ const formatDetails = (d) => {
     return details;
 }
 
+
 const datatableOptions = (id, res) => {
     let dtoptions = {
         ordering: false,
         dom: 'Birftp',
-        buttons: ['colvis', 'excel'],
+        buttons: [
+            'copy', 
+            {
+                extend: 'print',
+                title: res.data.project,
+                customize: function(win) {
+                    $(win.document.head).append($('<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">'));
+                    $(win.document.head).append($('<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.11/css/mdb.min.css" rel="stylesheet">'));
+                    $(win.document.head).append($('<link href="'+baseurl+'/public/css/print.css" rel="stylesheet">'));
+                    $(win.document.body).find('table thead').remove();
+                    $(win.document.body).find('table tbody').remove();
+                    $(win.document.body).prepend("<h5>2SCALE RSR Report</h5></hr>");
+                    $(win.document.body).find('table').append($('.dataTable').html());
+                    $(win.document.body).find('table').append($('#datatables').html());
+                },
+            },
+            'excel',
+            'pdf'
+        ],
         scrollX: true,
         scrollY: '75vh',
         height: 400,
         paging: false,
         fixedHeader: true,
         scrollCollapse: true,
+        columnDefs: [
+            { targets: 0, width: '15%'}
+        ]
     };
     let hideColumns = {
         columnDefs: [
-            { targets: [1,2,3,4,5,6,7], visible: true},
+            { targets: 0, width: '15%'},
+            { targets: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19], visible: true},
             { targets: '_all', visible: false },
         ],
     };
-    dtoptions = res.columns.length > 10
+    dtoptions = res.columns.length > 8
         ? {...dtoptions, ...hideColumns}
         :  dtoptions;
     let table = $(id).DataTable(dtoptions);
