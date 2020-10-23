@@ -31,4 +31,6 @@ mix.copyDirectory('resources/vendor', 'public/vendor');
 mix.copyDirectory('resources/images', 'public/images');
 mix.copy('resources/favicon.ico', 'public/');
 mix.copyDirectory('resources/json', 'public/json');
+
 mix.styles(['resources/css/print.css',], 'public/css/print.css');
+mix.styles(['resources/css/print-bootstrap.css',], 'public/css/print-bootstrap.css');

@@ -10,6 +10,7 @@
     <meta name="partnership" content="{{$partnership_id}}">
     <meta name="start-date" content="{{$start}}">
     <meta name="end-date" content="{{$end}}">
+    <meta name="path" content="{{env('APP_URL')}}">
     <meta name="keywords" content="2SCALE">
     <title>2SCALE</title>
     <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">

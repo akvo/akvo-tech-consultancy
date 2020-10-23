@@ -29,8 +29,8 @@ getCharts('partnership/project-total/' + endpoints, 'second-row', info, "6");
 
 // Table container
 $("main").append('<hr><div class="table-wrapper-scroll-y my-custom-scrollbar" style="margin-top:25px; margin-bottom:25px;">\
-        <div id="table-container">\
-            <table id="datatables" class="table table-bordered" cellspacing="0" style="width:100%;"></table>\
+        <div class="table-responsive id="table-container">\
+            <table id="datatables" class="table table-sm table-bordered" cellspacing="0" style="width:100%;"></table>\
         </div>\
         <div id="datatableWrapper" class="tab-content"></div>\
     </div>');
@@ -66,7 +66,6 @@ const table = db.databases;
 const fetchData = (endpoint) => {
     return new Promise((resolve, reject) => {
         axios.get('/charts/rsr-datatables/' + endpoint) .then(res=> {
-                console.log('/charts/rsr-datatables/' + endpoint);
             // console.log('fetch network', res);
             // storeDB({
                 //     table : table, data : {name: endpoint, data: res.data}, key : {name: endpoint}
@@ -235,6 +234,83 @@ const agregateExtras = (data) => {
     }];
 };
 
+const renderRow = (data, level=1, parentId='', childId='') => {
+    let icon_plus = '<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus" fill="currentColor" xmlns="http://www.w3.org/2000/svg">\
+        <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>\
+    </svg>';
+    let row = '';
+    let style = '';
+    let id = parentId;
+
+    if (level === 1) {
+        icon_plus = '';
+    }
+
+    if (level === 2) {
+        id = childId;
+        style = 'child '+parentId;
+    }
+    
+    let data_id = 'data-id='+id;
+    if (level === 3) {
+        style = 'child child-'+parentId+' '+childId;
+        data_id = '';
+    }
+    
+    row += '<tr '+data_id+' data-level="'+level+'" class="'+style+' level_'+level+'">';
+    row += '<td class="partner">'+icon_plus+' '+titleFormat(data.project)+'</td>';
+    data.columns.forEach(val => {
+        if (val.dimensions.length > 0) {
+            val.dimensions.forEach(val => {
+                row += "<td class='text-right'>";
+                row += val.total_actual_value.toLocaleString();
+                row += "</td>";
+            });
+        }
+        else {
+            row += "<td class='text-right'>";
+            row += val.total_actual_value.toLocaleString();
+            row += "</td>";
+        }
+    });
+    row += '</tr>';
+    return row;
+};
+
+const renderExtra = (data, parent, child) => {
+    let extras = '';
+    // extras
+    if (data.length > 0) {
+        data.forEach(val => {
+            extras += '<tr class="extras child '+parent+' '+child+'">';
+            extras += '<td rowspan="2" class="align-middle name">'+val.name+'</td>';
+            val.values.forEach(val => {
+                let span = (val.has_dimension) ? '' : 'rowspan="2"';
+                let align = (val.has_dimension) ? '' : 'align-middle';
+                val.total.forEach(val => {
+                    extras += '<td class="'+align+' text-right" '+span+'>'+val.toLocaleString()+'</td>';
+                });
+            });
+            extras += '</tr>';
+
+            extras += '<tr class="extras child '+parent+' '+child+'">';
+            extras += '<td style="display:none;">&nbsp</td>';
+            val.values.forEach(val => {
+                if (val.has_dimension) {
+                    extras += '<td class="text-right" colspan="'+val.total.length+'">'+val.dimension_total.toLocaleString()+'</td>';
+                }
+                val.total.forEach(val => {
+                    extras += '<td style="display:none;">&nbsp</td>';
+                });
+            });
+            extras += '</tr>';
+        });
+        return extras;
+    }
+    // eol extras
+    return extras;
+};
+
 let html = '';
 let data = {};
 let status = {};
@@ -280,7 +356,6 @@ getData.then(res => {
     // EOL data refactoring
     return data;
 }).then(res => {
-    console.log(res);
     html += '<thead class="thead-dark">';
     html += '<tr>';
     html += '<th rowspan="2">Country / Partnership / Partner</th>';
@@ -304,133 +379,26 @@ getData.then(res => {
     html += '</thead>';
     return res;
 }).then(res => {
-    let icon_plus = '<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus" fill="currentColor" xmlns="http://www.w3.org/2000/svg">\
-        <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>\
-    </svg>';
     html += '<tbody>';
-    let css = (res.data.childrens.length > 0) ? 'parent' : '';
     let parentId = res.data.rsr_project_id;
-    html += '<tr data-id="'+parentId+'" data-level="1" style="background-color:#E2E3E5;">';
-    html += '<td class="'+css+'">'+titleFormat(res.data.project)+'</td>';
-    res.data.columns.forEach(val => {
-        if (val.dimensions.length > 0) {
-            val.dimensions.forEach(val => {
-                html += "<td class='"+css+" text-right'>";
-                html += val.total_actual_value.toLocaleString();
-                html += "</td>";
-            });
-        }
-        else {
-            html += "<td class='"+css+" text-right'>";
-            html += val.total_actual_value.toLocaleString();
-            html += "</td>";
-        }
-    });
-    html += '</tr>';
-    
+    html += renderRow(res.data, 1, parentId)
+
     if (res.data.childrens.length > 0) {
         res.data.childrens.forEach(val => {
-            css = (val.childrens.length > 0) ? 'parent' : '';
-            let bgcolor = (val.childrens.length > 0) ? 'style="background-color:#F2F2F2;"' : '';
             let childId = val.rsr_project_id;
-            html += '<tr data-id="'+childId+'" data-level="2" class="child '+parentId+'" '+bgcolor+'>';
-            html += '<td class="'+css+'">'+icon_plus+' ' +titleFormat(val.project)+'</td>';
-            val.columns.forEach(val => {
-                if (val.dimensions.length > 0) {
-                    val.dimensions.forEach(val => {
-                        html += "<td class='"+css+" text-right'>";
-                        html += val.total_actual_value.toLocaleString();
-                        html += "</td>";
-                    });
-                }
-                else {
-                    html += "<td class='"+css+" text-right'>";
-                    html += val.total_actual_value.toLocaleString();
-                    html += "</td>";
-                }
-            });
-            html += '</tr>';
+            html += renderRow(val, 2, parentId, childId);
 
             if (val.childrens.length > 0) {
                 val.childrens.forEach(val => {
-                    html += '<tr data-level="3" class="child child-'+parentId+' '+childId+'">';
-                    html += '<td style="padding-left:25px;">'+icon_plus+' '+titleFormat(val.project)+'</td>';
-                    val.columns.forEach(val => {
-                        if (val.dimensions.length > 0) {
-                            val.dimensions.forEach(val => {
-                                html += "<td class='text-right'>";
-                                html += val.total_actual_value.toLocaleString();
-                                html += "</td>";
-                            });
-                        }
-                        else {
-                            html += "<td class='text-right'>";
-                            html += val.total_actual_value.toLocaleString();
-                            html += "</td>";
-                        }
-                    });
-                    html += '</tr>';
+                    html += renderRow(val, 3, parentId, childId);
                 });
             }
 
-            // extras
-            if (val.extras.length > 0) {
-                val.extras.forEach(val => {
-                    html += '<tr class="extras child child-'+parentId+' '+childId+'">';
-                    html += '<td rowspan="2">'+val.name+'</td>';
-                    val.values.forEach(val => {
-                        let span = (val.has_dimension) ? '' : 'rowspan="2"';
-                        val.total.forEach(val => {
-                            html += '<td class="text-right" '+span+'>'+val.toLocaleString()+'</td>';
-                        });
-                    });
-                    html += '</tr>';
-
-                    html += '<tr class="extras child child-'+parentId+' '+childId+'">';
-                    html += '<td style="display:none;">&nbsp</td>';
-                    val.values.forEach(val => {
-                        if (val.has_dimension) {
-                            html += '<td class="text-right" colspan="'+val.total.length+'">'+val.dimension_total.toLocaleString()+'</td>';
-                        }
-                        val.total.forEach(val => {
-                            html += '<td style="display:none;">&nbsp</td>';
-                        });
-                    });
-                    html += '</tr>';
-                });
-            }
-            // eol extras
+            html += renderExtra(val.extras, 'child-'+parentId, childId);
         });
     }
     
-    // extras
-    if (res.data.extras.length > 0) {
-        res.data.extras.forEach(val => {
-            html += '<tr class="extras child '+parentId+'">';
-            html += '<td rowspan="2">'+val.name+'</td>';
-            val.values.forEach(val => {
-                let span = (val.has_dimension) ? '' : 'rowspan="2"';
-                val.total.forEach(val => {
-                    html += '<td class="text-right" '+span+'>'+val.toLocaleString()+'</td>';
-                });
-            });
-            html += '</tr>';
-
-            html += '<tr class="extras child '+parentId+'">';
-            html += '<td style="display:none;">&nbsp</td>';
-            val.values.forEach(val => {
-                if (val.has_dimension) {
-                    html += '<td class="text-right" colspan="'+val.total.length+'">'+val.dimension_total.toLocaleString()+'</td>';
-                }
-                val.total.forEach(val => {
-                    html += '<td style="display:none;">&nbsp</td>';
-                });
-            });
-            html += '</tr>';
-        });
-    }
-    // eol extras
-    
+    html += renderExtra(res.data.extras, parentId);
     html += '</tbody>';
     $("#datatables").append(html);
     return res;
@@ -475,9 +443,9 @@ const formatDetails = (d) => {
     details += '<tbody>';
     data.columns.forEach(val => {
         if (val.rsr_dimensions.length > 0) {
-            details += '<tr style="background-color:#E2E3E5;"><td class="parent" colspan="3">'+val.title+'</td></tr>';
+            details += '<tr style="background: #E2E3E5;"><td class="parent" colspan="3">'+val.title+'</td></tr>';
             val.rsr_dimensions.forEach(val => {
-                details += '<tr style="background-color:#F2F2F2;">';
+                details += '<tr style="background: #F2F2F2;">';
                 details += '<td class="parent">'+val.name+'</td>';
                 details += '<td class="parent text-center">Target</td>';
                 details += '<td class="parent text-center">Actual</td>';
@@ -498,7 +466,6 @@ const formatDetails = (d) => {
     return details;
 }
 
-
 const datatableOptions = (id, res) => {
     let dtoptions = {
         ordering: false,
@@ -509,9 +476,8 @@ const datatableOptions = (id, res) => {
                 extend: 'print',
                 title: res.data.project,
                 customize: function(win) {
-                    $(win.document.head).append($('<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">'));
-                    $(win.document.head).append($('<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.11/css/mdb.min.css" rel="stylesheet">'));
-                    $(win.document.head).append($('<link href="'+baseurl+'/public/css/print.css" rel="stylesheet">'));
+                    $(win.document.head).append($('<link href="'+baseurl+'/css/print-bootstrap.css" rel="stylesheet">'));
+                    $(win.document.head).append($('<link href="'+baseurl+'/css/print.css" rel="stylesheet">'));
                     $(win.document.body).find('table thead').remove();
                     $(win.document.body).find('table tbody').remove();
                     $(win.document.body).prepend("<h5>2SCALE RSR Report</h5></hr>");
