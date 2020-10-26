@@ -14,13 +14,6 @@ docker run \
 docker run \
        --rm \
        --volume "$(pwd):/home/tcakvo/public_html/idh-dashboard" \
-       --workdir /home/tcakvo/public_html/idh-dashboard \
-       --entrypoint /bin/sh \
-       composer -c 'composer dump-autoload'
-
-docker run \
-       --rm \
-       --volume "$(pwd):/home/tcakvo/public_html/idh-dashboard" \
        --workdir "/home/tcakvo/public_html/idh-dashboard" \
        --entrypoint /bin/sh \
        node:8-alpine -c 'npm i && npm run prod'
