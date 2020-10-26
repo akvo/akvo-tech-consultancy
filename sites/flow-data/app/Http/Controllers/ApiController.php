@@ -59,12 +59,10 @@ class ApiController extends Controller
     private function fetchAll($api, $url, $data) {
         $response = $api->fetch($url);
         $data->push($response['formInstances']);
-        /*
         if (isset($response['nextPageUrl'])) {
             $url = $response['nextPageUrl'];
             return $this->fetchAll($api, $url, $data);
         }
-         */
         return $data;
     }
 }
