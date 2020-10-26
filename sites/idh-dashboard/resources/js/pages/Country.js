@@ -4,7 +4,7 @@ import { mapStateToProps, mapDispatchToProps } from "../reducers/actions";
 import { Redirect } from "react-router-dom";
 import { Link, Switch, Route } from 'react-router-dom';
 import { Row, Col, Card, Jumbotron, Nav } from "react-bootstrap";
-import CountryTab from "./countryTab";
+import CountryTab from "./CountryTab.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import intersectionBy from "lodash/intersectionBy";
 import Loading from '../components/Loading';
