@@ -47,14 +47,15 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\User::factory(30)->create();
 
-        $users = \App\Models\User::where('role','user')->get();
+        $users = \App\Models\User::where('role','guest')->get();
         foreach($users as $user) {
             $forms = \App\Models\Form::get();
             foreach($forms as $form) {
+                $faker = \Faker\Factory::create();
                 \App\Models\UserForm::create([
                     'user_id' => $user->id,
                     'form_id' => $form->id,
-                    'download' => true
+                    'access' => $faker->boolean()
                 ]);
             }
         }

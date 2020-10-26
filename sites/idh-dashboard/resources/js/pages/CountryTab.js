@@ -167,7 +167,7 @@ class CountryTab extends Component {
                         <div className="summary">{this.state.summary}</div>
                     </Row>
                     <Row className="justify-content-md-center">
-                        {this.state.tab === "resources" ? this.generateResources(this.props.match.params) : ""}
+                        {this.state.tab === "download" ? this.generateResources(this.props.match.params) : ""}
                         {this.state.charts.map((x, i) => this.generateView(x,i))}
                     </Row>
                 </>

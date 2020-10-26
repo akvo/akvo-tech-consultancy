@@ -8,7 +8,7 @@ const initialState = {
             /*
             {
                 form_id: 1,
-                download: 0,
+                access: 0,
             },
             */
         ],
@@ -95,12 +95,12 @@ export const states = (state = initialState, action) => {
             }
         case "USER - LOGIN":
             let user = action.user;
-            if (user.role !== 'user') {
+            if (user.role !== 'guest') {
                 let access = state.page.filters;
                     access = flatFilters(access);
                     access = access.map(x => ({
                         form_id: x.id,
-                        download: user.role === 'admin' ? 1 : 0
+                        access: user.role !== "staff"
                     }));
                 user = {
                     ...user,

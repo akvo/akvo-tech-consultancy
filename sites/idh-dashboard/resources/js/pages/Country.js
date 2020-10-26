@@ -88,7 +88,7 @@ class Country extends Component {
         }
         let tab = params.tab;
         let tabs = ["overview", "hh-profile", "farmer-profile", "farm-practices"];
-            tabs = resource.download ? [...tabs, "resources"] : tabs;
+            tabs = resource.access ? [...tabs, "download"] : tabs;
         return (
             <Fragment>
                 <Jumbotron className="has-navigation">

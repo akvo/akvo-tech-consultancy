@@ -78,33 +78,41 @@ class AuthController extends Controller
             return response(['message' => 'user not found'], 401);
         }
         $userId = $user->id;
-        $access = collect($request->forms)->whereIn('access', [1,2])->all();
-        $access = collect($access)->map(function($data) use ($userId){
-            return [
-                'user_id' => $userId,
-                'form_id' => $data['id'],
-                'download' => (int) $data['access'] - 1
-            ];
-        });
-        foreach($access as $a) {
-            $c = \App\Models\UserForm::where('form_id', $a['form_id'])->where('user_id', $a['user_id'])->first();
+        $user->update(['role' => $request->role]);
+        if ($request->role !== "guest") {
+            $c = \App\Models\UserForm::where('user_id', $userId)->first();
             if ($c) {
-                $c->update($a);
-            } else {
-                \App\Models\UserForm::create($a);
+                $c->delete();
             }
-        }
-        $revoked = collect($request->forms)->where('access', 0)->all();
-        $revoked = collect($revoked)->map(function($data) use ($userId){
-            return [
-                'user_id' => $userId,
-                'form_id' => $data['id']
-            ];
-        });
-        foreach($revoked as $r) {
-            $r = \App\Models\UserForm::where('form_id', $r['form_id'])->where('user_id', $r['user_id'])->first();
-            if ($r) {
-                $r->delete();
+        } else {
+            $access = collect($request->forms)->whereIn('access', [1,2])->all();
+            $access = collect($access)->map(function($data) use ($userId){
+                return [
+                    'user_id' => $userId,
+                    'form_id' => $data['form_id'],
+                    'access' => (int) $data['access'] - 1
+                ];
+            });
+            foreach($access as $a) {
+                $c = \App\Models\UserForm::where('form_id', $a['form_id'])->where('user_id', $a['user_id'])->first();
+                if ($c) {
+                    $c->update($a);
+                } else {
+                    \App\Models\UserForm::create($a);
+                }
+            }
+            $revoked = collect($request->forms)->where('access', 0)->all();
+            $revoked = collect($revoked)->map(function($data) use ($userId){
+                return [
+                    'user_id' => $userId,
+                    'form_id' => $data['form_id']
+                ];
+            });
+            foreach($revoked as $r) {
+                $r = \App\Models\UserForm::where('form_id', $r['form_id'])->where('user_id', $r['user_id'])->first();
+                if ($r) {
+                    $r->delete();
+                }
             }
         }
         return [

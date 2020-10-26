@@ -29,7 +29,6 @@ class Home extends Component {
             kind: "MAPS",
             config: generateData(12, true, "60vh"),
         };
-        console.log(source);
         return (
             <Fragment>
                         <Jumbotron>
