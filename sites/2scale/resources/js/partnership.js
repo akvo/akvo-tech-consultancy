@@ -277,12 +277,13 @@ const renderRow = (data, level=1, parentId='', childId='') => {
     return row;
 };
 
-const renderExtra = (data, parent, child) => {
+const renderExtra = (data, parent, child, grandTotal=false) => {
     let extras = '';
+    let total = (grandTotal) ? 'grand_total' : '';
     // extras
     if (data.length > 0) {
         data.forEach(val => {
-            extras += '<tr class="extras child '+parent+' '+child+'">';
+            extras += '<tr class="extras child '+parent+' '+child+' '+total+'">';
             extras += '<td rowspan="2" class="align-middle name">'+val.name+'</td>';
             val.values.forEach(val => {
                 let span = (val.has_dimension) ? '' : 'rowspan="2"';
@@ -293,7 +294,7 @@ const renderExtra = (data, parent, child) => {
             });
             extras += '</tr>';
 
-            extras += '<tr class="extras child '+parent+' '+child+'">';
+            extras += '<tr class="extras child '+parent+' '+child+' '+total+'">';
             extras += '<td style="display:none;">&nbsp</td>';
             val.values.forEach(val => {
                 if (val.has_dimension) {
@@ -398,13 +399,17 @@ getData.then(res => {
         });
     }
     
-    html += renderExtra(res.data.extras, parentId);
+    html += renderExtra(res.data.extras, parentId, '', true);
+
     html += '</tbody>';
     $("#datatables").append(html);
     return res;
 }).then(res => {
     if (res) {
-        $('.child').hide('fast');
+        // $('.child').hide('fast');
+        $('.level_3').hide('fast');
+        $('.extras').hide('fast');
+        $('.grand_total').show('fast');
         return datatableOptions("#datatables", res);
     }
     return true;
@@ -433,6 +438,17 @@ getData.then(res => {
         $('.child').show();
         $('.extras').hide();
     });
+
+    // on focus out search event 
+    $('#datatables_filter').children('input[type=search]').focusout(() => {
+        $('.level_3').hide('fast');
+        $('.extras').hide('fast');
+        $('.grand_total').show('fast');
+    });
+
+
+    // hide datatables info
+    $('#datatables_info').hide();
 });
 
 const formatDetails = (d) => {
@@ -476,6 +492,9 @@ const datatableOptions = (id, res) => {
                 extend: 'print',
                 title: res.data.project,
                 customize: function(win) {
+                    $('.child').show();
+                    $('.extras').show();
+                    $('.grand_total').hide();
                     $(win.document.head).append($('<link href="'+baseurl+'/css/print-bootstrap.css" rel="stylesheet">'));
                     $(win.document.head).append($('<link href="'+baseurl+'/css/print.css" rel="stylesheet">'));
                     $(win.document.body).find('table thead').remove();
@@ -485,8 +504,8 @@ const datatableOptions = (id, res) => {
                     $(win.document.body).find('table').append($('#datatables').html());
                 },
             },
-            'excel',
-            'pdf'
+            // 'excel',
+            // 'pdf'
         ],
         scrollX: true,
         scrollY: '75vh',
