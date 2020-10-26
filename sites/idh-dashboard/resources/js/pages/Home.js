@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 import { mapStateToProps, mapDispatchToProps } from "../reducers/actions";
 import { Row, Col, Button, Jumbotron, Table, Dropdown } from "react-bootstrap";
 import Charts from "../components/Charts";
@@ -47,6 +48,9 @@ class Home extends Component {
             kind: "MAPS",
             config: generateData(12, true, "60vh"),
         };
+        if (user.id === 0) {
+            return <Redirect to="/login" />;
+        }
         return (
             <Fragment>
                         <Jumbotron>
