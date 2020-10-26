@@ -22,7 +22,25 @@ class Home extends Component {
                 value: x.childrens.length,
             };
         });
+        let user = this.props.value.user;
         let source = flatFilters(page.filters);
+        source = user.id === 0
+            ? []
+            : source.filter(x => user.forms.find(f => f.form_id === x.id));
+        source = source.map(x => {
+            return {
+                ...x,
+                country: x.name.split(' - ')[0]
+            }
+        });
+        data = data.map(x => {
+            let first = source.find(s => s.country === x.name);
+            let link = false;
+            if (first) {
+                link = "/country/" + x.name + "/" + first.id + "/overview";
+            }
+            return {...x, link:link}
+        });
         let maps = {
             title: "Country Project",
             data: { maps: "world", records: data },
@@ -56,10 +74,14 @@ class Home extends Component {
                                 <tbody>
                             {source.map((x, i) => (
                                     <tr key={"tbl-" + i}>
-                                    <td>{x.name.split(' - ')[0]}</td>
+                                    <td>{x.country}</td>
                                     <td>{x.kind}</td>
                                     <td>{x.company}</td>
-                                        <td><Button block size="sm" variant="primary">View</Button></td>
+                                        <td>
+                                        <a target="_blank" href={"/country/" + x.country + "/" + x.id + "/overview"} className="btn btn-sm btn-primary btn-block">
+                                            View
+                                        </a>
+                                        </td>
                                     </tr>
                                 ))}
                                 </tbody>
