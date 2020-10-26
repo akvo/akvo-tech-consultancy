@@ -53,9 +53,12 @@ class QuestionType extends Component {
         this.props.checkSubmission();
     }
 
-    handleCascadeChange(targetLevel, text, id, value) {
+    handleCascadeChange(targetLevel, text, id, value, code) {
         let vals;
         let storage = {id:targetLevel,text:text, option:parseInt(value)}
+        if (code) {
+            storage = {...storage, code: code};
+        }
         if (localStorage.getItem(id) !== null) {
             let multipleValue = JSON.parse(localStorage.getItem(id))
             let current = multipleValue.filter(x => x.id < targetLevel);
@@ -159,7 +162,8 @@ class QuestionType extends Component {
             let ddindex = event.target.selectedIndex
             let text = event.target[ddindex].text
             let targetLevel = parseInt(event.target.name.split('-')[2]) + 1
-            this.handleCascadeChange(targetLevel, text, id, value);
+            let code = event.target.selectedOptions[0].getAttribute("data-code");
+            this.handleCascadeChange(targetLevel, text, id, value, code);
             let selected = this.state.cascade_selected;
             let iterate_cascade = targetLevel;
             do {
@@ -466,7 +470,7 @@ class QuestionType extends Component {
                 name={ this.props.data.id.toString() + '-' + i}
                 onChange={this.handleChange}
             >
-                <option key={unique + '-cascade-options-' + 0} value=''>Please Select</option>
+                <option data-code={false} key={unique + '-cascade-options-' + 0} value=''>Please Select</option>
             </select>
             </div>
         );
@@ -487,9 +491,11 @@ class QuestionType extends Component {
     renderCascadeOption (data,targetLevel, text, unique) {
         if(data) {
             return data.map((x, i) => {
+                let code = x.code !== null || x.code !== "" ? x.code :  false;
                 let options = (
                     <option
                         key={unique + '-cascade-options-' + i}
+                        data-code={code}
                         value={parseInt(x.id)}
                     >
                         {x.name}

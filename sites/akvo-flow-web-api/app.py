@@ -229,7 +229,10 @@ def get_payload(rec, _uuid, webform=False):
             elif answer_type[i] == "CASCADE":
                 values = []
                 for rc in list(ast.literal_eval(rec[ids])):
-                    values.append({"code": rc["text"], "name": rc["text"]})
+                    try:
+                        values.append({"code": rc["code"], "name": rc["text"]})
+                    except:
+                        values.append({"code": "", "name": rc["text"]})
                 val = json.dumps(values)
             elif answer_type[i] == "DATE":
                 obj_date = datetime.strptime(rec[ids], "%Y-%m-%d")

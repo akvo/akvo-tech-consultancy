@@ -190,13 +190,13 @@ const getGroupAttributes = ((group, questions, answers) => {
                 ? (questions.length - hidden_questions.length) * - 1
                 : qgroup.length - questions.length
             )
-        if (answers.length === 0) {
-            mandatories = qgroup.filter(x => x.mandatory).length;
-            if (hidden_questions !== 0) {
-                mandatories = questions.filter(x => x.mandatory).length;
-            }
+        mandatories = qgroup.filter(x => x.mandatory).length;
+        if (hidden_questions !== 0) {
+            mandatories = questions.filter(x => x.mandatory).length;
         }
-
+        if (answers.length > 0) {
+            mandatories = mandatories - answers.filter(x => x.mandatory).length;
+        }
         let badge = "badge-secondary";
         badge = questions.length >= answers.length ? badge : "badge-success";
         badge = mandatories > 0 ? "badge-red" : "badge-success";
@@ -348,7 +348,7 @@ const showHideQuestions = (orig, group) => {
                     show = true
                 }
                 if (answer.filter(a => answer_value.includes(a)).length === 0){
-                    //localStorage.removeItem(x.id);
+                    // localStorage.removeItem(x.id);
                     show = false
                 }
             }

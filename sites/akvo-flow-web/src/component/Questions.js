@@ -9,8 +9,6 @@ import { Card, CardBody, CardTitle } from "reactstrap";
 import { validateMinMax, validateDoubleEntry } from '../util/Utilities.js'
 import "../App.css";
 
-//const API_ORIGIN = (PROD_URL ? ( window.location.origin + "/" + window.location.pathname.split('/')[1] + "-api/" ) : process.env.REACT_APP_API_URL);
-
 class Questions extends Component {
     constructor(props) {
         super(props);
@@ -46,8 +44,10 @@ class Questions extends Component {
         }
         if (answered && question.type === "cascade") {
             answer = JSON.parse(answer);
-            let levels = Array.isArray(question.levels.level) ? question.levels.level.length : 1;
+            let cascadeIsArray = Array.isArray(question.levels.level);
+            let levels = cascadeIsArray ? question.levels.level.length : 1;
             answered = answer.length === levels;
+            return Mandatory(answered);
         }
         answered = validateMinMax(answer, question) !== null;
         answered = answered ? validateDoubleEntry(answer, question) !== null : answered;

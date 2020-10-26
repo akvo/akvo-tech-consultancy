@@ -78,8 +78,12 @@ class Overview extends Component {
         return (
             <Fragment>
             <nav className="navbar navbar-expand-lg navbar-light navbar-group bg-light border-bottom" key="overview-group">
+
                 <div className="col-md-4 header-left">
                     <h4 className="mt-2">Overviews</h4>
+                </div>
+                <div className="col-md-8 text-right">
+                    <div className="badge badge-red">Mandatory</div>
                 </div>
                 <div className="col-md-8 text-right">
                     <button
