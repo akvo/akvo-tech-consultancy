@@ -1004,7 +1004,9 @@ const defineClusterIcon = (cluster) => {
             pieLabel: n,
             pieLabelClass: 'marker-cluster-pie-label',
             pathClassFunc: (d) => {
-                let idx_num = _.findIndex(metadata.attribution.lookup, (el => el === d.data.key));
+                console.log('test', d.data.key);
+                // let idx_num = _.findIndex(metadata.attribution.lookup, (el => el === d.data.key));
+                let idx_num = _.findIndex(metadata.attribution.sources, (el => el === d.data.key)); // fix looking to sources, because that the real data, lookup are the custom option text
 				if (idx_num === -1) {
 					idx_num = "undefined";
 				}

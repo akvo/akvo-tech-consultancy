@@ -775,7 +775,7 @@ return [
           "question_id" =>  281741006,
           "question" => "What type of toilets does the facility have/use?",
           "code" => "Flust to pit",
-          "text" => null,
+          "text" => "Flush to pit",
           "color" => "#DC3545",
           "order" => 2,
         ],
@@ -806,10 +806,27 @@ return [
         [
           "question_id" =>  281741006,
           "question" => "What type of toilets does the facility have/use?",
+          "code" => "Pit toilet without slab",
+          "text" => null,
+          "color" => "#d85124",
+          "order" => 6,
+        ],
+        
+        [
+          "question_id" =>  281741006,
+          "question" => "What type of toilets does the facility have/use?",
+          "code" => "Compost toilet",
+          "text" => null,
+          "color" => "#0d15bc",
+          "order" => 7,
+        ],
+        [
+          "question_id" =>  281741006,
+          "question" => "What type of toilets does the facility have/use?",
           "code" => "Unknown",
           "text" => null,
           "color" => "#666",
-          "order" => 6,
+          "order" => 8,
         ],
         // EOL What type of toilets does the facility have/use?
 
