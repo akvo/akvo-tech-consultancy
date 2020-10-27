@@ -28,8 +28,8 @@ getCharts('partnership/countries-total/' + endpoints, 'second-row', info, "6");
 getCharts('partnership/project-total/' + endpoints, 'second-row', info, "6");
 
 // Table container
-$("main").append('<hr><div class="table-wrapper-scroll-y my-custom-scrollbar" style="margin-top:25px; margin-bottom:25px;">\
-        <div class="table-responsive id="table-container">\
+$("main").append('<hr><div class="table-wrapper-scroll-y my-custom-scrollbar" style="margin-top:25px; margin-bottom:50px;">\
+        <div class="table-responsive" id="table-container">\
             <table id="datatables" class="table table-sm table-bordered" cellspacing="0" style="width:100%;"></table>\
         </div>\
         <div id="datatableWrapper" class="tab-content"></div>\
@@ -103,7 +103,7 @@ const refactorDimensionValue = (columns) => {
             });
         }
         // UII 8 
-        let resultIds = data.config.result_ids;
+        let resultIds = datas.config.result_ids;
         if (resultIds.includes(item.id) || resultIds.includes(item.parent_result)) { 
             let rsr_custom_gender = {
                 male: 'Male',
@@ -191,10 +191,10 @@ const agregateExtras = (data) => {
         if (item.dimensions.length > 0) {
             has_dimension = true;
             item.dimensions.forEach(val => {
-                dim_sum += dim_sum + val.total_actual_value;
-                dim_target += dim_target + val.value;
-                dim_gap += dim_gap + (val.total_actual_value - val.value);
-                dim_percent += dim_percent + ((val.total_actual_value/val.value) * 100);
+                dim_sum = dim_sum + val.total_actual_value;
+                dim_target = dim_target + val.value;
+                dim_gap = dim_gap + (val.total_actual_value - val.value);
+                dim_percent = dim_percent + ((val.total_actual_value/val.value) * 100);
 
                 sum.push(val.total_actual_value);
                 target.push(val.value);
@@ -240,6 +240,7 @@ const renderRow = (data, level=1, parentId='', childId='') => {
     </svg>';
     let row = '';
     let style = '';
+    let indent = '';
     let id = parentId;
 
     if (level === 1) {
@@ -249,16 +250,19 @@ const renderRow = (data, level=1, parentId='', childId='') => {
     if (level === 2) {
         id = childId;
         style = 'child '+parentId;
+        indent = 'style="padding-left:12px;"';
     }
     
     let data_id = 'data-id='+id;
     if (level === 3) {
         style = 'child child-'+parentId+' '+childId;
         data_id = '';
+        indent = 'style="padding-left:25px;"';
     }
-    
-    row += '<tr '+data_id+' data-level="'+level+'" class="'+style+' level_'+level+'">';
-    row += '<td class="partner">'+icon_plus+' '+titleFormat(data.project)+'</td>';
+
+    let last_child = (data.childrens.length > 0) ? '' : 'last_child';
+    row += '<tr '+data_id+' data-level="'+level+'" class="'+style+' level_'+level+' '+last_child+'">';
+    row += '<td class="partner" '+indent+'>'+icon_plus+' '+titleFormat(data.project)+'</td>';
     data.columns.forEach(val => {
         if (val.dimensions.length > 0) {
             val.dimensions.forEach(val => {
@@ -277,12 +281,12 @@ const renderRow = (data, level=1, parentId='', childId='') => {
     return row;
 };
 
-const renderExtra = (data, parent, child, grandTotal=false) => {
+const renderExtra = (data, parent, child, grandTotal=false, addLastRow=false) => {
     let extras = '';
     let total = (grandTotal) ? 'grand_total' : '';
     // extras
     if (data.length > 0) {
-        data.forEach(val => {
+        data.forEach((val, index) => {
             extras += '<tr class="extras child '+parent+' '+child+' '+total+'">';
             extras += '<td rowspan="2" class="align-middle name">'+val.name+'</td>';
             val.values.forEach(val => {
@@ -305,6 +309,18 @@ const renderExtra = (data, parent, child, grandTotal=false) => {
                 });
             });
             extras += '</tr>';
+
+            // if (index === (data.length-1) && !grandTotal && addLastRow) {
+            if (index === (data.length-1) && !grandTotal) {
+                extras += '<tr class="last_row" style="display:none;">';
+                extras += '<td>&nbsp</td>';
+                val.values.forEach(val => {
+                    val.total.forEach(val => {
+                        extras += '<td>&nbsp</td>';
+                    });
+                });
+                extras += '</tr>';
+            }
         });
         return extras;
     }
@@ -313,12 +329,12 @@ const renderExtra = (data, parent, child, grandTotal=false) => {
 };
 
 let html = '';
-let data = {};
+let datas = {};
 let status = {};
 getData.then(res => {
-    data = res;
+    datas = res;
     // data refactoring
-    data.columns = data.columns.map(column => {
+    datas.columns = datas.columns.map(column => {
         if (column.subtitle.length > 0) {
             column.subtitle = column.subtitle.map(subtitle => {
                 let name = subtitle.toLowerCase();
@@ -351,11 +367,11 @@ getData.then(res => {
         return column;
     });
 
-    data.data.columns = refactorDimensionValue(data.data.columns);
-    data.data.childrens = refactorChildrens(data.data.childrens);
-    data.data['extras'] = agregateExtras(data.data.columns);
+    datas.data.columns = refactorDimensionValue(datas.data.columns);
+    datas.data.childrens = refactorChildrens(datas.data.childrens);
+    datas.data['extras'] = agregateExtras(datas.data.columns);
     // EOL data refactoring
-    return data;
+    return datas;
 }).then(res => {
     html += '<thead class="thead-dark">';
     html += '<tr>';
@@ -385,7 +401,7 @@ getData.then(res => {
     html += renderRow(res.data, 1, parentId)
 
     if (res.data.childrens.length > 0) {
-        res.data.childrens.forEach(val => {
+        res.data.childrens.forEach((val, index) => {
             let childId = val.rsr_project_id;
             html += renderRow(val, 2, parentId, childId);
 
@@ -395,11 +411,12 @@ getData.then(res => {
                 });
             }
 
-            html += renderExtra(val.extras, 'child-'+parentId, childId);
+            let last = (res.data.childrens.length-1) !== index;
+            html += renderExtra(val.extras, 'child-'+parentId, childId, false, last);
         });
     }
     
-    html += renderExtra(res.data.extras, parentId, '', true);
+    html += renderExtra(res.data.extras, parentId, '', true, false);
 
     html += '</tbody>';
     $("#datatables").append(html);
@@ -416,6 +433,13 @@ getData.then(res => {
 }).then(table => {
     // value click to show pop up dimension
     $("#datatables tbody").on('click', 'tr', function () {
+        // disable parent/level 1 collapse
+        let className = $(this).attr('class');
+        if (className.includes('level_1')) {
+            return;
+        }
+
+        // collapse and expand setup
         let classId = $(this).attr('data-id');
         let level = $(this).attr('data-level');
         if (typeof status[classId] === 'undefined') {
@@ -446,7 +470,7 @@ getData.then(res => {
         $('.grand_total').show('fast');
     });
 
-
+    console.log(datas);
     // hide datatables info
     $('#datatables_info').hide();
 });
@@ -494,7 +518,7 @@ const datatableOptions = (id, res) => {
                 customize: function(win) {
                     $('.child').show();
                     $('.extras').show();
-                    $('.grand_total').hide();
+                    // $('.grand_total').hide();
                     $(win.document.head).append($('<link href="'+baseurl+'/css/print-bootstrap.css" rel="stylesheet">'));
                     $(win.document.head).append($('<link href="'+baseurl+'/css/print.css" rel="stylesheet">'));
                     $(win.document.body).find('table thead').remove();

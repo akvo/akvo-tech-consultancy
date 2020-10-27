@@ -671,13 +671,13 @@ class ChartController extends Controller
 
     public function getRsrDatatable(Request $request)
     {
-        // return $this->echarts->generateBarLineCharts();
         $partnershipId = null;
         if (isset($request->country_id) && $request->country_id !== "0") {
             $partnershipId = $request->country_id;
         }
         if (isset($request->partnership_id) && $request->partnership_id !== "0") {
-            $partnershipId = $request->partnership_id;
+            $partnershipId = $request->country_id; // generate datatables just from country level
+            // $partnershipId = $request->partnership_id; // generate datatables from partnership level
         }
 
         $data = \App\RsrProject::where('partnership_id', $partnershipId)
@@ -797,23 +797,31 @@ class ChartController extends Controller
             $this->collections->push($child);
             return $child;
         });
-        // aggregate all value from children
-        // $res['total_target_value'] = $res['childrens']->sum('total_target_value');
-        // $res['total_actual_value'] = $res['childrens']->sum('total_actual_value');
-        // if (count($res['rsr_dimensions']) > 0 && count($res['childrens']) !== 0) {
-        //     // aggregate dimension value
-        //     $res['rsr_dimensions'] = $res['rsr_dimensions']->transform(function ($dim) 
-        //         use ($collections) {
-        //         $dim['rsr_dimension_values'] = $dim['rsr_dimension_values']->transform(function ($dimVal) 
-        //             use ($collections) {
-        //             $values = $collections->flatten(1)->where('parent_dimension_value', $dimVal['id']);
-        //             $dimVal['value'] = $values->sum('value');
-        //             $dimVal['total_actual_value'] = $values->sum('total_actual_value');
-        //             return $dimVal;
-        //         });
-        //         return $dim;
-        //     });
-        // }
+        // aggregate all value from children ( if the parent value 0, take it from children aggregate )
+        if ($res['total_target_value'] == 0) {
+            $res['total_target_value'] = $res['childrens']->sum('total_target_value');
+        }
+        if ($res['total_actual_value'] == 0) {
+            $res['total_actual_value'] = $res['childrens']->sum('total_actual_value');
+        }
+        if (count($res['rsr_dimensions']) > 0 && count($res['childrens']) !== 0) {
+            // aggregate dimension value
+            $res['rsr_dimensions'] = $res['rsr_dimensions']->transform(function ($dim) 
+                use ($collections) {
+                $dim['rsr_dimension_values'] = $dim['rsr_dimension_values']->transform(function ($dimVal) 
+                    use ($collections) {
+                    $values = $collections->flatten(1)->where('parent_dimension_value', $dimVal['id']);
+                    if ($dimVal['value'] == 0) {
+                        $dimVal['value'] = $values->sum('value');
+                    }
+                    if ($dimVal['total_actual_value'] == 0) {
+                        $dimVal['total_actual_value'] = $values->sum('total_actual_value');
+                    }
+                    return $dimVal;
+                });
+                return $dim;
+            });
+        }
         // eol aggregate all value from children
         return $res;
     }

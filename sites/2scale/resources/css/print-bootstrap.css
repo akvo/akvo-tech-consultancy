@@ -6887,7 +6887,7 @@
     }
   }
   
-  /* @media print {
+  @media print {
     .d-print-none {
       display: none !important;
     }
@@ -6917,7 +6917,7 @@
       display: -ms-inline-flexbox !important;
       display: inline-flex !important;
     }
-  } */
+  }
   
   .embed-responsive {
     position: relative;

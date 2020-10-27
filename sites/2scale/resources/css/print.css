@@ -1,3 +1,7 @@
+table {
+    width: 100% !important;
+}
+
 tr.level_1 {
     background: #E2E3E5;
 }
@@ -11,8 +15,11 @@ tr.level_2>td {
     font-weight: bold;
 }
 
-tr.level_3 > td.partner {
-    padding-left: 25px;
+tr.last_child {
+    background: white;
+}
+tr.last_child>td {
+    font-weight: normal;
 }
 
 tr.extras {
@@ -66,31 +73,57 @@ table.dataTable > tbody > tr > td.partner {
     }
     @page {
         size: A3 landscape!important;
-        margin: 15mm 5mm 15mm 5mm!important;
+        margin: 20mm 5mm 20mm 5mm!important;
     }
+
     table.dataTable > thead > tr > th {
         background-color: #343A40!important;
         -webkit-print-color-adjust: exact!important;
     }
-    tr.extras > td {
+    table > tbody > tr.extras > td {
         background-color: darkslategray!important;
         -webkit-print-color-adjust: exact!important;
         font-weight: bolder;
         color: white!important;
     }
-    tr.level_1 > td {
+    table > tbody > tr.level_1 > td {
         -webkit-print-color-adjust: exact!important;
         background-color: #E2E3E5!important;
     }
-    tr.level_2 > td {
+    table > tbody > tr.level_2 > td {
         -webkit-print-color-adjust: exact!important;
         background-color: #f2f2f2!important;
     }
-    table > tr {
-        page-break-before: auto;
-        page-break-inside: avoid;
+    table > tbody > tr.last_child > td {
+        -webkit-print-color-adjust: exact!important;
+        background-color: white!important;
     }
 
+    /* Custom Page Break after last row */
+    table {
+        width: 100% !important;
+        page-break-inside: auto;
+    }
+    table > tr {
+        page-break-after: auto;
+        page-break-inside: avoid;
+    }
+    table > tbody > tr.last_row {
+        display: block!important;
+        border: 0px solid !important;
+    }
+    table > tbody > tr.last_row > td {
+        border: 0px solid !important;
+        border-left: 0px solid !important;
+        border-right: 0px solid !important;
+    }
+    table > tbody > tr.last_row::after {
+        content: '';
+        display: block!important;
+        width: 100%!important;
+        page-break-before: always!important;
+    }
+    
     /* table { 
         margin: 0 auto; 
         border-collapse: collapse; 
