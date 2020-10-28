@@ -73,7 +73,6 @@ class Manage extends Component {
         this.showDetail = this.showDetail.bind(this);
         this.state = {
             error: "",
-            admin: this.props.value.user,
             messages: {
                 user: {type:"success", message:""},
             },
@@ -253,7 +252,7 @@ class Manage extends Component {
             },
           },
         ];
-        let admin = this.state.admin;
+        let admin = this.props.value.user;
         let error = this.state.error === "" ? false : this.state.error;
         let notification = this.state.notification;
         let forms = flatFilters(this.props.value.page.filters);
@@ -287,7 +286,7 @@ class Manage extends Component {
                         </Row>
                     ) : ("")}
                     <Row className="justify-content-md-center">
-                        <Col md={7}>
+                        <Col md={selected.id !== 0 ? 7 : 12}>
                             <Card>
                             <Card.Header>Users</Card.Header>
                             <Card.Body style={{padding: "0px"}}>

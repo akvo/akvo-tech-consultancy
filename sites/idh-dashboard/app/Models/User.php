@@ -62,4 +62,9 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\UserForm');
     }
 
+    public function downloads() {
+        return $this->hasMany('App\Models\Log')
+                    ->select('user_id','form_id as fid','created_at as at');
+    }
+
 }

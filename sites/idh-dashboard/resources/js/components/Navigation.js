@@ -88,9 +88,14 @@ class Navigation extends Component {
                                         <FontAwesomeIcon className="mr-2" icon={["fas", "cogs"]} /> Settings
                                     </NavDropdown.Item>
                                     {user.role === "admin" ? (
+                                        <>
                                         <NavDropdown.Item as={Link} to="/manage-user">
                                         <FontAwesomeIcon className="mr-2" icon={["fas", "user"]} /> Manage User
                                         </NavDropdown.Item>
+                                        <NavDropdown.Item as={Link} to="/logs">
+                                        <FontAwesomeIcon className="mr-2" icon={["fas", "history"]} /> Logs
+                                        </NavDropdown.Item>
+                                        </>
                                     ) : (
                                         ""
                                     )}

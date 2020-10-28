@@ -14,6 +14,7 @@ import Compare from "../pages/Compare";
 import Login from "../pages/Login";
 import Setting from "../pages/Setting";
 import Manage from "../pages/Manage";
+import Logs from "../pages/Logs";
 import NotFound from "../pages/NotFound";
 import { getApi, auth } from "../data/api";
 
@@ -83,6 +84,7 @@ class Page extends Component {
                     <Route exact path='/login' component={Login} />
                     <Route exact path='/setting' component={Setting} />
                     <Route exact path='/manage-user' component={Manage} />
+                    <Route exact path='/logs' component={Logs} />
                     <Route exact path='/logout'>
                         <Redirect to="/login" />
                     </Route>

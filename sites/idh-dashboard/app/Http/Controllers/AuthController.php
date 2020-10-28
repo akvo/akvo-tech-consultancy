@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use App\Models\Log as Logs;
 
 class AuthController extends Controller
 {
@@ -118,5 +120,32 @@ class AuthController extends Controller
         return [
             'message' => 'Access is Updated'
         ];
+    }
+
+    public function download(Request $request, Logs $log)
+    {
+        $user = Auth::user();
+        $log = $log->create([
+            'user_id' => $user->id,
+            'form_id' => $request->form_id
+        ]);
+        return $log;
+    }
+
+    public function logs(Request $request)
+    {
+        if (!Auth::user()) {
+            return response(['message' => 'session is expired'], 401);
+        }
+        $logs = \App\Models\Log::with('user')->get();
+        $logs = $logs->transform(function($q){
+            return [
+                'name' => $q->user->name,
+                'role' => Str::title($q->user->role),
+                'form_id' => $q->form_id,
+                'at' => $q->created_at->format("Y-m-d H:i:s")
+            ];
+        });
+        return $logs;
     }
 }

@@ -180,3 +180,47 @@ export const accessUser = (access_token, data) => {
             })
     })
 }
+
+export const userDownload = (form_id) => {
+    const access_token = localStorage.getItem("access_token");
+    if (access_token === null) {
+        return;
+    }
+    return new Promise((resolve, reject) => {
+        axios
+            .post("/api/download", {form_id: parseInt(form_id)}, {
+                headers: {
+                    Accept: "application/json",
+                    Authorization: "Bearer " + access_token,
+                },
+            })
+            .then((res) => {
+                resolve("recorded");
+            })
+            .then((err) => {
+                resolve("not recorded");
+            })
+    })
+}
+
+export const userLogs = () => {
+    const access_token = localStorage.getItem("access_token");
+    if (access_token === null) {
+        return;
+    }
+    return new Promise((resolve, reject) => {
+        axios
+            .post("/api/logs", {},{
+                headers: {
+                    Accept: "application/json",
+                    Authorization: "Bearer " + access_token,
+                },
+            })
+            .then((res) => {
+                resolve(res.data);
+            })
+            .then((err) => {
+                resolve(err);
+            })
+    })
+}

@@ -6,7 +6,7 @@ import LoadingContainer from "../components/LoadingContainer";
 import Charts from "../components/Charts.js";
 import Cards from "../components/Cards.js";
 import { Row, Col, Card, Form, Button } from "react-bootstrap";
-import { queueApi, getApi } from "../data/api.js";
+import { queueApi, getApi, userDownload } from "../data/api.js";
 import { generateData } from "../charts/chart-generator.js";
 
 const generateSummary = ([total, kind, country, company]) => (
@@ -45,6 +45,10 @@ class CountryTab extends Component {
         const id = parseInt(companyId);
         const url = "country-data/" + id + "/" + tab;
         this.setState({ active: id , tab: tab});
+        if (tab === "download") {
+            this.setState({loading:false});
+            return;
+        }
         getApi(url).then((res) => {
             let response = res[url];
             this.setState({ summary: generateSummary(response.summary), loading: false });
@@ -107,7 +111,6 @@ class CountryTab extends Component {
                 config={x.config}/>;
     }
 
-
     generateResources(params) {
         let country = this.props.value.page.filters.find(x => x.name === params.country.toTitle());
         let company = country.childrens.find(x => x.id === parseInt(params.companyId));
@@ -134,7 +137,11 @@ class CountryTab extends Component {
                         </Form>
                         <hr />
                         {this.state.download ? (
-                            <a href={"/files/" + file + x.to} target="_blank" className={aClass}>
+                            <a href={"/files/" + file + x.to}
+                                onClick={e => userDownload(this.props.match.params.companyId)}
+                                target="_blank"
+                                className={aClass}
+                            >
                                 Download
                             </a>
                         ) : (

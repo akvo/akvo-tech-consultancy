@@ -25,8 +25,10 @@ Route::get('/country-data/{id}/{tab}', [Api::class, 'countryData']);
 Route::get('/compare-data/{id}', [Api::class, 'compareData']);
 
 Route::post('/auth/login', [Auth::class,'login']);
+Route::post('/download', [Auth::class,'download'])->middleware('auth:api');
 
 Route::get('/user', [Auth::class, 'info'])->middleware('auth:api');
+Route::post('/logs', [Auth::class,'logs'])->middleware('auth:api');
 Route::post('/user/update', [Auth::class, 'update'])->middleware('auth:api');
 Route::post('/user/list', [Auth::class, 'list'])->middleware('auth:api');
 Route::post('/user/access', [Auth::class, 'access'])->middleware('auth:api');
