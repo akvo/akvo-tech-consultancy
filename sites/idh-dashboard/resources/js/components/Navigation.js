@@ -3,16 +3,22 @@ import { redux } from "react-redux";
 import { mapStateToProps, mapDispatchToProps } from "../reducers/actions";
 import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
-import { Navbar, Nav, NavDropdown, Container, Dropdown, Image } from "react-bootstrap";
+import { Navbar, Nav, NavDropdown, Container, Dropdown, Image, Form, FormControl } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
+import { flatFilters } from '../data/utils.js';
 import intersectionBy from "lodash/intersectionBy";
 
 class Navigation extends Component {
     constructor(props) {
         super(props);
         this.renderCountries = this.renderCountries.bind(this);
+        this.changeSearchItem = this.changeSearchItem.bind(this);
+        this.renderSearchItem = this.renderSearchItem.bind(this);
         this.endSession = this.endSession.bind(this);
+        this.state = {
+            searched: []
+        }
     }
 
     renderCountries() {
@@ -36,6 +42,43 @@ class Navigation extends Component {
         });
     }
 
+    changeSearchItem(e) {
+        this.setState({searched:[]})
+        if (e.target.value === "") {
+            return;
+        }
+        let keywords = e.target.value.toLowerCase().split(' ');
+        let source = flatFilters(this.props.value.page.filters);
+        let access = this.props.value.user.forms;
+            access = access.map(x => {
+                return {...x, id: x.form_id};
+            });
+            source = intersectionBy(source, access, 'id');
+        let results = source.map(x => {
+            let score = 0;
+            let names = x.name.toLowerCase();
+            names = names.split(' ');
+            names.forEach(x => {
+                keywords.forEach(k => {
+                    score += x.startsWith(k) ? 1 : 0;
+                })
+            });
+            return {
+                ...x,
+                score: score
+            }
+        });
+        results = results.filter(x => x.score > 0);
+        results = results.map(x => {
+            return {
+                ...x,
+                url: "/country/" + x.name.split(' ')[0].toLowerCase() + "/" + x.id + "/overview"
+            }
+        });
+        this.setState({searched: results});
+        return;
+    }
+
     endSession() {
         this.props.page.compare.reset();
         this.props.user.logout();
@@ -44,6 +87,22 @@ class Navigation extends Component {
             localStorage.removeItem("access_token");
         }
         window.location.href = "/login";
+    }
+
+    renderSearchItem() {
+        let data = this.state.searched;
+        let items = this.props.value.page.compare.items;
+        data = data.filter(x => !items.find(z => z.id === x.id));
+        return data.map((x, i) => {
+            return (
+                <div
+                    onClick={e => window.open(x.url)}
+                    className="search-suggest"
+                    key={'item-' + x.id}>
+                    {x.name}
+                </div>
+            )
+        })
     }
 
     render() {
@@ -73,6 +132,19 @@ class Navigation extends Component {
                         )}
                     </Nav>
                     <Nav className="justify-content-end">
+                        {user.login ? (
+                        <Form inline>
+                          <FormControl
+                              onChange={this.changeSearchItem}
+                              type="text"
+                              placeholder="Search"
+                              className="mr-sm-2 ml-sm-2 search-nav"
+                            />
+                            {this.state.searched.length !== 0 ? (
+                                <div className="search-item-nav">{this.renderSearchItem()}</div>
+                            ) : ""}
+                        </Form>
+                        ) : ""}
                         <Nav.Item>
                             {user.login ? (
                                 <NavDropdown

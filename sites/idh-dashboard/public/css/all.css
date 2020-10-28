@@ -262,6 +262,18 @@ h2.extra-counter {
     border-bottom: 1px solid #ddd;
 }
 
+.search-item-nav {
+    position: absolute;
+    width: 195px;
+    margin-left: 8px;
+    z-index: 999;
+    top: 45px;
+    background: #fff;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border: #ddd solid 1px;
+}
+
 .search-suggest {
     cursor: pointer;
     padding: 10px;
@@ -459,6 +471,20 @@ h2.extra-counter {
     .dropdown-right.show.dropdown.nav-item .dropdown-menu.show{
         width:100%;
         left:0px;
+    }
+    .search-nav{
+        width:100%!important;
+    }
+    .search-item-nav {
+        margin-left: 0px;
+        position: absolute;
+        width: 100%;
+        z-index: 999;
+        top: 276px;
+        background: #fff;
+        border-bottom-right-radius: 5px;
+        border-bottom-left-radius: 5px;
+        border: #ddd solid 1px;
     }
 }
 
