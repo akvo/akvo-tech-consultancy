@@ -8,6 +8,7 @@ import {
     Jumbotron,
     Card
 } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DataTable from 'react-data-table-component';
 import Loading from '../components/Loading';
 import { userLogs } from "../data/api";
@@ -110,7 +111,9 @@ class Logs extends Component {
                     <Row className="justify-content-md-center">
                         <Col md={12}>
                             <Card>
-                            <Card.Header>Users</Card.Header>
+                            <Card.Header>
+                                <FontAwesomeIcon className="mr-2" icon={["fas", "history"]} /> User Logs
+                            </Card.Header>
                             <Card.Body style={{padding: "0px"}}>
                             <DataTable
                                 className="table table-bordered table-sm"

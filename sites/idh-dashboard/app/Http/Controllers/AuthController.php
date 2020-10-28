@@ -81,7 +81,7 @@ class AuthController extends Controller
         }
         $userId = $user->id;
         $user->update(['role' => $request->role]);
-        if ($request->role !== "guest") {
+        if ($request->role !== "Guest") {
             $c = \App\Models\UserForm::where('user_id', $userId)->first();
             if ($c) {
                 $c->delete();

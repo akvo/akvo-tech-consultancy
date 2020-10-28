@@ -110,7 +110,7 @@ class Manage extends Component {
             let users = this.state.users.map(x => {
                 if (x.id === user.id) {
                     let userforms = user.forms.filter(f => f.access !== 0);
-                    let formLength = user.role === "guest" ? userforms.length.toString() : "All";
+                    let formLength = user.role.toLowerCase() === "guest" ? userforms.length.toString() : "All";
                     user = {...user, role: user.role.toTitle(), forms: userforms, formLength: formLength};
                     return user;
                 }
@@ -288,7 +288,9 @@ class Manage extends Component {
                     <Row className="justify-content-md-center">
                         <Col md={selected.id !== 0 ? 7 : 12}>
                             <Card>
-                            <Card.Header>Users</Card.Header>
+                            <Card.Header>
+                                <FontAwesomeIcon className="mr-2" icon={["fas", "user"]} /> Users
+                            </Card.Header>
                             <Card.Body style={{padding: "0px"}}>
                             <DataTable
                                 className="table table-bordered table-sm"
