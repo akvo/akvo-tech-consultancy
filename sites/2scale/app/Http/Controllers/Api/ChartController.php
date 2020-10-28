@@ -704,38 +704,88 @@ class ChartController extends Controller
             $res = $this->aggregateRsrValues($res);
             $res = $this->aggregateRsrChildrenValues($res, 2);
             $res = Arr::except($res, ['childrens']);
-            $res['columns']= [
+            $res['columns'] = [
                 'id' => $res['id'],
                 'title' => '# of '.Str::after($res['title'], ': '),
-                'dimension' => null,
                 'subtitle' => [],
             ];
-            if (count($res['rsr_dimensions']) > 0) {
+            if ($res['rsr_indicators_count'] > 1 && count($res['rsr_dimensions']) === 0) {
+                $subtitles = collect();
+                $res['rsr_indicators']->each(function ($ind) use ($subtitles) {
+                    $subtitles->push([
+                        "name" => $ind['title'],
+                        "values" => [],
+                    ]);
+                });
+                $res['columns']= [
+                    'id' => $res['id'],
+                    'title' => '# of '.Str::after($res['title'], ': '),
+                    'subtitle' => $subtitles,
+                ];
+            } 
+            if (count($res['rsr_dimensions']) > 0 && $res['rsr_indicators_count'] === 1) {
+                # UII 8 : As in RSR
+                $subtitles = collect();
+                $res['rsr_dimensions']->each(function ($dim) use ($subtitles) {
+                    $subtitles->push([
+                        "name" => $dim['name'],
+                        "values" => $dim['rsr_dimension_values']->pluck('name'),
+                    ]);
+                });
+                $res['columns'] = [
+                    'id' => $res['id'],
+                    'title' => '# of '.Str::after($res['title'], ': '),
+                    'subtitle' => $subtitles,
+                ];
+                # EOL UII 8 : As in RSR
+            }
+            if (count($res['rsr_dimensions']) > 0 && $res['rsr_indicators_count'] > 1) {
                 # UII 8 : Male-led - Female-led
-                $res['columns'] = $res['rsr_dimensions']->map(function ($dim) use ($res) {
-                    $resultIds = collect(config('akvo-rsr.datatables.uii8_results_ids'));
-                    if ($resultIds->contains($res['id']) || $resultIds->contains($res['parent_result'])) {
-                        $dimensionIds = collect(config('akvo-rsr.datatables.ui8_dimension_ids'));
-                        if ($dimensionIds->contains($dim['id']) || $dimensionIds->contains($dim['parent_dimension_name'])) {
-                            return [
-                                'id' => $res['id'],
-                                'title' => '# of '.Str::after($res['title'], ': '),
-                                'dimension' => $dim['name'],
-                                'subtitle' => $dim['rsr_dimension_values']->pluck('name'),
-                            ];
-                        }
-                        return;
-                    }
-                    return [
-                        'id' => $res['id'],
-                        'title' => '# of '.Str::after($res['title'], ': '),
-                        'dimension' => $dim['name'],
-                        'subtitle' => $dim['rsr_dimension_values']->pluck('name'),
-                    ];
-                })->reject(function ($dim) {
-                    return $dim === null;
-                })->values()[0];
+                // $res['columns'] = $res['rsr_dimensions']->map(function ($dim) use ($res) {
+                //     $resultIds = collect(config('akvo-rsr.datatables.uii8_results_ids'));
+                //     if ($resultIds->contains($res['id']) || $resultIds->contains($res['parent_result'])) {
+                //         $dimensionIds = collect(config('akvo-rsr.datatables.ui8_dimension_ids'));
+                //         if ($dimensionIds->contains($dim['id']) || $dimensionIds->contains($dim['parent_dimension_name'])) {
+                //             return [
+                //                 'id' => $res['id'],
+                //                 'title' => '# of '.Str::after($res['title'], ': '),
+                //                 'dimension' => $dim['name'],
+                //                 'subtitle' => $dim['rsr_dimension_values']->pluck('name'),
+                //             ];
+                //         }
+                //         return;
+                //     }
+                //     return [
+                //         'id' => $res['id'],
+                //         'title' => '# of '.Str::after($res['title'], ': '),
+                //         'dimension' => $dim['name'],
+                //         'subtitle' => $dim['rsr_dimension_values']->pluck('name'),
+                //     ];
+                // })->reject(function ($dim) {
+                //     return $dim === null;
+                // })->values()[0];
                 # EOL UII 8 : Male-led - Female-led
+
+                # UII 8 : As in RSR
+                $subtitles = collect();
+                $res['rsr_dimensions']->each(function ($dim) use ($subtitles) {
+                    $subtitles->push([
+                        "name" => $dim['name'],
+                        "values" => $dim['rsr_dimension_values']->pluck('name'),
+                    ]);
+                });
+                $res['rsr_indicators']->each(function ($ind) use ($subtitles) {
+                    $subtitles->push([
+                        "name" => $ind['title'],
+                        "values" => [],
+                    ]);
+                });
+                $res['columns'] = [
+                    'id' => $res['id'],
+                    'title' => '# of '.Str::after($res['title'], ': '),
+                    'subtitle' => $subtitles,
+                ];
+                # EOL UII 8 : As in RSR
             }
             $this->collections->push($res);
             return $res;
@@ -828,7 +878,8 @@ class ChartController extends Controller
 
     private function aggregateRsrValues($res)
     {
-        $res['rsr_indicators'] = $res['rsr_indicators']->transform(function ($ind) {
+        $no_dimension_indicators = collect();
+        $res['rsr_indicators'] = $res['rsr_indicators']->transform(function ($ind) use ($no_dimension_indicators) {
             // $ind['target_value'] = $ind['rsr_periods']->sum('target_value');
             $ind['total_actual_value'] = $ind['rsr_periods']->sum('actual_value');
             if ($ind['has_dimension']) {
@@ -849,13 +900,18 @@ class ChartController extends Controller
                     return $dim;
                 });
             }
+            if (!$ind['has_dimension']) {
+                $no_dimension_indicators->push($ind);
+            }
             $ind = Arr::except($ind, ['rsr_periods']);
             return $ind;
         });
         $res['rsr_dimensions'] = $res['rsr_indicators']->pluck('rsr_dimensions')->flatten(1);
         $res['total_target_value'] = $res['rsr_indicators']->sum('target_value');
         $res['total_actual_value'] = $res['rsr_indicators']->sum('total_actual_value');
+        $res['rsr_indicators_count'] = count($res['rsr_indicators']);
         $res = Arr::except($res, ['rsr_indicators']);
+        $res['rsr_indicators'] = $no_dimension_indicators; // separate indicator with no dimension
         return $res;
     }
 

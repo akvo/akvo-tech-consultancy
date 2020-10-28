@@ -28,12 +28,27 @@ getCharts('partnership/countries-total/' + endpoints, 'second-row', info, "6");
 getCharts('partnership/project-total/' + endpoints, 'second-row', info, "6");
 
 // Table container
-$("main").append('<hr><div class="table-wrapper-scroll-y my-custom-scrollbar" style="margin-top:25px; margin-bottom:50px;">\
+let tableTitle = 'Reported Values for Universal Impact Indicators';
+$("main").append('<hr>\
+    <div class="row">\
+        <div class="col-md-12">\
+            <div class="card">\
+                <div class="card-header">'+tableTitle+'</div>\
+            </div>\
+        </div>\
+    </div>\
+    <div class="table-wrapper-scroll-y my-custom-scrollbar" style="margin-top:25px; margin-bottom:50px;">\
+        <div class="d-flex justify-content-center" id="loader-spinner-table">\
+            <div class="spinner-border text-primary loader-spinner" style="top:165%; margin-bottom:50px;" role="status">\
+                <span class="sr-only">Loading...</span>\
+            </div>\
+        </div>\
         <div class="table-responsive" id="table-container">\
             <table id="datatables" class="table table-sm table-bordered" cellspacing="0" style="width:100%;"></table>\
         </div>\
         <div id="datatableWrapper" class="tab-content"></div>\
-    </div>');
+    </div>\
+');
 
 // put a div (hidden) to store the charts for pdf report
 $("main").append("<div id='chart-report-container' class='invisible' style='margin-top:-999rem'></div>");
@@ -102,53 +117,62 @@ const refactorDimensionValue = (columns) => {
                 });
             });
         }
-        // UII 8 
-        let resultIds = datas.config.result_ids;
-        if (resultIds.includes(item.id) || resultIds.includes(item.parent_result)) { 
-            let rsr_custom_gender = {
-                male: 'Male',
-                male_actual: 0,
-                male_value: 0,
-                female: 'Female',
-                female_actual: 0,
-                female_value: 0,
-            };
-            tmp.forEach(value => {
-                let name = value.name.toLowerCase();
-                let isGender = name.includes('male');
-                let isFemale = name.includes('female');
-
-                let isMen = name.includes('men');
-                let isWomen = name.includes('women');
-
-                if (isGender && !isFemale || isMen && !isWomen) {
-                    rsr_custom_gender = {
-                        ...rsr_custom_gender,
-                        male_actual: rsr_custom_gender.male_actual + value.total_actual_value,
-                        male_value: rsr_custom_gender.male_value + value.value,
-                    }
-                }
-                if (isFemale || isWomen) {
-                    rsr_custom_gender = {
-                        ...rsr_custom_gender,
-                        female_actual: rsr_custom_gender.female_actual + value.total_actual_value,
-                        female_value: rsr_custom_gender.female_value + value.value,
-                    }
-                }
+        if (item.rsr_indicators_count > 1) {
+            item.rsr_indicators.forEach(ind => {
+                tmp.push({
+                    'name': ind.title,
+                    'total_actual_value': ind.total_actual_value,
+                    'value': ind.target_value
+                });
             });
-            tmp = [
-                {
-                    'name': rsr_custom_gender.male,
-                    'total_actual_value': rsr_custom_gender.male_actual,
-                    'value': rsr_custom_gender.male_value
-                },
-                {
-                    'name': rsr_custom_gender.female,
-                    'total_actual_value': rsr_custom_gender.female_actual,
-                    'value': rsr_custom_gender.female_value
-                },
-            ];
         }
+        // UII 8 
+        // let resultIds = datas.config.result_ids;
+        // if (resultIds.includes(item.id) || resultIds.includes(item.parent_result)) { 
+        //     let rsr_custom_gender = {
+        //         male: 'Male',
+        //         male_actual: 0,
+        //         male_value: 0,
+        //         female: 'Female',
+        //         female_actual: 0,
+        //         female_value: 0,
+        //     };
+        //     tmp.forEach(value => {
+        //         let name = value.name.toLowerCase();
+        //         let isGender = name.includes('male');
+        //         let isFemale = name.includes('female');
+
+        //         let isMen = name.includes('men');
+        //         let isWomen = name.includes('women');
+
+        //         if (isGender && !isFemale || isMen && !isWomen) {
+        //             rsr_custom_gender = {
+        //                 ...rsr_custom_gender,
+        //                 male_actual: rsr_custom_gender.male_actual + value.total_actual_value,
+        //                 male_value: rsr_custom_gender.male_value + value.value,
+        //             }
+        //         }
+        //         if (isFemale || isWomen) {
+        //             rsr_custom_gender = {
+        //                 ...rsr_custom_gender,
+        //                 female_actual: rsr_custom_gender.female_actual + value.total_actual_value,
+        //                 female_value: rsr_custom_gender.female_value + value.value,
+        //             }
+        //         }
+        //     });
+        //     tmp = [
+        //         {
+        //             'name': rsr_custom_gender.male,
+        //             'total_actual_value': rsr_custom_gender.male_actual,
+        //             'value': rsr_custom_gender.male_value
+        //         },
+        //         {
+        //             'name': rsr_custom_gender.female,
+        //             'total_actual_value': rsr_custom_gender.female_actual,
+        //             'value': rsr_custom_gender.female_value
+        //         },
+        //     ];
+        // }
         item['dimensions'] = tmp;
         return item;
     });
@@ -288,7 +312,7 @@ const renderExtra = (data, parent, child, grandTotal=false, addLastRow=false) =>
     if (data.length > 0) {
         data.forEach((val, index) => {
             extras += '<tr class="extras child '+parent+' '+child+' '+total+'">';
-            extras += '<td rowspan="2" class="align-middle name">'+val.name+'</td>';
+            extras += '<td rowspan="2" class="partner align-middle name">'+val.name+'</td>';
             val.values.forEach(val => {
                 let span = (val.has_dimension) ? '' : 'rowspan="2"';
                 let align = (val.has_dimension) ? '' : 'align-middle';
@@ -328,6 +352,18 @@ const renderExtra = (data, parent, child, grandTotal=false, addLastRow=false) =>
     return extras;
 };
 
+let dotIcon = '<svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-dot" fill="currentColor" xmlns="http://www.w3.org/2000/svg">\
+    <path fill-rule="evenodd" d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>\
+</svg>';
+let legend = '<ul id="table-legend" class="list-inline">\
+    <li class="list-inline-item">'+dotIcon+'SM : Male (>35)</li>\
+    <li class="list-inline-item">'+dotIcon+'SF : Female (>35)</li>\
+    <li class="list-inline-item">'+dotIcon+'JM : Male (<=35)</li>\
+    <li class="list-inline-item">'+dotIcon+'JF : Female (<=35)</li>\
+    <li class="list-inline-item">'+dotIcon+'M : Male</li>\
+    <li class="list-inline-item">'+dotIcon+'F : Female</li>\
+</ul>';
+
 let html = '';
 let datas = {};
 let status = {};
@@ -335,9 +371,46 @@ getData.then(res => {
     datas = res;
     // data refactoring
     datas.columns = datas.columns.map(column => {
-        if (column.subtitle.length > 0) {
-            column.subtitle = column.subtitle.map(subtitle => {
-                let name = subtitle.toLowerCase();
+        // if (column.subtitle.length > 0) {
+        //     column.subtitle = column.subtitle.map(subtitle => {
+        //         let name = subtitle.toLowerCase();
+        //         let isGender = name.includes('male');
+        //         let isFemale = name.includes('female');
+        //         let isSenior = name.includes('>');
+        //         let isJunior = name.includes('<');
+        //         if (isGender && !isFemale && isSenior) {
+        //             return 'SM';
+        //         }
+        //         if (isFemale && isSenior) {
+        //             return 'SF';
+        //         }
+        //         if (isGender && !isFemale && isJunior) {
+        //             return 'JM';
+        //         }
+        //         if(isFemale && isJunior) {
+        //             return 'JF';
+        //         }
+        //         if (isGender && !isFemale && !isSenior && !isJunior) {
+        //             return 'M';
+        //         }
+        //         if (isFemale && !isSenior && !isJunior) {
+        //             return 'F';
+        //         }
+        //         return subtitle;
+        //     });
+        //     return column;
+        // }
+        // return column;
+
+        if (column.subtitle.length === 0) {
+            return column;
+        }
+        column.subtitle = column.subtitle.map(subtitle => {
+            if (subtitle.values.length === 0) { 
+                return subtitle;
+            }
+            subtitle.values = subtitle.values.map(value => {
+                let name = value.toLowerCase();
                 let isGender = name.includes('male');
                 let isFemale = name.includes('female');
                 let isSenior = name.includes('>');
@@ -360,10 +433,10 @@ getData.then(res => {
                 if (isFemale && !isSenior && !isJunior) {
                     return 'F';
                 }
-                return subtitle;
+                return value;
             });
-            return column;
-        }
+            return subtitle;
+        });
         return column;
     });
 
@@ -373,24 +446,66 @@ getData.then(res => {
     // EOL data refactoring
     return datas;
 }).then(res => {
+    console.log(res);
+    // Header 1
     html += '<thead class="thead-dark">';
+    // html += '<tr>';
+    // html += '<th rowspan="2">Country / Partnership / Partner</th>';
+    // res.columns.forEach(column => {
+    //     let colspan = column.subtitle.length;
+    //     let span = (colspan > 0) ? 'colspan="'+colspan+'"' : 'rowspan="2"'; 
+    //     html += '<th scope="col" '+span+'>'+column.title+'</th>';
+    // });
+    // html += '</tr>';
+
     html += '<tr>';
-    html += '<th rowspan="2">Country / Partnership / Partner</th>';
+    html += '<th rowspan="3" class="partner">Country / Partnership / Partner</th>';
     res.columns.forEach(column => {
-        let colspan = column.subtitle.length;
-        let span = (colspan > 0) ? 'colspan="'+colspan+'"' : 'rowspan="2"'; 
+        let colspan = (column.subtitle.length > 0) ? (column.subtitle.map(x => (x.values.length === 0) ? 1 : x.values.length)) : [];
+        colspan = (colspan.length > 0) ? colspan.reduce((sum, x) => sum + x) : 0;
+        let span = (colspan > 0) ? ((column.subtitle.length === 1) ? 'rowspan="2" colspan="'+colspan+'"' : 'colspan="'+colspan+'"') : 'rowspan="3"'; 
         html += '<th scope="col" '+span+'>'+column.title+'</th>';
     });
     html += '</tr>';
     return res;
 }).then(res => {
+    // Header 2
+    html += '<tr>';
+    res.columns.forEach(column => {
+        if (column.subtitle.length > 1) {
+            column.subtitle.forEach(subtitle => {
+                let colspan = subtitle.values.length;
+                let span = (colspan > 0) ? 'colspan="'+colspan+'"' : 'rowspan="2"';
+                html += '<th scope="col" '+span+'>'+subtitle.name+'</th>';
+            });
+        } 
+    });
+    html += '</tr>';
+    return res;
+}).then(res => {
+    // Header 3
+    // html += '<tr>';
+    // res.columns.forEach(column => {
+    //     if (column.subtitle.length > 0) {
+    //         column.subtitle.forEach(subtitle => {
+    //             html += '<th scope="col" class="text-center">'+subtitle+'</th>';
+    //         });
+    //     }
+    // });
+    // html += '</tr>';
+    // html += '</thead>';
+
     html += '<tr>';
     res.columns.forEach(column => {
         if (column.subtitle.length > 0) {
             column.subtitle.forEach(subtitle => {
-                html += '<th scope="col" class="text-center">'+subtitle+'</th>';
+                if (subtitle.values.length > 0) {
+                    subtitle.values.forEach(value => {
+                        html += '<th scope="col" class="text-center">'+value+'</th>';
+                    });
+                }
             });
-        }
+        } 
     });
     html += '</tr>';
     html += '</thead>';
@@ -419,6 +534,10 @@ getData.then(res => {
     html += renderExtra(res.data.extras, parentId, '', true, false);
 
     html += '</tbody>';
+    let tdCount = $('tr.level_1').children().length;
+    html += '<tfoot><tr><td colspan="'+tdCount+'">';
+    html += legend;
+    html += '</td></tr></tfoot>';
     $("#datatables").append(html);
     return res;
 }).then(res => {
@@ -427,6 +546,7 @@ getData.then(res => {
         $('.level_3').hide('fast');
         $('.extras').hide('fast');
         $('.grand_total').show('fast');
+        $("#loader-spinner-table").remove();
         return datatableOptions("#datatables", res);
     }
     return true;
@@ -470,9 +590,8 @@ getData.then(res => {
         $('.grand_total').show('fast');
     });
 
-    console.log(datas);
-    // hide datatables info
-    $('#datatables_info').hide();
+    // remove datatables info
+    $('#datatables_info').remove();
 });
 
 const formatDetails = (d) => {
@@ -523,13 +642,20 @@ const datatableOptions = (id, res) => {
                     $(win.document.head).append($('<link href="'+baseurl+'/css/print.css" rel="stylesheet">'));
                     $(win.document.body).find('table thead').remove();
                     $(win.document.body).find('table tbody').remove();
-                    $(win.document.body).prepend("<h5>2SCALE RSR Report</h5></hr>");
+                    $(win.document.body).prepend("<h5>"+tableTitle+"</h5></hr>");
                     $(win.document.body).find('table').append($('.dataTable').html());
                     $(win.document.body).find('table').append($('#datatables').html());
+                    // $(win.document.body).append($('#table-legend').html());
                 },
             },
-            // 'excel',
-            // 'pdf'
+            // {
+            //     text: 'Collapse',
+            //     action: function(e, dt, node, config) {
+            //         $('.level_3').hide('fast');
+            //         $('.extras').hide('fast');
+            //         $('.grand_total').show('fast');
+            //     }
+            // },
         ],
         scrollX: true,
         scrollY: '75vh',
@@ -538,12 +664,12 @@ const datatableOptions = (id, res) => {
         fixedHeader: true,
         scrollCollapse: true,
         columnDefs: [
-            { targets: 0, width: '15%'}
+            { targets: 0, width: '12%'}
         ]
     };
     let hideColumns = {
         columnDefs: [
-            { targets: 0, width: '15%'},
+            { targets: 0, width: '12%'},
             { targets: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19], visible: true},
             { targets: '_all', visible: false },
         ],
@@ -560,12 +686,16 @@ const datatableOptions = (id, res) => {
         const $this=$(this);
         $this.attr("placeholder", "Search");
         $this.removeClass('form-control-sm');
-    }
-    );
+    });
     $('#datatables_wrapper .dataTables_length').addClass('d-flex flex-row');
-    $('#datatables_wrapper .dataTables_filter').addClass('md-form');
-    $('#datatables_wrapper select').removeClass( 'custom-select custom-select-sm form-control form-control-sm');
-    $('#datatables_wrapper select').addClass('mdb-select');
+    // $('#datatables_wrapper .dataTables_filter').addClass('md-form');
+    // $('#datatables_wrapper select').removeClass( 'custom-select custom-select-sm form-control form-control-sm');
+    // $('#datatables_wrapper select').addClass('mdb-select');
     $('#datatables_wrapper .dataTables_filter').find('label').remove();
+
+    $('.buttons-print').detach().prependTo('.dataTables_filter')
+    $('.buttons-copy').detach().prependTo('.dataTables_filter')
+    $('.dt-buttons').remove();
+
     return table;
 };

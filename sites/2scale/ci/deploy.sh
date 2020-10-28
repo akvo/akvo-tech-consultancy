@@ -10,9 +10,7 @@ sudo chown "${USER}:" . -R
 
 echo "Deploying site..."
 
-exit 0 # todelete
-if [[ "${TRAVIS_BRANCH}" != "master" ]]; then # todelete
-# if [[ "${TRAVIS_BRANCH}" != "master" && "${TRAVIS_BRANCH}" != "sites/2scale" ]]; then # uncoment
+if [[ "${TRAVIS_BRANCH}" != "master" && "${TRAVIS_BRANCH}" != "sites/2scale" ]]; then
     exit 0
 fi
 
