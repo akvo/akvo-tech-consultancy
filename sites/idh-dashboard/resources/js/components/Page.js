@@ -16,6 +16,7 @@ import Setting from "../pages/Setting";
 import Manage from "../pages/Manage";
 import Logs from "../pages/Logs";
 import Registration from "../pages/Registration";
+import Verify from "../pages/Verify";
 import NotFound from "../pages/NotFound";
 import { getApi, auth } from "../data/api";
 
@@ -90,6 +91,7 @@ class Page extends Component {
                     <Route exact path='/manage-user' component={Manage} />
                     <Route exact path='/logs' component={Logs} />
                     <Route exact path='/register' component={Registration} />
+                    <Route exact path='/verify/:verifyToken' component={Verify} />
                     <Route exact path='/logout'>
                         <Redirect to="/login" />
                     </Route>

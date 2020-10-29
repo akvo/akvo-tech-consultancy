@@ -44,10 +44,10 @@ class Home extends Component {
             return {...x, link:link}
         });
         let maps = {
-            title: "Country Project",
+            title: "",
             data: { maps: "world", records: data },
             kind: "MAPS",
-            config: generateData(12, true, "60vh"),
+            config: generateData(12, false, "60vh"),
         };
         if (user.id === 0) {
             return <Redirect to="/login" />;
@@ -57,10 +57,10 @@ class Home extends Component {
                 <JumbotronWelcome text={false}/>
                 <div className="page-content has-jumbotron">
                     <Row>
-                        <Col md={8}>
+                        <Col md={12}>
                         <Charts identifier={"map-home"} title={maps.title} dataset={maps.data} kind={maps.kind} config={maps.config} />
                         </Col>
-                        <Col md={4}>
+                        <Col md={12}>
                             <Table bordered hover size="sm">
                                 <thead>
                                     <tr>

@@ -15,9 +15,14 @@ class Registration extends Component {
         this.handleFirstName = this.handleFirstName.bind(this);
         this.handleLastName = this.handleLastName.bind(this);
         this.handlePassword = this.handlePassword.bind(this);
+        this.handleMatchPassword = this.handleMatchPassword.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
         this.state = {
             error: "",
+            errors: {
+                email: false,
+                password: false
+            },
             verify: false,
             formSubmitting: false,
             user: {
@@ -25,7 +30,7 @@ class Registration extends Component {
                 lastName: "",
                 email: "",
                 password: "",
-                confirmPassword: "",
+                password_confirmation: "",
             },
         };
     }
@@ -40,10 +45,10 @@ class Registration extends Component {
         this.setState({ formSubmitting: true });
         register(this.state.user)
             .then((res) => {
-                console.log(res);
+                this.setState({ error: "", errors: {email: false, password:false}, verify: res.message});
             })
             .catch((err) => {
-                console.log(res);
+                this.setState({ error: err.message, errors: err.errors, verify:false});
             });
     }
 
@@ -78,8 +83,22 @@ class Registration extends Component {
     handleMatchPassword(e) {
         let value = e.target.value;
         this.setState((prevState) => ({
-            user: { ...prevState.user, confirmPassword: value },
+            user: { ...prevState.user, password_confirmation: value },
         }));
+    }
+
+    renderErrors(errors, errorType) {
+        if (errorType === "confirm") {
+            errors = errors.filter(x => x.includes("match"));
+        }
+        if (errorType === "password") {
+            errors = errors.filter(x => !x.includes("match"));
+        }
+        return errors.map(x => (
+            <Form.Text key={x} className="text-danger">
+                {x}
+            </Form.Text>
+        ));
     }
 
 
@@ -89,6 +108,7 @@ class Registration extends Component {
         if (user.login) {
             return <Redirect to="/" />;
         }
+        console.log(this.state);
         return (
             <>
                 <JumbotronWelcome text={false}/>
@@ -98,15 +118,15 @@ class Registration extends Component {
                             {error ? (
                                 <Alert variant={"danger"} onClose={() => this.setState({ error: "" })} dismissible>
                                     {this.state.error}
-                                    {this.state.verify ? (
-                                        <span onClick={e => this.resendVerification(e)} className="span-link">
-                                            Resend email verification
-                                        </span>
-                                    ) : ""}
                                 </Alert>
                             ) : (
                                 ""
                             )}
+                            {this.state.verify ? (
+                                <Alert variant={"success"} onClose={() => this.setState({ verify: false })} dismissible>
+                                    {this.state.verify}
+                                </Alert>
+                            ) : ""}
                             <Card>
                                 <Card.Header>Register</Card.Header>
                                 <Card.Body>
@@ -128,17 +148,27 @@ class Registration extends Component {
                                         <Form.Group controlId="formBasicEmail" onChange={this.handleEmail}>
                                             <Form.Label>Email address</Form.Label>
                                             <Form.Control type="email" placeholder="Enter email" />
-                                            <Form.Text className="text-muted">
-                                            We'll never share your email with anyone else.
-                                            </Form.Text>
+                                            {this.state.errors.email
+                                                ? this.renderErrors(this.state.errors.email, "email")
+                                                : (
+                                                <Form.Text className="text-muted">
+                                                We'll never share your email with anyone else.
+                                                </Form.Text>
+                                            )}
                                         </Form.Group>
                                         <Form.Group controlId="formBasicPassword" onChange={this.handlePassword}>
                                             <Form.Label>Password</Form.Label>
                                             <Form.Control type="password" placeholder="Password" />
+                                            {this.state.errors.password
+                                                ? this.renderErrors(this.state.errors.password, "password")
+                                            : ""}
                                         </Form.Group>
                                         <Form.Group controlId="formBasicConfirmPassword" onChange={this.handleMatchPassword}>
                                             <Form.Label>Confirm Password</Form.Label>
                                             <Form.Control type="password" placeholder="Confirm Password" />
+                                            {this.state.errors.password
+                                                ? this.renderErrors(this.state.errors.password, "confirm")
+                                            : ""}
                                         </Form.Group>
                                         <Row>
                                         <Col md={12}>

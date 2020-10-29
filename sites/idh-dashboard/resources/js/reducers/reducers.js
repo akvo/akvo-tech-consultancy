@@ -38,7 +38,7 @@ const initialState = {
 const addComparison = (state, item, id) => {
     let filters = flatFilters(item);
     let newitem = filters.find((x) => x.id === id);
-    return [...state, { id: newitem.id, name: newitem.name }];
+    return [...state, { id: newitem.id, name: newitem.name + " - " + newitem.company}];
 };
 
 export const states = (state = initialState, action) => {

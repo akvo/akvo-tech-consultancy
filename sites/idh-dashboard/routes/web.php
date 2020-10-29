@@ -26,3 +26,7 @@ Route::get('{path?}', function(){
 Route::get('/country/{country}/{company}/{tab}', function(){
     return view('index');
 })->name('country');
+
+Route::get('/verify/{verifyToken}', function(){
+    return view('index');
+})->name('verify');

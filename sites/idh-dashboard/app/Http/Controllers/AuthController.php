@@ -10,6 +10,71 @@ use App\Models\Log as Logs;
 
 class AuthController extends Controller
 {
+
+    public function register(Request $request) {
+        $request->validate([
+            'firstName' => ['required', 'string', 'max:255'],
+            'lastName' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+        $token = Str::random(60); 
+        $user = \App\Models\User::create([
+            'name' => $request->firstName .' '. $request->lastName,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => 'guest',
+            'remember_token' => $token,
+        ]);
+
+        $mj = new \Mailjet\Client(
+            env('MAILJET_APIKEY'), 
+            env('MAILJET_APISECRET'), 
+            true,
+            ['version' => 'v3']
+        );
+        $website = config('app.url');
+        $confirmUrl = $website .'/api/verify/'. $token;
+        $body = [
+            'FromName' =>  config('mail.from.name'),
+            'FromEmail' =>  config('mail.from.address'),
+            'Subject' => "IDH User Registration Verification",
+            'Html-part' => "
+                <p>Hi $request->lastName</p>
+                <p>Your email $request->email has been associated with $website</p>
+                <p>Please verify your email from the link below</p></hr>
+                <p><a href='$confirmUrl'>$confirmUrl</a></p>
+            ",
+            'Text-part' => "Hi $request->lastName, Your email $request->email has been associated with $website. Please verify your email from the link $confirmUrl",
+            'Recipients' => [
+                [
+                    'Email' => $request->email,
+                    'Name' => $request->lastName
+                ]
+            ]
+        ];
+
+        $result = false;
+        $response =  $mj->post(\Mailjet\Resources::$Email, ['body' => $body]);
+        $result = $response->getData();
+
+        return response (['message' => 'Success, Please verify your email address', 'result' => $result, 'body' => $body]);
+    }
+
+    public function verify(Request $request) {
+        $user = \App\Models\User::where('remember_token', $request->token)->first();
+        if ($user) {
+            $user->update([
+                'active' =>  true,
+                'email_verified_at' => now()
+            ]);
+            return response([
+                'message' => 'Congratulations ' .$user->name.', your email has been verified'
+            ]);
+        }
+        return response(['message' => 'The link is expired'], 401);
+    }
+
     public function login(Request $request)
     {
         $credentials = $request->validate([

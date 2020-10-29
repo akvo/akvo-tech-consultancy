@@ -238,7 +238,7 @@ a.dropdown-toggle.nav-link div {
 }
 
 .card-chart {
-    background-color: #f0f5fb;
+    background-color: transparent;
     padding: 12px;
     margin-bottom: 30px;
     border-radius: 10px;

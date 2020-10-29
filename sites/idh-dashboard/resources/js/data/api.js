@@ -75,14 +75,17 @@ export const register = (data) => {
             .post("/api/auth/register", data)
             .then((res) => {
                 if (res.status === 200) {
-                    resolve({message: res.message, success: true});
+                    resolve({message: res.data.message, success: true});
                 } else {
-                    resolve({message: res.message, success: false});
+                    reject({message: res.data.message, errors:res.data.errors, success: false});
                 }
+                return res;
             })
             .catch((error) => {
                 if (error.response) {
-                    reject({message: "Internal Server Error", success: false})
+                    reject({message: error.response.data.message, errors:error.response.data.errors, success: false})
+                } else {
+                    reject({message: "Internal Server Error", errors: false, success: false});
                 }
             });
     });
