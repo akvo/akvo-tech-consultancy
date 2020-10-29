@@ -305,7 +305,7 @@ span.span-link{
 
 .search-item-nav {
     position: absolute;
-    width: 195px;
+    width: 209px;
     margin-left: 8px;
     z-index: 999;
     top: 45px;
@@ -319,6 +319,7 @@ span.span-link{
     cursor: pointer;
     padding: 10px;
     border-bottom: 1px solid #ddd;
+    font-size:13px;
 }
 
 .search-suggest:hover {
@@ -544,9 +545,9 @@ span.span-link{
         width:100%!important;
     }
     .search-item-nav {
-        margin-left: 0px;
+        margin-left: 8px;
         position: absolute;
-        width: 100%;
+        width: calc(100% - 16px);
         z-index: 999;
         top: 276px;
         background: #fff;

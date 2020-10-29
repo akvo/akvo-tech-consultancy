@@ -93,6 +93,10 @@ class Registration extends Component {
         }
         if (errorType === "password") {
             errors = errors.filter(x => !x.includes("match"));
+            errors = errors.map((x) => {
+                x = x.includes("invalid") ? "The password must contains Uppercase, lowercase and numeric value" : x;
+                return x;
+            })
         }
         return errors.map(x => (
             <Form.Text key={x} className="text-danger">
@@ -161,7 +165,7 @@ class Registration extends Component {
                                             <Form.Control type="password" placeholder="Password" />
                                             {this.state.errors.password
                                                 ? this.renderErrors(this.state.errors.password, "password")
-                                            : ""}
+                                                : ""}
                                         </Form.Group>
                                         <Form.Group controlId="formBasicConfirmPassword" onChange={this.handleMatchPassword}>
                                             <Form.Label>Confirm Password</Form.Label>
