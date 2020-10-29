@@ -2,9 +2,10 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Route, Redirect } from "react-router-dom";
 import { mapStateToProps, mapDispatchToProps } from "../reducers/actions";
-import { Row, Col, Form, Button, Alert, Jumbotron, Card } from "react-bootstrap";
+import { Row, Col, Form, Button, Alert, Card } from "react-bootstrap";
 import { login } from "../data/api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import JumbotronWelcome from '../components/JumbotronWelcome';
 import axios from "axios";
 
 class Login extends Component {
@@ -13,14 +14,27 @@ class Login extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleEmail = this.handleEmail.bind(this);
         this.handlePassword = this.handlePassword.bind(this);
+        this.resendVerification = this.resendVerification.bind(this);
+        this.handleRegister = this.handleRegister.bind(this);
         this.state = {
             error: "",
+            verify: false,
             formSubmitting: false,
             user: {
                 email: "",
                 password: "",
             },
         };
+    }
+
+    resendVerification(e) {
+        e.preventDefault();
+        console.log(this.state.user.email);
+    }
+
+    handleRegister(e) {
+        e.preventDefault();
+        window.open("/register");
     }
 
     handleSubmit(e) {
@@ -32,7 +46,7 @@ class Login extends Component {
                 localStorage.setItem("access_token", res.access_token);
             })
             .catch((err) => {
-                this.setState({ error: err.error });
+                this.setState({ error: err.error, verify: err.verify});
                 localStorage.removeItem("access_token");
                 this.props.user.logout();
             });
@@ -60,19 +74,18 @@ class Login extends Component {
         }
         return (
             <>
-                <Jumbotron>
-                    <Row className="page-header">
-                        <Col md={12} className="page-title text-center">
-                            <h2>Welcome to IDH Dataportal</h2>
-                        </Col>
-                    </Row>
-                </Jumbotron>
+                <JumbotronWelcome text={false}/>
                 <div className="page-content has-jumbotron">
                     <Row className="justify-content-md-center">
                         <Col md={6}>
                             {error ? (
                                 <Alert variant={"danger"} onClose={() => this.setState({ error: "" })} dismissible>
                                     {this.state.error}
+                                    {this.state.verify ? (
+                                        <span onClick={e => this.resendVerification(e)} className="span-link">
+                                            Resend email verification
+                                        </span>
+                                    ) : ""}
                                 </Alert>
                             ) : (
                                 ""
@@ -96,18 +109,24 @@ class Login extends Component {
                                             <Form.Check type="checkbox" label="Remember Login" />
                                         </Form.Group>
                                         <Row>
-                                            <Col md={6}>
-                                                <Button variant="primary" type="submit">
+                                            <Col md={7}>
+                                                <Button variant="success" type="submit">
                                                     Submit
                                                 </Button>
                                             </Col>
-                                            <Col md={6} className="text-right">
+                                            <Col md={5} className="text-right">
                                                 <FontAwesomeIcon className="mr-2" icon={["fas", "key"]} />
                                                 Forgot Password
                                             </Col>
                                         </Row>
                                     </Form>
                                 </Card.Body>
+                                <Card.Footer>
+                                    Don't have any account?
+                                    <span onClick={e => this.handleRegister(e)} className="span-link">
+                                        Register
+                                    </span>
+                                </Card.Footer>
                             </Card>
                         </Col>
                     </Row>

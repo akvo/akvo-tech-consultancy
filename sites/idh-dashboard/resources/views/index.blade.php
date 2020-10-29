@@ -6,7 +6,6 @@
         <meta name="cache-version" value="1.1.9">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>{{ config('app.name', 'Laravel') }}</title>
-        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
         <link href="{{mix('/css/app.css')}}" rel="stylesheet">
         <link href="{{mix('/css/all.css')}}" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" rel="stylesheet">

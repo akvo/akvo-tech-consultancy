@@ -8,7 +8,6 @@ import {
     Form,
     Button,
     Alert,
-    Jumbotron,
     Card,
     ListGroup,
     InputGroup,
@@ -21,6 +20,7 @@ import { getUser , accessUser } from "../data/api";
 import DataTable from 'react-data-table-component';
 import intersectionBy from "lodash/intersectionBy";
 import Loading from '../components/Loading';
+import JumbotronWelcome from '../components/JumbotronWelcome';
 
 const customTableStyle = {
     rows: {
@@ -265,13 +265,7 @@ class Manage extends Component {
         }
         return (
             <>
-                <Jumbotron>
-                    <Row className="page-header">
-                        <Col md={12} className="page-title text-center">
-                            <h2>{"Welcome " + admin.name}!</h2>
-                        </Col>
-                    </Row>
-                </Jumbotron>
+                <JumbotronWelcome text={"Welcome" + admin.name}/>
                 <div className="page-content has-jumbotron">
                     {notification.active ? (
                         <Row className="justify-content-md-center">

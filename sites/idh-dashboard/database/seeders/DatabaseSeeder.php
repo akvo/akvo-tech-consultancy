@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             'role' => 'admin',
             'email_verified_at' => now(),
             'password' => bcrypt("secret"),
+            'active' => true,
             'remember_token' => Str::random(10)
         ]);
 
@@ -33,6 +34,7 @@ class DatabaseSeeder extends Seeder
             'role' => 'admin',
             'email_verified_at' => now(),
             'password' => bcrypt("secret"),
+            'active' => true,
             'remember_token' => Str::random(10)
         ]);
 
@@ -42,6 +44,7 @@ class DatabaseSeeder extends Seeder
             'role' => 'admin',
             'email_verified_at' => now(),
             'password' => bcrypt("secret"),
+            'active' => true,
             'remember_token' => Str::random(10)
         ]);
 

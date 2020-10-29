@@ -5,7 +5,6 @@ import { mapStateToProps, mapDispatchToProps } from "../reducers/actions";
 import {
     Row,
     Col,
-    Jumbotron,
     Card
 } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,13 +12,14 @@ import DataTable from 'react-data-table-component';
 import Loading from '../components/Loading';
 import { userLogs } from "../data/api";
 import { flatFilters } from '../data/utils.js';
+import JumbotronWelcome from '../components/JumbotronWelcome';
 
 const customTableStyle = {
     rows: {
         style: {
-            cursor: "pointer"
+            cursor: "pointer",
         }
-    }
+    },
 }
 
 const tableColumns = [
@@ -100,13 +100,7 @@ class Logs extends Component {
         }
         return (
             <>
-                <Jumbotron>
-                    <Row className="page-header">
-                        <Col md={12} className="page-title text-center">
-                            <h2>Welcome to IDH Dataportal</h2>
-                        </Col>
-                    </Row>
-                </Jumbotron>
+                <JumbotronWelcome text={"Welcome" + user.name}/>
                 <div className="page-content has-jumbotron">
                     <Row className="justify-content-md-center">
                         <Col md={12}>

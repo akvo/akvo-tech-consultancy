@@ -2,10 +2,11 @@ import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { mapStateToProps, mapDispatchToProps } from "../reducers/actions";
-import { Row, Col, Button, Jumbotron, Table, Dropdown } from "react-bootstrap";
+import { Row, Col, Button, Table, Dropdown } from "react-bootstrap";
 import Charts from "../components/Charts";
 import { generateData } from "../charts/chart-generator.js";
 import { flatFilters } from '../data/utils.js';
+import JumbotronWelcome from "../components/JumbotronWelcome";
 
 class Home extends Component {
     constructor(props) {
@@ -53,13 +54,7 @@ class Home extends Component {
         }
         return (
             <Fragment>
-                        <Jumbotron>
-                            <Row className="page-header">
-                                <Col md={12} className="page-title text-center">
-                                    <h2>Welcome to IDH Dataportal</h2>
-                                </Col>
-                            </Row>
-                        </Jumbotron>
+                <JumbotronWelcome text={false}/>
                 <div className="page-content has-jumbotron">
                     <Row>
                         <Col md={8}>

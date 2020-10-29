@@ -1,10 +1,15 @@
 html,
 body {
-    font-family: 'Open Sans', sans-serif !important;
+    font-family: 'Gotham', sans-serif !important;
+    font-weight: 300!important;
+}
+
+div {
+    font-weight: 300;
 }
 
 .navbar-brand {
-    margin-right: 0 !important;
+    margin: 0px 10px!important;
 }
 
 h1,
@@ -13,8 +18,18 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: 'Open Sans', sans-serif !important;
+    font-family: 'Gotham', sans-serif !important;
+    font-weight: 900;
     margin: auto !important;
+}
+
+p {
+    font-family: 'Gotham-Book', sans-serif !important;
+    font-weight: 300!important;
+}
+
+b, strong {
+    font-weight:500!important;
 }
 
 .page-title h2::after {
@@ -50,7 +65,7 @@ h6 {
 
 .page-title>h2 {
     color: #FFF;
-    font-weight: 700 !important;
+    font-weight: bold !important;
     font-size: 40px !important;
     text-shadow: 0px 0px 20px #000000;
 }
@@ -74,9 +89,13 @@ h6 {
     text-align: center;
     margin: auto;
     color: #0072c6;
-    font-weight: 600;
+    font-weight: 500;
     margin-bottom: 2rem;
     border-bottom: solid 5px #0072c6;
+}
+
+.form-control {
+    font-weight:300!important;
 }
 
 .page-content.has-jumbotron {
@@ -96,18 +115,24 @@ h6 {
 
 .dropdown-item {
     padding: 18px !important;
+    font-weight:300 !important;
 }
 
 .dropdown-item.active,
 .dropdown-item:active {
     background-color: #fff !important;
     color: #0072c6 !important;
-    font-weight: 600;
+    font-weight: 500;
 }
 
 a.dropdown-toggle.nav-link {
     width: 100%;
 }
+
+a.dropdown-toggle.nav-link div {
+    font-weight: 500;
+}
+
 .dropdown-right.show.dropdown.nav-item .dropdown-menu.show{
     width: auto;
     text-align: right;
@@ -133,10 +158,14 @@ a.dropdown-toggle.nav-link {
     color: #fff !important;
 }
 
+.active.dropdown.nav-item{
+    background-color:#002e56!important;
+}
+
 .nav-link.active {
     color: #fff !important;
-    background-color: rgba(255, 255, 255, .3) !important;
-    font-weight: 600;
+    background-color:#002e56!important;
+    font-weight: 500;
 }
 
 .page-title {
@@ -204,6 +233,10 @@ a.dropdown-toggle.nav-link {
     border: solid #fff 4px;
 }
 
+.card-header {
+    font-weight:500!important;
+}
+
 .card-chart {
     background-color: #f0f5fb;
     padding: 12px;
@@ -228,7 +261,7 @@ a.dropdown-toggle.nav-link {
 
 .card-info p {
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 500;
     margin-bottom: 0px !important;
     max-width: 240px;
     margin: 10px auto;
@@ -243,6 +276,14 @@ h2.extra-counter {
     color: #0174c6;
     font-size: 40px;
     display: block;
+}
+
+span.span-link{
+    display: inline-block;
+    padding-left: 5px;
+    text-decoration:underline;
+    cursor: pointer;
+    color: #721c24;
 }
 
 .form-relative {
@@ -349,6 +390,9 @@ h2.extra-counter {
 .nav-jumbotron-container{
     min-width:100%;
 }
+.navbar-nav .nav-link {
+    font-weight:500;
+}
 
 .nav-stop {
     position: fixed;
@@ -373,7 +417,7 @@ h2.extra-counter {
 .nav-jumbotron.nav a.nav-link {
     color: #0174c6 !important;
     background: #fff;
-    font-weight: 600;
+    font-weight: 500;
     border-right: 1px solid #ddd;
     border-bottom: solid 2px #dddddd !important;
     padding: 10px !important;
@@ -457,6 +501,30 @@ h2.extra-counter {
     width:auto!important;
     box-shadow: none;
 }
+
+.rdt_TableHeadRow {
+    background-color: #0072C6!important;
+}
+
+.rdt_TableCell {
+    font-weight:300!important;
+}
+
+.rdt_TableHead .rdt_TableCol,
+.rdt_TableHead .rdt_TableCol .rdt_TableCol_Sortable div{
+    color: #ffffff;
+    font-weight:500!important;
+    font-size: 14px!important;
+}
+.rdt_TableHead .rdt_TableCol .rdt_TableCol_Sortable span{
+    color: #ffffff!important;
+    margin-left: 20px;
+}
+
+.card-body .table {
+    margin-bottom: 0px !important;
+}
+
 
 @media (max-width: 992px) {
     .dropdown-toggle::after {

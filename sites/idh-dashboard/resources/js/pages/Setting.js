@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { mapStateToProps, mapDispatchToProps } from "../reducers/actions";
-import { Row, Col, Form, Button, Alert, Jumbotron, Card, ListGroup } from "react-bootstrap";
+import { Row, Col, Form, Button, Alert, Card, ListGroup } from "react-bootstrap";
 import { updateUser } from "../data/api";
 import { flatFilters, initialNotification } from '../data/utils.js';
 import intersectionBy from "lodash/intersectionBy";
+import JumbotronWelcome from "../components/JumbotronWelcome";
 
 class Setting extends Component {
     constructor(props) {
@@ -90,13 +91,7 @@ class Setting extends Component {
         let updated = this.state.user;
         return (
             <>
-                <Jumbotron>
-                    <Row className="page-header">
-                        <Col md={12} className="page-title text-center">
-                            <h2>{user.login ? "Welcome " + user.name : "Not Found"}!</h2>
-                        </Col>
-                    </Row>
-                </Jumbotron>
+                <JumbotronWelcome text={user.login ? "Welcome" + user.name : "Page Not Found"}/>
                 <div className="page-content has-jumbotron">
                     {notification.active ? (
                         <Row className="justify-content-md-center">

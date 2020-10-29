@@ -69,6 +69,25 @@ export const queueApi = (index, urls, length, callback, params = []) => {
     }
 };
 
+export const register = (data) => {
+    return new Promise((resolve, reject) => {
+        axios
+            .post("/api/auth/register", data)
+            .then((res) => {
+                if (res.status === 200) {
+                    resolve({message: res.message, success: true});
+                } else {
+                    resolve({message: res.message, success: false});
+                }
+            })
+            .catch((error) => {
+                if (error.response) {
+                    reject({message: "Internal Server Error", success: false})
+                }
+            });
+    });
+}
+
 export const login = (credentials) => {
     return new Promise((resolve, reject) => {
         axios
@@ -83,7 +102,7 @@ export const login = (credentials) => {
             .catch((error) => {
                 if (error.response) {
                     let err = error.response.data;
-                    reject({ error: err.message });
+                    reject({ error: err.message, verify: err.verify });
                 }
             });
     });

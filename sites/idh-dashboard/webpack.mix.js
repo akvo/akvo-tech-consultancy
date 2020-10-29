@@ -12,7 +12,7 @@ const mix = require('laravel-mix');
  */
 
 mix.react('resources/js/app.js', 'public/js')
-    .styles(['resources/sass/custom.css'], 'public/css/all.css')
+    .styles(['resources/sass/custom.css','resources/sass/gotham-font.css'], 'public/css/all.css')
     .sass('resources/sass/app.scss', 'public/css');
 
 mix.copyDirectory('resources/images','public/images')

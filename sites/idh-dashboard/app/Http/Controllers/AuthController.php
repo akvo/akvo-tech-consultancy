@@ -17,7 +17,10 @@ class AuthController extends Controller
             'password' => 'required'
         ]);
         if (!Auth::attempt($credentials)) {
-            return response(['message' => 'invalid login credentials'], 401);
+            return response([
+                'message' => 'Invalid login credentials.',
+                'verify' => false
+            ], 401);
         }
         Auth::user()->tokens->each(function($token, $key) {
             $token->delete();
@@ -25,6 +28,12 @@ class AuthController extends Controller
         $token = Auth::user()->createToken('authToken')->accessToken;
         $user = \App\Models\User::where('id', Auth::user()->id)
             ->with('forms')->first();
+        if (!$user->active) {
+            return response([
+                'message' => 'Please verify your email before you use your account.',
+                'verify' => true
+            ], 401);
+        }
         return response([
             'user' => $user,
             'access_token' => $token

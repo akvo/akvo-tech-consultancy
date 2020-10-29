@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { redux } from "react-redux";
 import { mapStateToProps, mapDispatchToProps } from "../reducers/actions";
 import { connect } from "react-redux";
-import { Link, Redirect } from "react-router-dom";
+import { Link, NavLink, Redirect } from "react-router-dom";
 import { Navbar, Nav, NavDropdown, Container, Dropdown, Image, Form, FormControl } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
@@ -13,12 +13,20 @@ class Navigation extends Component {
     constructor(props) {
         super(props);
         this.renderCountries = this.renderCountries.bind(this);
+        this.handleLocation = this.handleLocation.bind(this);
         this.changeSearchItem = this.changeSearchItem.bind(this);
         this.renderSearchItem = this.renderSearchItem.bind(this);
         this.endSession = this.endSession.bind(this);
         this.state = {
-            searched: []
+            searched: [],
+            location: false
         }
+    }
+
+    handleLocation() {
+        let location = window.location.pathname.split('/');
+            location = location[1];
+        this.setState({location:location});
     }
 
     renderCountries() {
@@ -105,10 +113,27 @@ class Navigation extends Component {
         })
     }
 
+    componentWillUnmount() {
+        window.removeEventListener('onload', this.handleLocation);
+        window.removeEventListener('popstate', this.handleLocation);
+        window.removeEventListener('click', this.handleLocation);
+    }
+
+    componentDidMount() {
+        window.addEventListener('click', this.handleLocation);
+        window.addEventListener('popstate', this.handleLocation);
+        window.addEventListener('onload', this.handleLocation);
+    }
+
+
     render() {
         let page = this.props.value.page;
         let user = this.props.value.user;
         let loginText = user.login ? user.name.split(" ")[0] : "Login";
+        let location = this.state.location || window.location.pathname.split('/')[1]
+            location = location === "logs"
+            || location === "manage-user"
+            || location === "setting" ?  "manager" : location
         return (
             <Navbar fixed="top" variant="light" className="NavBlue" expand="lg" style={{ padding: "0px" }}>
                 <Navbar.Brand as={Link} to="/" style={{ padding: "0px" }}>
@@ -119,13 +144,18 @@ class Navigation extends Component {
                     <Nav className="mr-auto">
                         {user.login ? (
                             <>
-                                <Nav.Link as={Link} to="/">
+                                <NavLink className="nav-link" activeClassName="active" to="/home">
                                     Home
-                                </Nav.Link>
-                                <NavDropdown title="Country">{this.renderCountries()}</NavDropdown>
-                                <Nav.Link as={Link} to="/compare">
+                                </NavLink>
+                                <NavDropdown
+                                    className={location === "country" ? "active" : ""}
+                                    title="Country"
+                                >
+                                    {this.renderCountries()}
+                                </NavDropdown>
+                                <NavLink className="nav-link" activeClassName="active" to="/compare">
                                     Compare
-                                </Nav.Link>
+                                </NavLink>
                             </>
                         ) : (
                             ""
@@ -148,7 +178,7 @@ class Navigation extends Component {
                         <Nav.Item>
                             {user.login ? (
                                 <NavDropdown
-                                    className={"dropdown-right"}
+                                    className={location === "manager" ? "active dropdown-right" : "dropdown-right"}
                                     title={
                                         <div style={{ display: "inline-block" }}>
                                             <FontAwesomeIcon className="mr-2" icon={["fas", "user"]} />

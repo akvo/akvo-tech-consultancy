@@ -15,6 +15,7 @@ import Login from "../pages/Login";
 import Setting from "../pages/Setting";
 import Manage from "../pages/Manage";
 import Logs from "../pages/Logs";
+import Registration from "../pages/Registration";
 import NotFound from "../pages/NotFound";
 import { getApi, auth } from "../data/api";
 
@@ -78,13 +79,17 @@ class Page extends Component {
             {loading ? <Loading /> : ""}
             <Container className={"page-container"} fluid={true}>
                 <Switch>
-                    <Route exact path='/' component={Home} />
+                    <Route exact path='/'>
+                        <Redirect to='/home' />
+                    </Route>
+                    <Route exact path='/home' component={Home} />
                     <Route exact path='/country/:country/:companyId/:tab' component={Country} />
                     <Route exact path='/compare' component={Compare} />
                     <Route exact path='/login' component={Login} />
                     <Route exact path='/setting' component={Setting} />
                     <Route exact path='/manage-user' component={Manage} />
                     <Route exact path='/logs' component={Logs} />
+                    <Route exact path='/register' component={Registration} />
                     <Route exact path='/logout'>
                         <Redirect to="/login" />
                     </Route>
