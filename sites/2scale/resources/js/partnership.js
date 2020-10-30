@@ -185,6 +185,7 @@ const refactorChildrens = (childrens) => {
             child.childrens = refactorChildrens(child.childrens);
             child['extras'] = [];
             if (child.childrens.length > 0) {
+                child.childrens = child.childrens.sort((a,b) => (a.project > b.project) ? 1 : -1);
                 child['extras'] = agregateExtras(child.columns);
             }
             return child;
@@ -240,22 +241,24 @@ const agregateExtras = (data) => {
         gap_values.push({"total": gap, "dimension_total": dim_gap, "has_dimension": has_dimension});
         percent_values.push({"total": percent, "dimension_total": dim_percent, "has_dimension": has_dimension});
     });
-    return [{
-        "name": "SUM",
-        "values": sum_values,
-    },
-    {
-        "name": "TARGET",
-        "values": target_values,
-    },
-    {
-        "name": "GAP",
-        "values": gap_values,
-    },
-    {
-        "name": "%",
-        "values": percent_values,
-    }];
+    return [
+        // {
+        //     "name": "SUM",
+        //     "values": sum_values,
+        // },
+        {
+            "name": "TARGET",
+            "values": target_values,
+        },
+        {
+            "name": "GAP",
+            "values": gap_values,
+        },
+        {
+            "name": "%",
+            "values": percent_values,
+        }
+    ];
 };
 
 const renderRow = (data, level=1, parentId='', childId='') => {
@@ -305,6 +308,26 @@ const renderRow = (data, level=1, parentId='', childId='') => {
     return row;
 };
 
+const renderLastRow = (data, last) => {
+    let row = '';
+    if (data.childrens.length > 0 && last) {
+        row += '<tr class="last_row" style="display:none;">';
+        row += '<td class="partner">&nbsp</td>';
+        data.columns.forEach(val => {
+            if (val.dimensions.length > 0) {
+                val.dimensions.forEach(val => {
+                    row += "<td>&nbsp</td>";
+                });
+            }
+            else {
+                row += "<td>&nbsp</td>";
+            }
+        });
+        row += '</tr>';
+    }
+    return row;
+}
+
 const renderExtra = (data, parent, child, grandTotal=false, addLastRow=false) => {
     let extras = '';
     let total = (grandTotal) ? 'grand_total' : '';
@@ -335,9 +358,10 @@ const renderExtra = (data, parent, child, grandTotal=false, addLastRow=false) =>
             extras += '</tr>';
 
             // if (index === (data.length-1) && !grandTotal && addLastRow) {
-            if (index === (data.length-1) && !grandTotal) {
+            // if (index === (data.length-1) && !grandTotal) {
+            if (index === (data.length-1) && grandTotal) {
                 extras += '<tr class="last_row" style="display:none;">';
-                extras += '<td>&nbsp</td>';
+                extras += '<td class="partner">&nbsp</td>';
                 val.values.forEach(val => {
                     val.total.forEach(val => {
                         extras += '<td>&nbsp</td>';
@@ -443,6 +467,7 @@ getData.then(res => {
     datas.data.columns = refactorDimensionValue(datas.data.columns);
     datas.data.childrens = refactorChildrens(datas.data.childrens);
     datas.data['extras'] = agregateExtras(datas.data.columns);
+    datas.data.childrens = datas.data.childrens.sort((a,b) => (a.project > b.project) ? 1 : -1);
     // EOL data refactoring
     return datas;
 }).then(res => {
@@ -514,24 +539,29 @@ getData.then(res => {
     html += '<tbody>';
     let parentId = res.data.rsr_project_id;
     html += renderRow(res.data, 1, parentId)
+    html += renderExtra(res.data.extras, parentId, '', true, true);
 
     if (res.data.childrens.length > 0) {
         res.data.childrens.forEach((val, index) => {
             let childId = val.rsr_project_id;
+            let last = (res.data.childrens.length-1) !== index;
             html += renderRow(val, 2, parentId, childId);
+            html += renderExtra(val.extras, 'child-'+parentId, childId, false, last);
 
             if (val.childrens.length > 0) {
                 val.childrens.forEach(val => {
                     html += renderRow(val, 3, parentId, childId);
                 });
             }
+            html += renderLastRow(val, last);
 
-            let last = (res.data.childrens.length-1) !== index;
-            html += renderExtra(val.extras, 'child-'+parentId, childId, false, last);
+            // let last = (res.data.childrens.length-1) !== index;
+            // html += renderExtra(val.extras, 'child-'+parentId, childId, false, last);
         });
     }
-    
-    html += renderExtra(res.data.extras, parentId, '', true, false);
+
+    // html += renderRow(res.data, 1, parentId)
+    // html += renderExtra(res.data.extras, parentId, '', true, false);
 
     html += '</tbody>';
     let tdCount = $('tr.level_1').children().length;
@@ -549,8 +579,14 @@ getData.then(res => {
         $("#loader-spinner-table").remove();
         return datatableOptions("#datatables", res);
     }
-    return true;
+    return false;
 }).then(table => {
+    if (table) {
+        const adjust = setInterval(() => {
+            table.columns.adjust();
+            clearInterval(adjust);
+        }, 500);
+    }
     // value click to show pop up dimension
     $("#datatables tbody").on('click', 'tr', function () {
         // disable parent/level 1 collapse
@@ -662,7 +698,9 @@ const datatableOptions = (id, res) => {
         height: 400,
         paging: false,
         fixedHeader: true,
+        // fixedColumns: true,
         scrollCollapse: true,
+        autoWidth: true,
         columnDefs: [
             { targets: 0, width: '12%'}
         ]
@@ -680,8 +718,7 @@ const datatableOptions = (id, res) => {
     let table = $(id).DataTable(dtoptions);
     $('#datatables_wrapper').find('label').each(function () {
         $(this).parent().append($(this).children());
-    }
-    );
+    });
     $('#datatables_wrapper .dataTables_filter').find('input').each(function () {
         const $this=$(this);
         $this.attr("placeholder", "Search");
