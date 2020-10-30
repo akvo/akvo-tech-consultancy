@@ -1,9 +1,11 @@
-FROM amancevice/pandas:0.24.2-slim
+FROM amancevice/pandas:1.0.0-slim
 
 WORKDIR /usr/src/app
 
 COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+RUN set -e; \
+    pip install --no-cache-dir -r requirements.txt && \
+    pip check
 
 COPY . .
 
