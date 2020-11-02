@@ -60,7 +60,7 @@ let appVersion = localStorage.getItem('app-version'),
     selects = ["1", "2", "3", "4", "5"],
     markerclusters,
     map,
-    indicatorColors = ["#28a745", "#dc3545", "#FA0", "#0288d1", "#ab47bc", "#666", "#ffca29", "#40b1e6", "black"];
+    indicatorColors = ["#28a745", "#dc3545", "#FA0", "#0288d1", "#ab47bc", "#f15d5a", "#ffca29", "#40b1e6", "#6d0827"];
 
 let cacheMem = JSON.parse(localStorage.getItem('data'));
 
@@ -1236,9 +1236,9 @@ const createCss = (conf) => {
         var style = document.createElement('style');
         style.type = 'text/css';
         style.id = id;
-        
         conf.color.forEach((val, index) => {
-            style.innerHTML += '.category-'+index+' { background-color: '+val+'; fill: '+val+'; stroke: '+val+'; border-color: '+val+'; }';
+            // style.innerHTML += '.category-'+index+' { background-color: '+val+'; fill: '+val+'; stroke: '+val+'; border-color: '+val+'; }';
+            style.innerHTML += '.category-'+index+' { background-color: '+val+'; fill: '+val+'; stroke: black; border-color: black; }';
         });
         style.innerHTML += '.inactive-legend { background-color: #222 }';
         document.getElementsByTagName('head')[0].appendChild(style);

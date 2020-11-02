@@ -481,7 +481,7 @@ tbody tr:hover{
 
 /*marker categories*/
 .category-0{
-  /* Red */
+  /* Green */
   fill: #28a745;
   stroke: #070;
   background: #28a745;
@@ -509,7 +509,7 @@ tbody tr:hover{
   border-color: #005382;
 }
 .category-4{
-  /* Green */
+  /* Purple */
   fill: #ab47bc;
   stroke: #621f6d;
   background: #ab47bc;
@@ -517,10 +517,10 @@ tbody tr:hover{
 }
 .category-5{
   /* grey */
-  fill: #666;
-  stroke: #6660;
-  background: #666;
-  border-color: #6660;
+  fill: #f15d5a;
+  stroke: #f15d5a;
+  background: #f15d5a;
+  border-color: #f15d5a;
 }
 .category-6{
   /* Yellow */
@@ -871,7 +871,7 @@ select#subcategory-dropdown {
     font-family: inherit;
     width: 400px;
     height: 325px;
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.95);
     z-index: 1000;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.17);
 }
