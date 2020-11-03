@@ -276,8 +276,8 @@ class SyncController extends Controller
 				return new Answer($answer);
 			});
 			$data_points = collect($data_point)->except('answers')->toArray();
-			$id = $datapoints->insertGetId($data_points);
-			$answers = $datapoints->find($id)->answers()->saveMany($data);
+            $id = $datapoints->insertGetId($data_points);
+            $answers = $datapoints->find($id)->answers()->saveMany($data);
 			return ["answers" => $answers,"datapoints" => $datapoints];
         });
 
@@ -409,8 +409,8 @@ class SyncController extends Controller
                 $country_id = $partnerships->where('name', $partner['country'])->first();
                 $partnership_id = $partnerships->where('code', $partnership_part)->first();
                 $dt = DataPoint::where('datapoint_id', $datapoint_id)->first();
-
-                if ($country_id === null || $partnership_id === null) {
+                // if ($country_id === null || $partnership_id === null) {
+                if ($country_id === null && $partnership_id === null) {
                     $this->error->push(
                         array(
                             'survey_id' => $form['survey_id'],
@@ -420,7 +420,8 @@ class SyncController extends Controller
                         )
                     );
                 }
-                if ($country_id !== null && $partnership_id !== null) {
+                // if ($country_id !== null && $partnership_id !== null) {
+                if ($country_id !== null || $partnership_id !== null) {
                     $this->success->push(
                         array(
                             'form_id' => $form['form_id'],
@@ -428,7 +429,8 @@ class SyncController extends Controller
                         )
                     );
                 }
-                if (($dt === null || $sync) && $country_id !== null && $partnership_id !== null) {
+                // if (($dt === null || $sync) && $country_id !== null && $partnership_id !== null) {
+                if ($dt === null || $sync) {
                     $this->collections->push(
                         array(
                             'datapoint_id' => $datapoint_id,
