@@ -111,37 +111,39 @@ const generateLang = (questions) => {
             }
         }
         if (x.type === "option") {
-            let listOpt = Array.isArray(x.options.option)
-                ? x.options.option
-                : [x.options.option]
-            listOpt = listOpt.map((c, oi) => {
-                let langopt = {en:c.text};
-                if (c.altText !== undefined) {
-                    let listLangOpt = Array.isArray(c.altText)
-                        ? false
-                        : {[c.altText.language]:c.altText.text}
-                    if (listLangOpt) {
-                        if(!list.includes(c.altText.language)){
-                            list.push(c.altText.language);
+            if (x.options.option !== undefined) {
+                let listOpt = Array.isArray(x.options.option)
+                    ? x.options.option
+                    : [x.options.option]
+                listOpt = listOpt.map((c, oi) => {
+                    let langopt = {en:c.text};
+                    if (c.altText !== undefined) {
+                        let listLangOpt = Array.isArray(c.altText)
+                            ? false
+                            : {[c.altText.language]:c.altText.text}
+                        if (listLangOpt) {
+                            if(!list.includes(c.altText.language)){
+                                list.push(c.altText.language);
+                            }
+                            langopt = {...langopt,...listLangOpt}
+                        } else {
+                            let ix = 0;
+                            do {
+                                langopt = {
+                                    ...langopt,
+                                    [c.altText[ix].language]:c.altText[ix].text
+                                }
+                                if(!list.includes(c.altText[ix].language)){
+                                    list.push(c.altText[ix].language);
+                                }
+                                ix++;
+                            } while (ix < c.altText.length)
                         }
-                        langopt = {...langopt,...listLangOpt}
-                    } else {
-                        let ix = 0;
-                        do {
-                            langopt = {
-                                ...langopt,
-                                [c.altText[ix].language]:c.altText[ix].text
-                            }
-                            if(!list.includes(c.altText[ix].language)){
-                                list.push(c.altText[ix].language);
-                            }
-                            ix++;
-                        } while (ix < c.altText.length)
                     }
-                }
-                return langopt;
-            })
-            x.options.lang = listOpt;
+                    return langopt;
+                })
+                x.options.lang = listOpt;
+            }
         }
         x.lang = lang;
         return x;
@@ -348,7 +350,7 @@ const showHideQuestions = (orig, group) => {
                     show = true
                 }
                 if (answer.filter(a => answer_value.includes(a)).length === 0){
-                    localStorage.removeItem(x.id);
+                    // localStorage.removeItem(x.id);
                     show = false
                 }
             }

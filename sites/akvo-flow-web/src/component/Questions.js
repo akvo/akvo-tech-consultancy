@@ -44,8 +44,10 @@ class Questions extends Component {
         }
         if (answered && question.type === "cascade") {
             answer = JSON.parse(answer);
-            let levels = Array.isArray(question.levels.level) ? question.levels.level.length : 1;
+            let cascadeIsArray = Array.isArray(question.levels.level);
+            let levels = cascadeIsArray ? question.levels.level.length : 1;
             answered = answer.length === levels;
+            return Mandatory(answered);
         }
         answered = validateMinMax(answer, question) !== null;
         answered = answered ? validateDoubleEntry(answer, question) !== null : answered;

@@ -97,15 +97,9 @@ class Home extends Component {
                 this.props.changeSettings({_isLoading:false})
             })
             .catch(error => {
-                if (error.response.status === 403) {
-                    this.props.showError();
-                    setTimeout(() => {
-                        this.setState({_fullscreen: true});
-                    }, 3000);
-                } else {
-                    PopupError("Network Error");
-                    this.props.showError();
-                }
+                console.error(error);
+                PopupError("Network Error");
+                this.props.showError();
             });
     }
 

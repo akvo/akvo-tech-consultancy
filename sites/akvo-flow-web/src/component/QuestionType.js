@@ -314,6 +314,9 @@ class QuestionType extends Component {
     }
 
     getRadio (data, unique) {
+        if (data.options.option === undefined) {
+            return "";
+        }
         let arrayOpt = Array.isArray(data.options.option) ? data.options.option : [data.options.option];
         let opts = {
             ...data.options,
