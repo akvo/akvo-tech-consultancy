@@ -17,6 +17,8 @@ class Registration extends Component {
         this.handlePassword = this.handlePassword.bind(this);
         this.handleMatchPassword = this.handleMatchPassword.bind(this);
         this.handleLogin = this.handleLogin.bind(this);
+        this.updateValidator = this.updateValidator.bind(this);
+        this.updateValidatorAnswer = this.updateValidatorAnswer.bind(this);
         this.state = {
             error: "",
             errors: {
@@ -32,6 +34,8 @@ class Registration extends Component {
                 password: "",
                 password_confirmation: "",
             },
+            validatorAnswer: 0,
+            validatorValue: -1,
         };
     }
 
@@ -46,9 +50,11 @@ class Registration extends Component {
         register(this.state.user)
             .then((res) => {
                 this.setState({ error: "", errors: {email: false, password:false}, verify: res.message});
+                this.updateValidator();
             })
             .catch((err) => {
                 this.setState({ error: err.message, errors: err.errors, verify:false});
+                this.updateValidator();
             });
     }
 
@@ -105,6 +111,33 @@ class Registration extends Component {
         ));
     }
 
+    updateValidator() {
+        const captchaNumber = document.getElementById("captcha-number");
+        console.log(captchaNumber);
+        if (captchaNumber.childNodes[0]) {
+            captchaNumber.removeChild(captchaNumber.childNodes[0]);
+        }
+        let validatorX = Math.floor(Math.random() * 9) + 1;
+        let validatorY = Math.floor(Math.random() * 9) + 1;
+        var canv = document.createElement("canvas");
+        canv.width = 100;
+        canv.height = 50;
+        let ctx = canv.getContext("2d");
+        ctx.font = "35px Georgia";
+        ctx.strokeText(validatorX + "+" + validatorY, 0, 30);
+        this.setState({validatorValue: validatorX + validatorY});
+        captchaNumber.appendChild(canv);
+    }
+
+    updateValidatorAnswer(e) {
+        let value = e.target.value !== "" ? parseInt(e.target.value) : 0;
+        this.setState({validatorAnswer: value})
+    }
+
+    componentDidMount() {
+        this.updateValidator();
+    }
+
 
     render() {
         let error = this.state.error === "" ? false : this.state.error;
@@ -112,6 +145,10 @@ class Registration extends Component {
         if (user.login) {
             return <Redirect to="/" />;
         }
+        let valid = this.state.validatorAnswer === 0
+            ? true
+            : (this.state.validatorAnswer === this.state.validatorValue)
+        let disabled = this.state.validatorAnswer !== this.state.validatorValue;
         return (
             <>
                 <JumbotronWelcome text={false}/>
@@ -173,9 +210,23 @@ class Registration extends Component {
                                                 ? this.renderErrors(this.state.errors.password, "confirm")
                                             : ""}
                                         </Form.Group>
+                                        <Form.Group
+                                            onChange={this.updateValidatorAnswer}
+                                        >
+                                            <div id="captcha-number"></div>
+                                            <Form.Control type="number" placeholder="Enter Value" /> { valid ? "" : (
+                                            <Form.Text className="text-danger">
+                                                Please enter correct value
+                                            </Form.Text>)}
+                                        </Form.Group>
+
                                         <Row>
                                         <Col md={12}>
-                                            <Button variant="success" type="submit">
+                                            <Button
+                                                variant={disabled ? "secondary" : "primary"}
+                                                type="submit"
+                                                disabled={disabled}
+                                            >
                                                 Register
                                             </Button>
                                         </Col>
