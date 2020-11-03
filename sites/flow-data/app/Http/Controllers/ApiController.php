@@ -37,7 +37,23 @@ class ApiController extends Controller
         $endpoint .= '&form_id='.$request->formId;
         $api = new FlowApi($auth);
         $data = $this->fetchAll($api, $endpoint, collect([]));
-        return $data->flatten(1);
+        $data = $data->flatten(1);
+        if ($request->result === "simple") {
+            $data = $data->map(function($d) {
+                $responses = collect($d['responses'])->values();
+                $results = collect();
+                $responses = $responses->each(function($r) use ($results) {
+                    collect($r)->each(function($d) use ($results){
+                        collect($d)->each(function($a, $k) use ($results){
+                            $results[$k] = $a;
+                        });
+                    });
+                });
+                $d["responses"] = $results;
+                return $d;
+            });
+        }
+        return $data;
     }
 
     private function fetchAll($api, $url, $data) {
