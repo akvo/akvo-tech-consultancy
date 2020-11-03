@@ -7,6 +7,10 @@ import { flatFilters, initialNotification } from '../data/utils.js';
 import intersectionBy from "lodash/intersectionBy";
 import JumbotronWelcome from "../components/JumbotronWelcome";
 
+const initialErrors = {
+    new_password: false,
+}
+
 class Setting extends Component {
     constructor(props) {
         super(props);
@@ -14,13 +18,15 @@ class Setting extends Component {
         this.handleNewPassword = this.handleNewPassword.bind(this);
         this.handleConfirmPassword = this.handleConfirmPassword.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.renderErrors = this.renderErrors.bind(this);
         this.state = {
             error: "",
+            errors: initialErrors,
             notification: initialNotification,
             user: {
                 old_password: "",
                 new_password: "",
-                confirm_password: "",
+                new_password_confirmation: "",
             },
             validated :false,
             setValidated: false
@@ -45,9 +51,9 @@ class Setting extends Component {
         let value = e.target.value;
         this.setState((prevState) => {
             if (prevState.user.new_password !== value) {
-                return { user: { ...prevState.user, confirm_password: value }, error: "Password didn't match" };
+                return { user: { ...prevState.user, new_password_confirmation: value }, error: "Password didn't match" };
             }
-            return { user: { ...prevState.user, confirm_password: value }, error: "" };
+            return { user: { ...prevState.user, new_password_confirmation: value }, error: "" };
         });
     }
 
@@ -64,19 +70,48 @@ class Setting extends Component {
             if (token !== null) {
                 let credentials= {
                     password: this.state.user.old_password,
-                    new_password: this.state.user.new_password
+                    new_password: this.state.user.new_password,
+                    new_password_confirmation: this.state.user.new_password_confirmation
                 }
                 updateUser(token, credentials)
                     .then(res => {
-                        this.setState({notification:res});
+                        this.setState({notification:res, errors: initialErrors});
                         setTimeout(() => {
-                            this.setState({notification:initialNotification})
+                            this.setState({notification:initialNotification })
                         }, 3000)
+                    })
+                    .catch(err => {
+                        let errors = err.errors !== undefined ? err.errors : initialErrors;
+                        let notification = {
+                            variant: "danger",
+                            active: true,
+                            message: err.message
+                        }
+                        this.setState({notification: notification, errors: errors})
                     });
             }
         }
         this.setState({validated: true});
     }
+
+    renderErrors(errors, errorType) {
+        if (errorType === "confirm") {
+            errors = errors.filter(x => x.includes("match"));
+        }
+        if (errorType === "password") {
+            errors = errors.filter(x => !x.includes("match"));
+            errors = errors.map((x) => {
+                x = x.includes("invalid") ? "The password must contains Uppercase, lowercase and numeric value" : x;
+                return x;
+            })
+        }
+        return errors.map(x => (
+            <Form.Text key={x} className="text-danger">
+                {x}
+            </Form.Text>
+        ));
+    }
+
 
     render() {
         let error = this.state.error === "" ? false : this.state.error;
@@ -109,7 +144,7 @@ class Setting extends Component {
                         <Col md={user.role === "user" ? 6 : 6}>
                             <Card>
                             <Card.Header>Change Password</Card.Header>
-                            <Form noValidate validated={this.state.validated} onSubmit={this.handleSubmit}>
+                            <Form onSubmit={this.handleSubmit}>
                             <Card.Body>
                                 <Form.Group controlId="formBasicEmail">
                                     <Form.Label>Email address</Form.Label>
@@ -123,9 +158,9 @@ class Setting extends Component {
                                 <Form.Group controlId="formBasicNewPassword" onChange={this.handleNewPassword}>
                                     <Form.Label>New Password</Form.Label>
                                     <Form.Control type="password" placeholder="New Password" required />
-                                    <Form.Control.Feedback type="invalid">
-                                        Password didn't match
-                                    </Form.Control.Feedback>
+                                    {this.state.errors.new_password
+                                        ? this.renderErrors(this.state.errors.new_password, "password")
+                                        : ""}
                                 </Form.Group>
                                 <Form.Group
                                     controlId="formBasicConfirmPassword"
@@ -133,9 +168,9 @@ class Setting extends Component {
                                 >
                                     <Form.Label>Confirm Password</Form.Label>
                                     <Form.Control type="password" placeholder="Confirm Password" required />
-                                    <Form.Control.Feedback type="invalid">
-                                        Password didn't match
-                                    </Form.Control.Feedback>
+                                    {this.state.errors.new_password
+                                        ? this.renderErrors(this.state.errors.new_password, "confirm")
+                                        : ""}
                                 </Form.Group>
                             </Card.Body>
                             <Card.Footer>

@@ -111,4 +111,9 @@ return [
         ],
     ],
 
+    'members' => [
+        'idhtrade.org',
+        'akvo.org'
+    ]
+
 ];

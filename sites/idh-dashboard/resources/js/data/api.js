@@ -69,6 +69,45 @@ export const queueApi = (index, urls, length, callback, params = []) => {
     }
 };
 
+export const forgot = (data) => {
+    return new Promise((resolve, reject) => {
+        axios
+            .post("/api/auth/forgot-password", data)
+            .then((res) => {
+                if (res.status === 200) {
+                    resolve({message: res.data.message, verify: true});
+                }
+            })
+            .catch((error) => {
+                if (error.response) {
+                    reject({message: error.response.data.message, verify:false})
+                } else {
+                    reject({message: "Internal Server Error", verify:false});
+                }
+            });
+    });
+}
+
+export const updatePassword = (data) => {
+    return new Promise((resolve, reject) => {
+        axios
+            .post("/api/auth/new-password", data)
+            .then((res) => {
+                if (res.status === 200) {
+                    resolve({message: res.data.message, verify: true, errors: {password: false}});
+                }
+            })
+            .catch((error) => {
+                if (error.response) {
+                    let errors = error.response.data.errors ? error.response.data.errors : {password:false};
+                    reject({message: error.response.data.message, verify:false, errors: errors})
+                } else {
+                    reject({message: "Internal Server Error", verify:false, errors: {password:false}});
+                }
+            });
+    });
+}
+
 export const register = (data) => {
     return new Promise((resolve, reject) => {
         axios
@@ -161,7 +200,7 @@ export const updateUser = (access_token, credentials) => {
                 resolve({variant: "success", message:res.data.message, active:true})
             })
             .catch((err) => {
-                resolve({variant: "danger", message:"invalid password", active:true})
+                reject({message:err.response.data.message, active:true, errors: err.response.data.errors})
             })
 
     });

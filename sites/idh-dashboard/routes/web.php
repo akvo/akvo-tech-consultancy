@@ -30,3 +30,7 @@ Route::get('/country/{country}/{company}/{tab}', function(){
 Route::get('/verify/{verifyToken}', function(){
     return view('index');
 })->name('verify');
+
+Route::get('/forgot_password/{verifyToken}', function(){
+    return view('index');
+})->name('create_password');

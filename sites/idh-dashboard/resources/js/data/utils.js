@@ -28,5 +28,5 @@ export const randomVal = () => {
 export const initialNotification = {
     variant: "success",
     message: "",
-    active: false
+    active: false,
 }

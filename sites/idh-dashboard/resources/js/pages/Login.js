@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Route, Redirect } from "react-router-dom";
+import { Link, Route, Redirect } from "react-router-dom";
 import { mapStateToProps, mapDispatchToProps } from "../reducers/actions";
 import { Row, Col, Form, Button, Alert, Card } from "react-bootstrap";
 import { login } from "../data/api";
@@ -115,8 +115,10 @@ class Login extends Component {
                                                 </Button>
                                             </Col>
                                             <Col md={5} className="text-right">
+                                                <Link to="/forgot_password">
                                                 <FontAwesomeIcon className="mr-2" icon={["fas", "key"]} />
                                                 Forgot Password
+                                                </Link>
                                             </Col>
                                         </Row>
                                     </Form>

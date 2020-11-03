@@ -7,11 +7,12 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use App\Models\Log as Logs;
+use App\Helpers\Mails;
 
 class AuthController extends Controller
 {
 
-    public function register(Request $request) {
+    public function register(Request $request, Mails $mails) {
         $request->validate([
             'firstName' => ['required', 'string', 'max:255'],
             'lastName' => ['required', 'string', 'max:255'],
@@ -19,44 +20,28 @@ class AuthController extends Controller
             'password' => ['required', 'string', 'min:8', 'regex:/[a-z]/', 'regex:/[A-Z]/', 'regex:/[0-9]/', 'confirmed'],
         ]);
         $token = Str::random(60); 
+        $role= 'guest';
+        foreach(config('mail.members') as $domain) {
+            $role = Str::contains($request->email, $domain) ? 'staff' : $role;
+        }
         $user = \App\Models\User::create([
             'name' => $request->firstName .' '. $request->lastName,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => 'guest',
+            'role' => $role,
             'remember_token' => $token,
         ]);
 
-        $mj = new \Mailjet\Client(
-            env('MAILJET_APIKEY'), 
-            env('MAILJET_APISECRET'), 
-            true,
-            ['version' => 'v3']
-        );
+        $recipients = [[ 'Email' => $request->email, 'Name' => $request->lastName ]];
         $website = config('app.url');
-        $confirmUrl = $website .'/api/verify/'. $token;
-        $body = [
-            'FromName' =>  config('mail.from.name'),
-            'FromEmail' =>  config('mail.from.address'),
-            'Subject' => "IDH User Registration Verification",
-            'Html-part' => "
-                <p>Hi $request->lastName</p>
-                <p>Your email $request->email has been associated with $website</p>
+        $endpoint = $website . '/verify/' . $token;
+        $body = "
+                <p>Hi $request->lastName</p>, <p>Your email has been associated with $website</p>
                 <p>Please verify your email from the link below</p></hr>
-                <p><a href='$confirmUrl'>$confirmUrl</a></p>
-            ",
-            'Text-part' => "Hi $request->lastName, Your email $request->email has been associated with $website. Please verify your email from the link $confirmUrl",
-            'Recipients' => [
-                [
-                    'Email' => $request->email,
-                    'Name' => $request->lastName
-                ]
-            ]
-        ];
-
-        $result = false;
-        $response =  $mj->post(\Mailjet\Resources::$Email, ['body' => $body]);
-        $result = $response->getData();
+        ";
+        $text = "Hi $request->lastName, Your email has been associated with $website. Please verify your email from the following link: ";
+        $subject = "IDH Farmfit: User Registration Verification";
+        $result = $mails->sendEmail($recipients, $endpoint, $subject, $body, $text);
 
         return response (['message' => 'Success, Please verify your email address', 'result' => $result, 'body' => $body]);
     }
@@ -75,11 +60,50 @@ class AuthController extends Controller
         return response(['message' => 'The link is expired'], 401);
     }
 
+    public function forgotPassword(Request $request, Mails $mails) {
+        $user = \App\Models\User::where('email', $request->email)->first();
+        if ($user) {
+            $token = Str::random(60);
+            $user->update([
+                'active' => true,
+                'email_verified_at' => now(),
+                'remember_token' => $token
+            ]);
+            $recipients = [[ 'Email' => $user->email, 'Name' => $user->lastName ]];
+            $endpoint = config('app.url') . '/forgot_password/' . $token;
+            $subject = "IDH Farmfit Account: Create New Password";
+            $body = "Hi $user->lastName, <p>Please open the link below to change your password.</p>";
+            $text = "Hi $user->lastName, Please open the link below to change your password.";
+            $response = $mails->sendEmail($recipients, $endpoint, $subject, $body, $text);
+            return response([
+                'message' => 'Hi ' .$user->name.', please check your email', 'mails' => $response
+            ]);
+        }
+        return response(['message' => 'User not found'], 401);
+    }
+
+    public function newPassword(Request $request) {
+        $request->validate([
+            'password' => ['required', 'string', 'min:8', 'regex:/[a-z]/', 'regex:/[A-Z]/', 'regex:/[0-9]/', 'confirmed'],
+        ]);
+        $user = \App\Models\User::where('remember_token', $request->token)->first();
+        if ($user) {
+            $user->update([
+                'password' => Hash::make($request->password),
+                'remember_token' => Str::random(60)
+            ]);
+            return response([
+                'message' => 'Hi ' .$user->name.', your password has been changed, redirecting page.'
+            ]);
+        }
+        return response(['message' => 'User not found'], 401);
+    }
+
     public function login(Request $request)
     {
         $credentials = $request->validate([
             'email' => 'email|required',
-            'password' => 'required'
+            'password' => 'required',
         ]);
         if (!Auth::attempt($credentials)) {
             return response([
@@ -117,7 +141,7 @@ class AuthController extends Controller
     {
         $credentials = $request->validate([
             'password' => 'required',
-            'new_password' => 'required'
+            'new_password' => ['required_with:new_password_confirmation', 'same:new_password_confirmation', 'string', 'min:8', 'regex:/[a-z]/', 'regex:/[A-Z]/', 'regex:/[0-9]/'],
         ]);
         if (!Auth::user()) {
             return response(['message' => 'session is expired'], 401);

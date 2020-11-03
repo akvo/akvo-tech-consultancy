@@ -112,7 +112,6 @@ class Registration extends Component {
         if (user.login) {
             return <Redirect to="/" />;
         }
-        console.log(this.state);
         return (
             <>
                 <JumbotronWelcome text={false}/>
