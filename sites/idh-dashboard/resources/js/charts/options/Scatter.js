@@ -44,7 +44,6 @@ export const Scatter = (title, data) => {
                 type: "scatter",
             },
         ],
-        ...dataZoom,
         ...Color,
         ...Easing,
         ...backgroundColor,

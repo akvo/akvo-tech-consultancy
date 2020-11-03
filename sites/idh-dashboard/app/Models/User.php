@@ -30,6 +30,8 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'active',
+        'remember_token',
     ];
 
     /**
@@ -60,6 +62,11 @@ class User extends Authenticatable
 
     public function forms() {
         return $this->hasMany('App\Models\UserForm');
+    }
+
+    public function downloads() {
+        return $this->hasMany('App\Models\Log')
+                    ->select('user_id','form_id as fid','created_at as at');
     }
 
 }

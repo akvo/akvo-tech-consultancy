@@ -18,7 +18,7 @@ export const Easing = {
 export const TextStyle = {
     textStyle: {
         color: "#222",
-        fontFamily: "Open Sans",
+        fontFamily: "Gotham",
         fontSize: 14,
     },
 };
@@ -32,7 +32,7 @@ export const Legend = {
     x: "center",
     top: "50px",
     textStyle: {
-        fontFamily: "Open Sans",
+        fontFamily: "Gotham",
         fontWeight: 300,
         fontSize: 12,
     },

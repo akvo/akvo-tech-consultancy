@@ -2,10 +2,7 @@
     "name": "laravel/laravel",
     "type": "project",
     "description": "The Laravel Framework.",
-    "keywords": [
-        "framework",
-        "laravel"
-    ],
+    "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
         "php": "^7.3",
@@ -19,7 +16,8 @@
         "laravel/sanctum": "^2.6",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^3.0",
-        "league/csv": "^9.6"
+        "league/csv": "^9.6",
+        "thedoctor0/laravel-mailjet-driver": "^1.0"
     },
     "require-dev": {
         "facade/ignition": "^2.3.6",
@@ -53,15 +51,8 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "scripts": {
-        "post-autoload-dump": [
-            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi"
-        ],
-        "post-root-package-install": [
-            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
-        ],
-        "post-create-project-cmd": [
-            "@php artisan key:generate --ansi"
-        ]
+        "post-autoload-dump": ["Illuminate\\Foundation\\ComposerScripts::postAutoloadDump", "@php artisan package:discover --ansi"],
+        "post-root-package-install": ["@php -r \"file_exists('.env') || copy('.env.example', '.env');\""],
+        "post-create-project-cmd": ["@php artisan key:generate --ansi"]
     }
 }
