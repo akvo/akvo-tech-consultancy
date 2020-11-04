@@ -22,3 +22,15 @@ Route::get('{path?}', function(){
 })->where('{path}', '^((?!api).)*$')
   ->where('{path}', '^((?!files).)*$')
   ->name('home');
+
+Route::get('/country/{country}/{company}/{tab}', function(){
+    return view('index');
+})->name('country');
+
+Route::get('/verify/{verifyToken}', function(){
+    return view('index');
+})->name('verify');
+
+Route::get('/forgot_password/{verifyToken}', function(){
+    return view('index');
+})->name('create_password');

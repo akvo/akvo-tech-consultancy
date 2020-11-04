@@ -39,21 +39,17 @@ const Maps = (title, data) => {
             realtime: false,
             calculable: true,
             inRange: {
-                color: ["#ffc107", Color.color[0]],
+                color: ["#c4ddf4", Color.color[0]],
             },
         },
         toolbox: {
             ...ToolBox.toolbox,
-            feature: {
-                saveAsImage: ToolBox.toolbox.feature.saveAsImage,
-                ...ToolBoxMaps,
-            },
         },
         series: [
             {
                 name: title,
                 type: "map",
-                roam: "move",
+                roam: false,
                 map: data.maps,
                 aspectScale: 1,
                 emphasis: {
@@ -63,7 +59,7 @@ const Maps = (title, data) => {
                 },
                 zoom: 1,
                 itemStyle: {
-                    areaColor: "#f1f1f5",
+                    areaColor: "#f0f5fb",
                     emphasis: {
                         areaColor: "#ffc107",
                         shadowColor: "rgba(0, 0, 0, 0.5)",
@@ -73,9 +69,9 @@ const Maps = (title, data) => {
                 data: records,
             },
         ],
+        backgroundColor: "#FFFFFF",
         ...Color,
         ...Easing,
-        ...backgroundColor,
     };
 };
 

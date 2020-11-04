@@ -32,7 +32,7 @@ export const mapDispatchToProps = (dispatch) => {
                     dispatch({
                         type: "PAGE - COMPARE RESET ITEM"
                     })
-            },
+            }
         },
         user: {
             login: (user) =>

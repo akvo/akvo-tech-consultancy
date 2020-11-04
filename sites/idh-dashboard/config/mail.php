@@ -53,6 +53,10 @@ return [
             'transport' => 'mailgun',
         ],
 
+        'mailjet' => [
+            'transport' => 'mailjet'
+        ],
+
         'postmark' => [
             'transport' => 'postmark',
         ],
@@ -106,5 +110,10 @@ return [
             resource_path('views/vendor/mail'),
         ],
     ],
+
+    'members' => [
+        'idhtrade.org',
+        'akvo.org'
+    ]
 
 ];

@@ -69,6 +69,67 @@ export const queueApi = (index, urls, length, callback, params = []) => {
     }
 };
 
+export const forgot = (data) => {
+    return new Promise((resolve, reject) => {
+        axios
+            .post("/api/auth/forgot-password", data)
+            .then((res) => {
+                if (res.status === 200) {
+                    resolve({message: res.data.message, verify: true});
+                }
+            })
+            .catch((error) => {
+                if (error.response) {
+                    reject({message: error.response.data.message, verify:false})
+                } else {
+                    reject({message: "Internal Server Error", verify:false});
+                }
+            });
+    });
+}
+
+export const updatePassword = (data) => {
+    return new Promise((resolve, reject) => {
+        axios
+            .post("/api/auth/new-password", data)
+            .then((res) => {
+                if (res.status === 200) {
+                    resolve({message: res.data.message, verify: true, errors: {password: false}});
+                }
+            })
+            .catch((error) => {
+                if (error.response) {
+                    let errors = error.response.data.errors ? error.response.data.errors : {password:false};
+                    reject({message: error.response.data.message, verify:false, errors: errors})
+                } else {
+                    reject({message: "Internal Server Error", verify:false, errors: {password:false}});
+                }
+            });
+    });
+}
+
+export const register = (data) => {
+    return new Promise((resolve, reject) => {
+        axios
+            .post("/api/auth/register", data)
+            .then((res) => {
+                if (res.status === 200) {
+                    resolve({message: res.data.message, success: true});
+                } else {
+                    reject({message: res.data.message, errors:res.data.errors, success: false});
+                }
+                return res;
+            })
+            .catch((error) => {
+                if (error.response) {
+                    reject({message: error.response.data.message, errors:error.response.data.errors, success: false})
+                } else {
+                    reject({message: "Internal Server Error", errors: false, success: false});
+                }
+            });
+    });
+}
+
 export const login = (credentials) => {
     return new Promise((resolve, reject) => {
         axios
@@ -83,7 +144,7 @@ export const login = (credentials) => {
             .catch((error) => {
                 if (error.response) {
                     let err = error.response.data;
-                    reject({ error: err.message });
+                    reject({ error: err.message, verify: err.verify });
                 }
             });
     });
@@ -125,3 +186,102 @@ export const auth = (access_token) => {
             });
     });
 };
+
+export const updateUser = (access_token, credentials) => {
+    return new Promise((resolve, reject) => {
+        axios
+            .post("/api/user/update", credentials, {
+                headers: {
+                    Accept: "application/json",
+                    Authorization: "Bearer " + access_token,
+                },
+            })
+            .then((res) => {
+                resolve({variant: "success", message:res.data.message, active:true})
+            })
+            .catch((err) => {
+                reject({message:err.response.data.message, active:true, errors: err.response.data.errors})
+            })
+
+    });
+}
+
+export const getUser = (access_token) => {
+    return new Promise((resolve, reject) => {
+        axios
+            .post("/api/user/list", false,{
+                headers: {
+                    Accept: "application/json",
+                    Authorization: "Bearer " + access_token,
+                },
+            })
+            .then((res) => {
+                resolve(res.data)
+            })
+            .catch((err) => {
+                resolve("unauthorized")
+            })
+    })
+}
+
+export const accessUser = (access_token, data) => {
+    return new Promise((resolve, reject) => {
+        axios
+            .post("/api/user/access", data, {
+                headers: {
+                    Accept: "application/json",
+                    Authorization: "Bearer " + access_token,
+                },
+            })
+            .then((res) => {
+                resolve({variant: "success", message:res.data.message, active:true})
+            })
+            .catch((err) => {
+                resolve({variant: "danger", message:"user not found", active:true})
+            })
+    })
+}
+
+export const userDownload = (form_id) => {
+    const access_token = localStorage.getItem("access_token");
+    if (access_token === null) {
+        return;
+    }
+    return new Promise((resolve, reject) => {
+        axios
+            .post("/api/download", {form_id: parseInt(form_id)}, {
+                headers: {
+                    Accept: "application/json",
+                    Authorization: "Bearer " + access_token,
+                },
+            })
+            .then((res) => {
+                resolve("recorded");
+            })
+            .then((err) => {
+                resolve("not recorded");
+            })
+    })
+}
+
+export const userLogs = () => {
+    const access_token = localStorage.getItem("access_token");
+    if (access_token === null) {
+        return;
+    }
+    return new Promise((resolve, reject) => {
+        axios
+            .post("/api/logs", {},{
+                headers: {
+                    Accept: "application/json",
+                    Authorization: "Bearer " + access_token,
+                },
+            })
+            .then((res) => {
+                resolve(res.data);
+            })
+            .then((err) => {
+                resolve(err);
+            })
+    })
+}
