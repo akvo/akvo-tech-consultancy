@@ -88,10 +88,9 @@ b, strong {
     display: block;
     text-align: center;
     margin: auto;
-    color: #0072c6;
     font-weight: 500;
     margin-bottom: 2rem;
-    border-bottom: solid 5px #0072c6;
+    border-bottom: solid 5px #36AA40;
 }
 
 .form-control {
@@ -103,7 +102,8 @@ b, strong {
 }
 
 .btn.btn-primary {
-    background: #0174c6 !important;
+    background: #36AA40 !important;
+    border: none!important;
     color: #FFF !important;
 }
 
@@ -121,7 +121,7 @@ b, strong {
 .dropdown-item.active,
 .dropdown-item:active {
     background-color: #fff !important;
-    color: #0072c6 !important;
+    color: #36AA40 !important;
     font-weight: 500;
 }
 
@@ -146,7 +146,7 @@ a.dropdown-toggle.nav-link div {
 }
 
 .NavBlue {
-    background-color: #0072c6;
+    background-color: #36AA40;
     box-shadow: 0 0 8px 1px black;
 }
 
@@ -159,12 +159,12 @@ a.dropdown-toggle.nav-link div {
 }
 
 .active.dropdown.nav-item{
-    background-color:#002e56!important;
+    background-color:#005940!important;
 }
 
 .nav-link.active {
     color: #fff !important;
-    background-color:#002e56!important;
+    background-color:#005940!important;
     font-weight: 500;
 }
 
@@ -245,7 +245,7 @@ a.dropdown-toggle.nav-link div {
 }
 
 .card-info {
-    background: #0072c6;
+    background: #36AA40;
     color: #fff;
     padding: 12px;
     border-bottom: #ddd solid 1px;
@@ -273,7 +273,7 @@ h2.extra-counter {
     margin-bottom: 2vh !important;
     border-top: 5px solid #00adef;
     background: #e6e6e6;
-    color: #0174c6;
+    color: #36AA40;
     font-size: 40px;
     display: block;
 }
@@ -416,7 +416,7 @@ span.span-link{
 }
 
 .nav-jumbotron.nav a.nav-link {
-    color: #0174c6 !important;
+    color: #36AA40 !important;
     background: #fff;
     font-weight: 500;
     border-right: 1px solid #ddd;
@@ -436,9 +436,9 @@ span.span-link{
 
 .nav-jumbotron.nav a.nav-link.active,
 .nav-jumbotron.nav a.nav-link:hover {
-    background: #0174c6 !important;
+    background: #36AA40 !important;
     color: #fff !important;
-    border-bottom: solid 2px #0174c6 !important;
+    border-bottom: solid 2px #36AA40 !important;
 }
 
 .echarts-for-react h4 {
@@ -454,6 +454,7 @@ span.span-link{
 }
 
 .text-highlight {
+    color: #36AA40;
     background: #f0f5fb;
     padding-left: 4px;
     padding-right: 2px;
@@ -504,7 +505,7 @@ span.span-link{
 }
 
 .rdt_TableHeadRow {
-    background-color: #0072C6!important;
+    background-color: #36AA40!important;
 }
 
 .rdt_TableCell {
