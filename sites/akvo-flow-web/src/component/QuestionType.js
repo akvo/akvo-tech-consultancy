@@ -510,14 +510,13 @@ class QuestionType extends Component {
     }
 
     getCascadeDropdown(lv, ix, selected_value, init) {
-        let optlev = this.props.data.levels.level;
         if (this.props.data.type === "cascade") {
             let url = API_URL + 'cascade/' + this.props.value.instanceName + '/' + this.props.data.cascadeResource + '/' + lv
             let options = "options_" + lv
             let cascade = "cascade_" + ix
             let availcasc = this.props.value.cascade;
             let isavailable = false;
-            let res;
+            let res = false;
             if (availcasc.length > 0) {
                 isavailable = true;
             }
@@ -526,21 +525,10 @@ class QuestionType extends Component {
                     return x.url === url;
                 });
             }
-            if (res) {
-                try {
-                    this.setState({
-                        [options]: res.data,
-                        [cascade]: [options],
-                        value: (res.data[ix] === undefined) ? res.data[0]['id'] : res.data[ix]['id'],
-                        levels: Array.isArray(optlev) ? optlev.length - 1 : 0
-                    })
-                } catch (err) {
-                    localStorage.removeItem(this.props.data.id)
-                }
-            }
-            if (res === undefined) {
+            if (!res) {
                 this.fetchCascade(lv, ix, url, options, cascade, selected_value, init);
             }
+            return;
         }
     }
 
@@ -568,8 +556,8 @@ class QuestionType extends Component {
             })
             if (init) {
                 let selected = this.state.cascade_selected;
-                selected[ix] = selected_value;
-                this.setState({cascade_selected: selected})
+                this.setState({cascade_selected: selected});
+                return;
             }
         })
     }
