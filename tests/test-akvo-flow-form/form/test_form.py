@@ -5,7 +5,7 @@ import pytest
 
 @pytest.fixture(scope="class")
 def setup():
-    data = Setup(str(356020954))
+    data = Setup(356020954)
     data.read_xml()
     data.fetch_webform()
     return data
