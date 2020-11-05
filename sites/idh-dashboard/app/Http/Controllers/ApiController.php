@@ -17,7 +17,7 @@ class ApiController extends Controller
 {
     public function filters(Form $form)
     {
-        $data = $form->get()->groupBy('country');
+        $data = $form->withCount('formInstances as total')->get()->groupBy('country');
         $data = collect($data)->map(function($list, $key){
             return [
                 'name' => $key,

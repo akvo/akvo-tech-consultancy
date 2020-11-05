@@ -67,6 +67,7 @@ class Home extends Component {
                                     <th>Country</th>
                                     <th>Crop</th>
                                     <th>Company</th>
+                                    <th>Total Submission</th>
                                     <th>Action</th>
                                     </tr>
                                 </thead>
@@ -76,6 +77,7 @@ class Home extends Component {
                                     <td>{x.country}</td>
                                     <td>{x.kind}</td>
                                     <td>{x.company}</td>
+                                    <td>{x.total}</td>
                                         <td>
                                         <a target="_blank" href={"/country/" + x.country + "/" + x.id + "/overview"} className="btn btn-sm btn-primary btn-block">
                                             View
