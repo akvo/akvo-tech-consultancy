@@ -4,6 +4,13 @@ import pytest
 import requests as r
 
 
+@pytest.fixture()
+def data_setup():
+    import requests as r
+    webform = r.get(
+        'https://tech-consultancy.akvo.org/akvo-flow-web-api/seap/356020954/update')
+
+
 class TestForm:
     formId = str(356020954)
 
