@@ -1,15 +1,24 @@
 import xmltodict
 import json
 import pytest
+import requests as r
 
 
 class TestForm:
+    formId = str(356020954)
+
+    def test_webform_connection(self):
+        webform = r.get(
+            'https://tech-consultancy.akvo.org/akvo-flow-web-api/seap/356020954/update')
+        assert webform.status_code == 200
+
     def test_element_exists(self):
         with open('data/356020954.xml') as fd:
             xmlData = xmltodict.parse(fd.read())
 
-        with open('data/356020954.json') as json_file:
-            jsonData = json.load(json_file)
+        webform = r.get(
+            'https://tech-consultancy.akvo.org/akvo-flow-web-api/seap/356020954/update')
+        jsonData = webform.json()
 
         for element in xmlData['survey']:
             index = element.replace('@', '')
@@ -19,8 +28,9 @@ class TestForm:
         with open('data/356020954.xml') as fd:
             xmlData = xmltodict.parse(fd.read())
 
-        with open('data/356020954.json') as json_file:
-            jsonData = json.load(json_file)
+        webform = r.get(
+            'https://tech-consultancy.akvo.org/akvo-flow-web-api/seap/356020954/update')
+        jsonData = webform.json()
 
         for element in xmlData['survey']:
             if xmlData['survey'][element] is not None:
@@ -30,8 +40,9 @@ class TestForm:
         with open('data/356020954.xml') as fd:
             xmlData = xmltodict.parse(fd.read())
 
-        with open('data/356020954.json') as json_file:
-            jsonData = json.load(json_file)
+        webform = r.get(
+            'https://tech-consultancy.akvo.org/akvo-flow-web-api/seap/356020954/update')
+        jsonData = webform.json()
 
         for element in xmlData['survey']:
             assert isinstance(jsonData[element.replace(
@@ -41,14 +52,16 @@ class TestForm:
         with open('data/356020954.xml') as fd:
             xmlData = xmltodict.parse(fd.read())
 
-        with open('data/356020954.json') as json_file:
-            jsonData = json.load(json_file)
+        webform = r.get(
+            'https://tech-consultancy.akvo.org/akvo-flow-web-api/seap/356020954/update')
+        jsonData = webform.json()
         assert 1
 
     def test_list_with_single_element(self):
         with open('data/356020954.xml') as fd:
             xmlData = xmltodict.parse(fd.read())
 
-        with open('data/356020954.json') as json_file:
-            jsonData = json.load(json_file)
+        webform = r.get(
+            'https://tech-consultancy.akvo.org/akvo-flow-web-api/seap/356020954/update')
+        jsonData = webform.json()
         assert 1
