@@ -127,7 +127,7 @@ const toursteps = (act) => {
             selector: '[data-tour="switcher-multi-country"]',
             content: ({ goTo, inDOM }) => (
               <div className="col-tour">
-                  <p>Include/Exclude  actions imbeing implemetnted across multiple countries</p>
+                  <p>Include/Exclude  actions being implemented across multiple countries</p>
               </div>
             ),
             position: 'bottom',
