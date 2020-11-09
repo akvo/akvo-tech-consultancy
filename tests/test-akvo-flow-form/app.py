@@ -1,12 +1,14 @@
 from flask import Flask, jsonify, render_template, request
 from flask_socketio import SocketIO, emit
 from subprocess import Popen, PIPE
+from flask_cors import CORS
 
 import logging
 import threading
 import os
 
 app = Flask(__name__)
+CORS(app)
 socketio = SocketIO(app, async_mode="threading")
 logging.basicConfig(level=logging.WARN)
 
@@ -79,5 +81,5 @@ def update():
 
 
 if __name__ == "__main__":
-    app.config.update(DEBUG=True, sync_mode=socketio.async_mode)
+    app.config.update(DEBUG=True)
     socketio.run(app, host="0.0.0.0", port=3000, debug=True)
