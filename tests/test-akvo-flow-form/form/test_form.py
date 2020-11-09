@@ -16,35 +16,34 @@ class TestForm:
         assert setup.webform.status_code == 200
 
     def test_element_exists(self, setup):
-        xmlData = setup.xmldata['survey']
+        xmlData = setup.xmldata["survey"]
         jsonData = setup.webform.json()
 
         for element in xmlData:
-            index = element.replace('@', '')
+            index = element.replace("@", "")
         assert index in jsonData
 
     def test_value_exists(self, setup):
-        xmlData = setup.xmldata['survey']
+        xmlData = setup.xmldata["survey"]
         jsonData = setup.webform.json()
 
         for element in xmlData:
             if xmlData[element] is not None:
-                assert jsonData[element.replace('@', '')] is not None
+                assert jsonData[element.replace("@", "")] is not None
 
     def test_json_data_type_match(self, setup):
-        xmlData = setup.xmldata['survey']
+        xmlData = setup.xmldata["survey"]
         jsonData = setup.webform.json()
 
         for element in xmlData:
-            assert isinstance(jsonData[element.replace(
-                '@', '')], type(xmlData[element]))
+            assert isinstance(jsonData[element.replace("@", "")], type(xmlData[element]))
 
     def test_translation_exists(self, setup):
-        xmlData = setup.xmldata['survey']
+        xmlData = setup.xmldata["survey"]
         jsonData = setup.webform.json()
         assert 1
 
     def test_list_with_single_element(self, setup):
-        xmlData = setup.xmldata['survey']
+        xmlData = setup.xmldata["survey"]
         jsonData = setup.webform.json()
         assert 1
