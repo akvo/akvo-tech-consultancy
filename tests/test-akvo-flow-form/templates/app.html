@@ -11,14 +11,18 @@
         background: #000;
     }
     button{
-        display:None;
-        min-width: 100%;
-        padding: 6px 5px 5px 0;
+        padding: 10px;
+        display: None;
         color: #FFF;
         font-size: 12px;
         font-weight: bold;
         background-image: linear-gradient(#009900, #009900);
+        border: none;
         cursor: pointer;
+        position: absolute;
+        margin: 10px;
+        right: 0px;
+        border-radius: 5px;
     }
     button.active{
         color: #FFF;
@@ -47,8 +51,8 @@
 </style>
 </head>
 <body>
-    <button id="disabled" class="active" href="#">TEST IS RUNNING</button>
-    <button id="trigger" href="#">RUN TEST</button>
+    <button id="disabled" class="active" disabled>TEST IS RUNNING</button>
+    <button id="trigger">RUN TEST</button>
     <div id="update"><span class="status"></span></div>
 
 <script type="text/javascript">
@@ -82,8 +86,7 @@
     });
 
 $("#trigger" ).on('click', function() {
-    let current = $('.status').html();
-    $('.status').html( current + '</br>RUNNING THE TEST');
+    $('.status').html('RUNNING THE TEST');
     $.ajax({
         type: "GET",
         url: window.location.pathname + "update",
