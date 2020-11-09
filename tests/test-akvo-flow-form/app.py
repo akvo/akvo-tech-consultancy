@@ -37,7 +37,7 @@ def startUpdate():
         try:
             bthread("\n--- TEST IS RUNNING ---\n", 'output')
             test_is_running = True
-            processing("./run.sh")
+            processing("./test.sh")
         except:
             bthread("\n--- INTERNAL SERVER ERROR ---\n", 'error')
     finally:
