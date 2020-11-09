@@ -8,4 +8,3 @@ RUN pip install --upgrade pip && \
 COPY . .
 
 RUN ["./run.sh"]
-CMD [ "python", "app.py" ]
