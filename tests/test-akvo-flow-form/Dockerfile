@@ -9,4 +9,4 @@ RUN pip install --upgrade pip && \
 COPY . .
 
 RUN ["./test.sh"]
-RUN ["./run.sh"]
+CMD ["sh","./run.sh"]
