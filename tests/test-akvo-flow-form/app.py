@@ -1,9 +1,10 @@
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, render_template, request
 from flask_socketio import SocketIO, emit
 from subprocess import Popen, PIPE
 
 import logging
 import threading
+import os
 
 app = Flask(__name__)
 socketio = SocketIO(app, async_mode="threading")
@@ -24,10 +25,10 @@ def connect():
 def processing(command):
     cmd = Popen(command, shell=True, stderr=PIPE, stdout=PIPE, cwd='./')
     for line in iter(cmd.stdout.readline, b''):
-        line = line.decode('utf-8')
+        line = line.decode('utf-8').rstrip()
         bthread(line, 'output')
     for line in iter(cmd.stderr.readline, b''):
-        line = line.decode('utf-8')
+        line = line.decode('utf-8').rstrip()
         bthread(line, 'error')
     return True
 
@@ -47,10 +48,26 @@ def startUpdate():
         bthread("\n--- EXIT ---\n", 'output')
     return True
 
+def recursive_glob(suffix='', rootdir='.'):
+    return [os.path.join(looproot, filename)
+            for looproot, _, filenames in os.walk(rootdir)
+            for filename in filenames if filename.endswith(suffix)]
 
 @app.route("/")
 def main():
     return render_template("app.html", data={"job": False}, sync_mode=socketio.async_mode)
+
+@app.route("/code", methods=['POST'])
+def code():
+    if request.method == 'POST':
+        req = request.form['data'];
+        cfiles = recursive_glob(req)[0]
+        thecode = Popen('cat ' + cfiles, shell=True, stderr=PIPE, stdout=PIPE, cwd='./')
+        thelines = [];
+        for line in iter(thecode.stdout.readline, b''):
+            thelines.append(line.decode('utf-8').rstrip())
+        return jsonify({"response": True, "data": thelines})
+    return jsonify({"response": False, "data": None})
 
 @app.route("/update")
 def update():
@@ -62,5 +79,5 @@ def update():
 
 
 if __name__ == "__main__":
-    app.config.update(DEBUG=True)
+    app.config.update(DEBUG=True, sync_mode=socketio.async_mode)
     socketio.run(app, host="0.0.0.0", port=3000, debug=True)

@@ -3,6 +3,7 @@ WORKDIR /usr/src/app
 
 COPY requirements.txt ./
 RUN pip install --upgrade pip && \
+    pip install --upgrade pip wheel && \
     pip install --no-cache-dir -r requirements.txt
 
 COPY . .

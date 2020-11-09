@@ -6,7 +6,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/socket.io-client@2/dist/socket.io.js" crossorigin="anonymous"></script>
 <style>
+    html,
     body{
+        width: 100%;
+        height: 100%;
         margin:0px;
         background: #000;
     }
@@ -29,15 +32,37 @@
         background-image: linear-gradient(#bb2929, #760100);
     }
     #update{
-        max-width:100%;
-        width:100%;
+        max-width: 100%;
+        width: 100%;
+        min-height: 100%;
+        height: 100%;
     }
+    div.code,
     span.status{
         display: block;
         padding: 5px 5px 5px 20px;
         background: #000;
         color: #FFF;
         font-family: monospace;
+        -webkit-user-modify: read-write-plaintext-only;
+    }
+    div.code {
+        display:none;
+        max-width: 50%;
+        position: absolute;
+        top: 20px;
+        z-index: 1;
+        padding: 20px;
+        background: #ffffff;
+        color: #222;
+        max-height: 500px;
+        overflow-y: scroll;
+        cursor: move;
+    }
+    span.status a {
+        color: #61bcff;
+        cursor: pointer;
+        -webkit-user-modify: read-only;
     }
     span.green {
         color: #2dff2d;
@@ -48,13 +73,25 @@
     span.red {
         color: red;
     }
+    #wrapper-close{
+        display:none;
+        min-width:100%;
+        max-width:100%;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,.5);
+        position:fixed;
+    }
 </style>
 </head>
 <body>
     <button id="disabled" class="active" disabled>TEST IS RUNNING</button>
     <button id="trigger">RUN TEST</button>
-    <div id="update"><span class="status"></span></div>
-
+    <div id="update">
+        <div id="code" class="code"></div>
+        <div id="wrapper-close"></div>
+        <span class="status"></span>
+    </div>
 <script type="text/javascript">
     var socket = io.connect('/status', {path:window.location.pathname + 'socket.io/'});
     socket.on('response', function(response) {
@@ -67,17 +104,26 @@
             let data = response.data;
             data = data.includes('==') ? "<span class='yellow'>" + data.toUpperCase() + "</span>" : data;
             if (data.toLowerCase().includes('passed')) {
+                data = response.data.includes('.py') 
+                    ? response.data.replace('.py::', '.py ') 
+                    : response.data;
                 outputs = [];
-                data = response.data.split(' ');
+                data = data.split(' ');
                 for (let d in data) {
                     let a = data[d].toLowerCase().includes('passed') ? "green" : "white";
                     a = "<span class='"+ a +"'>" + data[d] + "</span>"
+                    a = data[d].includes('.py') 
+                        ? "<a class='file-link' onClick='getFile(this)' href='#' data-id='" + data[d] +"'>" + data[d] + "</a>"
+                        : a
                     outputs.push(a);
                 }
                 data = outputs.join(' ');
             }
             if (data.toLowerCase().includes('error') || data.toLowerCase().includes('fail')) {
-                data = "<span class='red'>" + response.data + "</span>"
+                data = response.data.includes('.py') 
+                    ? response.data.replace('.py::', '.py ') 
+                    : response.data;
+                data = "<span class='red'>" + data + "</span>"
             }
             $('.status').html(current + '</br>' + data);
             $("#disabled").show();
@@ -92,6 +138,66 @@ $("#trigger" ).on('click', function() {
         url: window.location.pathname + "update",
     });
 });
+
+function getFile(that) {
+    let file = $(that).attr('data-id');
+    $('#code').html('');
+    $('#code').show();
+    dragElement(document.getElementById('code'));
+    $.ajax({
+        type: "POST",
+        data: {data: file},
+        url: window.location.pathname + "code",
+        success: function(res) {
+            let line = '';
+            res.data.map(function(r) {
+                line = $('#code').html();
+                $('#code').html(line + r + '</br>');
+            });
+        }
+    });
+}
+
+function dragElement(elmnt) {
+    $('#wrapper-close').show();
+    $('#wrapper-close').on('click', function(){
+        $(elmnt).hide();
+        $(this).hide();
+    });
+    elmnt.style.top = "100px";
+    elmnt.style.left = "25%";
+    var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+    if (document.getElementById(elmnt.id)) {
+        document.getElementById(elmnt.id).onmousedown = dragMouseDown;
+    } else {
+        elmnt.onmousedown = dragMouseDown;
+    }
+
+    function dragMouseDown(e) {
+        e = e || window.event;
+        e.preventDefault();
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        document.onmouseup = closeDragElement;
+        document.onmousemove = elementDrag;
+    }
+
+    function elementDrag(e) {
+        e = e || window.event;
+        e.preventDefault();
+        pos1 = pos3 - e.clientX;
+        pos2 = pos4 - e.clientY;
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+        elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+    }
+
+    function closeDragElement() {
+        document.onmouseup = null;
+        document.onmousemove = null;
+    }
+}
 
 </script>
 </body>
