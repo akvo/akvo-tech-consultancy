@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/socket.io-client@2/dist/socket.io.js" crossorigin="anonymous"></script>
+<style>
+    body{
+        margin:0px;
+        background: #000;
+    }
+    button{
+        display:None;
+        min-width: 100%;
+        padding: 6px 5px 5px 0;
+        color: #FFF;
+        font-size: 12px;
+        font-weight: bold;
+        background-image: linear-gradient(#009900, #009900);
+        cursor: pointer;
+    }
+    button.active{
+        color: #FFF;
+        background-image: linear-gradient(#bb2929, #760100);
+    }
+    #update{
+        max-width:100%;
+        width:100%;
+    }
+    span.status{
+        display: block;
+        padding: 5px 5px 5px 20px;
+        background: #000;
+        color: #FFF;
+        font-family: monospace;
+    }
+    span.green {
+        color: #2dff2d;
+    }
+    span.yellow {
+        color: #faff00;
+    }
+    span.red {
+        color: red;
+    }
+</style>
+</head>
+<body>
+    <button id="disabled" class="active" href="#">TEST IS RUNNING</button>
+    <button id="trigger" href="#">RUN TEST</button>
+    <div id="update"><span class="status"></span></div>
+
+<script type="text/javascript">
+    var socket = io.connect('/status', {path:window.location.pathname + 'socket.io/'});
+    socket.on('response', function(response) {
+        let current = $('.status').html();
+        if (!response.running){
+            $("#disabled").hide();
+            $('#trigger').show();
+        } else {
+            let outputs = [];
+            let data = response.data;
+            data = data.includes('==') ? "<span class='yellow'>" + data.toUpperCase() + "</span>" : data;
+            if (data.toLowerCase().includes('passed')) {
+                outputs = [];
+                data = response.data.split(' ');
+                for (let d in data) {
+                    let a = data[d].toLowerCase().includes('passed') ? "green" : "white";
+                    a = "<span class='"+ a +"'>" + data[d] + "</span>"
+                    outputs.push(a);
+                }
+                data = outputs.join(' ');
+            }
+            if (data.toLowerCase().includes('error') || data.toLowerCase().includes('fail')) {
+                data = "<span class='red'>" + response.data + "</span>"
+            }
+            $('.status').html(current + '</br>' + data);
+            $("#disabled").show();
+            $('#trigger').hide();
+        }
+    });
+
+$("#trigger" ).on('click', function() {
+    let current = $('.status').html();
+    $('.status').html( current + '</br>RUNNING THE TEST');
+    $.ajax({
+        type: "GET",
+        url: window.location.pathname + "update",
+    });
+});
+
+</script>
+</body>
+</html>

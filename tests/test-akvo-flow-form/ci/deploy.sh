@@ -8,7 +8,7 @@ function log {
 
 export PROJECT_NAME=akvo-lumen
 
-if [[ "${TRAVIS_BRANCH}" != "develop" ]] && [[ "${TRAVIS_BRANCH}" != "master" ]]; then
+if [[ "${TRAVIS_BRANCH}" != "develop" ]] && [[ "${TRAVIS_BRANCH}" != "test/akvo-flow-form" ]]; then
     exit 0
 fi
 
@@ -41,8 +41,14 @@ fi
 
 log Pushing images
 gcloud auth configure-docker
-docker push eu.gcr.io/${PROJECT_NAME}/tc-webform-test
+docker push eu.gcr.io/${PROJECT_NAME}/tech-consultancy-webform-test
 
-sed -e "s/\${TRAVIS_COMMIT}/$TRAVIS_COMMIT/" ci/k8s/job.yaml.template > job.yaml.donotcommit
+sed -e "s/\${TRAVIS_COMMIT}/$TRAVIS_COMMIT/" ci/k8s/deployment.yaml > deployment.yaml.donotcommit
 
-kubectl apply -f job.yaml.donotcommit
+kubectl apply -f deployment.yaml.donotcommit
+# kubectl delete -f deployment.yaml.donotcommit
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+$DIR/k8s/wait-for-k8s-deployment-to-be-ready.sh
+
