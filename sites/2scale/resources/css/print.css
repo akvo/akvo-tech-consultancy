@@ -2,10 +2,10 @@ dl, ol, ul {
     margin-top: 0;
     margin-bottom: 0;
 }
-/* table, table.dataTable {
+table, table.dataTable {
     width: 100%!important;
 }
-.table.dataTable.no-footer {
+/* .table.dataTable.no-footer {
     width: 100%!important;
 }
 .dataTables_scrollHeadInner {
@@ -142,7 +142,7 @@ table.dataTable > tbody > tr > td.partner {
     }
     .table.dataTable.no-footer,
     .dataTables_scrollHeadInner {
-        width:120%!important;
+        width:100%!important;
         table-layout: fixed!important;
         overflow-wrap: break-word!important;
     }

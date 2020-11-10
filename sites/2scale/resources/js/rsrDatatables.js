@@ -605,9 +605,10 @@ export const renderRsrTable = (endpoint, baseurl, datatableId) => {
     
         html += '</tbody>';
         let tdCount = $('tr.level_1').children().length;
-        html += '<tfoot><tr><td colspan="'+tdCount+'">';
-        html += legend;
-        html += '</td></tr></tfoot>';
+        html += '<tfoot><tr>';
+        // html += '<td>&nbsp;</td>';
+        html += '<td colspan="'+tdCount+'">'+ legend +'</td>';
+        html += '</tr></tfoot>';
         $("#datatables").append(html);
         return res;
     }).then(res => {
