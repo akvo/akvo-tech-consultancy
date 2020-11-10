@@ -30,7 +30,7 @@ const loadData = async (endpoint) => {
 }
 const getdata=loadData(endpoint);
 
-const createRows=(datas, rowType, colspan=false, res)=> {
+const createRows=(datas, rowType, colspan=false, res, index=1)=> {
     let html = '';
     let questions = [];
     let data = datas;
@@ -40,6 +40,7 @@ const createRows=(datas, rowType, colspan=false, res)=> {
     // normal
     if (rowType === "body" || (rowType === "head")) {
         html+="<tr>";
+        html+=(rowType === "head" && colspan) ? "<td rowspan='2'>ID</td>" : "<td>"+index+"</td>";
         data.forEach((d, i) => {
             if (rowType === "head" && colspan) {
                 questions = datas.questions.filter(x => x.question_group_id === d.id);
@@ -76,11 +77,12 @@ const createRows=(datas, rowType, colspan=false, res)=> {
                     });
                 }
                 html+="<tr>";
+                html+="<td>"+index+"</td>"; // id column
                 repeat.forEach((d,i) => {
                     let classname = i < 10 ? "default-hidden" : "";
                     classname = (d !== null) 
-                                    ? (d.text ? (classname + "") : (classname + " bg-light-grey"))
-                                    : (classname + " bg-light-grey");
+                    ? (d.text ? (classname + "") : (classname + " bg-light-grey"))
+                    : (classname + " bg-light-grey");
                     html += "<td class='" + classname + "'>";
                     html += (d !== null) ? (d.text ? d.text : "") : "";
                     html += "</td>";
@@ -111,8 +113,10 @@ const createTable=(id, data, rowType, res=[])=> {
     let tType = (rowType === "body" || rowType === "bodyRepeat") ? "body" : "head";
     let html="<t"+tType+">";
     if (rowType==="body" || rowType === "bodyRepeat") {
+        let index = 1;
         data.forEach((r, i)=> {
-            html +=createRows(r.data, rowType, false, res);
+            html +=createRows(r.data, rowType, false, res, index);
+            index++;
         });
     }
     if (rowType==="head") {
@@ -130,6 +134,7 @@ const fetchLocalData = (key) => {
     });
 };
 
+// create repeat group
 $(document).on("click", "a.gtabs" , function() {
     let gid = $(this).attr('dataId');
     let question_group_id = gid.split('-')[1];
