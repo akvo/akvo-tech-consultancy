@@ -21,7 +21,7 @@ class TestForm:
 
         for element in xmlData:
             index = element.replace("@", "")
-        assert index in jsonData
+            assert index in jsonData
 
     def test_value_exists(self, setup):
         xmlData = setup.xmldata["survey"]
@@ -36,7 +36,8 @@ class TestForm:
         jsonData = setup.webform.json()
 
         for element in xmlData:
-            assert isinstance(jsonData[element.replace("@", "")], type(xmlData[element]))
+            assert isinstance(
+                jsonData[element.replace("@", "")], type(xmlData[element]))
 
     def test_translation_exists(self, setup):
         xmlData = setup.xmldata["survey"]
