@@ -14,6 +14,7 @@ column_types = {
     'geopoint': 'geometry(POINT, 4326)',
     'geoshape': 'geometry(GEOMETRY, 4326)',
     'multiple': 'jsonb',
+    'option': 'text',
 }
 
 
