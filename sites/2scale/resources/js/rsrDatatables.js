@@ -354,7 +354,7 @@ const datatableOptions = (id, res, baseurl) => {
         height: 400,
         paging: false,
         fixedHeader: true,
-        fixedColumns: true,
+        // fixedColumns: true,
         scrollCollapse: true,
         autoWidth: true,
         columnDefs: [
