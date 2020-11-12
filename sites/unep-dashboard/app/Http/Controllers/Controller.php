@@ -9,6 +9,13 @@ use Illuminate\Routing\Controller as BaseController;
 
 class Controller extends BaseController
 {
+    /**
+        @OA\Info(
+            title="UNEP PUBLIC API", 
+            version="0.1"
+        )
+    */
+
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     public function index(Request $request)

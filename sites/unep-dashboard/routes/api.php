@@ -27,11 +27,25 @@ Route::get('test', 'Api\ApiController@test');
 /*
  * Route to initialize localisation
  */
-
-Route::get('list/questions', 'Api\PublicController@questions');
-Route::get('list/values', 'Api\PublicController@values');
-Route::get('list/actions', 'Api\PublicController@actions');
-Route::get('list/countries', 'Api\PublicController@countries');
-Route::get('list/regions', 'Api\PublicController@regions');
+Route::prefix('list')->group(function () {
+    Route::get('questions', 'Api\PublicController@questions');
+    Route::get('values', 'Api\PublicController@values');
+    Route::get('actions', 'Api\PublicController@actions');
+    Route::get('countries', 'Api\PublicController@countries');
+    Route::get('regions', 'Api\PublicController@regions');
+});
 
 Route::post('send-email', 'Api\SupportController@send');
+
+
+/**
+ * Public API
+ */
+Route::prefix('public')->group(function () {
+    Route::get('questions', 'Api\PublicController@getPublicQuestions');
+    Route::get('groups', 'Api\PublicController@getPublicGroups');
+    Route::get('countries', 'Api\PublicController@getPublicCountries');
+    Route::get('filters', 'Api\PublicController@getPublicFilters');
+    Route::get('datapoints', 'Api\PublicController@getPublicDatapoints');
+    Route::get('datapoint/{uuid}', 'Api\PublicController@getPublicDatapointByUuid');
+});
