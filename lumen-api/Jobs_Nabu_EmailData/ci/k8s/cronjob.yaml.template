@@ -67,4 +67,14 @@ spec:
                   secretKeyRef:
                     name: nabu-emaildata-notification
                     key: mailjet-secret
+              - name: EMAIL_RECEIVER
+                valueFrom:
+                  secretKeyRef:
+                    name: nabu-emaildata-notification
+                    key: email-receiver
+              - name: EMAIL_BCC
+                valueFrom:
+                  secretKeyRef:
+                    name: nabu-emaildata-notification
+                    key: email-bcc
           restartPolicy: Never
