@@ -27,6 +27,7 @@ import Funding from '../pages/Funding';
 import Compare from '../pages/Compare';
 import Reports from '../pages/Reports';
 import Support from '../pages/Support';
+import Documentation from '../pages/Documentation';
 import { forEach } from 'lodash';
 
 const API_WEB = process.env.MIX_PUBLIC_URL + "/";
@@ -118,6 +119,16 @@ const toursteps = (act) => {
             content: ({ goTo, inDOM }) => (
               <div className="col-tour">
                   <p>Get in touch with queries / suggestions</p>
+              </div>
+            ),
+            position: 'bottom',
+            style: {borderRadius: 0},
+        },
+        {
+            selector: '[data-tour="tab-documentation"]',
+            content: ({ goTo, inDOM }) => (
+              <div className="col-tour">
+                  <p>Application Interface Documentation</p>
               </div>
             ),
             position: 'bottom',
@@ -234,7 +245,15 @@ class Page extends Component {
             case "report":
                 return <Reports/>
             case "support":
+                if (this.props.value.page.sidebar.active) {
+                    this.props.page.sidebar.toggle();
+                }
                 return <Support/>
+            case "documentation":
+                if (this.props.value.page.sidebar.active) {
+                    this.props.page.sidebar.toggle();
+                }
+                return <Documentation/>
             default:
                 return ""
         }
@@ -298,6 +317,8 @@ class Page extends Component {
         let buttons = [];
         switch(page){
             case "compare":
+                return "";
+            case "documentation":
                 return "";
             case "support":
                 return "";
@@ -387,6 +408,8 @@ class Page extends Component {
                 return "";
             case "support":
                 return "";
+            case "documentation":
+                return "";
             default:
                 let fp = this.props.value.data.filteredpoints;
                 let ct = this.props.value.data.countries;
@@ -437,7 +460,10 @@ class Page extends Component {
         let loading = this.props.value.page.loading;
         let sidebar = this.props.value.page.sidebar;
         let lang = this.props.value.locale.lang;
-        let hideContainer = (page === "support" || page === "compare") ? " hidden" : "";
+        let hideContainer = (page === "support"
+            || page === "compare"
+            || page === "documentation"
+        ) ? " hidden" : "";
         let wrapperId = hideContainer === "" ? "wrapper" : "wrapper-up";
         return (
             <Fragment>

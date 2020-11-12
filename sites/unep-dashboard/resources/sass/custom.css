@@ -231,7 +231,7 @@ h3.popover-header {
 }
 
 #wrapper-up {
-    margin-top: 60px;
+    margin-top: 50px;
 }
 
 #wrapper.toggled #sidebar-wrapper {
@@ -987,6 +987,7 @@ button.btn.btn-sm.btn-download svg{
     -moz-transition: all 0.3s ease;
     -o-transition: all 0.3s ease;
     transition: all 0.3s ease;
+    z-index: 20;
 }
 .section-scroll:hover{
     background: rgb(255,255,255, .8);
@@ -1064,4 +1065,50 @@ button.reactour__close {
     padding: 6px 10px!important;
     border: #ddd solid 1px!important;
     font-size: 13px !important;
+}
+
+/* Docs */
+
+.redoc-wrap {
+    font-family: "Assistant", sans-serif!important;
+}
+.redoc-wrap h1 {
+    color: #000!important;
+}
+
+.redoc-wrap .menu-content .fpeweU a,
+.redoc-wrap .menu-content .fpeweU a:visited,
+.redoc-wrap .menu-content .fpeweU a:hover, {
+    display:none!important;
+}
+.redoc-wrap h1, .redoc-wrap h2, .redoc-wrap h3, .redoc-wrap h4, .redoc-wrap h5 {
+    text-transform: none;
+    font-weight: bold;
+    color: #3e4145;
+}
+
+.redoc-wrap h3.sc-TOsTZ.iapbUb {
+    font-size: 14px;
+    font-weight: bold;
+    padding-bottom: 15px;
+    padding-top: 15px;
+}
+.redoc-wrap .dYrCvc {
+    font-family: "Assistant", sans-serif!important;
+}
+.eYZFTJ {
+    font-size: 14px!important;
+    font-weight: bold!important;
+    padding-bottom: 10px;
+}
+.iapbUb {
+    color: #FFF!important;
+}
+.redoc-wrap i {
+    font-weight:bold!important;
+    font-style: normal!important;
+}
+.llgjDj {
+    color: #181818!important;
+    font-weight:bold;
 }

@@ -73,4 +73,5 @@ class Controller extends BaseController
         });
         return $actions;
     }
+
 }
