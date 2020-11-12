@@ -35,6 +35,10 @@ export const mapDispatchToProps = dispatch => {
                         type: "PAGE - SIDEBAR TOGGLE",
                         selected:selected
                     }),
+                hide: () =>
+                    dispatch({
+                        type: "PAGE - SIDEBAR HIDE"
+                    }),
                 switchgroup: () =>
                     dispatch({
                         type: "PAGE - SIDEBAR SWITCH GROUP",

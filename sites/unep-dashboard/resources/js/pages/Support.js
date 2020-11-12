@@ -1,32 +1,23 @@
-import React, { Component } from "react";
-import { Col, Row, Container, Card, Form, Button } from "react-bootstrap";
+import React, { Component, Fragment } from "react";
+import { Col, Row, Container, Card, Form, Button, ResponsiveEmbed } from "react-bootstrap";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
+import { qna, links, glossary } from '../data/static/content-support.js';
+import { validateEmail } from '../data/utils.js';
 
-const contents = [{
-        q: "What data is represented in the dashboard and the repository?",
-        a: <p>The data has been mainly collected through an online stocktaking survey. More details on the set up of the survey can be found <a href="https://papersmart.unon.org/resolution/uploads/guidelines_for_marine_plastic_litter_stocktake_survey_2_hs1.pdf" target="_blank">here</a></p>,
-        list: false,
-    },{
-        q: "Why is there an interactive dashboard and an online repository platform?",
-        a: "To enable access to the stocktake of global actions to reduce the flow of marine plastic and microplastic to the oceans for public use, two products have been developed. The dashboard aims to visually summarise the survey results, whereas the main goal of the repository is to store additional information on each individual action.",
-        list: ["You are currently visiting the interactive dashboard. The dashboard contains all survey submissions. The aim of the dashboard is to visually represent the survey data on a number of key attributes. The dashboard also allows for comparison on country/region level and downloading of the visuals.","The online repository platform can be accessed here. The repository contains all survey submissions and narrative submissions. A number of custom filters can be applied to search for individual actions. Thereon, users can visit pages of individual actions to read a summary and access additional information on each action, such as reports in PDF format or corresponding websites."]
-    },{
-        q: "Who are the dashboard and the repository for?",
-        a: "The dashboard and repository are both publicly available. Anyone with an interest in the global actions to reduce the flow of marine plastic and microplastic to the oceans. Users can for example be policy makers, researchers, students.",
-        list: false,
-    },{
-        q: "When are the dashboard and the repository built?",
-        a: "The project of building the dashboard and the repository started at the end of 2019 and both products have been published online in September 2020.",
-        list: false,
-}];
-
-const glossary = [{
-        c: "Lorem Ipsum",
-        m: "Dolor sit amet"
-    },{
-        c: "Ipsum Lorem",
-        m: "Dolor sit amet"
-}];
+const API = process.env.MIX_PUBLIC_URL + "/api/";
+const defaultState = {
+    validatorAnswer: "",
+    validatorValue: -1,
+    mailing: {
+        subject: "",
+        from: "",
+        message: ""
+    },
+    warning:'',
+    emailsent: false,
+    sending:false
+}
 
 class Support extends Component {
     constructor(props) {
@@ -36,10 +27,9 @@ class Support extends Component {
         this.renderContact = this.renderContact.bind(this);
         this.updateValidator = this.updateValidator.bind(this);
         this.updateValidatorAnswer = this.updateValidatorAnswer.bind(this);
-        this.state = {
-            validatorAnswer: 0,
-            validatorValue: -1,
-        }
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.state = defaultState;
     }
 
     updateValidatorAnswer(e) {
@@ -61,12 +51,12 @@ class Support extends Component {
     }
 
     renderFaq() {
-        return contents.map((x, i) => (
+        return qna.map((x, i) => (
             <Col key={"faq-" + i} md={12}>
-                <strong>{i + 1}. {x.q}</strong>
-                <p>{x.a}</p>
-                {x.list ? (<ul>{x.list.map((l,il) => <li key={il}>{l}</li>)}</ul>) : ""}
-                {i < contents.length - 1? (<hr/>) : ""}
+                <strong>{i + 1}. {x.q}</strong><br/><br/>
+                {x.a}
+                {x.l ? (<ul>{x.l.map((l,il) => <li key={il}>{l}</li>)}</ul>) : ""}
+                {i <qna.length - 1? (<hr/>) : ""}
             </Col>
         ))
     }
@@ -74,11 +64,63 @@ class Support extends Component {
     renderGlossary() {
         return glossary.map((x, i) => (
             <tr key={"glossary-" + i}>
-                <td width={"20%"}><strong>{x.c}</strong>:</td>
+                <td width={"40%"}><strong>{x.c}</strong></td>
                 <td>{x.m}</td>
             </tr>
         ))
 
+    }
+
+    handleChange(event) {
+        let mailing = this.state.mailing;
+            mailing = {...mailing, [event.target.id]:event.target.value}
+        this.setState({mailing:mailing});
+    }
+
+    handleSubmit() {
+        this.setState({sending:true});
+        let mailing = this.state.mailing;
+        let warning = [];
+        let send = true;
+        if (mailing.from === '') {
+            warning = ["Email Address"];
+        }
+        if (mailing.from !== '' && validateEmail(mailing.from) === false) {
+            warning = ["Email Address format is incorrect"];
+        }
+        if (mailing.subject === '') {
+            warning = [...warning, "Subject"];
+        }
+        if (mailing.message === '') {
+            warning = [...warning, "Message"];
+        }
+        if (warning.length > 0) {
+            send = false;
+            warning = warning.join(', ') + ' cannot be empty.';
+            this.setState({warning: warning, sending:false})
+        }
+        if (send) {
+            let formData = new FormData();
+            let token = document.querySelector('meta[name="csrf-token"]').content;
+            formData.set('email', mailing.from);
+            formData.set('subject', mailing.subject);
+            formData.set('message', mailing.message);
+            axios.post(API + 'send-email', formData, {'Content-Type':'multipart/form-data', 'X-CSRF-TOKEN': token})
+                .then(res => {
+                    this.setState({emailsent:true});
+                    if (res.data.sent) {
+                        setTimeout(() => {
+                            this.setState(defaultState);
+                            const captcha = document.getElementById("captcha-number");
+                            captcha.removeChild(captcha.childNodes[0]);
+                            this.updateValidator();
+                        }, 5000);
+                    }
+                }).catch(err => {
+                    this.setState({sending:false});
+                    this.setState({warning: "Internal Server Error"});
+                });
+        }
     }
 
     componentDidMount() {
@@ -89,39 +131,69 @@ class Support extends Component {
         let valid = this.state.validatorAnswer === 0
             ? true
             : (this.state.validatorAnswer === this.state.validatorValue)
-        let disabled = this.state.validatorAnswer !== this.state.validatorValue;
+        let disabled = this.state.validatorAnswer !== this.state.validatorValue || this.state.sending;
         return (
             <Form>
                 <Form.Group>
                     <Form.Label>Email address</Form.Label>
-                    <Form.Control type="email" placeholder="Enter email" />
+                    <Form.Control
+                        type="email"
+                        placeholder="Enter email"
+                        id="from"
+                        onChange={this.handleChange}
+                        value={this.state.mailing.from}/>
                         <Form.Text className="text-muted">
                             We'll never share your email with anyone else.
                         </Form.Text>
                 </Form.Group>
                 <Form.Group>
                     <Form.Label>Subject</Form.Label>
-                    <Form.Control type="text" placeholder="Enter Subject" />
+                    <Form.Control
+                        type="text"
+                        id="subject"
+                        placeholder="Enter Subject"
+                        onChange={this.handleChange}
+                        value={this.state.mailing.subject}/>
                 </Form.Group>
                 <Form.Group>
                     <Form.Label>Your Message</Form.Label>
-                    <Form.Control as="textarea" rows="3"/>
+                    <Form.Control
+                        as="textarea"
+                        id="message"
+                        rows="3"
+                        onChange={this.handleChange}
+                        value={this.state.mailing.message}/>
                 </Form.Group>
-                <Form.Group
-                    onChange={this.updateValidatorAnswer}
-                >
+                <Form.Group>
                     <div id="captcha-number"></div>
                     <Form.Control
                         type="number"
                         placeholder="Enter Value"
-                    />
+                        onChange={this.updateValidatorAnswer}
+                        value={this.state.validatorAnswer}/>
                     { valid ? "" : (
                         <Form.Text className="text-muted text-danger">Please enter correct value</Form.Text>
                     )}
                 </Form.Group>
-                <Button variant={disabled ? "secondary" : "primary"} type="submit" disabled={disabled}>
-                    Submit
+                <Button
+                    variant={disabled ? "secondary" : "primary"}
+                    onClick={e => this.handleSubmit()}
+                    disabled={disabled}>
+                    {this.state.sending ? (
+                        <Fragment>
+                        <FontAwesomeIcon
+                            className="fas-icon"
+                            spin={true}
+                            icon={["fas", "spinner"]} />
+                            Submitting
+                        </Fragment>
+                    ) : "Submit"}
                 </Button>
+                <hr/>
+                { this.state.warning !== ""
+                    ? (<Form.Text className="text-danger">{this.state.warning}</Form.Text>)
+                    : ""
+                }
             </Form>
         )
     }
@@ -130,31 +202,47 @@ class Support extends Component {
         return (
             <Container>
                 <Row>
-                    <Col md={6}>
-                        <Card className={"card-supports"}>
-                            <Card.Header>Contact Us</Card.Header>
-                            <Card.Body>
-                            {this.renderContact()}
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                    <Col md={6}>
+                    <Col md={8}>
                     <Card className={"card-supports"}>
                         <Card.Header>Frequently Asked Questions</Card.Header>
                         <Card.Body>
                             {this.renderFaq()}
                         </Card.Body>
+                        <Card.Header>Use of Dashboard</Card.Header>
+                        <Card.Body >
+                            <ResponsiveEmbed aspectRatio="16by9">
+                                <iframe
+                                src={links.videoDemo}
+                                className="embed-responsive-item"
+                                allow="fullscreen"
+                                >
+                                </iframe>
+                            </ResponsiveEmbed>
+                        </Card.Body>
                         <Card.Header>Glossary</Card.Header>
                         <Card.Body>
-                            <Col md={12}>
-                            <table>
+                        <Col md={12}>
+                            <table className="vertical-align-top">
                                 <tbody>
                                     {this.renderGlossary()}
                                 </tbody>
                             </table>
-                            </Col>
+                        </Col>
                         </Card.Body>
                     </Card>
+                    </Col>
+                    <Col md={4} className="card-fixed">
+                        <Card className={"card-supports"}>
+                            <Card.Header>Contact Us</Card.Header>
+                            <Card.Body>
+                            { this.state.emailsent ? (
+                                <div className="alert alert-success">
+                                    <strong>Your message has been successfully sent!</strong>
+                                </div>
+                            ) : "" }
+                            {this.renderContact()}
+                            </Card.Body>
+                        </Card>
                     </Col>
                 </Row>
             </Container>
