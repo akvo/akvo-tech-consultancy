@@ -27,5 +27,17 @@ return [
                 'name' => 'pi_location_cascade_county',
             ]
         ],
+    ],
+    'relations' => [
+        [
+            'name' => 'f_first_crop',
+            'level' => 1,
+            'children' => 'f_ownership'
+        ],
+        [
+            'name' => 'f_ownership',
+            'level' => 2,
+            'children' => 'f_sdm_size'
+        ],
     ]
 ];
