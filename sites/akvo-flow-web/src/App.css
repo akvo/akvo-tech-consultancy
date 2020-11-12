@@ -257,6 +257,20 @@ img.responsive-image {
     visibility: visible !important;
     opacity: 1 !important;
 }
+.tooltips a {
+    color: #86c0ff;
+}
+.tooltips a:hover {
+    text-decoration: none;
+    color: #86c0ff;
+}
+.tooltips ul {
+    margin-block-start: 3px;
+    padding-inline-start: 20px;
+}
+.tooltips ul li{
+    padding: 2px;
+}
 
 /* Swall*/
 .fade-in {

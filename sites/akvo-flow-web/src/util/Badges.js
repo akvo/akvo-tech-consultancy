@@ -15,13 +15,14 @@ export const Mandatory = answered => {
 };
 
 export const ToolTip = (question) => {
+    let tid = 'tooltip-' + question.id;
     question = question.help.text;
     if (question !== null) {
         question = "<div class='tooltip-short'>" + question + "</div>";
         return (
-            <span data-tip={question} className={"help-tooltip"}>
+            <span data-tip={question} data-for={tid} className={"help-tooltip"}>
                 <FaInfoCircle color="#007bff"/>
-                <ReactTooltip className="tooltips" effect="solid" multiline={true} html={true}/>
+                <ReactTooltip id={tid} className="tooltips" effect="solid" multiline={true} html={true} clickable={true} delayHide={300}/>
             </span>
         );
     }
