@@ -38,6 +38,14 @@
                                 ]
                             }
                         }
+                    },
+                    "204": {
+                        "description": "No Content",
+                        "content": {
+                            "text/plain": {
+                                "example": "No Content"
+                            }
+                        }
                     }
                 }
             }
@@ -83,6 +91,14 @@
                                         ]
                                     }
                                 ]
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "No Content",
+                        "content": {
+                            "text/plain": {
+                                "example": "No Content"
                             }
                         }
                     }
@@ -131,6 +147,14 @@
                                         ]
                                     }
                                 ]
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "No Content",
+                        "content": {
+                            "text/plain": {
+                                "example": "No Content"
                             }
                         }
                     }
@@ -185,6 +209,14 @@
                                         "locale": []
                                     }
                                 ]
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "No Content",
+                        "content": {
+                            "text/plain": {
+                                "example": "No Content"
                             }
                         }
                     }
@@ -258,6 +290,14 @@
                                 }
                             }
                         }
+                    },
+                    "204": {
+                        "description": "No Content",
+                        "content": {
+                            "text/plain": {
+                                "example": "No Content"
+                            }
+                        }
                     }
                 }
             }
@@ -316,6 +356,14 @@
                                         "values": []
                                     }
                                 ]
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "text/plain": {
+                                "example": "Not Found"
                             }
                         }
                     }

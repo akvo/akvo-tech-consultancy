@@ -88,12 +88,25 @@ class PublicController extends Controller
                         }
                     )
                 }
+            ),
+            @OA\Response(
+                response="204",
+                description="No Content",
+                content={
+                    @OA\MediaType(
+                        mediaType="text/plain",
+                        example="No Content",
+                    )
+                }
             )
         )
     */
     public function getPublicQuestions()
     {
-        return \App\Question::get();
+        $questions = \App\Question::get();
+        return ($questions->count() > 0)
+            ? $questions
+            : \response("No Content", 204);
     }
 
     /**
@@ -145,12 +158,25 @@ class PublicController extends Controller
                         }
                     )
                 }
+            ),
+            @OA\Response(
+                response="204",
+                description="No Content",
+                content={
+                    @OA\MediaType(
+                        mediaType="text/plain",
+                        example="No Content",
+                    )
+                }
             )
         )
     */
     public function getPublicGroups()
     {
-        return \App\Group::with('countries.country')->get();
+        $groups = \App\Group::with('countries.country')->get();
+        return ($groups->count > 0)
+            ? $groups
+            : \response("No Content", 204);
     }
 
     /**
@@ -197,12 +223,25 @@ class PublicController extends Controller
                         }
                     )
                 }
+            ),
+            @OA\Response(
+                response="204",
+                description="No Content",
+                content={
+                    @OA\MediaType(
+                        mediaType="text/plain",
+                        example="No Content",
+                    )
+                }
             )
         )
     */
     public function getPublicCountries()
     {
-        return \App\Country::with('groups')->get();
+        $countries = \App\Country::with('groups')->get();
+        return ($countries->count())
+            ? $countries
+            : \response('No Content', 204);
     }
 
     /**
@@ -261,16 +300,29 @@ class PublicController extends Controller
                         }   
                     )
                 }
+            ),
+            @OA\Response(
+                response="204",
+                description="No Content",
+                content={
+                    @OA\MediaType(
+                        mediaType="text/plain",
+                        example="No Content",
+                    )
+                }
             )
         )
     */
     public function getPublicFilters()
     {
-        return \App\Value::whereNull('parent_id')
+        $filters = \App\Value::whereNull('parent_id')
             ->has('childrens')
             ->with('childrens')
             ->with('locale')
             ->get();
+        return ($filters->count() > 0)
+            ? $filters
+            : \response("No Content", 204);
     }
 
     /**
@@ -349,15 +401,28 @@ class PublicController extends Controller
                         }   
                     )
                 }
+            ),
+            @OA\Response(
+                response="204",
+                description="No Content",
+                content={
+                    @OA\MediaType(
+                        mediaType="text/plain",
+                        example="No Content",
+                    )
+                }
             )
         )
     */
     public function getPublicDatapoints()
     {
-        return \App\Datapoint::with([
+        $datapoints = \App\Datapoint::with([
             'countries.country', 
             'values.value'
         ])->paginate();
+        return ($datapoints->count() > 0)
+            ? $datapoints
+            : \response("No Content", 204);
     }
 
     /**
@@ -421,6 +486,16 @@ class PublicController extends Controller
                         }   
                     )
                 }
+            ),
+            @OA\Response(
+                response="404",
+                description="Not Found",
+                content={
+                    @OA\MediaType(
+                        mediaType="text/plain",
+                        example="Not Found",
+                    )
+                }
             )
         )
     */
@@ -435,6 +510,8 @@ class PublicController extends Controller
                 'countries.country', 
                 'values.value'
             ])->get();
-        return $datapoint;
+        return ($datapoint->count() > 0) 
+            ? $datapoint 
+            : \response('Not Found', 404);
     }
 }
