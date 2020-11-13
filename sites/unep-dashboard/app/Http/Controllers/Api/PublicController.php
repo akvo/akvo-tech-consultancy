@@ -45,6 +45,20 @@ class PublicController extends Controller
     
     /**
         @OA\Get(
+            path="/images/unep-erd.png",
+            operationId="ERD",
+            summary="Entity Relationship Diagram.",
+            description="UNEP Entity Relationship Diagram.<br/><img src='/images/unep-erd.png' alt='erd image' />",
+            tags={"ERD"},
+            @OA\Response(
+                response="200",
+                description="OK",
+            ),
+        )
+    */
+    
+    /**
+        @OA\Get(
             path="/api/public/questions",
             operationId="getPublicQuestions",
             summary="Question list.",

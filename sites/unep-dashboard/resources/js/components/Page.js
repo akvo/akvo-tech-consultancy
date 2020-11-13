@@ -28,6 +28,7 @@ import Compare from '../pages/Compare';
 import Reports from '../pages/Reports';
 import Support from '../pages/Support';
 import Documentation from '../pages/Documentation';
+import Erd from '../pages/Erd';
 import { forEach } from 'lodash';
 
 const API_WEB = process.env.MIX_PUBLIC_URL + "/";
@@ -129,6 +130,16 @@ const toursteps = (act) => {
             content: ({ goTo, inDOM }) => (
               <div className="col-tour">
                   <p>Application Interface Documentation</p>
+              </div>
+            ),
+            position: 'bottom',
+            style: {borderRadius: 0},
+        },
+        {
+            selector: '[data-tour="tab-erd"]',
+            content: ({ goTo, inDOM }) => (
+              <div className="col-tour">
+                  <p>Entity Relationship Diagram Documentation</p>
               </div>
             ),
             position: 'bottom',
@@ -254,6 +265,11 @@ class Page extends Component {
                     this.props.page.sidebar.toggle();
                 }
                 return <Documentation/>
+            case "erd":
+                if (this.props.value.page.sidebar.active) {
+                    this.props.page.sidebar.toggle();
+                }
+                return <Erd/>
             default:
                 return ""
         }
@@ -463,6 +479,7 @@ class Page extends Component {
         let hideContainer = (page === "support"
             || page === "compare"
             || page === "documentation"
+            || page === "erd"
         ) ? " hidden" : "";
         let wrapperId = hideContainer === "" ? "wrapper" : "wrapper-up";
         return (

@@ -126,6 +126,9 @@ class Navigation extends Component {
                     <Nav.Link
                         data-tour={"tab-documentation"}
                         eventKey="documentation" active={"documentation" === page}>{lang.documentation}</Nav.Link>
+                    {/* <Nav.Link
+                        data-tour={"tab-erd"}
+                        eventKey="erd" active={"erd" === page}>{lang.erd}</Nav.Link> */}
                 </Nav>
                     <Form.Group
                         data-tour={"switcher-multi-country"}

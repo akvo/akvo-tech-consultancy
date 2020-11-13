@@ -5,6 +5,21 @@
         "version": "0.1"
     },
     "paths": {
+        "/images/unep-erd.png": {
+            "get": {
+                "tags": [
+                    "ERD"
+                ],
+                "summary": "Entity Relationship Diagram.",
+                "description": "UNEP Entity Relationship Diagram.<br/><img src='/images/unep-erd.png' />",
+                "operationId": "ERD",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
         "/api/public/questions": {
             "get": {
                 "tags": [
