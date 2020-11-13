@@ -7,6 +7,10 @@ agent:
 blocks:
   - name: 'Build, test & deploy'
     task:
+      secrets:
+        - name: GCP
+        - name: docker-hub-credentials
+        - name: TestEnv
       prologue:
         commands:
           - checkout

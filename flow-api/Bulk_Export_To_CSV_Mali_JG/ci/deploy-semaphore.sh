@@ -26,7 +26,7 @@ gcloud config set container/use_client_certificate False
 ## TODO!!! Change to prod! Decide if we publish to test or not
 if [[ "${TRAVIS_BRANCH}" == "master" ]]; then
     log Environment is production
-    log Project not deployed to production cluster. Exiting now
+    log Project not deployed to production cluster. Exiting now.
     exit 0
 else
     log Environement is test
