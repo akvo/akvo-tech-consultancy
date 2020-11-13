@@ -17,7 +17,7 @@ if [[ "${TRAVIS_PULL_REQUEST}" != "false" ]]; then
 fi
 
 log Authentication with gcloud and kubectl
-gcloud auth activate-service-account --key-file "${GCLOUD_ACCOUNT_FILE}"
+gcloud auth activate-service-account --key-file=/home/semaphore/.secrets/gcp.json
 gcloud config set project akvo-lumen
 gcloud config set container/cluster europe-west1-d
 gcloud config set compute/zone europe-west1-d
