@@ -373,7 +373,7 @@ class Compare extends Component {
                                         <Form.Check
                                             type="switch"
                                             defaultChecked={this.state.selectgroup}
-                                            label={lang.region}
+                                            label={lang.group}
                                             />
                                         </Form.Group>
                                     </InputGroup.Text>
@@ -382,7 +382,7 @@ class Compare extends Component {
                                     onClick={e => this.toggleDropDown()}
                                     onChange={this.changeSearchItem}
                                     type="text"
-                                    placeholder={lang.country + " / " + lang.region} />
+                                    placeholder={lang.country + " / " + lang.group} />
                                 <InputGroup.Append>
                                     <InputGroup.Text
                                         onClick={e => this.toggleDropDown()}

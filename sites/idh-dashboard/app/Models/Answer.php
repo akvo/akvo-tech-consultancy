@@ -20,12 +20,16 @@ class Answer extends Model
         return $this->belongsTo('App\Models\Form');
     }
 
-    public function formInstance() {
+    public function formInstances() {
         return $this->belongsTo('App\Models\FormInstance');
     }
 
     public function options() {
         return $this->hasMany('App\Models\AnswerOption');
+    }
+
+    public function option() {
+        return $this->hasOne('App\Models\AnswerOption');
     }
 
 }

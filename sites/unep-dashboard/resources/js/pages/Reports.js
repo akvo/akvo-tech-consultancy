@@ -219,16 +219,27 @@ class Reports extends Component {
             maxWidth:'100px',
             right: true
         }];
+        let conditionalRowStyles = [
+            {
+                when: row => row.active,
+                style: row => ({
+                    backgroundColor: '#f8f9fa',
+                })
+            }
+        ];
         return (
             <Container>
                 <Row>
                     <Col md={12}>
                         <DataTable
+                            style={{paddingTop:"10px"}}
                             columns={columns}
                             data={data}
+                            noHeader={true}
                             customStyles={customStyles}
                             fixedHeader
                             pagination={true}
+                            conditionalRowStyles={conditionalRowStyles}
                             fixedHeaderScrollHeight={"70vh"}
                             onRowClicked={this.reportToggle}
                             highlightOnHover

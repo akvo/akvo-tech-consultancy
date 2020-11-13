@@ -177,6 +177,10 @@ return [
 
         // Laravel PDF
         Barryvdh\DomPDF\ServiceProvider::class,
+        Mailjet\LaravelMailjet\MailjetServiceProvider::class,
+        Mailjet\LaravelMailjet\MailjetMailServiceProvider::class,
+        Mailjet\LaravelMailjet\Providers\CampaignDraftServiceProvider::class,
+
     ],
 
     /*
@@ -228,6 +232,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'PDF' => Barryvdh\DomPDF\Facade::class, // Laravel PDF
+        'Mailjet' => Mailjet\LaravelMailjet\Facades\Mailjet::class,
     ],
 
 ];
