@@ -16,6 +16,8 @@ if [[ "${TRAVIS_PULL_REQUEST}" != "false" ]]; then
     exit 0
 fi
 
+sudo apt-get install kubectl
+
 log Making sure gcloud and kubectl are installed and up to date
 gcloud components install kubectl
 gcloud components update
