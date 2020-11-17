@@ -16,3 +16,6 @@ log Creating Production image
 docker build --rm=false -t eu.gcr.io/${PROJECT_NAME}/tech-consultancy-akvo-flow-web:${TRAVIS_COMMIT} .
 
 log Done
+
+sudo apt-get install kubectl
+
