@@ -569,9 +569,13 @@ class QuestionType extends Component {
             validator = validation.minVal ? "Min Value (" + parseInt(validation.minVal) + ") " : validator;
             validator = validation.maxVal ? validator + "Max Value (" + parseInt(validation.maxVal) + ")" : validator;
         }
-        return (
-            <div>
-                <span className="text-danger text-sm">{validator}</span>
+        let unit = data.help ? (data.help.text !== null ? data.help.text.includes("##UNIT##") : false) : false;
+        if (unit) {
+            unit = unit
+                ? data.help.text.substring(data.help.text.lastIndexOf("##UNIT##") + 8)
+                : false;
+        }
+        const FormInput =
             <input
                 className={"form-control" + invalid}
                 value={answered ? answered : ""}
@@ -581,7 +585,16 @@ class QuestionType extends Component {
                 key={unique}
                 name={'Q-' + data.id.toString()}
                 onChange={this.handleChange}
-            />
+            />;
+        return (
+            <div>
+                <span className="text-danger text-sm">{validator}</span>
+                {unit ? (
+                    <div className="input-group">
+                        {FormInput}
+                        <div className="input-group-append"><span className="input-group-text">{unit}</span></div>
+                    </div>
+                ) : FormInput}
             </div>
         )
     }

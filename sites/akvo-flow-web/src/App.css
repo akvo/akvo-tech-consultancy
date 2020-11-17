@@ -377,6 +377,29 @@ img.responsive-image {
     -o-transition: background .25s ease-in;  
     transition: background .25s ease-in;
 }
+.more-info {
+    margin-top:10px;
+}
+
+.more-info-content {
+    margin-top: -2px;
+    padding: 10px;
+    background: #6c757d;
+    color: #fff;
+    font-size: small;
+    border-top-right-radius: .2rem;
+    border-bottom-left-radius: .2rem;
+    border-bottom-right-radius: .2rem;
+}
+
+.btn-primary:focus,
+.btn-success:focus,
+.btn-secondary:focus,
+.btn-outline-primary:focus,
+.btn-outline-success:focus,
+.btn-outline-secondary:focus {
+    box-shadow:none!important;
+}
 
 @keyframes blink { 50% { background:#f8f9fa ; }  }
 
