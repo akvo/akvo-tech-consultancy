@@ -1,0 +1,12 @@
+FROM node:14.15-slim
+
+RUN set -eux; \
+    mkdir -p /var/www/html; \
+    chown node:node /var/www/html
+
+WORKDIR /var/www/html
+
+COPY . .
+COPY --chown=node:node . .
+
+USER node

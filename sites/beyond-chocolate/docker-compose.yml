@@ -1,0 +1,58 @@
+version: "3.7"
+
+services:
+  mainnetwork:
+    image: alpine
+    command: tail -f /dev/null
+    expose:
+      - "80"
+    ports:
+      - 80:80
+  nginx:
+    image: nginx:1.19-alpine
+    restart: unless-stopped
+    network_mode: service:mainnetwork
+    volumes:
+      - ./:/var/www/html:delegated
+      - ./docker/nginx:/etc/nginx/conf.d
+    depends_on:
+      - app
+  app:
+    build:
+      args:
+        USER_ID: ${UID-1000}
+      context: ./
+      dockerfile: Dockerfile-php
+    restart: unless-stopped
+    network_mode: service:mainnetwork
+    volumes:
+      - ./:/var/www/html:delegated
+      - ${HOME}/.composer:/home/akvo/.composer
+    command: ./docker/start-app.sh
+    depends_on:
+      - db
+  ui:
+    build:
+      context: ./
+      dockerfile: Dockerfile-node
+    restart: unless-stopped
+    network_mode: service:mainnetwork
+    volumes:
+      - ./:/var/www/html:delegated
+    command: ./docker/start-ui.sh
+    depends_on:
+      - app
+  db:
+    image: mysql:5.7
+    restart: unless-stopped
+    network_mode: service:mainnetwork
+    environment:
+      MYSQL_DATABASE: akvo
+      MYSQL_USER: akvo
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: secret
+    volumes:
+      - dbdata:/var/lib/mysql
+
+volumes:
+  dbdata: {}
