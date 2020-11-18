@@ -245,8 +245,10 @@ a.dropdown-toggle.nav-link div {
 }
 
 .card-info {
-    background: #36AA40;
-    color: #fff;
+    /* background: #36AA40; */
+    /* color: #fff; */
+    background: #eeeeee;
+    color: #000000;
     padding: 12px;
     border-bottom: #ddd solid 1px;
     border-radius: 10px;
@@ -256,14 +258,16 @@ a.dropdown-toggle.nav-link div {
 .card-info h2 {
     font-family: sans-serif !important;
     font-size: 28px;
-    font-weight: 300;
+    /* font-weight: 300; */
+    font-weight: 600;
 }
 
 .card-info p {
     font-size: 14px;
     font-weight: 500;
     margin-bottom: 0px !important;
-    max-width: 240px;
+    /* max-width: 240px; */
+    max-width: 300px;
     margin: 10px auto;
 }
 

@@ -3,6 +3,7 @@ import Histogram from "./options/Histogram";
 import Pie from "./options/Pie";
 import Scatter from "./options/Scatter";
 import Maps from "./options/Maps";
+import CustomStackBar from "./options/CustomStackBar";
 
 export const generateData = (col, line, height) => {
     return {
@@ -21,7 +22,8 @@ export const generateOptions = (type, title, data) => {
         case "MAPS":
             return Maps(title, data);
         case "PIE":
-            return Pie(title, data);
+            // return Pie(title, data);
+            return CustomStackBar(title, data);
         case "SCATTER":
             return Scatter(title, data);
         case "HISTOGRAM":

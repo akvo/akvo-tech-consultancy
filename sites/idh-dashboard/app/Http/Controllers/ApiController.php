@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 use App\Models\Form;
 use App\Models\Variable;
 use App\Models\Option;
@@ -81,7 +82,7 @@ class ApiController extends Controller
                        ->withCount('formInstances')
                        ->first();
         $total = $form->form_instances_count;
-        $household = Utils::getValues($id, 'hh_size');
+        // $household = Utils::getValues($id, 'hh_size');
 
         if ($request->tab === "resources") {
             return [
@@ -96,13 +97,22 @@ class ApiController extends Controller
                 'records' => Utils::getValues($id, 'pi_location_cascade_county'),
                 'maps' => strtolower($form->country)
             ];
+
+            $first_crop = collect(Utils::getValues($id, 'f_first_crop'));
+            $first_crop_total = $first_crop->pluck('value')->sum();
+            $first_crop_value = $first_crop->max('value');
+            $first_crop_name = $first_crop->where('value', $first_crop_value)->first()['name'];
+
             $overview = [
                 Cards::create($maps, 'MAPS', "Household Surveyed", 6),
                 Cards::create(Utils::getValues($id, 'farmer_sample'), 'PIE', "The farmer surveyed part of the sample", 6),
-                Cards::create(Utils::getValues($id, 'f_first_crop'), 'BAR', "Farmer First Crop"),
+                // Cards::create(Utils::getValues($id, 'f_first_crop'), 'BAR', "Farmer First Crop"),
                 Cards::create([
-                    Cards::create(round(collect($farm_size)->avg(), 2), 'NUM', 'Acres is the average farm size')
+                    Cards::create(strval(round($first_crop_value/$first_crop_total, 2)*100).'%', 'NUM', 'Of the farmers’ main crop was '.$first_crop_name)
                 ], 'CARDS', false),
+                // Cards::create([
+                //     Cards::create(round(collect($farm_size)->avg(), 2), 'NUM', 'Acres is the average farm size')
+                // ], 'CARDS', false),
             ];
             return [
                 'summary' => [$total, $form->kind, $form->country, $form->company],
@@ -144,30 +154,73 @@ class ApiController extends Controller
             });
             return $hhData;
              */
+
+            $household = Utils::getValues($id, 'hh_size');
+
             $hhGenderAvg = Utils::getAvg($id, 'hh_gender_farmer', 'hh_size');
+
+            $head_gender = Utils::getValues($id, 'hh_head_gender', false, true);
+            // $gender_farmer = Utils::getValues($id, 'hh_gender_farmer');
+            $head_gender_tmp = [
+                "columns" => [
+                    [
+                        "name" => "",
+                        "selector" => "name",
+                        "sortable" => true,
+                    ],
+                    [
+                        "name" => "Male operated farm",
+                        "selector" => "male",
+                        "sortable" => true,
+                    ],
+                    [
+                        "name" => "Female operated farm",
+                        "selector" => "female",
+                        "sortable" => true,
+                    ]
+                ]
+            ];
+            $head_gender_tmp["rows"] = $head_gender->map(function ($item) {
+                return [
+                    "name" => strtolower($item['name']) === 'male' ? 'Male headed household' : 'Female headed household',
+                    "male" => $item['gender']->where('name', 'Male')->first()['value'], 
+                    "female" => $item['gender']->where('name', 'Female')->first()['value'], 
+                ];
+            });
+
             $hhSize = $household->countBy()
                                 ->map(function($d, $k){return ['name' => $k, 'value' => $d];})
                                 ->values();
-            $hhProfile = collect([
-                Cards::create(Utils::getValues($id, 'hh_gender_farmer'), 'PIE', "Gender", 6),
-                Cards::create($hhSize, 'UNSORTED HORIZONTAL BAR', "Household Size", 6)
-            ]);
-            $hhGenderAvg->each(function($avg) use ($hhGenderAvg, $hhProfile){
-                $title = " is the average of HH size (" . Str::title($avg['name']) . ")"; 
-                $colSize = 6 / count($hhGenderAvg);
-                $hhProfile->push(
-                    Cards::create(
-                        [Cards::create($avg['value'], 'NUM', $title)],
-                        'CARDS', false, $colSize
-                    )
-                );
-            });
-            $hhProfile->push(
+
+                                $hhProfile = collect([
+                Cards::create(
+                    [Cards::create($household->median(), 'NUM', 'Median household size')]
+                    , 'CARDS', false, 6
+                ),
                 Cards::create(
                     [Cards::create(round($household->avg(),2), 'NUM', 'is the average HH Size')]
                     , 'CARDS', false, 6
-                )
-            );
+                ),
+                Cards::create(Utils::getValues($id, 'hh_gender_farmer'), 'PIE', "Gender", 6),
+                Cards::create([$head_gender_tmp], 'TABLE', "Test Table", 6)
+                // Cards::create($hhSize, 'UNSORTED HORIZONTAL BAR', "Household Size", 6)
+            ]);
+            // $hhGenderAvg->each(function($avg) use ($hhGenderAvg, $hhProfile){
+            //     $title = " is the average of HH size (" . Str::title($avg['name']) . ")"; 
+            //     $colSize = 6 / count($hhGenderAvg);
+            //     $hhProfile->push(
+            //         Cards::create(
+            //             [Cards::create($avg['value'], 'NUM', $title)],
+            //             'CARDS', false, $colSize
+            //         )
+            //     );
+            // });
+            // $hhProfile->push(
+            //     Cards::create(
+            //         [Cards::create(round($household->avg(),2), 'NUM', 'is the average HH Size')]
+            //         , 'CARDS', false, 6
+            //     )
+            // );
             return [
                 'summary' => [$total, $form->kind, $form->country, $form->company],
                 'tabs' => [[
@@ -177,16 +230,19 @@ class ApiController extends Controller
             ];
         }
 
-        if ($request->tab === "farmer-profile") {
+        if ($request->tab === "farmer-profile") {            
             $age = Utils::getValues($id, 'hh_age_farmer', false);
             $genderAge = Utils::mergeValues($age, 'hh_gender_farmer');
-            $landownership = Utils::getValues($id, 'f_ownership');
-            $owned_land = collect($landownership)->where('name','I Own All The Land')->first();
-            $owned_land = round(($owned_land['value'] / $total) * 100, 0);
+            // $landownership = Utils::getValues($id, 'f_ownership');
+            // $owned_land = collect($landownership)->where('name','I Own All The Land')->first();
+            // $owned_land = round(($owned_land['value'] / $total) * 100, 0);
             $farmerProfile = [
-                Cards::create($genderAge, 'HISTOGRAM', 'Age of Farmer'),
-                Cards::create(Utils::getValues($id, 'hh_education_farmer'), 'BAR', 'Education Level'),
-                Cards::create($landownership, 'BAR', "Farmers' land ownership status"),
+                Cards::create(Utils::getValues($id, 'hh_gender_farmer'), 'PIE', "Gender", 6),
+                Cards::create($genderAge, 'HISTOGRAM', 'Age of Farmer', 6),
+                // Cards::create(Utils::getValues($id, 'hh_education_farmer'), 'BAR', 'Education Level', 6),
+                Cards::create(Utils::getValues($id, 'hh_education_farmer', false, true), 'BAR', 'Education Level by Gender', 6),
+                // Cards::create($landownership, 'BAR', "Farmers' land ownership status", 6),
+                Cards::create(Utils::getValues($id, 'f_ownership', false, true), 'BAR', "Farmers' land ownership status by Gender", 6),
             ];
             return [
                 'summary' => [$total, $form->kind, $form->country, $form->company],
@@ -198,6 +254,20 @@ class ApiController extends Controller
         }
 
         if ($request->tab === "farm-practices") {
+            $income_by_third_crop = collect(Utils::mergeValues(Utils::getValues($id, 'f_other_crop_income', false), 'f_third_crop'));
+            $total_income_by_third_crop = $income_by_third_crop['data']->max('total');
+            $income_by_third_crop['data'] = $income_by_third_crop['data']->transform(function ($item) use ($total_income_by_third_crop) {
+                if ($item['name'] !== 'all') {
+                    $percent = round(($item['total']/$total_income_by_third_crop)*100, 2);
+                    // $item['value'] = strval($percent).'%';
+                    $item['value'] = $percent;
+                }
+                $item = Arr::except($item, ['data']);
+                return $item;
+            })->reject(function ($item) {
+                return $item['name'] === 'all';
+            });
+
             $crops = Utils::getValues($id, 'f_crops');
             $producedCrops = Utils::getValues($id, 'f_produced (kilograms)', false);
             $fsdmId = Variable::where('name', 'f_sdm_size (acre)')->first();
@@ -227,12 +297,71 @@ class ApiController extends Controller
                 Cards::create([Cards::create($avgProducedCrops, 'NUM', 'is the average Productivity')], 'CARDS',false, 6),
                 Cards::create([Cards::create($avgSoldCrops, 'NUM', 'is the average Sold Crops')], 'CARDS',false, 6),
                 Cards::create($livestock, 'BAR','Livestock'),
+                Cards::create($income_by_third_crop['data'], 'BAR', 'Third highest income crop - other (%)'),
             ];
             return [
                 'summary' => [$total, $form->kind, $form->country, $form->company],
                 'tabs' => [[
                     'name' => 'farm_practices',
                     'charts' => $farmpractices
+                ]]
+            ];
+        }
+
+        if ($request->tab === "farm-characteristics") {
+            $farm_size = Utils::getValues($id, 'f_size (acre)');
+            
+            $fsdmId = Variable::where('name', 'f_sdm_size (acre)')->first();
+            $farm_sizes = Utils::getValues($id, 'f_size (acre)', false)->map(function ($item) use ($fsdmId) {
+                $fsdmVal = Answer::where('form_instance_id', $item['form_instance_id'])
+                    ->where('variable_id', $fsdmId->id)->first()->value;
+                return [
+                    'id' => $item->id,
+                    'form_instance_id' => $item->form_instance_id,
+                    'variable_id' => $item->variable_id,
+                    'form_id' => $item->form_id,
+                    'value' => $fsdmVal + $item->value,
+                ];
+            });
+            $farm_sizes = collect(Utils::mergeValues($farm_sizes, 'f_first_crop'));
+            $total_farm_sizes = $farm_sizes['data']->max('total');
+            $only_farm_sizes = $farm_sizes['data']->where('name', strtolower($form->kind))->first();
+            
+            $second_crop = collect(Utils::getValues($id, 'f_second_crop'));
+            $total_second_crop = $second_crop->reject(function ($item) {
+                return strtolower($item['name']) === strtolower("No Second Crop");
+            })->pluck('value')->sum();
+
+            $livestock = collect(Utils::getValues($id, 'f_livestock'))->reject(function($data){
+                return Str::contains($data['name'],"No"); 
+            })->values();
+            
+            $crops = collect(Utils::getValues($id, 'f_crops'))->reject(function ($item) {
+                return $item['value'] < 10;
+            })->values();
+
+            $farmcharacteristics = [
+                Cards::create([
+                    Cards::create(round(collect($farm_size)->avg(), 2), 'NUM', 'Acres is the average farm size')
+                ], 'CARDS', false, 3),
+                Cards::create([
+                    Cards::create(round($only_farm_sizes['total']/$total_farm_sizes, 2)*100, 'PERCENT', 'Of the farm is on average dedicated to '.$only_farm_sizes['name'])
+                ], 'CARDS', false, 3),
+                Cards::create([
+                    Cards::create(round($total_second_crop/$total, 2)*100, 'PERCENT', 'Of the farmers had more than one crop')
+                ], 'CARDS', false, 3),
+                Cards::create([
+                    Cards::create(round($livestock->pluck('value')->sum()/$total, 2)*100, 'PERCENT', 'Of the farmers have livestock')
+                ], 'CARDS', false, 3),
+                Cards::create($livestock, 'BAR','Livestock'),
+                Cards::create($crops, 'BAR','Most grow crops'),
+            ];
+
+            return [
+                'summary' => [$total, $form->kind, $form->country, $form->company],
+                'tabs' => [[
+                    'name' => 'farm_characteristics',
+                    'charts' => $farmcharacteristics
                 ]]
             ];
         }

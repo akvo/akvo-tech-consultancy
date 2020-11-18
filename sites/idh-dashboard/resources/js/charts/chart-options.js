@@ -25,6 +25,7 @@ export const TextStyle = {
 
 export const Color = {
     color: ["#36AA40", "#e21836", "#f68e1f", "#ec008b", "#07bbc1", "#006eb6", "#87c440", "#40ae49", "#FFE800"],
+    // color: ["#00b3b6", "#fc5d5c", "#F0E540", "#FEFDF2", "#2EA079", "#006eb6", "#87c440", "#40ae49", "#FFE800"],
 };
 
 export const Legend = {

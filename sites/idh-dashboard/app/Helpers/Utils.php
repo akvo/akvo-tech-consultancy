@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Arr;
 use App\Models\Form;
 use App\Models\FormInstance;
 use App\Models\Option;
@@ -21,13 +22,13 @@ class Utils {
         ];
     }
 
-    public static function getValues($form_id, $variable_name, $pluck=true)
+    public static function getValues($form_id, $variable_name, $pluck=true, $withGender=false)
     {
         $var = Variable::where('name',$variable_name)->first();
         $data = self::getVarValue($form_id, $var);
-        if ($var->type === 'option') {
+        if ($var->type === 'option' && !$withGender) {
             $data = $data->pluck('options');
-            $data= $data->flatten()
+            $data = $data->flatten()
                         ->countBy('option_id')
                         ->transform(function($val, $key) {
                             return [
@@ -35,6 +36,37 @@ class Utils {
                                 'value' => $val
                             ];
                         })->values();
+            return $data;
+        }
+        if ($var->type === 'option' && $withGender) {
+            $genderVar = Variable::where('name', 'hh_gender_farmer')->first();
+            $data = $data->transform(function ($item) use ($genderVar) {
+                $item['gender'] = Answer::where([
+                    ['form_instance_id', $item->form_instance_id],
+                    ['form_id', $item->form_id],
+                    ['variable_id', $genderVar->id]
+                ])->with('options')->get()
+                ->pluck('options')->flatten()
+                ->pluck('option_id')[0];
+                $item['option_id'] = collect($item->options)->pluck('option_id')[0];
+                $item = Arr::except($item, ['options']);
+                return $item;
+            })->groupBy('option_id')->map(function ($item) {
+                $item = $item->countBy('gender')
+                            ->transform(function($val, $key) {
+                                return [
+                                    'name' => Option::where('id',$key)->first()->text,
+                                    'value' => $val
+                                ];
+                            })->values();
+                return $item;
+            })->transform(function($val, $key) {
+                return [
+                    'name' => Option::where('id',$key)->first()->text,
+                    'value' => $val->pluck('value')->sum(),
+                    'gender' => $val,
+                ];
+            })->values();;
             return $data;
         }
         if ($pluck){

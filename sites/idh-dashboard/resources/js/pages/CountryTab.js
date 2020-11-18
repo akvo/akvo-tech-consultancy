@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom';
 import LoadingContainer from "../components/LoadingContainer";
 import Charts from "../components/Charts.js";
 import Cards from "../components/Cards.js";
+import Tables from "../components/Tables.js";
 import { Row, Col, Card, Form, Button } from "react-bootstrap";
 import { queueApi, getApi, userDownload } from "../data/api.js";
 import { generateData } from "../charts/chart-generator.js";
@@ -102,6 +103,16 @@ class CountryTab extends Component {
                 key={"card-" + i}
                 dataset={x.data}
                 config={x.config}/>;
+        }
+        if (x.kind === "TABLE") {
+            console.log(x);
+            return <Tables
+                identifier={x.identifier}
+                title={x.title}
+                kind={x.kind}
+                key={"table-" + i}
+                dataset={x.data}
+                config={x.config} />
         }
         return <Charts
                 identifier={x.identifier}

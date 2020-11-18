@@ -87,7 +87,7 @@ class Country extends Component {
             return <Loading />
         }
         let tab = params.tab;
-        let tabs = ["overview", "hh-profile", "farmer-profile", "farm-practices"];
+        let tabs = ["overview", "hh-profile", "farmer-profile", "farm-practices", "farm-characteristics"];
             tabs = resource.access ? [...tabs, "download"] : tabs;
         return (
             <Fragment>
