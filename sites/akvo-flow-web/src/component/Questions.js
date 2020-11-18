@@ -88,10 +88,10 @@ class Questions extends Component {
                 <div key={"card-" + qid + "-" + qi} id={"form-" + qid}>
                     {question.groupIndex && question.repeat ? (<GroupPanels data={question} type="header"/>) : ""}
                 <Card className={question.show === false ? "d-none" : ""}>
+                    {question.mandatory ? this.renderMandatoryIcon(qid, question) : ""}
                     <CardBody key={"card-body-" + qid} id={"card-body-" + qid}>
                         <CardTitle key={"card-title-" + qid}>
                             <span dangerouslySetInnerHTML={{__html: question.order.toString() + ". " + localization}} />
-                            {question.mandatory ? this.renderMandatoryIcon(qid, question) : ""}
                             {question.help !== undefined ? <ToolTip question={question}/> : ""}
                             {question.type === "photo" ? this.renderCachedImage(qid) : ""}
                         </CardTitle>

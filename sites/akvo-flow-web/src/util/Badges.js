@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Button } from "reactstrap";
 import {
     FaExclamationTriangle,
     FaCheckCircle,
@@ -9,10 +8,17 @@ import {
 
 export const Mandatory = answered => {
     if (answered) {
-        return <FaCheckCircle color="green" className="float-right" />;
-    } else {
-        return <FaExclamationTriangle color="red" className="float-right" />;
+        return (
+            <div className="mandatory-icon">
+                <FaCheckCircle color="green" className="float-right" />
+            </div>
+        );
     }
+    return (
+        <div className="mandatory-icon">
+            <FaExclamationTriangle color="red" className="float-right" />
+        </div>
+    );
 };
 
 class ToolTip extends Component {
@@ -50,15 +56,12 @@ class ToolTip extends Component {
             }
             return (
                 <div>
-                    <Button
-                        className="more-info"
-                        size="sm"
-                        outline={this.state.show}
-                        color={this.state.show ? "secondary" : "primary"}
+                    <button
+                        className={ "more-info " + (this.state.show ? "more-info-active" : "")}
                         onClick={e => this.showToolTip(e)}
                     >
                         {this.state.show ? <FaTimesCircle/> : <FaInfoCircle/>} more info
-                    </Button>
+                    </button>
                     <div
                         dangerouslySetInnerHTML={{__html: question}}
                         className={this.state.show ? "more-info-content" : "hidden"}
