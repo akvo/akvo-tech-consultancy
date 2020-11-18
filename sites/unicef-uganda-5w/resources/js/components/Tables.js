@@ -41,120 +41,83 @@ class Tables extends Component {
     }
 
     getRowTable() {
-        let valType = this.props.value.filters.selected.type;
-        let orgs = this.props.value.filters.organisations.filter(
-                x => {
-                    let active = this.props.value.filters.selected.filter;
-                    if (active.sub_domain) {
-                        return x.sub_domain === active.sub_domain;
+        let base = this.props.value.base;
+        let config = base.config;
+        let page = this.props.value.page.name;
+        let data = this.props.value.filters[page].data;
+        data = data.map((x, i) => {
+            let results = {no: (i+1), ...x};
+            for (const v in x) {
+                let column = config.find(n => n.name === v);
+                if (column !== undefined && column.on) {
+                    let value = base[column.on].find(a => a.id === x[v]);
+                    results = {
+                        ...results,
+                        [v]: value.text
                     }
-                    if (active.domain) {
-                        return x.domain === active.domain;
+                    if (v === "sub_domain") {
+                        results = {
+                            ...results,
+                            unit: value.unit
+                        }
                     }
-                    return true;
                 }
-            );
-        let org_values = {};
-        let list = this.props.value.filters.list;
-        orgs = orgs.map((x,i) => {
-            let domain = list.find(l => l.id === x.domain);
-            let sub_domain = list.find(l => l.id === x.sub_domain);
-            let location_name = x.parent !== null ? (x.parent.name + ' - ' + x.location) : x.location;
-            let name = x.name + '___'
-                + domain.name + '___'
-                + sub_domain.name + '___'
-                + location_name + '___'
-                + x.activity;
-            let value_new = org_values[name] === undefined
-                ? x.value_new
-                : org_values[name]['value_new'] + x.value_new;
-            let value_total = org_values[name] === undefined
-                ? x.value_total
-                : org_values[name]['value_total'] + x.value_total;
-            let value_quantity = org_values[name] === undefined
-                ? x.value_quantity
-                : org_values[name]['value_quantity'] + x.value_quantity;
-            let activities = org_values[name] === undefined ? 1 : org_values[name]['activities'] + 1;
-            org_values = {
-                ...org_values,
-                [name]: {
-                    value_new: value_new,
-                    value_quantity: value_quantity,
-                    value_total: value_total,
-                    activities: activities,
-                    unit: x.unit
-                }
-            };
-            return true;
+            }
+            return results;
         });
-        let rows = [];
-        let i = 0;
-        for (let val in org_values) {
-            i++;
-            let vars = val.split('___');
-            rows = [
-                ...rows,
-                {
-                    no: i,
-                    location: titleCase(vars[3]),
-                    org: vars[0],
-                    activity: titleCase(vars[4]),
-                    domain: titleCase(vars[1]),
-                    sub_domain: titleCase(vars[2]),
-                    qty: org_values[val].value_quantity,
-                    unit: org_values[val].unit,
-                    total_beneficiaries: org_values[val].value_total,
-                }
-            ];
-        }
-        return rows;
+        data = data.map(x => {
+            return {
+                ...x,
+                location: x.region + ', ' + x.district,
+            }
+        });
+        return data;
     }
 
     render() {
-        let columnname = this.props.value.filters.selected.type;
         const columns = [
           {
             name: 'No',
             selector: 'no',
             sortable: true,
-            maxWidth: '5px'
+            maxWidth: '50px',
+            width: '50px'
           },
           {
-            name: 'Location',
+            name: 'Region / District',
             selector: 'location',
             sortable: true,
-            right: true,
             maxWidth: '250px'
           },
           {
             name: 'Type',
             selector: 'activity',
             sortable: true,
-            right: true,
+            maxWidth: '200px'
           },
           {
             name: 'NGO',
-            selector: 'org',
+            selector: 'org_name',
             sortable: true,
-            right: true,
             maxWidth: '100px'
           },
           {
-            name: 'Category',
+            name: 'Domain',
             selector: 'domain',
             sortable: true,
-            right: true,
+            wrap: true,
             maxWidth: '50px'
           },
           {
             name: 'Activity',
             selector: 'sub_domain',
             sortable: true,
-            right: true,
+            wrap: true,
+            minWidth: '200px'
           },
           {
             name: 'Qty',
-            selector: 'qty',
+            selector: 'quantity',
             sortable: true,
             right: true,
             maxWidth: '15px'
@@ -163,12 +126,11 @@ class Tables extends Component {
             name: 'Unit',
             selector: 'unit',
             sortable: true,
-            right: true,
             minWidth: '200px'
           },
           {
             name: 'Total Beneficiaries',
-            selector: 'total_beneficiaries',
+            selector: 'total',
             sortable: true,
             right: true,
           },
@@ -176,7 +138,6 @@ class Tables extends Component {
         return (
         <Col className={"table-bottom"}>
             <DataTable
-                title={columnname === "reset" ? "All Organisations": titleCase(columnname)}
                 columns={columns}
                 data={this.getRowTable()}
                 customStyles={customStyles}

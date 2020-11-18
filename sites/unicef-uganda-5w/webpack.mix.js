@@ -4,11 +4,11 @@ const mix = require('laravel-mix');
  |--------------------------------------------------------------------------
  | Analyze Bundle Size
  |--------------------------------------------------------------------------
+ */
 require('laravel-mix-bundle-analyzer');
 if (mix.isWatching()) {
     mix.bundleAnalyzer();
 }
-/*
 
 /*
  |--------------------------------------------------------------------------
@@ -26,6 +26,7 @@ mix.react('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css');
 
 mix.copyDirectory('resources/images', 'public/images');
+mix.copyDirectory('resources/json', 'public/json');
 
 /*
 mix.browserSync({

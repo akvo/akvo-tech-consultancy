@@ -25,4 +25,8 @@
         </div>
     </body>
     <script src="{{mix('js/app.js')}}" type="text/javascript"></script>
+    <!-- Begin analitycs script -->
+    <script type="text/javascript" src="https://tc.akvo.org/analytics-18062020.js"></script>
+    <noscript><iframe src="//analytics.akvo.org/containers/f6fdd448-a2bc-4734-8aa0-dba4d0d0f2a3/noscript.html" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- end analytics script -->
 </html>

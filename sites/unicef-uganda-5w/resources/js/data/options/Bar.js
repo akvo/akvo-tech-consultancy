@@ -6,12 +6,13 @@ const Bar = (title, subtitle, list) => {
         title : {
             text: title,
             subtext: subtitle,
-            left: 'center',
+            left: '20px',
             top: '20px',
             ...TextStyle
         },
         grid: {
-            top: "30%",
+            top: "100px",
+            left: "30%",
             show: true
         },
         tooltip: {
@@ -20,29 +21,12 @@ const Bar = (title, subtitle, list) => {
             backgroundColor: "#ffffff",
             ...TextStyle
         },
-        toolbox: {
-            show: true,
-            orient: 'horizontal',
-            left: 'left',
-            top: 'top',
-            feature: {
-                dataView: {
-                    title: 'View Data',
-                    lang: ['Data View', 'Turn Off', 'Refresh'],
-                    icon: Icons.dataView,
-                    buttonColor: '#0478a9'
-                },
-                saveAsImage: {
-                    type: 'jpg',
-                    title: 'Save Image',
-                    icon: Icons.saveAsImage,
-                    backgroundColor: '#ffffff'
-                },
-            },
-        },
         yAxis: {
             type: 'category',
             data: list.labels,
+            axisLabel: {
+                interval: 0,
+            },
         },
         xAxis: {
             type: 'value'
@@ -53,7 +37,7 @@ const Bar = (title, subtitle, list) => {
                 type: 'bar'
             },
         ],
-        ...backgroundColor,
+        backgroundColor: "#ffffff",
         ...Easing,
     };
     return option;

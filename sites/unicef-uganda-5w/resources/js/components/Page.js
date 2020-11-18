@@ -12,6 +12,7 @@ import PageActivities from '../pages/PageActivities';
 import PageWebform from '../pages/PageWebform';
 import axios from 'axios';
 import Loading from './Loading';
+import { centeroid } from '../data/uganda-points.js';
 
 const prefixPage = process.env.MIX_PUBLIC_URL + "/api/";
 
@@ -25,39 +26,40 @@ class Page extends Component {
     componentDidMount() {
         this.props.page.loading(true);
         const now = new Date();
-        const get1 = () => {return new Promise((resolve, reject) => {
-            axios.get(prefixPage + "filters").then(res => {
-                this.props.filter.category.init(res.data);
-                let selected = this.props.value.filters.selected.filter.domain;
-                selected = this.props.value.filters.list.find(x => x.id === selected);
-                axios.get(prefixPage + "locations/values/" + selected.id)
-                    .then(res => {
-                        this.props.filter.location.push(res.data)
-                        resolve("filters and location values");
-                    });
+        this.props.page.loading(true);
+        const getCovidData = () => {
+            return new Promise((resolve, reject) => {
+            axios.get(prefixPage + 'covid/district').then(res => {
+                let values = res.data;
+                let results = centeroid.map(x => {
+                    let data = values.find(v => v.name === x.name);
+                    let vals = data ? data.confirmed : 0;
+                    return {
+                        name: x.name,
+                        value:[...x.value, vals],
+                        data: data
+                    }
                 });
-        })};
-        const get2 = () => {return new Promise((resolve, reject) => {
-            axios.get(prefixPage + "locations").then(res => {
-                this.props.filter.location.init(res.data);
-                resolve("locations");
+                this.props.chart.covid.init(results);
+                localStorage.setItem('covid-district', JSON.stringify(results));
+                resolve('covid-data');
             });
         })};
-        const get3 = () => {return new Promise((resolve, reject) => {
-            axios.get(prefixPage + "locations/organisations").then(res => {
-                    this.props.filter.organisation.init(res.data);
-                    this.props.page.loading(false)
-                    this.props.chart.state.loading(false)
-                    resolve("locations organisations");
-                });
-        })};
+        const getData = () => {
+            return new Promise((resolve, reject) => {
+            axios.get(prefixPage + 'data').then(res => {
+                this.props.filter.init(res.data);
+                this.props.page.loading(false);
+                resolve('finish');
+            });
+        })}
         let cachetime = localStorage.getItem('cache-time');
         let cache_version = document.getElementsByName('cache-version')[0].getAttribute('value');
         let current_version = localStorage.getItem('cache-version');
         cachetime = cachetime !== null ? new Date(parseInt(cachetime) + (5 * 60 * 1000)) : new Date(0);
         if (now > cachetime || cache_version !== current_version) {
             localStorage.clear();
-            Promise.all([get3(), get2(), get1()]).then(res => {
+            Promise.all([getData(), getCovidData()]).then(res => {
                 localStorage.setItem('cache', JSON.stringify(this.props.value));
                 localStorage.setItem('cache-time', now.getTime());
                 localStorage.setItem('cache-version', cache_version);
@@ -69,6 +71,8 @@ class Page extends Component {
             this.props.cache.restore(cached);
             setTimeout(() => {
                 this.props.chart.state.loading(false);
+                let covid = localStorage.getItem('covid-district');
+                this.props.chart.covid.init(JSON.parse(covid));
             }, 2000);
         }
     }
@@ -76,10 +80,10 @@ class Page extends Component {
     activePage () {
         let page = this.props.value.page.name;
         switch(page) {
-            case "activities":
-                return <PageActivities parent={this.props}/>
             case "webform":
                 return <PageWebform parent={this.props}/>
+            case "activities":
+                return <PageActivities parent={this.props}/>
             default:
                 return <PageOverviews parent={this.props}/>
         }
@@ -91,6 +95,9 @@ class Page extends Component {
             <Fragment>
             <Navigation/>
                 {loading ? (<Loading/>) : this.activePage()}
+            <footer className="text-center">
+                  <img className="footer-img" src={`${process.env.MIX_PUBLIC_URL}/images/logo-wai.jpg`}/>
+            </footer>
             </Fragment>
         );
     }

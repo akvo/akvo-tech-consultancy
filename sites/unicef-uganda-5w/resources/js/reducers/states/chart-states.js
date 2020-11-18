@@ -16,6 +16,7 @@ export const chartState = {
     options: [
         {
             id: 1,
+            page: 'Loading',
             options: []
         }
     ],
@@ -52,7 +53,8 @@ export const chartState = {
         value: 1,
         description: "",
         values: [{ id:1, code: "", name: "Loading", value: 0}]
-    }
+    },
+    covid: [{name:'Loading', value:[0,0,0]}]
 };
 
 export const appendData = (state, data) => {
@@ -63,10 +65,11 @@ export const appendData = (state, data) => {
     };
 };
 
-export const appendOption = (state, id, option) => {
+export const appendOption = (state, id, page, option) => {
+    let current = state.options.filter(x => x.id !== id && x.page !== page);
     return {
         ...state,
-        options: [...state.option, { id: id, option: option }]
+        options: [...current, { id: id, page: page, option: option }]
     };
 };
 
