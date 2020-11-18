@@ -46,7 +46,7 @@ class ForgotPassword extends Component {
                 })
                 .catch((err) => {
                     console.log(err);
-                    this.setState({...err, error: true});
+                    this.setState({...err, error: true, disable_submit: false});
                 });
             return;
         }
@@ -58,7 +58,7 @@ class ForgotPassword extends Component {
                 }, 3000);
             })
             .catch((err) => {
-                this.setState({...err, error: true});
+                this.setState({...err, error: true, disable_submit: false});
             });
     }
 
@@ -100,6 +100,7 @@ class ForgotPassword extends Component {
             </Form.Text>
         ));
     }
+
     componentDidMount() {
         let params = this.props.match.params;
         if (params.verifyToken !== undefined) {
