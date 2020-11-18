@@ -3,4 +3,4 @@ set -eu
 
 npm install
 
-npm run watch
+npm run hot

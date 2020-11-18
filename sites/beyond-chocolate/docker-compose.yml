@@ -6,8 +6,10 @@ services:
     command: tail -f /dev/null
     expose:
       - "80"
+      - "8080"
     ports:
       - 80:80
+      - 8080:8080
   nginx:
     image: nginx:1.19-alpine
     restart: unless-stopped
