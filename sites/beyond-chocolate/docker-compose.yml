@@ -55,6 +55,11 @@ services:
       MYSQL_ROOT_PASSWORD: secret
     volumes:
       - dbdata:/var/lib/mysql
+  mailhog:
+    image: mailhog/mailhog
+    restart: unless-stopped
+    ports:
+      - 8025:8025
 
 volumes:
   dbdata: {}
