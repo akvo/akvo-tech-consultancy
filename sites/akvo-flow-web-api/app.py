@@ -147,6 +147,12 @@ def survey(instance, survey_id, check):
                 pass
     if question_group_type is dict:
         try:
+            q = response["questionGroup"]["question"]
+            if q["type"] == "cascade":
+                cascade_list.append(endpoint + q["cascadeResource"] + ".zip")
+        except:
+            pass
+        try:
             for q in response["questionGroup"]["question"]:
                 if q["type"] == "cascade":
                     cascade_list.append(endpoint + q["cascadeResource"] + ".zip")
