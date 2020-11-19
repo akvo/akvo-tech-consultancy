@@ -8,8 +8,9 @@ services:
       - "80"
       - "8080"
     ports:
-      - 80:80
-      - 8080:8080
+      - 80:80       # Nginx
+      - 8080:8080   # React HMR
+      - 8025:8025   # Mailhog UI
   nginx:
     image: nginx:1.19-alpine
     restart: unless-stopped
@@ -58,8 +59,7 @@ services:
   mailhog:
     image: mailhog/mailhog
     restart: unless-stopped
-    ports:
-      - 8025:8025
+    network_mode: service:mainnetwork
 
 volumes:
   dbdata: {}
