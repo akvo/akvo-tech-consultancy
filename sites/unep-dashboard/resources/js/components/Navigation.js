@@ -105,21 +105,30 @@ class Navigation extends Component {
                     activeKey={this.props.value.page.name}
                     onSelect={this.changePage}
                 >
-                    <Nav.Link eventKey="overviews" active={"overviews" === page}>{lang.overviews}</Nav.Link>
-                    <Nav.Link eventKey="actions" active={"actions" === page}>{lang.actions}</Nav.Link>
-                    <Nav.Link eventKey="funding" active={"funding" === page}>{lang.funding}</Nav.Link>
-                    <Nav.Link eventKey="report" active={"report" === page}>{lang.report}</Nav.Link>
-                    <Nav.Link eventKey="compare" active={"compare" === page}>{lang.compare}</Nav.Link>
-                    <Nav.Link eventKey="support" active={"support" === page}>Support</Nav.Link>
-                    {/*
-                    <Nav.Link eventKey="stakeholder" active={"stakeholder" === page}>Stakeholder</Nav.Link>
-                    <Nav.Link eventKey="evaluation" active={"evaluation" === page}>Evaluation</Nav.Link>
-                    <Nav.Link eventKey="drivers" active={"drivers" === page}>Drivers and Barriers</Nav.Link>
-                    <Nav.Link eventKey="partnership" active={"partnership" === page}>Partnerships</Nav.Link>
-                    */}
+                    <Nav.Link
+                        data-tour={"tab-overview"}
+                        eventKey="overviews" active={"overviews" === page}>{lang.overviews}</Nav.Link>
+                    <Nav.Link
+                        data-tour={"tab-action"}
+                        eventKey="actions" active={"actions" === page}>{lang.actions}</Nav.Link>
+                    <Nav.Link
+                        data-tour={"tab-funding"}
+                        eventKey="funding" active={"funding" === page}>{lang.funding}</Nav.Link>
+                    <Nav.Link
+                        data-tour={"tab-reports"}
+                        eventKey="report" active={"report" === page}>{lang.report}</Nav.Link>
+                    <Nav.Link
+                        data-tour={"tab-compare"}
+                        eventKey="compare" active={"compare" === page}>{lang.compare}</Nav.Link>
+                    <Nav.Link
+                        data-tour={"tab-support"}
+                        eventKey="support" active={"support" === page}>Support</Nav.Link>
+                    <Nav.Link
+                        data-tour={"tab-documentation"}
+                        eventKey="documentation" active={"documentation" === page}>{lang.documentation}</Nav.Link>
                 </Nav>
                     <Form.Group
-                        data-tour={"multi-country"}
+                        data-tour={"switcher-multi-country"}
                         className="nav-right"
                         onChange={this.props.data.toggle.global}
                         controlId="formGroupGlobal">
@@ -130,6 +139,7 @@ class Navigation extends Component {
                       />
                     </Form.Group>
                     <Form.Group
+                        data-tour={"switcher-keep-filter"}
                         className="nav-right"
                         onChange={this.props.page.toggle.keepfilter}
                         controlId="formGroupSwitch">
@@ -144,12 +154,14 @@ class Navigation extends Component {
                         icon={["fas", "print"]}
                         onClick={e => this.printPage()}
                     />
+                  {/*
                   <Dropdown className="dropdown-lang">
-                      <Dropdown.Toggle variant="primary">{LocaleName[this.props.value.locale.active]}</Dropdown.Toggle>
+                  <Dropdown.Toggle variant="primary">{LocaleName[this.props.value.locale.active]}</Dropdown.Toggle>
                       <Dropdown.Menu>
-                          {this.renderLangList()}
+                      {this.renderLangList()}
                       </Dropdown.Menu>
-                </Dropdown>
+                  </Dropdown>
+                  */}
               </Navbar.Collapse>
               </Container>
             </Navbar>

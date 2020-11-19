@@ -82,10 +82,12 @@ class ApiController extends Controller
                     'total' => count($dp)
                 ];
             });
+            $global = isset($this->collection[$c]) ? $this->collection[$c] : 0;
+            $total = $v === 0 ? 0 : $v - $global;
             return [
                 'country_id' => $c,
-                'global' => $v,
-                'total' => isset($this->collection[$c]) ? $this->collection[$c] : 0,
+                'global' => $global,
+                'total' => $total,
                 'values' => $vid
             ];
         })->values();

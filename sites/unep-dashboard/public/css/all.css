@@ -20,6 +20,17 @@ p.top-ten{
     font-size: 12px;
 }
 
+a.bold {
+    font-weight: 600;
+    padding: 0px 3px;
+    color: #009fe3;
+}
+a.bold:hover {
+    background-color: #009fe3;
+    text-decoration:none;
+    color: #fff;
+}
+
 .top-container.container {
     position: fixed;
     z-index: 1;
@@ -55,11 +66,12 @@ h3.popover-header {
 }
 
 #basic-navbar-nav .nav-right.form-group{
-    margin-top: 14px;
     margin-bottom: 0px;
-    margin-right: 10px;
+    padding-right: 10px;
+    padding-left: 10px;
     font-size: 14px;
     font-family:"Assistant", sans-serif;
+    padding-top: 6px;
 }
 #basic-navbar-nav .nav-right.form-group label{
     padding-top:1px;
@@ -218,6 +230,10 @@ h3.popover-header {
     margin-top: 102px;
 }
 
+#wrapper-up {
+    margin-top: 50px;
+}
+
 #wrapper.toggled #sidebar-wrapper {
     margin-left: 0;
 }
@@ -233,6 +249,7 @@ h3.popover-header {
         min-width: 0;
         width: 100%;
     }
+    #wrapper-up.toggled #sidebar-wrapper,
     #wrapper.toggled #sidebar-wrapper {
         margin-left: -20rem;
     }
@@ -732,6 +749,12 @@ h3.table-title{
     max-width: 90%;
     padding: 10px;
 }
+table.vertical-align-top td{
+    vertical-align:top;
+    padding: 10px 0px;
+    border-bottom:solid #ddd 1px;
+}
+
 
 /* Nav Switcher */
 .nav-right-panel {
@@ -764,14 +787,14 @@ h3.table-title{
 .btn.btn-selected .badge.badge-filters.badge-sm{
     background-color: #009fe2;
 }
-button.btn.btn-sm.btn-primary.btn-download {
+button.btn.btn-sm.btn-download {
     padding: 4px 15px!important;
     margin-right: 10px;
     border-radius: 30px!important;
     border: none!important;
     float: right;
 }
-button.btn.btn-sm.btn-primary.btn-download svg{
+button.btn.btn-sm.btn-download svg{
     margin-right:10px;
 }
 
@@ -964,6 +987,7 @@ button.btn.btn-sm.btn-primary.btn-download svg{
     -moz-transition: all 0.3s ease;
     -o-transition: all 0.3s ease;
     transition: all 0.3s ease;
+    z-index: 20;
 }
 .section-scroll:hover{
     background: rgb(255,255,255, .8);
@@ -996,6 +1020,11 @@ button.btn.btn-sm.btn-primary.btn-download svg{
 }
 
 /*Supports*/
+.card-fixed {
+    position: fixed!important;
+    right: 0px;
+}
+
 .card-supports.card{
     border-radius: 0px;
     margin-top:20px;
@@ -1036,4 +1065,50 @@ button.reactour__close {
     padding: 6px 10px!important;
     border: #ddd solid 1px!important;
     font-size: 13px !important;
+}
+
+/* Docs */
+
+.redoc-wrap {
+    font-family: "Assistant", sans-serif!important;
+}
+.redoc-wrap h1 {
+    color: #000!important;
+}
+
+.redoc-wrap .menu-content .fpeweU a,
+.redoc-wrap .menu-content .fpeweU a:visited,
+.redoc-wrap .menu-content .fpeweU a:hover, {
+    display:none!important;
+}
+.redoc-wrap h1, .redoc-wrap h2, .redoc-wrap h3, .redoc-wrap h4, .redoc-wrap h5 {
+    text-transform: none;
+    font-weight: bold;
+    color: #3e4145;
+}
+
+.redoc-wrap h3.sc-TOsTZ.iapbUb {
+    font-size: 14px;
+    font-weight: bold;
+    padding-bottom: 15px;
+    padding-top: 15px;
+}
+.redoc-wrap .dYrCvc {
+    font-family: "Assistant", sans-serif!important;
+}
+.eYZFTJ {
+    font-size: 14px!important;
+    font-weight: bold!important;
+    padding-bottom: 10px;
+}
+.iapbUb {
+    color: #FFF!important;
+}
+.redoc-wrap i {
+    font-weight:bold!important;
+    font-style: normal!important;
+}
+.llgjDj {
+    color: #181818!important;
+    font-weight:bold;
 }

@@ -126,6 +126,17 @@ export const states = (state = initialState, action) => {
                     }
                 }
             }
+        case 'PAGE - SIDEBAR HIDE':
+            return {
+                ...state,
+                page: {
+                    ...state.page,
+                    sidebar: {
+                        ...state.page.sidebar,
+                        active: false
+                    }
+                }
+            }
         case 'PAGE - SIDEBAR SWITCH GROUP':
             let cleared = updateState(state.data.filters, [], [], state.data)
             return {

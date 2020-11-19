@@ -77,4 +77,14 @@ spec:
                   secretKeyRef:
                     name: spiceup-demplot-notification 
                     key: mailjet-secret
+              - name: EMAIL_RECEIVER
+                valueFrom:
+                  secretKeyRef:
+                    name: spiceup-demplot-notification 
+                    key: email-receiver
+              - name: EMAIL_BCC
+                valueFrom:
+                  secretKeyRef:
+                    name: spiceup-demplot-notification 
+                    key: email-bcc
           restartPolicy: Never

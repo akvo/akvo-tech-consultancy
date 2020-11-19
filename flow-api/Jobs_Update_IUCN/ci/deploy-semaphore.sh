@@ -16,17 +16,12 @@ if [[ "${TRAVIS_PULL_REQUEST}" != "false" ]]; then
     exit 0
 fi
 
-log Making sure gcloud and kubectl are installed and up to date
-gcloud components install kubectl
-gcloud components update
-gcloud version
-command -v gcloud kubectl
-
 log Authentication with gcloud and kubectl
-gcloud auth activate-service-account --key-file "${GCLOUD_ACCOUNT_FILE}" --project "${PROJECT_NAME}"
+gcloud auth activate-service-account --key-file=/home/semaphore/.secrets/gcp.json
+gcloud config set project akvo-lumen
 gcloud config set container/cluster europe-west1-d
 gcloud config set compute/zone europe-west1-d
-gcloud config set container/use_client_certificate True
+gcloud config set container/use_client_certificate False
 
 ## TODO!!! Change to prod! Decide if we publish to test or not
 if [[ "${TRAVIS_BRANCH}" == "master" ]]; then
@@ -40,8 +35,8 @@ fi
 
 log Pushing images
 gcloud auth configure-docker
-docker push "eu.gcr.io/${PROJECT_NAME}/nabu-postgis:${TRAVIS_COMMIT}"
+docker push eu.gcr.io/${PROJECT_NAME}/jobs-update-iucn
 
-sed -e "s/\${TRAVIS_COMMIT}/$TRAVIS_COMMIT/g" ci/k8s/cronjob.yaml.template > cronjob.yaml.donotcommit
+sed -e "s/\${TRAVIS_COMMIT}/$TRAVIS_COMMIT/" ci/k8s/cronjob.yaml.template > cronjob.yaml.donotcommit
 
 kubectl apply -f cronjob.yaml.donotcommit

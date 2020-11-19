@@ -4,7 +4,7 @@ import { mapStateToProps } from "../reducers/actions.js";
 //import { PROD_URL } from '../util/Environment'
 import QuestionType from "./QuestionType.js";
 import GroupPanels from "./GroupPanels.js";
-import { Mandatory, ToolTip } from "../util/Badges";
+import ToolTip, { Mandatory } from "../util/Badges";
 import { Card, CardBody, CardTitle } from "reactstrap";
 import { validateMinMax, validateDoubleEntry } from '../util/Utilities.js'
 import "../App.css";
@@ -88,11 +88,11 @@ class Questions extends Component {
                 <div key={"card-" + qid + "-" + qi} id={"form-" + qid}>
                     {question.groupIndex && question.repeat ? (<GroupPanels data={question} type="header"/>) : ""}
                 <Card className={question.show === false ? "d-none" : ""}>
+                    {question.mandatory ? this.renderMandatoryIcon(qid, question) : ""}
                     <CardBody key={"card-body-" + qid} id={"card-body-" + qid}>
                         <CardTitle key={"card-title-" + qid}>
-                            {question.order.toString() + ". " + localization}
-                            {question.mandatory ? this.renderMandatoryIcon(qid, question) : ""}
-                            {question.help !== undefined ? ToolTip(question) : ""}
+                            <span dangerouslySetInnerHTML={{__html: question.order.toString() + ". " + localization}} />
+                            {question.help !== undefined ? <ToolTip question={question}/> : ""}
                             {question.type === "photo" ? this.renderCachedImage(qid) : ""}
                         </CardTitle>
                         {this.renderQuestion(qid, question)}
