@@ -31,6 +31,11 @@ header {
             text-transform: uppercase;
             margin-right: 4rem;
             color: $color-secondary;
+            text-indent:-9999px;
+            background-image: url(../images/logo.svg);
+            background-repeat:  no-repeat;
+            width:10rem;
+            height:3rem;
             &:hover {
                 color: $color-tertiary;
             }
@@ -71,8 +76,8 @@ main {
     height: 20vh;
     background-image: linear-gradient(
         to right bottom,
-        rgba($color-primary, 0.12    ),
-        rgba($color-tertiary, 0.2)),
+        rgba($color-yellow, 0.12),
+        rgba($color-tertiary, 0.5)),
     url(../images/hero.jpg);
     background-size: cover;
     background-position: center;
@@ -144,21 +149,27 @@ footer {
         dt {
             flex-basis: 20%;
             padding:0.75rem 1rem;
-            background: rgba($color-primary,0.4);
+            background: rgba($color-primary,0);
             text-align: left;
+            font-size: 1.2rem;
             color: $color-primary;
             font-weight: 400;
-            &:not(last-child) {margin-bottom: .5rem;}
+            border-top: 1px solid rgba($color-primary,0);
+            &:not(last-child) {
+                margin-bottom: 1rem;
+            }
         }
         dd {
             flex-basis: 70%;
             flex-grow: 1;
             margin: 0;
             padding: 0.75rem 1rem;
-            border-bottom: 1px solid rgba($color-primary,0.4);
-            border-top: 1px solid rgba($color-primary,0.4);
-            border-right: 1px solid rgba($color-primary,0.4);
-            &:not(last-child) {margin-bottom: .5rem;}
+            border-bottom: 1px solid rgba($color-primary,0);
+            border-top: 1px solid rgba($color-primary,0);
+            border-right: 1px solid rgba($color-primary,0);
+            &:not(last-child) {
+                margin-bottom: 1rem;
+                }
             border-radius: 0 0 .5rem 0;
         }
     } 
