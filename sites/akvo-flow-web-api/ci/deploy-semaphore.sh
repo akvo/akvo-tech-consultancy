@@ -39,6 +39,6 @@ sed -e "s/\${TRAVIS_COMMIT}/$TRAVIS_COMMIT/" ci/k8s/deployment.yaml > deployment
 
 kubectl apply -f deployment.yaml.donotcommit
 
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+#DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-$DIR/k8s/wait-for-k8s-deployment-to-be-ready.sh
+#$DIR/k8s/wait-for-k8s-deployment-to-be-ready.sh
