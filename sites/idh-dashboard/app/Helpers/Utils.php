@@ -66,7 +66,14 @@ class Utils {
                     'value' => $val->pluck('value')->sum(),
                     'gender' => $val,
                 ];
-            })->values();;
+            })->values();
+
+            // percent
+            $total = $data->pluck('value')->sum();
+            $data = $data->transform(function ($item) use ($total) {
+                $item['gender'] = self::setPercentValue(collect($item['gender']), $total);
+                return $item;
+            });
             return $data;
         }
         if ($pluck){
@@ -184,5 +191,46 @@ class Utils {
         return ['data' => $results];
     }
 
+    public static function getLastSubmissionDate($form_id)
+    {
+        $submission_dates = Utils::getValues($form_id, 'submission date');
+        $date = collect($submission_dates)->map(function ($sbm) {
+            $sbm['name'] = explode(' ', $sbm['name'])[0];
+            return $sbm;
+        })->pluck('name')->sort()->values()->first();
+        return $date;
+    }
 
+    public static function setPercentMergeValue($data, $top=false)
+    {
+        $total = $data->max('total');
+        $data = $data->transform(function ($item) use ($total) {
+            if ($item['name'] !== 'all') {
+                $percent = round(($item['total']/$total)*100, 2);
+                $item['value'] = $percent;
+            }
+            $item = Arr::except($item, ['data']);
+            return $item;
+        })->reject(function ($item, $idx) use ($top) {
+            if ($top) {
+                return $item['name'] === 'all' || $idx >= $top;
+            }
+            return $item['name'] === 'all';
+        });
+        return $data;
+    }
+
+    public static function setPercentValue($data, $total=false)
+    {
+        if (!$total) {
+            $total = $data->pluck('value')->sum();
+        }
+        $data = $data->transform(function ($item) use ($total) {
+            $item['count'] = $item['value'];
+            $percent = round(($item['value']/$total)*100, 2);
+            $item['value'] = $percent;
+            return $item;
+        });
+        return $data;
+    }
 }

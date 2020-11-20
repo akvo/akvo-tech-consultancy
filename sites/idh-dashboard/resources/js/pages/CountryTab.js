@@ -70,6 +70,7 @@ class CountryTab extends Component {
                             let rows = chart.data.map((c, i) => {
                                 return {
                                     identifier: "cards-" + ix + "-" + i,
+                                    first_title: c.first_title,
                                     title: c.title,
                                     data: c.data,
                                     kind: c.kind,
@@ -105,7 +106,6 @@ class CountryTab extends Component {
                 config={x.config}/>;
         }
         if (x.kind === "TABLE") {
-            console.log(x);
             return <Tables
                 identifier={x.identifier}
                 title={x.title}

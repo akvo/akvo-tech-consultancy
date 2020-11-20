@@ -8,7 +8,7 @@ return [
         [
             'sid' => 84400281,
             'fid' => 92080291,
-            'file' => $path . '23092020_DD_UI_Input-92080291_v2.csv',
+            'file' => $path . '2020-11-17_DD_UI_Input_mwea.csv',
             'kind' => 'Rice',
             'country' => 'Kenya',
             'company' => 'Mwea Rice',
@@ -19,7 +19,7 @@ return [
         [
             'sid' => 66630001,
             'fid' => 70650001,
-            'file' => $path . '23092020_DD_UI_Input_egranary-66630001_v2.csv',
+            'file' => $path . '2020-11-17_DD_UI_Input_egranary.csv',
             'kind' => 'Maize',
             'country' => 'Kenya',
             'company' => 'E-granary',

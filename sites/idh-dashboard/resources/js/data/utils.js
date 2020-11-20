@@ -15,7 +15,7 @@ export const flatFilters = filters => {
     filters.map(x => {
         x.childrens.map(c => {
             let name = x.name + " - " + c.kind;
-            source.push({ id: c.id, name: name, kind: c.kind, company: x.name, company: c.company, total: c.total });
+            source.push({ id: c.id, name: name, kind: c.kind, company: x.name, company: c.company, total: c.total, submission: c.submission });
         });
     });
     return source;

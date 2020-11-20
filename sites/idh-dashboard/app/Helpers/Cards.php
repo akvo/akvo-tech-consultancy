@@ -9,9 +9,11 @@ class Cards {
         $data, 
         $kind, 
         $title=false,
-        $width=12
+        $width=12,
+        $first_title=false
     ) {
         return [
+            'first_title' => $first_title,
             'title' => $title,
             'data' => $data,
             'kind' => $kind,

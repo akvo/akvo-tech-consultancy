@@ -9,9 +9,12 @@ class Tables extends Component {
 
     render() {
         let props = this.props;
+        console.log('Table.js', props);
         return (
             <Col md={props.config.column}>
+                <p class="text-center font-weight-bold">{props.title}</p>
                 <DataTable
+                    title={props.title}
                     className="table table-bordered table-sm"
                     columns={props.dataset[0].columns}
                     data={props.dataset[0].rows}
@@ -21,7 +24,7 @@ class Tables extends Component {
                     // onRowClicked={this.showDetail}
                     // defaultSortField="name"
                     // conditionalRowStyles={conditionalRowStyles}
-                    customStyles={customTableStyle}
+                    // customStyles={customTableStyle}
                     highlightOnHover={true}/>
             </Col>
         )
