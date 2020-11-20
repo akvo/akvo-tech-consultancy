@@ -8,9 +8,15 @@ import {
     faSignOutAlt,
     faGlobeEurope
 } from "@fortawesome/free-solid-svg-icons";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useHistory } from "react-router-dom";
+import request from "../utils/request";
 
 const Navigation = function() {
+    const history = useHistory();
+    const endSession = async function() {
+        await request().post("/logout");
+        history.push("/login");
+    };
     return (
         <Navbar expand="lg">
             <Navbar.Brand as={Link} to="/">
@@ -74,7 +80,7 @@ const Navigation = function() {
                             Manage User
                         </NavDropdown.Item>
                         <NavDropdown.Divider />
-                        <NavDropdown.Item href="#signout">
+                        <NavDropdown.Item onClick={endSession}>
                             <FontAwesomeIcon
                                 className="mr-2"
                                 icon={faSignOutAlt}

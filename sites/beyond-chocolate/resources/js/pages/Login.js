@@ -1,10 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faKey } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import request from "../utils/request";
 
 const Login = function() {
+    const history = useHistory();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [remember, setRemember] = useState(false);
+    const handleSubmit = async function(e) {
+        e.preventDefault();
+        await request().post("/login", {
+            email,
+            password,
+            remember
+        });
+        history.push("/webform");
+    };
     return (
         <Container>
             <Row className="justify-content-md-center">
@@ -12,11 +26,12 @@ const Login = function() {
                     <Card>
                         <Card.Header>Login</Card.Header>
                         <Card.Body>
-                            <Form>
+                            <Form onSubmit={handleSubmit}>
                                 <Form.Group controlId="formBasicEmail">
                                     <Form.Label>Email address</Form.Label>
                                     <Form.Control
                                         type="email"
+                                        onChange={e => setEmail(e.target.value)}
                                         placeholder="Enter email"
                                     />
                                     <Form.Text className="text-muted">
@@ -28,25 +43,26 @@ const Login = function() {
                                     <Form.Label>Password</Form.Label>
                                     <Form.Control
                                         type="password"
+                                        onChange={e =>
+                                            setPassword(e.target.value)
+                                        }
                                         placeholder="Password"
                                     />
                                 </Form.Group>
                                 <Form.Group controlId="formBasicCheckbox">
                                     <Form.Check
                                         type="checkbox"
+                                        onChange={e =>
+                                            setRemember(e.target.checked)
+                                        }
                                         label="Remember Login"
                                     />
                                 </Form.Group>
                                 <Row>
                                     <Col md={7}>
-                                        <Link to="/users">
-                                            <Button
-                                                variant="success"
-                                                type="submit"
-                                            >
-                                                Submit
-                                            </Button>
-                                        </Link>
+                                        <Button variant="success" type="submit">
+                                            Submit
+                                        </Button>
                                     </Col>
                                     <Col md={5} className="text-right">
                                         <a href="#">
