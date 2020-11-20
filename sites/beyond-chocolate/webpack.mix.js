@@ -16,6 +16,8 @@ mix.react("resources/js/app.js", "public/js").sass(
     "public/css"
 );
 
+mix.copyDirectory("resources/images", "public/images");
+
 mix.webpackConfig({
     devServer: {
         host: "0.0.0.0"

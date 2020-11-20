@@ -9,6 +9,9 @@ const Footer = function() {
                     <p>Akvo</p>
                     <p>© 2020</p>
                 </Col>
+                <Col>
+                    <img src="/images/example.png" />
+                </Col>
             </Row>
         </Container>
     );
