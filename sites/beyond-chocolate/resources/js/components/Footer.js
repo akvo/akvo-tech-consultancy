@@ -3,17 +3,27 @@ import { Container, Row, Col } from "react-bootstrap";
 
 const Footer = function() {
     return (
-        <Container fluid className="mt-md-5">
             <Row>
                 <Col>
-                    <p>Akvo</p>
-                    <p>© 2020</p>
-                </Col>
-                <Col>
-                    <img src="/images/example.png" />
+                    <div className="partnersLg">
+                        <div className="partnerImg">
+                            <a href="#">
+                                <img src="../../images/beyond.jpg" alt="" />
+                            </a>
+                        </div>
+                        <div className="partnerImg">
+                            <a href="#">
+                                <img src="../../images/gisco.jpg" alt="" />
+                            </a>
+                        </div>
+                        <div className="partnerImg">
+                            <a href="#">
+                                <img src="../../images/swiss.jpg" alt="" />
+                            </a>
+                        </div>
+                    </div>           
                 </Col>
             </Row>
-        </Container>
     );
 };
 

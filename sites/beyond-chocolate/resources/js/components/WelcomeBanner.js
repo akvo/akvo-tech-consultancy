@@ -3,7 +3,7 @@ import { Jumbotron } from "react-bootstrap";
 
 const WelcomeBanner = function() {
     return (
-        <Jumbotron>
+        <Jumbotron className="hero">
             <h1>Welcome to Beyond Chocolate Dataportal</h1>
         </Jumbotron>
     );

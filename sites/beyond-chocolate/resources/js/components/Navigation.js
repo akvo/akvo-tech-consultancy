@@ -12,9 +12,9 @@ import { Link, NavLink } from "react-router-dom";
 
 const Navigation = function() {
     return (
-        <Navbar bg="light" expand="lg">
+        <Navbar expand="lg">
             <Navbar.Brand as={Link} to="/">
-                Beyond Chocolate
+                cho-cooperative
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
@@ -28,10 +28,6 @@ const Navigation = function() {
                     <Nav.Link as={NavLink} to="/definition">
                         Definition
                     </Nav.Link>
-                    <NavDropdown title="Country" id="basic-nav-dropdown">
-                        <NavDropdown.Item href="#kenya">Kenya</NavDropdown.Item>
-                    </NavDropdown>
-                    <Nav.Link href="#compare">Compare</Nav.Link>
                 </Nav>
 
                 <Nav>

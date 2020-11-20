@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const Login = function() {
     return (
-        <Container fluid>
+        <Container>
             <Row className="justify-content-md-center">
                 <Col md={6}>
                     <Card>
