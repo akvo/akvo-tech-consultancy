@@ -2,6 +2,7 @@ import { Color, Icons, Easing, Legend, ToolBox, TextStyle, backgroundColor, spli
 import sum from "lodash/sum";
 import sortBy from "lodash/sortBy";
 import some from "lodash/some";
+import { textWordWrap } from "../../data/utils.js";
 
 export const Bar = (title, data, horizontal = false, unsorted = false) => {
     let withGender = some(data, 'gender');
@@ -32,7 +33,11 @@ export const Bar = (title, data, horizontal = false, unsorted = false) => {
     let horizontalxAxis = {
         data: axisLabels,
         axisLabel: {
-            show: horizontal ? true : false,
+            // show: horizontal ? true : false, 
+            show: true,
+            formatter: function(params) {
+                return textWordWrap(params);
+            }             
         },
         axisTick: {
             show: horizontal ? true : false,
@@ -55,7 +60,8 @@ export const Bar = (title, data, horizontal = false, unsorted = false) => {
                     return params.data.category;
                 },
                 position: "insideLeft",
-                show: horizontal ? false : true,
+                // show: horizontal ? false : true,
+                show: false,
                 color: "#222",
                 fontFamily: "Raleway",
                 padding: 5,
@@ -73,7 +79,9 @@ export const Bar = (title, data, horizontal = false, unsorted = false) => {
             return {
                 category: x.name,
                 Male: (typeof m !== 'undefined') ? m['value'] : 0,
-                Female: (typeof f !== 'undefined') ? f['value'] : 0
+                Female: (typeof f !== 'undefined') ? f['value'] : 0,
+                Male_count: (typeof m !== 'undefined') ? m['count'] : 0,
+                Female_count: (typeof f !== 'undefined') ? f['count'] : 0,
             }
         });
         return {
@@ -85,8 +93,10 @@ export const Bar = (title, data, horizontal = false, unsorted = false) => {
             },
             grid: {
                 top: 100,
-                right: 50,
-                left: horizontal ? 35 : 10,
+                // right: 50,
+                right: 10,
+                // left: horizontal ? 35 : 10,
+                left: horizontal ? 35 : 200,
                 show: true,
                 label: {
                     color: "#222",
@@ -97,13 +107,30 @@ export const Bar = (title, data, horizontal = false, unsorted = false) => {
                 data: ['Male', 'Female'],
                 ...Legend
             },
-            tooltip: {},
+            tooltip: {
+                trigger: "item",
+                // formatter: "{a} <br/>{b}: {c}",
+                formatter: function(params) {
+                    let key = params.seriesName;
+                    let count = key+'_count';
+                    return key+': '+params.data[key]+'% ('+params.data[count]+')';
+                },
+            },
             dataset: {
                 dimensions: dimensions,
                 source: source
             },
             xAxis: {},
-            yAxis: {type: 'category', show: false},
+            yAxis: {
+                type: 'category', 
+                show: true,
+                axisLabel: {
+                    show: true,
+                    formatter: function(params) {
+                        return textWordWrap(params);
+                    }
+                }
+            },
             series: [labelFormatter, labelFormatter],
             data: tableData,
             ...Color,
@@ -122,8 +149,10 @@ export const Bar = (title, data, horizontal = false, unsorted = false) => {
         },
         grid: {
             top: 100,
-            right: 50,
-            left: horizontal ? 35 : 10,
+            // right: 50,
+            right: 10,
+            // left: horizontal ? 35 : 10,
+            left: horizontal ? 35 : 200,
             show: true,
             label: {
                 color: "#222",
@@ -132,7 +161,10 @@ export const Bar = (title, data, horizontal = false, unsorted = false) => {
         },
         tooltip: {
             trigger: "item",
-            formatter: "{a} <br/>{b}: {c}",
+            // formatter: "{a} <br/>{b}: {c}",
+            formatter: function(params) {
+                return params.data.name+': '+params.data.value+'% ('+params.data.count +')';
+            },
         },
         legend: {
             ...Legend,
@@ -149,7 +181,8 @@ export const Bar = (title, data, horizontal = false, unsorted = false) => {
                         return params.data.name;
                     },
                     position: "insideLeft",
-                    show: horizontal ? false : true,
+                    // show: horizontal ? false : true,
+                    show: false,
                     color: "#222",
                     fontFamily: "Raleway",
                     padding: 5,

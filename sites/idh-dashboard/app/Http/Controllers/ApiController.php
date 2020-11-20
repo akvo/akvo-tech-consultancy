@@ -380,8 +380,12 @@ class ApiController extends Controller
             $crops_text = join(', ', $crop_names->toArray());
 
             $type = Utils::getValues($id, 'f_type');
-            $max_type = $type->sortByDesc('value')->values()->first();
-            $type_percent = round(($max_type['value']/$type->pluck('value')->sum())*100, 2);
+            $max_type['name'] = "...";
+            $type_percent = 0;
+            if ($type->count() > 0) {
+                $max_type = $type->sortByDesc('value')->values()->first();
+                $type_percent = round(($max_type['value']/$type->pluck('value')->sum())*100, 2);
+            }
 
             $farmcharacteristics = [
                 Cards::create([

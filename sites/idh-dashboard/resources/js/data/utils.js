@@ -30,3 +30,11 @@ export const initialNotification = {
     message: "",
     active: false
 };
+
+export const textWordWrap = (str) => {
+    let words = str.replace(/(?![^\n]{1,30}$)([^\n]{1,30})\s/g, '$1\n').split('\n');
+    words = words.map(x => {
+        return x+'\n';
+    });
+    return words.join('');
+};
