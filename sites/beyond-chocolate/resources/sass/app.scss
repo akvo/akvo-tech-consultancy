@@ -82,35 +82,44 @@ main {
     background-size: cover;
     background-position: center;
     position: relative;
-    .colourBg1 {
-        position: absolute;
-        height: 100%;
-        width: 25%;
-        background: rgba($color-yellow,0.3);
-        top:0;
-        left:50%;
-        z-index: 998;
-    }    
-    .colourBg2 {
-        position: absolute;
-        height: 100%;
-        width: 25%;
-        background: rgba($color-tertiary,0.6);
-        top:0;
-        left:75%;
-        z-index: 998;
-    }
-    h1 {
+
+        .colourBg1 {
+            position: absolute;
+            height: 100%;
+            width: 25%;
+            top:0;
+            clip-path: polygon(10% 0, 100% 0, 100% 100%, 0 100%);
+            background-image: linear-gradient(
+                to right bottom,
+                rgba($color-yellow, 0.2),
+                rgba($color-tertiary, 0.5));
+            left:50%;
+            z-index: 998;
+        }    
+        .colourBg2 {
+            position: absolute;
+            height: 100%;
+            width: 25%;
+            top:0;
+            background-image: linear-gradient(
+                to right bottom,
+                rgba($color-secondary, 0.3),
+                rgba($color-red, 0.5));
+            left:75%;
+            z-index: 998;
+        }    
+        h1 {
         position: absolute;
         z-index: 999;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         text-align: left;
-        color: white;
+        color: $color-secondary;
         font-weight: 700;
         font-size: 2rem;
         letter-spacing: .8rem;
+        text-shadow: 2px 2px 0 rgba($color-primary,.3);
         }
     }
 footer {
