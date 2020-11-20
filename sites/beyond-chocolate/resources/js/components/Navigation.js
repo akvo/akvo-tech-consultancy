@@ -8,7 +8,7 @@ import {
     faSignOutAlt,
     faGlobeEurope
 } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const Navigation = function() {
     return (
@@ -19,11 +19,19 @@ const Navigation = function() {
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
-                    <Nav.Link href="#">Home</Nav.Link>
+                    <Nav.Link as={NavLink} to="/login">
+                        Home
+                    </Nav.Link>
+                    <Nav.Link as={NavLink} to="/webform">
+                        Web form
+                    </Nav.Link>
+                    <Nav.Link as={NavLink} to="/definition">
+                        Definition
+                    </Nav.Link>
                     <NavDropdown title="Country" id="basic-nav-dropdown">
-                        <NavDropdown.Item href="#">Kenya</NavDropdown.Item>
+                        <NavDropdown.Item href="#kenya">Kenya</NavDropdown.Item>
                     </NavDropdown>
-                    <Nav.Link href="#">Compare</Nav.Link>
+                    <Nav.Link href="#compare">Compare</Nav.Link>
                 </Nav>
 
                 <Nav>
@@ -61,16 +69,16 @@ const Navigation = function() {
                             </>
                         }
                     >
-                        <NavDropdown.Item href="#">
+                        <NavDropdown.Item href="#settings">
                             <FontAwesomeIcon className="mr-2" icon={faCog} />
                             Settings
                         </NavDropdown.Item>
-                        <NavDropdown.Item as={Link} to="/users">
+                        <NavDropdown.Item as={NavLink} to="/users">
                             <FontAwesomeIcon className="mr-2" icon={faUsers} />
                             Manage User
                         </NavDropdown.Item>
                         <NavDropdown.Divider />
-                        <NavDropdown.Item href="#">
+                        <NavDropdown.Item href="#signout">
                             <FontAwesomeIcon
                                 className="mr-2"
                                 icon={faSignOutAlt}

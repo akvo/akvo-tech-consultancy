@@ -1,7 +1,10 @@
 import React from "react";
 import DataTable from "react-data-table-component";
 
-const data = [{ id: 1, name: "Zuhdil Herry Kurnia", email: "zuhdil@akvo.org" }];
+const data = [
+    { id: 1, name: "John Doe", email: "johndoe@example.com" },
+    { id: 2, name: "Joe Bloggs", email: "joebloggs@example.com" }
+];
 const columns = [
     {
         name: "Name",
