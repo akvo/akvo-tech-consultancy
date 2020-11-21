@@ -1,62 +1,68 @@
-import React, { useState } from "react";
+import React from "react";
 import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faKey } from "@fortawesome/free-solid-svg-icons";
 import { useHistory } from "react-router-dom";
 import request from "../utils/request";
+import { useForm, handleServerErrors } from "../utils/use-form";
 
 const Login = function() {
     const history = useHistory();
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [remember, setRemember] = useState(false);
-    const handleSubmit = async function(e) {
-        e.preventDefault();
-        await request().get("/sanctum/csrf-cookie");
-        await request().post("/login", {
-            email,
-            password,
-            remember
-        });
-        history.push("/webform");
+    const { register, handleSubmit, errors, setError, setValue } = useForm();
+    const setServerErrors = handleServerErrors(setError);
+    const onSubmit = async data => {
+        try {
+            await request().post("/login", data);
+            history.push("/webform");
+        } catch (e) {
+            if (e.status === 422 || e.status === 429) {
+                setServerErrors(e.errors);
+                setValue("password", "", { shouldDirty: true });
+            }
+        }
     };
+
     return (
         <Container>
             <Row className="justify-content-md-center">
                 <Col md={6}>
                     <Card>
-                        <Card.Header>Login</Card.Header>
+                        <Card.Header>Login dulu..</Card.Header>
                         <Card.Body>
-                            <Form onSubmit={handleSubmit}>
+                            <Form noValidate onSubmit={handleSubmit(onSubmit)}>
                                 <Form.Group controlId="formBasicEmail">
                                     <Form.Label>Email address</Form.Label>
                                     <Form.Control
                                         type="email"
-                                        onChange={e => setEmail(e.target.value)}
+                                        name="email"
                                         placeholder="Enter email"
+                                        isInvalid={!!errors.email}
+                                        ref={register}
                                     />
-                                    <Form.Text className="text-muted">
-                                        We'll never share your email with anyone
-                                        else.
-                                    </Form.Text>
+                                    <Form.Control.Feedback type="invalid">
+                                        {!!errors.email && errors.email.message}
+                                    </Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group controlId="formBasicPassword">
                                     <Form.Label>Password</Form.Label>
                                     <Form.Control
                                         type="password"
-                                        onChange={e =>
-                                            setPassword(e.target.value)
-                                        }
+                                        name="password"
                                         placeholder="Password"
+                                        isInvalid={!!errors.password}
+                                        ref={register}
                                     />
+                                    <Form.Control.Feedback type="invalid">
+                                        {!!errors.password &&
+                                            errors.password.message}
+                                    </Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group controlId="formBasicCheckbox">
                                     <Form.Check
                                         type="checkbox"
-                                        onChange={e =>
-                                            setRemember(e.target.checked)
-                                        }
+                                        name="remember"
                                         label="Remember Login"
+                                        ref={register}
                                     />
                                 </Form.Group>
                                 <Row>

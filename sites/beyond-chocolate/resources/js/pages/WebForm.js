@@ -6,8 +6,10 @@ const WebForm = function() {
     useEffect(async () => {
         try {
             const response = await request().get("/api/me");
-            console.log(response.data);
-        } catch {}
+            console.log(response);
+        } catch (error) {
+            console.error(error);
+        }
     }, []);
 
     return (
