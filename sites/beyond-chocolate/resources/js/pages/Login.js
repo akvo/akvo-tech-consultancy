@@ -12,6 +12,7 @@ const Login = function() {
     const [remember, setRemember] = useState(false);
     const handleSubmit = async function(e) {
         e.preventDefault();
+        await request().get("/sanctum/csrf-cookie");
         await request().post("/login", {
             email,
             password,
