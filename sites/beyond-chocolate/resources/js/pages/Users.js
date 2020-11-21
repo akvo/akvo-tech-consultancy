@@ -18,7 +18,7 @@ const columns = [
     }
 ];
 
-const Users = function() {
+const Users = () => {
     return <DataTable title="Users" columns={columns} data={data} />;
 };
 

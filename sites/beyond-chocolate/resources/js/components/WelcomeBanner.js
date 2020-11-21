@@ -1,7 +1,7 @@
 import React from "react";
 import { Jumbotron } from "react-bootstrap";
 
-const WelcomeBanner = function() {
+const WelcomeBanner = () => {
     return (
         <Jumbotron className="hero">
             <h1>Welcome to Beyond Chocolate Dataportal</h1>

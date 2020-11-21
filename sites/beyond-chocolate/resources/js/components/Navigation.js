@@ -11,9 +11,9 @@ import {
 import { Link, NavLink, useHistory } from "react-router-dom";
 import request from "../utils/request";
 
-const Navigation = function() {
+const Navigation = () => {
     const history = useHistory();
-    const endSession = async function() {
+    const endSession = async () => {
         await request().post("/logout");
         history.push("/login");
     };

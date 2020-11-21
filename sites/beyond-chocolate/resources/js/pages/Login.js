@@ -6,7 +6,7 @@ import { useHistory } from "react-router-dom";
 import request from "../utils/request";
 import { useForm, handleServerErrors } from "../utils/use-form";
 
-const Login = function() {
+const Login = () => {
     const history = useHistory();
     const { register, handleSubmit, errors, setError, setValue } = useForm();
     const setServerErrors = handleServerErrors(setError);

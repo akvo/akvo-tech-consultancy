@@ -8,7 +8,7 @@ import Users from "./pages/Users";
 import WebForm from "./pages/WebForm";
 import Definition from "./pages/Definition";
 
-const Main = function() {
+const Main = () => {
     return (
         <BrowserRouter>
             <header>

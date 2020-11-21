@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import request from "../utils/request";
 
-const WebForm = function() {
+const WebForm = () => {
     useEffect(async () => {
         try {
             const response = await request().get("/api/me");

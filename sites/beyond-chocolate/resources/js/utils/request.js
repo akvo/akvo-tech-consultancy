@@ -17,7 +17,7 @@ const simplifyResponse = response => {
     return { ...common, ...formError };
 };
 
-const request = function() {
+const request = () => {
     const req = axios.create({ withCredentials: true });
 
     req.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
