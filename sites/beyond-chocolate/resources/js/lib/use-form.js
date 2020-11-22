@@ -9,4 +9,10 @@ const handleServerErrors = setError => errors => {
     });
 };
 
-export { useForm, handleServerErrors };
+export default () => {
+    const props = useForm();
+    const { setError } = props;
+    const setServerErrors = handleServerErrors(setError);
+
+    return { ...props, setServerErrors };
+};

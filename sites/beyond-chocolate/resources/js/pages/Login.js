@@ -3,17 +3,23 @@ import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faKey } from "@fortawesome/free-solid-svg-icons";
 import { useHistory } from "react-router-dom";
-import request from "../utils/request";
-import { useForm, handleServerErrors } from "../utils/use-form";
+import { useAuth } from "../components/auth-context";
+import useForm from "../lib/use-form";
 
-const Login = () => {
+const Login = ({ location }) => {
     const history = useHistory();
-    const { register, handleSubmit, errors, setError, setValue } = useForm();
-    const setServerErrors = handleServerErrors(setError);
+    const { login } = useAuth();
+    const {
+        register,
+        handleSubmit,
+        setValue,
+        errors,
+        setServerErrors
+    } = useForm();
     const onSubmit = async data => {
         try {
-            await request().post("/login", data);
-            history.push("/webform");
+            await login(data);
+            history.push(location?.state?.referrer?.pathname || "/webform");
         } catch (e) {
             if (e.status === 422 || e.status === 429) {
                 setServerErrors(e.errors);

@@ -8,14 +8,15 @@ import {
     faSignOutAlt,
     faGlobeEurope
 } from "@fortawesome/free-solid-svg-icons";
-import { Link, NavLink, useHistory } from "react-router-dom";
-import request from "../utils/request";
+import { Link, NavLink } from "react-router-dom";
+import { useAuth } from "./auth-context";
 
 const Navigation = () => {
-    const history = useHistory();
-    const endSession = async () => {
-        await request().post("/logout");
-        history.push("/login");
+    const { user, logout } = useAuth();
+    const endSession = async e => {
+        e.preventDefault();
+        await logout();
+        window.location.reload();
     };
     return (
         <Navbar expand="lg">
@@ -25,25 +26,26 @@ const Navigation = () => {
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
-                    <Nav.Link as={NavLink} to="/login">
-                        Home
-                    </Nav.Link>
-                    <Nav.Link as={NavLink} to="/webform">
-                        Web form
-                    </Nav.Link>
+                    {user && (
+                        <Nav.Link as={NavLink} to="/webform">
+                            Web form
+                        </Nav.Link>
+                    )}
                     <Nav.Link as={NavLink} to="/definition">
                         Definition
                     </Nav.Link>
                 </Nav>
 
                 <Nav>
-                    <Form inline>
-                        <FormControl
-                            type="text"
-                            placeholder="Search"
-                            className="mr-sm-2"
-                        />
-                    </Form>
+                    {user && (
+                        <Form inline>
+                            <FormControl
+                                type="text"
+                                placeholder="Search"
+                                className="mr-sm-2"
+                            />
+                        </Form>
+                    )}
                     <NavDropdown
                         title={
                             <>
@@ -59,35 +61,43 @@ const Navigation = () => {
                         <NavDropdown.Item href="#de">German</NavDropdown.Item>
                         <NavDropdown.Item href="#fr">French</NavDropdown.Item>
                     </NavDropdown>
-                    <NavDropdown
-                        alignRight
-                        title={
-                            <>
+                    {user && (
+                        <NavDropdown
+                            alignRight
+                            title={
+                                <>
+                                    <FontAwesomeIcon
+                                        className="mr-2"
+                                        icon={faUser}
+                                    />
+                                    {user.name}
+                                </>
+                            }
+                        >
+                            <NavDropdown.Item href="#settings">
                                 <FontAwesomeIcon
                                     className="mr-2"
-                                    icon={faUser}
+                                    icon={faCog}
                                 />
-                                John Doe
-                            </>
-                        }
-                    >
-                        <NavDropdown.Item href="#settings">
-                            <FontAwesomeIcon className="mr-2" icon={faCog} />
-                            Settings
-                        </NavDropdown.Item>
-                        <NavDropdown.Item as={NavLink} to="/users">
-                            <FontAwesomeIcon className="mr-2" icon={faUsers} />
-                            Manage User
-                        </NavDropdown.Item>
-                        <NavDropdown.Divider />
-                        <NavDropdown.Item onClick={endSession}>
-                            <FontAwesomeIcon
-                                className="mr-2"
-                                icon={faSignOutAlt}
-                            />
-                            Logout
-                        </NavDropdown.Item>
-                    </NavDropdown>
+                                Settings
+                            </NavDropdown.Item>
+                            <NavDropdown.Item as={NavLink} to="/users">
+                                <FontAwesomeIcon
+                                    className="mr-2"
+                                    icon={faUsers}
+                                />
+                                Manage User
+                            </NavDropdown.Item>
+                            <NavDropdown.Divider />
+                            <NavDropdown.Item onClick={endSession}>
+                                <FontAwesomeIcon
+                                    className="mr-2"
+                                    icon={faSignOutAlt}
+                                />
+                                Logout
+                            </NavDropdown.Item>
+                        </NavDropdown>
+                    )}
                 </Nav>
             </Navbar.Collapse>
         </Navbar>

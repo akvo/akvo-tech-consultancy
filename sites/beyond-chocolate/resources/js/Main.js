@@ -7,31 +7,43 @@ import Login from "./pages/Login";
 import Users from "./pages/Users";
 import WebForm from "./pages/WebForm";
 import Definition from "./pages/Definition";
+import {
+    AuthProvider,
+    SecureRoute,
+    SkipUserRoute
+} from "./components/auth-context";
 
 const Main = () => {
     return (
         <BrowserRouter>
-            <header>
-                <Navigation />
-            </header>
-            <WelcomeBanner />
-            <main>
-                <Switch>
-                    <Route exact path="/">
-                        <Redirect to="/login" />
-                    </Route>
-                    <Route exact path="/home">
-                        <Redirect to="/login" />
-                    </Route>
-                    <Route exact path="/login" component={Login} />
-                    <Route exact path="/users" component={Users} />
-                    <Route exact path="/webform" component={WebForm} />
-                    <Route exact path="/definition" component={Definition} />
-                </Switch>
-            </main>
-            <footer>
-                <Footer />
-            </footer>
+            <AuthProvider>
+                <header>
+                    <Navigation />
+                </header>
+                <WelcomeBanner />
+                <main>
+                    <Switch>
+                        <Route exact path="/">
+                            <Redirect to="/webform" />
+                        </Route>
+                        <Route
+                            exact
+                            path="/definition"
+                            component={Definition}
+                        />
+                        <SecureRoute exact path="/users" component={Users} />
+                        <SecureRoute
+                            exact
+                            path="/webform"
+                            component={WebForm}
+                        />
+                        <SkipUserRoute exact path="/login" component={Login} />
+                    </Switch>
+                </main>
+                <footer>
+                    <Footer />
+                </footer>
+            </AuthProvider>
         </BrowserRouter>
     );
 };

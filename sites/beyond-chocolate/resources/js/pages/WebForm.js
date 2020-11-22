@@ -1,17 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import request from "../utils/request";
 
 const WebForm = () => {
-    useEffect(async () => {
-        try {
-            const response = await request().get("/api/me");
-            console.log(response);
-        } catch (error) {
-            console.error(error);
-        }
-    }, []);
-
     return (
         <Container fluid>
             <Row>
