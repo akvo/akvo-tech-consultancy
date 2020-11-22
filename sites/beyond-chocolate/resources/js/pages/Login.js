@@ -33,7 +33,7 @@ const Login = ({ location }) => {
             <Row className="justify-content-md-center">
                 <Col md={6}>
                     <Card>
-                        <Card.Header>Login dulu..</Card.Header>
+                        <Card.Header>Login</Card.Header>
                         <Card.Body>
                             <Form noValidate onSubmit={handleSubmit(onSubmit)}>
                                 <Form.Group controlId="formBasicEmail">

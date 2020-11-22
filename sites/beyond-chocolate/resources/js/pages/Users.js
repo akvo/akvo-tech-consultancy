@@ -1,10 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
+import request from "../lib/request";
 
-const data = [
-    { id: 1, name: "John Doe", email: "johndoe@example.com" },
-    { id: 2, name: "Joe Bloggs", email: "joebloggs@example.com" }
-];
 const columns = [
     {
         name: "Name",
@@ -19,7 +16,13 @@ const columns = [
 ];
 
 const Users = () => {
-    return <DataTable title="Users" columns={columns} data={data} />;
+    const [users, setUsers] = useState([]);
+    useEffect(async () => {
+        const { data } = await request().get("/api/users");
+        setUsers(data);
+    }, []);
+
+    return <DataTable title="Users" columns={columns} data={users} />;
 };
 
 export default Users;

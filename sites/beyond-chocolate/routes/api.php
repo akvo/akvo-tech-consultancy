@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Route;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,5 +17,20 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:sanctum')->get('/me', function (Request $request) {
-    return $request->user();
+    $user = $request->user();
+    $forms = config('example.users');
+
+    $formId = Arr::get($forms, $user->email);
+    $formUrl = $formId !== null ? config('example.url').$formId: '';
+
+    return [
+        'id' => $user->id,
+        'name' => $user->name,
+        'email' => $user->email,
+        'form' => $formUrl,
+    ];
+});
+
+Route::middleware('auth:sanctum')->get('/users', function () {
+    return User::all();
 });
