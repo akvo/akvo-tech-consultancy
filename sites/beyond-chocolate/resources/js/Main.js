@@ -1,6 +1,5 @@
 import React from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
-import WelcomeBanner from "./components/WelcomeBanner";
 import Navigation from "./components/Navigation";
 import Footer from "./components/Footer";
 import Login from "./pages/Login";
@@ -20,7 +19,6 @@ const Main = () => {
                 <header>
                     <Navigation />
                 </header>
-                <WelcomeBanner />
                 <main>
                     <Switch>
                         <Route exact path="/">
