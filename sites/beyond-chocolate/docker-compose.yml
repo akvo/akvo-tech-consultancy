@@ -28,6 +28,16 @@ services:
       dockerfile: Dockerfile-php
     restart: unless-stopped
     network_mode: service:mainnetwork
+    environment:
+      APP_ENV: local
+      APP_DEBUG: "true"
+      APP_KEY: "base64:S53O07CI7wSBLxIogXyW8HGSJftH0vqzOhXPktFC48w="
+      DB_DATABASE: akvo
+      DB_USERNAME: akvo
+      DB_PASSWORD: secret
+      MAIL_MAILER: smtp
+      MAIL_HOST: localhost
+      MAIL_PORT: 1025
     volumes:
       - ./:/var/www/html:delegated
       - ${HOME}/.composer:/home/akvo/.composer
