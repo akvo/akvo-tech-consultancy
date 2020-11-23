@@ -67,7 +67,8 @@ class Country extends Component {
 
     render() {
         if (this.state.redirect) {
-            return <Redirect to="/not-found" />;
+            return <Redirect to="/login" />;
+            // return <Redirect to="/not-found" />;
         }
         if (this.props.value.page.loading) {
             return <Loading />

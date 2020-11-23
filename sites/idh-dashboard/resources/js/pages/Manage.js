@@ -261,7 +261,8 @@ class Manage extends Component {
             return <Loading />
         }
         if (this.state.redirect) {
-            return <Redirect to="/not-found" />;
+            return <Redirect to="/login" />;
+            // return <Redirect to="/not-found" />;
         }
         return (
             <>
