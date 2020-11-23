@@ -22,7 +22,7 @@ class Utils {
         ];
     }
 
-    public static function getValues($form_id, $variable_name, $pluck=true, $withGender=false)
+    public static function getValues($form_id, $variable_name, $pluck=true, $withGender=false, $percent=true)
     {
         $var = Variable::where('name',$variable_name)->first();
         $data = self::getVarValue($form_id, $var);
@@ -69,11 +69,13 @@ class Utils {
             })->values();
 
             // percent
-            $total = $data->pluck('value')->sum();
-            $data = $data->transform(function ($item) use ($total) {
-                $item['gender'] = self::setPercentValue(collect($item['gender']), $total);
-                return $item;
-            });
+            if ($percent) {
+                $total = $data->pluck('value')->sum();
+                $data = $data->transform(function ($item) use ($total) {
+                    $item['gender'] = self::setPercentValue(collect($item['gender']), $total);
+                    return $item;
+                });
+            }
             return $data;
         }
         if ($pluck){

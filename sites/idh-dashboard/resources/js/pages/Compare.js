@@ -34,12 +34,13 @@ class Compare extends Component {
         this.saveChart = this.saveChart.bind(this);
         this.removeChart = this.removeChart.bind(this);
         this.renderChart = this.renderChart.bind(this);
+        this.renderRows = this.renderRows.bind(this);
         this.state = {
             charts: [],
             autocomplete: false,
             searched: [],
             excluded: [1],
-            redirect: false
+            redirect: false,
         };
     }
 
@@ -161,10 +162,12 @@ class Compare extends Component {
 
     renderTableHeader() {
         let items = this.props.value.page.compare.items;
-        let width = 'calc(100% / ' + this.state.charts.length  + ')';
+        // let width = 'calc(100% / ' + this.state.charts.length  + ')';
+        let source = flatFilters(this.props.value.page.filters);
+        let width = 75/source.length+'%';
         return items.map((x, i) => {
             return(
-                <div className="chart-div" style={{width:width}} key={'head-' + x.id}>
+                <td width={width} className="first-column header-country" align="center" key={'head-' + x.id}>
                     <Card className="card-compare">
                         <FontAwesomeIcon
                             onClick={e => this.removeChart(x.id)}
@@ -173,9 +176,22 @@ class Compare extends Component {
                             icon={["fas", "times-circle"]} />
                         <Card.Body className="card-compare text-center">
                             <h5>{x.name}</h5>
-                       </Card.Body>
+                        </Card.Body>
                     </Card>
-                </div>
+                </td>
+
+                // <div className="chart-div" style={{width:width}} key={'head-' + x.id}>
+                //     <Card className="card-compare">
+                //         <FontAwesomeIcon
+                //             onClick={e => this.removeChart(x.id)}
+                //             className="fas-corner fas-delete"
+                //             color="red"
+                //             icon={["fas", "times-circle"]} />
+                //         <Card.Body className="card-compare text-center">
+                //             <h5>{x.name}</h5>
+                //         </Card.Body>
+                //     </Card>
+                // </div>
             )
         });
     }
@@ -190,42 +206,98 @@ class Compare extends Component {
         });
     }
 
-    renderChart() {
-        if (this.state.redirect) {
-            return <Redirect to="/not-found" />;
-        }
-        let width = 'calc(100% / ' + this.state.charts.length  + ')';
+    renderChart(id) {
+        // if (this.state.redirect) {
+        //     return <Redirect to="/login" />;
+        //     // return <Redirect to="/not-found" />;
+        // }
+        // let width = 'calc(100% / ' + this.state.charts.length  + ')';
+        let source = flatFilters(this.props.value.page.filters);
+        let width = 75/source.length+'%';
+        let col = 12/source.length;
         return this.state.charts.map((c, i) => {
-            let chartlist = c.data.map((x, ix) => {
-                let cardtype = x.kind === "CARDS" || x.kind === "NUM" || x.kind === "PERCENT";
-                if (cardtype) {
-                    return (
+            // let chartlist = c.data.map((x, ix) => {
+            //     let cardtype = x.kind === "CARDS" || x.kind === "NUM" || x.kind === "PERCENT";
+            //     if (cardtype) {
+            //         return (
+            //             <Cards
+            //                 title={x.title}
+            //                 key={'card-' + c.id + '-' + ix}
+            //                 kind={x.kind}
+            //                 dataset={x.data}
+            //                 config={generateData(0, false,  "50vh")}
+            //             />
+            //         );
+            //     };
+            //     return (
+            //         <Charts
+            //             title={x.title}
+            //             key={'chart-' + c.id + '-' + ix}
+            //             dataset={x.data}
+            //             kind={x.kind}
+            //             config={generateData(0, false,  "50vh")}
+            //         />
+            //     );
+            // });
+            // return (<div key={c.id} className="chart-div" style={{width:width}}>{chartlist.map(x => x)}</div>);
+
+            let tmp = [];
+            let cards = ["CARDS", "NUM", "PERCENT"];
+            let chartlist = c.data.find(x => x.id === id);
+            let cardtype = cards.includes(chartlist.kind);
+            if (cardtype) {
+                tmp.push(
+                    <td key={'tdcards-' + c.id + '-' + i} className={"chart-display"}>
                         <Cards
-                            title={x.title}
-                            key={'card-' + c.id + '-' + ix}
-                            kind={x.kind}
-                            dataset={x.data}
-                            config={generateData(0, false,  "50vh")}
+                            title={chartlist.title}
+                            key={'card-' + c.id + '-' + i}
+                            kind={chartlist.kind}
+                            dataset={chartlist.data}
+                            config={generateData(col, false, "50vh")}
                         />
-                    );
-                };
-                return (
-                    <Charts
-                        title={x.title}
-                        key={'chart-' + c.id + '-' + ix}
-                        dataset={x.data}
-                        kind={x.kind}
-                        config={generateData(0, false,  "50vh")}
-                    />
+                    </td>
                 );
-            });
-            return (<div key={c.id} className="chart-div" style={{width:width}}>{chartlist.map(x => x)}</div>);
+            } else {
+                tmp.push(
+                        <td key={'tdcharts-' + c.id + '-' + i} className={"chart-display"}>
+                            <Charts
+                                title={""}
+                                key={'chart-' + c.id + '-' + i}
+                                dataset={chartlist.data}
+                                kind={chartlist.kind}
+                                config={generateData(col, false, "50vh")}
+                            />
+                        </td>
+                ); 
+            }
+            return tmp;
         });
+    }
+
+    renderRows() {
+        if (this.state.charts.length === 0) {
+            return;
+        }
+        let chartlist = this.state.charts[0].data.map((x, ix) => {
+            return (
+                <tr key={'row-' + ix}>
+                    <td className="first-column align-middle">{x.title}</td>
+                    {this.renderChart(x.id)}
+                </tr>
+            ); 
+        });
+        return chartlist.map(x => x);
     }
 
     render() {
         let source = flatFilters(this.props.value.page.filters);
         let searchEnabled = this.props.value.page.compare.items.length !== source.length;
+
+        if (this.state.redirect) {
+            return <Redirect to="/login" />;
+            // return <Redirect to="/not-found" />;
+        }
+
         return (
             <Fragment>
                 <div className="page-content">
@@ -262,12 +334,23 @@ class Compare extends Component {
                         </Form>
                         </Col>
                         <Col md={12}>
-                            <Row>
+                            <div className="table-wrapper-fixed">
+                                <table width={"100%"} className="table-compare">
+                                    <thead>
+                                        <tr>
+                                            <td align="left" width={"20%"} className="first-column"></td>
+                                            {this.renderTableHeader()}
+                                        </tr>
+                                    </thead>
+                                    <tbody>{this.renderRows()}</tbody>
+                                </table>
+                            </div>
+                            {/* <Row>
                                 {this.renderTableHeader()}
                             </Row>
                             <Row>
                                 {this.renderChart()}
-                            </Row>
+                            </Row> */}
                         </Col>
                     </Row>
                 </div>

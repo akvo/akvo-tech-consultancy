@@ -60,25 +60,39 @@ class ApiController extends Controller
         ];
         $main_percentage = round($first_crop['value']/ $total, 2) * 100;
         $farm_size_avg = round(collect($farm_size)->avg(), 2);
-        $firstSubcards = [
-            Cards::create($total, 'NUM', "Of the farmers are included in the analysis"),
-            Cards::create($main_percentage, 'PERCENT', "Of the farmers main crop was ".$first_crop['name']),
-            Cards::create($farm_size_avg, 'NUM', "Acres is the average farm size")
-        ];
+        // $firstSubcards = [
+        //     Cards::create($total, 'NUM', "Of the farmers are included in the analysis"),
+        //     Cards::create($main_percentage, 'PERCENT', "Of the farmers main crop was ".$first_crop['name']),
+        //     Cards::create($farm_size_avg, 'NUM', "Acres is the average farm size")
+        // ];
         $livestock = collect(Utils::getValues($id, 'f_livestock'))->reject(function($data){
             return Str::contains($data['name'], "No");
         })->values();
-        $secondSubcards = [
-            Cards::create($no_second_crop, 'PERCENT', "Of the farmers had more than one crop"),
-            Cards::create($owned_land, 'PERCENT', "Of the farmers own the land they use to grow crops"),
-        ];
+        // $secondSubcards = [
+        //     Cards::create($no_second_crop, 'PERCENT', "Of the farmers had more than one crop"),
+        //     Cards::create($owned_land, 'PERCENT', "Of the farmers own the land they use to grow crops"),
+        // ];
+        // return [
+        //     Cards::create($maps, 'MAPS', "Household Surveyed", 6),
+        //     Cards::create(Utils::getValues($id, 'farmer_sample'), 'PIE', "Was the farmer surveyed part of the sample?", 4),
+        //     Cards::create($firstSubcards, 'CARDS', false, 2),
+        //     Cards::create($secondSubcards, 'CARDS', false, 2),
+        //     Cards::create($landownership, 'BAR', "Farmers' land ownership status", 5),
+        //     Cards::create($livestock, 'BAR', "Livestock' land ownership status", 5),
+        // ];
         return [
-            Cards::create($maps, 'MAPS', "Household Surveyed", 6),
-            Cards::create(Utils::getValues($id, 'farmer_sample'), 'PIE', "Was the farmer surveyed part of the sample?", 4),
-            Cards::create($firstSubcards, 'CARDS', false, 2),
-            Cards::create($secondSubcards, 'CARDS', false, 2),
-            Cards::create($landownership, 'BAR', "Farmers' land ownership status", 5),
-            Cards::create($livestock, 'BAR', "Livestock' land ownership status", 5),
+            Cards::create($maps, 'MAPS', "Household Surveyed", 4, false, 1),
+            // Cards::create(Utils::getValues($id, 'farmer_sample'), 'PIE', "Was the farmer surveyed part of the sample?", 4, false, 2),
+            
+            Cards::create($total, 'NUM', "Of the farmers are included in the analysis", 4, false, 3),
+            Cards::create($main_percentage, 'PERCENT', "Of the farmers main crop was ".$first_crop['name'], 4, false, 4),
+            Cards::create($farm_size_avg, 'NUM', "Acres is the average farm size", 4, false, 5),
+
+            Cards::create($no_second_crop, 'PERCENT', "Of the farmers had more than one crop", 4, false, 6),
+            Cards::create($owned_land, 'PERCENT', "Of the farmers own the land they use to grow crops", 4, false, 7),
+
+            Cards::create($landownership, 'BAR', "Farmers' land ownership status", 4, false, 8),
+            Cards::create($livestock, 'BAR', "Livestock' land ownership status", 4, false, 9),
         ];
     }
 
@@ -172,7 +186,7 @@ class ApiController extends Controller
 
             $hhGenderAvg = Utils::getAvg($id, 'hh_gender_farmer', 'hh_size');
 
-            $head_gender = Utils::getValues($id, 'hh_head_gender', false, true);
+            $head_gender = Utils::getValues($id, 'hh_head_gender', false, true, false);
             $head_gender_tmp = [
                 "columns" => [
                     [

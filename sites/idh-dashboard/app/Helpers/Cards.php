@@ -10,9 +10,11 @@ class Cards {
         $kind, 
         $title=false,
         $width=12,
-        $first_title=false
+        $first_title=false,
+        $id=false
     ) {
         return [
+            'id'=>$id,
             'first_title' => $first_title,
             'title' => $title,
             'data' => $data,

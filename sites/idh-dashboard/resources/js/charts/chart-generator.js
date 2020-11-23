@@ -5,14 +5,14 @@ import Scatter from "./options/Scatter";
 import Maps from "./options/Maps";
 import CustomStackBar from "./options/CustomStackBar";
 
-export const generateData = (col, line, height) => {
+export const generateData = (col, line, height, width=false) => {
     return {
         column: col,
         line: line,
         style: {
             height: height,
             maxWidth: "100%",
-            width: "100%",
+            width: width ? width : "100%",
         },
     };
 };

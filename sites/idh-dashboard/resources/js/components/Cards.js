@@ -20,7 +20,6 @@ class Cards extends Component {
 
     render() {
         let props = this.props;
-        console.log('Card.js', props);
         if (props.kind === "NUM" || props.kind === "PERCENT") {
             let data = { ...props.config, data: props.dataset, title: props.title, kind: props.kind };
             return this.generateRows(data, props.identifier);

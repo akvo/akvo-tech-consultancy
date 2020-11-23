@@ -9,10 +9,9 @@ class Tables extends Component {
 
     render() {
         let props = this.props;
-        console.log('Table.js', props);
         return (
             <Col md={props.config.column}>
-                <p class="text-center font-weight-bold">{props.title}</p>
+                <p className="text-center font-weight-bold">{props.title}</p>
                 <DataTable
                     title={props.title}
                     className="table table-bordered table-sm"

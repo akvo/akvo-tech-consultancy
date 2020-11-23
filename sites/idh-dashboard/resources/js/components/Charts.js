@@ -38,7 +38,7 @@ class Charts extends Component {
             );
         }
         return (
-            <Col md={this.props.config.column}>
+            <Col md={this.props.config.column} className={"mx-auto"}>
                 <div className="card-chart">
                     <ReactEcharts
                         option={options}
