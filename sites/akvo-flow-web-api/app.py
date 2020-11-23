@@ -1,3 +1,5 @@
+# Travis removed
+
 from dataclasses import dataclass
 from flask import Flask, jsonify, render_template, request, make_response, send_file
 from flask_cors import CORS
