@@ -5,7 +5,7 @@ import minBy from "lodash/minBy";
 const Maps = (title, data) => {
     const world = require("../" + data.maps + ".js");
     let records = data.records;
-    return {
+    let option = {
         title: {
             text: splitTitle(title),
             right: "center",
@@ -22,7 +22,7 @@ const Maps = (title, data) => {
                     value = value[0].replace(/(\d{1,3})(?=(?:\d{3})+(?!\d))/g, "$1,");
                     return params.seriesName + "<br/>" + params.name + ": " + value;
                 }
-                return "No Data";
+                return params.name + ": No Data";
             },
             backgroundColor: "#ffffff",
             ...TextStyle,
@@ -73,6 +73,14 @@ const Maps = (title, data) => {
         ...Color,
         ...Easing,
     };
+
+    if (data.override) {
+        option = {
+            ...option,
+            ...data.override
+        }
+    }
+    return option;
 };
 
 export default Maps;

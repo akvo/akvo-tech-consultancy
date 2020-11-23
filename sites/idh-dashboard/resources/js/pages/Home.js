@@ -8,12 +8,62 @@ import { generateData } from "../charts/chart-generator.js";
 import { flatFilters } from '../data/utils.js';
 import JumbotronWelcome from "../components/JumbotronWelcome";
 
+const MapsOverride = (TableView, noValue) => {
+    let config = {
+        legend: {
+            orient: 'vertical',
+            left: 'left',
+            top: 10,
+            left: 10,
+            data: []
+        },
+        tooltip: {
+            trigger: 'item',
+            showDelay: 0,
+            padding:0,
+            transitionDuration: 0.2,
+            formatter: TableView,
+            backgroundColor: "#fff",
+            position: [0,0],
+            textStyle: {
+                color: "#222",
+                fontFamily: "Gotham"
+            }
+        }
+    }
+    return config;
+}
+
 class Home extends Component {
     constructor(props) {
         super(props);
+        this.TableView = this.TableView.bind(this);
         this.state = {
             charts: [],
         };
+    }
+
+    TableView(params) {
+        let project = 'Project';
+        let value = 'No Data';
+        if (typeof params.data !== 'undefined') {
+            value = params.data.value;
+            project += (params.data.value > 1) ? 's' : '';
+        }
+        let html = '<table class="table table-sm table-bordered">';
+        html += '<thead class="thead-dark">';
+        html += '<tr>';
+        html += '<th width="200">Country</th>';
+        html += '<th width="50" class="text-right">'+project+'</th>';
+        html +='</tr>';
+        html += '</thead>';
+        html += '<tbody>';
+        html += '<tr>'
+        html += '<td>'+params.name+'</td>';
+        html += '<td class="text-right">'+value+'</td>';
+        html += '</tr>';
+        html += '</tbody>'
+        return '<div class="tooltip-maps">' + html + '</div>';
     }
 
     render() {
@@ -45,7 +95,7 @@ class Home extends Component {
         });
         let maps = {
             title: "",
-            data: { maps: "world", records: data },
+            data: { maps: "world", records: data, override: MapsOverride(this.TableView) },
             kind: "MAPS",
             config: generateData(12, false, "60vh"),
         };
@@ -58,7 +108,7 @@ class Home extends Component {
                 <div className="page-content has-jumbotron">
                     <Row>
                         <Col md={12}>
-                        <Charts identifier={"map-home"} title={maps.title} dataset={maps.data} kind={maps.kind} config={maps.config} />
+                            <Charts identifier={"map-home"} title={maps.title} dataset={maps.data} kind={maps.kind} config={maps.config} />
                         </Col>
                         <Col md={12}>
                             <Table bordered hover size="sm">
