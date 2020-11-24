@@ -5,7 +5,7 @@ const login = async data => {
     return await getUser();
 };
 const logout = async () => {
-    await request().post("logout");
+    await request().post("/logout");
 };
 const getUser = async () => {
     try {

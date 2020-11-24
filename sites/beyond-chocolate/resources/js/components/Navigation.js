@@ -13,8 +13,7 @@ import { useAuth } from "./auth-context";
 
 const Navigation = () => {
     const { user, logout } = useAuth();
-    const endSession = async e => {
-        e.preventDefault();
+    const endSession = async () => {
         await logout();
         window.location.reload();
     };
