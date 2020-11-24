@@ -17,3 +17,4 @@ docker run \
        --workdir "/home/tcakvo/public_html/gisco-demo" \
        --entrypoint /bin/sh \
        node:14-alpine -c 'npm i && npm run prod'
+
