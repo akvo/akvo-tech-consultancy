@@ -27,6 +27,7 @@ blocks:
             - export TRAVIS_COMMIT=${SEMAPHORE_GIT_SHA}
             - export TRAVIS_COMMIT_RANGE=${SEMAPHORE_GIT_COMMIT_RANGE}
             - export SITES_SSH_KEY=/home/semaphore/.siteground/private.key
+            - chmod 400 /home/semaphore/.siteground/private.key
             - |-
               if [ "$SEMAPHORE_GIT_REF_TYPE" = "pull-request" ]; then
                 export TRAVIS_PULL_REQUEST="true"
