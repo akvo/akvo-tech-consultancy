@@ -2,7 +2,8 @@ import { Color, Icons, Easing, Legend, ToolBox, TextStyle, backgroundColor, spli
 import sumBy from 'lodash/sumBy';
 import sortBy from "lodash/sortBy";
 
-const bgcolors = ['#00b3b6', '#f2f2f2', '#ddd'];
+// const bgcolors = ['#00b3b6', '#f2f2f2', '#ddd'];
+const bgcolors = ['#2C498B', '#f2f2f2', '#ddd'];
 export const CustomStackBar = (title, data) => {
     let tableData = sortBy(data, 'name');
         tableData = tableData.map(x => {

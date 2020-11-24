@@ -25,6 +25,7 @@ export const Histogram = (title, data) => {
                 ],
                 symbolSize: 30,
             },
+            barMaxWidth: 5,
         };
     });
     return {
