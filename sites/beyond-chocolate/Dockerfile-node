@@ -6,7 +6,4 @@ RUN set -eux; \
 
 WORKDIR /var/www/html
 
-COPY . .
-COPY --chown=node:node . .
-
 USER node
