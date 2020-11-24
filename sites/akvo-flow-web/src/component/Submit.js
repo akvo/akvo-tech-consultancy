@@ -6,7 +6,7 @@ import axios from 'axios'
 import { Spinner } from 'reactstrap'
 import '../App.css'
 import { PopupSuccess, PopupError, PopupToast } from '../util/Popup'
-import { API_URL, CAPTCHA_KEY , PARENT_URL, USING_PASSWORDS} from '../util/Environment'
+import { API_URL, CAPTCHA_KEY , PARENT_URL, USING_PASSWORDS, SAVE_FEATURES} from '../util/Environment'
 import JSZip from 'jszip'
 import Dexie from 'dexie';
 import Uppy from '@uppy/core';
@@ -263,7 +263,8 @@ class Submit extends Component {
     }
 
     render() {
-        const hasSaveButton = survey_form.includes(USING_PASSWORDS) ? true : false;
+        const instanceName = this.props.value.instanceName;
+        const hasSaveButton = SAVE_FEATURES.includes(instanceName) ? true : false;
         return (
             <Fragment>
                 <ReCAPTCHA
