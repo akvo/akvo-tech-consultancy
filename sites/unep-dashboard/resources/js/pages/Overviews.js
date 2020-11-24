@@ -10,6 +10,7 @@ import {
     flatten,
     getChildsData,
     pushToParent,
+    translateValue,
 } from "../data/utils.js";
 import { Color, TextStyle } from '../data/features/animation.js';
 import sortBy from 'lodash/sortBy';
@@ -137,7 +138,9 @@ class Overviews extends Component {
     }
 
     toolTip(params) {
+        let locale = this.props.value.locale.active;
         let lang = this.props.value.locale.lang;
+        let countries = this.props.value.page.countries;
         if (params.value) {
             let filters = this.props.value.data.filters;
             let data = params.data.data;
@@ -146,7 +149,11 @@ class Overviews extends Component {
                 {value: lang.country, count: (data.global)},
                 {value: lang.total, count: (data.total + data.global)}
             ]
-            let html = '<h3 class="table-title">'+ params.name +'</h3><br/>';
+            // lang
+            let countryName = countries.find(x => x.name.toLowerCase() === params.name.toLowerCase());
+            let text = translateValue(countryName, locale);
+            // eol lang
+            let html = '<h3 class="table-title">'+ text +'</h3><br/>';
             html += '<table class="table table-bordered table-small">';
             html += '<thead class="thead-dark"><tr class="sm bg-dark text-white">';
             html += '<td width="100">'+ lang.actions +'</td><td width="50" align="center">' + lang.numberReportedActions + '</td>'
@@ -190,7 +197,7 @@ class Overviews extends Component {
         ));
     }
 
-    getTop(list, index, lang) {
+    getTop(list, index, lang, locale) {
         let sorting = this.props.value.data.global ? 'global' : 'total';
         let source = this.props.value.data.filtered.length === 0 ? this.props.value.data.master : this.props.value.data.filtered;
         source = source.filter(x => {
@@ -204,8 +211,9 @@ class Overviews extends Component {
         data = data.map(x => {
             let country = this.props.value.page.countries.find(c=> c.id === x.country_id);
             if (country){
+                let text = translateValue(country, locale);
                 return {
-                    name: country.name,
+                    name: text,
                     value: x[sorting]
                 }
             }
@@ -268,6 +276,7 @@ class Overviews extends Component {
     }
 
     render() {
+        let locale = this.props.value.locale.active;
         let lang = this.props.value.locale.lang;
         let charts = this.state.charts.map((list, index) => {
             if (list.kind === "SEPARATOR") {
@@ -278,7 +287,7 @@ class Overviews extends Component {
                 );
             }
             return list.kind === "TOP"
-                ? this.getTop(list, index, lang)
+                ? this.getTop(list, index, lang, locale)
                 : this.getCharts(list, index, lang);
         });
         return (

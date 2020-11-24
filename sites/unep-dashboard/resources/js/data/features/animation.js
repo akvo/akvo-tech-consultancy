@@ -1,6 +1,7 @@
 import sortBy from 'lodash/sortBy';
 import {
-    formatCurrency
+    formatCurrency,
+    translateValue,
 } from '../utils.js';
 
 export const backgroundColor = {
@@ -131,7 +132,7 @@ export const Graphic = {
     }]
 };
 
-export const optionToContent = lang => {
+export const optionToContent = (lang, props) => {
     return function(params) {
         let data = params.series[0].data;
         let charttype = params.series[0].type;
@@ -173,6 +174,15 @@ export const optionToContent = lang => {
             data = sortBy(data, 'name')
             data.forEach(x => {
                 let child = x.children !== undefined ? (x.children.length > 0 ? true : false) : false;
+                // lang
+                // let text = x.name;
+                // if (props) {
+                //     let countryName = props.page.countries.find(y => y.name.toLowerCase() === x.name.toLowerCase());
+                //     console.log(props.page.countries, x.name);
+                //     text = translateValue(countryName, props.locale.active);
+                //     console.log(text);
+                // }
+                // eol lang
                 html += '<tr class="sm">';
                 html += '<td width="50">' + (child ? ('<strong>' + x.name + '</strong>') : x.name) + '</td>';
                 html += '<td width="50" align="right">' + (
@@ -195,7 +205,7 @@ export const optionToContent = lang => {
     }
 }
 
-export const dataView = (lang) => {
+export const dataView = (lang, props=false) => {
     return {
         title: lang.tableView,
         lang: [lang.tableView, lang.backChart, "Refresh"],
@@ -203,6 +213,6 @@ export const dataView = (lang) => {
         buttonColor: "#009fe2",
         readOnly: true,
         textAreaBorderColor: "#fff",
-        optionToContent: optionToContent(lang)
+        optionToContent: optionToContent(lang, props)
     }
 }

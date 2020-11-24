@@ -9,7 +9,8 @@ import { generateData } from "../data/chart-utils.js";
 import {
     flatten,
     getChildsData,
-    formatCurrency
+    formatCurrency,
+    translateValue,
 } from "../data/utils.js";
 import { Color, TextStyle } from '../data/features/animation.js';
 import sumBy from 'lodash/sumBy';
@@ -108,7 +109,9 @@ class Funding extends Component {
     }
 
     toolTip(params) {
+        let locale = this.props.value.locale.active;
         let lang = this.props.value.locale.lang;
+        let countries = this.props.value.page.countries;
         if (params.value) {
             let filters = this.props.value.data.filters;
             let data = params.data.data.funds;
@@ -123,7 +126,11 @@ class Funding extends Component {
                 {name: lang.contribution, value: sumBy(data, 'c')},
                 {name: lang.total, value: sumBy(data, 't')}
             ]
-            let html = '<h3 class="table-title">'+ params.name +'</h3><br/>';
+            // lang
+            let countryName = countries.find(x => x.name.toLowerCase() === params.name.toLowerCase());
+            let text = translateValue(countryName, locale);
+            // eol lang
+            let html = '<h3 class="table-title">'+ text +'</h3><br/>';
             html += '<table class="table table-bordered table-small">';
             html += '<thead class="thead-dark"><tr class="sm bg-dark text-white">';
             html += '<td width="100">' + lang.country + '</td><td width="50" align="center">' + lang.value + ' ' + lang.inUSD + '</td>'

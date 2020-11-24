@@ -86,7 +86,7 @@ class Sidebar extends Component {
 
 
 
-    renderCountries() {
+    renderCountries(locale) {
         let group = this.props.value.page.sidebar.group;
         let data = group
             ? this.props.value.page.countrygroups
@@ -101,6 +101,7 @@ class Sidebar extends Component {
                 let active = group
                     ? this.props.value.data.countrygroups.includes(x.id)
                     : this.props.value.data.countries.includes(x.id);
+                let text = translateValue(x, locale);
                 return(
                     <li
                         key={x.id}
@@ -122,7 +123,7 @@ class Sidebar extends Component {
                             ? "select-nested text selected"
                             : "select-nested text"}
                             onClick={e => this.changeCountries(x, group)}>
-                            {x.name}
+                            {text}
                         </div>
                         { group ? (<ToolTips tt={x} tclass="info-nested" tplacement="right"/>) : "" }
                     </li>
@@ -178,7 +179,7 @@ class Sidebar extends Component {
                                 <FontAwesomeIcon
                                     color={"#007bff"}
                                     className="fas-icon"
-                                    icon={["fas", "arrow-circle-left"]}/> Back
+                                    icon={["fas", "arrow-circle-left"]}/> {this.props.value.locale.lang.back}
                             </div>
 
                             <div
@@ -310,7 +311,7 @@ class Sidebar extends Component {
                             ? this.props.value.page.filters
                             : this.state.searched
                         , 0, this.props.value.locale.active
-                    ) : this.renderCountries()
+                    ) : this.renderCountries(this.props.value.locale.active)
                   }
               </ul>
             </div>

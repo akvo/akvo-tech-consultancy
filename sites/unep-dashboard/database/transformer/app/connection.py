@@ -2,9 +2,11 @@ import os;
 
 def engine_url():
     return "mysql+pymysql://{user}:{pw}@localhost/{db}".format(
-            user = "root",
+            # user = "root",
+            user = os.environ["PSQL_USER"],
             pw = os.environ["PSQL_PWD"],
-            db = "unep"
+            db = os.environ["PSQL_DB"]
+            #db = "unep"
     )
 
 def write_data(session, input_data, info, log):

@@ -20,4 +20,9 @@ class Country extends Model
                     ->select(array('parent_id','name','value','code'));
     }
 
+    public function locale()
+    {
+        return $this->morphMany('App\Translation','translationable');
+    }
+
 }

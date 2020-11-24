@@ -131,7 +131,7 @@ const Maps = (title, subtitle, props, data, extra) => {
             left: "right",
             top: "top",
             feature: {
-                dataView: dataView(props.locale.lang),
+                dataView: dataView(props.locale.lang, props),
                 saveAsImage: {
                     type: "jpg",
                     title: props.locale.lang.saveImage,

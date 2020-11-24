@@ -31,7 +31,7 @@ class ApiController extends Controller
 
     public function countrylist(Country $countries)
     {
-        return $countries->with('groups')->get();
+        return $countries->with('groups.locale')->with('locale')->get();
     }
 
     public function data(Datapoint $datapoints)

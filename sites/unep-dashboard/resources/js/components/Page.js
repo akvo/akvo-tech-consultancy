@@ -135,16 +135,16 @@ const toursteps = (act) => {
             position: 'bottom',
             style: {borderRadius: 0},
         },
-        {
-            selector: '[data-tour="tab-erd"]',
-            content: ({ goTo, inDOM }) => (
-              <div className="col-tour">
-                  <p>Entity Relationship Diagram Documentation</p>
-              </div>
-            ),
-            position: 'bottom',
-            style: {borderRadius: 0},
-        },
+        // {
+        //     selector: '[data-tour="tab-erd"]',
+        //     content: ({ goTo, inDOM }) => (
+        //       <div className="col-tour">
+        //           <p>Entity Relationship Diagram Documentation</p>
+        //       </div>
+        //     ),
+        //     position: 'bottom',
+        //     style: {borderRadius: 0},
+        // },
         {
             selector: '[data-tour="switcher-multi-country"]',
             content: ({ goTo, inDOM }) => (
@@ -492,7 +492,7 @@ class Page extends Component {
                         onClick={e => this.props.page.tour()}
                         className="tour-info btn btn-secondary btn-sm">
                         <FontAwesomeIcon
-                            icon={["fas", "info-circle"]} /> Page Tour
+                            icon={["fas", "info-circle"]} /> {lang.pageTour}
                     </button>)
                     : ""}
                     {this.renderHeaderButtonsRight(page, lang)}

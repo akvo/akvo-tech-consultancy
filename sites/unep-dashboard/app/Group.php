@@ -24,4 +24,9 @@ class Group extends Model
         return $this->hasMany('App\Group', 'id', 'parent_id');
     }
 
+    public function locale()
+    {
+        return $this->morphMany('App\Translation','translationable');
+    }
+
 }

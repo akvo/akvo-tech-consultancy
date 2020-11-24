@@ -4,6 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import { qna, links, glossary } from '../data/static/content-support.js';
 import { validateEmail } from '../data/utils.js';
+import { connect } from 'react-redux';
+import { mapStateToProps, mapDispatchToProps } from '../reducers/actions';
 
 const API = process.env.MIX_PUBLIC_URL + "/api/";
 const defaultState = {
@@ -51,7 +53,7 @@ class Support extends Component {
     }
 
     renderFaq() {
-        return qna.map((x, i) => (
+        return qna[this.props.value.locale.active].map((x, i) => (
             <Col key={"faq-" + i} md={12}>
                 <strong>{i + 1}. {x.q}</strong><br/><br/>
                 {x.a}
@@ -62,7 +64,7 @@ class Support extends Component {
     }
 
     renderGlossary() {
-        return glossary.map((x, i) => (
+        return glossary[this.props.value.locale.active].map((x, i) => (
             <tr key={"glossary-" + i}>
                 <td width={"40%"}><strong>{x.c}</strong></td>
                 <td>{x.m}</td>
@@ -127,7 +129,7 @@ class Support extends Component {
         this.updateValidator();
     }
 
-    renderContact() {
+    renderContact(lang) {
         let valid = this.state.validatorAnswer === 0
             ? true
             : (this.state.validatorAnswer === this.state.validatorValue)
@@ -135,7 +137,7 @@ class Support extends Component {
         return (
             <Form>
                 <Form.Group>
-                    <Form.Label>Email address</Form.Label>
+                    <Form.Label>{lang.emailAddress}</Form.Label>
                     <Form.Control
                         type="email"
                         placeholder="Enter email"
@@ -147,16 +149,16 @@ class Support extends Component {
                         </Form.Text>
                 </Form.Group>
                 <Form.Group>
-                    <Form.Label>Subject</Form.Label>
+                    <Form.Label>{lang.subject}</Form.Label>
                     <Form.Control
                         type="text"
                         id="subject"
-                        placeholder="Enter Subject"
+                        placeholder={lang.enterSubject}
                         onChange={this.handleChange}
                         value={this.state.mailing.subject}/>
                 </Form.Group>
                 <Form.Group>
-                    <Form.Label>Your Message</Form.Label>
+                    <Form.Label>{lang.yourMessage}</Form.Label>
                     <Form.Control
                         as="textarea"
                         id="message"
@@ -172,7 +174,7 @@ class Support extends Component {
                         onChange={this.updateValidatorAnswer}
                         value={this.state.validatorAnswer}/>
                     { valid ? "" : (
-                        <Form.Text className="text-muted text-danger">Please enter correct value</Form.Text>
+                        <Form.Text className="text-muted text-danger">{lang.pleaseEnterCorrectValue}</Form.Text>
                     )}
                 </Form.Group>
                 <Button
@@ -199,12 +201,13 @@ class Support extends Component {
     }
 
     render() {
+        let lang = this.props.value.locale.lang;
         return (
             <Container>
                 <Row>
                     <Col md={8}>
                     <Card className={"card-supports"}>
-                        <Card.Header>Frequently Asked Questions</Card.Header>
+                        <Card.Header>{lang.faq}</Card.Header>
                         <Card.Body>
                             {this.renderFaq()}
                         </Card.Body>
@@ -219,7 +222,7 @@ class Support extends Component {
                                 </iframe>
                             </ResponsiveEmbed>
                         </Card.Body>
-                        <Card.Header>Glossary</Card.Header>
+                        <Card.Header>{lang.glossary}</Card.Header>
                         <Card.Body>
                         <Col md={12}>
                             <table className="vertical-align-top">
@@ -233,14 +236,14 @@ class Support extends Component {
                     </Col>
                     <Col md={4} className="card-fixed">
                         <Card className={"card-supports"}>
-                            <Card.Header>Contact Us</Card.Header>
+                            <Card.Header>{lang.contactUs}</Card.Header>
                             <Card.Body>
                             { this.state.emailsent ? (
                                 <div className="alert alert-success">
                                     <strong>Your message has been successfully sent!</strong>
                                 </div>
                             ) : "" }
-                            {this.renderContact()}
+                            {this.renderContact(lang)}
                             </Card.Body>
                         </Card>
                     </Col>
@@ -250,4 +253,4 @@ class Support extends Component {
     }
 }
 
-export default Support;
+export default connect(mapStateToProps, mapDispatchToProps)(Support);

@@ -70,6 +70,7 @@ class Compare extends Component {
     }
 
     renderItemValues (x, depth, lang) {
+        let locale = this.props.value.locale.active;
         if (this.props.value.page.compare.init) {
             return (
                 <td key={"init-" + x.id} align="center" className="other-column">-</td>
@@ -115,13 +116,15 @@ class Compare extends Component {
             return (<td align="center"> - </td>);
         }
         const legends = x.childrens.map(child => {
-            let name = child.name.split('(')[0];
+            let text = translateValue(child, locale);
+            let name = text.split('(')[0];
                 name = name.split(':')[0];
             return name;
         });
         const individual = this.props.value.data.datapoints.filter(d => d.global === false).map(d => d.datapoint_id);
         const series = x.childrens.map(child => {
-            let name = child.name.split('(')[0];
+            let text = translateValue(child, locale);
+            let name = text.split('(')[0];
                 name = name.split(':')[0];
             const allchilds = getAllChildsId(child, []);
             const values = this.props.value.page.compare.items.map((item) => {
@@ -194,9 +197,13 @@ class Compare extends Component {
         });
         let items = [];
         this.props.value.page.compare.items.forEach(c => {
-            items.push(c.name);
+            // lang
+            let countryName = this.props.value.page[c.itemtype].find(y => y.name.toLowerCase() === c.name.toLowerCase());
+            let text = translateValue(countryName, this.props.value.locale.active);
+            // eol lang
+            items.push(text);
             if (this.props.value.data.global) {
-                items.push(c.name + ' ' + lang.multiCountry);
+                items.push(text + ' ' + lang.multiCountry);
             }
         });
         const data = {
@@ -325,9 +332,12 @@ class Compare extends Component {
         }
         let itemtype = this.state.selectgroup ? "countrygroups" : "countries";
         let results = this.props.value.page[itemtype].map(x => {
+            // lang
+            let text = translateValue(x, this.props.value.locale.active);
+            // eol lang
             return {
                 id: x.id,
-                name: x.name
+                name: text
             }
         });
         this.setState({searched: results});
@@ -340,9 +350,12 @@ class Compare extends Component {
         if (this.state.searched.length > 0) {
             let itemtype = selectgroup ? "countrygroups" : "countries";
             results = this.props.value.page[itemtype].map(x => {
+                // lang
+                let text = translateValue(x, this.props.value.locale.active);
+                // eol lang
                 return {
                     id: x.id,
-                    name: x.name
+                    name: text
                 }
             });
         }
@@ -417,6 +430,10 @@ class Compare extends Component {
         let items = this.props.value.page.compare.items;
         if (items.length > 0) {
             items = items.map(x => {
+                // lang
+                let countryName = this.props.value.page[x.itemtype].find(y => y.name.toLowerCase() === x.name.toLowerCase());
+                let text = translateValue(countryName, this.props.value.locale.active);
+                // eol lang
                 return(
                     <td key={"header-"+x.id} className="first-column header-country" align="center">
                         <Card>
@@ -426,7 +443,7 @@ class Compare extends Component {
                                 color="red"
                                 icon={["fas", "times-circle"]} />
                             <Card.Body className="card-compare">
-                                <h5>{x.name}
+                                <h5>{text}
                                 {x.itemtype === "countrygroups" ? <ToolTips tt={x} tclass="info-compare" tplacement="bottom"/> : ""}
                                 </h5>
                             </Card.Body>

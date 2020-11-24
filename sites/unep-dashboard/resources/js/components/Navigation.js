@@ -122,7 +122,7 @@ class Navigation extends Component {
                         eventKey="compare" active={"compare" === page}>{lang.compare}</Nav.Link>
                     <Nav.Link
                         data-tour={"tab-support"}
-                        eventKey="support" active={"support" === page}>Support</Nav.Link>
+                        eventKey="support" active={"support" === page}>{lang.support}</Nav.Link>
                     <Nav.Link
                         data-tour={"tab-documentation"}
                         eventKey="documentation" active={"documentation" === page}>{lang.documentation}</Nav.Link>
@@ -157,14 +157,15 @@ class Navigation extends Component {
                         icon={["fas", "print"]}
                         onClick={e => this.printPage()}
                     />
-                  {/*
+                  
+                  {/* Lang */}
                   <Dropdown className="dropdown-lang">
                   <Dropdown.Toggle variant="primary">{LocaleName[this.props.value.locale.active]}</Dropdown.Toggle>
                       <Dropdown.Menu>
                       {this.renderLangList()}
                       </Dropdown.Menu>
                   </Dropdown>
-                  */}
+                 
               </Navbar.Collapse>
               </Container>
             </Navbar>
