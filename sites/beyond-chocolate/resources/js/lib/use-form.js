@@ -4,7 +4,7 @@ const handleServerErrors = setError => errors => {
     return Object.keys(errors).forEach(key => {
         setError(key, {
             type: "server",
-            message: errors[key].join(". ")
+            message: errors[key].join("\n")
         });
     });
 };
