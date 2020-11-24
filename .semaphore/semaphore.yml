@@ -11,7 +11,7 @@ blocks:
         - name: GCP
         - name: docker-hub-credentials
         - name: TestEnv
-        - name: site-ground
+        - name: siteground
       prologue:
         commands:
           - checkout
