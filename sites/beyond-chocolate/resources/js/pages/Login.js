@@ -2,7 +2,7 @@ import React from "react";
 import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faKey } from "@fortawesome/free-solid-svg-icons";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import WelcomeBanner from "../components/WelcomeBanner";
 import { useAuth } from "../components/auth-context";
 import useForm from "../lib/use-form";
@@ -101,9 +101,9 @@ const Login = ({ location }) => {
                             </Card.Body>
                             <Card.Footer>
                                 Don't have any account?
-                                <a href="#" className="ml-2">
+                                <Link to="/register" className="ml-2">
                                     Register
-                                </a>
+                                </Link>
                             </Card.Footer>
                         </Card>
                     </Col>
