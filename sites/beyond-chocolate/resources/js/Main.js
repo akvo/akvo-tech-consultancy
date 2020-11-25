@@ -23,7 +23,7 @@ const Main = () => {
                 <main>
                     <Switch>
                         <Route exact path="/">
-                            <Redirect to="/webform" />
+                            <Redirect to="/survey" />
                         </Route>
                         <Route
                             exact
@@ -31,11 +31,7 @@ const Main = () => {
                             component={Definition}
                         />
                         <SecureRoute exact path="/users" component={Users} />
-                        <SecureRoute
-                            exact
-                            path="/webform"
-                            component={WebForm}
-                        />
+                        <SecureRoute exact path="/survey" component={WebForm} />
                         <SkipUserRoute exact path="/login" component={Login} />
                         <SkipUserRoute
                             exact

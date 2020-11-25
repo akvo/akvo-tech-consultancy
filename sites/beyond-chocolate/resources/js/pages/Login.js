@@ -20,7 +20,7 @@ const Login = ({ location }) => {
     const onSubmit = async data => {
         try {
             await login(data);
-            history.push(location?.state?.referrer?.pathname || "/webform");
+            history.push(location?.state?.referrer?.pathname || "/survey");
         } catch (e) {
             if (e.status === 422 || e.status === 429) {
                 setServerErrors(e.errors);

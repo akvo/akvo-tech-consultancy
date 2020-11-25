@@ -26,8 +26,8 @@ const Navigation = () => {
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
                     {user && (
-                        <Nav.Link as={NavLink} to="/webform">
-                            Web form
+                        <Nav.Link as={NavLink} to="/survey">
+                            Survey
                         </Nav.Link>
                     )}
                     <Nav.Link as={NavLink} to="/definition">

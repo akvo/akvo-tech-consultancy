@@ -45,7 +45,7 @@ const SecureRoute = ({ component: Component, ...rest }) => {
 const SkipUserRoute = ({ component: Component, ...rest }) => {
     const { user } = useUser();
     const goto = () => {
-        if (user) return <Redirect to="/webform" />;
+        if (user) return <Redirect to="/survey" />;
         if (user === false) return <Component {...rest} />;
         return <></>;
     };
