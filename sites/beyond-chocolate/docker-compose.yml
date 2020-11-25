@@ -38,6 +38,7 @@ services:
       MAIL_MAILER: smtp
       MAIL_HOST: localhost
       MAIL_PORT: 1025
+      MAIL_ENCRYPTION: "null"
     volumes:
       - ./:/var/www/html:delegated
       - ${HOME}/.composer:/home/akvo/.composer

@@ -4,6 +4,8 @@ import Navigation from "./components/Navigation";
 import Footer from "./components/Footer";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 import Users from "./pages/Users";
 import WebForm from "./pages/WebForm";
 import Definition from "./pages/Definition";
@@ -37,6 +39,16 @@ const Main = () => {
                             exact
                             path="/register"
                             component={Register}
+                        />
+                        <SkipUserRoute
+                            exact
+                            path="/reset-password/:token"
+                            component={ResetPassword}
+                        />
+                        <SkipUserRoute
+                            exact
+                            pages="/forgot-password"
+                            component={ForgotPassword}
                         />
                     </Switch>
                 </main>

@@ -4,9 +4,11 @@ const login = async data => {
     await request().post("/login", data);
     return await getUser();
 };
+
 const logout = async () => {
     await request().post("/logout");
 };
+
 const getUser = async () => {
     try {
         const { data } = await request().get("/api/me");
@@ -15,4 +17,23 @@ const getUser = async () => {
     return false;
 };
 
-export default { login, logout, getUser };
+const register = async data => {
+    return await request().post("/register", data);
+};
+
+const forgotPassword = async data => {
+    return await request().post("/forgot-password", data);
+};
+
+const resetPassword = async data => {
+    return await request().post("/reset-password", data);
+};
+
+export default {
+    login,
+    logout,
+    getUser,
+    register,
+    forgotPassword,
+    resetPassword
+};

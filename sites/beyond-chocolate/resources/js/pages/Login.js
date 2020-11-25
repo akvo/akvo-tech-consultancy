@@ -25,6 +25,8 @@ const Login = ({ location }) => {
             if (e.status === 422 || e.status === 429) {
                 setServerErrors(e.errors);
                 setValue("password", "", { shouldDirty: true });
+            } else {
+                throw e;
             }
         }
     };
@@ -80,21 +82,18 @@ const Login = ({ location }) => {
                                     </Form.Group>
                                     <Row>
                                         <Col md={7}>
-                                            <Button
-                                                variant="success"
-                                                type="submit"
-                                            >
+                                            <Button type="submit">
                                                 Submit
                                             </Button>
                                         </Col>
                                         <Col md={5} className="text-right">
-                                            <a href="#">
+                                            <Link to="/forgot-password">
                                                 <FontAwesomeIcon
                                                     className="mr-2"
                                                     icon={faKey}
                                                 />
                                                 Forgot Password
-                                            </a>
+                                            </Link>
                                         </Col>
                                     </Row>
                                 </Form>

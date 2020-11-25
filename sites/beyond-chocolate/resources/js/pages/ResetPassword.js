@@ -1,22 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Button, Form, Card } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import WelcomeBanner from "../components/WelcomeBanner";
+import { useParams, useLocation, useHistory } from "react-router-dom";
+import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
+import * as qs from "query-string";
 import useForm from "../lib/use-form";
 import authApi from "../services/auth";
+import WelcomeBanner from "../components/WelcomeBanner";
 
-const RegisterForm = ({ setRegistered }) => {
+const ResetPasswordForm = ({ email, token, setSuccess }) => {
     const {
-        register,
         handleSubmit,
+        register,
         errors,
         setServerErrors,
         reset
     } = useForm();
     const onSubmit = async data => {
         try {
-            await authApi.register(data);
-            setRegistered(true);
+            const res = await authApi.resetPassword({ ...data, token });
+            setSuccess(res.data.message);
             reset();
         } catch (e) {
             if (e.status === 422) {
@@ -29,24 +30,12 @@ const RegisterForm = ({ setRegistered }) => {
 
     return (
         <Form noValidate onSubmit={handleSubmit(onSubmit)}>
-            <Form.Group controlId="formBasicFulltName">
-                <Form.Label>Full Name</Form.Label>
-                <Form.Control
-                    type="text"
-                    name="name"
-                    placeholder="Full Name"
-                    isInvalid={!!errors.name}
-                    ref={register}
-                />
-                <Form.Control.Feedback type="invalid">
-                    {!!errors.name && errors.name.message}
-                </Form.Control.Feedback>
-            </Form.Group>
             <Form.Group controlId="formBasicEmail">
                 <Form.Label>Email address</Form.Label>
                 <Form.Control
                     type="email"
                     name="email"
+                    defaultValue={email}
                     placeholder="Enter email"
                     isInvalid={!!errors.email}
                     ref={register}
@@ -85,26 +74,24 @@ const RegisterForm = ({ setRegistered }) => {
                         errors.password_confirmation.message}
                 </Form.Control.Feedback>
             </Form.Group>
-            <Row>
-                <Col md={12}>
-                    <Button type="submit">Register</Button>
-                </Col>
-            </Row>
+            <Button type="submit">Register</Button>
         </Form>
     );
 };
 
-const RegisteredBanner = () => {
-    // TODO: remove when email activation has been implemented.
+const SuccessBanner = ({ message }) => {
+    const history = useHistory();
     useEffect(() => {
-        setTimeout(() => window.location.reload(), 3000);
+        setTimeout(() => history.push("/"), 2000);
     }, []);
-
-    return <div>Congratulations, you have been registered.</div>;
+    return <div>{message}</div>;
 };
 
-const Register = () => {
-    const [registered, setRegistered] = useState(false);
+const ResetPassword = () => {
+    const location = useLocation();
+    const { token } = useParams();
+    const { email } = qs.parse(location.search);
+    const [success, setSuccess] = useState();
 
     return (
         <>
@@ -113,24 +100,18 @@ const Register = () => {
                 <Row className="justify-content-md-center">
                     <Col md={6}>
                         <Card>
-                            <Card.Header>Register</Card.Header>
+                            <Card.Header>Reset Password</Card.Header>
                             <Card.Body>
-                                {registered ? (
-                                    <RegisteredBanner />
+                                {success ? (
+                                    <SuccessBanner message={success} />
                                 ) : (
-                                    <RegisterForm
-                                        setRegistered={setRegistered}
+                                    <ResetPasswordForm
+                                        email={email}
+                                        token={token}
+                                        setSuccess={setSuccess}
                                     />
                                 )}
                             </Card.Body>
-                            {!registered && (
-                                <Card.Footer>
-                                    Already have account?
-                                    <Link to="/login" className="ml-2">
-                                        Login
-                                    </Link>
-                                </Card.Footer>
-                            )}
                         </Card>
                     </Col>
                 </Row>
@@ -139,4 +120,4 @@ const Register = () => {
     );
 };
 
-export default Register;
+export default ResetPassword;
