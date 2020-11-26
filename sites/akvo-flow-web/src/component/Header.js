@@ -77,23 +77,34 @@ class Header extends Component {
     }
 
     render() {
+        let totalquestion = this.props.value.groups.list.reduce((i, t) => {
+            console.log(t);
+            if (i === 0) {
+                return t.attributes.questions;
+            }
+            return i + t.attributes.questions;
+        }, 0);
         let info = [
-            "Survey ID: " + this.props.value.surveyId,
-            "Version: " + this.props.value.version,
-        ]
+            "Question Groups: " + this.props.value.groups.list.length,
+            "Questions: " + totalquestion,
+        ];
+        let name = this.props.value.instanceName.toUpperCase() + " - ";
+            name += this.props.value.surveyName;
+            name += " v" + this.props.value.version;
+            name += " - " + this.props.value.surveyId;
         return (
             <div className='sidebar-heading'>
                 <div>
                 <Toast>
                   <ToastHeader>
-                      {this.props.value.surveyName}
+                      {name}
                   </ToastHeader>
                   <ToastBody>
                       {this.renderHeaderInfo(info)}
                   </ToastBody>
                       {this.props.value.savedUrl ? this.getExtraHeader() : ""}
                   <ToastHeader>
-                      Localization:
+                      Localization
                   </ToastHeader>
                   <ToastBody>
                       {this.renderLangOption()}

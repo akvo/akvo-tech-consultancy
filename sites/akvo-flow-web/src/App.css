@@ -216,7 +216,7 @@ button.btn-repeatable{
         width: 100%;
     }
     .wrapper.toggled .sidebar-wrapper {
-        margin-left: -404px;
+        margin-left: -336px;
     }
 }
 
@@ -380,6 +380,7 @@ img.responsive-image {
 
 .more-info {
     margin-top: 5px;
+    margin-left: 25px;
     padding: 0px 2px 1px 2px;
     font-size: 70%;
     border: 1px solid rgba(108,117,125, 0.2);
@@ -391,6 +392,7 @@ img.responsive-image {
 }
 
 .more-info-content {
+    margin-left: 25px;
     padding: 10px;
     background: rgba(108,117,125, 0.2);
     color: #6c757d;
@@ -420,6 +422,17 @@ button:focus {
     border-bottom-left-radius: 5px;
     border-left: #dfdfdf 1px solid;
     border-bottom: #dfdfdf 1px solid;
+}
+
+.question-number{
+    vertical-align:top;
+    display: inline-block;
+    width: 25px;
+}
+
+.question-text {
+    display: inline-block;
+    width: calc(100% - 30px);
 }
 
 @keyframes blink { 50% { background:#f8f9fa ; }  }

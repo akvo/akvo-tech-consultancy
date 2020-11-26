@@ -7,6 +7,7 @@ import GroupPanels from "./GroupPanels.js";
 import ToolTip, { Mandatory } from "../util/Badges";
 import { Card, CardBody, CardTitle } from "reactstrap";
 import { validateMinMax, validateDoubleEntry } from '../util/Utilities.js'
+import { colorPallet } from '../util/Themes.js'
 import "../App.css";
 
 class Questions extends Component {
@@ -80,8 +81,12 @@ class Questions extends Component {
                 let active = question.lang[x] === undefined ? "" : question.lang[x];
                 return active;
             });
+            localization = localization.map((x,i) => {
+                let colorIndex = colorPallet.length < i ? (i - i) : i;
+                return "<span style='color:"+ colorPallet[colorIndex] +"'>" + x + "</span>"
+            });
             localization = localization.filter(x => x !== "");
-            localization = localization.length === 0 ? question.lang.en : localization.join(" / ");
+            localization = localization.length === 0 ? question.lang.en : localization.join("</br>");
             let qid = question.id.toString();
             let qi = question.iteration.toString();
             return (
@@ -91,7 +96,8 @@ class Questions extends Component {
                     {question.mandatory ? this.renderMandatoryIcon(qid, question) : ""}
                     <CardBody key={"card-body-" + qid} id={"card-body-" + qid}>
                         <CardTitle key={"card-title-" + qid}>
-                            <span dangerouslySetInnerHTML={{__html: question.order.toString() + ". " + localization}} />
+                            <div className="question-number">{question.order.toString()}.</div>
+                            <div className="question-text" dangerouslySetInnerHTML={{__html:  localization}} />
                             {question.help !== undefined ? <ToolTip question={question}/> : ""}
                             {question.type === "photo" ? this.renderCachedImage(qid) : ""}
                         </CardTitle>
