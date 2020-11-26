@@ -499,6 +499,15 @@ def form_instance(form_instance_id):
         return jsonify(instance)
     return jsonify({"message": "Bad request"}), 400
 
+@app.route('/json/<resource>')
+def get_json_cascade(resource):
+    json_path = './static/json/{}.json'.format(resource)
+    if os.path.exists(json_path):
+        with open(json_path) as f:
+            data = json.load(f)
+            return jsonify(data)
+    return jsonify({"message": "Bad request"}), 400
+
 if __name__ == '__main__':
     app.jinja_env.auto_reload = True
     app.config['TEMPLATES_AUTO_RELOAD'] = True
