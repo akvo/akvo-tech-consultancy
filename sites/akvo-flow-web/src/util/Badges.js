@@ -51,6 +51,7 @@ class ToolTip extends Component {
                 : false);
         if (notEmpty && !hasUnit) {
             question = question.includes("##UNIT##") ? question.split("##UNIT##")[0] : question;
+            question = question.includes("##MULTICASCADE##") ? question.split("##MULTICASCADE##")[0] : question;
             if (question === "") {
                 return "";
             }

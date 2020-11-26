@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { mapStateToProps, mapDispatchToProps } from '../reducers/actions.js'
-import axios from 'axios';
-import { isJsonString } from  '../util/QuestionHandler.js'
-import { API_URL } from '../util/Environment'
+import { mapStateToProps, mapDispatchToProps } from '../reducers/actions'
+import { isJsonString } from  '../util/QuestionHandler'
 import { PopupImage } from '../util/Popup'
+import { checkCustomOption, checkUnit } from '../util/Custom'
+import { getApi } from '../util/Api'
 import MapForm from '../types/MapForm.js'
 import Dexie from 'dexie';
 import uuid from 'uuid/v4';
@@ -20,7 +20,11 @@ class QuestionType extends Component {
             other: this.other ? this.other : '',
             invalid: false,
             cascade_selected: [],
-            cascade_levels: 0
+            cascade_levels: 0,
+            custom_cascade: [{
+                name:'loading',
+                childs: []
+            }],
         }
         this.setDpStorage = this.setDpStorage.bind(this);
         this.setDplStorage = this.setDplStorage.bind(this);
@@ -40,6 +44,11 @@ class QuestionType extends Component {
         this.handleCascadeChange = this.handleCascadeChange.bind(this);
         this.handleMapChange = this.handleMapChange.bind(this);
         this.handleGlobal = this.handleGlobal.bind(this);
+
+        /*CUSTOM*/
+        this.getCustomCascade = this.getCustomCascade.bind(this);
+        this.handleCustomChange = this.handleCustomChange.bind(this);
+        /* END CUSTOM */
     }
 
     handleGlobal(questionid, qval){
@@ -144,6 +153,42 @@ class QuestionType extends Component {
         };
         this.handleGlobal(id, value);
     }
+
+    /* CUSTOM */
+    handleCustomChange(event, childs) {
+        let id = this.props.data.id;
+        let value = event.target.value;
+        let multipleValue = [];
+        let existValue = [];
+        if (localStorage.getItem(id) !== null) {
+            multipleValue = localStorage.getItem(id).split('|')
+        }
+        if (multipleValue.length > 0) {
+            existValue = multipleValue.map((val) =>{
+                return val;
+            });
+        }
+        if (existValue.indexOf(value) === -1) {
+            multipleValue.push(value)
+            existValue.push(value)
+        } else {
+            multipleValue.splice(existValue.indexOf(value), 1)
+        }
+        if (multipleValue.length > 0) {
+            localStorage.setItem(id, multipleValue.join("|"))
+            this.setState({value: multipleValue})
+            this.handleGlobal(id, value)
+        } else {
+            localStorage.removeItem(id)
+            this.setState({value: ""})
+        }
+        if(value === "") {
+            this.setState({value: value})
+            localStorage.removeItem(id)
+        }
+        this.handleGlobal(id, value)
+    }
+    /* END CUSTOM */
 
     handleChange(event) {
         let id = this.props.data.id
@@ -511,7 +556,7 @@ class QuestionType extends Component {
 
     getCascadeDropdown(lv, ix, selected_value, init) {
         if (this.props.data.type === "cascade") {
-            let url = API_URL + 'cascade/' + this.props.value.instanceName + '/' + this.props.data.cascadeResource + '/' + lv
+            let url = 'cascade/' + this.props.value.instanceName + '/' + this.props.data.cascadeResource + '/' + lv
             let options = "options_" + lv
             let cascade = "cascade_" + ix
             let availcasc = this.props.value.cascade;
@@ -534,15 +579,15 @@ class QuestionType extends Component {
 
     fetchCascade(lv, ix, url, options, cascade, selected_value, init) {
         let optlev = this.props.data.levels.level;
-        axios.get(url).then((res) =>{
-            if (res.data.length === 0) {
+        getApi(url).then(res => {
+            if (res.length === 0) {
                 return res
             }
             try {
                 this.setState({
-                    [options]: res.data,
+                    [options]: res,
                     [cascade]: [options],
-                    value: (res.data[ix] === undefined) ? res.data[0]['id'] : res.data[ix]['id'],
+                    value: (res[ix] === undefined) ? res[0]['id'] : res[ix]['id'],
                     levels: Array.isArray(optlev) ? optlev.length - 1 : 0
                 })
             } catch (err) {
@@ -552,7 +597,7 @@ class QuestionType extends Component {
         }).then((res) => {
             this.props.storeCascade({
                 url:url,
-                data:res.data
+                data:res
             })
             if (init) {
                 let selected = this.state.cascade_selected;
@@ -569,12 +614,7 @@ class QuestionType extends Component {
             validator = validation.minVal ? "Min Value (" + parseInt(validation.minVal) + ") " : validator;
             validator = validation.maxVal ? validator + "Max Value (" + parseInt(validation.maxVal) + ")" : validator;
         }
-        let unit = data.help ? (data.help.text !== null ? data.help.text.includes("##UNIT##") : false) : false;
-        if (unit) {
-            unit = unit
-                ? data.help.text.substring(data.help.text.lastIndexOf("##UNIT##") + 8)
-                : false;
-        }
+        let unit = checkUnit(data);
         const FormInput =
             <input
                 className={"form-control" + invalid}
@@ -710,7 +750,57 @@ class QuestionType extends Component {
         );
     }
 
+    /* CUSTOM */
+    getCustomCascade(id, data, unique, level, index, margin, parent="") {
+        return data.map((x, i) => {
+            let value = parent !== "" ? (parent + " > " + x.name) : x.name;
+            let checked = false;
+            let selected = localStorage.getItem(id);
+            if (selected !== null) {
+                checked = selected.split('|').includes(value);
+                console.log(selected.split('|'));
+            }
+            let indeterminate = false;
+            return (
+                <div
+                    style={{marginLeft: margin + "rem"}}
+                    key={unique + '-radio-' + level + '-' + index + '-' + i.toString()}>
+                    <input
+                        className="form-check-input"
+                        type={"checkBox"}
+                        name={"input-" + unique}
+                        onChange={e => this.handleCustomChange(e, x.childs)}
+                        checked={checked}
+                        disabled={x.childs.length > 0}
+                        value={value}
+                        ref={e => e && (e.indeterminate = indeterminate)}
+                    />
+                    <label
+                        className="form-check-label"
+                        htmlFor={"input-" + unique}>
+                        {level === 0 ? (<b>{x.name}</b>) : x.name}
+                    </label>
+                    { x.childs.length > 0
+                        ? this.getCustomCascade(id, x.childs, unique, level + 1, i, margin + .2, value)
+                        : ""}
+                    { level === 0 ? <hr/> : ""}
+                </div>
+            )
+        });
+    }
+    /* END-CUSTOM */
+
     componentDidMount () {
+        /* CUSTOM */
+        if (this.props.data.type === "text") {
+            let customOption = checkCustomOption(this.props.data);
+            if (customOption) {
+                getApi('json/' + customOption).then(res => {
+                    this.setState({custom_cascade: res});
+                });
+            }
+        }
+        /* END CUSTOM */
         if (this.props.data.type === "cascade"){
             let cascade_selected = [];
             if (this.props.data.levels.level.text !== undefined) {
@@ -764,6 +854,12 @@ class QuestionType extends Component {
         if ('localeLocationFlag' in data){
             this.setDplStorage()
         }
+        /* CUSTOM */
+        let customOption = checkCustomOption(data);
+        if (customOption) {
+            formtype = "custom-cascade";
+        }
+        /* END CUSTOM */
         switch(formtype) {
             case "option":
                 return this.getRadio(data, key)
@@ -782,6 +878,10 @@ class QuestionType extends Component {
                 return this.getInputOther(data, key, answered, formtype)
             case "geo":
                 return this.getGeo(data, key)
+            /* CUSTOM */
+            case "custom-cascade":
+                return <div>{this.getCustomCascade(data.id, this.state.custom_cascade, key, 0, 0, 1.25)}</div>
+            /* END CUSTOM */
             default:
                 if(data.requireDoubleEntry) {
                     return this.getDoubleEntry(data, key, answered, formtype);

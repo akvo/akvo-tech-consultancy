@@ -437,4 +437,7 @@ button:focus {
 
 @keyframes blink { 50% { background:#f8f9fa ; }  }
 
-/* Overview */
+.form-check-input:disabled~.form-check-label,
+.form-check-input[disabled]~.form-check-label {
+    color: #212529!important;
+}
