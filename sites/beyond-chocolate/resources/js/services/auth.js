@@ -29,11 +29,16 @@ const resetPassword = async data => {
     return await request().post("/reset-password", data);
 };
 
+const resendVerificationEmail = async () => {
+    return await request().post("/email/verification-notification");
+};
+
 export default {
     login,
     logout,
     getUser,
     register,
     forgotPassword,
-    resetPassword
+    resetPassword,
+    resendVerificationEmail
 };

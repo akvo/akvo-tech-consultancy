@@ -3,6 +3,7 @@ import { UserProvider, useUser } from "../lib/user-context";
 import authApi from "../services/auth";
 import { Route, Redirect } from "react-router-dom";
 import config from "../config";
+import VerifyEmail from "./VerifyEmail";
 
 const AuthProvider = props => {
     return <UserProvider init={authApi.getUser} {...props} />;
@@ -27,7 +28,8 @@ const useAuth = () => {
 const SecureRoute = ({ component: Component, ...rest }) => {
     const { user } = useUser();
     const goto = props => {
-        if (user) return <Component {...rest} />;
+        if (user?.verified) return <Component {...rest} />;
+        if (user) return <VerifyEmail {...rest} />;
         if (user === false)
             return (
                 <Redirect

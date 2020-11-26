@@ -16,7 +16,7 @@ use App\Models\User;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/me', function (Request $request) {
+Route::middleware(['auth:sanctum'])->get('/me', function (Request $request) {
     $user = $request->user();
     $forms = config('example.users');
 
@@ -28,9 +28,10 @@ Route::middleware('auth:sanctum')->get('/me', function (Request $request) {
         'name' => $user->name,
         'email' => $user->email,
         'form' => $formUrl,
+        'verified' => $user->hasVerifiedEmail()
     ];
 });
 
-Route::middleware('auth:sanctum')->get('/users', function () {
+Route::middleware(['auth:sanctum', 'verified'])->get('/users', function () {
     return User::all();
 });
