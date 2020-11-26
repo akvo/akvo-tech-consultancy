@@ -12,7 +12,7 @@ import Definition from "./pages/Definition";
 import {
     AuthProvider,
     SecureRoute,
-    SkipUserRoute
+    PublicOnlyRoute
 } from "./components/auth-context";
 import config from "./config";
 
@@ -39,22 +39,22 @@ const Main = () => {
                             path={config.routes.home}
                             component={WebForm}
                         />
-                        <SkipUserRoute
+                        <PublicOnlyRoute
                             exact
                             path={config.routes.login}
                             component={Login}
                         />
-                        <SkipUserRoute
+                        <PublicOnlyRoute
                             exact
                             path="/register"
                             component={Register}
                         />
-                        <SkipUserRoute
+                        <PublicOnlyRoute
                             exact
                             path="/reset-password/:token"
                             component={ResetPassword}
                         />
-                        <SkipUserRoute
+                        <PublicOnlyRoute
                             exact
                             pages="/forgot-password"
                             component={ForgotPassword}

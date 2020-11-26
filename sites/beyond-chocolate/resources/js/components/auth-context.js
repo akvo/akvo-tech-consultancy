@@ -43,7 +43,7 @@ const SecureRoute = ({ component: Component, ...rest }) => {
     return <Route {...rest} render={goto} />;
 };
 
-const SkipUserRoute = ({ component: Component, ...rest }) => {
+const PublicOnlyRoute = ({ component: Component, ...rest }) => {
     const { user } = useUser();
     const goto = () => {
         if (user) return <Redirect to={config.routes.home} />;
@@ -54,4 +54,4 @@ const SkipUserRoute = ({ component: Component, ...rest }) => {
     return <Route {...rest} render={goto} />;
 };
 
-export { AuthProvider, useAuth, SecureRoute, SkipUserRoute };
+export { AuthProvider, useAuth, SecureRoute, PublicOnlyRoute };
