@@ -27,7 +27,4 @@ RUN set -eux; \
 
 COPY --from=composer:2.0 /usr/bin/composer /usr/bin/composer
 
-COPY . .
-COPY --chown=akvo:akvo . .
-
 USER akvo
