@@ -4,7 +4,7 @@ import sortBy from "lodash/sortBy";
 import some from "lodash/some";
 import { textWordWrap } from "../../data/utils.js";
 
-export const Bar = (title, data, horizontal = false, unsorted = false) => {
+export const Bar = (title, data, horizontal = false, unsorted = false, compare = false) => {
     let withGender = some(data, 'gender');
     let tableData = sortBy(data, "name");
     tableData = tableData.map((x) => {
@@ -52,6 +52,9 @@ export const Bar = (title, data, horizontal = false, unsorted = false) => {
         },
     };
     
+    let leftMargin = 100;
+    leftMargin = (data.filter(x => x.name.length >= 20).length !== 0) ? 200 : leftMargin;
+
     if (withGender) {
         let labelFormatter = {
             type: 'bar', 
@@ -86,6 +89,7 @@ export const Bar = (title, data, horizontal = false, unsorted = false) => {
         });
         return {
             title: {
+                show: (compare) ? false : true,
                 text: splitTitle(title),
                 right: "center",
                 top: "30px",
@@ -93,10 +97,10 @@ export const Bar = (title, data, horizontal = false, unsorted = false) => {
             },
             grid: {
                 top: 100,
-                // right: 50,
-                right: 10,
+                right: 50,
+                // right: 10,
                 // left: horizontal ? 35 : 10,
-                left: horizontal ? 35 : 200,
+                left: horizontal ? 35 : leftMargin,
                 show: true,
                 label: {
                     color: "#222",
@@ -142,6 +146,7 @@ export const Bar = (title, data, horizontal = false, unsorted = false) => {
 
     return {
         title: {
+            show: (compare) ? false : true,
             text: splitTitle(title),
             right: "center",
             top: "30px",
@@ -149,10 +154,10 @@ export const Bar = (title, data, horizontal = false, unsorted = false) => {
         },
         grid: {
             top: 100,
-            // right: 50,
-            right: 10,
+            right: 50,
+            // right: 10,
             // left: horizontal ? 35 : 10,
-            left: horizontal ? 35 : 200,
+            left: horizontal ? 35 : leftMargin,
             show: true,
             label: {
                 color: "#222",

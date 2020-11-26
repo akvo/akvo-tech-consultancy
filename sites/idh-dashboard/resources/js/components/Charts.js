@@ -21,7 +21,7 @@ class Charts extends Component {
     }
 
     render() {
-        let options = generateOptions(this.props.kind, this.props.title, this.props.dataset);
+        let options = generateOptions(this.props.kind, this.props.title, this.props.dataset, this.props.compare);
         let onEvents = {
             'click': this.clickEvent,
         }

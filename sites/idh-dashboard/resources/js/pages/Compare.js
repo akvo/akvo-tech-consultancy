@@ -164,7 +164,8 @@ class Compare extends Component {
         let items = this.props.value.page.compare.items;
         // let width = 'calc(100% / ' + this.state.charts.length  + ')';
         let source = flatFilters(this.props.value.page.filters);
-        let width = 75/source.length+'%';
+        // let width = 75/source.length+'%';
+        let width = 75/this.state.charts.length;
         return items.map((x, i) => {
             return(
                 <td width={width} className="first-column header-country" align="center" key={'head-' + x.id}>
@@ -213,8 +214,9 @@ class Compare extends Component {
         // }
         // let width = 'calc(100% / ' + this.state.charts.length  + ')';
         let source = flatFilters(this.props.value.page.filters);
-        let width = 75/source.length+'%';
-        let col = 12/source.length;
+        // let width = 75/source.length+'%';
+        // let col = 12/source.length;
+        let col = 12/this.state.charts.length;
         return this.state.charts.map((c, i) => {
             // let chartlist = c.data.map((x, ix) => {
             //     let cardtype = x.kind === "CARDS" || x.kind === "NUM" || x.kind === "PERCENT";
@@ -245,27 +247,32 @@ class Compare extends Component {
             let cards = ["CARDS", "NUM", "PERCENT"];
             let chartlist = c.data.find(x => x.id === id);
             let cardtype = cards.includes(chartlist.kind);
+            
             if (cardtype) {
+                let percent = (chartlist.kind === "PERCENT") ? "%" : "";
+                let text = chartlist.data + percent;
                 tmp.push(
-                    <td key={'tdcards-' + c.id + '-' + i} className={"chart-display"}>
-                        <Cards
+                    <td key={'tdcards-' + c.id + '-' + i} className={"chart-display text-center"}>
+                        {/* <Cards
                             title={chartlist.title}
                             key={'card-' + c.id + '-' + i}
                             kind={chartlist.kind}
                             dataset={chartlist.data}
                             config={generateData(col, false, "50vh")}
-                        />
+                        /> */}
+                        <h1>{text}</h1>
                     </td>
                 );
             } else {
                 tmp.push(
                         <td key={'tdcharts-' + c.id + '-' + i} className={"chart-display"}>
                             <Charts
-                                title={""}
+                                title={chartlist.title}
                                 key={'chart-' + c.id + '-' + i}
                                 dataset={chartlist.data}
                                 kind={chartlist.kind}
                                 config={generateData(col, false, "50vh")}
+                                compare={true}
                             />
                         </td>
                 ); 

@@ -2,11 +2,12 @@ import { Color, Easing, Legend, TextStyle, ToolBox, ToolBoxMaps, backgroundColor
 import maxBy from "lodash/maxBy";
 import minBy from "lodash/minBy";
 
-const Maps = (title, data) => {
+const Maps = (title, data, compare=false) => {
     const world = require("../" + data.maps + ".js");
     let records = data.records;
     let option = {
         title: {
+            show: (compare) ? false : true,
             text: splitTitle(title),
             right: "center",
             top: "30px",

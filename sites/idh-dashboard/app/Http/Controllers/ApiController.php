@@ -82,10 +82,10 @@ class ApiController extends Controller
         // ];
         return [
             Cards::create($maps, 'MAPS', "Household Surveyed", 4, false, 1),
-            // Cards::create(Utils::getValues($id, 'farmer_sample'), 'PIE', "Was the farmer surveyed part of the sample?", 4, false, 2),
+            Cards::create(Utils::getValues($id, 'farmer_sample'), 'PIE', "Was the farmer surveyed part of the sample?", 4, false, 2),
             
             Cards::create($total, 'NUM', "Of the farmers are included in the analysis", 4, false, 3),
-            Cards::create($main_percentage, 'PERCENT', "Of the farmers main crop was ".$first_crop['name'], 4, false, 4),
+            // Cards::create($main_percentage, 'PERCENT', "Of the farmers main crop was ".$first_crop['name'], 4, false, 4),
             Cards::create($farm_size_avg, 'NUM', "Acres is the average farm size", 4, false, 5),
 
             Cards::create($no_second_crop, 'PERCENT', "Of the farmers had more than one crop", 4, false, 6),

@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiController as Api;
 use App\Http\Controllers\AuthController as Auth;
+use App\Http\Controllers\SeedController as Seed;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,3 +37,5 @@ Route::post('/logs', [Auth::class,'logs'])->middleware('auth:api');
 Route::post('/user/update', [Auth::class, 'update'])->middleware('auth:api');
 Route::post('/user/list', [Auth::class, 'list'])->middleware('auth:api');
 Route::post('/user/access', [Auth::class, 'access'])->middleware('auth:api');
+
+Route::get('/syncData', [Seed::class, 'seed']);

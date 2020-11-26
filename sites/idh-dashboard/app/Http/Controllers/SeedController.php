@@ -82,5 +82,4 @@ class SeedController extends Controller
         }
         return true;
     }
-
 }
