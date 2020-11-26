@@ -10,6 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "./auth-context";
+import config from "../config";
 
 const Navigation = () => {
     const { user, logout } = useAuth();
@@ -26,7 +27,7 @@ const Navigation = () => {
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
                     {user && (
-                        <Nav.Link as={NavLink} to="/survey">
+                        <Nav.Link as={NavLink} to={config.routes.home}>
                             Survey
                         </Nav.Link>
                     )}

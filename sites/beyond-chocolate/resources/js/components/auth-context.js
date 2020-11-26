@@ -2,6 +2,7 @@ import React from "react";
 import { UserProvider, useUser } from "../lib/user-context";
 import authApi from "../services/auth";
 import { Route, Redirect } from "react-router-dom";
+import config from "../config";
 
 const AuthProvider = props => {
     return <UserProvider init={authApi.getUser} {...props} />;
@@ -31,7 +32,7 @@ const SecureRoute = ({ component: Component, ...rest }) => {
             return (
                 <Redirect
                     to={{
-                        pathname: "/login",
+                        pathname: config.routes.login,
                         state: { referrer: props.location }
                     }}
                 />
@@ -45,7 +46,7 @@ const SecureRoute = ({ component: Component, ...rest }) => {
 const SkipUserRoute = ({ component: Component, ...rest }) => {
     const { user } = useUser();
     const goto = () => {
-        if (user) return <Redirect to="/survey" />;
+        if (user) return <Redirect to={config.routes.home} />;
         if (user === false) return <Component {...rest} />;
         return <></>;
     };

@@ -6,6 +6,7 @@ import { Link, useHistory } from "react-router-dom";
 import WelcomeBanner from "../components/WelcomeBanner";
 import { useAuth } from "../components/auth-context";
 import useForm from "../lib/use-form";
+import config from "../config";
 
 const Login = ({ location }) => {
     const history = useHistory();
@@ -20,7 +21,9 @@ const Login = ({ location }) => {
     const onSubmit = async data => {
         try {
             await login(data);
-            history.push(location?.state?.referrer?.pathname || "/survey");
+            history.push(
+                location?.state?.referrer?.pathname || config.routes.home
+            );
         } catch (e) {
             if (e.status === 422 || e.status === 429) {
                 setServerErrors(e.errors);

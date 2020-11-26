@@ -14,6 +14,7 @@ import {
     SecureRoute,
     SkipUserRoute
 } from "./components/auth-context";
+import config from "./config";
 
 const Main = () => {
     return (
@@ -25,7 +26,7 @@ const Main = () => {
                 <main>
                     <Switch>
                         <Route exact path="/">
-                            <Redirect to="/survey" />
+                            <Redirect to={config.routes.home} />
                         </Route>
                         <Route
                             exact
@@ -33,8 +34,16 @@ const Main = () => {
                             component={Definition}
                         />
                         <SecureRoute exact path="/users" component={Users} />
-                        <SecureRoute exact path="/survey" component={WebForm} />
-                        <SkipUserRoute exact path="/login" component={Login} />
+                        <SecureRoute
+                            exact
+                            path={config.routes.home}
+                            component={WebForm}
+                        />
+                        <SkipUserRoute
+                            exact
+                            path={config.routes.login}
+                            component={Login}
+                        />
                         <SkipUserRoute
                             exact
                             path="/register"

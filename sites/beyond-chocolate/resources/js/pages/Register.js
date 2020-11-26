@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import WelcomeBanner from "../components/WelcomeBanner";
 import useForm from "../lib/use-form";
 import authApi from "../services/auth";
+import config from "../config";
 
 const RegisterForm = ({ setRegistered }) => {
     const {
@@ -126,7 +127,10 @@ const Register = () => {
                             {!registered && (
                                 <Card.Footer>
                                     Already have account?
-                                    <Link to="/login" className="ml-2">
+                                    <Link
+                                        to={config.routes.login}
+                                        className="ml-2"
+                                    >
                                         Login
                                     </Link>
                                 </Card.Footer>
