@@ -78,7 +78,6 @@ class Header extends Component {
 
     render() {
         let totalquestion = this.props.value.groups.list.reduce((i, t) => {
-            console.log(t);
             if (i === 0) {
                 return t.attributes.questions;
             }
