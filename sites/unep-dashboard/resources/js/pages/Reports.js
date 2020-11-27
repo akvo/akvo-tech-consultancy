@@ -230,7 +230,6 @@ class Reports extends Component {
                 }
             }
         ];
-        console.log(conditionalRowStyles);
         return (
             <Container>
                 <Row>
