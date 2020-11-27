@@ -34,8 +34,8 @@ header {
             text-indent:-9999px;
             background-image: url(/images/gisco.jpg);
             background-repeat:  no-repeat;
-            background-size: cover;
-            width:10rem;
+            background-size: contain;
+            width:13rem;
             height:3rem;
             &:hover {
                 color: $color-tertiary;
