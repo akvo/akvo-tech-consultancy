@@ -31,9 +31,10 @@ header {
             margin-right: 4rem;
             color: $color-secondary;
             text-indent:-9999px;
-            background-image: url(../images/logo.svg);
+            background-image: url(/images/gisco.jpg);
             background-repeat:  no-repeat;
-            width:10rem;
+            background-size: contain;
+            width:13rem;
             height:3rem;
             &:hover {
                 color: $color-tertiary;

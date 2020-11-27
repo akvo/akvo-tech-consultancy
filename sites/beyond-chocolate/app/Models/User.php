@@ -20,6 +20,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
+        'role',
+        'questionnaires',
     ];
 
     /**
@@ -39,5 +41,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'role' => RoleCast::class,
+        'questionnaires' => QuestionnairesCast::class,
     ];
 }

@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 
 const handleServerErrors = setError => errors => {
     return Object.keys(errors).forEach(key => {
@@ -8,6 +8,8 @@ const handleServerErrors = setError => errors => {
         });
     });
 };
+
+export { useForm, Controller };
 
 export default () => {
     const props = useForm();
