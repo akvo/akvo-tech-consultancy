@@ -55,9 +55,10 @@ const Feedback = () => {
                 message: data.feedback,
             }
             let res = await emailApi.sendEmail(sendData);
-            let status = (res.status === 200) ? true : false;
+            console.log(res);
+            let status = (res.data.sent !== false) ? true : false;
             setEmailStatus(status);
-            setEmailMessage(res.statusText);
+            setEmailMessage("Something wrong, please try again!");
             setLoading(false);
             status ? e.target.reset() : "";
             

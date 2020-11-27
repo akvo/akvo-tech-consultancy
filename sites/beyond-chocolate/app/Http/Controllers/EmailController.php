@@ -18,18 +18,17 @@ class EmailController extends Controller
         })->push(['Email' => $request->email]);
         $mailjet = Mailjet::getClient();
         $body = [
-            'FromEmail' => config('mail.host'),
-            'FromName' => config('mail.host'),
+            'FromEmail' => config('mail.mailing.host'),
+            'FromName' => config('mail.mailing.host'),
             'Subject' => $request->subject,
-            'Html-part' => "
-                Support Request From: <strong>$request->email</strong><br/><br/>
+            'Html-part' => "Feedback From: <strong>$request->email</strong><br/><br/>
                 $request->message <hr/>
                 <strong>SENT VIA
                 <a href='".env('APP_URL')."'>Cacao - Beyond Chocolate</a></strong>
-                <br/>
-            ",
+                <br/>",
             'Recipients' => $recipients
         ];
+
         $response = false;
         try {
             $response =  $mailjet->post(Resources::$Email, ['body' => $body]);

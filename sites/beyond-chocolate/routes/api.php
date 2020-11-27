@@ -75,4 +75,5 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     });
 });
 
-Route::middleware(['auth:sanctum', 'verified'])->post('/send-email', [Email::class, 'send']);
+Route::post('/send-email', [Email::class, 'send']);
+// Route::middleware(['auth:sanctum', 'verified'])->post('/send-email', [Email::class, 'send']);

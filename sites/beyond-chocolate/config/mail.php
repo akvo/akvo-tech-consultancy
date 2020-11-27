@@ -112,6 +112,7 @@ return [
      * Email Recipients
      */
     'mailing' => [
+        'host' => env('MAIL_HOST'),
         'list' => explode(',', env('MAIL_RECIPIENTS')),
     ],
 ];
