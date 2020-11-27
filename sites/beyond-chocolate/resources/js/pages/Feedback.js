@@ -55,7 +55,6 @@ const Feedback = () => {
                 message: data.feedback,
             }
             let res = await emailApi.sendEmail(sendData);
-            console.log(res);
             let status = (res.data.sent !== false) ? true : false;
             setEmailStatus(status);
             setEmailMessage("Something wrong, please try again!");
@@ -137,7 +136,7 @@ const Feedback = () => {
                                 >
                                     {isLoading ? 'Loading…' : 'Submit'}
                                 </Button>
-                                { emailMessage !== "OK"
+                                { !emailStatus && emailMessage !== false
                                     ? (<Form.Text className="text-danger">{emailMessage}</Form.Text>)
                                     : ""
                                 }
