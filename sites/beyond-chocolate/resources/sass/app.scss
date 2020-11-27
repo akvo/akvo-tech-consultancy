@@ -1,12 +1,11 @@
-@import "~bootstrap/scss/bootstrap";
+/* @import "~bootstrap/scss/bootstrap";
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap');
 
-$color-primary: rgb(79, 46, 24); /*brown*/
-$color-secondary: rgb(246, 247,235); /*beige*/
-$color-tertiary: rgb(118,167,66); /*green*/
-$color-yellow: rgb(254,206,11); /*yellow*/
-$color-red: rgb(221,39,38); /*red*/
-
+$color-primary: rgb(79, 46, 24);
+$color-secondary: rgb(246, 247,235); 
+$color-tertiary: rgb(118,167,66);
+$color-yellow: rgb(254,206,11);
+$color-red: rgb(221,39,38); 
 
 *,
 *::after,
@@ -71,7 +70,216 @@ main {
     }
 }
 .jumbotron {
-    margin: -33px 0 50px;
+    margin:0;
+    border-radius: 0 !important;
+    height: 20vh;
+    background-image: linear-gradient(
+        to right bottom,
+        rgba($color-yellow, 0.12),
+        rgba($color-tertiary, 0.5)),
+    url(../images/hero.jpg);
+    background-size: cover;
+    background-position: center;
+    position: relative;
+
+        .colourBg1 {
+            position: absolute;
+            height: 100%;
+            width: 25%;
+            top:0;
+            clip-path: polygon(10% 0, 100% 0, 100% 100%, 0 100%);
+            background-image: linear-gradient(
+                to right bottom,
+                rgba($color-yellow, 0.2),
+                rgba($color-tertiary, 0.5));
+            left:50%;
+            z-index: 998;
+        }    
+        .colourBg2 {
+            position: absolute;
+            height: 100%;
+            width: 25%;
+            top:0;
+            background-image: linear-gradient(
+                to right bottom,
+                rgba($color-secondary, 0.3),
+                rgba($color-red, 0.5));
+            left:75%;
+            z-index: 998;
+        }    
+        h1 {
+        position: absolute;
+        z-index: 999;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: left;
+        color: $color-secondary;
+        font-weight: 700;
+        font-size: 2rem;
+        letter-spacing: .8rem;
+        text-shadow: 2px 2px 0 rgba($color-primary,.3);
+        }
+    }
+footer {
+    background: white;
+    text-align: center;
+    padding: 2rem 0;
+    border-top:.1rem solid  $color-secondary;
+    border-bottom:.1rem solid  $color-secondary;
+    .mt-md-5 {
+        margin-top: 0 !important;
+    }
+    .partnersLg {
+        display: flex;
+        flex-flow: row;
+        justify-content: space-around;
+        list-style: none;
+        height: 15rem;
+        width: 80%;
+        margin: 0 auto;
+
+        .partnerImg {
+            padding: .5rem;
+            width: 33%;
+            height: 15rem;
+            margin: 0 .5% 0 0;
+            line-height: 15rem;
+            color: white;
+            font-weight: bold;
+            font-size: 3rem;
+            text-align: center;
+
+            a {
+                img {
+                max-height: 12rem;
+                max-width: 75%;
+                }
+            }
+
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+    }
+}
+  .copyRights {
+    margin: 2rem auto 0;
+  }
+
+.definitionList {
+    width: 80%;
+    margin: 0 auto;
+    dl {
+    display: flex;
+    flex-flow: row wrap;
+        dt {
+            flex-basis: 20%;
+            padding:1.75rem 1rem;
+            background: rgba($color-primary,0);
+            text-align: left;
+            font-size: 1.2rem;
+            color: $color-primary;
+            font-weight: 400;
+            &:first-of-type {
+                border-top: 1px solid rgba($color-primary,.3);
+            }
+            &:not(:last-of-type) {
+                margin-bottom: 1.5rem;
+                border-bottom: 1px solid rgba($color-primary,.3);
+            }
+        }
+        dd {
+            flex-basis: 70%;
+            flex-grow: 1;
+            margin: 0;
+            padding: 1.75rem 1rem;
+            &:first-of-type {
+                border-top: 1px solid rgba($color-primary,.3);
+            }
+            &:not(:last-of-type) {
+                margin-bottom: 1.5rem;
+                border-bottom: 1px solid rgba($color-primary,.3);
+                }
+        }
+    } 
+
+} */
+
+/* Gisco branding */
+@import "~bootstrap/scss/bootstrap";
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap');
+
+$color-primary: rgb(103, 48, 22); /*Brown*/
+$color-secondary: rgb(234, 236,236); /*Grey*/
+$color-tertiary: rgb(120,153,34); /*Green*/
+$color-yellow: rgb(250,187,0);
+$color-red: rgb(155,19,53); 
+
+*,
+*::after,
+*::before {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Nanum Gothic', sans-serif;
+    line-height: 1.7;
+}
+h1, h2, h3, h4, h5 {
+    color: $color-tertiary;
+}
+
+header {
+    background-color: $color-tertiary;
+    border-bottom:.1rem solid  $color-secondary;
+    .navbar {
+        .navbar-brand {
+            text-transform: uppercase;
+            color: $color-tertiary;
+            text-indent:-9999px;
+            background-image: url(../images/gisco-logo.png);
+            background-repeat:  no-repeat;
+            background-size: 84%;
+            width:20rem;
+            height:4rem;
+            &:hover {
+                color: $color-tertiary;
+            }
+        }
+        .navbar-light {
+            .navbar-toggler {
+                color: rgba($color-secondary, 1);
+                border-color: rgba($color-secondary, 1);
+                .navbar-toggler-icon {                
+                    color: rgba($color-secondary, 1);
+                }  
+            } 
+        }
+        .navbar-nav {
+            .nav-link {
+                color: $color-secondary;
+                &.active {
+                    color: $color-tertiary;
+                }
+                &:hover {
+                    color: $color-tertiary;
+                }
+            }
+        }
+    }
+}
+main {
+    padding: 2rem 0;
+    background: $color-secondary;
+    h1 {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+    }
+}
+.jumbotron {
+    margin:0;
     border-radius: 0 !important;
     height: 20vh;
     background-image: linear-gradient(
@@ -206,7 +414,6 @@ footer {
     } 
 
 }
-
 .form-group .invalid-feedback {
   white-space: pre-line;
 }
