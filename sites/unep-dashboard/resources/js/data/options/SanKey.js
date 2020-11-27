@@ -9,7 +9,7 @@ import {
     Icons,
     dataView
 } from "../features/animation.js";
-import { flatten } from "../utils.js";
+import { flatten, flattenChildren } from "../utils.js";
 import uniq from  'lodash/uniq';
 import sumBy from  'lodash/sumBy';
 import sortBy from  'lodash/sortBy';
@@ -18,10 +18,13 @@ const createLinks = (data, links) => {
     if (data.children.length > 0) {
         data.children.forEach(x => {
             if (x.datapoints !== undefined) {
+                let child = data.childrens.filter(y => y.code === x.code);
+                let target = child.length > 0 ? child[0].name : x.name;
                 if (x.datapoints.length > 0) {
                     links.push({
                         source: data.name,
                         target: x.name,
+                        target_en: target,
                         value: x.datapoints.length
                     });
                 }
@@ -29,6 +32,7 @@ const createLinks = (data, links) => {
                 links.push({
                     source: data.name,
                     target: x.name,
+                    target_en: target,
                 });
             }
             createLinks(x, links)
@@ -42,7 +46,7 @@ const SanKey = (title, subtitle, props, data, extra, reports=false) => {
     let links = [];
     if (data) {
         list = data.filter(x => x.children.length > 0);
-        list = flatten(list);
+        list = flattenChildren(list); // flatten the translated children not childrens
         list = list.map(x => x.name);
         list = uniq(list);
         list = list.map(x => {
@@ -51,10 +55,12 @@ const SanKey = (title, subtitle, props, data, extra, reports=false) => {
         data.forEach(x => {
             links = [...links, ...createLinks(x, [])];
         });
-        let otherandall = links.filter(x => x.target === "All of the above" || x.target === "Other");
+        // let otherandall = links.filter(x => x.target === "All of the above" || x.target === "Other");
+        let otherandall = links.filter(x => x.target_en === "All of the above" || x.target_en === "Other");
         if (otherandall.length > 1) {
             links = links.map(x => {
-                if (x.target === "All of the above" || x.target === "Other") {
+                // if (x.target === "All of the above" || x.target === "Other") {
+                if (x.target_en === "All of the above" || x.target_en === "Other") {
                     let parent = x.source.split(' (')[0];
                     return {
                         ...x,

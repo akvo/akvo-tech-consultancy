@@ -222,11 +222,15 @@ class Reports extends Component {
         let conditionalRowStyles = [
             {
                 when: row => row.active,
-                style: row => ({
+                // style: row => ({
+                //     backgroundColor: '#f8f9fa',
+                // })
+                style: {
                     backgroundColor: '#f8f9fa',
-                })
+                }
             }
         ];
+        console.log(conditionalRowStyles);
         return (
             <Container>
                 <Row>

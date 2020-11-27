@@ -27,6 +27,14 @@ export const flatten = (arr) => {
     ], []) : [];
 }
 
+export const flattenChildren = (arr) => {
+    return arr? arr.reduce((result, item) => [
+        ...result,
+        { id: item.id, name: item.name, parent_id: item.parent_id, children: item.childrens },
+        ...flatten(item.children)
+    ], []) : [];
+}
+
 export const parentDeep = (id, data) => {
     let parent = data.find(x => x.id === id);
     if (parent.parent_id !== null){
