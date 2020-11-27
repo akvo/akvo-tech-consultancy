@@ -26,8 +26,8 @@ return [
     ],
 
     'questionnaires' => [
-        '113130042' => 'IDH - B-Industry v8.0',
-        '111510043' => 'IDH - Projects v8.0',
+        '113130042' => 'Industry - GISCO',
+        '111510043' => 'Projects - GISCO',
     ],
 
     'form_url' => 'https://tech-consultancy.akvo.org/akvo-flow-web/idh/',
