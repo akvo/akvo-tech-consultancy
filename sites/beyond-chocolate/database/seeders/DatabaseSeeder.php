@@ -21,6 +21,10 @@ class DatabaseSeeder extends Seeder
             'email' => 'deden@akvo.org',
             'password' => bcrypt('secret'),
         ]);
+        \App\Models\User::factory()->create([
+            'email' => 'galih@akvo.org',
+            'password' => bcrypt('secret'),
+        ]);
         \App\Models\User::factory(10)->create();
     }
 }

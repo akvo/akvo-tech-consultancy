@@ -15,7 +15,8 @@
         "laravel/fortify": "^1.7",
         "laravel/framework": "^8.12",
         "laravel/sanctum": "^2.8",
-        "laravel/tinker": "^2.5"
+        "laravel/tinker": "^2.5",
+        "mailjet/laravel-mailjet": "^2.1"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

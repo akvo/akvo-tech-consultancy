@@ -9,6 +9,7 @@ import ResetPassword from "./pages/ResetPassword";
 import Users from "./pages/Users";
 import WebForm from "./pages/WebForm";
 import Definition from "./pages/Definition";
+import Feedback from "./pages/Feedback";
 import {
     AuthProvider,
     SecureRoute,
@@ -32,6 +33,11 @@ const Main = () => {
                             exact
                             path="/definition"
                             component={Definition}
+                        />
+                        <Route
+                            exact
+                            path="/feedback"
+                            component={Feedback}
                         />
                         <SecureRoute exact path="/users" component={Users} />
                         <SecureRoute

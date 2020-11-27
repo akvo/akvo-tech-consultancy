@@ -1,0 +1,9 @@
+import request from "../lib/request";
+
+const sendEmail = async data => {
+    return await request().post("/api/send-email", data);
+};
+
+export default {
+    sendEmail,
+};

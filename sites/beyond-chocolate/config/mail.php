@@ -107,4 +107,11 @@ return [
         ],
     ],
 
+
+    /**
+     * Email Recipients
+     */
+    'mailing' => [
+        'list' => explode(',', env('MAIL_RECIPIENTS')),
+    ],
 ];

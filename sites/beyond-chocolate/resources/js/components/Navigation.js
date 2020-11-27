@@ -11,13 +11,20 @@ import {
 import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "./auth-context";
 import config from "../config";
+import { useLocale } from "../lib/locale-context";
 
 const Navigation = () => {
     const { user, logout } = useAuth();
+    const { locale, update } = useLocale();
     const endSession = async () => {
         await logout();
         window.location.reload();
     };
+
+    const handleLocale = (lang) => {
+        update({...locale, active:lang});
+    };
+
     return (
         <Navbar expand="lg">
             <Navbar.Brand as={Link} to="/">
@@ -34,6 +41,9 @@ const Navigation = () => {
                     <Nav.Link as={NavLink} to="/definition">
                         Definition
                     </Nav.Link>
+                    <Nav.Link as={NavLink} to="/feedback">
+                        Feedback
+                    </Nav.Link>
                 </Nav>
 
                 <Nav>
@@ -47,6 +57,7 @@ const Navigation = () => {
                         </Form>
                     )}
                     <NavDropdown
+                        id="localeSelect"
                         title={
                             <>
                                 <FontAwesomeIcon
@@ -57,9 +68,9 @@ const Navigation = () => {
                             </>
                         }
                     >
-                        <NavDropdown.Item href="#en">English</NavDropdown.Item>
-                        <NavDropdown.Item href="#de">German</NavDropdown.Item>
-                        <NavDropdown.Item href="#fr">French</NavDropdown.Item>
+                        <NavDropdown.Item onClick={e => handleLocale('en')} href="#en">English</NavDropdown.Item>
+                        <NavDropdown.Item onClick={e => handleLocale('de')} href="#de">German</NavDropdown.Item>
+                        {/* <NavDropdown.Item onClick={e => handleLocale('fr')} href="#fr">French</NavDropdown.Item> */}
                     </NavDropdown>
                     {user && (
                         <NavDropdown

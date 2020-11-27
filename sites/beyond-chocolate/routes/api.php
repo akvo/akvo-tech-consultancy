@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
+use App\Http\Controllers\EmailController as Email;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,3 +36,5 @@ Route::middleware(['auth:sanctum'])->get('/me', function (Request $request) {
 Route::middleware(['auth:sanctum', 'verified'])->get('/users', function () {
     return User::all();
 });
+
+Route::middleware(['auth:sanctum', 'verified'])->post('/send-email', [Email::class, 'send']);

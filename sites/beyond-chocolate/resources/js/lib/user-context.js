@@ -18,6 +18,7 @@ const useUser = () => {
 
 const UserProvider = ({ init, ...props }) => {
     const [user, setUser] = useState();
+    const [locale, setLocale] = useState({active: 'en', locale: []});
 
     if (typeof init === "function") {
         useEffect(async () => {
@@ -26,7 +27,8 @@ const UserProvider = ({ init, ...props }) => {
         }, []);
     }
 
-    const value = useMemo(() => ({ user, setUser }), [user]);
+    const value = useMemo(() => ({ user, setUser, locale, setLocale }), [user, locale]);
+    // const value = useMemo(() => ({ user, setUser }), [user]);
 
     return <UserContext.Provider value={value} {...props} />;
 };
