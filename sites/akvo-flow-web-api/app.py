@@ -18,6 +18,7 @@ import ast
 import logging
 from flask_httpauth import HTTPBasicAuth
 from sqlalchemy import text
+from sqlalchemy.dialects.postgresql import JSONB
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -55,9 +56,11 @@ migrate.init_app(app, db)
 class FormInstance(db.Model):
     id: str
     state: str
+    meta: dict
 
     id = db.Column(db.String, primary_key=True, server_default=text('gen_random_uuid()::varchar'))
     state = db.Column(db.String, nullable=False)
+    meta = db.Column(JSONB)
     created = db.Column(db.DateTime, nullable=False, server_default=text('now()'))
     updated = db.Column(db.DateTime, nullable=False, server_default=text('now()'))
 
