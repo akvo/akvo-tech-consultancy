@@ -34,7 +34,7 @@ assert (
     FormInstance.query.filter(
         and_(
             FormInstance.meta["instance"].astext == "idh",
-            FormInstance.meta["user"].astext.cast(Integer) == 2,
+            FormInstance.meta["user"].astext == "2",
         )
     ).count()
     == 2

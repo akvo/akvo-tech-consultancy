@@ -511,6 +511,16 @@ def get_json_cascade(resource):
             return jsonify(data)
     return jsonify({"message": "Bad request"}), 400
 
+@app.route('/saved-forms')
+def get_saved_forms():
+    args = request.args
+    if not args:
+        return jsonify([])
+    filters = [FormInstance.meta[key].astext == value for key, value in request.args.items()]
+    result = [f.meta for f in FormInstance.query.filter(*filters).all()]
+    return jsonify(result)
+
+
 if __name__ == '__main__':
     app.jinja_env.auto_reload = True
     app.config['TEMPLATES_AUTO_RELOAD'] = True
