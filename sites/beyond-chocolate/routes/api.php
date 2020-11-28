@@ -8,6 +8,7 @@ use App\Http\Controllers\EmailController as Email;
 use App\Models\Role;
 use App\Models\Questionnaire;
 use App\Models\Questionnaires;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /*
 |--------------------------------------------------------------------------
@@ -76,4 +77,15 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
 });
 
 Route::post('/send-email', [Email::class, 'send']);
-// Route::middleware(['auth:sanctum', 'verified'])->post('/send-email', [Email::class, 'send']);
+
+Route::get('/flow-submitter/{id}', function ($id) {
+    $user = User::find($id);
+    if (is_null($user)) {
+        throw new NotFoundHttpException();
+    }
+
+    return [
+        'user' => $user->email,
+        'org' => '' // TODO: Organisation model
+    ];
+});
