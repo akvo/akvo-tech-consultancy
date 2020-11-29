@@ -19,8 +19,8 @@ return [
             'name' => 'Admin',
             'permissions' => [
                 'submit-survey',
-                'manage-survey',
-                'manage-user',
+                'manage-surveys',
+                'manage-users',
             ]
         ],
     ],
@@ -30,5 +30,5 @@ return [
         '111510043' => 'Projects - GISCO',
     ],
 
-    'form_url' => 'https://tech-consultancy.akvo.org/akvo-flow-web/idh/',
+    'form_url' => 'https://tech-consultancy.akvotest.org/akvo-flow-web/idh/',
 ];
