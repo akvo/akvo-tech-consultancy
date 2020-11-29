@@ -194,7 +194,7 @@ const Users = () => {
                                     >
                                         <td>{user.name}</td>
                                         <td>{user.email}</td>
-                                        <td>{user.role.name}</td>
+                                        <td>{user.role?.name}</td>
                                         <td className="text-right">
                                             {displayUserSurveys(user)}
                                         </td>
@@ -275,7 +275,9 @@ const Users = () => {
                                             <Form.Control
                                                 as="select"
                                                 name="role"
-                                                defaultValue={selected.role.key}
+                                                defaultValue={
+                                                    selected.role?.key
+                                                }
                                                 isInvalid={!!errors.role}
                                                 ref={register}
                                             >

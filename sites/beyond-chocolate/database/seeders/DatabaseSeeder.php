@@ -29,7 +29,6 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('secret'),
             'role'=> Role::get('admin')
         ]);
-        \App\Models\User::factory(10)->create();
-        \App\Models\User::factory(10)->create(['role'=>Role::get('submitter')]);
+        \App\Models\User::factory(20)->create();
     }
 }

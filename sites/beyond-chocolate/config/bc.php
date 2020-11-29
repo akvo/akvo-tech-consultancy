@@ -9,18 +9,18 @@ return [
     ],
 
     'roles' => [
+        'submitter' => [
+            'name' => 'Submitter',
+            'permissions' => [
+                'submit-survey',
+            ]
+        ],
         'admin' => [
             'name' => 'Admin',
             'permissions' => [
                 'submit-survey',
                 'manage-survey',
                 'manage-user',
-            ]
-        ],
-        'submitter' => [
-            'name' => 'Submitter',
-            'permissions' => [
-                'submit-survey',
             ]
         ],
     ],
