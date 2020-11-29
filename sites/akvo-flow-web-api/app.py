@@ -485,18 +485,25 @@ def form_instance(form_instance_id):
         return jsonify(instance)
     if request.method == 'POST':
         params = request.get_json()
+        meta = None
         if params.get('_formId') is None or params.get('_dataPointId') is None:
             return jsonify({"message": "Bad request, _formId and _dataPointId parameters are required"}), 400
-        instance = FormInstance(state=request.get_data(as_text=True));
+        if params.get('_meta'):
+            meta = json.loads(params.get('_meta'))
+        instance = FormInstance(state=request.get_data(as_text=True), meta=meta);
         db.session.add(instance)
         db.session.commit()
         return jsonify(instance)
     if request.method == 'PUT':
         instance = FormInstance.query.get(form_instance_id)
+        params = request.get_json()
+        meta = None
         if instance is None:
             return jsonify({"message": "Instance {} not found".format(form_instance_id)}), 400
         instance.updated = datetime.now()
         instance.state = request.get_data(as_text=True);
+        if params.get('_meta'):
+            instance.meta = json.loads(params.get('_meta'))
         db.session.add(instance)
         db.session.commit()
         return jsonify(instance)
