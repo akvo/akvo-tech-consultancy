@@ -34,24 +34,24 @@ Route::middleware(['auth:sanctum'])->get('/me', function (Request $request) {
 });
 
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
+
     Route::get('/me/surveys', function (Request $request) {
         return $request->user()->questionnaires;
     });
 
     Route::get('/users', function () {
         return User::paginate(10);
-    });
+    })->middleware('can:viewAny,App\Models\User');
 
     Route::get('/roles', function () {
         return Role::all();
-    });
+    })->middleware('can:viewAny,App\Models\User');
 
     Route::get('/questionnaires', function () {
         return Questionnaire::all();
-    });
+    })->middleware('can:viewAny,App\Models\User');
 
-    Route::patch('/users/{id}', function ($id, Request $request) {
-        $user = User::find($id);
+    Route::patch('/users/{user}', function (User $user, Request $request) {
         $input = $request->validate([
             'role' => ['sometimes', Rule::in(array_keys(config('bc.roles')))],
             'questionnaires' => ['sometimes','nullable','array']
@@ -69,11 +69,11 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
         $user->save();
 
         return $user;
-    });
+    })->middleware('can:update,user');
 
-    Route::delete('/users/{id}', function ($id) {
-        User::destroy($id);
-    });
+    Route::delete('/users/{user}', function (User $user) {
+        $user->delete();
+    })->middleware('can:delete,user');
 });
 
 Route::post('/send-email', [Email::class, 'send']);

@@ -5,8 +5,29 @@ import { Route, Redirect } from "react-router-dom";
 import config from "../config";
 import VerifyEmail from "./VerifyEmail";
 
+const withPermission = user => {
+    if (!user.permissions) {
+        return user;
+    }
+
+    return {
+        ...user,
+        can(permission) {
+            if (!this.verified) {
+                return false;
+            }
+            return this.permissions.includes(permission);
+        }
+    };
+};
+
+const initUser = async () => {
+    const user = await authApi.getUser();
+    return withPermission(user);
+};
+
 const AuthProvider = props => {
-    return <UserProvider init={authApi.getUser} {...props} />;
+    return <UserProvider init={initUser} {...props} />;
 };
 
 const useAuth = () => {
@@ -14,7 +35,7 @@ const useAuth = () => {
 
     const login = async data => {
         const sessionUser = await authApi.login(data);
-        setUser(sessionUser);
+        setUser(withPermission(sessionUser));
     };
 
     const logout = async () => {

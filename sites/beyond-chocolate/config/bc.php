@@ -4,8 +4,8 @@ use App\Models\Role;
 return [
     'permissions' => [
         'submit-survey',
-        'manage-user',
-        'manage-survey'
+        'manage-users',
+        'manage-surveys'
     ],
 
     'roles' => [

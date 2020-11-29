@@ -21,8 +21,8 @@ const Navigation = () => {
         window.location.reload();
     };
 
-    const handleLocale = (lang) => {
-        update({...locale, active:lang});
+    const handleLocale = lang => {
+        update({ ...locale, active: lang });
     };
 
     return (
@@ -68,9 +68,12 @@ const Navigation = () => {
                             </>
                         }
                     >
-                        <NavDropdown.Item onClick={e => handleLocale('en')} href="#en">English</NavDropdown.Item>
-                        <NavDropdown.Item onClick={e => handleLocale('de')} href="#de">German</NavDropdown.Item>
-                        {/* <NavDropdown.Item onClick={e => handleLocale('fr')} href="#fr">French</NavDropdown.Item> */}
+                        <NavDropdown.Item onClick={() => handleLocale("en")}>
+                            English
+                        </NavDropdown.Item>
+                        <NavDropdown.Item onClick={() => handleLocale("de")}>
+                            German
+                        </NavDropdown.Item>
                     </NavDropdown>
                     {user && (
                         <NavDropdown
@@ -94,13 +97,18 @@ const Navigation = () => {
                                         />
                                         Settings
                                     </NavDropdown.Item>
-                                    <NavDropdown.Item as={NavLink} to="/users">
-                                        <FontAwesomeIcon
-                                            className="mr-2"
-                                            icon={faUsers}
-                                        />
-                                        Manage User
-                                    </NavDropdown.Item>
+                                    {user.can("manage-users") && (
+                                        <NavDropdown.Item
+                                            as={NavLink}
+                                            to="/users"
+                                        >
+                                            <FontAwesomeIcon
+                                                className="mr-2"
+                                                icon={faUsers}
+                                            />
+                                            Manage User
+                                        </NavDropdown.Item>
+                                    )}
                                     <NavDropdown.Divider />
                                 </>
                             )}
