@@ -27,18 +27,14 @@ const Main = () => {
                 <main>
                     <Switch>
                         <Route exact path="/">
-                            <Redirect to={config.routes.home} />
+                            <Redirect to={config.routes.login} />
                         </Route>
                         <Route
                             exact
                             path="/definition"
                             component={Definition}
                         />
-                        <Route
-                            exact
-                            path="/feedback"
-                            component={Feedback}
-                        />
+                        <Route exact path="/feedback" component={Feedback} />
                         <SecureRoute exact path="/users" component={Users} />
                         <SecureRoute
                             exact
