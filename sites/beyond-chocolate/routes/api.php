@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\Rule;
 use App\Models\User;
 use App\Http\Controllers\EmailController as Email;
@@ -40,8 +41,31 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     });
 
     Route::get('/me/saved-surveys', function (Request $request) {
-        return [
-        ];
+        $user = $request->user();
+        $query = ['instanceName' => 'idh'];
+        if (! in_array('manage-surveys', $user->role->permissions)) {
+            $query['user'] = $user->id;
+        }
+
+        $response = Http::get(config('bc.saved_form_endpoint'), $query);
+        $data = $response->json();
+
+        if (!is_array($data)) {
+            return [];
+        }
+
+        return array_map(function ($it) {
+            $rawMeta = array_key_exists('meta', $it) ? $it['meta']: [];
+            $meta = array_merge(['formId' => '', 'dataPointName' => '', 'email' => '', 'formName' => ''], $rawMeta);
+
+            return [
+                'url' => config('bc.form_url').$meta['formId'].'/'.$it['id'],
+                'submission_name' => $meta['dataPointName'],
+                'submitter' => $meta['email'],
+                'survey_name' => $meta['formName'],
+                'date' => $it['updated'],
+            ];
+        }, $data);
     });
 
     Route::get('/users', function () {
