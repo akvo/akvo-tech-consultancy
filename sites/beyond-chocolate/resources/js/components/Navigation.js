@@ -91,12 +91,12 @@ const Navigation = () => {
                         >
                             {user.verified && (
                                 <>
-                                    <NavDropdown.Item href="#settings">
+                                    <NavDropdown.Item as={NavLink} to="/setting">
                                         <FontAwesomeIcon
                                             className="mr-2"
                                             icon={faCog}
                                         />
-                                        Settings
+                                        Setting
                                     </NavDropdown.Item>
                                     {user.can("manage-users") && (
                                         <NavDropdown.Item

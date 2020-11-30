@@ -104,6 +104,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::delete('/users/{user}', function (User $user) {
         $user->delete();
     })->middleware('can:delete,user');
+
 });
 
 Route::post('/send-email', [Email::class, 'send']);
@@ -120,5 +121,6 @@ Route::get('/flow-submitter/{id}', function ($id) {
     ];
 });
 
-Route::post('auth/forgot-password', [Auth::class, 'forgotPassword']);
-Route::post('auth/reset-password', [Auth::class, 'resetPassword']);
+Route::post('/auth/forgot-password', [Auth::class, 'forgotPassword']);
+Route::post('/auth/reset-password', [Auth::class, 'resetPassword']);
+Route::middleware(['auth:sanctum'])->post('/user/update', [Auth::class, 'update']);

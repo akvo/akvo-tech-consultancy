@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Helpers\Mails;
 
@@ -52,5 +53,28 @@ class AuthController extends Controller
         }
 
         return response(["message" => "User not found"], 401);
+    }
+
+    public function update(Request $request)
+    {
+        $validate = $request->validate([
+            'password' => 'required',
+            'new_password' => ['required_with:new_password_confirmation', 'same:new_password_confirmation', 'string', 'min:8'],
+        ]);
+
+        if (!Auth::user()) {
+            return response(['message' => 'session is expired'], 401);
+        }
+
+        $user = \App\Models\User::where('id', Auth::user()->id)->first();
+        $valid = Hash::check($request->password, $user->password);
+        if($valid){
+            $password = Hash::make($request->new_password);
+            $user->update(['password' => $password]);
+            return response([
+                'message' => 'Your password has been updated.'
+            ]);
+        };
+        return response(['message' => 'Invalid password'], 401);
     }
 }

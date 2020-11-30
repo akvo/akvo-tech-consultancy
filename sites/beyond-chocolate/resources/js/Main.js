@@ -10,6 +10,7 @@ import Users from "./pages/Users";
 import WebForm from "./pages/WebForm";
 import Definition from "./pages/Definition";
 import Feedback from "./pages/Feedback";
+import Setting from "./pages/Setting";
 import {
     AuthProvider,
     SecureRoute,
@@ -36,6 +37,7 @@ const Main = () => {
                         />
                         <Route exact path="/feedback" component={Feedback} />
                         <SecureRoute exact path="/users" component={Users} />
+                        <SecureRoute exact path="/setting" component={Setting} />
                         <SecureRoute
                             exact
                             path={config.routes.home}

@@ -27,8 +27,6 @@ const ResetPasswordForm = ({ email, token, setSuccess }) => {
                 throw e;
             }
         }
-
-        console.log(errors);
     };
 
     return (
@@ -50,7 +48,7 @@ const ResetPasswordForm = ({ email, token, setSuccess }) => {
                     We'll never share your email with anyone else.
                 </Form.Text>
             </Form.Group> */}
-            <Form.Group controlId="formBasicPassword">
+            <Form.Group controlId="formBasicNewPassword">
                 <Form.Label>New Password</Form.Label>
                 <Form.Control
                     type="password"
@@ -77,7 +75,7 @@ const ResetPasswordForm = ({ email, token, setSuccess }) => {
                         errors.password_confirmation.message}
                 </Form.Control.Feedback>
             </Form.Group>
-            <Button type="submit">Register</Button>
+            <Button type="submit">Update</Button>
         </Form>
     );
 };
