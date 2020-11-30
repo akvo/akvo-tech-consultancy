@@ -14,6 +14,7 @@ const ResetPasswordForm = ({ email, token, setSuccess }) => {
         setServerErrors,
         reset
     } = useForm();
+
     const onSubmit = async data => {
         try {
             const res = await authApi.resetPassword({ ...data, token });
@@ -26,11 +27,13 @@ const ResetPasswordForm = ({ email, token, setSuccess }) => {
                 throw e;
             }
         }
+
+        console.log(errors);
     };
 
     return (
         <Form noValidate onSubmit={handleSubmit(onSubmit)}>
-            <Form.Group controlId="formBasicEmail">
+            {/* <Form.Group controlId="formBasicEmail">
                 <Form.Label>Email address</Form.Label>
                 <Form.Control
                     type="email"
@@ -46,13 +49,13 @@ const ResetPasswordForm = ({ email, token, setSuccess }) => {
                 <Form.Text className="text-muted">
                     We'll never share your email with anyone else.
                 </Form.Text>
-            </Form.Group>
+            </Form.Group> */}
             <Form.Group controlId="formBasicPassword">
-                <Form.Label>Password</Form.Label>
+                <Form.Label>New Password</Form.Label>
                 <Form.Control
                     type="password"
                     name="password"
-                    placeholder="Password"
+                    placeholder="New Password"
                     isInvalid={!!errors.password}
                     ref={register}
                 />

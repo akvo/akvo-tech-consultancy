@@ -9,6 +9,7 @@ use App\Models\Role;
 use App\Models\Questionnaire;
 use App\Models\Questionnaires;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use App\Http\Controllers\AuthController as Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -89,3 +90,6 @@ Route::get('/flow-submitter/{id}', function ($id) {
         'org' => '' // TODO: Organisation model
     ];
 });
+
+Route::post('auth/forgot-password', [Auth::class, 'forgotPassword']);
+Route::post('auth/reset-password', [Auth::class, 'resetPassword']);

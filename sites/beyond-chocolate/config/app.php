@@ -181,7 +181,6 @@ return [
          */
         Mailjet\LaravelMailjet\MailjetServiceProvider::class,
         Mailjet\LaravelMailjet\MailjetMailServiceProvider::class,
-        Mailjet\LaravelMailjet\Providers\CampaignDraftServiceProvider::class
     ],
 
     /*

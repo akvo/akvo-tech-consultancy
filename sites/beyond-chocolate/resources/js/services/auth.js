@@ -22,11 +22,11 @@ const register = async data => {
 };
 
 const forgotPassword = async data => {
-    return await request().post("/forgot-password", data);
+    return await request().post("/api/auth/forgot-password", data);
 };
 
 const resetPassword = async data => {
-    return await request().post("/reset-password", data);
+    return await request().post("/api/auth/reset-password", data);
 };
 
 const resendVerificationEmail = async () => {

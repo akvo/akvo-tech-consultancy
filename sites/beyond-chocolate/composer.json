@@ -16,7 +16,7 @@
         "laravel/framework": "^8.12",
         "laravel/sanctum": "^2.8",
         "laravel/tinker": "^2.5",
-        "mailjet/laravel-mailjet": "^2.1"
+        "thedoctor0/laravel-mailjet-driver": "^1.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
