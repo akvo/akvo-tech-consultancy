@@ -89,7 +89,7 @@ class Questions extends Component {
                 let extraClass = i !== 0 ? "class='trans-lang'" : "";
                 return "<span " + extraClass + ">" + activeLang + x + "</span>";
             });
-            localization = localization.length === 0 ? question.lang.en : localization.join("</br>");
+            localization = localization.length === 0 ? question.lang.en : localization.join("");
             let qid = question.id.toString();
             let qi = question.iteration.toString();
             return (

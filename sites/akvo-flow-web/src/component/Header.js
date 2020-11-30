@@ -5,6 +5,11 @@ import { Toast, ToastHeader, ToastBody } from 'reactstrap'
 import { CopyToClipboard } from '../util/Utilities.js'
 import { PopupToast } from '../util/Popup'
 
+/*
+const BadgeCircle = ({kind}) =>
+    (<span className={"badge badge-" + kind + " badge-circle"}></span>);
+*/
+
 class Header extends Component {
 
     constructor(props) {
@@ -26,7 +31,8 @@ class Header extends Component {
 
     renderLangOption() {
         let langprop = this.props.value.lang;
-        return langprop.list.map((x,i) => (
+        return langprop.list.map((x,i) => {
+            return (
             <div key={'lang-' + i + '-' + x.id} className="form-check localization">
                 <input
                     className="form-check-input"
@@ -43,7 +49,7 @@ class Header extends Component {
                 </label>
             </div>
             )
-        );
+        })
     }
 
     renderHeaderInfo(info) {
@@ -102,6 +108,7 @@ class Header extends Component {
                       {this.renderHeaderInfo(info)}
                   </ToastBody>
                       {this.props.value.savedUrl ? this.getExtraHeader() : ""}
+                  <ToastHeader></ToastHeader>
                   <ToastHeader>
                       Localization
                   </ToastHeader>

@@ -403,7 +403,8 @@ img.responsive-image {
 }
 
 .trans-lang {
-    margin-top: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
     color: #6c757d;
     font-style: italic;
     background: #e8e8e8;
@@ -411,6 +412,13 @@ img.responsive-image {
     padding: 5px 10px;
     border-radius: 5px;
     font-size: small;
+}
+
+span.badge.badge-circle {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
 }
 
 button:focus {
