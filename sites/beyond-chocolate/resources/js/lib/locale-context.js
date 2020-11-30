@@ -10,4 +10,9 @@ const useLocale = () => {
     return { locale, update };
 }
 
-export { useLocale }
+const langs = {
+    en: 'English',
+    de: 'German',
+}
+
+export { useLocale, langs }

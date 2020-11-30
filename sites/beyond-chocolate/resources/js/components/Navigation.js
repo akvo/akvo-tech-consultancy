@@ -11,7 +11,7 @@ import {
 import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "./auth-context";
 import config from "../config";
-import { useLocale } from "../lib/locale-context";
+import { useLocale, langs } from "../lib/locale-context";
 
 const Navigation = () => {
     const { user, logout } = useAuth();
@@ -21,8 +21,9 @@ const Navigation = () => {
         window.location.reload();
     };
 
-    const handleLocale = lang => {
-        update({ ...locale, active: lang });
+    const handleLocale = eventKey => {
+        console.log(eventKey);
+        update({ ...locale, active: eventKey });
     };
 
     return (
@@ -46,7 +47,7 @@ const Navigation = () => {
                     </Nav.Link>
                 </Nav>
 
-                <Nav>
+                <Nav activeKey={locale.active} onSelect={handleLocale}>
                     {false && (
                         <Form inline>
                             <FormControl
@@ -64,15 +65,15 @@ const Navigation = () => {
                                     className="mr-2"
                                     icon={faGlobeEurope}
                                 />
-                                DE
+                                {langs[locale.active]}
                             </>
                         }
                     >
-                        <NavDropdown.Item onClick={() => handleLocale("en")}>
-                            English
+                        <NavDropdown.Item eventKey="en">
+                            {langs.en}
                         </NavDropdown.Item>
-                        <NavDropdown.Item onClick={() => handleLocale("de")}>
-                            German
+                        <NavDropdown.Item eventKey="de">
+                            {langs.de}
                         </NavDropdown.Item>
                     </NavDropdown>
                     {user && (
