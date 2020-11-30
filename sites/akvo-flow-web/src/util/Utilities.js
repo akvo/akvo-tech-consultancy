@@ -40,4 +40,4 @@ export const validateDoubleEntry = (value, q) => {
     return value;
 }
 
-export const colorPallet = ["#173F5F","#20639B","#3CAEA3","#ED553B"];
+export const colorPallet = ["#173F5F","#20639B","#3CAEA3","#733BED"];
