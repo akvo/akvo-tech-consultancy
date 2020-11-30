@@ -39,6 +39,11 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
         return $request->user()->questionnaires;
     });
 
+    Route::get('/me/saved-surveys', function (Request $request) {
+        return [
+        ];
+    });
+
     Route::get('/users', function () {
         return User::paginate(10);
     })->middleware('can:viewAny,App\Models\User');
