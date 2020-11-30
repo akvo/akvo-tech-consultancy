@@ -62,6 +62,10 @@ return [
             'path' => '/usr/sbin/sendmail -bs',
         ],
 
+        'mailjet' => [
+            'transport' => 'mailjet',
+        ],
+
         'log' => [
             'transport' => 'log',
             'channel' => env('MAIL_LOG_CHANNEL'),
