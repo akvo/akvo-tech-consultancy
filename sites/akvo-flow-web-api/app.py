@@ -528,8 +528,8 @@ def get_saved_forms():
         {
             'id': f.id,
             'meta': f.meta,
-            'created': f.created,
-            'updated': f.updated
+            'created': f.created.isoformat(),
+            'updated': f.updated.isoformat()
         }
         for f in FormInstance.query.filter(*filters).all()
     ]
