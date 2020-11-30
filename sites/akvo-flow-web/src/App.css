@@ -402,6 +402,17 @@ img.responsive-image {
     border-bottom-right-radius: .2rem;
 }
 
+.trans-lang {
+    margin-top: 10px;
+    color: #6c757d;
+    font-style: italic;
+    background: #e8e8e8;
+    display: block;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: small;
+}
+
 button:focus {
     outline: none!important;
 }

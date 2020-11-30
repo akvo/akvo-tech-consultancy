@@ -7,7 +7,7 @@ import GroupPanels from "./GroupPanels.js";
 import ToolTip, { Mandatory } from "../util/Badges";
 import { Card, CardBody, CardTitle } from "reactstrap";
 import { validateMinMax, validateDoubleEntry } from '../util/Utilities.js'
-import { colorPallet } from '../util/Themes.js'
+import isoLangs from '../util/Languages.js'
 import "../App.css";
 
 class Questions extends Component {
@@ -81,11 +81,14 @@ class Questions extends Component {
                 let active = question.lang[x] === undefined ? "" : question.lang[x];
                 return active;
             });
-            localization = localization.map((x,i) => {
-                let colorIndex = colorPallet.length < i ? (i - i) : i;
-                return "<span style='color:"+ colorPallet[colorIndex] +"'>" + x + "</span>"
-            });
             localization = localization.filter(x => x !== "");
+            localization = localization.map((x,i) => {
+                let activeLang = i !== 0
+                    ? ("<b>" + isoLangs[this.props.value.lang.active[i]].nativeName + ": </b>")
+                    : "";
+                let extraClass = i !== 0 ? "class='trans-lang'" : "";
+                return "<span " + extraClass + ">" + activeLang + x + "</span>";
+            });
             localization = localization.length === 0 ? question.lang.en : localization.join("</br>");
             let qid = question.id.toString();
             let qi = question.iteration.toString();
