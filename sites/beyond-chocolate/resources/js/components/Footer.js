@@ -5,7 +5,8 @@ const Footer = () => {
     return (
         <Row>
             <Col>
-                <div className="partnersLg">
+                <p>footer</p>
+                   {/* <div className="partnersLg">
                     <div className="partnerImg">
                         <a href="#">
                             <img src="/images/beyond.jpg" alt="" />
@@ -21,7 +22,7 @@ const Footer = () => {
                             <img src="/images/swiss.jpg" alt="" />
                         </a>
                     </div>
-                </div>
+                </div> */}
             </Col>
         </Row>
     );
