@@ -305,6 +305,22 @@ main {
        }
     }
 }
+.savedFromGrid {
+    width: 100%;
+    font-size: .9rem;
+    &--name{
+        width: 35%;
+    }
+    &--email {
+        width: 25%;
+    }
+    &--date {
+        width: 15%;
+    }
+    &--type {
+        width: 15%;
+    }
+}
 .jumbotron {
     margin:0;
     border-radius: 0 !important;

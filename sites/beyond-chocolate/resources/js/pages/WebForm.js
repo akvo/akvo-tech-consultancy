@@ -45,13 +45,13 @@ const SavedFormsSelector = ({ user, onSelect, watchValue }) => {
     };
     const formatLabel = option => {
         return (
-            <div className="d-flex">
-                <div className="flex-fill">{option.submission_name}</div>
-                <div className="flex-fill">{option.submitter}</div>
-                <div className="flex-fill">
+            <div className="d-flex savedFromGrid">
+                <div className="flex-fill savedFromGrid--name">{option.submission_name}</div>
+                <div className="flex-fill  savedFromGrid--email">{option.submitter}</div>
+                <div className="flex-fill savedFromGrid--date">
                     {DateTime.fromISO(option.date).toFormat("dd/mm/yyyy")}
                 </div>
-                <div className="flex-fill">{option.survey_name}</div>
+                <div className="flex-fill  savedFromGrid--type">{option.survey_name}</div>
             </div>
         );
     };

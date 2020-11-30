@@ -29,7 +29,7 @@ const Navigation = () => {
     return (
         <Navbar expand="lg">
             <Navbar.Brand as={Link} to="/">
-                cho-cooperative
+                Gisco
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
@@ -40,7 +40,7 @@ const Navigation = () => {
                         </Nav.Link>
                     )}
                     <Nav.Link as={NavLink} to="/definition">
-                        Definition
+                        Definitions
                     </Nav.Link>
                     <Nav.Link as={NavLink} to="/feedback">
                         Feedback
