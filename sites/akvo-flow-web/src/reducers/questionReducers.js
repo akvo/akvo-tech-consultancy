@@ -399,6 +399,12 @@ const showHideQuestions = (orig, group) => {
 }
 
 const reduceDataPoint = (state) => {
+    let meta = localStorage.getItem("_meta");
+    if (meta !== null) {
+        meta = JSON.parse(meta);
+        meta = {...meta, dataPointName:state};
+        localStorage.setItem("_meta", JSON.stringify(meta));
+    }
     return state
 }
 

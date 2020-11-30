@@ -283,11 +283,14 @@ class Submit extends Component {
                     localStorage.setItem('_username',res.data.user);
                     let meta = res.data;
                     meta = {
-                        user: urlParams.user_id,
+                        user: parseInt(urlParams.user_id),
+                        email: res.data.user,
                         instanceName: this.props.value.instanceName,
-                        formId: this.props.value.surveyId,
+                        formId: parseInt(this.props.value.surveyId),
+                        formName: this.props.value.surveyName,
                         formVersion: this.props.value.version,
                         dataPointId: localStorage.getItem('_dataPointId'),
+                        dataPointName: this.props.value.datapoint,
                         submitted: false
                     }
                     localStorage.setItem('_meta',JSON.stringify(meta));
