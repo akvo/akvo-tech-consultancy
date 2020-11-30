@@ -94,13 +94,13 @@ class UserPolicy
 
     private function checkPermission(User $user)
     {
-        if (! $user->verified) {
+        if (! $user->hasVerifiedEmail()) {
             return false;
         }
         if (! $user->role instanceof Role) {
             return false;
         }
 
-        return is_array('managet-user', $user->role->permissions);
+        return in_array('manage-users', $user->role->permissions);
     }
 }
