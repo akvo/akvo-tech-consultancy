@@ -260,12 +260,12 @@ header {
         }
         .navbar-nav {
             .nav-link {
-                color: $color-tertiary;
+                color: $color-secondary;
                 &.active {
                     color: $color-yellow;
                 }
                 &:hover {
-                    color: $color-yellow;
+                    color: $color-tertiary;
                 }
             }
         }
