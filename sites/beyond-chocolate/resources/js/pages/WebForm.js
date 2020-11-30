@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
+import { Container, Row, Col, Card, Form, Button, Modal } from "react-bootstrap";
 import Select, { components } from "react-select";
 import request from "../lib/request";
 import { DateTime } from "luxon";
 import { useAuth } from "../components/auth-context";
+import { dsc } from "../static/data-security-content";
+import { useLocale, langs } from "../lib/locale-context";
 
 const ReloadableSelectMenu = props => {
     return (
@@ -156,6 +158,24 @@ const NewFormSelector = ({ user, onSelect, watchValue }) => {
     );
 };
 
+const ModalDataSecurity = ({ show, handleClose, locale, data }) => {
+    return (
+        <Modal size="xl" scrollable={true} show={show} onHide={handleClose}>
+            <Modal.Header closeButton>
+                <Modal.Title>Data Security Provisions</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                {data[locale.active]}
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose}>
+                    Close
+                </Button>
+            </Modal.Footer>
+        </Modal>
+    );
+};
+
 const WebForm = () => {
     const { user } = useAuth();
     const [selectedForm, setSelectedForm] = useState();
@@ -165,6 +185,12 @@ const WebForm = () => {
     const onSelectNewForm = form => {
         setSelectedForm(form);
     };
+    
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
+    const { locale, update } = useLocale();
 
     return (
         <Container fluid>
@@ -186,6 +212,8 @@ const WebForm = () => {
                             />
                         </div>
                     </div>
+                    <hr/>
+                    <p className="pl-3 text-muted">By filling in this questionnaire, you agree with the <a onClick={handleShow} href="#">Data security provisions</a></p>
                     <Card>
                         {selectedForm && (
                             <iframe
@@ -195,6 +223,7 @@ const WebForm = () => {
                             />
                         )}
                     </Card>
+                    <ModalDataSecurity show={show} handleClose={handleClose} locale={locale} data={dsc} />
                 </Col>
             </Row>
         </Container>
