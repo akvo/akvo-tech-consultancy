@@ -79,33 +79,28 @@ const SavedFormsSelector = ({ user, onSelect, watchValue }) => {
     }, [watchValue]);
 
     return (
-        <div>
+        <div className="savedForms">
             <Row>Pick a previously saved forms</Row>
             <Row>
-                <div>
-                    <Form inline>
-                        <div
-                            className="mb-2 mr-sm-2"
-                            style={{ minWidth: "600px" }}
-                        >
-                            <Select
-                                components={{ Menu: ReloadableSelectMenu }}
-                                value={value}
-                                options={available.map(opt => ({
-                                    ...opt,
-                                    value: opt.url
-                                }))}
-                                formatOptionLabel={formatLabel}
-                                onChange={onChange}
-                                fetchingData={fetchingData}
-                                reload={reload}
-                            />
-                        </div>
-                        <Button className="mb-2" onClick={onSubmit}>
-                            Open
-                        </Button>
-                    </Form>
-                </div>
+                <Form inline>
+                    <div className="mb-2 mr-sm-2 selectContainer">
+                        <Select
+                            components={{ Menu: ReloadableSelectMenu }}
+                            value={value}
+                            options={available.map(opt => ({
+                                ...opt,
+                                value: opt.url
+                            }))}
+                            formatOptionLabel={formatLabel}
+                            onChange={onChange}
+                            fetchingData={fetchingData}
+                            reload={reload}
+                        />
+                    </div>
+                    <Button className="mb-2" onClick={onSubmit}>
+                        Open
+                    </Button>
+                </Form>
             </Row>
         </div>
     );
@@ -138,29 +133,24 @@ const NewFormSelector = ({ user, onSelect, watchValue }) => {
     }, [watchValue]);
 
     return (
-        <div>
+        <div className="newForms">
             <Row>Start filling a new form</Row>
             <Row>
-                <div>
-                    <Form inline>
-                        <div
-                            className="mb-2 mr-sm-2"
-                            style={{ minWidth: "300px" }}
-                        >
-                            <Select
-                                value={value}
-                                onChange={onChange}
-                                options={available.map(f => ({
-                                    value: f.name,
-                                    label: f.title
-                                }))}
-                            />
-                        </div>
-                        <Button className="mb-2" onClick={onSubmit}>
-                            Open
-                        </Button>
-                    </Form>
-                </div>
+                <Form inline>
+                    <div className="mb-2 mr-sm-2 selectContainer">
+                        <Select
+                            value={value}
+                            onChange={onChange}
+                            options={available.map(f => ({
+                                value: f.name,
+                                label: f.title
+                            }))}
+                        />
+                    </div>
+                    <Button className="mb-2" onClick={onSubmit}>
+                        Open
+                    </Button>
+                </Form>
             </Row>
         </div>
     );
@@ -196,7 +186,7 @@ const WebForm = () => {
                             />
                         </div>
                     </div>
-                    <Card style={{ height: "100vh" }}>
+                    <Card>
                         {selectedForm && (
                             <iframe
                                 frameBorder="0"

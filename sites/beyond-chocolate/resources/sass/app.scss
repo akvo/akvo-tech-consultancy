@@ -233,7 +233,7 @@ h1, h2, h3, h4, h5 {
 }
 
 header {
-    background-color: $color-tertiary;
+    background-color: $color-primary;
     border-bottom:.1rem solid  $color-secondary;
     .navbar {
         .navbar-brand {
@@ -242,9 +242,9 @@ header {
             text-indent:-9999px;
             background-image: url(../images/gisco-logo.png);
             background-repeat:  no-repeat;
-            background-size: 84%;
+            background-size: 82%;
             width:20rem;
-            height:4rem;
+            height:5rem;
             &:hover {
                 color: $color-tertiary;
             }
@@ -262,21 +262,47 @@ header {
             .nav-link {
                 color: $color-secondary;
                 &.active {
-                    color: $color-primary;
+                    color: $color-yellow;
                 }
                 &:hover {
-                    color: $color-primary;
+                    color: $color-tertiary;
                 }
             }
         }
     }
 }
 main {
-    padding: 2rem 0;
-    background: $color-secondary;
+    padding:0 0 2rem 0;
+    background: white;
     h1 {
         font-size: 2rem;
         margin-bottom: 2rem;
+    }
+    .savedForms {
+        padding: 0.5rem 1rem; 
+        margin: 0;
+        border-radius: 0.3rem;
+        > div { 
+            padding: 0;
+            margin: 0;
+        }
+       background: rgba($color-primary,.1);
+       .selectContainer {
+           min-width: 600px;
+       }
+    }
+    .newForms {
+        padding: 0.5rem 1rem; 
+        margin: 0;
+        border-radius: 0.3rem;
+        > div { 
+            padding: 0;
+            margin: 0;
+        }
+       background: rgba( $color-secondary,1);
+        .selectContainer {
+           min-width: 300px;
+       }
     }
 }
 .jumbotron {
@@ -287,11 +313,10 @@ main {
         to right bottom,
         rgba($color-yellow, 0.12),
         rgba($color-tertiary, 0.5)),
-    url(../images/hero.jpg);
-    background-size: cover;
-    background-position: center;
-    position: relative;
-
+        url(../images/hero.jpg);
+        background-size: cover;
+        background-position: center;
+        position: relative;
         .colourBg1 {
             position: absolute;
             height: 100%;
@@ -304,6 +329,7 @@ main {
                 rgba($color-tertiary, 0.5));
             left:50%;
             z-index: 998;
+            opacity: 0;
         }
         .colourBg2 {
             position: absolute;
@@ -325,10 +351,10 @@ main {
         transform: translate(-50%, -50%);
         text-align: left;
         color: $color-secondary;
-        font-weight: 700;
-        font-size: 2rem;
-        letter-spacing: .8rem;
-        text-shadow: 2px 2px 0 rgba($color-primary,.3);
+        font-weight: 800;
+        font-size: 2.3rem;
+        letter-spacing: .5rem;
+        text-shadow: 2px 2px 0 rgba($color-yellow,.3);
         }
     }
 footer {
