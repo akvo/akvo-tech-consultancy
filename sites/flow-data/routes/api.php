@@ -10,4 +10,4 @@ Route::get('survey/{instanceId}/{surveyId}', [ApiController::class, 'survey']);
 Route::get('form-instances/{instanceId}/{surveyId}/{formId}', [ApiController::class, 'formInstances']);
 Route::get('form-instances/{instanceId}/{surveyId}/{formId}/{result}', [ApiController::class, 'formInstances']);
 
-Route::get('generate-csv', [CsvController::class, 'generate']);
+Route::get('generate-csv/{status}', [CsvController::class, 'generate']); // status: init / daily

@@ -5,30 +5,48 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ApiController;
 use \Carbon\Carbon;
+use League\Csv\Writer;
+use Illuminate\Support\Facades\Storage;
 
 class CsvController extends Controller
 {
     public function __construct()
     {
+        $this->init = false;
         $this->now = Carbon::now()->format('Y-m-d');
+        $this->instance = env('AKVOFLOW_INSTANCE', '');
         $this->geoHeaders = ["GEO-Latitude", "GEO-Longitude", "GEO-Elevation"];
         $this->geoRows = ["lat", "long", "elev"];
         $this->headers = ["Identifier", "Display Name", "Device Identifier", "Instance", "Submission Date", "Submitter", "Duration", "Form Version"];
         $this->api = new ApiController();
     }
 
-    public function generate()
+    public function generate(Request $request)
     {
+        if ($request->status !== 'init' && $request->status !== 'daily') {
+            return \response('Not Found', 404);
+        }
+
+        if ($request->status === 'init') {
+            $this->init = true;
+        }
+
         $sources = $this->api->sources();
         // collect all surveys
         $surveys = $sources->map(function ($source) {
-            return collect($this->api->getSurvey('idh', $source['sid']));
+            return collect($this->api->getSurvey($this->instance, $source['sid']));
         });
         // collect data repeatable true and false
         $results = $surveys->map(function ($survey) {
             return $survey['forms'] = $survey['forms']->map(function ($form) use ($survey) {
                 // collect form instances
-                $formInstances = collect($this->api->getFormInstances('idh', $survey['id'], $form['id']));
+                $formInstances = collect($this->api->getFormInstances($this->instance, $survey['id'], $form['id']));
+                // check last submisstion date
+                $lastSubmission = collect($formInstances->pluck('submissionDate')->sortDesc()->values()->all())->first();
+                // if no response for today date & not initiall run ignore data
+                if (!$this->checkDate($lastSubmission) && !$this->init) {
+                    return 'No Submission';
+                }
 
                 // repeatable groups
                 $qgs = collect($form['questionGroups']);
@@ -44,8 +62,8 @@ class CsvController extends Controller
                 }
 
                 return [
-                    "true" => $repeatableTrueData,
-                    "false" => $repeatableFalseData,
+                    "repeat_groups_true" => $repeatableTrueData,
+                    "repeat_groups_false" => $repeatableFalseData,
                 ];
             });
         });
@@ -58,7 +76,25 @@ class CsvController extends Controller
         // parse submission date (string) here
         $date = new Carbon($date);
         $date = $date->format('Y-m-d');
-        return $this->now === $date;
+        return $date === $this->now;
+    }
+
+    private function writeCsv($data)
+    {
+        $filename = $data['instance'].'-'.$data['fid'].'.csv';
+        if ($data['repeatable']) {
+            $filename = $data['instance'].'-'.$data['fid'].'-'.$data['questionGroupId'].'.csv';
+        }
+
+        if (count($data['records']) === 0) {
+            return Storage::disk('public')->url($filename);
+        }
+
+        $writer = Writer::createFromPath('../public/uploads/'.$filename, 'w+');
+        $writer->insertOne(collect($data['headers'])->toArray());
+        $writer->insertAll(collect($data['records'])->toArray());
+
+        return Storage::disk('public')->url($filename);
     }
 
     private function collectRecords($data, $form, $formInstances, $repeatable=false)
@@ -115,14 +151,17 @@ class CsvController extends Controller
                 $records->push($row);
             });
 
-            return [
-                "instance" => 'idh',
+            $data = [
+                "instance" => $this->instance,
                 "fid" => $form['id'],
                 "questionGroupId" => false,
                 "repeatable" => $repeatable,
                 "headers" => $headers,
                 "records" => $records,
             ];
+
+            // create csv 
+            return $this->writeCsv($data);
         }
 
         $data = $data->map(function ($r) use ($form, $formInstances, $repeatable) {
@@ -180,14 +219,17 @@ class CsvController extends Controller
                 });
             });
 
-            return [
-                "instance" => 'idh',
+            $data = [
+                "instance" => $this->instance,
                 "fid" => $form['id'],
                 "questionGroupId" => $qgId,
                 "repeatable" => $repeatable,
                 "headers" => $headers,
                 "records" => $records,
             ];
+
+            // create csv 
+            return $this->writeCsv($data);
         });
         return $data;
     }
