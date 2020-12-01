@@ -26,6 +26,7 @@ class QuestionType extends Component {
                 name:'loading',
                 childs: []
             }],
+            custom_cascade_other: false
         }
         this.setDpStorage = this.setDpStorage.bind(this);
         this.setDplStorage = this.setDplStorage.bind(this);
@@ -154,42 +155,6 @@ class QuestionType extends Component {
         };
         this.handleGlobal(id, value);
     }
-
-    /* CUSTOM */
-    handleCustomChange(event, childs) {
-        let id = this.props.data.id;
-        let value = event.target.value;
-        let multipleValue = [];
-        let existValue = [];
-        if (localStorage.getItem(id) !== null) {
-            multipleValue = localStorage.getItem(id).split('|')
-        }
-        if (multipleValue.length > 0) {
-            existValue = multipleValue.map((val) =>{
-                return val;
-            });
-        }
-        if (existValue.indexOf(value) === -1) {
-            multipleValue.push(value)
-            existValue.push(value)
-        } else {
-            multipleValue.splice(existValue.indexOf(value), 1)
-        }
-        if (multipleValue.length > 0) {
-            localStorage.setItem(id, multipleValue.join("|"))
-            this.setState({value: multipleValue})
-            this.handleGlobal(id, value)
-        } else {
-            localStorage.removeItem(id)
-            this.setState({value: ""})
-        }
-        if(value === "") {
-            this.setState({value: value})
-            localStorage.removeItem(id)
-        }
-        this.handleGlobal(id, value)
-    }
-    /* END CUSTOM */
 
     handleChange(event) {
         let id = this.props.data.id
@@ -758,6 +723,46 @@ class QuestionType extends Component {
     }
 
     /* CUSTOM */
+    handleCustomChange(event, childs, hasOther) {
+        let id = this.props.data.id;
+        let value = event.target.value;
+        let multipleValue = [];
+        let existValue = [];
+        if (localStorage.getItem(id) !== null) {
+            multipleValue = localStorage.getItem(id).split('|')
+        }
+        if (multipleValue.length > 0) {
+            existValue = multipleValue.map((val) =>{
+                return val;
+            });
+        }
+        if (existValue.indexOf(value) === -1) {
+            if (hasOther) {
+                this.setState({custom_cascade_other:true});
+            }
+            multipleValue.push(value)
+            existValue.push(value)
+        } else {
+            if (hasOther) {
+                this.setState({custom_cascade_other:false});
+            }
+            multipleValue.splice(existValue.indexOf(value), 1)
+        }
+        if (multipleValue.length > 0) {
+            localStorage.setItem(id, multipleValue.join("|"))
+            this.setState({value: multipleValue})
+            this.handleGlobal(id, value)
+        } else {
+            localStorage.removeItem(id)
+            this.setState({value: ""})
+        }
+        if(value === "") {
+            this.setState({value: value})
+            localStorage.removeItem(id)
+        }
+        this.handleGlobal(id, value)
+    }
+
     getCustomCascade(id, data, unique, level, index, margin, parent="") {
         return data.map((x, i) => {
             let value = parent !== "" ? (parent + " > " + x.name) : x.name;
@@ -765,7 +770,6 @@ class QuestionType extends Component {
             let selected = localStorage.getItem(id);
             if (selected !== null) {
                 checked = selected.split('|').includes(value);
-                console.log(selected.split('|'));
             }
             let indeterminate = false;
             return (
@@ -776,7 +780,7 @@ class QuestionType extends Component {
                         className="form-check-input"
                         type={"checkBox"}
                         name={"input-" + unique}
-                        onChange={e => this.handleCustomChange(e, x.childs)}
+                        onChange={e => this.handleCustomChange(e, x.childs, x.hasOther)}
                         checked={checked}
                         disabled={x.childs.length > 0}
                         value={value}
@@ -803,7 +807,8 @@ class QuestionType extends Component {
             let customOption = checkCustomOption(this.props.data);
             if (customOption) {
                 getApi('json/' + customOption).then(res => {
-                    this.setState({custom_cascade: res});
+                    res = res.map(x => ({...x, hasOther:false}));
+                    this.setState({custom_cascade: [...res, {name: 'Other', childs:[], hasOther:true}]});
                 });
             }
         }
@@ -887,7 +892,27 @@ class QuestionType extends Component {
                 return this.getGeo(data, key)
             /* CUSTOM */
             case "custom-cascade":
-                return <div>{this.getCustomCascade(data.id, this.state.custom_cascade, key, 0, 0, 1.25)}</div>
+                return (
+                    <div>
+                        {this.getCustomCascade(data.id, this.state.custom_cascade, key, 0, 0, 1.25)}
+                        <div className={this.state.custom_cascade_other ? "" : "hidden"}>
+                            <label
+                                className="form-label"
+                                htmlFor={data.id.toString() + "_OTHER"}>
+                                Other Answer:
+                            </label>
+                            <input
+                                className="form-control"
+                                key={data.id + "-radio-other"}
+                                value={this.state.other}
+                                type="text"
+                                name={"other_" + data.id.toString()}
+                                id={"other_" + data.id.toString()}
+                                onChange={this.handleChange}
+                            />
+                        </div>
+                    </div>
+                )
             /* END CUSTOM */
             default:
                 if(data.requireDoubleEntry) {

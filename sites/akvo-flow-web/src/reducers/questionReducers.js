@@ -383,7 +383,7 @@ const showHideQuestions = (orig, group) => {
                     show = true
                 }
                 if (answer.filter(a => answer_value.includes(a)).length === 0){
-                    // localStorage.removeItem(x.id);
+                    localStorage.removeItem(x.id);
                     show = false
                 }
             }
