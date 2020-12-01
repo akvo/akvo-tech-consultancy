@@ -223,28 +223,33 @@ $color-red: rgb(155,19,53);
     margin: 0;
     padding: 0;
 }
-
 body {
     font-family: 'Nanum Gothic', sans-serif;
     line-height: 1.7;
+    background: white;
 }
 h1, h2, h3, h4, h5 {
     color: $color-tertiary;
 }
 
 header {
-    background-color: $color-primary;
+    background-color:white;
     border-bottom:.1rem solid  $color-secondary;
+    box-shadow: 0 .3rem .3rem rgba(0,0,0,.2);
+    margin-bottom: .5rem;
+    z-index: 89879;
     .navbar {
+        text-transform: uppercase;
         .navbar-brand {
+            margin: 1rem 3rem 0 0;
             text-transform: uppercase;
             color: $color-tertiary;
             text-indent:-9999px;
-            background-image: url(../images/gisco-logo.png);
+            background-image: url(../images/GiscoLogo.jpg);
             background-repeat:  no-repeat;
-            background-size: 82%;
+            background-size: 94%;
             width:20rem;
-            height:5rem;
+            height:7rem;
             &:hover {
                 color: $color-tertiary;
             }
@@ -260,12 +265,20 @@ header {
         }
         .navbar-nav {
             .nav-link {
-                color: $color-secondary;
+                color: black;
+                padding: .2rem;
+                font-size: .9rem;
+                font-weight: 400;
+                &:not(:last-child) {
+                    margin-right: .6rem;
+                }
                 &.active {
-                    color: $color-yellow;
+                    color: $color-tertiary;
+                    border-bottom: .3rem solid $color-tertiary;
                 }
                 &:hover {
-                    color: $color-tertiary;
+                    background-color: $color-tertiary;
+                    color: white;
                 }
             }
         }
@@ -321,15 +334,23 @@ main {
         width: 15%;
     }
 }
+.users-table {
+    tr:hover {
+        cursor: pointer;
+    }
+    .active {
+        background: $color-secondary;
+    }
+}
 .jumbotron {
     margin:0;
     border-radius: 0 !important;
     height: 20vh;
-    background-image: linear-gradient(
+    background-image: /*linear-gradient(
         to right bottom,
         rgba($color-yellow, 0.12),
-        rgba($color-tertiary, 0.5)),
-        url(../images/hero.jpg);
+        rgba($color-tertiary, 0.5)),*/
+        url(../images/cacao-seeds.jpg);
         background-size: cover;
         background-position: center;
         position: relative;
@@ -358,6 +379,7 @@ main {
                 rgba($color-red, 0.5));
             left:75%;
             z-index: 998;
+             opacity: 0;
         }
         h1 {
         position: absolute;
@@ -368,9 +390,8 @@ main {
         text-align: left;
         color: $color-secondary;
         font-weight: 800;
-        font-size: 2.3rem;
-        letter-spacing: .5rem;
-        text-shadow: 2px 2px 0 rgba($color-yellow,.3);
+        font-size: 3rem;
+        text-shadow: .2rem .2rem 0 rgba($color-primary,.7);
         }
     }
 footer {
@@ -456,9 +477,6 @@ footer {
         }
     }
 
-}
-.users-table tr.active {
-  background: rgba($color-primary, .3);
 }
 .form-group .invalid-feedback {
   white-space: pre-line;
