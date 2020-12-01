@@ -12,6 +12,7 @@ use App\Models\Questionnaires;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use App\Http\Controllers\AuthController as Auth;
 use App\Http\Controllers\ApiController as Api;
+use App\Http\Controllers\SeedController as Seed;
 
 /*
 |--------------------------------------------------------------------------
@@ -153,3 +154,4 @@ Route::post('/auth/forgot-password', [Auth::class, 'forgotPassword']);
 Route::post('/auth/reset-password', [Auth::class, 'resetPassword']);
 Route::middleware(['auth:sanctum'])->post('/user/update', [Auth::class, 'update']);
 Route::get('/organizations', [Api::class, 'getOrganizations']);
+Route::get('/seed', [Seed::class, 'seedDatabase']);
