@@ -15,6 +15,7 @@ import Select from "react-select";
 import * as qs from "query-string";
 import useForm, { Controller } from "../lib/use-form";
 import request from "../lib/request";
+import authApi from "../services/auth";
 
 const PAGINATION_OFFSET = 4;
 
@@ -96,6 +97,7 @@ const Users = () => {
         to: 1,
         total: 1
     });
+    const [orgs, setOrgs] = useState([]);
     const {
         register,
         control,
@@ -176,10 +178,15 @@ const Users = () => {
             : count.toString();
     };
 
-    useEffect(async () => {
-        await Promise.all([fetchUsers(1), fetchRoles(), fetchQuestionnaires()]);
-    }, []);
+    const fetchOrgs = async () => {
+        let res = await authApi.getOrganizations();
+        setOrgs(res.data);
+    }
 
+    useEffect(async () => {
+        await Promise.all([fetchUsers(1), fetchRoles(), fetchQuestionnaires(), fetchOrgs()]);
+    }, []);
+    
     return (
         <Container fluid className="usersTab">
             <Row>
@@ -281,6 +288,39 @@ const Users = () => {
                                                 readOnly
                                                 defaultValue={selected.email}
                                             />
+                                        </Col>
+                                    </Form.Group>
+
+                                    <Form.Group
+                                        as={Row}
+                                        controlId="formPlaintextOrganization"
+                                    >
+                                        <Form.Label column sm={4}>
+                                            Organization
+                                        </Form.Label>
+                                        <Col sm={8}>
+                                            <Form.Control
+                                                as="select"
+                                                name="organization_id"
+                                                defaultValue={
+                                                    selected.organization_id
+                                                }
+                                                isInvalid={!!errors.organization_id}
+                                                ref={register}
+                                            >
+                                                {orgs.map(org => (
+                                                    <option
+                                                        key={org.id}
+                                                        value={org.id}
+                                                    >
+                                                        {org.name}
+                                                    </option>
+                                                ))}
+                                            </Form.Control>
+                                            <Form.Control.Feedback type="invalid">
+                                                {!!errors.organization_id &&
+                                                    errors.role.organization_id}
+                                            </Form.Control.Feedback>
                                         </Col>
                                     </Form.Group>
 

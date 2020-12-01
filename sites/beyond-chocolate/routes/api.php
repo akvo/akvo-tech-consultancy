@@ -113,7 +113,8 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::patch('/users/{user}', function (User $user, Request $request) {
         $input = $request->validate([
             'role' => ['sometimes', Rule::in(array_keys(config('bc.roles')))],
-            'questionnaires' => ['sometimes','nullable','array']
+            'questionnaires' => ['sometimes','nullable','array'],
+            'organization_id' => ['required']
         ]);
 
         if (array_key_exists('role', $input)) {
@@ -125,6 +126,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
             $user->questionnaires = Questionnaires::fromInput($input['questionnaires']);
         }
 
+        $user->organization_id = $input['organization_id'];
         $user->save();
 
         return $user;
