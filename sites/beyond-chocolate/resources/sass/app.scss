@@ -240,7 +240,7 @@ header {
     background-color:white;
     border-bottom:.1rem solid  $color-secondary;
     margin-bottom: .5rem;
-    z-index: 98879;
+    z-index: 999;
     .navbar {
         text-transform: uppercase;
         background-color:white;
@@ -313,7 +313,7 @@ main {
         rgba($color-tertiary, 0.6)), */url(../images/cacao-seeds.jpg);
         background-repeat:  no-repeat;
         background-size: cover;
-        z-index: 98878;
+        z-index: 998;
         .introTxt {
             h1 {    
                 text-transform: uppercase;
