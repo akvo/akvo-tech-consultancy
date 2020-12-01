@@ -334,12 +334,80 @@ main {
         width: 15%;
     }
 }
-.users-table {
-    tr:hover {
-        cursor: pointer;
+.usersTab {
+    table.users-table {
+        tr:hover {
+            cursor: pointer;
+        }
+        .active {
+            background: rgba($color-tertiary, .1);
+            color: $color-tertiary;
+        }
+        width: 100%;
+        text-align: left;
+        border-collapse: collapse;
+        background: rgba($color-secondary, .4);
+        border: 0.1rem solid rgba($color-tertiary, .8);
+        border-radius: .5rem;
+        td,th {
+            padding: 1rem;
+        }
+        td {
+            padding-left: 2rem;
+        }
+        thead {
+            background: rgba($color-tertiary, .8);
+            border: none;
+            th {
+                font-weight: bold;
+                color:white;
+                border: none;
+                &:first-child {
+                    border-left: none;
+                    border: none;
+                }
+            }
+        }
     }
-    .active {
-        background: $color-secondary;
+    .card {
+        background: rgba($color-tertiary, 0);
+        padding: 0;
+        border: 0.1rem solid rgba($color-tertiary, .8);
+        .form-group {
+            padding: .5rem 1rem;
+            label {
+                color: rgba(black, .3);
+            }
+        }
+        .card-footer {
+            padding:1rem;
+        }
+        .card-body{
+            padding:0;
+            .d-flex {
+                top:0;
+                width: 100%;
+                background: rgba($color-tertiary,.8);
+                .close {
+                    color: white;
+                    text-shadow: none;
+                    opacity: 1;
+                    span{     
+                        position: absolute;
+                        top: .9rem;
+                        right: .9rem;              
+                        font-size: .9rem;
+                        padding-right: 1rem;
+                    }
+                    svg {
+                        font-size: 0.9rem;
+                        :hover {
+                            background: none;
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 .jumbotron {

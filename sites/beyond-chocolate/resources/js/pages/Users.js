@@ -181,8 +181,7 @@ const Users = () => {
     }, []);
 
     return (
-        <Container fluid>
-            <strong>Users</strong>
+        <Container fluid className="usersTab">
             <Row>
                 <Col md={8}>
                     <Table className="users-table">
@@ -236,10 +235,9 @@ const Users = () => {
                                         <Button
                                             className="ml-auto p-2 close"
                                             onClick={() => setSelected(null)}
-                                        >
+                                        > <span>Close</span>
                                             <FontAwesomeIcon
                                                 icon={faTimes}
-                                                className="mr-2"
                                             />
                                         </Button>
                                     </div>
