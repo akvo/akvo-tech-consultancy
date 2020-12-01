@@ -285,7 +285,7 @@ header {
     }
 }
 main {
-    padding:0 0 2rem 0;
+    padding:1rem 0 2rem 0;
     background: white;
     h1 {
         font-size: 2rem;
@@ -346,7 +346,6 @@ main {
         width: 100%;
         text-align: left;
         border-collapse: collapse;
-        background: rgba($color-secondary, .4);
         border: 0.1rem solid rgba($color-tertiary, .8);
         border-radius: .5rem;
         td,th {
@@ -386,8 +385,8 @@ main {
             padding:0;
             .d-flex {
                 top:0;
-                width: 100%;
-                background: rgba($color-tertiary,.8);
+                width: 100.1%;
+                background: rgba(55,89,55,.8);
                 .close {
                     color: white;
                     text-shadow: none;
