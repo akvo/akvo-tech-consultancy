@@ -457,6 +457,9 @@ footer {
     }
 
 }
+.users-table tr.active {
+  background: rgba($color-primary, .3);
+}
 .form-group .invalid-feedback {
   white-space: pre-line;
 }

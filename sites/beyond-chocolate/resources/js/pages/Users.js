@@ -101,7 +101,8 @@ const Users = () => {
         control,
         handleSubmit,
         errors,
-        setServerErrors
+        setServerErrors,
+        formState: { isDirty }
     } = useForm();
 
     const fetchUsers = async page => {
@@ -135,6 +136,11 @@ const Users = () => {
     };
     const setPage = page => {
         fetchUsers(page);
+    };
+    const onSelectUser = user => {
+        if (isDirty) return;
+        setSelected(null);
+        setTimeout(() => setSelected(user), 0);
     };
 
     const saveUser = async ({ id, ...data }) => {
@@ -176,7 +182,7 @@ const Users = () => {
             <strong>Users</strong>
             <Row>
                 <Col md={8}>
-                    <Table>
+                    <Table className="users-table">
                         <thead>
                             <tr>
                                 <th>Name</th>
@@ -190,7 +196,12 @@ const Users = () => {
                                 users.map(user => (
                                     <tr
                                         key={user.id}
-                                        onClick={() => setSelected(user)}
+                                        onClick={() => onSelectUser(user)}
+                                        className={
+                                            selected?.id === user.id
+                                                ? "active"
+                                                : ""
+                                        }
                                     >
                                         <td>{user.name}</td>
                                         <td>{user.email}</td>
