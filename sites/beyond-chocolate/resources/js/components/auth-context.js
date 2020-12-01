@@ -69,7 +69,7 @@ const SecureRoute = ({ component: Component, ...rest }) => {
 const PublicOnlyRoute = ({ component: Component, ...rest }) => {
     const { user } = useUser();
     const goto = () => {
-        if (user) return <Redirect to={config.routes.home} />;
+        if (user) return <Redirect to={config.userLanding} />;
         if (user === false) return <Component {...rest} />;
         return <></>;
     };

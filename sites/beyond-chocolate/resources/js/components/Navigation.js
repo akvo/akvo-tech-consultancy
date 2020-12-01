@@ -35,14 +35,19 @@ const Navigation = () => {
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
                     {user?.verified && (
-                        <Nav.Link as={NavLink} to={config.routes.home}>
-                            Survey
-                        </Nav.Link>
+                        <>
+                            <Nav.Link as={NavLink} to={config.routes.home}>
+                                Home
+                            </Nav.Link>
+                            <Nav.Link as={NavLink} to={config.routes.survey}>
+                                Survey
+                            </Nav.Link>
+                        </>
                     )}
-                    <Nav.Link as={NavLink} to="/definition">
+                    <Nav.Link as={NavLink} to={config.routes.definition}>
                         Definitions
                     </Nav.Link>
-                    <Nav.Link as={NavLink} to="/feedback">
+                    <Nav.Link as={NavLink} to={config.routes.feedback}>
                         Feedback
                     </Nav.Link>
                 </Nav>
@@ -91,7 +96,10 @@ const Navigation = () => {
                         >
                             {user.verified && (
                                 <>
-                                    <NavDropdown.Item as={NavLink} to="/setting">
+                                    <NavDropdown.Item
+                                        as={NavLink}
+                                        to={config.routes.setting}
+                                    >
                                         <FontAwesomeIcon
                                             className="mr-2"
                                             icon={faCog}
@@ -101,7 +109,7 @@ const Navigation = () => {
                                     {user.can("manage-users") && (
                                         <NavDropdown.Item
                                             as={NavLink}
-                                            to="/users"
+                                            to={config.routes.users}
                                         >
                                             <FontAwesomeIcon
                                                 className="mr-2"
