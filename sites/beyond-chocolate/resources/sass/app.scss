@@ -210,6 +210,7 @@
 /* Gisco branding */
 @import "~bootstrap/scss/bootstrap";
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
 
 $color-primary: rgb(103, 48, 22); /*Brown*/
 $color-secondary: rgb(234, 236,236); /*Grey*/
@@ -224,22 +225,26 @@ $color-red: rgb(155,19,53);
     padding: 0;
 }
 body {
-    font-family: 'Nanum Gothic', sans-serif;
+    font-family: 'Open Sans','Nanum Gothic', sans-serif;
     line-height: 1.7;
     background: white;
 }
 h1, h2, h3, h4, h5 {
     color: $color-tertiary;
 }
-
+html {
+    margin: 0;
+    padding: 0;
+}
 header {
     background-color:white;
     border-bottom:.1rem solid  $color-secondary;
-    box-shadow: 0 .3rem .3rem rgba(0,0,0,.2);
+    z-index: 98879;
     margin-bottom: .5rem;
-    z-index: 89879;
     .navbar {
         text-transform: uppercase;
+        background-color:white;
+        box-shadow: 0 .3rem .3rem rgba(0,0,0,.2);
         .navbar-brand {
             margin: 1rem 3rem 0 0;
             text-transform: uppercase;
@@ -296,6 +301,48 @@ main {
         .card-header {
             background-color: rgba($color-tertiary,.8);
             color: white;
+        }
+    }
+    .homeLanding {
+        margin-top: -1.6rem;
+        height: calc(100vh - 7rem);
+        background-image: linear-gradient(
+        to right bottom,
+        rgba($color-tertiary, 0.2),
+        rgba($color-tertiary, 0.6)), url(../images/cacaoHands.jpg);
+        background-repeat:  no-repeat;
+        background-size: cover;
+        z-index: 98878;
+        .introTxt {
+            h1 {    
+                text-transform: uppercase;
+                font-weight: 800;
+                font-size: 3rem;
+                text-shadow: 0.1rem 0.1rem 0 rgba(white,.8);
+            }
+            p {
+                font-size: 1.4rem;
+                span {
+                    background: $color-tertiary;
+                    color: white;
+                    padding: .5rem .2rem;
+                    border-radius: .2rem;
+                    font-weight: 700;
+                    margin-bottom: .5rem;
+                }
+            }
+            width:40%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            
+            padding: 2rem;
+            height: auto;
+            background: rgba(white,.8);
+            border-radius: .5rem;
+            border: .1rem solid white;
+            box-shadow:-.2rem -.2rem 0 rgba($color-yellow,.5), .2rem .2rem 0 rgba($color-primary,.5);
         }
     }
     .savedForms {
@@ -456,6 +503,7 @@ main {
              opacity: 0;
         }
         h1 {
+        text-transform: uppercase;
         position: absolute;
         z-index: 999;
         top: 50%;

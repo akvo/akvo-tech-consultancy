@@ -28,7 +28,7 @@ const Navigation = () => {
 
     return (
         <Navbar expand="lg">
-            <Navbar.Brand as={Link} to="/">
+            <Navbar.Brand as={Link} to={config.routes.home}>
                 Gisco
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -36,9 +36,6 @@ const Navigation = () => {
                 <Nav className="mr-auto">
                     {user?.verified && (
                         <>
-                            <Nav.Link as={NavLink} to={config.routes.home}>
-                                Home
-                            </Nav.Link>
                             <Nav.Link as={NavLink} to={config.routes.survey}>
                                 Survey
                             </Nav.Link>
