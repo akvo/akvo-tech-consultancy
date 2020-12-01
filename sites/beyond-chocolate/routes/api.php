@@ -86,12 +86,12 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
                 return $cmp;
             }
             if ($aPoint === false) {
-                return 1;
-            }
-            if ($bPoint === false) {
                 return -1;
             }
-            return ($aPoint < $bPoint) ? 1 : -1;
+            if ($bPoint === false) {
+                return 1;
+            }
+            return ($aPoint < $bPoint) ? -1 : 1;
         });
 
         return $result;
