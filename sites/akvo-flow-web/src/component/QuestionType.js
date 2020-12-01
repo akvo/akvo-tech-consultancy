@@ -5,6 +5,7 @@ import { isJsonString } from  '../util/QuestionHandler'
 import { PopupImage } from '../util/Popup'
 import { checkCustomOption, checkUnit } from '../util/Custom'
 import { getApi } from '../util/Api'
+import isoLangs from '../util/Languages.js'
 import MapForm from '../types/MapForm.js'
 import Dexie from 'dexie';
 import uuid from 'uuid/v4';
@@ -399,7 +400,14 @@ class QuestionType extends Component {
             return active;
         });
         localization = localization.filter(x => x !== "");
-        localization = localization.length === 0 ? lang.en : localization.join(' / ');
+        localization = localization.map((l,il) => {
+            let activeLang = il !== 0
+                ? ("<b>" + isoLangs[this.props.value.lang.active[il]].nativeName + ": </b>")
+                : "";
+            let extraClass = il !== 0 ? "class='trans-lang-opt'" : "";
+            return "<span " + extraClass + ">" + activeLang + l + "</span>";
+        });
+        localization = localization.length === 0 ? lang.en : localization.join('');
         let dataval = opt.code !== undefined
             ? JSON.stringify({"text":opt.value,"code":opt.code})
             : JSON.stringify({"text":opt.value})
@@ -433,9 +441,9 @@ class QuestionType extends Component {
                         />
                         <label
                             className="form-check-label badge badge-secondary"
-                            htmlFor={"input-" + (id).toString()}>
-                            {localization}
-                        </label>
+                            htmlFor={"input-" + (id).toString()}
+                            dangerouslySetInnerHTML={{__html:localization}}
+                        />
                     </div>
                 <hr/>
                     <div className={checked() ? "":"hidden"}>
@@ -472,9 +480,8 @@ class QuestionType extends Component {
             />
                 <label
                     className="form-check-label"
-                    htmlFor={"input-" + (id+i).toString()}>
-                    {localization}
-                </label>
+                    dangerouslySetInnerHTML={{__html:localization}}
+                    htmlFor={"input-" + (id+i).toString()}/>
             </div>
         )
     }

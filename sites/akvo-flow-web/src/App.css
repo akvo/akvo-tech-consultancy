@@ -402,7 +402,8 @@ img.responsive-image {
     border-bottom-right-radius: .2rem;
 }
 
-.trans-lang {
+.trans-lang,
+.trans-lang-opt {
     margin-top: 5px;
     margin-bottom: 5px;
     color: #6c757d;
@@ -412,6 +413,12 @@ img.responsive-image {
     padding: 5px 10px;
     border-radius: 5px;
     font-size: small;
+}
+
+.trans-lang-opt {
+    display: inline-block;
+    padding: 0 5px;
+    margin-left: 5px;
 }
 
 span.badge.badge-circle {
