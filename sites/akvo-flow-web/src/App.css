@@ -416,7 +416,7 @@ img.responsive-image {
 }
 
 .trans-lang-opt {
-    display: inline;
+    display: block;
     padding: 0 5px;
     margin-left: 5px;
 }
