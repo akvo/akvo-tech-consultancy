@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Organization;
+use App\Models\User;
 
 class SeedController extends Controller
 {
@@ -21,6 +22,18 @@ class SeedController extends Controller
                     $insertChild = Organization::updateOrCreate(collect($child)->toArray());
                 }
             });
+        });
+
+        return "Done";
+    }
+
+    public function seedDatabase()
+    {
+        $this->seedOrganizations();
+        $users = User::all();
+        $orgs = Organization::whereNotNull('parent_id')->pluck('id');
+        $users->each(function ($user) use ($orgs) {
+            $user->update(['organization_id' => $orgs->random()]);
         });
 
         return "Done";

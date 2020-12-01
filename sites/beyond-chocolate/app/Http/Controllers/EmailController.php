@@ -15,6 +15,7 @@ class EmailController extends Controller
 {
     public function send(Request $request, Mails $mails)
     {
+        $footer = "GISCO Monitoring Pilot for 2019 data"; 
         $recipients = config('mail.mailing.list');
         $recipients = collect($recipients)->map(function($address){
             return [
@@ -24,7 +25,7 @@ class EmailController extends Controller
         $subject = $request->subject;
         $body = "Feedback from: <strong>$request->email</strong><br/><br/>
                 $request->message <hr/>
-                <strong>SENT VIA <a href='".env('APP_URL')."'>".env('APP_NAME')."</a></strong>
+                <strong>SENT VIA <a href='".env('APP_URL')."'>".$footer."</a></strong>
                 <br/>";
         $text = "Feedback from: $request->email";
         $response = $mails->sendEmail($recipients, false, $subject, $body, $text);
