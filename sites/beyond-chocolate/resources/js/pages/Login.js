@@ -37,7 +37,7 @@ const Login = ({ location }) => {
     return (
         <>
             <WelcomeBanner />
-            <Container>
+            <Container className="loginPg">
                 <Row className="justify-content-md-center">
                     <Col md={6}>
                         <Card>

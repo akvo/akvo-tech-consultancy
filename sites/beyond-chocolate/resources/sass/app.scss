@@ -291,6 +291,13 @@ main {
         font-size: 2rem;
         margin-bottom: 2rem;
     }
+    .loginPg {
+        padding-top: 1rem;
+        .card-header {
+            background-color: rgba($color-tertiary,.8);
+            color: white;
+        }
+    }
     .savedForms {
         padding: 0.5rem 1rem; 
         margin: 0;
