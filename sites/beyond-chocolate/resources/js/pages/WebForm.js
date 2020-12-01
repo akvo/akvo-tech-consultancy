@@ -1,11 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Card, Form, Button, Modal } from "react-bootstrap";
+import {
+    Container,
+    Row,
+    Col,
+    Card,
+    Form,
+    Button,
+    Modal
+} from "react-bootstrap";
 import Select, { components } from "react-select";
 import request from "../lib/request";
 import { DateTime } from "luxon";
 import { useAuth } from "../components/auth-context";
 import { dsc } from "../static/data-security-content";
-import { useLocale, langs } from "../lib/locale-context";
+import { useLocale } from "../lib/locale-context";
 
 const ReloadableSelectMenu = props => {
     return (
@@ -46,12 +54,18 @@ const SavedFormsSelector = ({ user, onSelect, watchValue }) => {
     const formatLabel = option => {
         return (
             <div className="d-flex savedFromGrid">
-                <div className="flex-fill savedFromGrid--name">{option.submission_name}</div>
-                <div className="flex-fill  savedFromGrid--email">{option.submitter}</div>
-                <div className="flex-fill savedFromGrid--date">
-                    {DateTime.fromISO(option.date).toFormat("dd/mm/yyyy")}
+                <div className="flex-fill savedFromGrid--name">
+                    {option.submission_name}
                 </div>
-                <div className="flex-fill  savedFromGrid--type">{option.survey_name}</div>
+                <div className="flex-fill  savedFromGrid--email">
+                    {option.submitter}
+                </div>
+                <div className="flex-fill savedFromGrid--date">
+                    {DateTime.fromISO(option.date).toFormat("dd/LL/yyyy")}
+                </div>
+                <div className="flex-fill  savedFromGrid--type">
+                    {option.survey_name}
+                </div>
             </div>
         );
     };
@@ -73,12 +87,24 @@ const SavedFormsSelector = ({ user, onSelect, watchValue }) => {
     }, []);
 
     useEffect(() => {
-        // Clear other form selector value
+        // Clear value if other form is active
         if (!selected) return;
         if (`${selected.url}?user_id=${user.id}` != watchValue) {
             setValue(null);
         }
     }, [watchValue]);
+
+    useEffect(() => {
+        // Fill in value from the previous session
+        if (selected || !watchValue || available.length < 1) return;
+        const form = available.find(
+            f => `${f.url}?user_id=${user.id}` === watchValue
+        );
+        if (form) {
+            setSelected(form);
+            setValue({ ...form, value: form.url });
+        }
+    }, [watchValue, available]);
 
     return (
         <div className="savedForms">
@@ -127,12 +153,24 @@ const NewFormSelector = ({ user, onSelect, watchValue }) => {
     }, []);
 
     useEffect(() => {
-        // Clear other form selector value
+        // Clear value if other form is active
         if (!selected) return;
         if (`${selected.url}?user_id=${user.id}` != watchValue) {
             setValue(null);
         }
     }, [watchValue]);
+
+    useEffect(() => {
+        // Fill in value from the previous session
+        if (selected || !watchValue || available.length < 1) return;
+        const form = available.find(
+            f => `${f.url}?user_id=${user.id}` === watchValue
+        );
+        if (form) {
+            setSelected(form);
+            setValue({ value: form.name, label: form.title });
+        }
+    }, [watchValue, available]);
 
     return (
         <div className="newForms">
@@ -164,9 +202,7 @@ const ModalDataSecurity = ({ show, handleClose, locale, data }) => {
             <Modal.Header closeButton>
                 <Modal.Title>Data Security Provisions</Modal.Title>
             </Modal.Header>
-            <Modal.Body>
-                {data[locale.active]}
-            </Modal.Body>
+            <Modal.Body>{data[locale.active]}</Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>
                     Close
@@ -179,18 +215,22 @@ const ModalDataSecurity = ({ show, handleClose, locale, data }) => {
 const WebForm = () => {
     const { user } = useAuth();
     const [selectedForm, setSelectedForm] = useState();
-    const onSelectSavedForm = form => {
+    const onSelectForm = form => {
         setSelectedForm(form);
+        localStorage.setItem("active-form", form);
     };
-    const onSelectNewForm = form => {
+
+    useEffect(() => {
+        // open form from the previous session
+        const form = localStorage.getItem("active-form");
         setSelectedForm(form);
-    };
-    
+    }, []);
+
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const { locale, update } = useLocale();
+    const { locale } = useLocale();
 
     return (
         <Container fluid>
@@ -200,20 +240,25 @@ const WebForm = () => {
                         <div className="p-2 flex-grow-1">
                             <SavedFormsSelector
                                 user={user}
-                                onSelect={onSelectSavedForm}
+                                onSelect={onSelectForm}
                                 watchValue={selectedForm}
                             />
                         </div>
                         <div className="p-2 pr-3">
                             <NewFormSelector
                                 user={user}
-                                onSelect={onSelectNewForm}
+                                onSelect={onSelectForm}
                                 watchValue={selectedForm}
                             />
                         </div>
                     </div>
-                    <hr/>
-                    <p className="pl-3 text-muted">By filling in this questionnaire, you agree with the <a onClick={handleShow} href="#">Data security provisions</a></p>
+                    <hr />
+                    <p className="pl-3 text-muted">
+                        By filling in this questionnaire, you agree with the{" "}
+                        <a onClick={handleShow} href="#">
+                            Data security provisions
+                        </a>
+                    </p>
                     <Card>
                         {selectedForm && (
                             <iframe
@@ -223,7 +268,12 @@ const WebForm = () => {
                             />
                         )}
                     </Card>
-                    <ModalDataSecurity show={show} handleClose={handleClose} locale={locale} data={dsc} />
+                    <ModalDataSecurity
+                        show={show}
+                        handleClose={handleClose}
+                        locale={locale}
+                        data={dsc}
+                    />
                 </Col>
             </Row>
         </Container>
