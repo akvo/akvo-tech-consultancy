@@ -5,7 +5,6 @@ const Footer = () => {
     return (
         <Row>
             <Col>
-                <p>footer</p>
                    {/* <div className="partnersLg">
                     <div className="partnerImg">
                         <a href="#">
