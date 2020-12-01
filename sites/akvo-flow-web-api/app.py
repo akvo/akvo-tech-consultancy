@@ -523,7 +523,15 @@ def get_saved_forms():
     args = request.args
     if not args:
         return jsonify([])
-    filters = [FormInstance.meta[key].astext == value for key, value in request.args.items()]
+
+    filters = []
+    for key, value in request.args.items():
+        values = value.split(',')
+        if len(values) == 1:
+            filters.append(FormInstance.meta[key].astext == value)
+        if len(values) > 1:
+            filters.append(FormInstance.meta[key].astext.in_(values))
+
     result = [
         {
             'id': f.id,
@@ -533,6 +541,7 @@ def get_saved_forms():
         }
         for f in FormInstance.query.filter(*filters).all()
     ]
+
     return jsonify(result)
 
 

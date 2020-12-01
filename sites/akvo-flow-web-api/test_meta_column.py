@@ -1,5 +1,6 @@
 from app import db, FormInstance
 from sqlalchemy import and_, Integer
+from sqlalchemy.dialects.postgresql import array
 
 # clean startup
 FormInstance.query.delete()
@@ -54,6 +55,12 @@ print(".", end="")
 
 assert (
     FormInstance.query.filter(FormInstance.meta["tag"].contains(["green"])).count() == 1
+)
+print(".", end="")
+
+assert (
+    FormInstance.query.filter(FormInstance.meta["user"].astext.in_(["1", "2"])).count()
+    == 4
 )
 print(".", end="")
 
