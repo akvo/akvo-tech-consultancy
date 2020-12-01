@@ -4,6 +4,7 @@ import { mapStateToProps, mapDispatchToProps } from '../reducers/actions.js'
 import { Toast, ToastHeader, ToastBody } from 'reactstrap'
 import { CopyToClipboard } from '../util/Utilities.js'
 import { PopupToast } from '../util/Popup'
+import { SAVE_FEATURES} from '../util/Environment'
 
 /*
 const BadgeCircle = ({kind}) =>
@@ -59,6 +60,12 @@ class Header extends Component {
     }
 
     getExtraHeader() {
+        let instance = SAVE_FEATURES.find(x => x.instance === this.props.value.instanceName);
+        if (instance) {
+            if (!instance.formEndpoint) {
+                return "";
+            }
+        }
         return (
             <Fragment>
               <ToastHeader>

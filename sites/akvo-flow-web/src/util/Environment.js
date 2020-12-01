@@ -8,15 +8,18 @@ export const USING_PASSWORDS = "2scale";
 export const SAVE_FEATURES = [
     {
         instance:"2scale",
-        api: false
+        api: false,
+        formEndpoint: true
     },
     {
         instance:"seap",
-        api: "gisco-demo.tc.akvo.org/api"
+        api: "gisco-demo.tc.akvo.org/api",
+        formEndpoint: false
     },
     {
         instance:"idh",
-        api: "gisco-demo.tc.akvo.org/api"
+        api: "gisco-demo.tc.akvo.org/api",
+        formEndpoint: false
     },
 ];
 

@@ -291,6 +291,7 @@ class Submit extends Component {
                         formVersion: this.props.value.version,
                         dataPointId: localStorage.getItem('_dataPointId'),
                         dataPointName: this.props.value.datapoint,
+                        org: res.data.org,
                         submitted: false
                     }
                     localStorage.setItem('_meta',JSON.stringify(meta));
