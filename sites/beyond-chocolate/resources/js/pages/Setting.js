@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { 
     Container, 
     Row, 
@@ -10,6 +10,7 @@ import {
 import useForm from "../lib/use-form";
 import { useAuth } from "../components/auth-context";
 import authApi from "../services/auth";
+import { useHistory } from "react-router-dom";
 
 const SettingForm = ({ email, setSuccess, invalidPwd, setInvalidPwd }) => {
     const {
@@ -18,7 +19,11 @@ const SettingForm = ({ email, setSuccess, invalidPwd, setInvalidPwd }) => {
         errors,
         setServerErrors,
         reset,
+        watch
     } = useForm();
+
+    const password = useRef({});
+    password.current = watch("new_password", "");
 
     const onSubmit = async data => {
         try {
@@ -41,10 +46,6 @@ const SettingForm = ({ email, setSuccess, invalidPwd, setInvalidPwd }) => {
         }
     };
 
-    // useEffect(() => {
-    //     console.log(errors);
-    // }, [invalidPwd]);
-
     return (
         <Form onSubmit={handleSubmit(onSubmit)}>
             <Card.Body>
@@ -62,12 +63,13 @@ const SettingForm = ({ email, setSuccess, invalidPwd, setInvalidPwd }) => {
                         name="password"
                         placeholder="Old Password" 
                         isInvalid={!!errors.password}
-                        ref={register}
-                        required />
+                        ref={register({
+                            required: "The old password field is required."
+                        })} 
+                    />
                     <Form.Control.Feedback type="invalid">
                         {!!errors.password &&
-                            errors.password.message && 
-                            !errors.password.message.includes('confirmation')}
+                            errors.password.message}
                     </Form.Control.Feedback>
                     {invalidPwd ? (
                         <Form.Text key='invalidpwd' className="text-danger">
@@ -83,8 +85,10 @@ const SettingForm = ({ email, setSuccess, invalidPwd, setInvalidPwd }) => {
                         name="new_password"
                         placeholder="New Password" 
                         isInvalid={!!errors.new_password}
-                        ref={register}
-                        required />
+                        ref={register({
+                            required: "The new password field is required."
+                        })} 
+                    />
                     <Form.Control.Feedback type="invalid">
                         {!!errors.new_password &&
                             errors.new_password.message}
@@ -98,8 +102,10 @@ const SettingForm = ({ email, setSuccess, invalidPwd, setInvalidPwd }) => {
                         name="new_password_confirmation"
                         placeholder="New Password" 
                         isInvalid={!!errors.new_password_confirmation}
-                        ref={register}
-                        required />
+                        ref={register({
+                            validate: value => value === password.current || "The passwords do not match."
+                        })} 
+                    />
                     <Form.Control.Feedback type="invalid">
                         {!!errors.new_password_confirmation &&
                             errors.new_password_confirmation.message}
@@ -116,6 +122,7 @@ const SettingForm = ({ email, setSuccess, invalidPwd, setInvalidPwd }) => {
 };
 
 const SuccessBanner = ({ message, logout }) => {
+    const history = useHistory();
     useEffect(() => {
         setTimeout(async () => {
             await logout();

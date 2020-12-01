@@ -24,7 +24,7 @@ class EmailController extends Controller
         $subject = $request->subject;
         $body = "Feedback from: <strong>$request->email</strong><br/><br/>
                 $request->message <hr/>
-                <strong>SENT VIA <a href='".env('APP_URL')."'>Cacao - Beyond Chocolate</a></strong>
+                <strong>SENT VIA <a href='".env('APP_URL')."'>".env('APP_NAME')."</a></strong>
                 <br/>";
         $text = "Feedback from: $request->email";
         $response = $mails->sendEmail($recipients, false, $subject, $body, $text);
@@ -32,30 +32,6 @@ class EmailController extends Controller
         return response([
             'message' => 'Your feedback has been sent!', 'mails' => $response
         ]);
-
-        // old way
-        // $mailjet = Mailjet::getClient();
-        // $body = [
-        //     'FromEmail' => config('mail.mailing.host'),
-        //     'FromName' => config('mail.mailing.host'),
-        //     'Subject' => $request->subject,
-        //     'Html-part' => "Feedback From: <strong>$request->email</strong><br/><br/>
-        //         $request->message <hr/>
-        //         <strong>SENT VIA
-        //         <a href='".env('APP_URL')."'>Cacao - Beyond Chocolate</a></strong>
-        //         <br/>",
-        //     'Recipients' => $recipients
-        // ];
-
-        // $response = false;
-        // try {
-        //     $response =  $mailjet->post(Resources::$Email, ['body' => $body]);
-        //     $response = $response->success();
-        // } catch (\Exception $e) {
-        //     logger()->error('Goutte client error ' . $e->getMessage());
-        // }
-        // return ['sent' => $response];
-
     }
     //
 }

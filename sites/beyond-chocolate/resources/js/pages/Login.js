@@ -54,7 +54,9 @@ const Login = ({ location }) => {
                                             name="email"
                                             placeholder="Enter email"
                                             isInvalid={!!errors.email}
-                                            ref={register}
+                                            ref={register({
+                                                required: "The email field is required."
+                                            })}
                                         />
                                         <Form.Control.Feedback type="invalid">
                                             {!!errors.email &&
@@ -68,7 +70,9 @@ const Login = ({ location }) => {
                                             name="password"
                                             placeholder="Password"
                                             isInvalid={!!errors.password}
-                                            ref={register}
+                                            ref={register({
+                                                required: "The password field is required."
+                                            })}
                                         />
                                         <Form.Control.Feedback type="invalid">
                                             {!!errors.password &&

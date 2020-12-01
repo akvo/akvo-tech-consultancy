@@ -21,7 +21,7 @@ class AuthController extends Controller
             ]);
             $recipients = [['Email' => $user->email, 'Name' => $user->name]];
             $endpoint = config('app.url') . '/reset-password/'  .$token;
-            $subject = "IDH Beyond Chocolate: Create New Password";
+            $subject = config('app.name').": Reset Password";
             $body = "Hi $user->name, <p>Please open the link below to change your password.</p>";
             $text = "Hi $user->name, Please open the link below to change your password";
             $response = $mails->sendEmail($recipients, $endpoint, $subject, $body, $text);

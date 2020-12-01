@@ -36,7 +36,7 @@ const Main = () => {
                             path={config.routes.definition}
                             component={Definition}
                         />
-                        <Route
+                        <SecureRoute
                             exact
                             path={config.routes.feedback}
                             component={Feedback}

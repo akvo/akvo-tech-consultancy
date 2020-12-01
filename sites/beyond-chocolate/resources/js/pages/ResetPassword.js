@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams, useLocation, useHistory } from "react-router-dom";
 import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
 import * as qs from "query-string";
@@ -12,8 +12,12 @@ const ResetPasswordForm = ({ email, token, setSuccess }) => {
         register,
         errors,
         setServerErrors,
-        reset
+        reset,
+        watch
     } = useForm();
+
+    const password = useRef({});
+    password.current = watch("password", "");
 
     const onSubmit = async data => {
         try {
@@ -55,7 +59,9 @@ const ResetPasswordForm = ({ email, token, setSuccess }) => {
                     name="password"
                     placeholder="New Password"
                     isInvalid={!!errors.password}
-                    ref={register}
+                    ref={register({
+                        required: "The password field is required."
+                    })}
                 />
                 <Form.Control.Feedback type="invalid">
                     {!!errors.password && errors.password.message}
@@ -68,7 +74,9 @@ const ResetPasswordForm = ({ email, token, setSuccess }) => {
                     name="password_confirmation"
                     placeholder="Confirm Password"
                     isInvalid={!!errors.password_confirmation}
-                    ref={register}
+                    ref={register({
+                        validate: value => value === password.current || "The passwords do not match."
+                    })}
                 />
                 <Form.Control.Feedback type="invalid">
                     {!!errors.password_confirmation &&

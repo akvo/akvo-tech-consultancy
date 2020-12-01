@@ -21,7 +21,6 @@ const RegisterForm = ({ setRegistered, organizations }) => {
     
     const onSubmit = async data => {
         try {
-            // where this endpoint goes to?
             await authApi.register(data);
             setRegistered(true);
             reset();
@@ -50,7 +49,7 @@ const RegisterForm = ({ setRegistered, organizations }) => {
                     placeholder="Full Name"
                     isInvalid={!!errors.name}
                     ref={register({
-                        required: "Please enter you full name."
+                        required: "The full name field is required."
                     })}
                 />
                 <Form.Control.Feedback type="invalid">
@@ -65,7 +64,7 @@ const RegisterForm = ({ setRegistered, organizations }) => {
                     placeholder="Enter email"
                     isInvalid={!!errors.email}
                     ref={register({
-                        required: "Please enter you email."
+                        required: "The email field is required.."
                     })}
                 />
                 <Form.Control.Feedback type="invalid">
@@ -83,7 +82,7 @@ const RegisterForm = ({ setRegistered, organizations }) => {
                     placeholder="Password"
                     isInvalid={!!errors.password}
                     ref={register({
-                        required: "You must specify a password."
+                        required: "The password field is required."
                     })}
                 />
                 <Form.Control.Feedback type="invalid">

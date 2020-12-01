@@ -50,11 +50,10 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
 
     Route::get('/me/saved-surveys', function (Request $request) {
         $user = $request->user();
-        $query = ['instanceName' => 'idh'];
+        $query = ['instanceName' => 'idh', 'submitted' => 'false'];
         if (! in_array('manage-surveys', $user->role->permissions)) {
-            $query['user'] = $user->id;
+            $query['org'] = $user->organization_id;
         }
-
         $response = Http::get(config('bc.saved_form_endpoint'), $query);
         $data = $response->json();
 
@@ -62,7 +61,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
             return [];
         }
 
-        return array_map(function ($it) {
+        $result = array_map(function ($it) {
             $rawMeta = array_key_exists('meta', $it) ? $it['meta']: [];
             $meta = array_merge(['formId' => '', 'dataPointName' => '', 'email' => '', 'formName' => ''], $rawMeta);
 
@@ -74,6 +73,27 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
                 'date' => $it['updated'],
             ];
         }, $data);
+
+        usort($result, function ($a, $b) {
+            $aPoint = stripos($a['survey_name'], 'project');
+            $bPoint = stripos($b['survey_name'], 'project');
+            if ($aPoint === $bPoint) {
+                $cmp = strnatcmp($a['survey_name'], $b['survey_name']);
+                if ($cmp === 0) {
+                    return (strtotime($a['date']) < strtotime($b['date'])) ? 1 : -1;
+                }
+                return $cmp;
+            }
+            if ($aPoint === false) {
+                return 1;
+            }
+            if ($bPoint === false) {
+                return -1;
+            }
+            return ($aPoint < $bPoint) ? 1 : -1;
+        });
+
+        return $result;
     });
 
     Route::get('/users', function () {
@@ -125,7 +145,7 @@ Route::get('/flow-submitter/{id}', function ($id) {
 
     return [
         'user' => $user->email,
-        'org' => '' // TODO: Organisation model
+        'org' => $user->organization_id,
     ];
 });
 
