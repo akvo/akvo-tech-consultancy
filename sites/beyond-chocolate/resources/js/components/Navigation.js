@@ -47,9 +47,13 @@ const Navigation = () => {
                     <Nav.Link as={NavLink} to={config.routes.definition}>
                         Definitions
                     </Nav.Link>
-                    <Nav.Link as={NavLink} to={config.routes.feedback}>
-                        Feedback
-                    </Nav.Link>
+                    {user?.verified && (
+                        <>
+                            <Nav.Link as={NavLink} to={config.routes.feedback}>
+                                Feedback
+                            </Nav.Link>
+                        </>
+                    )}
                 </Nav>
 
                 <Nav activeKey={locale.active} onSelect={handleLocale}>

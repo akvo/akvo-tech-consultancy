@@ -37,7 +37,9 @@ const ForgotPasswordForm = ({ setSuccess }) => {
                     name="email"
                     placeholder="Enter email"
                     isInvalid={!!errors.email}
-                    ref={register}
+                    ref={register({
+                        required: "The email field is required."
+                    })}
                 />
                 <Form.Control.Feedback type="invalid">
                     {!!errors.email && errors.email.message}

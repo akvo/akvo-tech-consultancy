@@ -91,8 +91,9 @@ const Feedback = () => {
                                         name="title"
                                         placeholder="Enter title"
                                         isInvalid={!!errors.title}
-                                        ref={register}
-                                        required
+                                        ref={register({
+                                            required: "The title field is required."
+                                        })}
                                     />
                                     <Form.Control.Feedback type="invalid">
                                         {!!errors.title &&
@@ -106,8 +107,9 @@ const Feedback = () => {
                                         name="feedback"
                                         rows="4"
                                         isInvalid={!!errors.feedback}
-                                        ref={register}
-                                        required
+                                        ref={register({
+                                            required: "The feedback field is required."
+                                        })}
                                     />
                                     <Form.Control.Feedback type="invalid">
                                         {!!errors.feedback &&
@@ -121,8 +123,9 @@ const Feedback = () => {
                                         name="captcha"
                                         placeholder="Enter Value"
                                         isInvalid={!!errors.captcha}
-                                        ref={register}
-                                        required
+                                        ref={register({
+                                            required: "The captcha field is required."
+                                        })}
                                     />
                                     <Form.Control.Feedback type="invalid">
                                         {!!errors.captcha &&
