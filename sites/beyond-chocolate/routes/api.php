@@ -39,7 +39,13 @@ Route::middleware(['auth:sanctum'])->get('/me', function (Request $request) {
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
 
     Route::get('/me/surveys', function (Request $request) {
-        return $request->user()->questionnaires;
+        $user = $request->user();
+
+        if (in_array('manage-surveys', $user->role->permissions)) {
+            return Questionnaire::all();
+        }
+
+        return $user->questionnaires;
     });
 
     Route::get('/me/saved-surveys', function (Request $request) {

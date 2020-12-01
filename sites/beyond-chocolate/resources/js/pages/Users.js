@@ -170,7 +170,10 @@ const Users = () => {
     };
     const displayUserSurveys = user => {
         const count = user.questionnaires.length;
-        return count >= questionnaires.length ? "All" : count.toString();
+        return count >= questionnaires.length ||
+            user.role.permissions.includes("manage-surveys")
+            ? "All"
+            : count.toString();
     };
 
     useEffect(async () => {
