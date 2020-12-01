@@ -9,7 +9,6 @@ import {
     Modal
 } from "react-bootstrap";
 
-
 const Home = () => {
     return (
         <Container fluid className="homeLanding">
@@ -20,6 +19,7 @@ const Home = () => {
 Thank you for participating in this pilot of our new monitoring system. Your comments on the monitoring system are very valuable for us. 
 Before you start, please use <a href="#">this link</a> to check on the data security measures taken.
 Thank you very much for your contribution to making the cocoa sector more sustainable!</p>
+                    <button className="btn btn-primary">Click here to start the survey</button>
                 </div>
             </Row>
         </Container>
