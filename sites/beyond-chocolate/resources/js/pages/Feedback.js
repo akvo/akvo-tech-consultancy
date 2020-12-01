@@ -76,7 +76,7 @@ const Feedback = () => {
             <Row className="definitionList">
                 <Col md={6} className="mx-auto">
                     <Card>
-                        <Card.Header>Send your Feedback</Card.Header>
+                        <Card.Header className="font-italic">Please send your feedback, is highly valuable to improve the system</Card.Header>
                         <Card.Body>
                             { emailStatus ? (
                                 <div className="alert alert-success">
