@@ -346,11 +346,11 @@ main {
     margin:0;
     border-radius: 0 !important;
     height: 20vh;
-    background-image: linear-gradient(
+    background-image: /*linear-gradient(
         to right bottom,
         rgba($color-yellow, 0.12),
-        rgba($color-tertiary, 0.5)),
-        url(../images/hero.jpg);
+        rgba($color-tertiary, 0.5)),*/
+        url(../images/cacao-seeds.jpg);
         background-size: cover;
         background-position: center;
         position: relative;
@@ -379,6 +379,7 @@ main {
                 rgba($color-red, 0.5));
             left:75%;
             z-index: 998;
+             opacity: 0;
         }
         h1 {
         position: absolute;
@@ -389,9 +390,8 @@ main {
         text-align: left;
         color: $color-secondary;
         font-weight: 800;
-        font-size: 2.3rem;
-        letter-spacing: .5rem;
-        text-shadow: 2px 2px 0 rgba($color-yellow,.3);
+        font-size: 3rem;
+        text-shadow: .2rem .2rem 0 rgba($color-primary,.7);
         }
     }
 footer {
