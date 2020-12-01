@@ -8,7 +8,7 @@ import { useAuth } from "../components/auth-context";
 import useForm from "../lib/use-form";
 import config from "../config";
 
-const Login = ({ location }) => {
+const Login = () => {
     const history = useHistory();
     const { login } = useAuth();
     const {
@@ -21,9 +21,7 @@ const Login = ({ location }) => {
     const onSubmit = async data => {
         try {
             await login(data);
-            history.push(
-                location?.state?.referrer?.pathname || config.userLanding
-            );
+            history.push(config.userLanding);
         } catch (e) {
             if (e.status === 422 || e.status === 429) {
                 setServerErrors(e.errors);
@@ -55,7 +53,8 @@ const Login = ({ location }) => {
                                             placeholder="Enter email"
                                             isInvalid={!!errors.email}
                                             ref={register({
-                                                required: "The email field is required."
+                                                required:
+                                                    "The email field is required."
                                             })}
                                         />
                                         <Form.Control.Feedback type="invalid">
@@ -71,7 +70,8 @@ const Login = ({ location }) => {
                                             placeholder="Password"
                                             isInvalid={!!errors.password}
                                             ref={register({
-                                                required: "The password field is required."
+                                                required:
+                                                    "The password field is required."
                                             })}
                                         />
                                         <Form.Control.Feedback type="invalid">
