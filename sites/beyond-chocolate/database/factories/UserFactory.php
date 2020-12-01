@@ -24,7 +24,7 @@ class UserFactory extends Factory
      */
     public function definition()
     {
-        $orgs = Organization::whereNotNull('parent_id')->get()->pluck('id');
+        $orgs = Organization::where('level', 1)->get()->pluck('id');
         return [
             'organization_id' => $orgs->random(),
             'name' => $this->faker->name,

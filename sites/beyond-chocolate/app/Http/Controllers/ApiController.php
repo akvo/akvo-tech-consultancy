@@ -10,10 +10,12 @@ class ApiController extends Controller
 {
     public function getOrganizations()
     {
-        $orgs = Organization::whereNotNull('parent_id')->with('parents')->get();
+        $orgs = Organization::where('level', 1)->with('parents')->get();
         $orgs = $orgs->transform(function ($org) {
-            $org['name'] = $org['name'] . " ("  .$org['parents']['name'] .")";
-            $org = collect($org)->except(['code', 'parents', 'parent_id']);
+            if ($org['parents'] !== null) {
+                $org['name'] = $org['name'] . " ("  .$org['parents']['name'] .")";
+            }
+            $org = collect($org)->except(['code', 'parents', 'parent_id', 'level']);
             return $org;
         });
 

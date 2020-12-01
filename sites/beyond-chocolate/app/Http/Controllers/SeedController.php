@@ -19,9 +19,19 @@ class SeedController extends Controller
                 if ($parent['code'] === $child['code']) {
                     $child = collect($child)->except('code');
                     $child['parent_id'] = $insertParent->id;
+                    $child['level'] = 1;
                     $insertChild = Organization::updateOrCreate(collect($child)->toArray());
                 }
             });
+        });
+        // seed child with null code
+        $childs->each(function ($child) {
+            if ($child['code'] === null) {
+                $child = collect($child)->except('code');
+                $child['parent_id'] = null;
+                $child['level'] = 1;
+                $insertChild = Organization::updateOrCreate(collect($child)->toArray());
+            }
         });
 
         return "Done";
@@ -31,7 +41,7 @@ class SeedController extends Controller
     {
         $this->seedOrganizations();
         $users = User::all();
-        $orgs = Organization::whereNotNull('parent_id')->pluck('id');
+        $orgs = Organization::where('level', 1)->pluck('id');
         $users->each(function ($user) use ($orgs) {
             $user->update(['organization_id' => $orgs->random()]);
         });

@@ -196,25 +196,31 @@ const Users = () => {
                         </thead>
                         <tbody>
                             {users &&
-                                users.map(user => (
-                                    <tr
-                                        key={user.id}
-                                        onClick={() => onSelectUser(user)}
-                                        className={
-                                            selected?.id === user.id
-                                                ? "active"
-                                                : ""
-                                        }
-                                    >
-                                        <td>{user.name}</td>
-                                        <td>{user.email}</td>
-                                        <td>{user.organization.name + " (" + user.organization.parents.name + ")"}</td>
-                                        <td>{user.role?.name}</td>
-                                        <td className="text-right">
-                                            {displayUserSurveys(user)}
-                                        </td>
-                                    </tr>
-                                ))}
+                                users.map(user => {
+                                    let orgSuffix = (user.organization.parents !== null) 
+                                        ? " (" + user.organization.parents.name + ")"
+                                        : "";
+
+                                    return (
+                                        <tr
+                                            key={user.id}
+                                            onClick={() => onSelectUser(user)}
+                                            className={
+                                                selected?.id === user.id
+                                                    ? "active"
+                                                    : ""
+                                            }
+                                        >
+                                            <td>{user.name}</td>
+                                            <td>{user.email}</td>
+                                            <td>{user.organization.name + orgSuffix}</td>
+                                            <td>{user.role?.name}</td>
+                                            <td className="text-right">
+                                                {displayUserSurveys(user)}
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
                             {users.length < 1 && (
                                 <tr>
                                     <td colSpan={2}>

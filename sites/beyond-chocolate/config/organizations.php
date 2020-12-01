@@ -304,5 +304,22 @@ return [
             "code" => "D",
             "name" => "ZNU – Zentrum für Nachhaltige Unternehmensführung der Universität Witten/Herdecke"
         ],
+        // new - issue #330
+        [
+            "code" => null,
+            "name" => "staff GISCO secretariat"
+        ],
+        [
+            "code" => null,
+            "name" => "staff SWISSCO secretariat"
+        ],
+        [
+            "code" => null,
+            "name" => "staff Beyond Chocolate Secretariat"
+        ],
+        [
+            "code" => null,
+            "name" => "staff C-Lever"
+        ],
     ],
 ];
