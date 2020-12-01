@@ -15,7 +15,7 @@ class EmailController extends Controller
 {
     public function send(Request $request, Mails $mails)
     {
-        $footer = "GISCO Monitoring Pilot for 2019 data";
+        $footer = "GISCO Monitoring Pilot for 2019 data"; 
         $recipients = config('mail.mailing.list');
         $recipients = collect($recipients)->map(function($address){
             return [
