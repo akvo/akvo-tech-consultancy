@@ -53,28 +53,31 @@ const dsc = {
             </p>
             <p className="text-justify">
                 <u>GISCO member data:</u>
-                <ul className="pl-5">
-                    <li>Beate Weiskopf, GISCO</li>
-                    <li>Julia Jawtusch, GISCO</li>
-                    <li>Patrick Stoop, C-Lever</li>
-                </ul>
             </p>
+            <ul className="pl-5">
+                <li>Beate Weiskopf, GISCO</li>
+                <li>Julia Jawtusch, GISCO</li>
+                <li>Patrick Stoop, C-Lever</li>
+            </ul>
+
             <p className="text-justify">
                 <u>Beyond chocolate member data:</u>
-                <ul className="pl-5">
-                    <li>Charles Snoeck</li>
-                    <li>Marloes Humbeeck</li>
-                    <li>Patrick Stoop, C-Lever</li>
-                </ul>
             </p>
+            <ul className="pl-5">
+                <li>Charles Snoeck</li>
+                <li>Marloes Humbeeck</li>
+                <li>Patrick Stoop, C-Lever</li>
+            </ul>
+
             <p className="text-justify">
                 <u>GISCO member data:</u>
-                <ul className="pl-5">
-                    <li>Christine Müller</li>
-                    <li>Simone Benguerel</li>
-                    <li>Patrick Stoop, C-Lever</li>
-                </ul>
             </p>
+            <ul className="pl-5">
+                <li>Christine Müller</li>
+                <li>Simone Benguerel</li>
+                <li>Patrick Stoop, C-Lever</li>
+            </ul>
+
             <p className="text-justify">
                 Each of the named persons above is required to sign a confidentiality agreement before getting data access. Any new personnel at the secretariats or at C-Lever.org that needs to be granted access will have to have signed the confidentiality agreement before getting such access.
             </p>
@@ -133,32 +136,36 @@ const dsc = {
             </p>
             <p className="text-justify">
                 <u>GISCO member data:</u>
-                <ul className="pl-5">
-                    <li>Beate Weiskopf, GISCO</li>
-                    <li>Julia Jawtusch, GISCO</li>
-                    <li>Patrick Stoop, C-Lever</li>
-                </ul>
             </p>
+            <ul className="pl-5">
+                <li>Beate Weiskopf, GISCO</li>
+                <li>Julia Jawtusch, GISCO</li>
+                <li>Patrick Stoop, C-Lever</li>
+            </ul>
+
             <p className="text-justify">
                 <u>Beyond chocolate member data:</u>
-                <ul className="pl-5">
-                    <li>Charles Snoeck</li>
-                    <li>Marloes Humbeeck</li>
-                    <li>Patrick Stoop, C-Lever</li>
-                </ul>
             </p>
+            <ul className="pl-5">
+                <li>Charles Snoeck</li>
+                <li>Marloes Humbeeck</li>
+                <li>Patrick Stoop, C-Lever</li>
+            </ul>
+
             <p className="text-justify">
                 <u>GISCO member data:</u>
-                <ul className="pl-5">
-                    <li>Christine Müller</li>
-                    <li>Simone Benguerel</li>
-                    <li>Patrick Stoop, C-Lever</li>
-                </ul>
             </p>
+            <ul className="pl-5">
+                <li>Christine Müller</li>
+                <li>Simone Benguerel</li>
+                <li>Patrick Stoop, C-Lever</li>
+            </ul>
+            
             <p className="text-justify">
                 Each of the named persons above is required to sign a confidentiality agreement before getting data access. Any new personnel at the secretariats or at C-Lever.org that needs to be granted access will have to have signed the confidentiality agreement before getting such access.
             </p>
-        </Fragment>,
+        </Fragment>
+    ,
 };
 
 export { dsc };
