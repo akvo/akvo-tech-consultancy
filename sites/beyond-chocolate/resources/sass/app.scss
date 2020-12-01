@@ -239,7 +239,6 @@ html {
 header {
     background-color:white;
     border-bottom:.1rem solid  $color-secondary;
-    z-index: 98879;
     margin-bottom: .5rem;
     .navbar {
         text-transform: uppercase;
@@ -304,6 +303,7 @@ main {
         }
     }
     .homeLanding {
+        position: relative;
         margin-top: -1.6rem;
         height: calc(100vh - 7rem);
         background-image: linear-gradient(
@@ -312,7 +312,6 @@ main {
         rgba($color-tertiary, 0.6)), url(../images/cacaoHands.jpg);
         background-repeat:  no-repeat;
         background-size: cover;
-        z-index: 98878;
         .introTxt {
             h1 {    
                 text-transform: uppercase;
@@ -323,7 +322,8 @@ main {
             p {
                 font-size: 1.4rem;
                 span {
-                    background: $color-tertiary;
+                    display: inline-block;
+                    background: rgba($color-tertiary,.7);
                     color: white;
                     padding: .5rem .2rem;
                     border-radius: .2rem;
@@ -331,7 +331,7 @@ main {
                     margin-bottom: .5rem;
                 }
             }
-            width:40%;
+            width:50%;
             position: absolute;
             top: 50%;
             left: 50%;
