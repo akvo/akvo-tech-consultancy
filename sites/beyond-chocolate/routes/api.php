@@ -50,11 +50,10 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
 
     Route::get('/me/saved-surveys', function (Request $request) {
         $user = $request->user();
-        $query = ['instanceName' => 'idh'];
+        $query = ['instanceName' => 'idh', 'submitted' => 'false'];
         if (! in_array('manage-surveys', $user->role->permissions)) {
-            $query['user'] = $user->id;
+            $query['org'] = $user->organization_id;
         }
-
         $response = Http::get(config('bc.saved_form_endpoint'), $query);
         $data = $response->json();
 
@@ -125,7 +124,7 @@ Route::get('/flow-submitter/{id}', function ($id) {
 
     return [
         'user' => $user->email,
-        'org' => '' // TODO: Organisation model
+        'org' => $user->organization_id,
     ];
 });
 
