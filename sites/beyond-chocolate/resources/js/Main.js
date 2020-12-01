@@ -11,6 +11,7 @@ import WebForm from "./pages/WebForm";
 import Definition from "./pages/Definition";
 import Feedback from "./pages/Feedback";
 import Setting from "./pages/Setting";
+import Home from "./pages/Home";
 import {
     AuthProvider,
     SecureRoute,
@@ -32,15 +33,32 @@ const Main = () => {
                         </Route>
                         <Route
                             exact
-                            path="/definition"
+                            path={config.routes.definition}
                             component={Definition}
                         />
-                        <Route exact path="/feedback" component={Feedback} />
-                        <SecureRoute exact path="/users" component={Users} />
-                        <SecureRoute exact path="/setting" component={Setting} />
+                        <Route
+                            exact
+                            path={config.routes.feedback}
+                            component={Feedback}
+                        />
+                        <SecureRoute
+                            exact
+                            path={config.routes.users}
+                            component={Users}
+                        />
                         <SecureRoute
                             exact
                             path={config.routes.home}
+                            component={Home}
+                        />
+                        <SecureRoute
+                            exact
+                            path={config.routes.setting}
+                            component={Setting}
+                        />
+                        <SecureRoute
+                            exact
+                            path={config.routes.survey}
                             component={WebForm}
                         />
                         <PublicOnlyRoute
@@ -50,17 +68,17 @@ const Main = () => {
                         />
                         <PublicOnlyRoute
                             exact
-                            path="/register"
+                            path={config.routes.register}
                             component={Register}
                         />
                         <PublicOnlyRoute
                             exact
-                            path="/reset-password/:token"
+                            path={config.routes.resetPassword}
                             component={ResetPassword}
                         />
                         <PublicOnlyRoute
                             exact
-                            pages="/forgot-password"
+                            pages={config.routes.forgotPassword}
                             component={ForgotPassword}
                         />
                     </Switch>

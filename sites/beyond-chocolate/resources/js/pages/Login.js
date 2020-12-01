@@ -22,7 +22,7 @@ const Login = ({ location }) => {
         try {
             await login(data);
             history.push(
-                location?.state?.referrer?.pathname || config.routes.home
+                location?.state?.referrer?.pathname || config.userLanding
             );
         } catch (e) {
             if (e.status === 422 || e.status === 429) {
