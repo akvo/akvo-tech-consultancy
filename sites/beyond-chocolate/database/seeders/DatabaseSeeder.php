@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Role;
+use App\Http\Controllers\SeedController as Seed;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,6 +15,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        // Seed Organizations
+        $seed = new Seed();
+        $seed->seedOrganizations();
+        
         \App\Models\User::factory()->create([
             'email' => 'joy@akvo.org',
             'password' => bcrypt('secret'),

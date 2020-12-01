@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Role;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use App\Models\Organization;
 
 class UserFactory extends Factory
 {
@@ -23,7 +24,9 @@ class UserFactory extends Factory
      */
     public function definition()
     {
+        $orgs = Organization::whereNotNull('parent_id')->get()->pluck('id');
         return [
+            'organization_id' => $orgs->random(),
             'name' => $this->faker->name,
             'email' => $this->faker->unique()->safeEmail,
             'email_verified_at' => now(),

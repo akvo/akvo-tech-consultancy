@@ -14,7 +14,7 @@ class AuthController extends Controller
     {
         $user = \App\Models\User::where('email', $request->email)->first();
         if ($user) {
-            $token = Str::random(60);
+            $token = Str::random(50);
             $user->update([
                 'email_verified_at' => now(),
                 'remember_token' => $token
@@ -44,7 +44,7 @@ class AuthController extends Controller
         if ($user) {
             $user->update([
                 'password' => Hash::make($request->password),
-                'remember_token' => Str::random(60)
+                'remember_token' => Str::random(50)
             ]);
     
             return response([

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Container, Row, Col, Button, Form, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import WelcomeBanner from "../components/WelcomeBanner";
@@ -6,16 +6,22 @@ import useForm from "../lib/use-form";
 import authApi from "../services/auth";
 import config from "../config";
 
-const RegisterForm = ({ setRegistered }) => {
+const RegisterForm = ({ setRegistered, organizations }) => {
     const {
         register,
         handleSubmit,
         errors,
         setServerErrors,
-        reset
+        reset, 
+        watch
     } = useForm();
+
+    const password = useRef({});
+    password.current = watch("password", "");
+    
     const onSubmit = async data => {
         try {
+            // where this endpoint goes to?
             await authApi.register(data);
             setRegistered(true);
             reset();
@@ -28,6 +34,12 @@ const RegisterForm = ({ setRegistered }) => {
         }
     };
 
+    const renderOrganizations = (organizations) => {
+        return organizations.map((x, index) => {
+            return <option key={index} value={x.id}>{x.name}</option>
+        });
+    };
+
     return (
         <Form noValidate onSubmit={handleSubmit(onSubmit)}>
             <Form.Group controlId="formBasicFulltName">
@@ -37,7 +49,9 @@ const RegisterForm = ({ setRegistered }) => {
                     name="name"
                     placeholder="Full Name"
                     isInvalid={!!errors.name}
-                    ref={register}
+                    ref={register({
+                        required: "Please enter you full name."
+                    })}
                 />
                 <Form.Control.Feedback type="invalid">
                     {!!errors.name && errors.name.message}
@@ -50,7 +64,9 @@ const RegisterForm = ({ setRegistered }) => {
                     name="email"
                     placeholder="Enter email"
                     isInvalid={!!errors.email}
-                    ref={register}
+                    ref={register({
+                        required: "Please enter you email."
+                    })}
                 />
                 <Form.Control.Feedback type="invalid">
                     {!!errors.email && errors.email.message}
@@ -66,7 +82,9 @@ const RegisterForm = ({ setRegistered }) => {
                     name="password"
                     placeholder="Password"
                     isInvalid={!!errors.password}
-                    ref={register}
+                    ref={register({
+                        required: "You must specify a password."
+                    })}
                 />
                 <Form.Control.Feedback type="invalid">
                     {!!errors.password && errors.password.message}
@@ -79,11 +97,29 @@ const RegisterForm = ({ setRegistered }) => {
                     name="password_confirmation"
                     placeholder="Confirm Password"
                     isInvalid={!!errors.password_confirmation}
-                    ref={register}
+                    ref={register({
+                        validate: value => value === password.current || "The passwords do not match."
+                    })}
                 />
                 <Form.Control.Feedback type="invalid">
                     {!!errors.password_confirmation &&
                         errors.password_confirmation.message}
+                </Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group controlId="formBasicOrganization">
+                <Form.Label>Organization</Form.Label>
+                <Form.Control
+                    as="select"
+                    name="organization_id"
+                    isInvalid={!!errors.organization_id}
+                    ref={register({ required: "Select one of Organization." })}
+                    custom >
+                        <option key="defaultSelect" value="">Select Organization</option>
+                        {renderOrganizations(organizations)}
+                </Form.Control>
+                <Form.Control.Feedback type="invalid">
+                    {!!errors.organization_id &&
+                        errors.organization_id.message}
                 </Form.Control.Feedback>
             </Form.Group>
             <Row>
@@ -106,6 +142,16 @@ const RegisteredBanner = () => {
 
 const Register = () => {
     const [registered, setRegistered] = useState(false);
+    const [orgs, setOrgs] = useState([]);
+
+    useEffect(async () => {
+        try {
+            let res = await authApi.getOrganizations();
+            setOrgs(res.data);
+        } catch (e) {
+            throw e;
+        }
+    }, []);
 
     return (
         <>
@@ -121,6 +167,7 @@ const Register = () => {
                                 ) : (
                                     <RegisterForm
                                         setRegistered={setRegistered}
+                                        organizations={orgs}
                                     />
                                 )}
                             </Card.Body>

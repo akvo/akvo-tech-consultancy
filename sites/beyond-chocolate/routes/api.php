@@ -11,6 +11,7 @@ use App\Models\Questionnaire;
 use App\Models\Questionnaires;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use App\Http\Controllers\AuthController as Auth;
+use App\Http\Controllers\ApiController as Api;
 
 /*
 |--------------------------------------------------------------------------
@@ -70,7 +71,8 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     });
 
     Route::get('/users', function () {
-        return User::paginate(10);
+        // return User::paginate(10);
+        return User::with('organization.parents')->paginate(10);
     })->middleware('can:viewAny,App\Models\User');
 
     Route::get('/roles', function () {
@@ -124,3 +126,4 @@ Route::get('/flow-submitter/{id}', function ($id) {
 Route::post('/auth/forgot-password', [Auth::class, 'forgotPassword']);
 Route::post('/auth/reset-password', [Auth::class, 'resetPassword']);
 Route::middleware(['auth:sanctum'])->post('/user/update', [Auth::class, 'update']);
+Route::get('/organizations', [Api::class, 'getOrganizations']);

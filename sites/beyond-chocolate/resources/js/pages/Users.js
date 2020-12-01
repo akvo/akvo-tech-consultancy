@@ -181,6 +181,7 @@ const Users = () => {
                             <tr>
                                 <th>Name</th>
                                 <th>Email</th>
+                                <th>Organization</th>
                                 <th>Role</th>
                                 <th>Surveys</th>
                             </tr>
@@ -194,6 +195,7 @@ const Users = () => {
                                     >
                                         <td>{user.name}</td>
                                         <td>{user.email}</td>
+                                        <td>{user.organization.name + " (" + user.organization.parents.name + ")"}</td>
                                         <td>{user.role?.name}</td>
                                         <td className="text-right">
                                             {displayUserSurveys(user)}

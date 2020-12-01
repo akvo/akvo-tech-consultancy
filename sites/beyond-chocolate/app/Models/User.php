@@ -17,11 +17,13 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
+        'organization_id',
         'name',
         'email',
         'password',
         'role',
         'questionnaires',
+        'remember_token',
     ];
 
     /**
@@ -44,4 +46,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'role' => RoleCast::class,
         'questionnaires' => QuestionnairesCast::class,
     ];
+
+    public function organization()
+    {
+        return $this->belongsTo('\App\Models\Organization');
+    }
 }

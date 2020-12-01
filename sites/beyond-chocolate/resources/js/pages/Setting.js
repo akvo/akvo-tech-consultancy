@@ -41,9 +41,9 @@ const SettingForm = ({ email, setSuccess, invalidPwd, setInvalidPwd }) => {
         }
     };
 
-    useEffect(() => {
-        console.log(invalidPwd);
-    }, [invalidPwd]);
+    // useEffect(() => {
+    //     console.log(errors);
+    // }, [invalidPwd]);
 
     return (
         <Form onSubmit={handleSubmit(onSubmit)}>
@@ -66,7 +66,8 @@ const SettingForm = ({ email, setSuccess, invalidPwd, setInvalidPwd }) => {
                         required />
                     <Form.Control.Feedback type="invalid">
                         {!!errors.password &&
-                            errors.password.message}
+                            errors.password.message && 
+                            !errors.password.message.includes('confirmation')}
                     </Form.Control.Feedback>
                     {invalidPwd ? (
                         <Form.Text key='invalidpwd' className="text-danger">

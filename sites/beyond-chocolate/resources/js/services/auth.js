@@ -30,7 +30,7 @@ const forgotPassword = async data => {
 };
 
 const resetPassword = async data => {
-    await request().get("sanctum/csrf-cookie");
+    // await request().get("sanctum/csrf-cookie");
     return await request().post("/api/auth/reset-password", data);
 };
 
@@ -44,6 +44,10 @@ const updatePassword = async data => {
     return await request().post("/api/user/update", data);
 };
 
+const getOrganizations = async data => {
+    return await request().get("/api/organizations");
+};
+
 export default {
     login,
     logout,
@@ -52,5 +56,6 @@ export default {
     forgotPassword,
     resetPassword,
     resendVerificationEmail,
-    updatePassword
+    updatePassword,
+    getOrganizations
 };
