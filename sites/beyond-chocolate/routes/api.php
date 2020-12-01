@@ -13,6 +13,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use App\Http\Controllers\AuthController as Auth;
 use App\Http\Controllers\ApiController as Api;
 use App\Http\Controllers\SeedController as Seed;
+use App\Http\Controllers\UserSavedFormsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,53 +50,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
         return $user->questionnaires;
     });
 
-    Route::get('/me/saved-surveys', function (Request $request) {
-        $user = $request->user();
-        $query = ['instanceName' => 'idh', 'submitted' => 'false'];
-        if (! in_array('manage-surveys', $user->role->permissions)) {
-            $query['org'] = $user->organization_id;
-        }
-        $response = Http::get(config('bc.saved_form_endpoint'), $query);
-        $data = $response->json();
-
-        if (!is_array($data)) {
-            return [];
-        }
-
-        $result = array_map(function ($it) {
-            $rawMeta = array_key_exists('meta', $it) ? $it['meta']: [];
-            $meta = array_merge(['formId' => '', 'dataPointName' => '', 'email' => '', 'formName' => ''], $rawMeta);
-
-            return [
-                'url' => config('bc.form_url').$meta['formId'].'/'.$it['id'],
-                'submission_name' => $meta['dataPointName'],
-                'submitter' => $meta['email'],
-                'survey_name' => $meta['formName'],
-                'date' => $it['updated'],
-            ];
-        }, $data);
-
-        usort($result, function ($a, $b) {
-            $aPoint = stripos($a['survey_name'], 'project');
-            $bPoint = stripos($b['survey_name'], 'project');
-            if ($aPoint === $bPoint) {
-                $cmp = strnatcmp($a['survey_name'], $b['survey_name']);
-                if ($cmp === 0) {
-                    return (strtotime($a['date']) < strtotime($b['date'])) ? 1 : -1;
-                }
-                return $cmp;
-            }
-            if ($aPoint === false) {
-                return -1;
-            }
-            if ($bPoint === false) {
-                return 1;
-            }
-            return ($aPoint < $bPoint) ? -1 : 1;
-        });
-
-        return $result;
-    });
+    Route::get('/me/saved-surveys', UserSavedFormsController::class);
 
     Route::get('/users', function () {
         // return User::paginate(10);
