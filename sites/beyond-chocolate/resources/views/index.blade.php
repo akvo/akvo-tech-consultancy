@@ -5,11 +5,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{{ config('app.name', 'Beyond Chocolate') }}</title>
         <link href="{{mix('/css/app.css')}}" rel="stylesheet">
+        <link rel="icon" type="image/png" href="{{asset('/images/favico.png')}}">
     </head>
     <body>
         <div id="app"></div>
     </body>
     <script src="{{mix('/js/app.js')}}" type="text/javascript"></script>
+    {{-- analytic --}}
     @if (env('APP_ENV') === 'production')
     <script type="text/javascript" src="https://tc.akvo.org/analytics/analytics-left.js"></script>
     <noscript>
