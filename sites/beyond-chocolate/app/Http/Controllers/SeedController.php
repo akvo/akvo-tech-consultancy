@@ -31,7 +31,7 @@ class SeedController extends Controller
     {
         $this->seedOrganizations();
         $users = User::all();
-        $orgs = Organization::all()->pluck('id');
+        $orgs = Organization::whereNotNull('parent_id')->pluck('id');
         $users->each(function ($user) use ($orgs) {
             $user->update(['organization_id' => $orgs->random()]);
         });
