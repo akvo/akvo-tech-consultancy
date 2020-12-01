@@ -416,9 +416,17 @@ img.responsive-image {
 }
 
 .trans-lang-opt {
-    display: inline-block;
+    display: inline;
     padding: 0 5px;
     margin-left: 5px;
+}
+
+.trans-lang-ttp {
+    display: block;
+    border-top: 1px dashed #83888c;
+    padding-top: 10px;
+    margin-top: 10px;
+    font-style: italic;
 }
 
 span.badge.badge-circle {

@@ -101,7 +101,7 @@ class Questions extends Component {
                         <CardTitle key={"card-title-" + qid}>
                             <div className="question-number">{question.order.toString()}.</div>
                             <div className="question-text" dangerouslySetInnerHTML={{__html:  localization}} />
-                            {question.help !== undefined ? <ToolTip question={question}/> : ""}
+                            {question.help !== undefined ? <ToolTip tooltips={question.tooltips}/> : ""}
                             {question.type === "photo" ? this.renderCachedImage(qid) : ""}
                         </CardTitle>
                         {this.renderQuestion(qid, question)}
