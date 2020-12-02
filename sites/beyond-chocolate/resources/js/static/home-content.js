@@ -4,7 +4,7 @@ const hc = (handleShow) => {
     return {
         en: {
             h: "Welcome to the GISCO Monitoring Pilot!",
-            p1: "Dear Participants,",
+            p1: "Dear Participants, ",
             p2: <Fragment>
                     Thank you for participating in this pilot of our new monitoring system. Your comments on the monitoring system are very valuable for us. 
                     Before you start, please use <a onClick={handleShow} href="#">this link</a>, to check on the data security measures taken.
@@ -13,10 +13,10 @@ const hc = (handleShow) => {
         },
 
         de: {
-            h: "Willkommen beim GISCO Monitoring-Pilotprojekt!",
-            p1: "Liebe Teilnehmerinnen und Teilnehmer,",
+            h: "Willkommen beim GISCO Pilot-Monitoring!",
+            p1: "Liebe Teilnehmerinnen und Teilnehmer, ",
             p2: <Fragment>
-                    Vielen Dank für Ihre Teilnahme am Pilotprojekt unseres neuen Überwachungssystems. Ihre Kommentare zum Überwachungssystem sind für uns sehr wertvoll.
+                    vielen Dank für Ihre Teilnahme am Piloten unseres neuen Monitoringsystems. Ihre Kommentare zum Monitoringsystem sind für uns sehr wertvoll.
                     Bevor Sie beginnen, verwenden Sie bitte <a onClick={handleShow} href="#">diesen link</a>, um die ergriffenen Datensicherheitsmaßnahmen zu überprüfen.
                     Vielen Dank für Ihren Beitrag zur Nachhaltigkeit des Kakaosektors!
                 </Fragment>
