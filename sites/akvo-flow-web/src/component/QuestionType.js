@@ -809,6 +809,13 @@ class QuestionType extends Component {
                 getApi('json/' + customOption).then(res => {
                     res = res.map(x => ({...x, hasOther:false}));
                     this.setState({custom_cascade: [...res, {name: 'Other', childs:[], hasOther:true}]});
+                    let multipleValue = localStorage.getItem(this.props.data.id.toString())
+                    if (multipleValue) {
+                        multipleValue = multipleValue.split('|');
+                        if (multipleValue.includes("Other")) {
+                            this.setState({custom_cascade_other:true});
+                        }
+                    }
                 });
             }
         }

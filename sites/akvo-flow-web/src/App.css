@@ -151,6 +151,14 @@ button.btn-repeatable{
     color:#ffffff;
 } 
 
+.badge.badge-user {
+    position: absolute;
+    right: 6px;
+    top: 5px;
+    padding: 5px;
+    text-transform: uppercase;
+}
+
 .badge-green{
     background-color:#4b2!important;
     color: #ffffff!important;

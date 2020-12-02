@@ -19,6 +19,7 @@ const initialState = {
     instanceId:"Loading...",
     surveyName:"Loading..",
     surveyId:"Loading..",
+    user: false,
     version:"Loading..",
     questions: [{
         group: 1,
@@ -777,6 +778,11 @@ export const questionReducers = (state = initialState, action) => {
             return {
                 ...state,
                 domain: action.url
+            }
+        case 'UPDATE USER':
+            return {
+                ...state,
+                user: action.user
             }
         default:
             return state;

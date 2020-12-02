@@ -294,6 +294,7 @@ class Submit extends Component {
                         org: res.data.org,
                         submitted: false
                     }
+                    this.props.updateUser(res.data.user);
                     localStorage.setItem('_meta',JSON.stringify(meta));
                     localStorage.setItem(passvar, survey_form.includes(USING_PASSWORDS) ? "" : "webform");
                 })

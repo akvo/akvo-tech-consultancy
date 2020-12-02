@@ -104,13 +104,22 @@ class Header extends Component {
             name += this.props.value.surveyName;
             name += " v" + this.props.value.version;
             name += " - " + this.props.value.surveyId;
+        let customPartner = SAVE_FEATURES.map(x => x.instance);
         return (
             <div className='sidebar-heading'>
                 <div>
                 <Toast>
-                  <ToastHeader>
-                      {name}
-                  </ToastHeader>
+                    { customPartner.includes(this.props.value.instanceName)
+                        ? (this.props.value.user
+                            ?
+                            <ToastHeader>
+                                {this.props.value.surveyName}
+                                <div className="badge badge-secondary badge-user">
+                                {this.props.value.user}
+                                </div>
+                            </ToastHeader>
+                            : "")
+                        : <ToastHeader>{name}</ToastHeader>}
                   <ToastBody>
                       {this.renderHeaderInfo(info)}
                   </ToastBody>
