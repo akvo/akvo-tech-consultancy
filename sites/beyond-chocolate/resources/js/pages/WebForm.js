@@ -215,8 +215,8 @@ const NewProjectSurveyInfoModal = ({ show, onHide }) => {
                 <div className="ml-4 mr-4">
                     <ul>
                         <li>
-                            You can register multiple cocoa sustainability
-                            projets (programmes/ projects/ initiatives) and
+                            You can register several cocoa sustainability
+                            projects (programmes/ projects/ initiatives) and
                             report on these seperately.
                         </li>
                         <li>
