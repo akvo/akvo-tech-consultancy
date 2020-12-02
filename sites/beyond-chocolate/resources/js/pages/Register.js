@@ -12,13 +12,13 @@ const RegisterForm = ({ setRegistered, organizations }) => {
         handleSubmit,
         errors,
         setServerErrors,
-        reset, 
+        reset,
         watch
     } = useForm();
 
     const password = useRef({});
     password.current = watch("password", "");
-    
+
     const onSubmit = async data => {
         try {
             await authApi.register(data);
@@ -33,9 +33,13 @@ const RegisterForm = ({ setRegistered, organizations }) => {
         }
     };
 
-    const renderOrganizations = (organizations) => {
+    const renderOrganizations = organizations => {
         return organizations.map((x, index) => {
-            return <option key={index} value={x.id}>{x.name}</option>
+            return (
+                <option key={index} value={x.id}>
+                    {x.name}
+                </option>
+            );
         });
     };
 
@@ -97,7 +101,9 @@ const RegisterForm = ({ setRegistered, organizations }) => {
                     placeholder="Confirm Password"
                     isInvalid={!!errors.password_confirmation}
                     ref={register({
-                        validate: value => value === password.current || "The passwords do not match."
+                        validate: value =>
+                            value === password.current ||
+                            "The passwords do not match."
                     })}
                 />
                 <Form.Control.Feedback type="invalid">
@@ -112,13 +118,15 @@ const RegisterForm = ({ setRegistered, organizations }) => {
                     name="organization_id"
                     isInvalid={!!errors.organization_id}
                     ref={register({ required: "Select one of Organization." })}
-                    custom >
-                        <option key="defaultSelect" value="">Select Organization</option>
-                        {renderOrganizations(organizations)}
+                    custom
+                >
+                    <option key="defaultSelect" value="">
+                        Select Organization
+                    </option>
+                    {renderOrganizations(organizations)}
                 </Form.Control>
                 <Form.Control.Feedback type="invalid">
-                    {!!errors.organization_id &&
-                        errors.organization_id.message}
+                    {!!errors.organization_id && errors.organization_id.message}
                 </Form.Control.Feedback>
             </Form.Group>
             <Row>
@@ -131,7 +139,6 @@ const RegisterForm = ({ setRegistered, organizations }) => {
 };
 
 const RegisteredBanner = () => {
-    // TODO: remove when email activation has been implemented.
     useEffect(() => {
         setTimeout(() => window.location.reload(), 3000);
     }, []);

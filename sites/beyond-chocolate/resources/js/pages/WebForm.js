@@ -214,16 +214,16 @@ const ModalDataSecurity = ({ show, handleClose, locale, data }) => {
 
 const WebForm = () => {
     const { user } = useAuth();
-    const [selectedForm, setSelectedForm] = useState();
+    const [activeForm, setActiveForm] = useState();
     const onSelectForm = form => {
-        setSelectedForm(form);
-        localStorage.setItem("active-form", form);
+        setActiveForm(form);
+        localStorage.setItem(`active-form:${user.id}`, form);
     };
 
     useEffect(() => {
-        // open form from the previous session
-        const form = localStorage.getItem("active-form");
-        setSelectedForm(form);
+        // open form from previous session
+        const form = localStorage.getItem(`active-form:${user.id}`);
+        setActiveForm(form);
     }, []);
 
     const [show, setShow] = useState(false);
@@ -241,14 +241,14 @@ const WebForm = () => {
                             <SavedFormsSelector
                                 user={user}
                                 onSelect={onSelectForm}
-                                watchValue={selectedForm}
+                                watchValue={activeForm}
                             />
                         </div>
                         <div className="p-2 pr-3">
                             <NewFormSelector
                                 user={user}
                                 onSelect={onSelectForm}
-                                watchValue={selectedForm}
+                                watchValue={activeForm}
                             />
                         </div>
                     </div>
@@ -260,11 +260,11 @@ const WebForm = () => {
                         </a>
                     </p>
                     <Card>
-                        {selectedForm && (
+                        {activeForm && (
                             <iframe
                                 frameBorder="0"
                                 style={{ height: "100vh", width: "100%" }}
-                                src={selectedForm}
+                                src={activeForm}
                             />
                         )}
                     </Card>
