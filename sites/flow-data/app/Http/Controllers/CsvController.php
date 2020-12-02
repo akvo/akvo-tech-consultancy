@@ -19,6 +19,7 @@ class CsvController extends Controller
         $this->geoRows = ["lat", "long", "elev"];
         $this->headers = ["Identifier", "Display Name", "Device Identifier", "Instance", "Submission Date", "Submitter", "Duration", "Form Version"];
         $this->api = new ApiController();
+        $this->flowApiForm = collect();
     }
 
     public function generate(Request $request)
@@ -47,7 +48,8 @@ class CsvController extends Controller
                 if (!$this->checkDate($lastSubmission) && !$this->init) {
                     return 'No Submission';
                 }
-
+                // collect form from flow api
+                $this->flowApiForm = $this->api->getFlowApiForm($this->instance, $form['id']);
                 // repeatable groups
                 $qgs = collect($form['questionGroups']);
                 $repeatableTrue = collect($qgs->where('repeatable', 1))->values();
@@ -97,6 +99,14 @@ class CsvController extends Controller
         return Storage::disk('public')->url($filename);
     }
 
+    private function filterFlowApiForm($qId)
+    {
+        $result = $this->flowApiForm->filter(function ($form) use ($qId) {
+            return (int) $form['id'] === (int) $qId;
+        })->first();
+        return $result;
+    }
+
     private function collectRecords($data, $form, $formInstances, $repeatable=false)
     {
         // repeat false
@@ -113,6 +123,11 @@ class CsvController extends Controller
                 }
                 $text = $q['id'] . '|' . $q['name'];
                 $headers->push($text);
+                // check if question has other value
+                $checkOther = $this->filterFlowApiForm($q['id'])['options']['allowOther'];
+                if ($checkOther) {
+                    $headers->push($q['id'] . '|' . '--Other');
+                }
             });
 
             // create records
@@ -173,6 +188,11 @@ class CsvController extends Controller
             $questions->each(function ($q) use ($headers) {
                 $text = $q['id'] . '|' . $q['name'];
                 $headers->push($text);
+                // check if question has other value
+                $checkOther = $this->filterFlowApiForm($q['id'])['options']['allowOther'];
+                if ($checkOther) {
+                    $headers->push($q['id'] . '|' . '--Other');
+                }
             });
             
             // create records
@@ -238,12 +258,16 @@ class CsvController extends Controller
     {
         if (!isset($response[$q['id']])) {
             $row->push('');
+            // check if question has other value
+            $checkOther = $this->filterFlowApiForm($q['id'])['options']['allowOther'];
+            if ($checkOther) {
+                $row->push('');
+            }
             return $row;
         }
 
         $val = $response[$q['id']];
         if ($q['type'] === "GEO") {
-            // $answer = "lat: ".$val['lat']." long: ".$val['long']." elev: ".$val['elev'];
             foreach ($this->geoRows as $key => $value) {
                 $row->push($val[$value]);
             }
@@ -256,41 +280,75 @@ class CsvController extends Controller
         }
         if ($q['type'] === "OPTION") {
             $val = collect($val);
+            if (count($val) === 0) {
+                $answer = '';
+                $row->push($answer);
+                $checkOther = $this->filterFlowApiForm($q['id'])['options']['allowOther'];
+                if ($checkOther) {
+                    $row->push('');
+                }
+                return $row;
+            }
             if (count($val) > 1) {
                 $answer = $val->implode("text", "|");
+                if (isset($text['isOther'])) {
+                    if (!isset($text['text'])) {
+                        $answer = '';
+                    } 
+                    if (isset($text['text'])) {
+                        $answer = $text['text'];
+                    }
+                    if ($text['isOther']) {
+                        $row->push('');
+                        $row->push($answer);
+                        return $row;
+                    }
+                } else {
+                    $row->push($answer);
+                    $checkOther = $this->filterFlowApiForm($q['id'])['options']['allowOther'];
+                    if ($checkOther) {
+                        $row->push('');
+                    }
+                    return $row;
+                }
             } 
             if (count($val) === 1) {
                 $text = $val->first();
                 if (!isset($text['text'])) {
-                    // isOther
                     $answer = '';
                 } 
                 if (isset($text['text'])) {
                     $answer = $text['text'];
                 }
-            }
-            if (count($val) === 0) {
-                $answer = '';
+                if (isset($text['isOther'])) {
+                    if ($text['isOther']) {
+                        $row->push('');
+                        $row->push($answer);
+                        return $row;
+                    }
+                } else {
+                    $row->push($answer);
+                    $checkOther = $this->filterFlowApiForm($q['id'])['options']['allowOther'];
+                    if ($checkOther) {
+                        $row->push('');
+                    }
+                    return $row;
+                }
             }
         }
         if ($q['type'] === "CASCADE") {
             $val = collect($val);
+            if (count($val) === 0) {
+                $answer = '';
+            }
             if (count($val) > 1) {
                 $answer = $val->implode("name", "|");
             } 
             if (count($val) === 1) {
                 $answer = $val->first()['name'];
             }
-            if (count($val) === 0) {
-                $answer = '';
-            }
         }
 
-        // if (!isset($answer)) {
-        //     dd($q, $val);
-        // }
-
-        // return $answer;
         $row->push($answer);
         return $row;
     }

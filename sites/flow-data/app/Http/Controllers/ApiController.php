@@ -32,8 +32,8 @@ class ApiController extends Controller
                     }
                 }
             }
-            $d['repeatable_groups'] = $csvTrue;
-            $d['no_repeat'] = $csvFalse;
+            $d['csv_repeatable'] = $csvTrue;
+            $d['csv_no_repeatable'] = $csvFalse;
 
             return $d;
         });
@@ -58,7 +58,7 @@ class ApiController extends Controller
         return collect($data)->except('dataPointsUrl');
     }
 
-    private function getFlowApiForm($instanceId, $formId)
+    public function getFlowApiForm($instanceId, $formId)
     {
         $auth = new Auth();
         $api = new FlowApi($auth);
