@@ -151,16 +151,22 @@ button.btn-repeatable{
     color:#ffffff;
 } 
 
+.toast-header strong.mr-auto {
+    position: relative;
+    max-width: 100%;
+    width: 100%;
+}
+
+
 .info-survey-name {
     display: inline-block;
 }
 
 .badge.badge-user {
     position: absolute;
-    right: 6px;
-    top: 5px;
     padding: 5px;
     text-transform: uppercase;
+    right: -8px;
 }
 
 .badge-green{
