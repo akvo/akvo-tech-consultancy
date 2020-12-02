@@ -86,10 +86,10 @@ const dsc = {
     de: <Fragment>
             <h4>Dateneigentum und -verfahren</h4>
             <p className="text-justify">
-                Der Tool-Entwickler Akvo beansprucht kein Dateneigentum. Alle Daten, die über das System erfasst werden, sind rechtlich Eigentum der Organisationen, die die Daten eingeben. Alle Rechte verbleiben bei den Organisationen, denen die Daten gehören. Akvo-Systeme ermöglichen die Verwaltung bestimmter Rollen und Berechtigungen. mit entsprechendem Zugriff auf Daten und / oder Funktionen im System.
+                Der Tool-Entwickler Akvo beansprucht kein Dateneigentum. Alle Daten, die über das System erfasst werden, sind rechtlich Eigentum der Organisationen, die die Daten eingeben. Alle Rechte verbleiben bei den Organisationen, denen die Daten gehören. Akvo-Systeme ermöglichen die Verwaltung bestimmter Rollen und Berechtigungenmit entsprechendem Zugriff auf Daten und / oder Funktionen im System.    
             </p>
             <p className="text-justify">
-                Angesichts der möglichen Erweiterung des Systems im Laufe der Zeit planen wir separate Besprechungen, um die Rollen und Verantwortlichkeiten verschiedener Interessengruppen zu klären und Richtlinien und Datenverfahren für die Verwaltung und Implementierung dieser Rollen sowie den entsprechenden Zugriff auf Daten und / oder Funktionen im System festzulegen.
+                Angesichts der möglichen Erweiterung des Systems im Laufe der Zeit planen wir separate Besprechungen, um die Rollen und Verantwortlichkeiten verschiedener Interessengruppen zu klären und Richtlinien und Datenverfahren für die Verwaltung und Implementierung dieser Rollen ,sowie den entsprechenden Zugriff auf Daten und / oder Funktionen im System festzulegen. 
             </p>
             <br/>
 
@@ -119,22 +119,22 @@ const dsc = {
 
             <h4>Rollen und Berechtigungen</h4>
             <p className="text-justify">
-                Die Plattformsekretariate von Beyond Chocolate, SWISSCO und GISCO folgen einem Rollen- und Berechtigungsmodell, das eine Administratorebene-, sowohl  eine detaillierte Zugriffskontrolle auf Daten ermöglicht. Der Zugriff auf Fragen und zugehörige Antwortsdaten ist auf die spezifische und definierte Rolle eines/r Benutzers/in und die dieser Rolle zugewiesenen Berechtigungen beschränkt. Ein striktes Berechtigungsmodell stellt sicher, dass vertrauliche Daten für andere Benutzer der Plattformen weder zugänglich noch sichtbar sind.
+                Die Plattformsekretariate von Beyond Chocolate, SWISSCO und dem Forum Nachhaltiger Kakao folgen einem Rollen- und Berechtigungsmodell, das eine Administratorebene-, sowohl  eine detaillierte Zugriffskontrolle auf Daten ermöglicht. Der Zugriff auf Fragen und zugehörige Antwortsdaten ist auf die spezifische und definierte Rolle eines/r Benutzers/in und die dieser Rolle zugewiesenen Berechtigungen beschränkt. Ein striktes Berechtigungsmodell stellt sicher, dass vertrauliche Daten für andere Benutzer der Plattformen weder zugänglich noch sichtbar sind.
             </p>
             <p className="text-justify">
                 Sofern mit dem/r Eigentümer/in der Daten nicht ausdrücklich anders vereinbart, müssen die gesammelten Daten vollständig anonymisiert und aggregiert werden, bevor sie mit anderen Mitgliedern der Plattformen geteilt und / oder veröffentlicht werden können. Alle Daten, die intern auf disaggregierter Ebene geteilt und / oder angezeigt werden (z. B. mit den Mitarbeitern/innen der Sekretariate oder den Plattformarbeitsgruppen, die die Überwachung begleiten, einschließlich der Datenauswertung), werden vollständig anonymisiert.
             </p>
             <p className="text-justify">
-                Vor der Veröffentlichung der (anonymisierten und aggregierten) Erkenntnisse oder Informationen aus der Analyse der gesammelten Daten stellen die Plattformsekretariate weiterhin sicher, dass dies nicht indirekt sensible Informationen in Bezug auf ein bestimmtes Mitglied offenlegt.    
+                Vor der Veröffentlichung der (anonymisierten und aggregierten) Erkenntnisse oder Informationen aus der Analyse der gesammelten Daten stellen die Plattformsekretariate weiterhin sicher, dass dies nicht indirekt sensible Informationen in Bezug auf ein bestimmtes Mitglied offenlegt.
             </p>
             <p className="text-justify">
-                Der Zugriff auf Daten vor der Anonymisierung ist nur einer sehr begrenzten Anzahl ordnungsgemäß autorisierter Personen ermöglicht, die Geheimhaltungsverpflichtungen unterzeichnet haben. Der Zugriff kann ausschließlich erfolgen, um die Datenkonsistenz zu überprüfen und sicherzustellen, um mit Rücksprache mit den Mitgliedern fehlerhafte oder widersprüchliche Daten zu korrigieren und / oder um die schrittweise Verbesserung der Nachhaltigkeitsberichterstattung durch die Mitglieder zu unterstützen.    
+                Der Zugriff auf Daten vor der Anonymisierung ist nur einer sehr begrenzten Anzahl ordnungsgemäß autorisierter Personen ermöglicht, die Geheimhaltungsverpflichtungen unterzeichnet haben. Der Zugriff kann ausschließlich erfolgen, um die Datenkonsistenz zu überprüfen und sicherzustellen, um mit Rücksprache mit den Mitgliedern fehlerhafte oder widersprüchliche Daten zu korrigieren und / oder um die schrittweise Verbesserung der Nachhaltigkeitsberichterstattung durch die Mitglieder zu unterstützen.
             </p>
             <p className="text-justify">
                 Die folgenden Personen haben vor der Anonymisierung und Aggregation einen solchen Datenzugriff:
             </p>
             <p className="text-justify">
-                <u>Für GISCO:</u>
+                <u>Für das Kakaoforum:</u>
             </p>
             <ul className="pl-5">
                 <li>Beate Weiskopf, GISCO</li>
@@ -160,7 +160,7 @@ const dsc = {
             </ul>
             
             <p className="text-justify">
-                Jede der oben genannten Personen muss eine Vertraulichkeitsvereinbarung unterzeichnen, bevor sie auf Daten zugreifen kann. Jede/r neue Mitarbeiter/in in den Sekretariaten oder auf C-Lever.org, dem/der Zugang gewährt wird, muss die Vertraulichkeitsvereinbarung unterzeichnet haben, bevor er/sie Zugang erhält.    
+                Jede der oben genannten Personen muss eine Vertraulichkeitsvereinbarung unterzeichnen, bevor sie auf Daten zugreifen kann. Jede/r neue Mitarbeiter/in in den Sekretariaten oder auf C-Lever.org, dem/der Zugang gewährt wird, muss die Vertraulichkeitsvereinbarung unterzeichnet haben, bevor er/sie Zugang erhält.
             </p>
         </Fragment>
     ,
