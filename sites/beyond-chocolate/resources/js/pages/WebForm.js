@@ -220,7 +220,7 @@ const NewProjectSurveyInfoModal = ({ show, onHide }) => {
                             report on these seperately.
                         </li>
                         <li>
-                            For each project you can register multiple
+                            For each project you can register several
                             intervention areas.
                         </li>
                     </ul>
