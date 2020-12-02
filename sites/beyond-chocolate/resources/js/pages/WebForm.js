@@ -45,7 +45,9 @@ const SavedFormsSelector = ({ user, onSelect, watchValue }) => {
     const [value, setValue] = useState();
     const [fetchingData, setFetchingData] = useState(false);
     const onSubmit = () => {
-        onSelect(`${selected.url}?user_id=${user.id}`);
+        if (!selected) return;
+        const url = `${selected.url}?user_id=${user.id}`;
+        onSelect({ url, type: null });
     };
     const onChange = savedForm => {
         const form = available.find(f => f.url === savedForm.value);
@@ -140,7 +142,9 @@ const NewFormSelector = ({ user, onSelect, watchValue }) => {
     const [selected, setSelected] = useState();
     const [value, setValue] = useState();
     const onSubmit = () => {
-        onSelect(`${selected.url}?user_id=${user.id}`);
+        if (!selected) return;
+        const url = `${selected.url}?user_id=${user.id}`;
+        onSelect({ url, type: selected.name });
     };
     const onChange = data => {
         const form = available.find(f => f.name === data.value);
@@ -197,12 +201,59 @@ const NewFormSelector = ({ user, onSelect, watchValue }) => {
     );
 };
 
+const NewProjectSurveyInfoModal = ({ show, onHide }) => {
+    return (
+        <Modal size="md" scrollable={true} show={show} onHide={onHide}>
+            <Modal.Header closeButton>
+                <Modal.Title>
+                    New projects questionnaire information
+                </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <div className="ml-4 mr-4">
+                    <ul>
+                        <li>
+                            You can register multiple cocoa sustainability
+                            projets (programmes/ projects/ initiatives) and
+                            report on these seperately.
+                        </li>
+                        <li>
+                            For each project you can register multiple
+                            intervention areas.
+                        </li>
+                    </ul>
+                </div>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={onHide}>
+                    OK
+                </Button>
+            </Modal.Footer>
+        </Modal>
+    );
+};
+
 const WebForm = () => {
     const { user } = useAuth();
     const [activeForm, setActiveForm] = useState();
-    const onSelectForm = form => {
-        setActiveForm(form);
-        localStorage.setItem(`active-form:${user.id}`, form);
+    const [delayedActiveForm, setDelayedActiveForm] = useState();
+    const [showProjectInfo, setShowProjectInfo] = useState(false);
+    const openForm = url => {
+        setActiveForm(url);
+        localStorage.setItem(`active-form:${user.id}`, url);
+    };
+    const onSelectForm = ({ url, type }) => {
+        if (type == "111510043") {
+            setShowProjectInfo(true);
+            setDelayedActiveForm(url);
+        } else {
+            openForm(url);
+        }
+    };
+    const onClosedProjectInfo = () => {
+        openForm(delayedActiveForm);
+        setDelayedActiveForm(null);
+        setShowProjectInfo(false);
     };
 
     useEffect(() => {
@@ -255,6 +306,10 @@ const WebForm = () => {
                         handleClose={handleClose}
                         locale={locale}
                         data={dsc}
+                    />
+                    <NewProjectSurveyInfoModal
+                        show={showProjectInfo}
+                        onHide={onClosedProjectInfo}
                     />
                 </Col>
             </Row>
