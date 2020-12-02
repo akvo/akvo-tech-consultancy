@@ -58,6 +58,32 @@ class ApiController extends Controller
         return collect($data)->except('dataPointsUrl');
     }
 
+    private function getFlowApiForm($instanceId, $formId)
+    {
+        $auth = new Auth();
+        $api = new FlowApi($auth);
+        $endpoint = env('AKVOFLOW_FORM_URL').'/'.$instanceId.'/'.$formId.'/fetch';
+        $data = $api->fetch($endpoint);
+        // return all questions option as a list
+        $questions = collect();
+        collect($data['questionGroup'])->each(function ($q) use ($questions) {
+            if (is_array($q['question'])) {
+                foreach ($q['question'] as $key => $value) {
+                    if (isset($value['type']) && $value['type'] === 'option') {
+                        $questions->push($value);
+                    }
+                }
+            }
+            if (!is_array($q['question'])) {
+                if ($q['question']['type'] === 'option') {
+                    $questions->push($q['question']);
+                }
+            }
+        });
+        return $questions;
+        # TODO : use this collection to check if the question has other answer
+    }
+
     public function formInstances(Request $request) {
         return $this->getFormInstances($request->instanceId, $request->surveyId, $request->formId, $request->result);
     }

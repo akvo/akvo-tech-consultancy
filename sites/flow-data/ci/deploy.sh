@@ -10,6 +10,8 @@ sudo chown "${USER}:" . -R
 
 echo "Deploying site..."
 
+exit 0; # TODO : remove this to deploy
+
 if [[ "${TRAVIS_BRANCH}" != "master" && "${TRAVIS_BRANCH}" != "develop" && "${TRAVIS_BRANCH}" != "sites/flow-data" ]]; then
     exit 0
 fi
