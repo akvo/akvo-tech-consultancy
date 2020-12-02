@@ -269,10 +269,16 @@ const Users = () => {
                                         </Form.Label>
                                         <Col sm={8}>
                                             <Form.Control
-                                                plaintext
-                                                readOnly
+                                                type="text"
+                                                name="name"isInvalid={!!errors.name}
+                                                ref={register({
+                                                    required: "The name field is required."
+                                                })}
                                                 defaultValue={selected.name}
                                             />
+                                            <Form.Control.Feedback type="invalid">
+                                                {!!errors.name && errors.name.message}
+                                            </Form.Control.Feedback>
                                         </Col>
                                     </Form.Group>
                                     <Form.Group
@@ -284,7 +290,7 @@ const Users = () => {
                                         </Form.Label>
                                         <Col sm={8}>
                                             <Form.Control
-                                                plaintext
+                                                // plaintext
                                                 readOnly
                                                 defaultValue={selected.email}
                                             />
