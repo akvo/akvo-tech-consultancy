@@ -18,9 +18,9 @@ const initialState = {
     instanceName:"Loading...",
     instanceId:"Loading...",
     surveyName:"Loading..",
-    surveyId:"Loading..",
+    surveyId:"",
     user: false,
-    version:"Loading..",
+    version:"",
     questions: [{
         group: 1,
         groupIndex: true,

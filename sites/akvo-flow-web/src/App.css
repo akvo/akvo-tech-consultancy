@@ -151,6 +151,10 @@ button.btn-repeatable{
     color:#ffffff;
 } 
 
+.info-survey-name {
+    display: inline-block;
+}
+
 .badge.badge-user {
     position: absolute;
     right: 6px;
