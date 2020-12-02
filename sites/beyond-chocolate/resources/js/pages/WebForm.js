@@ -15,6 +15,8 @@ import { useAuth } from "../components/auth-context";
 import { dsc } from "../static/data-security-content";
 import { useLocale } from "../lib/locale-context";
 import { ModalDataSecurity } from "../components/Modal";
+import { surveyContent } from "../static/ui-content";
+import { projectInfo } from "../static/popup-content";
 
 const ReloadableSelectMenu = props => {
     return (
@@ -203,7 +205,7 @@ const NewFormSelector = ({ user, onSelect, watchValue }) => {
     );
 };
 
-const NewProjectSurveyInfoModal = ({ show, onHide }) => {
+const NewProjectSurveyInfoModal = ({ show, onHide, content }) => {
     return (
         <Modal size="md" scrollable={true} show={show} onHide={onHide}>
             <Modal.Header closeButton>
@@ -214,15 +216,8 @@ const NewProjectSurveyInfoModal = ({ show, onHide }) => {
             <Modal.Body>
                 <div className="ml-4 mr-4">
                     <ul>
-                        <li>
-                            You can register several cocoa sustainability
-                            projects (programmes/ projects/ initiatives) and
-                            report on these seperately.
-                        </li>
-                        <li>
-                            For each project you can register several
-                            intervention areas.
-                        </li>
+                        <li>{content.l1}</li>
+                        <li>{content.l2}</li>
                     </ul>
                 </div>
             </Modal.Body>
@@ -292,7 +287,7 @@ const WebForm = () => {
                     </div>
                     <hr />
                     <p className="pl-3 text-muted">
-                        <a onClick={handleShow} href="#">Data security provisions</a> for the data that will be submitted as part of this survey
+                        { surveyContent(handleShow)[locale.active] }
                     </p>
                     <Card>
                         {activeForm && (
@@ -312,6 +307,7 @@ const WebForm = () => {
                     <NewProjectSurveyInfoModal
                         show={showProjectInfo}
                         onHide={onClosedProjectInfo}
+                        content={projectInfo[locale.active]}
                     />
                 </Col>
             </Row>
