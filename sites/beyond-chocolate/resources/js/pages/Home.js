@@ -1,14 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { Container, Row, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import config from "../config";
 import { useLocale } from "../lib/locale-context";
 import { hc } from "../static/home-content";
+import { ModalDataSecurity } from "../components/Modal";
+import { dsc } from "../static/data-security-content";
 
 const Home = () => {
-    const { locale } = useLocale();
-    let content = hc[locale.active];
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
+    const { locale } = useLocale();
+    let content = hc(handleShow);
+        content = content[locale.active];
+        
     return (
         <Container fluid className="homeLanding">
             <Row>
@@ -27,6 +34,13 @@ const Home = () => {
                     </Button>
                 </div>
             </Row>
+
+            <ModalDataSecurity
+                show={show}
+                handleClose={handleClose}
+                locale={locale}
+                data={dsc}
+            />
         </Container>
     );
 };

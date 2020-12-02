@@ -14,6 +14,7 @@ import { DateTime } from "luxon";
 import { useAuth } from "../components/auth-context";
 import { dsc } from "../static/data-security-content";
 import { useLocale } from "../lib/locale-context";
+import { ModalDataSecurity } from "../components/Modal";
 
 const ReloadableSelectMenu = props => {
     return (
@@ -196,22 +197,6 @@ const NewFormSelector = ({ user, onSelect, watchValue }) => {
     );
 };
 
-const ModalDataSecurity = ({ show, handleClose, locale, data }) => {
-    return (
-        <Modal size="xl" scrollable={true} show={show} onHide={handleClose}>
-            <Modal.Header closeButton>
-                <Modal.Title>Data Security Provisions</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>{data[locale.active]}</Modal.Body>
-            <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
-                    Close
-                </Button>
-            </Modal.Footer>
-        </Modal>
-    );
-};
-
 const WebForm = () => {
     const { user } = useAuth();
     const [activeForm, setActiveForm] = useState();
@@ -254,10 +239,7 @@ const WebForm = () => {
                     </div>
                     <hr />
                     <p className="pl-3 text-muted">
-                        By filling in this questionnaire, you agree with the{" "}
-                        <a onClick={handleShow} href="#">
-                            Data security provisions
-                        </a>
+                        <a onClick={handleShow} href="#">Data security provisions</a> for the data that will be submitted as part of this survey
                     </p>
                     <Card>
                         {activeForm && (
