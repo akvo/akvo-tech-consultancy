@@ -347,6 +347,7 @@ main {
             box-shadow:-.2rem -.2rem 0 rgba($color-yellow,.5), .2rem .2rem 0 rgba($color-primary,.5);
         }
     }
+
     .savedForms {
         padding: 0.5rem 1rem; 
         margin: 0;
@@ -356,9 +357,18 @@ main {
             margin: 0;
         }
        background: rgba($color-primary,.1);
-       .selectContainer {
-           min-width: 600px;
-       }
+        .form-inline {
+            display: inline-block;
+            width:100%;
+            .selectContainer {
+                width:calc(100% - 84px);
+            }
+            button {
+                display: inline;
+                float: right;
+                margin-top: -3rem;            
+            }
+        }    
     }
     .newForms {
         padding: 0.5rem 1rem; 
@@ -373,23 +383,32 @@ main {
            min-width: 300px;
        }
     }
+    div[class$="-container"] {
+        width: 100% !important;
+    }
+    div[class$="control"] {
+        width: 100% !important;
+    }
+     div[class$="singleValue"] {
+        width: 100% !important;
+    }
+    .savedFromGrid {
+        font-size: .8rem;
+        &--name{
+            width: 35%;
+        }
+        &--email {
+            width: 25%;
+        }
+        &--date {
+            width: 15%;
+        }
+        &--type {
+            width: 15%;
+        }
+    }
 }
-.savedFromGrid {
-    width: 100%;
-    font-size: .9rem;
-    &--name{
-        width: 35%;
-    }
-    &--email {
-        width: 25%;
-    }
-    &--date {
-        width: 15%;
-    }
-    &--type {
-        width: 15%;
-    }
-}
+
 .usersTab {
     table.users-table {
         tr:hover {
