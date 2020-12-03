@@ -20,7 +20,7 @@ import ForgotPassword from "../pages/ForgotPassword";
 import Verify from "../pages/Verify";
 import NotFound from "../pages/NotFound";
 import { getApi, auth } from "../data/api";
-import Documentation from "../pages/Documentation";
+import Methodology from "../pages/Methodology";
 import PrivateRoute from "./PrivateRoute.js";
 
 class Page extends Component {
@@ -92,7 +92,7 @@ class Page extends Component {
                     <PrivateRoute exact path='/home' component={Home} isLogin={login} />
                     <PrivateRoute exact path='/country/:country/:companyId/:tab' component={Country} isLogin={login} />
                     <PrivateRoute exact path='/compare' component={Compare} isLogin={login} />
-                    <PrivateRoute exact path='/documentation' component={Documentation} isLogin={login} />
+                    <PrivateRoute exact path='/methodology' component={Methodology} isLogin={login} />
                     <PrivateRoute exact path='/setting' component={Setting} isLogin={login} />
                     <PrivateRoute exact path='/manage-user' component={Manage} isLogin={login} />
                     <PrivateRoute exact path='/logs' component={Logs} isLogin={login} /> */}
@@ -102,7 +102,7 @@ class Page extends Component {
                     <Route exact path='/home' component={Home} />
                     <Route exact path='/country/:country/:companyId/:tab' component={Country} />
                     <Route exact path='/compare' component={Compare} />
-                    <Route exact path='/documentation' component={Documentation} />
+                    <Route exact path='/methodology' component={Methodology} />
                     <Route exact path='/setting' component={Setting} />
                     <Route exact path='/manage-user' component={Manage} />
                     <Route exact path='/logs' component={Logs} />

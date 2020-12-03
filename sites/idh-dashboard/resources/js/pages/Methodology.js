@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 
-class Documentation extends Component {
+class Methodology extends Component {
     
     constructor(props) {
         super(props);    
@@ -22,4 +22,4 @@ class Documentation extends Component {
     };
 }
 
-export default Documentation;
+export default Methodology;
