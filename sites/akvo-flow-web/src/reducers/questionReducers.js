@@ -42,11 +42,8 @@ const initialState = {
             text:"Loading",
             type:"translation"
         }],
-        help: {
-            altText:null,
-            text:"Loading",
-            type: "tip"
-        }
+        help: {en: "Loading"},
+        lang: {en: ""}
     }],
     active: [],
     answers: [],
@@ -69,6 +66,7 @@ const initialState = {
                 badge: "badge-secondary"
             },
             questions: [1],
+            lang: {en: ""},
             repeatable: false,
             repeat:0
         }],
@@ -316,14 +314,31 @@ const listDatapoints = (data) => {
 const listGroups = (data, questions, answers) => {
 	let groups = validateGroup(data.questionGroup,'lg');
     groups = groups.map((x,i) => {
+        let lang = {en: x.heading};
         let qgroup = questions.filter(q => q.group === i + 1).map(q => q.id);
+        if (x.altText) {
+            if (!Array.isArray(x.altText)) {
+                lang = {...lang, [x.altText.language]:x.altText.text}
+            }
+            if (Array.isArray(x.altText)) {
+                let ai = 0;
+                do {
+                    lang = {
+                        ...lang,
+                        [x.altText[ai].language]:x.altText[ai].text
+                    };
+                    ai++;
+                } while (ai < x.altText.length);
+            }
+        }
         return {
             index: (i + 1),
             heading: x.heading,
             attributes: getGroupAttributes(x, questions, answers),
             questions: qgroup,
             repeatable: x.repeatable,
-            repeat: x.repeatable ? 1 : 0
+            repeat: x.repeatable ? 1 : 0,
+            lang: lang
         }
     });
     return {

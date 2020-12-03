@@ -234,7 +234,7 @@ button.btn-repeatable{
         width: 100%;
     }
     .wrapper.toggled .sidebar-wrapper {
-        margin-left: -336px;
+        margin-left: -380px;
     }
 }
 
@@ -431,6 +431,16 @@ img.responsive-image {
     padding: 5px 10px;
     border-radius: 5px;
     font-size: small;
+}
+
+.trans-lang-group {
+    display:block;
+    margin-top: 5px;
+    background: #6c757d;
+    color: #FFF;
+    padding: 3px 7px;
+    border-radius: 5px;
+    font-size: 12px;
 }
 
 .trans-lang-opt {

@@ -21,6 +21,19 @@ class GroupButtons extends Component {
 
     getQuestionList(groups) {
         return groups.list.map((group, i) => {
+            let localization = this.props.value.lang.active;
+            localization = localization.map((x) => {
+                let active = group.lang[x] === undefined ? "" : group.lang[x];
+                return active;
+            });
+            localization = localization.map((x, ix) => {
+                let activeLang = ix !== 0
+                    ? ("<b>" + this.props.value.lang.active[ix] + ": </b>")
+                    : "";
+                let extraClass = ix !== 0 ? " class='trans-lang-group'>" : ">";
+                return "<span" + extraClass + activeLang + x + "</span>";
+            });
+            let groupName = localization.length > 1 ? localization.join("") : localization[0];
             let show = this.props.value.groups.list[i].attributes.questions !== 0 ? "" : "hidden";
             return (
             <div className={"list-group list-group-flush " + show} key={"group-" + group.index}>
@@ -33,7 +46,7 @@ class GroupButtons extends Component {
                         : this.listClass + " bg-light"
                     }
                 >
-                    <span className="question-group-button">{group.heading} </span>
+                    <span className="question-group-button" dangerouslySetInnerHTML={{__html:groupName}}/>
                     <span className={"badge badge-group badge-left badge-secondary"}>{this.props.value.groups.list[i].attributes.answers}</span>
                     <span className={"badge badge-group badge-right " + this.props.value.groups.list[i].attributes.badge}>{this.props.value.groups.list[i].attributes.questions}</span>
                 </div>
