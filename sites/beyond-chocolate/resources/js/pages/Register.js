@@ -5,6 +5,7 @@ import WelcomeBanner from "../components/WelcomeBanner";
 import useForm from "../lib/use-form";
 import authApi from "../services/auth";
 import config from "../config";
+import Select from "react-select";
 
 const RegisterForm = ({ setRegistered, organizations }) => {
     const {
@@ -16,10 +17,16 @@ const RegisterForm = ({ setRegistered, organizations }) => {
         watch
     } = useForm();
 
+    const [selectedOrgs, setSelectedOrgs] = useState({value:false, label:"", error: false});
     const password = useRef({});
     password.current = watch("password", "");
 
     const onSubmit = async data => {
+        if (!selectedOrgs.value) {
+            setSelectedOrgs({ ...selectedOrgs, error: true});
+            return;
+        }
+        data = { ...data, organization_id: selectedOrgs.value };
         try {
             await authApi.register(data);
             setRegistered(true);
@@ -34,12 +41,8 @@ const RegisterForm = ({ setRegistered, organizations }) => {
     };
 
     const renderOrganizations = organizations => {
-        return organizations.map((x, index) => {
-            return (
-                <option key={index} value={x.id}>
-                    {x.name}
-                </option>
-            );
+        return organizations.map(x => {
+            return { value: x.id, label: x.name };
         });
     };
 
@@ -113,21 +116,15 @@ const RegisterForm = ({ setRegistered, organizations }) => {
             </Form.Group>
             <Form.Group controlId="formBasicOrganization">
                 <Form.Label>Organization</Form.Label>
-                <Form.Control
-                    as="select"
-                    name="organization_id"
-                    isInvalid={!!errors.organization_id}
-                    ref={register({ required: "Select one of Organization." })}
-                    custom
-                >
-                    <option key="defaultSelect" value="">
-                        Select Organization
-                    </option>
-                    {renderOrganizations(organizations)}
-                </Form.Control>
-                <Form.Control.Feedback type="invalid">
-                    {!!errors.organization_id && errors.organization_id.message}
-                </Form.Control.Feedback>
+                <Select 
+                    onChange={opt => setSelectedOrgs(opt)}
+                    options={renderOrganizations(organizations)}
+                />
+                { selectedOrgs.error ? ( 
+                    <Form.Text className="text-danger">
+                        Select one of Organization.
+                    </Form.Text>
+                    ) : ""}
             </Form.Group>
             <Row>
                 <Col md={12}>

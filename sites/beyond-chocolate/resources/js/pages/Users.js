@@ -98,6 +98,7 @@ const Users = () => {
         total: 1
     });
     const [orgs, setOrgs] = useState([]);
+    const [selectedOrgs, setSelectedOrgs] = useState({value:false, label:"", error: false});
     const {
         register,
         control,
@@ -142,14 +143,20 @@ const Users = () => {
     const onSelectUser = user => {
         if (isDirty) return;
         setSelected(null);
-        setTimeout(() => setSelected(user), 0);
+        setTimeout(() => { 
+            setSelected(user);
+        }, 0);
     };
 
     const saveUser = async ({ id, ...data }) => {
+        if (!selectedOrgs.value) {
+            setSelectedOrgs({ ...selectedOrgs, error: true});
+            return;
+        }
+        data = { ...data, organization_id: selectedOrgs.value };
         const questionnaires = data.questionnaires?.length
             ? data.questionnaires.map(q => q.value)
             : null;
-
         try {
             await request().patch(`/api/users/${id}`, {
                 ...data,
@@ -182,6 +189,12 @@ const Users = () => {
         let res = await authApi.getOrganizations();
         setOrgs(res.data);
     }
+
+    const renderOrganizations = organizations => {
+        return organizations.map(x => {
+            return { value: x.id, label: x.name };
+        });
+    };
 
     useEffect(async () => {
         await Promise.all([fetchUsers(1), fetchRoles(), fetchQuestionnaires(), fetchOrgs()]);
@@ -305,28 +318,19 @@ const Users = () => {
                                             Organization
                                         </Form.Label>
                                         <Col sm={8}>
-                                            <Form.Control
-                                                as="select"
-                                                name="organization_id"
-                                                defaultValue={
-                                                    selected.organization_id
-                                                }
-                                                isInvalid={!!errors.organization_id}
-                                                ref={register}
-                                            >
-                                                {orgs.map(org => (
-                                                    <option
-                                                        key={org.id}
-                                                        value={org.id}
-                                                    >
-                                                        {org.name}
-                                                    </option>
-                                                ))}
-                                            </Form.Control>
-                                            <Form.Control.Feedback type="invalid">
-                                                {!!errors.organization_id &&
-                                                    errors.role.organization_id}
-                                            </Form.Control.Feedback>
+                                            <Select 
+                                                defaultValue={{
+                                                    value: selected.organization_id,
+                                                    label: orgs.find(x => x.id === selected.organization_id)['name']
+                                                }}
+                                                onChange={opt => setSelectedOrgs(opt)}
+                                                options={renderOrganizations(orgs)}
+                                            />
+                                            { selectedOrgs.error ? ( 
+                                                <Form.Text className="text-danger">
+                                                    Select one of Organization.
+                                                </Form.Text>
+                                                ) : ""}
                                         </Col>
                                     </Form.Group>
 
