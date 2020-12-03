@@ -1,10 +1,15 @@
 html,
 body {
-    font-family: 'Open Sans', sans-serif !important;
+    font-family: 'Gotham', sans-serif !important;
+    font-weight: 300!important;
+}
+
+div {
+    font-weight: 300;
 }
 
 .navbar-brand {
-    margin-right: 0 !important;
+    margin: 0px 10px!important;
 }
 
 h1,
@@ -13,8 +18,18 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: 'Open Sans', sans-serif !important;
+    font-family: 'Gotham', sans-serif !important;
+    font-weight: 900;
     margin: auto !important;
+}
+
+p {
+    font-family: 'Gotham-Book', sans-serif !important;
+    font-weight: 300!important;
+}
+
+b, strong {
+    font-weight:500!important;
 }
 
 .page-title h2::after {
@@ -50,7 +65,7 @@ h6 {
 
 .page-title>h2 {
     color: #FFF;
-    font-weight: 700 !important;
+    font-weight: bold !important;
     font-size: 40px !important;
     text-shadow: 0px 0px 20px #000000;
 }
@@ -73,10 +88,13 @@ h6 {
     display: block;
     text-align: center;
     margin: auto;
-    color: #0072c6;
-    font-weight: 600;
+    font-weight: 500;
     margin-bottom: 2rem;
-    border-bottom: solid 5px #0072c6;
+    border-bottom: solid 5px #36AA40;
+}
+
+.form-control {
+    font-weight:300!important;
 }
 
 .page-content.has-jumbotron {
@@ -84,7 +102,8 @@ h6 {
 }
 
 .btn.btn-primary {
-    background: #0174c6 !important;
+    background: #36AA40 !important;
+    border: none!important;
     color: #FFF !important;
 }
 
@@ -96,18 +115,24 @@ h6 {
 
 .dropdown-item {
     padding: 18px !important;
+    font-weight:300 !important;
 }
 
 .dropdown-item.active,
 .dropdown-item:active {
     background-color: #fff !important;
-    color: #0072c6 !important;
-    font-weight: 600;
+    color: #36AA40 !important;
+    font-weight: 500;
 }
 
 a.dropdown-toggle.nav-link {
     width: 100%;
 }
+
+a.dropdown-toggle.nav-link div {
+    font-weight: 500;
+}
+
 .dropdown-right.show.dropdown.nav-item .dropdown-menu.show{
     width: auto;
     text-align: right;
@@ -121,7 +146,7 @@ a.dropdown-toggle.nav-link {
 }
 
 .NavBlue {
-    background-color: #0072c6;
+    background-color: #36AA40;
     box-shadow: 0 0 8px 1px black;
 }
 
@@ -133,10 +158,14 @@ a.dropdown-toggle.nav-link {
     color: #fff !important;
 }
 
+.active.dropdown.nav-item{
+    background-color:#005940!important;
+}
+
 .nav-link.active {
     color: #fff !important;
-    background-color: rgba(255, 255, 255, .3) !important;
-    font-weight: 600;
+    background-color:#005940!important;
+    font-weight: 500;
 }
 
 .page-title {
@@ -204,15 +233,19 @@ a.dropdown-toggle.nav-link {
     border: solid #fff 4px;
 }
 
+.card-header {
+    font-weight:500!important;
+}
+
 .card-chart {
-    background-color: #f0f5fb;
+    background-color: transparent;
     padding: 12px;
     margin-bottom: 30px;
     border-radius: 10px;
 }
 
 .card-info {
-    background: #0072c6;
+    background: #36AA40;
     color: #fff;
     padding: 12px;
     border-bottom: #ddd solid 1px;
@@ -228,7 +261,7 @@ a.dropdown-toggle.nav-link {
 
 .card-info p {
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 500;
     margin-bottom: 0px !important;
     max-width: 240px;
     margin: 10px auto;
@@ -240,9 +273,17 @@ h2.extra-counter {
     margin-bottom: 2vh !important;
     border-top: 5px solid #00adef;
     background: #e6e6e6;
-    color: #0174c6;
+    color: #36AA40;
     font-size: 40px;
     display: block;
+}
+
+span.span-link{
+    display: inline-block;
+    padding-left: 5px;
+    text-decoration:underline;
+    cursor: pointer;
+    color: #721c24;
 }
 
 .form-relative {
@@ -262,10 +303,23 @@ h2.extra-counter {
     border-bottom: 1px solid #ddd;
 }
 
+.search-item-nav {
+    position: absolute;
+    width: 209px;
+    margin-left: 8px;
+    z-index: 999;
+    top: 45px;
+    background: #fff;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border: #ddd solid 1px;
+}
+
 .search-suggest {
     cursor: pointer;
     padding: 10px;
     border-bottom: 1px solid #ddd;
+    font-size:13px;
 }
 
 .search-suggest:hover {
@@ -286,6 +340,10 @@ h2.extra-counter {
 
 .card-compare {
     margin: 10px 0px;
+}
+
+.card-body {
+    border-bottom: 1px solid #ddd;
 }
 
 .card-compare.card-body {
@@ -321,9 +379,32 @@ h2.extra-counter {
     font-size: 16px !important;
 }
 
+.input-group-append .input-group-text{
+    cursor:pointer;
+}
+
 .jumbotron.has-navigation {
     padding: 0px !important;
     padding-top: 4rem !important;
+}
+
+.nav-jumbotron-container{
+    min-width:100%;
+}
+.navbar-nav .nav-link {
+    font-weight:500;
+}
+
+.nav-stop {
+    position: fixed;
+    top: 32px;
+    min-width: 100%;
+    width: 100%;
+    margin-left: 0px!important;
+    margin-right: 0px!important;
+    padding-bottom: 3px;
+    background: #fff;
+    z-index:1;
 }
 
 .nav-jumbotron.nav {
@@ -335,9 +416,9 @@ h2.extra-counter {
 }
 
 .nav-jumbotron.nav a.nav-link {
-    color: #0174c6 !important;
+    color: #36AA40 !important;
     background: #fff;
-    font-weight: 600;
+    font-weight: 500;
     border-right: 1px solid #ddd;
     border-bottom: solid 2px #dddddd !important;
     padding: 10px !important;
@@ -355,9 +436,9 @@ h2.extra-counter {
 
 .nav-jumbotron.nav a.nav-link.active,
 .nav-jumbotron.nav a.nav-link:hover {
-    background: #0174c6 !important;
+    background: #36AA40 !important;
     color: #fff !important;
-    border-bottom: solid 2px #0174c6 !important;
+    border-bottom: solid 2px #36AA40 !important;
 }
 
 .echarts-for-react h4 {
@@ -373,6 +454,7 @@ h2.extra-counter {
 }
 
 .text-highlight {
+    color: #36AA40;
     background: #f0f5fb;
     padding-left: 4px;
     padding-right: 2px;
@@ -409,6 +491,43 @@ h2.extra-counter {
     margin-right: 10px;
 }
 
+.dropdown-item-sm.dropdown-item {
+    padding: 10px!important;
+    text-align: center;
+    width: auto!important;
+    min-width: 0!important;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
+}
+.dropdown-show-sm.show .dropdown-menu.show{
+    width:auto!important;
+    box-shadow: none;
+}
+
+.rdt_TableHeadRow {
+    background-color: #36AA40!important;
+}
+
+.rdt_TableCell {
+    font-weight:300!important;
+}
+
+.rdt_TableHead .rdt_TableCol,
+.rdt_TableHead .rdt_TableCol .rdt_TableCol_Sortable div{
+    color: #ffffff;
+    font-weight:500!important;
+    font-size: 14px!important;
+}
+.rdt_TableHead .rdt_TableCol .rdt_TableCol_Sortable span{
+    color: #ffffff!important;
+    margin-left: 20px;
+}
+
+.card-body .table {
+    margin-bottom: 0px !important;
+}
+
+
 @media (max-width: 992px) {
     .dropdown-toggle::after {
         display: none !important;
@@ -422,6 +541,20 @@ h2.extra-counter {
     .dropdown-right.show.dropdown.nav-item .dropdown-menu.show{
         width:100%;
         left:0px;
+    }
+    .search-nav{
+        width:100%!important;
+    }
+    .search-item-nav {
+        margin-left: 8px;
+        position: absolute;
+        width: calc(100% - 16px);
+        z-index: 999;
+        top: 276px;
+        background: #fff;
+        border-bottom-right-radius: 5px;
+        border-bottom-left-radius: 5px;
+        border: #ddd solid 1px;
     }
 }
 
@@ -444,4 +577,132 @@ h2.extra-counter {
     .dropdown-item {
         text-align: center !important;
     }
+}
+
+@font-face {
+    font-family: 'Gotham';
+    src: url('../../fonts/gotham/Gotham-Black.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gotham';
+    src: url('../../fonts/gotham/Gotham-BlackItalic.ttf') format('truetype');
+    font-weight: 900;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gotham';
+    src: url('../../fonts/gotham/Gotham-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gotham';
+    src: url('../../fonts/gotham/Gotham-BoldItalic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gotham';
+    src: url('../../fonts/gotham/Gotham-LightItalic.ttf') format('truetype');
+    font-weight: 300;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gotham';
+    src: url('../../fonts/gotham/Gotham-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gotham Book';
+    src: url('../../fonts/gotham/Gotham-BookItalic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gotham';
+    src: url('../../fonts/gotham/Gotham-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gotham';
+    src: url('../../fonts/gotham/Gotham-MediumItalic.ttf') format('truetype');
+    font-weight: 500;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gotham Book';
+    src: url('../../fonts/gotham/Gotham-Book.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gotham';
+    src: url('../../fonts/gotham/Gotham-ExtraLightItalic.ttf') format('truetype');
+    font-weight: 200;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gotham';
+    src: url('../../fonts/gotham/Gotham-ExtraLight.ttf') format('truetype');
+    font-weight: 200;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gotham Ultra';
+    src: url('../../fonts/gotham/Gotham-Ultra.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gotham';
+    src: url('../../fonts/gotham/Gotham-ThinItalic.ttf') format('truetype');
+    font-weight: 100;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gotham';
+    src: url('../../fonts/gotham/Gotham-Thin.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gotham Ultra';
+    src: url('../../fonts/gotham/Gotham-UltraItalic.ttf') format('truetype');
+    font-weight: 900;
+    font-style: italic;
+    font-display: swap;
 }

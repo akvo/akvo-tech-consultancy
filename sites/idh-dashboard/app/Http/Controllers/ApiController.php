@@ -17,7 +17,7 @@ class ApiController extends Controller
 {
     public function filters(Form $form)
     {
-        $data = $form->get()->groupBy('country');
+        $data = $form->withCount('formInstances as total')->get()->groupBy('country');
         $data = collect($data)->map(function($list, $key){
             return [
                 'name' => $key,
@@ -114,6 +114,36 @@ class ApiController extends Controller
         }
 
         if ($request->tab === "hh-profile") {
+            /*
+            $variableLevels = collect([
+                ['name' => 'f_first_crop','level' => 1],
+                ['name' => 'f_ownership','level' => 2],
+                ['name' => 'f_sdm_size (acre)','level' => 3],
+            ]);
+            $hhSankeyVar = Variable::whereIn('name', $variableLevels->pluck('name')->flatten())
+                ->get()->pluck('id');
+            $hhData = FormInstance::where('form_id', $id)->with(['answers' => function($q) use ($hhSankeyVar) {
+                $q->whereIn('variable_id', $hhSankeyVar)->with(['variable','option']);
+            }])->get()->pluck('answers')->flatten(1);
+            $hhData = collect($hhData)
+                ->map(function($q) use ($hhData, $variableLevels) {
+                    $d = $q->makeHidden(['option','variable']);
+                    $lv = $variableLevels->where('name', $q['variable']['name'])->values()->first();
+                    $d['level'] = $lv['level'];
+                    $d['option_name'] = null;
+                    if ($q['option'] !== null) {
+                        $d['value']= $q['option']['option_id'];
+                        $d['option_name'] = Option::where('id', $d['value'])->first()->name;
+                    }
+                    return $d;
+            })->groupBy('form_instance_id')->values();
+            $hhData = $hhData->map(function($instances) use ($variableLevels){
+                $value = count($variableLevels);
+                $instances = $instances->sortBy('level')->values();
+                return $instances;
+            });
+            return $hhData;
+             */
             $hhGenderAvg = Utils::getAvg($id, 'hh_gender_farmer', 'hh_size');
             $hhSize = $household->countBy()
                                 ->map(function($d, $k){return ['name' => $k, 'value' => $d];})
@@ -123,7 +153,7 @@ class ApiController extends Controller
                 Cards::create($hhSize, 'UNSORTED HORIZONTAL BAR', "Household Size", 6)
             ]);
             $hhGenderAvg->each(function($avg) use ($hhGenderAvg, $hhProfile){
-                $title = " is the average of HH size (" . Str::title($avg['name']) . ")";
+                $title = " is the average of HH size (" . Str::title($avg['name']) . ")"; 
                 $colSize = 6 / count($hhGenderAvg);
                 $hhProfile->push(
                     Cards::create(

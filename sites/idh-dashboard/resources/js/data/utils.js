@@ -10,12 +10,12 @@ export const getHighest = (records, object_key) => {
     return records;
 };
 
-export const flatFilters = (filters) => {
+export const flatFilters = filters => {
     let source = [];
-    filters.map((x) => {
-        x.childrens.map((c) => {
+    filters.map(x => {
+        x.childrens.map(c => {
             let name = x.name + " - " + c.kind;
-            source.push({ id: c.id, name: name });
+            source.push({ id: c.id, name: name, kind: c.kind, company: x.name, company: c.company, total: c.total });
         });
     });
     return source;
@@ -23,4 +23,10 @@ export const flatFilters = (filters) => {
 
 export const randomVal = () => {
     return Math.floor(Math.random() * 11);
+};
+
+export const initialNotification = {
+    variant: "success",
+    message: "",
+    active: false
 };

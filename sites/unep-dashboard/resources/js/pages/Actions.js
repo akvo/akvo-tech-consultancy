@@ -127,7 +127,6 @@ class Actions extends Component {
         if (thefilter.length > 0 && childs === false) {
             thefilter = pushToParent(thefilter, locale)
         }
-        console.log(thefilter);
         return thefilter;
     }
 

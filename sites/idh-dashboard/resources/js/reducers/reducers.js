@@ -5,10 +5,12 @@ const initialState = {
         name: false,
         role: false,
         forms: [
+            /*
             {
                 form_id: 1,
-                download: 0,
+                access: 0,
             },
+            */
         ],
         login: false,
     },
@@ -36,7 +38,7 @@ const initialState = {
 const addComparison = (state, item, id) => {
     let filters = flatFilters(item);
     let newitem = filters.find((x) => x.id === id);
-    return [...state, { id: newitem.id, name: newitem.name }];
+    return [...state, { id: newitem.id, name: newitem.name + " - " + newitem.company}];
 };
 
 export const states = (state = initialState, action) => {
@@ -55,6 +57,7 @@ export const states = (state = initialState, action) => {
                 page: {
                     ...state.page,
                     filters: action.filters,
+                    loading: false
                 },
             };
         case "PAGE - COMPARE ADD ITEM":
@@ -91,9 +94,22 @@ export const states = (state = initialState, action) => {
                 }
             }
         case "USER - LOGIN":
+            let user = action.user;
+            if (user.role !== 'guest') {
+                let access = state.page.filters;
+                    access = flatFilters(access);
+                    access = access.map(x => ({
+                        form_id: x.id,
+                        access: user.role !== "staff"
+                    }));
+                user = {
+                    ...user,
+                    forms: access
+                }
+            }
             return {
                 ...state,
-                user: action.user,
+                user: user,
             };
         case "USER - LOGOUT":
             return {

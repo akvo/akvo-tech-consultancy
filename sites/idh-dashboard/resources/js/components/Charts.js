@@ -9,23 +9,43 @@ import { generateOptions } from "../charts/chart-generator.js";
 class Charts extends Component {
     constructor(props) {
         super(props);
+        this.clickEvent = this.clickEvent.bind(this);
+    }
+
+    clickEvent(params) {
+        if (params.seriesType === "map" && params.data) {
+            if (params.data.link) {
+                window.open(params.data.link);
+            }
+        }
     }
 
     render() {
         let options = generateOptions(this.props.kind, this.props.title, this.props.dataset);
+        let onEvents = {
+            'click': this.clickEvent,
+        }
         if (this.props.config.column === 0) {
             return (
                 <ReactEcharts
                     option={options}
                     notMerge={true}
                     lazyUpdate={true}
-                    style={this.props.config.style}/>
+                    onEvents={onEvents}
+                    style={this.props.config.style}
+                />
+
             );
         }
         return (
             <Col md={this.props.config.column}>
                 <div className="card-chart">
-                    <ReactEcharts option={options} notMerge={true} lazyUpdate={true} style={this.props.config.style} />
+                    <ReactEcharts
+                        option={options}
+                        notMerge={true}
+                        lazyUpdate={true}
+                        style={this.props.config.style}
+                        onEvents={onEvents}/>
                     {this.props.config.line ? <hr /> : ""}
                 </div>
             </Col>

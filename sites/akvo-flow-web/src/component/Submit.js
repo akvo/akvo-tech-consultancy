@@ -6,15 +6,17 @@ import axios from 'axios'
 import { Spinner } from 'reactstrap'
 import '../App.css'
 import { PopupSuccess, PopupError, PopupToast } from '../util/Popup'
-import { API_URL, CAPTCHA_KEY , PARENT_URL, USING_PASSWORDS} from '../util/Environment'
+import { API_URL, CAPTCHA_KEY , PARENT_URL, USING_PASSWORDS, SAVE_FEATURES} from '../util/Environment'
 import JSZip from 'jszip'
 import Dexie from 'dexie';
 import Uppy from '@uppy/core';
 import AwsS3 from '@uppy/aws-s3';
 import dataURItoBlob from 'datauritoblob';
+import qs from 'qs';
 
 const survey_form = window.location.pathname.split('/');
 const passvar = survey_form.includes(USING_PASSWORDS) ? "_password" : "_default_password";
+const urlParams = qs.parse(document.location.search, {ignoreQueryPrefix: true});
 
 class Submit extends Component {
 
@@ -26,6 +28,9 @@ class Submit extends Component {
         this.handlePassword = this.handlePassword.bind(this)
         this.handleUser = this.handleUser.bind(this)
         this.state = {
+            _username: "",
+            _skipPassword: false,
+            _hasSaveButton: false,
             _showCaptcha : this.props.value.captcha,
             _showSpinner : false,
             _saveButton : true
@@ -38,7 +43,7 @@ class Submit extends Component {
     }
 
     handleUser (event) {
-        this.setState({'_submitDisabled':false});
+        this.setState({'_submitDisabled':false, '_username':event.target.value});
         localStorage.setItem("_username", event.target.value);
         if (event.target.value === "") {
             this.setState({'_submitDisabled':true});
@@ -66,7 +71,9 @@ class Submit extends Component {
         this.props.urlState(true);
         localStorage.setItem('_cache', newId);
         let url = PARENT_URL ? document.referrer : window.location.href;
-        this.props.updateDomain(url + '/' + newId);
+        let uParams = document.location.search;
+        url = url.replace(uParams,'');
+        this.props.updateDomain(url + '/' + newId + uParams);
     }
 
     saveData(content) {
@@ -211,6 +218,7 @@ class Submit extends Component {
                                                     if (cacheId) {
                                                         redirect_url = redirect_url.replace(cacheId, '')
                                                     }
+                                                    redirect_url = redirect_url + document.location.search;
                                                     window.location.replace(redirect_url);
                                                 }, 3000);
                                             }, 500);
@@ -262,8 +270,40 @@ class Submit extends Component {
         this.saveData(localStorage);
     }
 
+    componentDidMount() {
+        localStorage.setItem('_meta', false);
+        let instance = SAVE_FEATURES.find(x => x.instance === this.props.value.instanceName);
+        if (instance) {
+            instance = instance.api;
+        }
+        if (instance && urlParams.user_id) {
+            axios.get("https://" + instance + "/flow-submitter/" + urlParams.user_id)
+                .then(res => {
+                    this.setState({'_username': res.data.user, '_skipPassword':true})
+                    localStorage.setItem('_username',res.data.user);
+                    let meta = res.data;
+                    meta = {
+                        user: parseInt(urlParams.user_id),
+                        email: res.data.user,
+                        instanceName: this.props.value.instanceName,
+                        formId: parseInt(this.props.value.surveyId),
+                        formName: this.props.value.surveyName,
+                        formVersion: this.props.value.version,
+                        dataPointId: localStorage.getItem('_dataPointId'),
+                        dataPointName: this.props.value.datapoint,
+                        org: res.data.org,
+                        submitted: false
+                    }
+                    this.props.updateUser(res.data.user);
+                    localStorage.setItem('_meta',JSON.stringify(meta));
+                    localStorage.setItem(passvar, survey_form.includes(USING_PASSWORDS) ? "" : "webform");
+                })
+                .catch(err => console.log("INTERNAL SERVER ERROR"));
+            this.setState({_hasSaveButton: true});
+        }
+    }
+
     render() {
-        const hasSaveButton = survey_form.includes(USING_PASSWORDS) ? true : false;
         return (
             <Fragment>
                 <ReCAPTCHA
@@ -291,22 +331,24 @@ class Submit extends Component {
                             className="form-control"
                             type="text"
                             name="submit-username"
+                            value={this.state._username}
                             onChange={this.handleUser}
+                            disabled={this.state._skipPassword}
                         />
                         <label
-                            className="form-password-label"
+                            className={this.state._skipPassword ? "hidden" : "form-password-label"}
                             htmlFor={"submit-password"}>
                             Password:
                         </label>
                         <input
                             className="form-control"
-                            type="password"
+                            type={this.state._skipPassword ? "hidden" : "password"}
                             name="submit-password"
                             onChange={this.handlePassword}
                         />
                         <hr/>
                     </div>
-                    { hasSaveButton ? (
+                    { this.state._hasSaveButton ? (
                         <button
                             onClick={e => this.saveForm(e)}
                             className={"btn btn-block btn-primary"}
