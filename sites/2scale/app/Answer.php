@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Answer extends Model
 {
-    protected $fillable = ['question_id','datapoint_id','text','value','options'];
-	protected $hidden = ['created_at', 'updated_at'];
+    protected $fillable = ['question_id','datapoint_id','text','value','options', 'repeat_index'];
+    protected $hidden = ['created_at', 'updated_at'];
 
     public function forms()
     {

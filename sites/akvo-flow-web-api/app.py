@@ -18,6 +18,7 @@ import ast
 import logging
 from flask_httpauth import HTTPBasicAuth
 from sqlalchemy import text
+from sqlalchemy.dialects.postgresql import JSONB
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -55,9 +56,11 @@ migrate.init_app(app, db)
 class FormInstance(db.Model):
     id: str
     state: str
+    meta: dict
 
     id = db.Column(db.String, primary_key=True, server_default=text('gen_random_uuid()::varchar'))
     state = db.Column(db.String, nullable=False)
+    meta = db.Column(JSONB)
     created = db.Column(db.DateTime, nullable=False, server_default=text('now()'))
     updated = db.Column(db.DateTime, nullable=False, server_default=text('now()'))
 
@@ -482,22 +485,65 @@ def form_instance(form_instance_id):
         return jsonify(instance)
     if request.method == 'POST':
         params = request.get_json()
+        meta = None
         if params.get('_formId') is None or params.get('_dataPointId') is None:
             return jsonify({"message": "Bad request, _formId and _dataPointId parameters are required"}), 400
-        instance = FormInstance(state=request.get_data(as_text=True));
+        if params.get('_meta'):
+            meta = json.loads(params.get('_meta'))
+        instance = FormInstance(state=request.get_data(as_text=True), meta=meta);
         db.session.add(instance)
         db.session.commit()
         return jsonify(instance)
     if request.method == 'PUT':
         instance = FormInstance.query.get(form_instance_id)
+        params = request.get_json()
+        meta = None
         if instance is None:
             return jsonify({"message": "Instance {} not found".format(form_instance_id)}), 400
         instance.updated = datetime.now()
         instance.state = request.get_data(as_text=True);
+        if params.get('_meta'):
+            instance.meta = json.loads(params.get('_meta'))
         db.session.add(instance)
         db.session.commit()
         return jsonify(instance)
     return jsonify({"message": "Bad request"}), 400
+
+@app.route('/json/<resource>')
+def get_json_cascade(resource):
+    json_path = './static/json/{}.json'.format(resource)
+    if os.path.exists(json_path):
+        with open(json_path) as f:
+            data = json.load(f)
+            return jsonify(data)
+    return jsonify({"message": "Bad request"}), 400
+
+@app.route('/saved-forms')
+def get_saved_forms():
+    args = request.args
+    if not args:
+        return jsonify([])
+
+    filters = []
+    for key, value in request.args.items():
+        values = value.split(',')
+        if len(values) == 1:
+            filters.append(FormInstance.meta[key].astext == value)
+        if len(values) > 1:
+            filters.append(FormInstance.meta[key].astext.in_(values))
+
+    result = [
+        {
+            'id': f.id,
+            'meta': f.meta,
+            'created': f.created.isoformat(),
+            'updated': f.updated.isoformat()
+        }
+        for f in FormInstance.query.filter(*filters).all()
+    ]
+
+    return jsonify(result)
+
 
 if __name__ == '__main__':
     app.jinja_env.auto_reload = True

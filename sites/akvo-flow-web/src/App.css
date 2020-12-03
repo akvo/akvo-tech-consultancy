@@ -151,6 +151,24 @@ button.btn-repeatable{
     color:#ffffff;
 } 
 
+.toast-header strong.mr-auto {
+    position: relative;
+    max-width: 100%;
+    width: 100%;
+}
+
+
+.info-survey-name {
+    display: inline-block;
+}
+
+.badge.badge-user {
+    position: absolute;
+    padding: 5px;
+    text-transform: uppercase;
+    right: -8px;
+}
+
 .badge-green{
     background-color:#4b2!important;
     color: #ffffff!important;
@@ -216,7 +234,7 @@ button.btn-repeatable{
         width: 100%;
     }
     .wrapper.toggled .sidebar-wrapper {
-        margin-left: -404px;
+        margin-left: -336px;
     }
 }
 
@@ -380,6 +398,7 @@ img.responsive-image {
 
 .more-info {
     margin-top: 5px;
+    margin-left: 25px;
     padding: 0px 2px 1px 2px;
     font-size: 70%;
     border: 1px solid rgba(108,117,125, 0.2);
@@ -391,6 +410,7 @@ img.responsive-image {
 }
 
 .more-info-content {
+    margin-left: 25px;
     padding: 10px;
     background: rgba(108,117,125, 0.2);
     color: #6c757d;
@@ -398,6 +418,40 @@ img.responsive-image {
     border-top-right-radius: .2rem;
     border-bottom-left-radius: .2rem;
     border-bottom-right-radius: .2rem;
+}
+
+.trans-lang,
+.trans-lang-opt {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    color: #6c757d;
+    font-style: italic;
+    background: #e8e8e8;
+    display: block;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: small;
+}
+
+.trans-lang-opt {
+    display: block;
+    padding: 0 5px;
+    margin-left: 5px;
+}
+
+.trans-lang-ttp {
+    display: block;
+    border-top: 1px dashed #83888c;
+    padding-top: 10px;
+    margin-top: 10px;
+    font-style: italic;
+}
+
+span.badge.badge-circle {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
 }
 
 button:focus {
@@ -422,6 +476,20 @@ button:focus {
     border-bottom: #dfdfdf 1px solid;
 }
 
+.question-number{
+    vertical-align:top;
+    display: inline-block;
+    width: 25px;
+}
+
+.question-text {
+    display: inline-block;
+    width: calc(100% - 30px);
+}
+
 @keyframes blink { 50% { background:#f8f9fa ; }  }
 
-/* Overview */
+.form-check-input:disabled~.form-check-label,
+.form-check-input[disabled]~.form-check-label {
+    color: #212529!important;
+}

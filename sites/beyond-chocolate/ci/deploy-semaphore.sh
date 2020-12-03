@@ -10,7 +10,7 @@ sudo chown "${USER}:" . -R
 
 echo "Deploying site..."
 
-if [[ "${TRAVIS_BRANCH}" != "master" && "${TRAVIS_BRANCH}" != "develop" && "${TRAVIS_BRANCH}" != "sites/2scale" ]]; then
+if [[ "${TRAVIS_BRANCH}" != "master" && "${TRAVIS_BRANCH}" != "develop" && "${TRAVIS_BRANCH}" != "sites/beyond-chocolate" ]]; then
     exit 0
 fi
 
@@ -18,10 +18,10 @@ if [[ "${TRAVIS_PULL_REQUEST}" != "false" ]]; then
     exit 0
 fi
 
-FOLDER="2scale-test"
+FOLDER="gisco-demo"
 
 if [[ "${TRAVIS_BRANCH}" == "master" ]]; then
-	FOLDER="2scale"
+	FOLDER="gisco-demo"
 	echo "Deploying Production"
 else
 	echo "Deploying Test"
@@ -64,12 +64,14 @@ ssh -i "${SITES_SSH_KEY}" -o BatchMode=yes \
     -p 18765 \
     -o UserKnownHostsFile=/dev/null \
     -o StrictHostKeyChecking=no \
-    u7-nnfq7m4dqfyx@35.214.170.100 "cd www/tc.akvo.org/public_html/${FOLDER}/ && /usr/local/bin/php72 artisan cache:clear"
+    u7-nnfq7m4dqfyx@35.214.170.100 "cd www/tc.akvo.org/public_html/${FOLDER}/ && /usr/local/bin/php73 artisan cache:clear"
+
+echo "Migrating database..."
 
 ssh -i "${SITES_SSH_KEY}" -o BatchMode=yes \
     -p 18765 \
     -o UserKnownHostsFile=/dev/null \
     -o StrictHostKeyChecking=no \
-    u7-nnfq7m4dqfyx@35.214.170.100 "cd www/tc.akvo.org/public_html/${FOLDER}/ && /usr/local/bin/composer dump-autoload"
+    u7-nnfq7m4dqfyx@35.214.170.100 "cd www/tc.akvo.org/public_html/${FOLDER}/ && /usr/local/bin/php73 artisan migrate:fresh --seed --force --no-interaction"
 
 echo "Done"

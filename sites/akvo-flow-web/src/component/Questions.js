@@ -7,6 +7,7 @@ import GroupPanels from "./GroupPanels.js";
 import ToolTip, { Mandatory } from "../util/Badges";
 import { Card, CardBody, CardTitle } from "reactstrap";
 import { validateMinMax, validateDoubleEntry } from '../util/Utilities.js'
+import isoLangs from '../util/Languages.js'
 import "../App.css";
 
 class Questions extends Component {
@@ -81,7 +82,14 @@ class Questions extends Component {
                 return active;
             });
             localization = localization.filter(x => x !== "");
-            localization = localization.length === 0 ? question.lang.en : localization.join(" / ");
+            localization = localization.map((x,i) => {
+                let activeLang = i !== 0
+                    ? ("<b>" + isoLangs[this.props.value.lang.active[i]].nativeName + ": </b>")
+                    : "";
+                let extraClass = i !== 0 ? "class='trans-lang'" : "";
+                return "<span " + extraClass + ">" + activeLang + x + "</span>";
+            });
+            localization = localization.length === 0 ? question.lang.en : localization.join("");
             let qid = question.id.toString();
             let qi = question.iteration.toString();
             return (
@@ -91,8 +99,9 @@ class Questions extends Component {
                     {question.mandatory ? this.renderMandatoryIcon(qid, question) : ""}
                     <CardBody key={"card-body-" + qid} id={"card-body-" + qid}>
                         <CardTitle key={"card-title-" + qid}>
-                            <span dangerouslySetInnerHTML={{__html: question.order.toString() + ". " + localization}} />
-                            {question.help !== undefined ? <ToolTip question={question}/> : ""}
+                            <div className="question-number">{question.order.toString()}.</div>
+                            <div className="question-text" dangerouslySetInnerHTML={{__html:  localization}} />
+                            {question.help !== undefined ? <ToolTip tooltips={question.tooltips}/> : ""}
                             {question.type === "photo" ? this.renderCachedImage(qid) : ""}
                         </CardTitle>
                         {this.renderQuestion(qid, question)}

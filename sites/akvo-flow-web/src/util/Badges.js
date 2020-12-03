@@ -1,10 +1,13 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { mapStateToProps } from "../reducers/actions.js";
 import {
     FaExclamationTriangle,
     FaCheckCircle,
     FaInfoCircle,
     FaTimesCircle,
 } from "react-icons/fa";
+import isoLangs from './Languages.js'
 
 export const Mandatory = answered => {
     if (answered) {
@@ -37,40 +40,39 @@ class ToolTip extends Component {
     }
 
     render() {
-        let hasUnit = false;
-        let notEmpty = true;
-        let question = this.props.question.help.text;
-        notEmpty = question !== null
-        hasUnit = !notEmpty
-            ? false
-            : (question.includes("##UNIT##")
-                ? (question.split("##UNIT##").length === 1
-                    ? true
-                    : false
-                )
-                : false);
-        if (notEmpty && !hasUnit) {
-            question = question.includes("##UNIT##") ? question.split("##UNIT##")[0] : question;
-            if (question === "") {
-                return "";
-            }
-            return (
-                <div>
-                    <button
-                        className={ "more-info " + (this.state.show ? "more-info-active" : "")}
-                        onClick={e => this.showToolTip(e)}
-                    >
-                        {this.state.show ? <FaTimesCircle/> : <FaInfoCircle/>} more info
-                    </button>
-                    <div
-                        dangerouslySetInnerHTML={{__html: question}}
-                        className={this.state.show ? "more-info-content" : "hidden"}
-                    />
-                </div>
-            )
+        if (!this.props.tooltips) {
+            return "";
         }
-        return "";
+        let localization = this.props.value.lang.active;
+        let tooltips = this.props.tooltips;
+        localization = localization.map((x) => {
+            let active = tooltips[x] === undefined ? "" : tooltips[x];
+            return active;
+        });
+        localization = localization.filter(x => x !== "");
+        localization = localization.map((x,i) => {
+            let activeLang = i !== 0
+                ? ("<b>" + isoLangs[this.props.value.lang.active[i]].nativeName + ": </b>")
+                : "";
+            let extraClass = i !== 0 ? "class='trans-lang-ttp'" : "";
+            return "<span " + extraClass + ">" + activeLang + x + "</span>";
+        });
+        localization = localization.length === 0 ? tooltips.en : localization.join("");
+        return (
+            <div>
+                <button
+                    className={ "more-info " + (this.state.show ? "more-info-active" : "")}
+                    onClick={e => this.showToolTip(e)}
+                >
+                    {this.state.show ? <FaTimesCircle/> : <FaInfoCircle/>} more info
+                </button>
+                <div
+                    dangerouslySetInnerHTML={{__html: localization}}
+                    className={this.state.show ? "more-info-content" : "hidden"}
+                />
+            </div>
+        )
     }
 }
 
-export default ToolTip;
+export default connect(mapStateToProps)(ToolTip);

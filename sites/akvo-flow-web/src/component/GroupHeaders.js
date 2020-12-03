@@ -51,7 +51,8 @@ class GroupHeaders extends Component {
                     { group.repeatable ? this.getRepeatButton(group) : "" }
                 </div>
             </nav>
-        ));
+            )
+        );
     };
 
     getLoading = () => {

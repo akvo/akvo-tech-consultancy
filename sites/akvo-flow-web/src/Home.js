@@ -184,6 +184,7 @@ class Home extends Component {
             if (localStorage.getItem("_formId")) {
                 if (localStorage.getItem("_formId") !== this.surveyId){
                     localStorage.clear();
+                    sessionStorage.clear();
                 }
             }
             if (this.cacheId) {

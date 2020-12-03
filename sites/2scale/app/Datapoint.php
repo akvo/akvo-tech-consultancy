@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Datapoint extends Model
 {
     protected $hidden = ['created_at','updated_at'];
-    protected $fillable = ['form_id','survey_group_id','form_id','partnership_id','country_id','submission_date'];
+    protected $fillable = ['form_id','survey_group_id','form_id','partnership_id','country_id','submission_date','datapoint_id'];
 
 	public function answers() 
 	{

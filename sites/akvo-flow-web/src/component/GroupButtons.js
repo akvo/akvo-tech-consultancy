@@ -20,8 +20,10 @@ class GroupButtons extends Component {
     }
 
     getQuestionList(groups) {
-        return groups.list.map((group, i) => (
-            <div className={"list-group list-group-flush"} key={"group-" + group.index}>
+        return groups.list.map((group, i) => {
+            let show = this.props.value.groups.list[i].attributes.questions !== 0 ? "" : "hidden";
+            return (
+            <div className={"list-group list-group-flush " + show} key={"group-" + group.index}>
                 <div
                     onClick={e => {
                         this.showQuestion(group.index);
@@ -36,7 +38,8 @@ class GroupButtons extends Component {
                     <span className={"badge badge-group badge-right " + this.props.value.groups.list[i].attributes.badge}>{this.props.value.groups.list[i].attributes.questions}</span>
                 </div>
             </div>
-        ));
+        );
+        });
     }
 
     getLoading = () => <Loading styles={"sidebar-loading"} />;

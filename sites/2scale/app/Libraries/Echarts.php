@@ -82,12 +82,13 @@ class Echarts
           ),
         );
     }
-    public function generateSimpleBarCharts($categories, $values) 
+    
+    public function generateSimpleBarCharts($categories, $values, $showLabel=false, $yAxisLabel=false) 
 	{
         $categories = collect($categories)->map(function($l) {
             return $this->titler($l);
         });
-		return [
+		$option = [
             'dataZoom' => array(
                 'type' => 'inside',
                 'yAxisIndex' => [0]
@@ -100,14 +101,18 @@ class Echarts
 				"left" => "50%",
 				"top" => "0px",
 				"bottom" => "0px",
-			),
+            ),
+            "label" => [
+                "show" => $showLabel,
+                "position" => "inside"
+            ],
 			"yAxis" => [
 				"type" => "category",
 				"data" => $categories,
 				"axisTick" => [
 					"alignWithLabel" => True,
 					"inside" => True
-				]
+                ],
 			],
 			"xAxis" => [
 				"type" => "value",
@@ -117,7 +122,13 @@ class Echarts
 				"data" => $values,
 				"type" => "bar"
 			]]
-		];
+        ];
+        if($yAxisLabel) {
+            $option["yAxis"]["axisLabel"] = [
+                "fontSize" => 16,
+            ];
+        }
+        return $option;
     }
 
     public function generateBarCharts($legend, $categories, $type, $series)
@@ -273,5 +284,57 @@ class Echarts
     }
     private function titler($name) {
         return ucwords(str_replace('_',' ', strtolower($name)));
+    }
+
+    public function generateBarLineCharts() 
+	{
+		return [
+			'tooltip' => array (
+				'trigger' => 'axis',
+				'axisPointer' => array ('type' => 'shadow'),
+			),
+            "legend" => array (
+                "data" => ["Target", "Actual"]
+            ),
+			"yAxis" => [
+                array(
+                    "type" => "value",
+                    "min" => 0,
+                    "max" => 250,
+                    "interval" => 50,
+                    "axisLabel" => [
+                        "formatter" => "USD {value}"
+                    ]
+                ),
+                array(
+                    "type" => "value",
+                    "min" => 0,
+                    "max" => 250,
+                    "interval" => 50,
+                    "axisLabel" => [
+                        "formatter" => "USD {value}"
+                    ],
+                    "show" => false,
+                )
+			],
+			"xAxis" => [
+                "type" => "category",
+                "data" => ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+                "axisPointer" => ["type" => "shadow"]
+			],
+			"series" => [
+                [
+                    "name" => "Target",
+                    "type" => 'line',
+                    "yAxisIndex" => 1,
+                    "data" => [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3]
+                ],
+                [
+                    "name" => 'Actual',
+                    "type" => 'bar',
+                    "data" => [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 155.6, 152.2, 48.7, 18.8, 6.0, 2.3]
+                ],
+            ]
+		];
     }
 }

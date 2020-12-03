@@ -93,7 +93,6 @@ export const PopupImage = (filename, unique, imageUrl) => {
     const img = document.getElementById(unique);
     EXIF.getData(img, function() {
         const ex = EXIF.getAllTags(this);
-        console.log(ex);
         let html = "<div class='text-center'><strong class='text-center'>"+ filename +"</strong></div><hr>";
         html = "<div class='exif-detail'>";
         let hasExif = Object.keys(ex).length !== 0 && ex.constructor === Object;

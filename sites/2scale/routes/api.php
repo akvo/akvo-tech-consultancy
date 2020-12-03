@@ -41,6 +41,7 @@ Route::get('/sync-question-options', 'Api\SyncController@syncQuestionOptions');
 Route::get('/sync-partnerships', 'Api\SyncController@syncPartnerships');
 Route::get('/sync-datapoints', 'Api\SyncController@syncDataPoints');
 Route::get('/count-sync-data', 'Api\SyncController@countSyncData');
+Route::get('/sync-data', 'Api\SyncController@SyncData');
 
 /*
 |
@@ -84,5 +85,7 @@ Route::get('/partnership/{parent_id}','Api\ConfigController@getPartnership');
 Route::post('/send_email', 'Api\SupportController@send');
 
 // RSR
-// Route::get('/rsr-report/{partnership_id}', 'Api\AkvoRsrController@generateReport');
-// Route::post('/rsr-image', 'Api\AkvoRsrController@b64toImage');
+Route::post('/rsr-report', 'Api\RsrReportController@generateReport');
+Route::get('/seed-rsr', 'Api\RsrSeedController@seedRsr');
+Route::get('/seed-rsr-projects', 'Api\RsrSeedController@seedRsrProjects');
+Route::get('/seed-rsr-results', 'Api\RsrSeedController@seedRsrResults');
