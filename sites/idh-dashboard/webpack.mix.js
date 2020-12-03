@@ -15,5 +15,6 @@ mix.react('resources/js/app.js', 'public/js')
     .styles(['resources/sass/custom.css','resources/sass/gotham-font.css'], 'public/css/all.css')
     .sass('resources/sass/app.scss', 'public/css');
 
-mix.copyDirectory('resources/images','public/images')
-mix.copyDirectory('resources/fonts','public/fonts')
+mix.copyDirectory('resources/images','public/images');
+mix.copyDirectory('resources/fonts','public/fonts');
+mix.copyDirectory('resources/files','public/files');

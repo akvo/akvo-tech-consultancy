@@ -160,6 +160,9 @@ class Navigation extends Component {
                                 <NavLink className="nav-link" activeClassName="active" to="/compare">
                                     Compare
                                 </NavLink>
+                                <NavLink className="nav-link" activeClassName="active" to="/documentation">
+                                    Documentation
+                                </NavLink>
                             </>
                         ) : (
                             ""
