@@ -29,6 +29,8 @@ class SyncController extends Controller
         $this->formChanged = collect();
         $this->dpsChanged = collect();
         $this->dpsDeleted = 0;
+        $this->oldData = collect();
+        $this->bugs = collect();
     }
 
     public function syncPartnerships(FlowApi $flow, Partnership $partnerships, $sync = false, $cascadeResource = null)
@@ -430,7 +432,9 @@ class SyncController extends Controller
                     );
                 }
                 // if (($dt === null || $sync) && $country_id !== null && $partnership_id !== null) {
-                if ($dt === null || $sync) {
+                // if ($dt === null || $sync) {
+                // new data
+                if ($dt === null) {
                     $this->collections->push(
                         array(
                             'datapoint_id' => $datapoint_id,
@@ -443,8 +447,28 @@ class SyncController extends Controller
                         )
                     );
                 }
+                // old data to update
+                if ($dt !== null && $sync) {
+                    $this->oldData->push(
+                        array(
+                            'datapoint_id' => $datapoint_id,
+                            'form_id' => $form['form_id'],
+                            'partnership_id' => $partnership_id['id'],
+                            'country_id' => $country_id['id'],
+                            'survey_group_id' => $form['survey_group_id'],
+                            'submission_date' => date('Y-m-d', strtotime($submission_date)),
+                            'answers' => $group,
+                        )
+                    );
+                }        
             }
         });
+
+        // check bugs if there duplicate datapoint id
+        $this->bugs = $this->collections->countBy('datapoint_id')->reject(function ($x) {
+            return $x === 1;
+        })->keys();
+
         return;
     }
 
@@ -691,8 +715,8 @@ class SyncController extends Controller
                     $this->groupDataPoint($results, $form, $partnerships, $sync = true);
                 }
             });
-            // update or create
-            $dpsChanged = $this->collections->map(function ($data_point) use ($datapoints, $answers) {
+            // update or create (old data)
+            $dpsChanged = $this->oldData->map(function ($data_point) use ($datapoints, $answers) {
                 $data_points = collect($data_point)->except('answers')->toArray();
                 $dp = $datapoints->updateOrCreate(
                     ['datapoint_id' => $data_points['datapoint_id']], 
@@ -716,8 +740,18 @@ class SyncController extends Controller
                 });
                 return ["answers" => $answer,"datapoints" => $dp];
             });
+            // new datapoint coming
+            $dpsNew = $this->collections->map(function($data_point) use ($datapoints) {
+                $data = collect($data_point["answers"])->map(function($answer) {
+                    return new Answer($answer);
+                });
+                $data_points = collect($data_point)->except('answers')->toArray();
+                $id = $datapoints->insertGetId($data_points);
+                $answers = $datapoints->find($id)->answers()->saveMany($data);
+                return ["answers" => $answers,"datapoints" => $datapoints];
+            });
 
-            $this->dpsChanged->push($dpsChanged);
+            $this->dpsChanged->push(["new" => $dpsNew, "change" => $dpsChanged]);
         }
 
         // $dpsDeleted = 0;
