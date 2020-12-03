@@ -13,13 +13,18 @@ const ForgotPasswordForm = ({ setSuccess }) => {
         setServerErrors,
         reset
     } = useForm();
+    const [error, setError] = useState({status: false, message: ""});
 
     const onSubmit = async data => {
         try {
             const res = await authApi.forgotPassword(data);
             reset();
             setSuccess(res.data.message);
+            setError({status: false, message: ""});
         } catch (e) {
+            if (e.status === 401) {
+                setError({status: true, message: e.data.message});
+            }
             if (e.status === 422) {
                 setServerErrors(e.errors);
             } else {
@@ -33,6 +38,7 @@ const ForgotPasswordForm = ({ setSuccess }) => {
             <Form.Group controlId="formBasicEmail">
                 <Form.Label>Email address</Form.Label>
                 <Form.Control
+                    onChange={e => setError({status: false, message: ""})}
                     type="email"
                     name="email"
                     placeholder="Enter email"
@@ -44,6 +50,13 @@ const ForgotPasswordForm = ({ setSuccess }) => {
                 <Form.Control.Feedback type="invalid">
                     {!!errors.email && errors.email.message}
                 </Form.Control.Feedback>
+                {
+                    error.status && (
+                        <Form.Text className="text-danger">
+                            { error.message }
+                        </Form.Text>
+                    )
+                }
                 <Form.Text className="text-muted">
                     We'll never share your email with anyone else.
                 </Form.Text>

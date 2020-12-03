@@ -52,7 +52,7 @@ class AuthController extends Controller
             ]);
         }
 
-        return response(["message" => "User not found"], 401);
+        return response(["message" => "User with this email not found"], 401);
     }
 
     public function update(Request $request)
