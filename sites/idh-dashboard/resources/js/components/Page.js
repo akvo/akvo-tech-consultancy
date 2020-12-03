@@ -20,6 +20,7 @@ import ForgotPassword from "../pages/ForgotPassword";
 import Verify from "../pages/Verify";
 import NotFound from "../pages/NotFound";
 import { getApi, auth } from "../data/api";
+import Documentation from "../pages/Documentation";
 import PrivateRoute from "./PrivateRoute.js";
 
 class Page extends Component {
@@ -34,9 +35,13 @@ class Page extends Component {
         let cachetime = localStorage.getItem("cache-time");
         let cache_version = document.getElementsByName("cache-version")[0].getAttribute("value");
         let current_version = localStorage.getItem("cache-version");
-        cachetime = cachetime !== null ? new Date(parseInt(cachetime) + 60 * 60 * 1000) : new Date(0);
+        cachetime = cachetime !== null ? new Date(parseInt(cachetime) + 60 * 60 * 1000) : new Date(0); // 1 hour
+        // cachetime = cachetime !== null ? new Date(parseInt(cachetime) + 1 * 10 * 1000) : new Date(0); // 10 second
         if (now > cachetime || cache_version !== current_version) {
-            localStorage.clear();
+            // localStorage.clear(); // don't clear all, because there was a token
+            localStorage.removeItem("caches");
+            localStorage.removeItem("cache-time");
+            localStorage.removeItem("cache-version");
             const calls = [getApi("filters")];
             Promise.all(calls).then((res) => {
                 caches = JSON.stringify(res[0]);
@@ -63,8 +68,8 @@ class Page extends Component {
                     this.props.user.login(res);
                 })
                 .catch((err) => {
-                    localStorage.removeItem("access_token");
                     this.props.user.logout();
+                    localStorage.removeItem("access_token");
                 })
                 .finally(this.initPage());
         } else {
@@ -87,6 +92,7 @@ class Page extends Component {
                     <PrivateRoute exact path='/home' component={Home} isLogin={login} />
                     <PrivateRoute exact path='/country/:country/:companyId/:tab' component={Country} isLogin={login} />
                     <PrivateRoute exact path='/compare' component={Compare} isLogin={login} />
+                    <PrivateRoute exact path='/documentation' component={Documentation} isLogin={login} />
                     <PrivateRoute exact path='/setting' component={Setting} isLogin={login} />
                     <PrivateRoute exact path='/manage-user' component={Manage} isLogin={login} />
                     <PrivateRoute exact path='/logs' component={Logs} isLogin={login} /> */}
@@ -96,6 +102,7 @@ class Page extends Component {
                     <Route exact path='/home' component={Home} />
                     <Route exact path='/country/:country/:companyId/:tab' component={Country} />
                     <Route exact path='/compare' component={Compare} />
+                    <Route exact path='/documentation' component={Documentation} />
                     <Route exact path='/setting' component={Setting} />
                     <Route exact path='/manage-user' component={Manage} />
                     <Route exact path='/logs' component={Logs} />
