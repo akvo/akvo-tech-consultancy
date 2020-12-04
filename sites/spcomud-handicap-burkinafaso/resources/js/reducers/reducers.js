@@ -45,10 +45,9 @@ export const states = (state = initialState, action) => {
         case 'FILTER - INIT':
             return {
                 ...state,
-                base: action.base,
+                base: { ...state.base, surveys: action.base},
                 filters: {
                     overviews: initFilter(action.base, state.filters.overviews,'overviews'),
-                    activities: initFilter(action.base, state.filters.activities, 'activities'),
                 },
             }
         case 'FILTER - CHANGE':

@@ -1,58 +1,17 @@
 export const filterState = {
     overviews:{
         filters: {
-            id:0,
-            name:'Domains',
-            kind:'options',
-            base:'domain',
-            dropdown: 'Domains',
+            survey_id: 0,
+            survey_name: "Loading",
+            form_id: 0,
+            form_name: "Loading",
         },
         maps: {
             value: 'total',
             formula: 'sum',
         },
         data: [{
-            id: 0,
-            form_instance_id: 0,
-            org_type: 0,
-            org_name: 0,
-            activity: 0,
-            region: 0,
-            district: 0,
-            domain: 0,
-            sub_domain: 0,
-            completion_date: "2020-07-31",
-            quantity: 1,
-            total: 0,
-            new: 0
-        }],
-    },
-    activities:{
-        filters: {
-            id:0,
-            name:'Organisations',
-            kind:'cascades',
-            base:'org_name',
-            dropdown: 'Organisations',
-        },
-        maps: {
-            value: 'org_name',
-            formula: 'count',
-        },
-        data: [{
-            id: 0,
-            form_instance_id: 0,
-            org_type: 0,
-            org_name: 0,
-            activity: 0,
-            region: 0,
-            district: 0,
-            domain: 0,
-            sub_domain: 0,
-            completion_date: "2020-07-31",
-            quantity: 1,
-            total: 0,
-            new: 0
+            // Maps Data
         }],
     },
 }
@@ -72,8 +31,10 @@ export const changeFilter = (base, state, page, filter) => {
     let new_state = {
         filters:{
             ...origin.filters,
-            id: filter.id,
-            name: filter.text,
+            survey_id: filter.survey_id,
+            survey_name: filter.survey_name,
+            form_id: filter.form_id,
+            form_name: filter.form_name,
         },
         data: new_data
     };

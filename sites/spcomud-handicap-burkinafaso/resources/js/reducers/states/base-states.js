@@ -1,4 +1,10 @@
 export const baseState = {
+    surveys: [{
+        id: 0,
+        name: "Loading",
+        registration_id: null,
+        forms: [],
+    }],
     data: [{
         id: 1,
         form_instance_id: 1,

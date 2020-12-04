@@ -50,6 +50,18 @@ class ApiController extends Controller
         ];
     }
 
+    public function getMapsData(Request $requests)
+    {
+        if (!isset($requests->form_id)) {
+            return response("Not Found", 404);
+        }
+
+        $fids = \App\FormInstance::where('form_id', $requests->form_id)->get()->pluck('id');
+        $answers = \App\Answer::whereIn('form_instance_id', $fids)->get()
+                    ->groupBy('form_instance_id')->values();
+        return $answers;
+    }
+
     private function generateMapConfig($data, $questions)
     {
         $results = collect($data)->map(function ($x) use ($questions) {

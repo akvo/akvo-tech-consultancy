@@ -2,7 +2,6 @@ import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { mapStateToProps, mapDispatchToProps } from "../reducers/actions";
 import { Row, Col, Card, ListGroup, Container, Jumbotron } from "react-bootstrap";
-// require("../data/uganda.js");
 require("../data/burkina-faso.js");
 import Charts from "../components/Charts";
 import {
@@ -56,9 +55,10 @@ class PageOverviews extends Component {
         super(props);
         this.getCharts = this.getCharts.bind(this);
         this.getOptions = this.getOptions.bind(this);
-        this.getRowTable = this.getRowTable.bind(this);
+        // this.getRowTable = this.getRowTable.bind(this);
         this.getOverview = this.getOverview.bind(this);
         this.TableView = this.TableView.bind(this);
+        this.getMaps = this.getMaps.bind(this);
         this.state = {
             charts: [
                 {
@@ -67,7 +67,6 @@ class PageOverviews extends Component {
                 }
             ]
         }
-        this.getMaps = this.getMaps.bind(this);
     }
 
 
@@ -107,16 +106,16 @@ class PageOverviews extends Component {
 
     getMaps() {
         let collections = [];
-        let data = this.getRowTable();
-        let districts = groupBy(data,'district');
-        for (const district in districts) {
-            let collection = {
-                name: district,
-                value: districts[district].length,
-                details: districts[district]
-            }
-            collections = [...collections, collection];
-        }
+        // let data = this.getRowTable();
+        // let districts = groupBy(data,'district');
+        // for (const district in districts) {
+        //     let collection = {
+        //         name: district,
+        //         value: districts[district].length,
+        //         details: districts[district]
+        //     }
+        //     collections = [...collections, collection];
+        // }
         let mapConfig = {
             data:collections,
             override: MapsOverride(this.TableView)
@@ -124,33 +123,35 @@ class PageOverviews extends Component {
         return mapConfig;
     }
 
-    getRowTable() {
-        let base = this.props.value.base;
-        let config = base.config;
-        let page = this.props.value.page.name;
-        let data = this.props.value.filters[page].data;
-        data = data.map((x, i) => {
-            let results = {no: (i+1), ...x};
-            for (const v in x) {
-                let column = config.find(n => n.name === v);
-                if (column !== undefined && column.on) {
-                    let value = base[column.on].find(a => a.id === x[v]);
-                    if (typeof(value) !== 'undefined') {
-                        results = {
-                            ...results,
-                            [v]: value.text
-                        }
-                    }
-                }
-            }
-            return results;
-        });
-        return data;
-    }
+    // getRowTable() {
+    //     let base = this.props.value.base;
+    //     let config = base.config;
+    //     let page = this.props.value.page.name;
+    //     let data = this.props.value.filters[page].data;
+    //     data = data.map((x, i) => {
+    //         let results = {no: (i+1), ...x};
+    //         for (const v in x) {
+    //             let column = config.find(n => n.name === v);
+    //             if (column !== undefined && column.on) {
+    //                 let value = base[column.on].find(a => a.id === x[v]);
+    //                 if (typeof(value) !== 'undefined') {
+    //                     results = {
+    //                         ...results,
+    //                         [v]: value.text
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //         return results;
+    //     });
+    //     return data;
+    // }
 
     getOptions(list) {
-        let title = "WASH Partners Presence for COVID-19 Response";
-        return Maps(title, "Total Organisations", this.getMaps());
+        let filters = this.props.value.filters.overviews.filters;
+        let title = (filters.form_id === 0 ) ? "Burkina Faso" : filters.form_name;
+        let subtitle = (filters.form_id === 0 ) ? "" : filters.survey_name;
+        return Maps(title, subtitle, this.getMaps());
     }
 
     getCharts(list, index) {
@@ -161,7 +162,7 @@ class PageOverviews extends Component {
                 data={list.data}
                 page={this.props.value.page.name}
                 options={this.getOptions(list)}
-                table={this.getOverview()}
+                // table={this.getOverview()}
             />
         )
     }

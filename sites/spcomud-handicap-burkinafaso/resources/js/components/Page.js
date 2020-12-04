@@ -27,27 +27,9 @@ class Page extends Component {
         this.props.page.loading(true);
         const now = new Date();
         this.props.page.loading(true);
-        // const getCovidData = () => {
-        //     return new Promise((resolve, reject) => {
-        //     axios.get(prefixPage + 'covid/district').then(res => {
-        //         let values = res.data;
-        //         let results = centeroid.map(x => {
-        //             let data = values.find(v => v.name === x.name);
-        //             let vals = data ? data.confirmed : 0;
-        //             return {
-        //                 name: x.name,
-        //                 value:[...x.value, vals],
-        //                 data: data
-        //             }
-        //         });
-        //         this.props.chart.covid.init(results);
-        //         localStorage.setItem('covid-district', JSON.stringify(results));
-        //         resolve('covid-data');
-        //     });
-        // })};
-        const getData = () => {
+        const getSurveys = () => {
             return new Promise((resolve, reject) => {
-            axios.get(prefixPage + 'data').then(res => {
+            axios.get(prefixPage + 'surveys').then(res => {
                 this.props.filter.init(res.data);
                 this.props.page.loading(false);
                 resolve('finish');
@@ -59,8 +41,7 @@ class Page extends Component {
         cachetime = cachetime !== null ? new Date(parseInt(cachetime) + (5 * 60 * 1000)) : new Date(0);
         if (now > cachetime || cache_version !== current_version) {
             localStorage.clear();
-            // Promise.all([getData(), getCovidData()]).then(res => {
-            Promise.all([getData()]).then(res => {
+            Promise.all([getSurveys()]).then(res => {
                 localStorage.setItem('cache', JSON.stringify(this.props.value));
                 localStorage.setItem('cache-time', now.getTime());
                 localStorage.setItem('cache-version', cache_version);
@@ -72,8 +53,6 @@ class Page extends Component {
             this.props.cache.restore(cached);
             setTimeout(() => {
                 this.props.chart.state.loading(false);
-                // let covid = localStorage.getItem('covid-district');
-                // this.props.chart.covid.init(JSON.parse(covid));
             }, 2000);
         }
     }
@@ -92,6 +71,7 @@ class Page extends Component {
 
     render() {
         let loading = this.props.value.page.loading;
+
         return (
             <Fragment>
             <Navigation/>
