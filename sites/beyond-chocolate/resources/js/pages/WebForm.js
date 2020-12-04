@@ -19,11 +19,14 @@ import { wfc } from "../static/webform-content";
 import { uiText } from "../static/ui-text";
 
 const ReloadableSelectMenu = props => {
+    const { locale } = useLocale();
+    let text = uiText[locale.active];
+    
     return (
         <components.Menu {...props}>
             <div>
                 {props.selectProps.fetchingData ? (
-                    <div className="fetching p-2">Fetching data...</div>
+                    <div className="fetching p-2">{text.valFetchingData}...</div>
                 ) : (
                     <>
                         <div>{props.children}</div>
@@ -32,7 +35,7 @@ const ReloadableSelectMenu = props => {
                             className="reload-data"
                             onClick={props.selectProps.reload}
                         >
-                            Refresh
+                            { text.btnRefresh }
                         </Button>
                     </>
                 )}
@@ -205,12 +208,12 @@ const NewFormSelector = ({ text, user, onSelect, watchValue }) => {
     );
 };
 
-const NewProjectSurveyInfoModal = ({ show, onHide, content }) => {
+const NewProjectSurveyInfoModal = ({ text, show, onHide, content }) => {
     return (
         <Modal size="md" scrollable={true} show={show} onHide={onHide}>
             <Modal.Header closeButton>
                 <Modal.Title>
-                    New projects questionnaire information
+                    { text.modalNewProject }
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
@@ -220,7 +223,7 @@ const NewProjectSurveyInfoModal = ({ show, onHide, content }) => {
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={onHide}>
-                    OK
+                    { text.btnOk }
                 </Button>
             </Modal.Footer>
         </Modal>
@@ -307,6 +310,7 @@ const WebForm = () => {
                         data={dsc}
                     />
                     <NewProjectSurveyInfoModal
+                        text={text}
                         show={showProjectInfo}
                         onHide={onClosedProjectInfo}
                         content={content.newProjectPopupText}

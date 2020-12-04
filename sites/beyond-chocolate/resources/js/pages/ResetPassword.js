@@ -5,8 +5,10 @@ import * as qs from "query-string";
 import useForm from "../lib/use-form";
 import authApi from "../services/auth";
 import WelcomeBanner from "../components/WelcomeBanner";
+import { uiText } from "../static/ui-text";
+import { useLocale } from "../lib/locale-context";
 
-const ResetPasswordForm = ({ email, token, setSuccess }) => {
+const ResetPasswordForm = ({ text, email, token, setSuccess }) => {
     const {
         handleSubmit,
         register,
@@ -53,14 +55,14 @@ const ResetPasswordForm = ({ email, token, setSuccess }) => {
                 </Form.Text>
             </Form.Group> */}
             <Form.Group controlId="formBasicNewPassword">
-                <Form.Label>New Password</Form.Label>
+                <Form.Label>{ text.formNewPwd }</Form.Label>
                 <Form.Control
                     type="password"
                     name="password"
-                    placeholder="New Password"
+                    placeholder={ text.formNewPwd }
                     isInvalid={!!errors.password}
                     ref={register({
-                        required: "The password field is required."
+                        required: text.valNewPwd
                     })}
                 />
                 <Form.Control.Feedback type="invalid">
@@ -68,14 +70,15 @@ const ResetPasswordForm = ({ email, token, setSuccess }) => {
                 </Form.Control.Feedback>
             </Form.Group>
             <Form.Group controlId="formBasicConfirmPassword">
-                <Form.Label>Confirm Password</Form.Label>
+                <Form.Label>{ text.formConfirmPwd }</Form.Label>
                 <Form.Control
                     type="password"
                     name="password_confirmation"
-                    placeholder="Confirm Password"
+                    placeholder={ text.formConfirmPwd }
                     isInvalid={!!errors.password_confirmation}
                     ref={register({
-                        validate: value => value === password.current || "The passwords do not match."
+                        validate: value => value === password.current 
+                        || text.valPwdNotMatch
                     })}
                 />
                 <Form.Control.Feedback type="invalid">
@@ -83,7 +86,7 @@ const ResetPasswordForm = ({ email, token, setSuccess }) => {
                         errors.password_confirmation.message}
                 </Form.Control.Feedback>
             </Form.Group>
-            <Button type="submit">Update</Button>
+            <Button type="submit">{ text.btnUpdate }</Button>
         </Form>
     );
 };
@@ -101,6 +104,8 @@ const ResetPassword = () => {
     const { token } = useParams();
     const { email } = qs.parse(location.search);
     const [success, setSuccess] = useState();
+    const { locale } = useLocale();
+    let text = uiText[locale.active];
 
     return (
         <>
@@ -109,12 +114,13 @@ const ResetPassword = () => {
                 <Row className="justify-content-md-center">
                     <Col md={6}>
                         <Card>
-                            <Card.Header>Reset Password</Card.Header>
+                            <Card.Header>{ text.formResetPwd }</Card.Header>
                             <Card.Body>
                                 {success ? (
                                     <SuccessBanner message={success} />
                                 ) : (
                                     <ResetPasswordForm
+                                        text={text}
                                         email={email}
                                         token={token}
                                         setSuccess={setSuccess}

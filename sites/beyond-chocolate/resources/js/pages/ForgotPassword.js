@@ -4,8 +4,10 @@ import WelcomeBanner from "../components/WelcomeBanner";
 import { Link } from "react-router-dom";
 import useForm from "../lib/use-form";
 import authApi from "../services/auth";
+import { useLocale } from "../lib/locale-context";
+import { uiText } from "../static/ui-text";
 
-const ForgotPasswordForm = ({ setSuccess }) => {
+const ForgotPasswordForm = ({ text, setSuccess }) => {
     const {
         register,
         handleSubmit,
@@ -16,6 +18,7 @@ const ForgotPasswordForm = ({ setSuccess }) => {
     const [error, setError] = useState({status: false, message: ""});
 
     const onSubmit = async data => {
+        console.log(data);
         try {
             const res = await authApi.forgotPassword(data);
             reset();
@@ -36,15 +39,15 @@ const ForgotPasswordForm = ({ setSuccess }) => {
     return (
         <Form onSubmit={handleSubmit(onSubmit)}>
             <Form.Group controlId="formBasicEmail">
-                <Form.Label>Email address</Form.Label>
+                <Form.Label>{ text.formEmail }</Form.Label>
                 <Form.Control
                     onChange={e => setError({status: false, message: ""})}
                     type="email"
                     name="email"
-                    placeholder="Enter email"
+                    placeholder={ text.formEmail }
                     isInvalid={!!errors.email}
                     ref={register({
-                        required: "The email field is required."
+                        required: text.valEmail
                     })}
                 />
                 <Form.Control.Feedback type="invalid">
@@ -58,10 +61,10 @@ const ForgotPasswordForm = ({ setSuccess }) => {
                     )
                 }
                 <Form.Text className="text-muted">
-                    We'll never share your email with anyone else.
+                    { text.formEmailText }
                 </Form.Text>
             </Form.Group>
-            <Button type="submit">Send Email</Button>
+            <Button type="submit">{ text.btnSendEmail }</Button>
         </Form>
     );
 };
@@ -72,6 +75,8 @@ const SuccessBanner = ({ message }) => {
 
 const ForgotPassword = () => {
     const [success, setSuccess] = useState();
+    const { locale } = useLocale();
+    let text = uiText[locale.active];
 
     return (
         <>
@@ -80,21 +85,22 @@ const ForgotPassword = () => {
                 <Row className="justify-content-md-center">
                     <Col md={6}>
                         <Card>
-                            <Card.Header>Forgot Password</Card.Header>
+                            <Card.Header>{ text.formForgotPwd }</Card.Header>
                             <Card.Body>
                                 {success ? (
                                     <SuccessBanner message={success} />
                                 ) : (
                                     <ForgotPasswordForm
+                                        text={text}
                                         setSuccess={setSuccess}
                                     />
                                 )}
                             </Card.Body>
                             {!success && (
                                 <Card.Footer>
-                                    Don't have any account?
+                                    { text.formDontHaveAccount }
                                     <Link to="/register" className="ml-2">
-                                        Register
+                                        { text.formRegister }
                                     </Link>
                                 </Card.Footer>
                             )}

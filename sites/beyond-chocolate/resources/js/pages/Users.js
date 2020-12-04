@@ -290,7 +290,7 @@ const Users = () => {
                                                 type="text"
                                                 name="name"isInvalid={!!errors.name}
                                                 ref={register({
-                                                    required: "The name field is required."
+                                                    required: text.valName
                                                 })}
                                                 defaultValue={selected.name}
                                             />
@@ -333,7 +333,7 @@ const Users = () => {
                                             />
                                             { selectedOrgs.error ? ( 
                                                 <Form.Text className="text-danger">
-                                                    Select one of Organization.
+                                                    { text.valOrganization }
                                                 </Form.Text>
                                                 ) : ""}
                                         </Col>

@@ -58,7 +58,7 @@ const RegisterForm = ({ text, setRegistered, organizations }) => {
                     placeholder={ text.formFullName }
                     isInvalid={!!errors.name}
                     ref={register({
-                        required: "The full name field is required."
+                        required: text.valFullName
                     })}
                 />
                 <Form.Control.Feedback type="invalid">
@@ -73,7 +73,7 @@ const RegisterForm = ({ text, setRegistered, organizations }) => {
                     placeholder={ text.formEmail }
                     isInvalid={!!errors.email}
                     ref={register({
-                        required: "The email field is required.."
+                        required: text.valEmail
                     })}
                 />
                 <Form.Control.Feedback type="invalid">
@@ -91,7 +91,7 @@ const RegisterForm = ({ text, setRegistered, organizations }) => {
                     placeholder={ text.formPwd }
                     isInvalid={!!errors.password}
                     ref={register({
-                        required: "The password field is required."
+                        required: text.valPwd
                     })}
                 />
                 <Form.Control.Feedback type="invalid">
@@ -108,7 +108,7 @@ const RegisterForm = ({ text, setRegistered, organizations }) => {
                     ref={register({
                         validate: value =>
                             value === password.current ||
-                            "The passwords do not match."
+                            text.valPwdNotMatch
                     })}
                 />
                 <Form.Control.Feedback type="invalid">
@@ -124,7 +124,7 @@ const RegisterForm = ({ text, setRegistered, organizations }) => {
                 />
                 { selectedOrgs.error ? ( 
                     <Form.Text className="text-danger">
-                        Select one of Organization.
+                        { text.valOrganization }
                     </Form.Text>
                     ) : ""}
             </Form.Group>
@@ -137,12 +137,12 @@ const RegisterForm = ({ text, setRegistered, organizations }) => {
     );
 };
 
-const RegisteredBanner = () => {
+const RegisteredBanner = ({ text }) => {
     useEffect(() => {
         setTimeout(() => window.location.reload(), 3000);
     }, []);
 
-    return <div>Congratulations, you have been registered.</div>;
+    return <div>{ text.valRegisterSuccess }</div>;
 };
 
 const Register = () => {
@@ -171,7 +171,7 @@ const Register = () => {
                             <Card.Header>{ text.formRegister }</Card.Header>
                             <Card.Body>
                                 {registered ? (
-                                    <RegisteredBanner />
+                                    <RegisteredBanner text={text} />
                                 ) : (
                                     <RegisterForm
                                         text={text}

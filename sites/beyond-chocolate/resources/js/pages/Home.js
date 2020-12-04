@@ -32,7 +32,7 @@ const Home = () => {
                         variant="primary"
                         to={config.routes.survey}
                     >
-                        { content.btn }
+                        { text.btnStartSurvey }
                     </Button>
                 </div>
             </Row>

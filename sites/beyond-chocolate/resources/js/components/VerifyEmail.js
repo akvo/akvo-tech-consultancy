@@ -3,10 +3,16 @@ import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import { useAuth } from "./auth-context";
 import WelcomeBanner from "../components/WelcomeBanner";
 import authApi from "../services/auth";
+import { uiText } from "../static/ui-text";
+import { useLocale } from "../lib/locale-context";
 
 const VerifyEmail = () => {
     const { logout } = useAuth();
     const [resent, setResent] = useState();
+
+    const { locale } = useLocale();
+    let text = uiText[locale.active];
+
     const handleResend = async () => {
         try {
             await authApi.resendVerificationEmail();
@@ -27,17 +33,11 @@ const VerifyEmail = () => {
                         <Card>
                             <Card.Body>
                                 <div className="mb-4">
-                                    Thanks for signing up! Before getting
-                                    started, could you verify your email address
-                                    by clicking on the link we just emailed to
-                                    you? If you didn't receive the email, we
-                                    will gladly send you another.
+                                    { text.valVerificationThank }
                                 </div>
                                 {resent && (
                                     <div className="mb-4">
-                                        A new verification link has been sent to
-                                        the email address you provided during
-                                        registration.
+                                        { text.valVerificationInfo }
                                     </div>
                                 )}
                                 <Row>
@@ -46,7 +46,7 @@ const VerifyEmail = () => {
                                             variant="primary"
                                             onClick={handleResend}
                                         >
-                                            Resend Verification Email
+                                            { text.btnResendVerificationEmail }
                                         </Button>
                                     </Col>
                                     <Col md={5} className="text-right">
@@ -54,7 +54,7 @@ const VerifyEmail = () => {
                                             variant="link"
                                             onClick={handleLogout}
                                         >
-                                            Logout
+                                            { text.navLogout }
                                         </Button>
                                     </Col>
                                 </Row>

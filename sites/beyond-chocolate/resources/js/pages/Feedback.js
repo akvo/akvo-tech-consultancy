@@ -61,7 +61,7 @@ const Feedback = () => {
             let res = await emailApi.sendEmail(sendData);
             let status = (res.data.mails !== null) ? true : false;
             setEmailStatus(status);
-            setEmailMessage("Something wrong, please try again!");
+            setEmailMessage(text.valFeedbackError);
             setLoading(false);
             status ? e.target.reset() : "";
             
@@ -84,7 +84,7 @@ const Feedback = () => {
                         <Card.Body>
                             { emailStatus ? (
                                 <div className="alert alert-success">
-                                    <strong>Your message has been successfully sent!</strong>
+                                    <strong>{ text.valFeedbackSuccess }</strong>
                                 </div>
                             ) : "" }
                             <Form onSubmit={handleSubmit(onSubmit)} >
@@ -96,7 +96,7 @@ const Feedback = () => {
                                         placeholder={ text.formTitle }
                                         isInvalid={!!errors.title}
                                         ref={register({
-                                            required: "The title field is required."
+                                            required: text.valTitle
                                         })}
                                     />
                                     <Form.Control.Feedback type="invalid">
@@ -112,7 +112,7 @@ const Feedback = () => {
                                         rows="4"
                                         isInvalid={!!errors.feedback}
                                         ref={register({
-                                            required: "The feedback field is required."
+                                            required: text.Feedback
                                         })}
                                     />
                                     <Form.Control.Feedback type="invalid">
@@ -128,7 +128,7 @@ const Feedback = () => {
                                         placeholder={ text.formCaptcha }
                                         isInvalid={!!errors.captcha}
                                         ref={register({
-                                            required: "The captcha field is required."
+                                            required: text.valCaptcha
                                         })}
                                     />
                                     <Form.Control.Feedback type="invalid">

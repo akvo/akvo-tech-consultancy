@@ -66,7 +66,7 @@ const SettingForm = ({ text, email, setSuccess, invalidPwd, setInvalidPwd }) => 
                         placeholder={ text.formOldPwd } 
                         isInvalid={!!errors.password}
                         ref={register({
-                            required: "The old password field is required."
+                            required: text.valOldPwd
                         })} 
                     />
                     <Form.Control.Feedback type="invalid">
@@ -88,7 +88,7 @@ const SettingForm = ({ text, email, setSuccess, invalidPwd, setInvalidPwd }) => 
                         placeholder={ text.formNewPwd }
                         isInvalid={!!errors.new_password}
                         ref={register({
-                            required: "The new password field is required."
+                            required: text.valNewPwd
                         })} 
                     />
                     <Form.Control.Feedback type="invalid">
@@ -105,7 +105,7 @@ const SettingForm = ({ text, email, setSuccess, invalidPwd, setInvalidPwd }) => 
                         placeholder={ text.formConfirmNewPwd } 
                         isInvalid={!!errors.new_password_confirmation}
                         ref={register({
-                            validate: value => value === password.current || "The passwords do not match."
+                            validate: value => value === password.current || text.valPwdNotMatch
                         })} 
                     />
                     <Form.Control.Feedback type="invalid">
