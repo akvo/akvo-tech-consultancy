@@ -18,7 +18,7 @@ const Maps = (title, subtitle, list) => {
             ...TextStyle
         },
         geo: {
-            map: 'uganda',
+            map: 'burkina-faso',
             roam: true,
             aspectScale: 1,
             emphasis:{

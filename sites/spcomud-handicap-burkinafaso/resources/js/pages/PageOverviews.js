@@ -2,7 +2,8 @@ import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { mapStateToProps, mapDispatchToProps } from "../reducers/actions";
 import { Row, Col, Card, ListGroup, Container, Jumbotron } from "react-bootstrap";
-require("../data/uganda.js");
+// require("../data/uganda.js");
+require("../data/burkina-faso.js");
 import Charts from "../components/Charts";
 import {
     generateData,
@@ -62,7 +63,7 @@ class PageOverviews extends Component {
             charts: [
                 {
                     kind: "MAPS",
-                    data: generateData(12, true, "700px")
+                    data: generateData(12, true, "800px")
                 }
             ]
         }
@@ -216,7 +217,6 @@ class PageOverviews extends Component {
     }
 
     render() {
-        console.log(this.props);
         let chart = this.state.charts.map((list, index) => {
             return this.getCharts(list, index)
         });

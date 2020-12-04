@@ -42,7 +42,7 @@ class Charts extends Component {
     }
 
     clickEvent(param) {
-        console.log(param);
+        console.log('Chart.js', param);
     }
 
     componentDidMount() {
@@ -79,7 +79,6 @@ class Charts extends Component {
             ...options,
             series: [...options.series, scatter]
         };
-        console.log(options);
         return options;
     }
 
