@@ -7,6 +7,8 @@ import WelcomeBanner from "../components/WelcomeBanner";
 import { useAuth } from "../components/auth-context";
 import useForm from "../lib/use-form";
 import config from "../config";
+import { uiText } from "../static/ui-text";
+import { useLocale } from "../lib/locale-context";
 
 const Login = () => {
     const history = useHistory();
@@ -18,6 +20,10 @@ const Login = () => {
         errors,
         setServerErrors
     } = useForm();
+
+    const { locale } = useLocale();
+    let text = uiText[locale.active];
+
     const onSubmit = async data => {
         try {
             await login(data);
@@ -39,18 +45,18 @@ const Login = () => {
                 <Row className="justify-content-md-center">
                     <Col md={6}>
                         <Card>
-                            <Card.Header>Login</Card.Header>
+                            <Card.Header>{ text.formLogin }</Card.Header>
                             <Card.Body>
                                 <Form
                                     noValidate
                                     onSubmit={handleSubmit(onSubmit)}
                                 >
                                     <Form.Group controlId="formBasicEmail">
-                                        <Form.Label>Email address</Form.Label>
+                                        <Form.Label>{ text.formEmail }</Form.Label>
                                         <Form.Control
                                             type="email"
                                             name="email"
-                                            placeholder="Enter email"
+                                            placeholder={ text.formEmail }
                                             isInvalid={!!errors.email}
                                             ref={register({
                                                 required:
@@ -63,11 +69,11 @@ const Login = () => {
                                         </Form.Control.Feedback>
                                     </Form.Group>
                                     <Form.Group controlId="formBasicPassword">
-                                        <Form.Label>Password</Form.Label>
+                                        <Form.Label>{ text.formPassword }</Form.Label>
                                         <Form.Control
                                             type="password"
                                             name="password"
-                                            placeholder="Password"
+                                            placeholder={ text.formPwd }
                                             isInvalid={!!errors.password}
                                             ref={register({
                                                 required:
@@ -83,14 +89,14 @@ const Login = () => {
                                         <Form.Check
                                             type="checkbox"
                                             name="remember"
-                                            label="Remember Login"
+                                            label={ text.formRememberLogin }
                                             ref={register}
                                         />
                                     </Form.Group>
                                     <Row>
                                         <Col md={7}>
                                             <Button type="submit">
-                                                Submit
+                                                { text.btnSubmit }
                                             </Button>
                                         </Col>
                                         <Col md={5} className="text-right">
@@ -99,16 +105,16 @@ const Login = () => {
                                                     className="mr-2"
                                                     icon={faKey}
                                                 />
-                                                Forgot Password
+                                                { text.formForgotPwd }
                                             </Link>
                                         </Col>
                                     </Row>
                                 </Form>
                             </Card.Body>
                             <Card.Footer>
-                                Don't have any account?
+                                { text.formDontHaveAccount }
                                 <Link to="/register" className="ml-2">
-                                    Register
+                                    { text.formRegister }
                                 </Link>
                             </Card.Footer>
                         </Card>

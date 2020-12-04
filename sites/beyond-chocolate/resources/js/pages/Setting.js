@@ -11,8 +11,10 @@ import useForm from "../lib/use-form";
 import { useAuth } from "../components/auth-context";
 import authApi from "../services/auth";
 import { useHistory } from "react-router-dom";
+import { useLocale } from "../lib/locale-context";
+import { uiText } from "../static/ui-text";
 
-const SettingForm = ({ email, setSuccess, invalidPwd, setInvalidPwd }) => {
+const SettingForm = ({ text, email, setSuccess, invalidPwd, setInvalidPwd }) => {
     const {
         register,
         handleSubmit,
@@ -51,17 +53,17 @@ const SettingForm = ({ email, setSuccess, invalidPwd, setInvalidPwd }) => {
             <Card.Body>
                 {/* Email */}
                 <Form.Group controlId="formBasicEmail">
-                    <Form.Label>Email address</Form.Label>
+                    <Form.Label>{ text.formEmail }</Form.Label>
                     <Form.Control type="email" name="email" placeholder={email} readOnly />
-                    <Form.Text className="text-muted">We'll never share your email address with anyone else.</Form.Text>
+                    <Form.Text className="text-muted">{ text.formEmailText }</Form.Text>
                 </Form.Group>
                 {/* Password */}
                 <Form.Group controlId="formBasicPassword">
-                    <Form.Label>Old Password</Form.Label>
+                    <Form.Label>{ text.formOldPwd }</Form.Label>
                     <Form.Control 
                         type="password" 
                         name="password"
-                        placeholder="Old Password" 
+                        placeholder={ text.formOldPwd } 
                         isInvalid={!!errors.password}
                         ref={register({
                             required: "The old password field is required."
@@ -79,11 +81,11 @@ const SettingForm = ({ email, setSuccess, invalidPwd, setInvalidPwd }) => {
                 </Form.Group>
                 {/* New Password */}
                 <Form.Group controlId="formBasicNewPassword">
-                    <Form.Label>New Password</Form.Label>
+                    <Form.Label>{ text.formNewPwd }</Form.Label>
                     <Form.Control 
                         type="password" 
                         name="new_password"
-                        placeholder="New Password" 
+                        placeholder={ text.formNewPwd }
                         isInvalid={!!errors.new_password}
                         ref={register({
                             required: "The new password field is required."
@@ -96,11 +98,11 @@ const SettingForm = ({ email, setSuccess, invalidPwd, setInvalidPwd }) => {
                 </Form.Group>
                 {/* New Password Confirmation */}
                 <Form.Group controlId="formBasicConfirmNewPassword">
-                    <Form.Label>Confirm New Password</Form.Label>
+                    <Form.Label>{ text.formConfirmNewPwd }</Form.Label>
                     <Form.Control 
                         type="password" 
                         name="new_password_confirmation"
-                        placeholder="New Password" 
+                        placeholder={ text.formConfirmNewPwd } 
                         isInvalid={!!errors.new_password_confirmation}
                         ref={register({
                             validate: value => value === password.current || "The passwords do not match."
@@ -114,7 +116,7 @@ const SettingForm = ({ email, setSuccess, invalidPwd, setInvalidPwd }) => {
             </Card.Body>
             <Card.Footer>
                 <Button variant="primary" type="submit" block>
-                    Update
+                    {  text.btnUpdate }
                 </Button>
             </Card.Footer>
         </Form>
@@ -140,17 +142,20 @@ const Setting = () => {
     const { user, logout } = useAuth();
     const [success, setSuccess] = useState();
     const [invalidPwd, setInvalidPwd] = useState();
-    
+    const { locale } = useLocale();
+    let text = uiText[locale.active];
+
     return (
         <Container fluid>
             <Row>
                 <Col className="mx-auto" md={6}>
                     <Card>
-                        <Card.Header>Change Password</Card.Header>
+                        <Card.Header>{ text.formChangePwd }</Card.Header>
                         { success ? (
                             <SuccessBanner message={success} logout={logout} />
                         ) : (
                             <SettingForm 
+                                text={text}
                                 email={user.email}
                                 setSuccess={setSuccess}
                                 invalidPwd={invalidPwd}

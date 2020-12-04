@@ -6,8 +6,10 @@ import useForm from "../lib/use-form";
 import authApi from "../services/auth";
 import config from "../config";
 import Select from "react-select";
+import { uiText } from "../static/ui-text";
+import { useLocale } from "../lib/locale-context";
 
-const RegisterForm = ({ setRegistered, organizations }) => {
+const RegisterForm = ({ text, setRegistered, organizations }) => {
     const {
         register,
         handleSubmit,
@@ -49,11 +51,11 @@ const RegisterForm = ({ setRegistered, organizations }) => {
     return (
         <Form noValidate onSubmit={handleSubmit(onSubmit)}>
             <Form.Group controlId="formBasicFulltName">
-                <Form.Label>Full Name</Form.Label>
+                <Form.Label>{ text.formFullName }</Form.Label>
                 <Form.Control
                     type="text"
                     name="name"
-                    placeholder="Full Name"
+                    placeholder={ text.formFullName }
                     isInvalid={!!errors.name}
                     ref={register({
                         required: "The full name field is required."
@@ -64,11 +66,11 @@ const RegisterForm = ({ setRegistered, organizations }) => {
                 </Form.Control.Feedback>
             </Form.Group>
             <Form.Group controlId="formBasicEmail">
-                <Form.Label>Email address</Form.Label>
+                <Form.Label>{ text.formEmail }</Form.Label>
                 <Form.Control
                     type="email"
                     name="email"
-                    placeholder="Enter email"
+                    placeholder={ text.formEmail }
                     isInvalid={!!errors.email}
                     ref={register({
                         required: "The email field is required.."
@@ -78,15 +80,15 @@ const RegisterForm = ({ setRegistered, organizations }) => {
                     {!!errors.email && errors.email.message}
                 </Form.Control.Feedback>
                 <Form.Text className="text-muted">
-                    We'll never share your email with anyone else.
+                    { text.formEmailText }
                 </Form.Text>
             </Form.Group>
             <Form.Group controlId="formBasicPassword">
-                <Form.Label>Password</Form.Label>
+                <Form.Label>{ text.formPwd }</Form.Label>
                 <Form.Control
                     type="password"
                     name="password"
-                    placeholder="Password"
+                    placeholder={ text.formPwd }
                     isInvalid={!!errors.password}
                     ref={register({
                         required: "The password field is required."
@@ -97,11 +99,11 @@ const RegisterForm = ({ setRegistered, organizations }) => {
                 </Form.Control.Feedback>
             </Form.Group>
             <Form.Group controlId="formBasicConfirmPassword">
-                <Form.Label>Confirm Password</Form.Label>
+                <Form.Label>{ text.formConfirmPwd }</Form.Label>
                 <Form.Control
                     type="password"
                     name="password_confirmation"
-                    placeholder="Confirm Password"
+                    placeholder={ text.formConfirmPwd }
                     isInvalid={!!errors.password_confirmation}
                     ref={register({
                         validate: value =>
@@ -115,7 +117,7 @@ const RegisterForm = ({ setRegistered, organizations }) => {
                 </Form.Control.Feedback>
             </Form.Group>
             <Form.Group controlId="formBasicOrganization">
-                <Form.Label>Organization</Form.Label>
+                <Form.Label>{ text.tbColOrganization }</Form.Label>
                 <Select 
                     onChange={opt => setSelectedOrgs(opt)}
                     options={renderOrganizations(organizations)}
@@ -128,7 +130,7 @@ const RegisterForm = ({ setRegistered, organizations }) => {
             </Form.Group>
             <Row>
                 <Col md={12}>
-                    <Button type="submit">Register</Button>
+                    <Button type="submit">{ text.formRegister }</Button>
                 </Col>
             </Row>
         </Form>
@@ -147,6 +149,9 @@ const Register = () => {
     const [registered, setRegistered] = useState(false);
     const [orgs, setOrgs] = useState([]);
 
+    const { locale } = useLocale();
+    let text = uiText[locale.active];
+
     useEffect(async () => {
         try {
             let res = await authApi.getOrganizations();
@@ -163,12 +168,13 @@ const Register = () => {
                 <Row className="justify-content-md-center">
                     <Col md={6}>
                         <Card>
-                            <Card.Header>Register</Card.Header>
+                            <Card.Header>{ text.formRegister }</Card.Header>
                             <Card.Body>
                                 {registered ? (
                                     <RegisteredBanner />
                                 ) : (
                                     <RegisterForm
+                                        text={text}
                                         setRegistered={setRegistered}
                                         organizations={orgs}
                                     />
@@ -176,12 +182,12 @@ const Register = () => {
                             </Card.Body>
                             {!registered && (
                                 <Card.Footer>
-                                    Already have account?
+                                    { text.formHaveAccount }
                                     <Link
                                         to={config.routes.login}
                                         className="ml-2"
                                     >
-                                        Login
+                                        { text.formLogin }
                                     </Link>
                                 </Card.Footer>
                             )}

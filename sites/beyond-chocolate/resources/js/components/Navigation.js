@@ -12,10 +12,13 @@ import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "./auth-context";
 import config from "../config";
 import { useLocale, langs } from "../lib/locale-context";
+import { uiText } from "../static/ui-text";
 
 const Navigation = () => {
     const { user, logout } = useAuth();
     const { locale, update } = useLocale();
+    let text = uiText[locale.active];
+
     const endSession = async () => {
         await logout();
         window.location.reload();
@@ -37,17 +40,17 @@ const Navigation = () => {
                     {user?.verified && (
                         <>
                             <Nav.Link as={NavLink} to={config.routes.survey}>
-                                Survey
+                                { text.navSurvey }
                             </Nav.Link>
                         </>
                     )}
                     <Nav.Link as={NavLink} to={config.routes.definition}>
-                        Definitions
+                        { text.navDefinitions }
                     </Nav.Link>
                     {user?.verified && (
                         <>
                             <Nav.Link as={NavLink} to={config.routes.feedback}>
-                                Feedback
+                                { text.navFeedback }
                             </Nav.Link>
                         </>
                     )}
@@ -58,7 +61,7 @@ const Navigation = () => {
                         <Form inline>
                             <FormControl
                                 type="text"
-                                placeholder="Search"
+                                placeholder={text.navSearch}
                                 className="mr-sm-2"
                             />
                         </Form>
@@ -105,7 +108,7 @@ const Navigation = () => {
                                             className="mr-2"
                                             icon={faCog}
                                         />
-                                        Setting
+                                        { text.navSetting }
                                     </NavDropdown.Item>
                                     {user.can("manage-users") && (
                                         <NavDropdown.Item
@@ -116,7 +119,7 @@ const Navigation = () => {
                                                 className="mr-2"
                                                 icon={faUsers}
                                             />
-                                            Manage User
+                                            { text.navManageUser }
                                         </NavDropdown.Item>
                                     )}
                                     <NavDropdown.Divider />
@@ -127,7 +130,7 @@ const Navigation = () => {
                                     className="mr-2"
                                     icon={faSignOutAlt}
                                 />
-                                Logout
+                                { text.navLogout }
                             </NavDropdown.Item>
                         </NavDropdown>
                     )}

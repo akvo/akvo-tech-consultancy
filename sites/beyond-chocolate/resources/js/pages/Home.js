@@ -6,6 +6,7 @@ import { useLocale } from "../lib/locale-context";
 import { hc } from "../static/home-content";
 import { ModalDataSecurity } from "../components/Modal";
 import { dsc } from "../static/data-security-content";
+import { uiText } from "../static/ui-text";
 
 const Home = () => {
     const [show, setShow] = useState(false);
@@ -15,6 +16,7 @@ const Home = () => {
     const { locale } = useLocale();
     let content = hc(handleShow);
         content = content[locale.active];
+    let text = uiText[locale.active];
         
     return (
         <Container fluid className="homeLanding">
@@ -30,12 +32,13 @@ const Home = () => {
                         variant="primary"
                         to={config.routes.survey}
                     >
-                        Click here to start the survey
+                        { content.btn }
                     </Button>
                 </div>
             </Row>
 
             <ModalDataSecurity
+                text={text}
                 show={show}
                 handleClose={handleClose}
                 locale={locale}

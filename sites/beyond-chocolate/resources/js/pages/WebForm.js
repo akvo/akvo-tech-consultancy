@@ -15,8 +15,8 @@ import { useAuth } from "../components/auth-context";
 import { dsc } from "../static/data-security-content";
 import { useLocale } from "../lib/locale-context";
 import { ModalDataSecurity } from "../components/Modal";
-import { surveyContent } from "../static/ui-content";
-import { projectInfo } from "../static/popup-content";
+import { wfc } from "../static/webform-content";
+import { uiText } from "../static/ui-text";
 
 const ReloadableSelectMenu = props => {
     return (
@@ -41,7 +41,7 @@ const ReloadableSelectMenu = props => {
     );
 };
 
-const SavedFormsSelector = ({ user, onSelect, watchValue }) => {
+const SavedFormsSelector = ({ text, user, onSelect, watchValue }) => {
     const [available, setAvailable] = useState([]);
     const [selected, setSelected] = useState();
     const [value, setValue] = useState();
@@ -115,7 +115,7 @@ const SavedFormsSelector = ({ user, onSelect, watchValue }) => {
 
     return (
         <div className="savedForms">
-            <Row>Pick a previously saved forms</Row>
+            <Row>{ text.formPickPreviousSavedForms }</Row>
             <Row>
                 <Form inline>
                     <div className="mb-2 mr-sm-2 selectContainer">
@@ -133,7 +133,7 @@ const SavedFormsSelector = ({ user, onSelect, watchValue }) => {
                         />
                     </div>
                     <Button className="mb-2" onClick={onSubmit}>
-                        Open
+                        { text.btnOpen }
                     </Button>
                 </Form>
             </Row>
@@ -141,7 +141,7 @@ const SavedFormsSelector = ({ user, onSelect, watchValue }) => {
     );
 };
 
-const NewFormSelector = ({ user, onSelect, watchValue }) => {
+const NewFormSelector = ({ text, user, onSelect, watchValue }) => {
     const [available, setAvailable] = useState([]);
     const [selected, setSelected] = useState();
     const [value, setValue] = useState();
@@ -183,7 +183,7 @@ const NewFormSelector = ({ user, onSelect, watchValue }) => {
 
     return (
         <div className="newForms">
-            <Row>Start filling a new form</Row>
+            <Row>{ text.formStartFillingNewForm }</Row>
             <Row>
                 <Form inline>
                     <div className="mb-2 mr-sm-2 selectContainer">
@@ -197,7 +197,7 @@ const NewFormSelector = ({ user, onSelect, watchValue }) => {
                         />
                     </div>
                     <Button className="mb-2" onClick={onSubmit}>
-                        Open
+                        { text.btnOpen }
                     </Button>
                 </Form>
             </Row>
@@ -215,10 +215,7 @@ const NewProjectSurveyInfoModal = ({ show, onHide, content }) => {
             </Modal.Header>
             <Modal.Body>
                 <div className="ml-4 mr-4">
-                    <ul>
-                        <li>{content.l1}</li>
-                        <li>{content.l2}</li>
-                    </ul>
+                    <ul>{ content.map((x, i) => <li key={i}>{x}</li>) }</ul>
                 </div>
             </Modal.Body>
             <Modal.Footer>
@@ -264,6 +261,8 @@ const WebForm = () => {
     const handleShow = () => setShow(true);
 
     const { locale } = useLocale();
+    let content = wfc(handleShow)[locale.active];
+    let text = uiText[locale.active];
 
     return (
         <Container fluid>
@@ -272,6 +271,7 @@ const WebForm = () => {
                     <div className="d-flex">
                         <div className="p-2 flex-grow-1">
                             <SavedFormsSelector
+                                text={text}
                                 user={user}
                                 onSelect={onSelectForm}
                                 watchValue={activeForm}
@@ -279,6 +279,7 @@ const WebForm = () => {
                         </div>
                         <div className="p-2 pr-3">
                             <NewFormSelector
+                                text={text}
                                 user={user}
                                 onSelect={onSelectForm}
                                 watchValue={activeForm}
@@ -287,7 +288,7 @@ const WebForm = () => {
                     </div>
                     <hr />
                     <p className="pl-3 text-muted">
-                        { surveyContent(handleShow)[locale.active] }
+                        { content.dataSecurityText }
                     </p>
                     <Card>
                         {activeForm && (
@@ -299,6 +300,7 @@ const WebForm = () => {
                         )}
                     </Card>
                     <ModalDataSecurity
+                        text={text}
                         show={show}
                         handleClose={handleClose}
                         locale={locale}
@@ -307,7 +309,7 @@ const WebForm = () => {
                     <NewProjectSurveyInfoModal
                         show={showProjectInfo}
                         onHide={onClosedProjectInfo}
-                        content={projectInfo[locale.active]}
+                        content={content.newProjectPopupText}
                     />
                 </Col>
             </Row>

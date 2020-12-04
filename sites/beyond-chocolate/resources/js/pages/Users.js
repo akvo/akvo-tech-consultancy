@@ -16,6 +16,8 @@ import * as qs from "query-string";
 import useForm, { Controller } from "../lib/use-form";
 import request from "../lib/request";
 import authApi from "../services/auth";
+import { useLocale } from "../lib/locale-context";
+import { uiText } from "../static/ui-text";
 
 const PAGINATION_OFFSET = 4;
 
@@ -107,6 +109,9 @@ const Users = () => {
         setServerErrors,
         formState: { isDirty }
     } = useForm();
+
+    const { locale } = useLocale();
+    let text = uiText[locale.active];
 
     const fetchUsers = async page => {
         const url = qs.stringifyUrl({
@@ -207,11 +212,11 @@ const Users = () => {
                     <Table className="users-table">
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Organization</th>
-                                <th>Role</th>
-                                <th>Surveys</th>
+                                <th>{ text.tbColName }</th>
+                                <th>{ text.tbColEmail }</th>
+                                <th>{ text.tbColOrganization }</th>
+                                <th>{ text.tbColRole }</th>
+                                <th>{ text.tbColSurveys }</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -244,7 +249,7 @@ const Users = () => {
                             {users.length < 1 && (
                                 <tr>
                                     <td colSpan={2}>
-                                        There are no records to display
+                                        { text.tbRowNoRecords }
                                     </td>
                                 </tr>
                             )}
@@ -261,7 +266,7 @@ const Users = () => {
                                         <Button
                                             className="ml-auto p-2 close"
                                             onClick={() => setSelected(null)}
-                                        > <span>Close</span>
+                                        > <span>{ text.btnClose }</span>
                                             <FontAwesomeIcon
                                                 icon={faTimes}
                                             />
@@ -278,7 +283,7 @@ const Users = () => {
                                         controlId="formPlaintextName"
                                     >
                                         <Form.Label column sm={4}>
-                                            Name
+                                            { text.tbColName }
                                         </Form.Label>
                                         <Col sm={8}>
                                             <Form.Control
@@ -299,7 +304,7 @@ const Users = () => {
                                         controlId="formPlaintextEmail"
                                     >
                                         <Form.Label column sm={4}>
-                                            Email
+                                            { text.tbColEmail }
                                         </Form.Label>
                                         <Col sm={8}>
                                             <Form.Control
@@ -315,7 +320,7 @@ const Users = () => {
                                         controlId="formPlaintextOrganization"
                                     >
                                         <Form.Label column sm={4}>
-                                            Organization
+                                            { text.tbColOrganization }
                                         </Form.Label>
                                         <Col sm={8}>
                                             <Select 
@@ -339,7 +344,7 @@ const Users = () => {
                                         controlId="formPlaintextPassword"
                                     >
                                         <Form.Label column sm={4}>
-                                            Role
+                                            { text.tbColRole }
                                         </Form.Label>
                                         <Col sm={8}>
                                             <Form.Control
@@ -368,7 +373,7 @@ const Users = () => {
                                     </Form.Group>
                                     <hr />
                                     <Form.Group>
-                                        <Form.Label>Questionnaire</Form.Label>
+                                        <Form.Label>{ text.formQuestionnaire }</Form.Label>
                                         <Controller
                                             as={Select}
                                             name="questionnaires"
@@ -387,13 +392,13 @@ const Users = () => {
                                         variant="primary"
                                         className="mr-2"
                                     >
-                                        Save Changes
+                                        { text.btnSaveChanges }
                                     </Button>
                                     <Button
                                         variant="danger"
                                         onClick={() => deleteUser(selected)}
                                     >
-                                        Delete User
+                                        { text.btnDeleteUser }
                                     </Button>
                                 </Card.Footer>
                             </Card>

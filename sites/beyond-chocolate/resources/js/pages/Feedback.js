@@ -4,6 +4,7 @@ import useForm from "../lib/use-form";
 import emailApi from "../services/email";
 import { useAuth } from "../components/auth-context";
 import { useLocale } from "../lib/locale-context";
+import { uiText } from "../static/ui-text";
 
 const Feedback = () => {
     const { user, logout } = useAuth();
@@ -19,6 +20,9 @@ const Feedback = () => {
     const [emailStatus, setEmailStatus] = useState(false);
     const [emailMessage, setEmailMessage] = useState(false);
     const [isLoading, setLoading] = useState(false);
+
+    const { locale } = useLocale();
+    let text = uiText[locale.active];
 
     const updateValidator = () => {
         let captchaDiv = document.getElementById("captcha-number");
@@ -76,7 +80,7 @@ const Feedback = () => {
             <Row className="definitionList">
                 <Col md={6} className="mx-auto">
                     <Card>
-                        <Card.Header className="font-italic">Please provide your feedback. It is highly valuable to improve the system</Card.Header>
+                        <Card.Header className="font-italic">{ text.formFeedbackTitle }</Card.Header>
                         <Card.Body>
                             { emailStatus ? (
                                 <div className="alert alert-success">
@@ -85,11 +89,11 @@ const Feedback = () => {
                             ) : "" }
                             <Form onSubmit={handleSubmit(onSubmit)} >
                                 <Form.Group controlId="formTitle">
-                                    <Form.Label>Title</Form.Label>
+                                    <Form.Label>{ text.formTitle }</Form.Label>
                                     <Form.Control
                                         type="text"
                                         name="title"
-                                        placeholder="Enter title"
+                                        placeholder={ text.formTitle }
                                         isInvalid={!!errors.title}
                                         ref={register({
                                             required: "The title field is required."
@@ -101,7 +105,7 @@ const Feedback = () => {
                                     </Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group controlId="formBasicFeedback">
-                                    <Form.Label>Feedback</Form.Label>
+                                    <Form.Label>{ text.formFeedback }</Form.Label>
                                     <Form.Control
                                         as="textarea"
                                         name="feedback"
@@ -121,7 +125,7 @@ const Feedback = () => {
                                     <Form.Control
                                         type="number"
                                         name="captcha"
-                                        placeholder="Enter Value"
+                                        placeholder={ text.formCaptcha }
                                         isInvalid={!!errors.captcha}
                                         ref={register({
                                             required: "The captcha field is required."
@@ -137,7 +141,7 @@ const Feedback = () => {
                                     disabled={isLoading}
                                     type="submit"
                                 >
-                                    {isLoading ? 'Loading…' : 'Submit'}
+                                    { isLoading ? text.btnLoading+'…' : text.btnSubmit }
                                 </Button>
                                 { !emailStatus && emailMessage !== false
                                     ? (<Form.Text className="text-danger">{emailMessage}</Form.Text>)
