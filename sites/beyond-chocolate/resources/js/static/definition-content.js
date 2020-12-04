@@ -5,15 +5,15 @@ const defs = {
         {
             i: "MT-BE",
             t: "MT-BE",
-            d: "MT-BE stands for \"metric tons bean equivalents\" Conversion to MT-BE, of cocoa sourced in different forms, is to be done using the ICCO conversion factors; being: 1,33 for cocoa butter (1804), 1,25 for cocoa paste/liquor (18031), and 1,18 for cocoa powder and cake (1805, 18032)."
+            d: 'MT-BE stands for "metric tons bean equivalents" Conversion to MT-BE, of cocoa sourced in different forms, is to be done using the ICCO conversion factors; being: 1,33 for cocoa butter (1804), 1,25 for cocoa paste/liquor (18031), and 1,18 for cocoa powder and cake (1805, 18032).'
         }, {
             i: "Farming household",
             t: "Farming household",
-            d: "The farming household corresponds to a smallholder cocoa producing family. The number of farming households, thus corresponds to the number of (smallholder) cocoa farms."
+            d: 'The farming household corresponds to a smallholder cocoa producing family. The number of farming households, thus corresponds to the number of (smallholder) cocoa farms.'
         }, {
             i: "Reached (farming households reached)",
             t: "Reached (farming households reached)",
-            d: "The term “reached” (in \"farming housholds reached\") is contextual, it could mean \"engaged in\", \"benefiting\", etc. Each datacollection, for \"# of farming households reached\", shall to the extent possible be linked to an activity, output or outcome of the cocoa sustainability project or initiative; such linking thus contextualises the implication of and/or benefits for the concerned farming household."
+            d: 'The term “reached” (in "farming housholds reached") is contextual, it could mean "engaged in", "benefiting", etc. Each datacollection, for "# of farming households reached", shall to the extent possible be linked to an activity, output or outcome of the cocoa sustainability project or initiative; such linking thus contextualises the implication of and/or benefits for the concerned farming household.'
         }, {
             i: 'Farming land',
             t: 'Farming land',
@@ -34,17 +34,17 @@ const defs = {
             i: 'Supply origin transparency level',
             t: 'Supply origin transparency level',
             d: <Fragment>
-                The "supply origin transparency level" is about the extent that detailed information on the origin of cocoa is being documented at the initial stages of the sourcing process, with such information remaining available at later stages of the supply chain. Distinction is made between the follwing supply origin transparency levels:
+                The "supply origin transparency level" is about the extent that detailed information on the origin of cocoa is being documented at the initial stages of the sourcing process, with such information remaining available at later stages of the supply chain. 
+                <br/>Distinction is made between the follwing supply origin transparency levels:
                 <ul className="list-unstyled">
-                    <li>Score 1: origin unknown or only country of origin known</li>
-                    <li>Score 2: country and region  of origin known</li>
-                    <li>Score 3: country, region and municipality/cooperative of origin known</li>
+                    <li>Score 1: origin unknown or only country of origin known </li>
+                    <li>Score 2: country and region  of origin known </li>
+                    <li>Score 3: country, region and municipality/cooperative of origin known </li>
                     <li>Score 4: farm known, in addition to the country, region and municipality/cooperative of origin</li>
                     <li>Score 5: farm known and having point coordinates of the farm household (farm mapping)</li>
-                    <li>Score 5+: farm known and having polygon boundaries of the farm.</li>
-                    <li>Score 6: farm known, having polygon boundaries of the farm and farm fields verified as not in a protected forest and as not comprising land that was deforested since 2018.</li>
+                    <li>Score 5+: farm known and having polygon boundaries of the farm. </li>
+                    <li>Score 6: farm known, having polygon boundaries of the farm and farm fields verified as not in a protected forest and as not comprising land that was deforested since 2018. Having a high origin transparency score still allows for massing and mixing of beans at later stages (during transport and/or processing)!</li>
                 </ul>
-                Having a high origin transparency score still allows for massing and mixing of beans at later stages (during transport and/or processing)!
                 </Fragment>
         }, {
             i: 'Direct supply',
@@ -65,28 +65,24 @@ const defs = {
         }, {
             i: 'Identity preserved (traceability level 3)',
             t: 'Identity preserved (traceability level 3)',
-            d: 'Identity preserved is the highest traceability type. There is no mixing of cocoa, neither with non-conforming cocoa, nor with cocoa from other origins. If the ‘single origin’ is set at cooperative level or at cocoa-producing area (combining different cooperatives), then conforming cocoa from this broader origin may be combined. In other words, the “identity preserved” system meets all requirements of “segregated cocoa” but it does not allow mixing cocoa from different origins.'
+            d: 'Identity preserved is the highest traceability type. There is no mixing of cocoa, neither with non-conforming cocoa, nor with cocoa from other origins. If the ‘single origin’ is set at cooperative level or at cocoa-producing area (combining different cooperatives), then conforming cocoa from this broader origin may be combined. In other words, the “identity preserved” system meets all requirements of “segregated cocoa” but it does not allow mixing cocoa from different origins. '
         }, {
             i: 'Certified or independently verified cocoa',
             t: 'Certified or independently verified cocoa',
             d: <Fragment>
                 Cocoa produced in compliance with the requirements of accepted certification standards or independently verified company schemes on sustainable cocoa.
-                The list of accepted certification standards and independently verified company schemes currently comprises the following:
+                <br/>The list of accepted certification standards and independently verified company schemes currently comprises the following:  
                 <ul style={{marginLeft:"25px"}}>
                     <li>UTZ / Rainforest Alliance</li>
                     <li>Fairtrade</li>
-                    <li>Cocoa Horizons (Barry Callebout)</li>
-                    <li>Cocoa Life (Mondelez)</li>
-                    <li>Cocoa Promise (Cargill)</li>
-                    <li>Cocoa Trace (Puratos)</li>
-                    <li>BIO (Belgium)</li>
                     <li>Organic</li>
+                    <li>Company schemes (to be specified)</li>
                 </ul>
             </Fragment>
         }, {
             i: 'Premiums granted to the farmer',
             t: 'Premiums granted to the farmer',
-            d: "The amount of 'premiums granted' does not necessary correspond to the amount of 'premiums paid in cash'. Part of the premiums granted could be deducted for payment as 'withholding' for reimbursement of (a) loan(s) to the farmer or as 'payment for services' provided to the farmer."
+            d: 'The amount of \'premiums granted\' does not necessary correspond to the amount of \'premiums paid in cash\'. Part of the premiums granted could be deducted for payment as \'withholding\' for reimbursement of (a) loan(s) to the farmer or as \'payment for services\' provided to the farmer. '
         }, {
             i: 'Strategy to promote diversified and sustainable farming systems, as a contribution to environmental sustainability',
             t: 'Strategy to promote diversified and sustainable farming systems, as a contribution to environmental sustainability',
@@ -98,14 +94,14 @@ const defs = {
         {
             i: "MT-BE",
             t: "MT-BE",
-            d: "MT-BE steht für \"metrische Tonnen an Bohnenäquivalenten\". Die Umrechnung in MT-BE von Kakao, der in verschiedenen Formen bezogen wird, soll mit Hilfe der ICCO-Umrechnungsfaktoren erfolgen; 1,33 für Kakaobutter (1804), 1,25 für Kakaomasse/Likör (18031) und 1,18 für Kakaopulver und Kuchen (1805, 18032)"
+            d: 'MT-BE steht für "metrische Tonnen an Bohnenäquivalenten". Die Umrechnung in MT-BE von Kakao, der in verschiedenen Formen bezogen wird, soll mit Hilfe der ICCO-Umrechnungsfaktoren erfolgen; 1,33 für Kakaobutter (1804), 1,25 für Kakaomasse/Likör (18031) und 1,18 für Kakaopulver und Kuchen (1805, 18032)'
         }, {
             i: "Farming household",
             t: "Bäuerlicher Haushalt",
-            d: "Der bäuerliche Haushalt entspricht einer kleinbäuerlichen kakaoproduzierenden Familie. Die Anzahl der bäuerlichen Haushalte entspricht somit der Anzahl der (kleinbäuerlichen) Kakaobetriebe."
+            d: 'Der bäuerliche Haushalt entspricht einer kleinbäuerlichen kakaoproduzierenden Familie. Die Anzahl der bäuerlichen Haushalte entspricht somit der Anzahl der (kleinbäuerlichen) Kakaobetriebe.'
         }, {
             i: "Reached (farming households reached)",
-            t: "\"erreicht\" (\"erreichte bäuerliche Haushalte\")",
+            t: 'erreicht" ("erreichte bäuerliche Haushalte")',
             d: 'Der Begriff "erreicht" ("erreichte bäuerliche Haushalte") ist kontextabhängig, er könnte " involviert in ", "profitieren" usw. bedeuten. Jede Datensammlung für "Anzahl der erreichten landwirtschaftlichen Haushalte" wird so weit wie möglich mit einer Aktivität, einem Output oder einem Ergebnis des Kakao-Nachhaltigkeitsprojekts oder der Kakao-Nachhaltigkeitsinitiative verknüpft; eine solche Verknüpfung kontextualisiert somit die Auswirkungen und/oder Vorteile für den betreffenden landwirtschaftlichen Haushalt.'
         }, {
             i: 'Farming land',
@@ -145,44 +141,40 @@ const defs = {
         }, {
             i: 'Conventional (traceability level 0)',
             t: 'Konventionell',
-            d: 'Kakao, der beschafft wurde, ohne den Rückverfolgbarkeitsanforderungen "Mengenausgleich", "segregated" oder "identity preserved" zu entsprechen - bitte beziehen Sie sich auf die entsprechenden Definitionen.Kakao, der beschafft wurde, ohne den Rückverfolgbarkeitsanforderungen "Mengenausgleich", "segregated" oder "identity preserved" zu entsprechen - bitte beziehen Sie sich auf die entsprechenden Definitionen.'
+            d: 'Kakao, der beschafft wurde, ohne den Rückverfolgbarkeitsanforderungen "Mengenausgleich", "segregated" oder "identity preserved" zu entsprechen - bitte beziehen Sie sich auf die entsprechenden Definitionen.'
         }, {
             i: 'Mass balance (traceability level 1)',
             t: 'Mass balance (traceability level 1)',
             d: 'Der Mengenausgleich (mass balance) überwacht administrativ den Handel (Transaktion) von konformen Kakao über die gesamte Lieferkette. Das Mengenausgleichssystem erfordert eine transparente Dokumentation und Nachweise über Herkunft und Menge des vom Erstkäufer gekauften konformen Kakaos (= zertifizierter oder unabhängig verifizierter Kakao). Das Mengenausgleichssystem ermöglicht das Mischen von konformem und nicht konformem Kakao in den nachfolgenden Stufen der Liefer- und Wertschöpfungskette (z.B. Transport, Verarbeitung, Herstellung). Die Akteure der Kakaolieferkette können eine bestimmte Masse an konformem Kakao oder ein äquivalentes Volumen konformer kakaohaltiger Produkte verkaufen, sofern die tatsächlichen Verkaufsmengen konformer Produkte über die gesamte Lieferkette verfolgt und geprüft werden und diese Mengen die Kakaobohnenäquivalente des im Ursprung gekauften konformen Kakaos nicht übersteigen. (Definition wurde unter Verwendung von Elementen erstellt, die von ISO-CEN und Fairtrade übernommen wurden)'
         }, {
             i: 'Segregated (traceability level 2)',
-            t: 'Segregated (traceability level 2)',
-            d: 'Segregierter Kakao ("segregated") - Zertifizierter oder unabhängig überprüfter Kakao, der die Segregationsanforderungen erfüllt. Gemäss dem Mengenausgleichssystem erfordert die Segregation eine transparente Dokumentation und Nachweis der Herkunft und Menge des vom Erstkäufer gekauften konformen Kakaos (dies ist zertifizierter oder unabhängig überprüfter Kakao). Konformer Kakao wird von nicht konformem Kakao getrennt gehalten, auch während des Transports, der Lagerung, der Verarbeitung von Kakao und der Herstellung kakaohaltiger Produkte. Die Trennung ermöglicht das Mischen von Kakao unterschiedlicher Herkunft, soweit der gesamte Kakao, der gemischt wird, als konformer Kakao gilt (gemäß dem angewandten Zertifizierungsstandard oder verifizierten Unternehmensprogramm). Die Akteure der Lieferkette für Kakao müssen nachweisen, dass sie die erforderlichen Maßnahmen ergriffen haben, um zu vermeiden, dass konformer Kakao mit nicht konformem Kakao gemischt wird (Definition unter Verwendung von Elementen, die von ISO-CEN und Rainforest Alliance übernommen wurden).'
+            t: 'Segregiert (Rückverfolgbarkeitslevel 2)',
+            d: 'Segregierter Kakao (\'segregated\') - Zertifizierter oder unabhängig überprüfter Kakao, der die Segregationsanforderungen erfüllt. Gemäss dem Mengenausgleichssystem erfordert die Segregation eine transparente Dokumentation und Nachweis der Herkunft und Menge des vom Erstkäufer gekauften konformen Kakaos (dies ist zertifizierter oder unabhängig überprüfter Kakao). Konformer Kakao wird von nicht konformem Kakao getrennt gehalten, auch während des Transports, der Lagerung, der Verarbeitung von Kakao und der Herstellung kakaohaltiger Produkte. Die Trennung ermöglicht das Mischen von Kakao unterschiedlicher Herkunft, soweit der gesamte Kakao, der gemischt wird, als konformer Kakao gilt (gemäß dem angewandten Zertifizierungsstandard oder verifizierten Unternehmensprogramm). Die Akteure der Lieferkette für Kakao müssen nachweisen, dass sie die erforderlichen Maßnahmen ergriffen haben, um zu vermeiden, dass konformer Kakao mit nicht konformem Kakao gemischt wird (Definition unter Verwendung von Elementen, die von ISO-CEN und Rainforest Alliance übernommen wurden).'
         }, {
             i: 'Identity preserved (traceability level 3)',
-            t: 'Identity preserved (traceability level 3)',
-            d: '"Identity preserved" ist die höchste Art der Rückverfolgbarkeit. Es gibt keine Vermischung von Kakao, weder mit nicht-konformem Kakao, noch mit Kakao anderer Herkunft. Wenn der "einzige Ursprung" auf Kooperativenebene oder in einem Kakaoanbaugebiet (das verschiedene Kooperativen zusammenfasst) festgelegt wird, dann kann konformer Kakao aus diesem breiteren Ursprung kombiniert werden. Mit anderen Worten, das "identity preserved" System erfüllt alle Anforderungen an "seggregierten Kakao", erlaubt aber nicht das Mischen von Kakao aus verschiedenen Ursprüngen.'
+            t: '"Identity preserved" (Rückverfolgbarkeitslevel 3)',
+            d: '"Identity preserved" ist die höchste Art der Rückverfolgbarkeit. Es gibt keine Vermischung von Kakao, weder mit nicht-konformem Kakao, noch mit Kakao anderer Herkunft. Wenn der "einzige Ursprung" auf Kooperativenebene oder in einem Kakaoanbaugebiet (das verschiedene Kooperativen zusammenfasst) festgelegt wird, dann kann konformer Kakao aus diesem breiteren Ursprung kombiniert werden. Mit anderen Worten, das "identity preserved" System erfüllt alle Anforderungen an "seggregierten Kakao", erlaubt aber nicht das Mischen von Kakao aus verschiedenen Ursprüngen. '
         }, {
             i: 'Certified or independently verified cocoa',
-            t: 'Certified or independently verified cocoa',
+            t: 'Zertfizierter oder unabhängig verifizierter Kakao',
             d: <Fragment>
                 Kakao, der in Übereinstimmung mit den Anforderungen anerkannter Zertifizierungsstandards oder unabhängig verifizierter Unternehmensprogramme für nachhaltigen Kakao, produziert wird.
-                Die Liste der anerkannten Zertifizierungsstandards und unabhängig verifizierten Unternehmensprogramme umfasst derzeit die folgenden:
+                <br/>Die Liste der anerkannten Zertifizierungsstandards und unabhängig verifizierten Unternehmensprogramme umfasst derzeit die folgenden:
                 <ul style={{marginLeft:"25px"}}>
                     <li>UTZ / Rainforest Alliance</li>
                     <li>Fairtrade</li>
-                    <li>Cocoa Horizons (Barry Callebout)</li>
-                    <li>Cocoa Life (Mondelez)</li>
-                    <li>Cocoa Promise (Cargill)</li>
-                    <li>Cocoa Trace (Puratos)</li>
-                    <li>BIO (Belgien)</li>
-                    <li>Ökologisch</li>
+                    <li>Bio</li>
+                    <li>Firmenprogramme (zu spezifieren)</li>
                 </ul>
             </Fragment>
         }, {
             i: 'Premiums granted to the farmer',
-            t: 'Premiums granted to the farmer',
-            d: 'Der Betrag der "gewährten Prämien" entspricht nicht notwendigerweise dem Betrag der "bar bezahlten Prämien". Ein Teil der gewährten Prämien könnte zur Zahlung als "Einbehaltung" für die Rückzahlung eines oder mehrerer Darlehen an den Bauern/die Bäuerin oder als "Zahlung für an den Bauern/die Bäuerin erbrachte Dienstleistungen" abgezogen werden.'
+            t: 'Gewährte Prämien an die Bäuerinnen und Bauern',
+            d: 'Der Betrag der "gewährten Prämien" entspricht nicht notwendigerweise dem Betrag der "bar bezahlten Prämien". Ein Teil der gewährten Prämien könnte zur Zahlung als "Einbehaltung" für die Rückzahlung eines oder mehrerer Darlehen an den Bauern/die Bäuerin oder als "Zahlung für an den Bauern/die Bäuerin erbrachte Dienstleistungen" abgezogen werden. '
         }, {
             i: 'Strategy to promote diversified and sustainable farming systems, as a contribution to environmental sustainability',
-            t: 'Strategy to promote diversified and sustainable farming systems, as a contribution to environmental sustainability',
-            d: 'Eine "Strategie zur Förderung diversifizierter und nachhaltiger Anbausysteme als Beitrag zur ökologischen Nachhaltigkeit" bedeutet, dass das Kakao-Nachhaltigkeitsprojekt (Programm/Projekt/Initiative) auf Veränderungen der Anbaupraktiken oder -systeme abzielt, die von kakaoanbauenden Haushalten verwendet werden.Eine solche Strategie kann darauf abzielen, (a) die negativen Umweltauswirkungen bestehender Anbaupraktiken oder -systeme zu verringern oder abzuschwächen oder (b) die Verwendung anderer Anbaupraktiken und -systeme, die positive Auswirkungen auf die Umwelt haben durch die bäuerlichen Haushalte zu erreichen.  Dies kann Ziele in Bezug auf die Nutzung natürlicher Ressourcen, Bodenqualität, Pestizide, biologische Vielfalt, Klimaresistenz, Waldbedeckung usw. beinhalten. Eine solche Strategie sollte in irgendeiner Weise dokumentiert und explizit ausformuliert sein, aber es muss sich dabei nicht um ein separates, spezifisches strategisches Doucment zu diesen Themen handeln. Die Strategie kann Teil eines Projektdokuments, der Veränderungstheorie eines Projekts usw. sein.'
+            t: 'Strategie zur Förderung diversifizierter und nachhaltiger Anbausysteme als Beitrag zur ökologischen Nachhaltigkeit',
+            d: 'Eine "Strategie zur Förderung diversifizierter und nachhaltiger Anbausysteme als Beitrag zur ökologischen Nachhaltigkeit" bedeutet, dass das Kakao-Nachhaltigkeitsprojekt (Programm/Projekt/Initiative) auf Veränderungen der Anbaupraktiken oder -systeme abzielt, die von kakaoanbauenden Haushalten verwendet werden.Eine solche Strategie kann darauf abzielen, (a) die negativen Umweltauswirkungen bestehender Anbaupraktiken oder -systeme zu verringern oder abzuschwächen oder (b) die Verwendung anderer Anbaupraktiken und -systeme, die positive Auswirkungen auf die Umwelt haben durch die bäuerlichen Haushalte zu erreichen.  Dies kann Ziele in Bezug auf die Nutzung natürlicher Ressourcen, Bodenqualität, Pestizide, biologische Vielfalt, Klimaresistenz, Waldbedeckung usw. beinhalten. Eine solche Strategie sollte in irgendeiner Weise dokumentiert und explizit ausformuliert sein, aber es muss sich dabei nicht um ein separates, spezifisches strategisches Doucment zu diesen Themen handeln. Die Strategie kann Teil eines Projektdokuments, der Veränderungstheorie eines Projekts usw. sein.' 
         }
     ],
 
