@@ -6,7 +6,7 @@ import {
     Card,
     Form,
     Button,
-    Modal
+    Modal, ButtonGroup
 } from "react-bootstrap";
 import Select, { components } from "react-select";
 import request from "../lib/request";
@@ -17,6 +17,8 @@ import { useLocale } from "../lib/locale-context";
 import { ModalDataSecurity } from "../components/Modal";
 import { wfc } from "../static/webform-content";
 import { uiText } from "../static/ui-text";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSyncAlt } from "@fortawesome/free-solid-svg-icons";
 
 const ReloadableSelectMenu = props => {
     const { locale } = useLocale();
@@ -30,13 +32,13 @@ const ReloadableSelectMenu = props => {
                 ) : (
                     <>
                         <div>{props.children}</div>
-                        <Button
+                        {/* <Button
                             variant="link"
                             className="reload-data"
                             onClick={props.selectProps.reload}
                         >
                             { text.btnRefresh }
-                        </Button>
+                        </Button> */}
                     </>
                 )}
             </div>
@@ -49,6 +51,7 @@ const SavedFormsSelector = ({ text, user, onSelect, watchValue }) => {
     const [selected, setSelected] = useState();
     const [value, setValue] = useState();
     const [fetchingData, setFetchingData] = useState(false);
+    const [loadingSelect, setLoadingSelect] = useState(false);
     const onSubmit = () => {
         if (!selected) return;
         const url = `${selected.url}?user_id=${user.id}`;
@@ -84,11 +87,13 @@ const SavedFormsSelector = ({ text, user, onSelect, watchValue }) => {
         setAvailable(data);
     };
     const reload = e => {
+        setLoadingSelect(true);
         e.preventDefault();
         setFetchingData(true);
         setTimeout(async () => {
             await loadData();
             setFetchingData(false);
+            setLoadingSelect(false);
         }, 300);
     };
 
@@ -120,7 +125,7 @@ const SavedFormsSelector = ({ text, user, onSelect, watchValue }) => {
         <div className="savedForms">
             <Row>{ text.formPickPreviousSavedForms }</Row>
             <Row>
-                <Form inline>
+                <Form as={Col} inline>
                     <div className="mb-2 mr-sm-2 selectContainer">
                         <Select
                             components={{ Menu: ReloadableSelectMenu }}
@@ -133,11 +138,19 @@ const SavedFormsSelector = ({ text, user, onSelect, watchValue }) => {
                             onChange={onChange}
                             fetchingData={fetchingData}
                             reload={reload}
+                            isLoading={loadingSelect}
                         />
                     </div>
-                    <Button className="mb-2" onClick={onSubmit}>
-                        { text.btnOpen }
-                    </Button>
+                    <div className="ml-8" style={{float:"right"}}>
+                        <Button variant="info" style={{float:"left"}} className="mb-2" onClick={reload}>
+                            <FontAwesomeIcon
+                                icon={faSyncAlt}
+                            />
+                        </Button>
+                        <Button className="ml-2 mb-2" onClick={onSubmit}>
+                            { text.btnOpen }
+                        </Button>
+                    </div>
                 </Form>
             </Row>
         </div>
