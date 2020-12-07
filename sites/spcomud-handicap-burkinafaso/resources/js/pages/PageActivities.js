@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { mapStateToProps, mapDispatchToProps } from "../reducers/actions";
 import { Row, Col, Card, ListGroup, Container, Jumbotron } from "react-bootstrap";
-require("../data/uganda.js");
+require("../data/burkina-faso.js");
 import Charts from "../components/Charts";
 import {
     generateData,

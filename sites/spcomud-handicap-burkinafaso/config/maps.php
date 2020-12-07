@@ -7,6 +7,11 @@ $colors = [
 
 return [
     "469750943" => [
+        "maps" => [
+            "polygon" => true,
+            "point" => false,
+            "match_question" => 482740949, // location question
+        ],
         "first_filter" => [
             [
                 "question_id" => 455470955,

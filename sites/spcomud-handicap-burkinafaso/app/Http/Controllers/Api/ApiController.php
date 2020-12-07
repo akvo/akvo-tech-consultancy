@@ -45,6 +45,7 @@ class ApiController extends Controller
         $questions = \App\Question::where('form_id', $requests->form_id)->get();
         
         return [
+            "maps" => $configs['maps'],
             "first_filter" => $this->generateMapConfig($configs['first_filter'], $questions),
             "second_filter" => $this->generateMapConfig($configs['second_filter'], $questions),
         ];
@@ -60,6 +61,18 @@ class ApiController extends Controller
         $answers = \App\Answer::whereIn('form_instance_id', $fids)->get()
                     ->groupBy('form_instance_id')->values();
         return $answers;
+    }
+
+    public function getMapsLocation(Request $requests)
+    {
+        if (!isset($requests->form_id)) {
+            return response("Not Found", 404);
+        }
+
+        $configs = config('maps.'.$requests->form_id);
+        $location_question = \App\Question::find($configs['maps']['match_question']);
+        $locations = \App\Cascade::where('parent_id', $location_question->cascade_id)->with('childrenNested')->get();
+        return $locations;
     }
 
     private function generateMapConfig($data, $questions)

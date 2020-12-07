@@ -20,7 +20,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('/surveys', 'Api\ApiController@getSurveys');
 Route::get('/data', 'Api\ApiController@data');
-Route::get('/maps/config/{form_id}', 'Api\ApiController@getMaps'); # TODO : load as maps config
-Route::get('/maps/data/{form_id}', 'Api\ApiController@getMapsData'); # TODO : load as maps data
+Route::get('/maps/config/{form_id}', 'Api\ApiController@getMaps');
+Route::get('/maps/data/{form_id}', 'Api\ApiController@getMapsData');
+Route::get('/maps/location/{form_id}', 'Api\ApiController@getMapsLocation');
 // Route::get('/covid','Api\ApiController@getCovidStatus'); # to delete
 // Route::get('/covid/district', 'Api\ApiController@getCovidStatusByDistrict'); # to delete

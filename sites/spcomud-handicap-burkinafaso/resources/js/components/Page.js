@@ -12,7 +12,6 @@ import PageActivities from '../pages/PageActivities';
 import PageWebform from '../pages/PageWebform';
 import axios from 'axios';
 import Loading from './Loading';
-import { centeroid } from '../data/uganda-points.js';
 
 const prefixPage = process.env.MIX_PUBLIC_URL + "/api/";
 

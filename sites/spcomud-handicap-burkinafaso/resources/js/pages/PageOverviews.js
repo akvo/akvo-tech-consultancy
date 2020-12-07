@@ -55,8 +55,7 @@ class PageOverviews extends Component {
         super(props);
         this.getCharts = this.getCharts.bind(this);
         this.getOptions = this.getOptions.bind(this);
-        // this.getRowTable = this.getRowTable.bind(this);
-        this.getOverview = this.getOverview.bind(this);
+        this.getRowTable = this.getRowTable.bind(this);
         this.TableView = this.TableView.bind(this);
         this.getMaps = this.getMaps.bind(this);
         this.state = {
@@ -68,7 +67,6 @@ class PageOverviews extends Component {
             ]
         }
     }
-
 
     TableView(params) {
         if (params.value && params.seriesType === "map") {
@@ -106,7 +104,7 @@ class PageOverviews extends Component {
 
     getMaps() {
         let collections = [];
-        // let data = this.getRowTable();
+        let data = this.getRowTable();
         // let districts = groupBy(data,'district');
         // for (const district in districts) {
         //     let collection = {
@@ -123,34 +121,38 @@ class PageOverviews extends Component {
         return mapConfig;
     }
 
-    // getRowTable() {
-    //     let base = this.props.value.base;
-    //     let config = base.config;
-    //     let page = this.props.value.page.name;
-    //     let data = this.props.value.filters[page].data;
-    //     data = data.map((x, i) => {
-    //         let results = {no: (i+1), ...x};
-    //         for (const v in x) {
-    //             let column = config.find(n => n.name === v);
-    //             if (column !== undefined && column.on) {
-    //                 let value = base[column.on].find(a => a.id === x[v]);
-    //                 if (typeof(value) !== 'undefined') {
-    //                     results = {
-    //                         ...results,
-    //                         [v]: value.text
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //         return results;
-    //     });
-    //     return data;
-    // }
+    getRowTable() {
+        let page = this.props.value.page.name;
+        let filters = this.props.value.filters[page];
+        if (filters.source === null) {
+            return [];
+        }
+        let data = filters.data;
+        let config = filters.config; // # Neeed to load the locations cascade and map with data,
+        data = data.map((x, i) => {
+            let results = {no: (i+1), ...x};
+            for (const v in x) {
+                // let column = config.find(n => n.name === v);
+                // if (column !== undefined && column.on) {
+                //     let value = base[column.on].find(a => a.id === x[v]);
+                //     if (typeof(value) !== 'undefined') {
+                //         results = {
+                //             ...results,
+                //             [v]: value.text
+                //         }
+                //     }
+                // }
+            }
+            return results;
+        });
+        console.log(config);
+        return data;
+    }
 
     getOptions(list) {
         let filters = this.props.value.filters.overviews.filters;
-        let title = (filters.form_id === 0 ) ? "Burkina Faso" : filters.form_name;
-        let subtitle = (filters.form_id === 0 ) ? "" : filters.survey_name;
+        let title = "Title";
+        let subtitle = "Subtitle";
         return Maps(title, subtitle, this.getMaps());
     }
 
@@ -162,55 +164,8 @@ class PageOverviews extends Component {
                 data={list.data}
                 page={this.props.value.page.name}
                 options={this.getOptions(list)}
-                // table={this.getOverview()}
             />
         )
-    }
-
-    getOverview() {
-        const data = this.getRowTable();
-        const activities = groupBy(data, 'activity')
-        let overviews = [];
-        for (const act in activities){
-            overviews = [
-                ...overviews,
-                {name: act, value: activities[act].length}
-            ]
-        }
-        return (
-            <div className="table-floating tooltip-maps">
-            <Card>
-                <Card.Header style={{textAlign:'center'}}>Organisations</Card.Header>
-                <ListGroup variant="flush" style={{textAlign:'center'}}>
-                    <ListGroup.Item><h2>{uniqBy(data, 'org_name').length}</h2></ListGroup.Item>
-                </ListGroup>
-            </Card>
-            <Card style={{marginTop:'10px'}}>
-                <Card.Header style={{textAlign:'center'}}>Beneficeries Assisted</Card.Header>
-                <ListGroup variant="flush" style={{textAlign:'center'}}>
-                    <ListGroup.Item><h2>{sumBy(data,'new')}</h2></ListGroup.Item>
-                </ListGroup>
-            </Card>
-            <hr/>
-            <table className="table table-bordered">
-                <thead className="thead-dark">
-                    <tr>
-                    <th colSpan="2">Number of</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        overviews.map((x, i) => (
-                            <tr key={i}>
-                                <th>{x.name}</th>
-                                <th width="50" className="text-right">{x.value}</th>
-                            </tr>
-                        ))
-                    }
-                </tbody>
-            </table>
-            </div>
-        );
     }
 
     componentDidMount() {
