@@ -144,14 +144,24 @@ const SavedFormsSelector = ({ text, user, onSelect, watchValue }) => {
     );
 };
 
-const NewFormSelector = ({ text, user, onSelect, watchValue }) => {
+const NewFormSelector = ({ text, user, onSelect, watchValue, showModal, setSubmissionInfo }) => {
     const [available, setAvailable] = useState([]);
     const [selected, setSelected] = useState();
     const [value, setValue] = useState();
-    const onSubmit = () => {
+    const onSubmit = async () => {
         if (!selected) return;
-        const url = `${selected.url}?user_id=${user.id}`;
-        onSelect({ url, type: selected.name });
+        // check submission to database
+        let endpoint = '/api/submission/check/'+user.organization_id+'/'+selected.name;
+        const { data } = await request().get(endpoint);
+        // if not max submission
+        if (!data.max_submission) {
+            console.log('boleh lagi');
+            const url = `${selected.url}?user_id=${user.id}`;
+            onSelect({ url, type: selected.name });
+            return;
+        }
+        setSubmissionInfo(data);
+        showModal(true);
     };
     const onChange = data => {
         const form = available.find(f => f.name === data.value);
@@ -230,23 +240,56 @@ const NewProjectSurveyInfoModal = ({ text, show, onHide, content }) => {
     );
 };
 
+const SubmissionInfoModal = ({ text, show, onHide, submissionInfo }) => {
+    let content = '';
+    if (typeof submissionInfo !== 'undefined') {
+        const { submissions, users } = submissionInfo;
+        let status = (submissions[0]['submitted']) ? "Submitted" : "Saved";
+        content = status + ' by ' + users[0]['name'];
+    };
+    return (
+        <Modal size="md" scrollable={true} show={show} onHide={onHide}>
+            <Modal.Header closeButton>
+                <Modal.Title>
+                    Maximum Submission
+                </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                { content }
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={onHide}>
+                    { text.btnClose }
+                </Button>
+            </Modal.Footer>
+        </Modal>
+    );
+};
+
 const WebForm = () => {
     const { user } = useAuth();
+    const { locale } = useLocale();
     const [activeForm, setActiveForm] = useState();
     const [delayedActiveForm, setDelayedActiveForm] = useState();
     const [showProjectInfo, setShowProjectInfo] = useState(false);
+    const [showSubmissionInfo, setShowSubmissionInfo] = useState(false);
+    const [submissionInfo, setSubmissionInfo] = useState();
+
     const openForm = url => {
-        setActiveForm(url);
+        let endpoint = (url === null) ? url : url + '&locale=' + locale.active;
+        setActiveForm(endpoint);
         localStorage.setItem(`active-form:${user.id}`, url);
     };
+
     const onSelectForm = ({ url, type }) => {
         if (type == "111510043") {
             setShowProjectInfo(true);
-            setDelayedActiveForm(url);
+            setDelayedActiveForm(url + '&locale=' + locale.active);
         } else {
             openForm(url);
         }
     };
+
     const onClosedProjectInfo = () => {
         openForm(delayedActiveForm);
         setDelayedActiveForm(null);
@@ -256,14 +299,14 @@ const WebForm = () => {
     useEffect(() => {
         // open form from previous session
         const form = localStorage.getItem(`active-form:${user.id}`);
-        setActiveForm(form);
-    }, []);
+        let endpoint = (form === null) ? form : form + '&locale=' + locale.active;
+        setActiveForm(endpoint);
+    }, [locale]);
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const { locale } = useLocale();
     let content = wfc(handleShow)[locale.active];
     let text = uiText[locale.active];
 
@@ -286,6 +329,8 @@ const WebForm = () => {
                                 user={user}
                                 onSelect={onSelectForm}
                                 watchValue={activeForm}
+                                showModal={setShowSubmissionInfo}
+                                setSubmissionInfo={setSubmissionInfo}
                             />
                         </div>
                     </div>
@@ -314,6 +359,12 @@ const WebForm = () => {
                         show={showProjectInfo}
                         onHide={onClosedProjectInfo}
                         content={content.newProjectPopupText}
+                    />
+                    <SubmissionInfoModal
+                        text={text}
+                        show={showSubmissionInfo}
+                        onHide={e => setShowSubmissionInfo(false)}
+                        submissionInfo={submissionInfo}
                     />
                 </Col>
             </Row>
