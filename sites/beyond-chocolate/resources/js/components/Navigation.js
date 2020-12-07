@@ -25,7 +25,6 @@ const Navigation = () => {
     };
 
     const handleLocale = eventKey => {
-        console.log(eventKey);
         update({ ...locale, active: eventKey });
     };
 

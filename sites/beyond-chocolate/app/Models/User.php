@@ -51,4 +51,9 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsTo('\App\Models\Organization');
     }
+
+    public function webforms()
+    {
+        return $this->hasMany('\App\Models\WebForm');
+    }
 }

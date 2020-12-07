@@ -34,6 +34,7 @@ Route::middleware(['auth:sanctum'])->get('/me', function (Request $request) {
         'name' => $user->name,
         'email' => $user->email,
         'permissions' => $user->role->permissions,
+        'organization_id' => $user->organization_id,
         'verified' => $user->hasVerifiedEmail()
     ];
 });
@@ -114,3 +115,7 @@ Route::post('/auth/reset-password', [Auth::class, 'resetPassword']);
 Route::middleware(['auth:sanctum'])->post('/user/update', [Auth::class, 'update']);
 Route::get('/organizations', [Api::class, 'getOrganizations']);
 Route::get('/seed', [Seed::class, 'seedDatabase']);
+Route::get('/config', [Api::class, 'getConfig']);
+Route::post('/submission', [Api::class, 'postWebForm']);
+Route::get('/submission/{organization_id}', [Api::class, 'getWebForm']);
+Route::get('/submission/check/{organization_id}/{form_id}', [Api::class, 'checkWebForm']);

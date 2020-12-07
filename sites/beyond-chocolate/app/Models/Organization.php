@@ -26,4 +26,9 @@ class Organization extends Model
     {
         return $this->hasMany('\App\Models\User');
     }
+
+    public function webforms()
+    {
+        return $this->hasMany('\App\Models\WebForm');
+    }
 }
