@@ -34,13 +34,13 @@ class ApiController extends Controller
     public function postWebForm(Request $request)
     {
         $input = $request->validate([
-            'user_id' => ['required', 'integer'],
-            'organization_id' => ['required',  'integer'],
-            'form_id' => ['required', 'integer'],
-            'form_instance_id' => ['required', 'string'],
-            'form_instance_url' => ['required', 'string'],
-            'submitted' => ['required', 'boolean'],
-            'updated_at' => ['required']
+            'user_id' => 'required|integer',
+            'organization_id' => 'required|integer',
+            'form_id' => 'required|integer',
+            'form_instance_id' => 'required|string',
+            'form_instance_url' => 'required|string',
+            'submitted' => 'required|boolean',
+            'updated_at' => 'required'
         ]);
 
         $post = new WebForm($input);
