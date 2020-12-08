@@ -532,8 +532,9 @@ class QuestionType extends Component {
             let options = "options_" + lv
             let cascade = "cascade_" + ix
             let availcasc = this.props.value.cascade;
-            let isavailable = false;
             let res = false;
+            /*
+            let isavailable = false;
             if (availcasc.length > 0) {
                 isavailable = true;
             }
@@ -542,7 +543,9 @@ class QuestionType extends Component {
                     return x.url === url;
                 });
             }
+            */
             if (!res) {
+                console.log(lv, ix, url, options, cascade, selected_value, init);
                 this.fetchCascade(lv, ix, url, options, cascade, selected_value, init);
             }
             return;
