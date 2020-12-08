@@ -48,3 +48,16 @@ export const getCovidTable = (params) => {
     html += '</table>';
     return html;
 }
+
+export const flattenLocations = (locations, results) => {
+    locations.forEach(x => {
+        if (x.children_nested.length > 0) {
+            flattenLocations(x.children_nested, results);
+        }
+        if (x.children_nested.length === 0) {
+            results.push(x);
+        }
+        return;
+    });
+    return results;
+}

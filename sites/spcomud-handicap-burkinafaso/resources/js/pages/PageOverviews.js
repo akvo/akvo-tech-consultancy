@@ -7,18 +7,15 @@ import Charts from "../components/Charts";
 import {
     generateData,
 } from "../data/chart-utils.js";
-import { checkCache, titleCase, getCovidTable } from "../data/utils.js";
-import sumBy from 'lodash/sumBy';
-import groupBy from 'lodash/groupBy';
-import uniqBy from 'lodash/uniqBy';
+import { checkCache, titleCase, flattenLocations } from "../data/utils.js";
 import filter from 'lodash/filter';
 import Bar from '../data/options/Bar';
 import Maps from '../data/options/Maps';
 import Pie from '../data/options/Pie';
 import DataFilters from '../components/DataFilters';
-import DataLocations from '../components/DataLocations';
 import { TextStyle } from '../data/features/animation.js';
 import { retrieveColumnLayout } from "echarts/lib/layout/barGrid";
+import { rangeRight } from "lodash";
 
 
 const MapsOverride = (TableView) => {
@@ -57,9 +54,9 @@ class PageOverviews extends Component {
         this.getData = this.getData.bind(this);
         this.TableView = this.TableView.bind(this);
         this.getMaps = this.getMaps.bind(this);
-        this.flattenLocations = this.flattenLocations.bind(this);
         this.renderFirstFilterDropdown = this.renderFirstFilterDropdown.bind(this);
         this.renderFirstFilterLegend = this.renderFirstFilterLegend.bind(this);
+        this.filterMapData = this.filterMapData.bind(this);
         this.state = {
             charts: [
                 {
@@ -92,39 +89,13 @@ class PageOverviews extends Component {
         return mapConfig;
     }
 
-    flattenLocations(locations, results) {
-        locations.forEach(x => {
-            if (x.children_nested.length > 0) {
-                this.flattenLocations(x.children_nested, results);
-            }
-            if (x.children_nested.length === 0) {
-                results.push(x);
-            }
-            return;
-        });
-        return results;
-    }
-
     getData() {
         let page = this.props.value.page.name;
         let filters = this.props.value.filters[page];
         if (filters.source === null) {
             return [];
         }
-        let data = filters.data;
-        let config = filters.config;
-        let locations = [];
-        this.flattenLocations(filters.locations, locations);
-        let results = locations.map(x => {
-            let filteredData = filter(data, (y) => {
-                return y[config.maps.match_question].name.toLowerCase() === x.name.toLowerCase();
-            });
-            return {
-                name: x.text,
-                value: filteredData.length,
-                details: null,
-            }
-        });
+        let results = filter(filters.dataLoc, (x => x.active === true));
         return results;
     }
 
@@ -163,6 +134,13 @@ class PageOverviews extends Component {
         return res;
     }
 
+    filterMapData(e) {
+        let val = e.target.value;
+        let page = this.props.value.page.name;
+        let filters = this.props.value.filters[page];
+        // TODO : filter the data here, by legend selected, need to mapping old data again and transform it into dataLoc
+    }
+
     renderFirstFilterLegend(e) {
         let qid = e.target.value;
         if (qid === "") {
@@ -175,7 +153,7 @@ class PageOverviews extends Component {
         let selected = filter(config.first_filter, (x => x.question_id == qid));
         let legends = selected[0].values.map((x, i) => {
             return <Form.Check 
-                        onClick={e => console.log(e.target.value)}
+                        onClick={e => this.filterMapsData(e)}
                         id={"legend-"+i}
                         key={x.id}
                         type="radio"

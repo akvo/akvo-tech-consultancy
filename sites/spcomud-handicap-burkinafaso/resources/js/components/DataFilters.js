@@ -2,8 +2,9 @@ import React, { Component, Fragment, useState } from 'react';
 import { connect } from 'react-redux';
 import { mapStateToProps, mapDispatchToProps } from '../reducers/actions.js';
 import { Form, Row, Col, } from 'react-bootstrap';
-import { checkCache, titleCase } from "../data/utils.js";
+import { checkCache, titleCase, flattenLocations } from "../data/utils.js";
 import axios from 'axios';
+import filter from 'lodash/filter';
 
 const prefixPage = process.env.MIX_PUBLIC_URL + "/api/";
 
@@ -61,12 +62,28 @@ class DataFilters extends Component {
                         data: res,
                     }
                 }).then(results => {
+                    // transform the data
+                    let locations = [];
+                    flattenLocations(results.locations, locations);
+                    let dataLoc = locations.map(x => {
+                        let filteredData = filter(results.data, (y) => {
+                            return y[results.config.maps.match_question].name.toLowerCase() === x.name.toLowerCase();
+                        });
+                        return {
+                            name: x.text,
+                            value: filteredData.length,
+                            active: true,
+                            details: null,
+                        }
+                    });
+                    // eol transform data
                     this.props.filter.change(
                         {
                             source: source,
                             data: results.data,
                             config: results.config,
-                            locations: results.locations
+                            locations: results.locations,
+                            dataLoc: dataLoc,
                         }, 
                         this.props.value.page.name
                     );

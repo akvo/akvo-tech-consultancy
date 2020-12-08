@@ -30,7 +30,7 @@ export const changeFilter = (base, state, page, filter) => {
                 config: filter.config,
                 data: filter.data,
                 locations: filter.locations,
-                dataLoc: filte.dataLoc,
+                dataLoc: filter.dataLoc,
             },
         }
         return results;
