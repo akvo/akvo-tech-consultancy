@@ -157,10 +157,25 @@ const SavedFormsSelector = ({ text, user, onSelect, watchValue }) => {
     );
 };
 
+
+const NewFormSelectMenu = props => {
+    const { locale } = useLocale();
+    let text = uiText[locale.active];
+    return (
+        <components.Menu {...props}>
+            <>
+                <div>{props.children}</div>
+            </>
+        </components.Menu>
+    );
+};
+
 const NewFormSelector = ({ text, user, onSelect, watchValue, showModal, setSubmissionInfo }) => {
     const [available, setAvailable] = useState([]);
     const [selected, setSelected] = useState();
     const [value, setValue] = useState();
+    const [submissions, setSubmissions] = useState([]);
+    
     const onSubmit = async () => {
         if (!selected) return;
         // check submission to database
@@ -181,7 +196,24 @@ const NewFormSelector = ({ text, user, onSelect, watchValue, showModal, setSubmi
         setValue(data);
     };
 
+    const checkSubmissionOnLoad = async () => {
+        const { data } = await request().get('/api/submission/check/'+user.organization_id);
+        setSubmissions(data);
+    }
+
+    const formatLabel = option => {
+        let disabled = submissions.includes(parseInt(option.value));
+        let info = (disabled) ? 
+            <small className="font-italic">
+                submission for the member already created
+            </small> : "";
+        return (
+            <div>{option.label} {info}</div>
+        );
+    };
+
     useEffect(async () => {
+        checkSubmissionOnLoad();
         const { data } = await request().get("/api/me/surveys");
         setAvailable(data);
     }, []);
@@ -213,12 +245,17 @@ const NewFormSelector = ({ text, user, onSelect, watchValue, showModal, setSubmi
                 <Form inline>
                     <div className="mb-2 mr-sm-2 selectContainer">
                         <Select
+                            components={{ Menu: NewFormSelectMenu }}
                             value={value}
                             onChange={onChange}
-                            options={available.map(f => ({
-                                value: f.name,
-                                label: f.title
-                            }))}
+                            isOptionDisabled={option => submissions.includes(parseInt(option.value))}
+                            options={available.map(f => {
+                                return {
+                                    value: f.name,
+                                    label: f.title
+                                }
+                            })}
+                            formatOptionLabel={formatLabel}
                         />
                     </div>
                     <Button className="mb-2" onClick={onSubmit}>
@@ -329,7 +366,7 @@ const WebForm = () => {
             <Row>
                 <Col md={12}>
                     <div className="d-flex">
-                        <div className="p-2 flex-grow-1">
+                        <div className="p-2 flex-grow-1" style={{maxWidth:"70%"}}>
                             <SavedFormsSelector
                                 text={text}
                                 user={user}
@@ -337,7 +374,7 @@ const WebForm = () => {
                                 watchValue={activeForm}
                             />
                         </div>
-                        <div className="p-2 pr-3">
+                        <div className="p-2 pr-3" style={{minWidth:"30%"}}>
                             <NewFormSelector
                                 text={text}
                                 user={user}

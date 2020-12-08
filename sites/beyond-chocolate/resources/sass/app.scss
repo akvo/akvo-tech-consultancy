@@ -381,7 +381,8 @@ main {
         }
        background: rgba( $color-secondary,1);
         .selectContainer {
-           min-width: 300px;
+        //    min-width: 300px;
+           min-width: 425px;
        }
     }
     div[class$="-container"] {
