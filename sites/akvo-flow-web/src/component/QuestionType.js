@@ -731,7 +731,7 @@ class QuestionType extends Component {
         let id = this.props.data.id;
         let value = event.target.value;
         if (this.state.custom_cascade_type === "radio") {
-            this.setState({custom_cascade_other:value !== "Other"});
+            this.setState({custom_cascade_other:value === "Other"});
             localStorage.setItem(id, value);
             this.setState({value: value});
             this.handleGlobal(id, value);
