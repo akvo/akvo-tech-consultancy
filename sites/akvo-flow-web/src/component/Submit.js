@@ -24,6 +24,7 @@ class Submit extends Component {
         super(props);
         this.submitForm = this.submitForm.bind(this)
         this.sendData = this.sendData.bind(this)
+        this.pushApi = this.pushApi.bind(this)
         this.handleCaptcha = this.handleCaptcha.bind(this)
         this.handlePassword = this.handlePassword.bind(this)
         this.handleUser = this.handleUser.bind(this)
@@ -76,6 +77,36 @@ class Submit extends Component {
         this.props.updateDomain(url + '/' + newId + uParams);
     }
 
+    pushApi(submitted) {
+        let instanceApi = SAVE_FEATURES.find(x => x.instance === this.props.value.instanceName);
+        let saveData = JSON.parse(localStorage.getItem('_meta')) || false;
+        if (saveData) {
+            let formInstanceUrl = saveData.instanceName + '/' + saveData.formId + '/' + localStorage.getItem('_cache');
+            saveData = {
+                user_id: saveData.user,
+                organization_id: saveData.org,
+                form_id: saveData.formId,
+                form_instance_id: saveData.instanceName,
+                form_instance_url: formInstanceUrl,
+                submitted: submitted,
+                updated_at: new Date(),
+            }
+        }
+        if (instanceApi) {
+            instanceApi = instanceApi.save ? (instanceApi.api + '/submission') : false;
+        }
+        if (saveData && instanceApi) {
+            axios.post('https://' + instanceApi, saveData, {headers: {'Content-Type':'application/json'}})
+                .then(res => {
+                    console.log(res);
+                })
+                .catch(e => {
+                    console.log(e);
+                    PopupError("Something went wrong");
+                });
+        }
+    }
+
     saveData(content) {
         const files = JSON.parse(localStorage.getItem('__files__') || '{}');
         const fileIds = Object.keys(files);
@@ -95,6 +126,7 @@ class Submit extends Component {
                         postData, { headers: { 'Content-Type': 'application/json' } })
                         .then(res => {
                             PopupToast("Datapoint Updated!", "success");
+                            this.pushApi(false);
                             this.setState({_saveButton: true});
                         })
                         .catch(e => {
@@ -108,6 +140,7 @@ class Submit extends Component {
                         postData, { headers: { 'Content-Type': 'application/json' } })
                         .then(res => {
                             this.saveResult(res.data.id);
+                            this.pushApi(false);
                             this.setState({_saveButton: true});
                         })
                         .catch(e => {
@@ -206,6 +239,7 @@ class Submit extends Component {
                                             }
                                         })
                                         .then(res => {
+                                            this.pushApi(true);
                                             PopupSuccess("New datapoint is sent! clearing form...");
                                             this.setState({ '_showSpinner': false })
                                             setTimeout(function () {

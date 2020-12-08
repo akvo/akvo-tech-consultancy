@@ -9,15 +9,18 @@ export const SAVE_FEATURES = [
     {
         instance:"2scale",
         api: false,
+        pushApi: false,
         formEndpoint: true
     },
     {
         instance:"seap",
+        save: false,
         api: "gisco-demo.tc.akvo.org/api",
         formEndpoint: false
     },
     {
         instance:"idh",
+        save: true,
         api: "gisco-demo.tc.akvo.org/api",
         formEndpoint: false
     },
