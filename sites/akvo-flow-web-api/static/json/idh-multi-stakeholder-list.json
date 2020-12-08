@@ -1,0 +1,73 @@
+[
+    {
+        "name": "Policy Initiatives",
+        "childs": [
+            {
+                "name": "RED++ Process",
+                "childs": []
+            },
+            {
+                "name": "Amsterdam Declaration",
+                "childs": []
+            }
+        ]
+    },
+    {
+        "name": "Multi-Stakeholder Initiatives",
+        "childs": [
+            {
+                "name": "Other European Platforms (SWISSCO, BeyChoc, DISCO)",
+                "childs": []
+            },
+            {
+                "name": "CFI (Cocoa Forests Initiative)",
+                "childs": []
+            },
+            {
+                "name": "Tropical Forest Alliance",
+                "childs": []
+            },
+            {
+                "name": "International Cocoa Initiative (ICI)",
+                "childs": []
+            },
+            {
+                "name": "Alliance on Living Income in Cocoa (ALICO)",
+                "childs": []
+            },
+            {
+                "name": "World Cocoa Foundation (WCF)",
+                "childs": []
+            },
+            {
+                "name": "ISEAL Alliance",
+                "childs": []
+            },
+            {
+                "name": "Living Income Community of Practice",
+                "childs": []
+            }
+        ]
+    },
+    {
+        "name": "Civil Society Initiatives",
+        "childs": [
+            {
+                "name": "Ghana Civil Society Cocoa Platform",
+                "childs": []
+            },
+            {
+                "name": "Platforme De La Societe Civile Et De Organisation de Producteurs en Cacao",
+                "childs": []
+            },
+            {
+                "name": "NGO Forest Coalition",
+                "childs": []
+            },
+            {
+                "name": "VOICE Network",
+                "childs": []
+            }
+        ]
+    }
+]
