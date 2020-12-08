@@ -233,7 +233,7 @@ const NewFormSelector = ({ text, user, onSelect, watchValue, showModal, setSubmi
 
 const NewProjectSurveyInfoModal = ({ text, show, onHide, content }) => {
     return (
-        <Modal size="md" scrollable={true} show={show} onHide={onHide}>
+        <Modal size="lg" scrollable={true} show={show} onHide={onHide}>
             <Modal.Header closeButton>
                 <Modal.Title>
                     { text.modalNewProject }
@@ -241,7 +241,8 @@ const NewProjectSurveyInfoModal = ({ text, show, onHide, content }) => {
             </Modal.Header>
             <Modal.Body>
                 <div className="ml-4 mr-4">
-                    <ul>{ content.map((x, i) => <li key={i}>{x}</li>) }</ul>
+                    <p>{ content.section }</p>
+                    <ul className="ml-4">{ content.list.map((x, i) => <li key={i}>{x}</li>) }</ul>
                 </div>
             </Modal.Body>
             <Modal.Footer>
