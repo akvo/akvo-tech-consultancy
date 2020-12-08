@@ -104,7 +104,8 @@ const SavedFormsSelector = ({ text, user, onSelect, watchValue }) => {
     useEffect(() => {
         // Clear value if other form is active
         if (!selected) return;
-        if (`${selected.url}?user_id=${user.id}` != watchValue) {
+        if (!watchValue.startsWith(`${selected.url}?user_id=${user.id}`)) {
+            console.log("clearing value?", watchValue)
             setValue(null);
         }
     }, [watchValue]);
@@ -227,7 +228,7 @@ const NewFormSelector = ({ text, user, onSelect, watchValue, showModal, setSubmi
     useEffect(() => {
         // Clear value if other form is active
         if (!selected) return;
-        if (`${selected.url}?user_id=${user.id}` != watchValue) {
+        if (!watchValue.startsWith(`${selected.url}?user_id=${user.id}`)) {
             setValue(null);
         }
     }, [watchValue]);
