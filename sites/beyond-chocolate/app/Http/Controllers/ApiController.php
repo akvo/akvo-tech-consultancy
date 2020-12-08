@@ -49,6 +49,26 @@ class ApiController extends Controller
     }
 
     /**
+     * Update the submission submitted status
+     */
+    public function updateWebForm(Request $request)
+    {
+        // query by organization_id and form_id because the rule is 1 organization only have 1 submission
+        // or by form instance url
+        $update = WebForm::where([
+            ['organization_id', '=' ,(int) $request->organization_id],
+            ['form_id', '=', (int) $request->form_id]
+        ])->first();
+        if (!$update) {
+            return \response('Submission not found', 204);
+        }
+        $update->submitted = $request->submitted;
+        $update->updated_at = now();
+        $update->save();
+        return $update;
+    }
+
+    /**
      * Get the submission data ( all / by organization )
      */
     public function getWebForm(Request $request)
@@ -61,7 +81,7 @@ class ApiController extends Controller
     }
 
     /**
-     * Check submission data by organization
+     * Check submission data by organization and form
      */
     public function checkWebForm(Request $request)
     {
@@ -115,6 +135,18 @@ class ApiController extends Controller
             ];
         };
         return;
+    }
+
+    public function checkWebFormOnLoad(Request $request)
+    {
+        $orgId = $request->organization_id;
+        $config = collect(config('webform'));
+        $exception = $config['exception'];
+        if (collect($exception['organization']['ids'])->contains($orgId)) {
+            return [];
+        };
+        $submissions = WebForm::where('organization_id', $orgId)->get();
+        return $submissions->pluck('form_id');
     }
 
 }
