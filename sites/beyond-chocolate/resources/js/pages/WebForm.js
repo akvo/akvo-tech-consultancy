@@ -295,9 +295,11 @@ const WebForm = () => {
     };
 
     const onSelectForm = ({ url, type }) => {
+        console.log(url);
         if (type == "111510043") {
             setShowProjectInfo(true);
-            setDelayedActiveForm(url + '&locale=' + locale.active);
+            // setDelayedActiveForm(url + '&locale=' + locale.active);
+            setDelayedActiveForm(url);
         } else {
             openForm(url);
         }
