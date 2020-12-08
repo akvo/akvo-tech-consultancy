@@ -168,7 +168,6 @@ const NewFormSelector = ({ text, user, onSelect, watchValue, showModal, setSubmi
         const { data } = await request().get(endpoint);
         // if not max submission
         if (!data.max_submission) {
-            console.log('boleh lagi');
             const url = `${selected.url}?user_id=${user.id}`;
             onSelect({ url, type: selected.name });
             return;
@@ -296,8 +295,7 @@ const WebForm = () => {
     };
 
     const onSelectForm = ({ url, type }) => {
-        console.log(url);
-        if (type == "111510043") {
+        if (type == "111510043" || user.project_fids.includes(type)) {
             setShowProjectInfo(true);
             // setDelayedActiveForm(url + '&locale=' + locale.active);
             setDelayedActiveForm(url);

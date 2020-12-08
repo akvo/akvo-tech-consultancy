@@ -40,10 +40,10 @@ class ApiController extends Controller
             'form_instance_id' => 'required|string',
             'form_instance_url' => 'required|string',
             'submitted' => 'required|boolean',
-            'updated_at' => 'required'
+            // 'updated_at' => 'required'
         ]);
-
         $post = new WebForm($input);
+        $post->updated_at = now();
         $post->save();
         return $post;
     }

@@ -35,7 +35,8 @@ Route::middleware(['auth:sanctum'])->get('/me', function (Request $request) {
         'email' => $user->email,
         'permissions' => $user->role->permissions,
         'organization_id' => $user->organization_id,
-        'verified' => $user->hasVerifiedEmail()
+        'verified' => $user->hasVerifiedEmail(),
+        'project_fids' => config('webform.forms.project.fids'),
     ];
 });
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import Navigation from "./components/Navigation";
 import Footer from "./components/Footer";
@@ -20,6 +20,12 @@ import {
 import config from "./config";
 
 const Main = () => {
+    
+    useEffect(() => {
+        // todo setup app version
+        console.log('setup the app version');
+    }, []);
+
     return (
         <BrowserRouter>
             <AuthProvider>
