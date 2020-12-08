@@ -336,7 +336,7 @@ const SubmissionInfoModal = ({ text, show, onHide, submissionInfo }) => {
     );
 };
 
-const WebForm = () => {
+const WebForm = ({setFormLoaded}) => {
     const { user, updateUser } = useAuth();
     const { locale } = useLocale();
     const [activeForm, setActiveForm] = useState();
@@ -371,6 +371,12 @@ const WebForm = () => {
         setDelayedActiveForm(null);
         setShowProjectInfo(false);
     };
+
+    const formLoaded = activeForm || delayedActiveForm;
+
+    useEffect(() => {
+        setFormLoaded(formLoaded)
+    }, [activeForm, delayedActiveForm]);
 
     useEffect(() => {
         // open form from previous session
