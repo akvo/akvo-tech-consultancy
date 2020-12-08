@@ -192,6 +192,9 @@ const NewFormSelector = ({ text, user, onSelect, watchValue, showModal, setSubmi
         // showModal(true); // enable or disable popup
         showModal(false);
         setAlert(true);
+        setTimeout(() => {
+            setAlert(false);
+        }, 2000);
     };
     const onChange = data => {
         const form = available.find(f => f.name === data.value);
