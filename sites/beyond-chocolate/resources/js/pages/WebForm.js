@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Prompt } from "react-router";
 import {
     Container,
     Row,
@@ -310,6 +311,8 @@ const WebForm = () => {
         setShowProjectInfo(false);
     };
 
+    const promptMessage = 'Please make sure that the data has been saved before you navigate away from the page. To save the data please click on the "Save" button in the questionnaire. Do you want to navigate away from the page? Click "OK" if you have already saved the data. Click "Cancel" if you have not saved the data';
+    const showPrompt = activeForm || delayedActiveForm;
     useEffect(() => {
         // open form from previous session
         const form = localStorage.getItem(`active-form:${user.id}`);
@@ -326,6 +329,10 @@ const WebForm = () => {
 
     return (
         <Container fluid>
+            <Prompt
+                when={showPrompt}
+                message={promptMessage}
+            />
             <Row>
                 <Col md={12}>
                     <div className="d-flex">
