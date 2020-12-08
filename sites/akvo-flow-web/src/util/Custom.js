@@ -1,4 +1,5 @@
 export const checkCustomOption = (data) => {
+    let mctype = 'checkBox'
     let mc = data.help
         ? (data.help.text !== null
             ? data.help.text.includes("##MULTICASCADE##")
@@ -8,6 +9,13 @@ export const checkCustomOption = (data) => {
         mc = mc
             ? data.help.text.substring(data.help.text.lastIndexOf("##MULTICASCADE##") + 16)
             : false;
+    }
+    if (mc) {
+        if (mc.split("SINGLE#").length > 1) {
+            mctype = 'radio';
+            mc = mc.split("SINGLE#")[1];
+        }
+        return {url: mc, type:mctype};
     }
     return mc;
 }

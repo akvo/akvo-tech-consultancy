@@ -26,7 +26,8 @@ class QuestionType extends Component {
                 name:'loading',
                 childs: []
             }],
-            custom_cascade_other: false
+            custom_cascade_other: false,
+            custom_cascade_type: 'checkBox'
         }
         this.setDpStorage = this.setDpStorage.bind(this);
         this.setDplStorage = this.setDplStorage.bind(this);
@@ -531,9 +532,9 @@ class QuestionType extends Component {
             let url = 'cascade/' + this.props.value.instanceName + '/' + this.props.data.cascadeResource + '/' + lv
             let options = "options_" + lv
             let cascade = "cascade_" + ix
-            let availcasc = this.props.value.cascade;
             let res = false;
             /*
+            let availcasc = this.props.value.cascade;
             let isavailable = false;
             if (availcasc.length > 0) {
                 isavailable = true;
@@ -729,6 +730,13 @@ class QuestionType extends Component {
     handleCustomChange(event, childs, hasOther) {
         let id = this.props.data.id;
         let value = event.target.value;
+        if (this.state.custom_cascade_type === "radio") {
+            this.setState({custom_cascade_other:value !== "Other"});
+            localStorage.setItem(id, value);
+            this.setState({value: value});
+            this.handleGlobal(id, value);
+            return;
+        }
         let multipleValue = [];
         let existValue = [];
         if (localStorage.getItem(id) !== null) {
@@ -781,7 +789,7 @@ class QuestionType extends Component {
                     key={unique + '-radio-' + level + '-' + index + '-' + i.toString()}>
                     <input
                         className="form-check-input"
-                        type={"checkBox"}
+                        type={this.state.custom_cascade_type}
                         name={"input-" + unique}
                         onChange={e => this.handleCustomChange(e, x.childs, x.hasOther)}
                         checked={checked}
@@ -809,9 +817,12 @@ class QuestionType extends Component {
         if (this.props.data.type === "text") {
             let customOption = checkCustomOption(this.props.data);
             if (customOption) {
-                getApi('json/' + customOption).then(res => {
+                getApi('json/' + customOption.url).then(res => {
                     res = res.map(x => ({...x, hasOther:false}));
-                    this.setState({custom_cascade: [...res, {name: 'Other', childs:[], hasOther:true}]});
+                    this.setState({
+                        custom_cascade: [...res, {name: 'Other', childs:[], hasOther:true}],
+                        custom_cascade_type: customOption.type
+                    });
                     let multipleValue = localStorage.getItem(this.props.data.id.toString())
                     if (multipleValue) {
                         multipleValue = multipleValue.split('|');
