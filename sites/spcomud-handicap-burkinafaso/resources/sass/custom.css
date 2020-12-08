@@ -452,6 +452,20 @@ footer img.footer-img{
     padding: 5px;
 }
 
+/* Floating Filter CSS */
+.first-filter {
+    right: 0;
+    position: absolute;
+    z-index: 1;
+    margin-right: 15px;
+    margin-top: 15px;
+    min-width: 250px;
+    background-color: #ffffff;
+    padding: 10px;
+    border: 1px solid #dddddd;
+}
+/* EOL Floating Filter CSS */
+
 @media (min-width: 992px) {
     .container,
     .container-lg,

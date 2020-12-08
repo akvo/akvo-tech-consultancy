@@ -5,6 +5,7 @@ export const baseState = {
         registration_id: null,
         forms: [],
     }],
+    // Need to figure it out what will we store here
     data: [{
         id: 1,
         form_instance_id: 1,

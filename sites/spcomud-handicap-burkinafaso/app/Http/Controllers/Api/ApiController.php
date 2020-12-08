@@ -60,7 +60,14 @@ class ApiController extends Controller
         $fids = \App\FormInstance::where('form_id', $requests->form_id)->get()->pluck('id');
         $answers = \App\Answer::whereIn('form_instance_id', $fids)->get()
                     ->groupBy('form_instance_id')->values();
-        return $answers;
+        $results = $answers->map(function ($x) {
+            $x = $x->map(function ($y) {
+                $y['active'] = true;
+                return $y;
+            });
+            return $x->keyBy('question_id'); 
+        });
+        return $results;
     }
 
     public function getMapsLocation(Request $requests)

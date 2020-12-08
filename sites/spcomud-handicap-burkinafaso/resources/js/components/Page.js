@@ -74,10 +74,10 @@ class Page extends Component {
         return (
             <Fragment>
             <Navigation/>
-                {loading ? (<Loading/>) : this.activePage()}
-            <footer className="text-center">
-                  <img className="footer-img" src={`${process.env.MIX_PUBLIC_URL}/images/logo-wai.jpg`}/>
-            </footer>
+            {loading ? (<Loading/>) : this.activePage()}
+            {/* <footer className="text-center">
+                <img className="footer-img" src={`${process.env.MIX_PUBLIC_URL}/images/logo-wai.jpg`}/>
+            </footer> */}
             </Fragment>
         );
     }

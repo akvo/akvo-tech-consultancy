@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { mapStateToProps, mapDispatchToProps } from "../reducers/actions";
-import { Row, Col, Card, ListGroup, Container, Jumbotron } from "react-bootstrap";
+import { Row, Col, Container, Form } from "react-bootstrap";
 require("../data/burkina-faso.js");
 import Charts from "../components/Charts";
 import {
@@ -11,15 +11,14 @@ import { checkCache, titleCase, getCovidTable } from "../data/utils.js";
 import sumBy from 'lodash/sumBy';
 import groupBy from 'lodash/groupBy';
 import uniqBy from 'lodash/uniqBy';
-import flattenDeep from 'lodash/flattenDeep';
+import filter from 'lodash/filter';
 import Bar from '../data/options/Bar';
 import Maps from '../data/options/Maps';
 import Pie from '../data/options/Pie';
-import TreeMap from '../data/options/TreeMap';
 import DataFilters from '../components/DataFilters';
 import DataLocations from '../components/DataLocations';
-import Tables from '../components/Tables'
 import { TextStyle } from '../data/features/animation.js';
+import { retrieveColumnLayout } from "echarts/lib/layout/barGrid";
 
 
 const MapsOverride = (TableView) => {
@@ -38,12 +37,12 @@ const MapsOverride = (TableView) => {
             left: 15,
             top: 10,
             splitList: [
-                {start: 10, label:'Above 10'},
-                {start: 8, end: 10},
-                {start: 6, end: 8},
-                {start: 3, end: 6},
-                {start: 1, end: 3},
-                {end: 0, label:'No Organisations', icon:'circle'}
+                {start: 100, label:'Above 100'},
+                {start: 75, end: 100},
+                {start: 50, end: 75},
+                {start: 25, end: 50},
+                {start: 1, end: 25},
+                {end: 0, label:'No Data', icon:'circle'}
             ],
             color: ['#085fa6', '#567ba9', '#40a4dc','#bde2f2','#b6c4da'],
         }
@@ -55,104 +54,85 @@ class PageOverviews extends Component {
         super(props);
         this.getCharts = this.getCharts.bind(this);
         this.getOptions = this.getOptions.bind(this);
-        this.getRowTable = this.getRowTable.bind(this);
+        this.getData = this.getData.bind(this);
         this.TableView = this.TableView.bind(this);
         this.getMaps = this.getMaps.bind(this);
+        this.flattenLocations = this.flattenLocations.bind(this);
+        this.renderFirstFilterDropdown = this.renderFirstFilterDropdown.bind(this);
+        this.renderFirstFilterLegend = this.renderFirstFilterLegend.bind(this);
         this.state = {
             charts: [
                 {
                     kind: "MAPS",
-                    data: generateData(12, true, "800px")
+                    data: generateData(12, false, "800px")
                 }
-            ]
+            ],
+            legends: [],
+            data: [],
         }
     }
 
     TableView(params) {
+        let html = '<hr/>District: <strong>' + params.name + '</strong></br>';
         if (params.value && params.seriesType === "map") {
-            let details = params.data.details;
-            let orgs_count = uniqBy(details,'org_name').length;
-            let orgs = groupBy(details, 'org_name');
-            let html = '<hr/>District: <strong>' + params.name + '</strong></br>';
-            html += 'Number of Organisations: <strong>' + params.value + '</strong><br/><br/>';
-            html += 'Total Beneficeries Assisted (<strong>TBA</strong>): ';
-            html += '<strong>' + sumBy(details, 'new') + '</strong><br/><br/>';
-            html += '<table class="table table-bordered">';
-            html += '<thead class="thead-dark">';
-            html += '<tr>';
-            html += '<th width="200">Organisations</th>';
-            html += '<th width="50" class="text-right">TBA</th>';
-            html +='</tr>';
-            html += '</thead>';
-            html += '<tbody>';
-            let lists = [];
-            let i = 1;
-            for (const org in orgs) {
-                html += '<tr><td width="200">' + i + '. ' + org + '</td>';
-                html += '<td width="50" class="text-right">' + sumBy(orgs[org], 'new') + '</td></tr>';
-                i++;
-            }
-            html += '</tbody>';
-            html += '</table>';
-            return '<div class="tooltip-maps">' + html + '</div>';
+            // let details = params.data.details;
+            html += 'Survey count: <strong>' + params.value + '</strong><br/><br/>';
+        } else {
+            html += "<b>No Data</b>";
         }
-        if (params.value && params.seriesType === "scatter") {
-            return getCovidTable(params);
-        }
-        return "";
+        return '<div class="tooltip-maps">' + html + '</div>';
     }
 
     getMaps() {
-        let collections = [];
-        let data = this.getRowTable();
-        // let districts = groupBy(data,'district');
-        // for (const district in districts) {
-        //     let collection = {
-        //         name: district,
-        //         value: districts[district].length,
-        //         details: districts[district]
-        //     }
-        //     collections = [...collections, collection];
-        // }
+        let data = this.getData();
         let mapConfig = {
-            data:collections,
+            data: data ,
             override: MapsOverride(this.TableView)
         };
         return mapConfig;
     }
 
-    getRowTable() {
+    flattenLocations(locations, results) {
+        locations.forEach(x => {
+            if (x.children_nested.length > 0) {
+                this.flattenLocations(x.children_nested, results);
+            }
+            if (x.children_nested.length === 0) {
+                results.push(x);
+            }
+            return;
+        });
+        return results;
+    }
+
+    getData() {
         let page = this.props.value.page.name;
         let filters = this.props.value.filters[page];
         if (filters.source === null) {
             return [];
         }
         let data = filters.data;
-        let config = filters.config; // # Neeed to load the locations cascade and map with data,
-        data = data.map((x, i) => {
-            let results = {no: (i+1), ...x};
-            for (const v in x) {
-                // let column = config.find(n => n.name === v);
-                // if (column !== undefined && column.on) {
-                //     let value = base[column.on].find(a => a.id === x[v]);
-                //     if (typeof(value) !== 'undefined') {
-                //         results = {
-                //             ...results,
-                //             [v]: value.text
-                //         }
-                //     }
-                // }
+        let config = filters.config;
+        let locations = [];
+        this.flattenLocations(filters.locations, locations);
+        let results = locations.map(x => {
+            let filteredData = filter(data, (y) => {
+                return y[config.maps.match_question].name.toLowerCase() === x.name.toLowerCase();
+            });
+            return {
+                name: x.text,
+                value: filteredData.length,
+                details: null,
             }
-            return results;
         });
-        console.log(config);
-        return data;
+        return results;
     }
 
     getOptions(list) {
-        let filters = this.props.value.filters.overviews.filters;
-        let title = "Title";
-        let subtitle = "Subtitle";
+        let page = this.props.value.page.name;
+        let filters = this.props.value.filters[page].filters;
+        let title = "";
+        let subtitle = "";
         return Maps(title, subtitle, this.getMaps());
     }
 
@@ -168,26 +148,77 @@ class PageOverviews extends Component {
         )
     }
 
+    renderFirstFilterDropdown() {
+        let page = this.props.value.page.name;
+        let filters = this.props.value.filters[page];
+        if (filters.source === null) {
+            return "";
+        }
+        let config = filters.config;
+        let res = config.first_filter.map(x => {
+            return (
+                <option key={x.question_id} value={x.question_id}>{x.text}</option>
+            )
+        });
+        return res;
+    }
+
+    renderFirstFilterLegend(e) {
+        let qid = e.target.value;
+        if (qid === "") {
+            this.setState({ ...this.state, legends: [] });
+            return;
+        }
+        let page = this.props.value.page.name;
+        let filters = this.props.value.filters[page];
+        let config = filters.config;
+        let selected = filter(config.first_filter, (x => x.question_id == qid));
+        let legends = selected[0].values.map((x, i) => {
+            return <Form.Check 
+                        onClick={e => console.log(e.target.value)}
+                        id={"legend-"+i}
+                        key={x.id}
+                        type="radio"
+                        name="legends"
+                        label={x.text}
+                        value={x.text} />
+        });
+        this.setState({ ...this.state, legends: legends });
+        return;
+    }
+
     componentDidMount() {
         this.props.chart.state.loading(false);
     }
 
     render() {
-        let chart = this.state.charts.map((list, index) => {
+        let maps = this.state.charts.map((list, index) => {
             return this.getCharts(list, index)
         });
         return (
             <Fragment>
             <Container className="top-container">
                 <DataFilters className='dropdown-left'/>
-                <div className="right-listgroup">
-                </div>
+                {/* <div className="right-listgroup"></div> */}
             </Container>
             <Container className="container-content container-sticky">
                 <Row>
-                {chart}
+                    <div className="first-filter">
+                        <Form>
+                            <Form.Control
+                                as="select"
+                                onChange={e => this.renderFirstFilterLegend(e)}
+                            >
+                                <option value="">Select Filter</option>
+                                { this.renderFirstFilterDropdown() }
+                            </Form.Control>
+                        </Form>
+                        <div>
+                            { this.state.legends }
+                        </div>
+                    </div>
+                    {maps}
                 </Row>
-                {/* <Tables/> */}
             </Container>
             </Fragment>
         );

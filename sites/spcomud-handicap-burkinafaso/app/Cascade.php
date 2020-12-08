@@ -43,6 +43,6 @@ class Cascade extends Model
 
     public function getTextAttribute()
     {
-        return Str::upper($this->name);
+        return Str::title($this->name);
     }
 }

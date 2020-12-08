@@ -122,7 +122,7 @@ class Charts extends Component {
                     onEvents={onEvents}
                 />
                 {/* {this.props.table ? this.props.table : ""} */}
-                <hr/>
+                { this.props.data.line ? <hr/> : "" }
             </Col>
         );
     }

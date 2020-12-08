@@ -86,9 +86,9 @@ class DataFilters extends Component {
         let base = this.props.value.base;
         return (
             <Fragment>
-                <Form>
-                    <Form.Group as={Row} controlId="formPlaintextSource">
-                        <Col sm="6">
+                <Form as={Row}>
+                    <Col sm="6">
+                        <Form.Group style={{marginBottom:0}} controlId="formPlaintextSource">
                             <Form.Control 
                                 as="select"
                                 onChange={this.changeActive}
@@ -98,8 +98,8 @@ class DataFilters extends Component {
                                     ? <option value="">Select Data Source</option> : ""}
                                 { this.getOptions(base.surveys) }
                             </Form.Control>
-                        </Col>
-                    </Form.Group>
+                        </Form.Group>
+                    </Col>
                 </Form>
             </Fragment>
         );
