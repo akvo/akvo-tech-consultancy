@@ -175,6 +175,7 @@ const NewFormSelector = ({ text, user, onSelect, watchValue, showModal, setSubmi
     const [selected, setSelected] = useState();
     const [value, setValue] = useState();
     const [submissions, setSubmissions] = useState([]);
+    const [alert, setAlert] = useState(false);
     
     const onSubmit = async () => {
         if (!selected) return;
@@ -188,7 +189,9 @@ const NewFormSelector = ({ text, user, onSelect, watchValue, showModal, setSubmi
             return;
         }
         setSubmissionInfo(data);
-        showModal(true);
+        // showModal(true); // enable or disable popup
+        showModal(false);
+        setAlert(true);
     };
     const onChange = data => {
         const form = available.find(f => f.name === data.value);
@@ -205,7 +208,7 @@ const NewFormSelector = ({ text, user, onSelect, watchValue, showModal, setSubmi
         let disabled = submissions.includes(parseInt(option.value));
         let info = (disabled) ? 
             <small className="font-italic">
-                submission for the member already created
+                { text.valOptionNewFormDisabledInfo }
             </small> : "";
         return (
             <div>{option.label} {info}</div>
@@ -257,10 +260,24 @@ const NewFormSelector = ({ text, user, onSelect, watchValue, showModal, setSubmi
                             })}
                             formatOptionLabel={formatLabel}
                         />
+                        { 
+                            alert ?
+                                <Form.Text as="small" className="text-danger ml-2">
+                                    { text.valOptionNewFormDisabledInfo }
+                                </Form.Text> : ""
+                        }
                     </div>
-                    <Button className="mb-2" onClick={onSubmit}>
-                        { text.btnOpen }
-                    </Button>
+                    {
+                        alert 
+                            ? 
+                            <Button style={{marginBottom:"2rem"}} onClick={onSubmit}>
+                                { text.btnOpen }
+                            </Button> 
+                            :
+                            <Button className="mb-2" onClick={onSubmit}>
+                            { text.btnOpen }
+                            </Button>
+                    }
                 </Form>
             </Row>
         </div>
@@ -305,7 +322,7 @@ const SubmissionInfoModal = ({ text, show, onHide, submissionInfo }) => {
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                { content }
+                { text.valOptionNewFormDisabledInfo }
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={onHide}>

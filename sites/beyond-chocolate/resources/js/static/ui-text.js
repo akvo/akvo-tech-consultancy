@@ -74,6 +74,8 @@ export const uiText = {
         valVerificationInfo: "A new verification link has been sent to the email address you provided during registration.",
         valName: "The name field is required.",
         valFetchingData: "Fetching data", 
+        // New
+        valOptionNewFormDisabledInfo: "submission for the member already created",
     },
 
     de: {
@@ -151,5 +153,7 @@ export const uiText = {
         valVerificationInfo: "Ein neuer Link zur Verifizierunt wurde Ihnen soeben an die von Ihnen angegebene Emailadresse geschickt.",
         valName: "Die Namenseingabe ist obligatorisch.",
         valFetchingData: "Daten werden geladen",
+        // New
+        valOptionNewFormDisabledInfo: "submission for the member already created",
     },
 };
