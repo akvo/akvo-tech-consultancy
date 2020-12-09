@@ -15,7 +15,7 @@ import { useLocale, langs } from "../lib/locale-context";
 import { uiText } from "../static/ui-text";
 import { SaveFormModal } from "./Modal";
 
-const Navigation = () => {
+const Navigation = ({formLoaded, setFormLoaded}) => {
     const { user, logout } = useAuth();
     const { locale, update } = useLocale();
     const [showSavePrompt, setShowSavePrompt] = useState(false);
@@ -24,6 +24,7 @@ const Navigation = () => {
 
     const endSession = async () => {
         await logout();
+        setFormLoaded(false);
         window.location.reload();
     };
 
@@ -127,7 +128,7 @@ const Navigation = () => {
                                     <NavDropdown.Divider />
                                 </>
                             )}
-                            <NavDropdown.Item onClick={e => setShowSavePrompt(true)}>
+                            <NavDropdown.Item onClick={e => formLoaded ? setShowSavePrompt(true) : endSession() }>
                                 <FontAwesomeIcon
                                     className="mr-2"
                                     icon={faSignOutAlt}

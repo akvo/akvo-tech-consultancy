@@ -40,7 +40,7 @@ const Main = () => {
         <BrowserRouter>
             <AuthProvider>
                 <header>
-                    <Navigation />
+                    <Navigation formLoaded={formLoaded} setFormLoaded={setFormLoaded} />
                 </header>
                 <main>
                     <Switch>
