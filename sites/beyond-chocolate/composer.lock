@@ -4,8 +4,60 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0b65ff2c6c30128e213c6e4c5cf80325",
+    "content-hash": "801087aa8cc4d55e73f29b9683ff4d80",
     "packages": [
+        {
+            "name": "akvo/akvo-flow-php-sdk",
+            "version": "v1.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/akvo/akvo-flow-php-sdk.git",
+                "reference": "bb9d1fd15b04e57ca3da754d6fc83d93f6e7527b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/akvo/akvo-flow-php-sdk/zipball/bb9d1fd15b04e57ca3da754d6fc83d93f6e7527b",
+                "reference": "bb9d1fd15b04e57ca3da754d6fc83d93f6e7527b",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^7.0.1"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Akvo\\AkvoFlowServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Akvo\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Akvo",
+                    "email": "devops@akvo.org"
+                },
+                {
+                    "name": "Deden",
+                    "email": "deden@akvo.org"
+                }
+            ],
+            "description": "A PHP Artisan service provider for the Akvo Flow",
+            "keywords": [
+                "akvo",
+                "akvoflow",
+                "flow"
+            ],
+            "time": "2020-09-24T08:20:37+00:00"
+        },
         {
             "name": "asm89/stack-cors",
             "version": "v2.0.2",
