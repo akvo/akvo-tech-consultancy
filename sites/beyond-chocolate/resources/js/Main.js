@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import Navigation from "./components/Navigation";
 import Footer from "./components/Footer";
@@ -26,11 +26,21 @@ const Main = () => {
         console.log('setup the app version');
     }, []);
 
+    const [formLoaded, setFormLoaded] = useState(false);
+
+    window.onbeforeunload = (e) => {
+        if (formLoaded) {
+            // Cancel event as specified by spec
+            e.preventDefault();
+            e.returnValue = '';
+        }
+    }
+
     return (
         <BrowserRouter>
             <AuthProvider>
                 <header>
-                    <Navigation />
+                    <Navigation formLoaded={formLoaded} setFormLoaded={setFormLoaded} />
                 </header>
                 <main>
                     <Switch>
@@ -66,6 +76,7 @@ const Main = () => {
                             exact
                             path={config.routes.survey}
                             component={WebForm}
+                            setFormLoaded={setFormLoaded}
                         />
                         <PublicOnlyRoute
                             exact

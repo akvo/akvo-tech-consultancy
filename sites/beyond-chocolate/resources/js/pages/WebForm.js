@@ -14,7 +14,7 @@ import { DateTime } from "luxon";
 import { useAuth } from "../components/auth-context";
 import { dsc } from "../static/data-security-content";
 import { useLocale } from "../lib/locale-context";
-import { ModalDataSecurity } from "../components/Modal";
+import { ModalDataSecurity, SaveFormModal } from "../components/Modal";
 import { wfc } from "../static/webform-content";
 import { uiText } from "../static/ui-text";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -46,7 +46,7 @@ const ReloadableSelectMenu = props => {
     );
 };
 
-const SavedFormsSelector = ({ text, user, onSelect, watchValue }) => {
+const SavedFormsSelector = ({ text, user, onSelect, watchValue, setConfirmAction, setShowSavePrompt }) => {
     const [available, setAvailable] = useState([]);
     const [selected, setSelected] = useState();
     const [value, setValue] = useState();
@@ -54,8 +54,18 @@ const SavedFormsSelector = ({ text, user, onSelect, watchValue }) => {
     const [loadingSelect, setLoadingSelect] = useState(false);
     const onSubmit = () => {
         if (!selected) return;
+        setShowSavePrompt(false);
         const url = `${selected.url}?user_id=${user.id}`;
         onSelect({ url, type: null });
+    };
+    const promptSave = (e) => {
+        if (!selected) return;
+        if (!watchValue) {
+            onSubmit();
+            return;
+        }
+        setConfirmAction(() => onSubmit);
+        setShowSavePrompt(true);
     };
     const onChange = savedForm => {
         const form = available.find(f => f.url === savedForm.value);
@@ -105,7 +115,6 @@ const SavedFormsSelector = ({ text, user, onSelect, watchValue }) => {
         // Clear value if other form is active
         if (!selected) return;
         if (!watchValue.startsWith(`${selected.url}?user_id=${user.id}`)) {
-            console.log("clearing value?", watchValue)
             setValue(null);
         }
     }, [watchValue]);
@@ -148,7 +157,7 @@ const SavedFormsSelector = ({ text, user, onSelect, watchValue }) => {
                                 icon={faSyncAlt}
                             />
                         </Button>
-                        <Button className="ml-2 mb-2" onClick={onSubmit}>
+                        <Button className="ml-2 mb-2" onClick={promptSave}>
                             { text.btnOpen }
                         </Button>
                     </div>
@@ -171,15 +180,16 @@ const NewFormSelectMenu = props => {
     );
 };
 
-const NewFormSelector = ({ text, user, onSelect, watchValue, showModal, setSubmissionInfo }) => {
+const NewFormSelector = ({ text, user, onSelect, watchValue, showModal, setSubmissionInfo, setShowSavePrompt, setConfirmAction }) => {
     const [available, setAvailable] = useState([]);
     const [selected, setSelected] = useState();
     const [value, setValue] = useState();
     const [submissions, setSubmissions] = useState([]);
     const [alert, setAlert] = useState(false);
-    
+
     const onSubmit = async () => {
         if (!selected) return;
+        setShowSavePrompt(false);
         // check submission to database
         let endpoint = '/api/submission/check/'+user.organization_id+'/'+selected.name;
         const { data } = await request().get(endpoint);
@@ -201,6 +211,15 @@ const NewFormSelector = ({ text, user, onSelect, watchValue, showModal, setSubmi
         const form = available.find(f => f.name === data.value);
         setSelected(form);
         setValue(data);
+    };
+    const promptSave = (e) => {
+        if (!selected) return;
+        if (!watchValue) {
+            onSubmit();
+            return;
+        }
+        setConfirmAction(() => onSubmit);
+        setShowSavePrompt(true);
     };
 
     const checkSubmissionOnLoad = async () => {
@@ -274,12 +293,12 @@ const NewFormSelector = ({ text, user, onSelect, watchValue, showModal, setSubmi
                     {
                         alert 
                             ? 
-                            <Button style={{marginBottom:"2rem"}} onClick={onSubmit}>
+                            <Button style={{marginBottom:"2rem"}} onClick={promptSave}>
                                 { text.btnOpen }
                             </Button> 
                             :
-                            <Button className="mb-2" onClick={onSubmit}>
-                            { text.btnOpen }
+                            <Button className="mb-2" onClick={promptSave}>
+                              { text.btnOpen }
                             </Button>
                     }
                 </Form>
@@ -337,7 +356,7 @@ const SubmissionInfoModal = ({ text, show, onHide, submissionInfo }) => {
     );
 };
 
-const WebForm = () => {
+const WebForm = ({setFormLoaded}) => {
     const { user, updateUser } = useAuth();
     const { locale } = useLocale();
     const [activeForm, setActiveForm] = useState();
@@ -346,6 +365,8 @@ const WebForm = () => {
     const [showSubmissionInfo, setShowSubmissionInfo] = useState(false);
     const [submissionInfo, setSubmissionInfo] = useState();
     const [formUrl, setFormUrl] = useState(null);
+    const [showSavePrompt, setShowSavePrompt] = useState(false);
+    const [confirmAction, setConfirmAction] = useState(null);
 
     const openForm = url => {
         let endpoint = (url === null) ? url : url + '&locale=' + locale.active;
@@ -372,6 +393,12 @@ const WebForm = () => {
         setDelayedActiveForm(null);
         setShowProjectInfo(false);
     };
+
+    const formLoaded = activeForm || delayedActiveForm;
+
+    useEffect(() => {
+        setFormLoaded(formLoaded)
+    }, [activeForm, delayedActiveForm]);
 
     useEffect(() => {
         // open form from previous session
@@ -403,6 +430,8 @@ const WebForm = () => {
                                 user={user}
                                 onSelect={onSelectForm}
                                 watchValue={activeForm}
+                                setShowSavePrompt={setShowSavePrompt}
+                                setConfirmAction={setConfirmAction}
                             />
                         </div>
                         <div className="p-2 pr-3" style={{minWidth:"30%"}}>
@@ -413,6 +442,8 @@ const WebForm = () => {
                                 watchValue={activeForm}
                                 showModal={setShowSubmissionInfo}
                                 setSubmissionInfo={setSubmissionInfo}
+                                setShowSavePrompt={setShowSavePrompt}
+                                setConfirmAction={setConfirmAction}
                             />
                         </div>
                     </div>
@@ -448,6 +479,12 @@ const WebForm = () => {
                         onHide={e => setShowSubmissionInfo(false)}
                         submissionInfo={submissionInfo}
                     />
+                  <SaveFormModal
+                    text={text}
+                    show={formLoaded && showSavePrompt}
+                    onHide={e => setShowSavePrompt(false)}
+                    onConfirm={confirmAction}
+                  />
                 </Col>
             </Row>
         </Container>

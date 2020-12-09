@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Navbar, Nav, NavDropdown, Form, FormControl } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -13,14 +13,18 @@ import { useAuth } from "./auth-context";
 import config from "../config";
 import { useLocale, langs } from "../lib/locale-context";
 import { uiText } from "../static/ui-text";
+import { SaveFormModal } from "./Modal";
 
-const Navigation = () => {
+const Navigation = ({formLoaded, setFormLoaded}) => {
     const { user, logout } = useAuth();
     const { locale, update } = useLocale();
+    const [showSavePrompt, setShowSavePrompt] = useState(false);
+
     let text = uiText[locale.active];
 
     const endSession = async () => {
         await logout();
+        setFormLoaded(false);
         window.location.reload();
     };
 
@@ -124,7 +128,7 @@ const Navigation = () => {
                                     <NavDropdown.Divider />
                                 </>
                             )}
-                            <NavDropdown.Item onClick={endSession}>
+                            <NavDropdown.Item onClick={e => formLoaded ? setShowSavePrompt(true) : endSession() }>
                                 <FontAwesomeIcon
                                     className="mr-2"
                                     icon={faSignOutAlt}
@@ -135,6 +139,12 @@ const Navigation = () => {
                     )}
                 </Nav>
             </Navbar.Collapse>
+          <SaveFormModal
+            text={text}
+            show={showSavePrompt}
+            onHide={e => setShowSavePrompt(false)}
+            onConfirm={endSession}
+          />
         </Navbar>
     );
 };
