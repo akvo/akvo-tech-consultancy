@@ -46,6 +46,8 @@ export const uiText = {
         btnStartSurvey: "Click here to start the survey",
         btnRefresh: "Refresh",
         btnOk: "OK",
+        btnYes: "Yes",
+        btnNo: "No",
         // Table
         tbColName: "Name",
         tbColEmail: "Email",
@@ -56,6 +58,7 @@ export const uiText = {
         // Modal
         modalDataSecurity: "Data Security Provisions",
         modalNewProject: "New projects questionnaire information",
+        modalSaveForm: "Save Form Data",
         // Validation & Message
         valEmail: "The email field is required.",
         valFeedbackError: "Something wrong, please try again!",
@@ -76,6 +79,10 @@ export const uiText = {
         valFetchingData: "Fetching data", 
         // New
         valOptionNewFormDisabledInfo: "submission for the member already created",
+        // Save Form Modal
+        valClickSave: 'Please make sure that the data has been saved before you navigate away from the page. To save the data please click on the "Save" button in the questionnaire. Do you want to navigate away from the page?',
+        valClickYes: 'Click "Yes" if you have already saved the data',
+        valClickNo: 'Click "No" if you have not saved the data'
     },
 
     de: {
@@ -125,6 +132,8 @@ export const uiText = {
         btnStartSurvey: "Klicken Sie hier um die Erhebung zu beginnen",
         btnRefresh: "Erneuern",
         btnOk: "OK",
+        btnYes: "Yes",
+        btnNo: "No",
         // Table
         tbColName: "Name",
         tbColEmail: "Email",
@@ -135,6 +144,7 @@ export const uiText = {
         // Modal
         modalDataSecurity: "Datensicherheitsmaßnahmen",
         modalNewProject: "Information zur Eröffnung eines neuen Projekt-Fragebogens",
+        modalSaveForm: "Save Form Data",
         // Validation & Message
         valEmail: "Die Email Angabe ist obligatorisch.",
         valFeedbackError: "Etwas ist schiefgelaufen, versuchen Sie es bitte noch einmal.",
@@ -155,5 +165,9 @@ export const uiText = {
         valFetchingData: "Daten werden geladen",
         // New
         valOptionNewFormDisabledInfo: "submission for the member already created",
+        // Save Form Modal
+        valClickSave: 'Please make sure that the data has been saved before you navigate away from the page. To save the data please click on the "Save" button in the questionnaire. Do you want to navigate away from the page?',
+        valClickYes: 'Click "Yes" if you have already saved the data',
+        valClickNo: 'Click "No" if you have not saved the data'
     },
 };

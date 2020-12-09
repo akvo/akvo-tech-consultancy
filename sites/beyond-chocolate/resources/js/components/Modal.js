@@ -17,4 +17,29 @@ const ModalDataSecurity = ({ text, show, handleClose, locale, data }) => {
     );
 };
 
-export { ModalDataSecurity };
+const SaveFormModal = ({ text, show, onHide, onConfirm }) => {
+    return (
+        <Modal size="md" scrollable={true} show={show} onHide={onHide}>
+            <Modal.Header closeButton>
+                <Modal.Title>
+                  { text.modalSaveForm }
+                </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <p>{ text.valClickSave }</p>
+              <p>{ text.valClickYes }</p>
+              <p>{ text.valClickNo }</p>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant="primary" onClick={onHide}>
+                    { text.btnNo }
+                </Button>
+                <Button variant="secondary" onClick={onConfirm}>
+                    { text.btnYes }
+                </Button>
+            </Modal.Footer>
+        </Modal>
+    );
+};
+
+export { ModalDataSecurity, SaveFormModal };
