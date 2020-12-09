@@ -14,6 +14,7 @@ use App\Http\Controllers\AuthController as Auth;
 use App\Http\Controllers\ApiController as Api;
 use App\Http\Controllers\SeedController as Seed;
 use App\Http\Controllers\UserSavedFormsController;
+use App\Http\Controllers\NotificationController as Notification;
 
 /*
 |--------------------------------------------------------------------------
@@ -124,3 +125,5 @@ Route::patch('/submission', [Api::class, 'updateWebForm']);
 Route::get('/submission/{organization_id}', [Api::class, 'getWebForm']);
 Route::get('/submission/check/{organization_id}', [Api::class, 'checkWebFormOnLoad']);
 Route::get('/submission/check/{organization_id}/{form_id}', [Api::class, 'checkWebForm']);
+Route::get('/job/project/notification', [Notification::class, 'projectNotification']);
+Route::get('/flow/check-survey/{survey_id}', [Notification::class, 'checkSurvey']);
