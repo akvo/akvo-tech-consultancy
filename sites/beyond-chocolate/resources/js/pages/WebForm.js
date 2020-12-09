@@ -105,7 +105,6 @@ const SavedFormsSelector = ({ text, user, onSelect, watchValue }) => {
         // Clear value if other form is active
         if (!selected) return;
         if (!watchValue.startsWith(`${selected.url}?user_id=${user.id}`)) {
-            console.log("clearing value?", watchValue)
             setValue(null);
         }
     }, [watchValue]);
