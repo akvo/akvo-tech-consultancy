@@ -412,12 +412,18 @@ img.responsive-image {
 .more-info-content {
     margin-left: 25px;
     padding: 10px;
-    background: rgba(108,117,125, 0.2);
     color: #6c757d;
+    border: solid 1px #d5d6d8;
+    background: #eaeaea;
     font-size: small;
     border-top-right-radius: .2rem;
     border-bottom-left-radius: .2rem;
     border-bottom-right-radius: .2rem;
+}
+
+.parent-options {
+    margin-left: -1.25rem;
+    margin-bottom: 1rem;
 }
 
 .trans-lang,
@@ -425,9 +431,9 @@ img.responsive-image {
     margin-top: 5px;
     margin-bottom: 5px;
     color: #6c757d;
-    font-style: italic;
-    background: #e8e8e8;
-    display: block;
+    border: solid 1px #d5d6d8;
+    background: #eaeaea;
+    display: table;
     padding: 5px 10px;
     border-radius: 5px;
     font-size: small;
@@ -436,15 +442,16 @@ img.responsive-image {
 .trans-lang-group {
     display:block;
     margin-top: 5px;
-    background: #6c757d;
-    color: #FFF;
+    border: solid 1px #d5d6d8;
+    background: #eaeaea;
+    color: #485056;
     padding: 3px 7px;
     border-radius: 5px;
     font-size: 12px;
 }
 
 .trans-lang-opt {
-    display: block;
+    display: table;
     padding: 0 5px;
     margin-left: 5px;
 }
@@ -454,7 +461,6 @@ img.responsive-image {
     border-top: 1px dashed #83888c;
     padding-top: 10px;
     margin-top: 10px;
-    font-style: italic;
 }
 
 span.badge.badge-circle {

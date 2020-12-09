@@ -36,23 +36,25 @@ class GroupHeaders extends Component {
 
     getHeader = groups => {
         let active = groups.list.filter(g => g.index === groups.active);
-        return active.map((group, index) => (
-            <nav className="navbar navbar-expand-lg navbar-light navbar-group bg-light border-bottom" key={"ghead-" + index}>
-                <div className="col-md-4 header-left">
-                    <h4 className="mt-2">{group.heading}</h4>
-                </div>
-                <div className="col-md-8 text-right">
-                    <div className="badge-header">
-                        <div className={"badge badge-left badge-secondary"}>
-                            <FaExclamationTriangle /> Mandatory
-                        </div>
-                        <div className={"badge badge-right badge-red"}>{group.attributes.mandatories}</div>
+        let activeLang = this.props.value.lang.active;
+        return active.map((group, index) => {
+            return (
+                <nav className="navbar navbar-expand-lg navbar-light navbar-group bg-light border-bottom" key={"ghead-" + index}>
+                    <div className="col-md-6 header-left">
+                        <h4 className="mt-2">{group.heading}</h4>
                     </div>
-                    { group.repeatable ? this.getRepeatButton(group) : "" }
-                </div>
-            </nav>
+                    <div className="col-md-6 text-right">
+                        <div className="badge-header">
+                            <div className={"badge badge-left badge-secondary"}>
+                                <FaExclamationTriangle /> Mandatory
+                            </div>
+                            <div className={"badge badge-right badge-red"}>{group.attributes.mandatories}</div>
+                        </div>
+                        { group.repeatable ? this.getRepeatButton(group) : "" }
+                    </div>
+                </nav>
             )
-        );
+        });
     };
 
     getLoading = () => {

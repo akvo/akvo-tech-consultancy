@@ -5,8 +5,9 @@ import { isJsonString } from  '../util/QuestionHandler'
 import { PopupImage } from '../util/Popup'
 import { checkCustomOption, checkUnit } from '../util/Custom'
 import { getApi } from '../util/Api'
-import isoLangs from '../util/Languages.js'
-import MapForm from '../types/MapForm.js'
+import isoLangs from '../util/Languages'
+import { getLocalization } from '../util/Utilities';
+import MapForm from '../types/MapForm'
 import Dexie from 'dexie';
 import uuid from 'uuid/v4';
 
@@ -360,20 +361,8 @@ class QuestionType extends Component {
     }
 
     renderRadio (o, lang, opt, i, id, radioType, unique) {
-        let localization = this.props.value.lang.active;
-        localization = localization.map((x) => {
-            let active = lang[x] === undefined ? "" : lang[x];
-            return active;
-        });
-        localization = localization.filter(x => x !== "");
-        localization = localization.map((l,il) => {
-            let activeLang = il !== 0
-                ? ("<b>" + isoLangs[this.props.value.lang.active[il]].nativeName + ": </b>")
-                : "";
-            let extraClass = il !== 0 ? "class='trans-lang-opt'" : "";
-            return "<span " + extraClass + ">" + activeLang + l + "</span>";
-        });
-        localization = localization.length === 0 ? lang.en : localization.join('');
+        let activeLang = this.props.value.lang.active;
+        let localization = getLocalization(activeLang, lang, 'trans-lang-opt');
         let dataval = opt.code !== undefined
             ? JSON.stringify({"text":opt.value,"code":opt.code})
             : JSON.stringify({"text":opt.value})
@@ -775,6 +764,7 @@ class QuestionType extends Component {
     }
 
     getCustomCascade(id, data, unique, level, index, margin, parent="") {
+        const active = this.props.value.lang.active;
         return data.map((x, i) => {
             let value = parent !== "" ? (parent + " > " + x.name) : x.name;
             let checked = false;
@@ -783,6 +773,22 @@ class QuestionType extends Component {
                 checked = selected.split('|').includes(value);
             }
             let indeterminate = false;
+            let lang = x.lang ? x.lang : {"en":x.name};
+            let localization = getLocalization(active, lang, 'trans-lang-opt', level === 0);
+            let grandParent =  x.name !== "Other" && level === 0 && x.childs.length !== 0;
+            if (grandParent) {
+                return (
+                    <div
+                        style={{marginLeft: margin + "rem"}}
+                        key={unique + '-radio-' + level + '-' + index + '-' + i.toString()}>
+                        <div className="parent-options" dangerouslySetInnerHTML={{__html:localization}}/>
+                        { x.childs.length > 0
+                            ? this.getCustomCascade(id, x.childs, unique, level + 1, i, margin + .2, value)
+                            : ""}
+                        { level === 0 ? <hr/> : ""}
+                    </div>
+                )
+            }
             return (
                 <div
                     style={{marginLeft: margin + "rem"}}
@@ -799,9 +805,8 @@ class QuestionType extends Component {
                     />
                     <label
                         className="form-check-label"
-                        htmlFor={"input-" + unique}>
-                        {level === 0 ? (<b>{x.name}</b>) : x.name}
-                    </label>
+                        htmlFor={"input-" + unique}
+                        dangerouslySetInnerHTML={{__html:localization}}/>
                     { x.childs.length > 0
                         ? this.getCustomCascade(id, x.childs, unique, level + 1, i, margin + .2, value)
                         : ""}

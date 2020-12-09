@@ -1,3 +1,5 @@
+import isoLangs from './Languages.js'
+
 export const CopyToClipboard = (text) => {
     var dummy = document.createElement("textarea");
     document.body.appendChild(dummy);
@@ -39,3 +41,21 @@ export const validateDoubleEntry = (value, q) => {
     };
     return value;
 }
+
+export const getLocalization = (active, lang, className, bold=false)  => {
+    let localization = active.map((x) => {
+        let active = lang[x] === undefined ? "" : lang[x];
+        return active;
+    });
+    localization = localization.filter(x => x !== "");
+    localization = localization.map((l,il) => {
+        let activeLang = il !== 0
+            ? ("<b>" + isoLangs[active[il]].nativeName + ": </b>")
+            : "";
+        let extraClass = il !== 0 ? (" class='" + className + "'") : (bold ? " style='font-weight:bold;'" : "");
+        return "<span" + extraClass + ">" + activeLang + l + "</span>";
+    });
+    localization = localization.length === 0 ? lang.en : localization.join('');
+    return localization;
+}
+
