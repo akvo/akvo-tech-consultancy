@@ -7,15 +7,11 @@ import Charts from "../components/Charts";
 import {
     generateData,
 } from "../data/chart-utils.js";
-import { checkCache, titleCase, flattenLocations } from "../data/utils.js";
+import { checkCache, titleCase, flattenLocations, mapDataByLocations } from "../data/utils.js";
 import filter from 'lodash/filter';
-import Bar from '../data/options/Bar';
 import Maps from '../data/options/Maps';
-import Pie from '../data/options/Pie';
 import DataFilters from '../components/DataFilters';
 import { TextStyle } from '../data/features/animation.js';
-import { retrieveColumnLayout } from "echarts/lib/layout/barGrid";
-import { rangeRight } from "lodash";
 
 
 const MapsOverride = (TableView) => {
@@ -64,8 +60,12 @@ class PageOverviews extends Component {
                     data: generateData(12, false, "800px")
                 }
             ],
-            legends: [],
-            data: [],
+            // legends: [],
+            // data: [],
+            // mapData: [],
+            ff_qid: null,
+            ff_legend: null,
+            sf: null,
         }
     }
 
@@ -95,8 +95,7 @@ class PageOverviews extends Component {
         if (filters.source === null) {
             return [];
         }
-        let results = filter(filters.dataLoc, (x => x.active === true));
-        return results;
+        return filters.filteredMapData;
     }
 
     getOptions(list) {
@@ -135,34 +134,79 @@ class PageOverviews extends Component {
     }
 
     filterMapData(e) {
-        let val = e.target.value;
+        let answer = e.target.value;
+        let { ff_qid, ff_legend } = this.state;
         let page = this.props.value.page.name;
         let filters = this.props.value.filters[page];
-        // TODO : filter the data here, by legend selected, need to mapping old data again and transform it into dataLoc
-    }
+        let { config, locations, data, mapData } = filters;
+        let locationTemp = [];
+        flattenLocations(locations, locationTemp);
 
-    renderFirstFilterLegend(e) {
-        let qid = e.target.value;
-        if (qid === "") {
-            this.setState({ ...this.state, legends: [] });
+        if (answer === ff_legend) {
+            // DO : back data to normal (remove filtered data)
+            this.setState({ ...this.state, ff_legend: null });
+            this.props.filter.change(
+                {
+                    ...filters,
+                    filteredMapData: mapData,
+                }, 
+                page
+            );
             return;
         }
+        // DO : filter the data here, by legend selected, need to mapping old data again and transform it into dataLoc
+        this.setState({ ...this.state, ff_legend: answer });
+        let filteredData = data.map(x => {
+            if (typeof x[ff_qid] === 'undefined') {
+                return {
+                    ...x,
+                    active: false,
+                };
+            }
+            if (x[ff_qid].answer.toLowerCase() !== answer.toLowerCase()) {
+                return {
+                    ...x,
+                    active: false,
+                };
+            }
+            return { ...x };
+        });
+        let res = mapDataByLocations(locationTemp, filteredData, config);
+        this.props.filter.change(
+            {
+                ...filters,
+                filteredMapData: res,
+            }, 
+            page
+        );
+        return;
+    }
+
+    renderFirstFilterLegend() {
         let page = this.props.value.page.name;
         let filters = this.props.value.filters[page];
-        let config = filters.config;
-        let selected = filter(config.first_filter, (x => x.question_id == qid));
+        let { config } = filters;
+        let { ff_qid, ff_legend } = this.state;
+        if (ff_qid === null || ff_qid === "") {
+            return [];
+        }
+        let selected = filter(config.first_filter, (x => x.question_id == ff_qid));
         let legends = selected[0].values.map((x, i) => {
-            return <Form.Check 
-                        onClick={e => this.filterMapsData(e)}
-                        id={"legend-"+i}
+            return (
+                <div className="mt-2" key={"ff-wrapper-"+i}>
+                    <Form.Check 
+                        onClick={e => this.filterMapData(e)}
+                        disabled={ff_legend === null ? false : ff_legend !== x.text}
+                        id={"ff-"+i}
                         key={x.id}
-                        type="radio"
-                        name="legends"
+                        type="checkbox"
+                        name={"ff-legends-"+i}
                         label={x.text}
                         value={x.text} />
+                </div>
+            );
         });
-        this.setState({ ...this.state, legends: legends });
-        return;
+        return legends;
     }
 
     componentDidMount() {
@@ -185,14 +229,17 @@ class PageOverviews extends Component {
                         <Form>
                             <Form.Control
                                 as="select"
-                                onChange={e => this.renderFirstFilterLegend(e)}
+                                defaultValue={this.state.ff_qid}
+                                // onChange={e => this.renderFirstFilterLegend(e, this.state.ff_legend)}
+                                onChange={e => this.setState({ ...this.state, ff_qid: e.target.value })}
                             >
                                 <option value="">Select Filter</option>
                                 { this.renderFirstFilterDropdown() }
                             </Form.Control>
                         </Form>
-                        <div>
-                            { this.state.legends }
+                        <div className={ this.state.ff_qid === null ? "" : "mt-2" }>
+                            {/* { this.state.legends } */}
+                            { this.renderFirstFilterLegend() }
                         </div>
                     </div>
                     {maps}

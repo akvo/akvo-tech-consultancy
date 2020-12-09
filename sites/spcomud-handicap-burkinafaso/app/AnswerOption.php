@@ -13,4 +13,9 @@ class AnswerOption extends Model
     {
         return $this->belongsTo('App\Answer');
     }
+
+    public function option()
+    {
+        return $this->belongsTo('App\Option');
+    }
 }

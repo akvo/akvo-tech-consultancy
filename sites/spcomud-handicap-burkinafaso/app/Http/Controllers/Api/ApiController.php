@@ -62,10 +62,29 @@ class ApiController extends Controller
                     ->groupBy('form_instance_id')->values();
         $results = $answers->map(function ($x) {
             $x = $x->map(function ($y) {
-                $y['active'] = true;
+                $option = null;
+                $answerOption = \App\AnswerOption::where('answer_id', $y['id'])->first();
+                if ($answerOption !== null) {
+                    $option = \App\Option::find($answerOption['option_id']);
+                }
+                $cascade = null;
+                $answerCascade = \App\AnswerCascade::where('answer_id', $y['id'])->first();
+                if ($answerCascade !== null) {
+                    $cascade = \App\Cascade::find($answerCascade['cascade_id']);
+                }
+                $y['answer'] = ($y['name'] === null) ? $y['value'] : $y['name'];
+                if ($option !== null) {
+                    $y['answer'] = $option['name'];
+                }
+                if ($cascade !== null) {
+                    $y['answer'] = $cascade['name'];
+                }
                 return $y;
             });
             return $x->keyBy('question_id'); 
+        })->map(function ($x) { 
+            $x['active'] = true;
+            return $x;
         });
         return $results;
     }

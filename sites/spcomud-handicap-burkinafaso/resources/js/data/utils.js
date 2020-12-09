@@ -1,3 +1,5 @@
+import filter from 'lodash/filter';
+
 export const checkCache = (id) => {
     if (localStorage.getItem('locval_' + id) !== null){
         let cached = localStorage.getItem('locval_' + id);
@@ -61,3 +63,18 @@ export const flattenLocations = (locations, results) => {
     });
     return results;
 }
+
+export const mapDataByLocations = (locations, data, config) => {
+    let res = locations.map(x => {
+        let filteredData = filter(data, (y) => {
+            return y[config.maps.match_question].answer.toLowerCase() === x.name.toLowerCase();
+        });
+        filteredData = filter(filteredData, (z => z.active === true));
+        return {
+            name: x.text,
+            value: filteredData.length,
+            details: null,
+        }
+    });
+    return res;
+};
