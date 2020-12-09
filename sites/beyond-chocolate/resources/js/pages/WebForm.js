@@ -186,7 +186,7 @@ const NewFormSelector = ({ text, user, onSelect, watchValue, showModal, setSubmi
         // if not max submission
         if (!data.max_submission) {
             const url = `${selected.url}?user_id=${user.id}`;
-            onSelect({ url, type: selected.name });
+            onSelect({ url, type: selected.name, title: selected.title });
             return;
         }
         setSubmissionInfo(data);
@@ -345,19 +345,24 @@ const WebForm = () => {
     const [showProjectInfo, setShowProjectInfo] = useState(false);
     const [showSubmissionInfo, setShowSubmissionInfo] = useState(false);
     const [submissionInfo, setSubmissionInfo] = useState();
+    const [formUrl, setFormUrl] = useState(null);
 
     const openForm = url => {
         let endpoint = (url === null) ? url : url + '&locale=' + locale.active;
         setActiveForm(endpoint);
-        updateUser({ ...user, formUrl: url });
+        setFormUrl(url);
+        // updateUser({ ...user, formUrl: url });
         // localStorage.setItem(`active-form:${user.id}`, url);
     };
 
-    const onSelectForm = ({ url, type }) => {
+    const onSelectForm = ({ url, type, title }) => {
+        // updateUser({ ...user, formActive: {value: type, label: title} });
         if (type == "111510043" || user.project_fids.includes(type)) {
+            // new form
             setShowProjectInfo(true);
             setDelayedActiveForm(url);
         } else {
+            // saved form
             openForm(url);
         }
     };
@@ -375,7 +380,7 @@ const WebForm = () => {
         // setActiveForm(endpoint);
 
         // just load the survey active when user not refresh the browser
-        let { formUrl } = user;
+        // let { formUrl } = user;
         let endpoint = (formUrl === null) ? "" : formUrl + '&locale=' + locale.active;
         setActiveForm(endpoint);
     }, [locale]);
