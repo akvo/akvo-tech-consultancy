@@ -426,6 +426,10 @@ img.responsive-image {
     margin-bottom: 1rem;
 }
 
+.header-left h4{
+    margin-top:.5rem;
+}
+
 .trans-lang,
 .trans-lang-opt {
     margin-top: 5px;

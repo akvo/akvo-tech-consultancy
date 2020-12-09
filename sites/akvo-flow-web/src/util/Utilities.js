@@ -42,7 +42,7 @@ export const validateDoubleEntry = (value, q) => {
     return value;
 }
 
-export const getLocalization = (active, lang, className, bold=false)  => {
+export const getLocalization = (active, lang, parentTag, className, bold=false)  => {
     let localization = active.map((x) => {
         let active = lang[x] === undefined ? "" : lang[x];
         return active;
@@ -53,7 +53,8 @@ export const getLocalization = (active, lang, className, bold=false)  => {
             ? ("<b>" + isoLangs[active[il]].nativeName + ": </b>")
             : "";
         let extraClass = il !== 0 ? (" class='" + className + "'") : (bold ? " style='font-weight:bold;'" : "");
-        return "<span" + extraClass + ">" + activeLang + l + "</span>";
+        let htmlTag = il === 0 ? parentTag : "span";
+        return "<" + htmlTag + "" + extraClass + ">" + activeLang + l + "</" + htmlTag + ">";
     });
     localization = localization.length === 0 ? lang.en : localization.join('');
     return localization;

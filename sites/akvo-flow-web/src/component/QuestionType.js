@@ -362,7 +362,7 @@ class QuestionType extends Component {
 
     renderRadio (o, lang, opt, i, id, radioType, unique) {
         let activeLang = this.props.value.lang.active;
-        let localization = getLocalization(activeLang, lang, 'trans-lang-opt');
+        let localization = getLocalization(activeLang, lang, 'span', 'trans-lang-opt');
         let dataval = opt.code !== undefined
             ? JSON.stringify({"text":opt.value,"code":opt.code})
             : JSON.stringify({"text":opt.value})
@@ -774,7 +774,7 @@ class QuestionType extends Component {
             }
             let indeterminate = false;
             let lang = x.lang ? x.lang : {"en":x.name};
-            let localization = getLocalization(active, lang, 'trans-lang-opt', level === 0);
+            let localization = getLocalization(active, lang, 'span','trans-lang-opt', level === 0);
             let grandParent =  x.name !== "Other" && level === 0 && x.childs.length !== 0;
             if (grandParent) {
                 return (

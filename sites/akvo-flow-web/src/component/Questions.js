@@ -76,7 +76,7 @@ class Questions extends Component {
         }
         return questions.map(question => {
             let activeLang = this.props.value.lang.active;
-            let localization = getLocalization(activeLang, question.lang, 'trans-lang');
+            let localization = getLocalization(activeLang, question.lang, 'span', 'trans-lang');
             let qid = question.id.toString();
             let qi = question.iteration.toString();
             return (
