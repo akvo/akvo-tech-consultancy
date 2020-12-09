@@ -338,7 +338,7 @@ const SubmissionInfoModal = ({ text, show, onHide, submissionInfo }) => {
 };
 
 const WebForm = () => {
-    const { user } = useAuth();
+    const { user, updateUser } = useAuth();
     const { locale } = useLocale();
     const [activeForm, setActiveForm] = useState();
     const [delayedActiveForm, setDelayedActiveForm] = useState();
@@ -349,13 +349,13 @@ const WebForm = () => {
     const openForm = url => {
         let endpoint = (url === null) ? url : url + '&locale=' + locale.active;
         setActiveForm(endpoint);
-        localStorage.setItem(`active-form:${user.id}`, url);
+        updateUser({ ...user, formUrl: url });
+        // localStorage.setItem(`active-form:${user.id}`, url);
     };
 
     const onSelectForm = ({ url, type }) => {
         if (type == "111510043" || user.project_fids.includes(type)) {
             setShowProjectInfo(true);
-            // setDelayedActiveForm(url + '&locale=' + locale.active);
             setDelayedActiveForm(url);
         } else {
             openForm(url);
@@ -370,8 +370,13 @@ const WebForm = () => {
 
     useEffect(() => {
         // open form from previous session
-        const form = localStorage.getItem(`active-form:${user.id}`);
-        let endpoint = (form === null) ? form : form + '&locale=' + locale.active;
+        // const form = localStorage.getItem(`active-form:${user.id}`);
+        // let endpoint = (form === null) ? form : form + '&locale=' + locale.active;
+        // setActiveForm(endpoint);
+
+        // just load the survey active when user not refresh the browser
+        let { formUrl } = user;
+        let endpoint = (formUrl === null) ? "" : formUrl + '&locale=' + locale.active;
         setActiveForm(endpoint);
     }, [locale]);
 

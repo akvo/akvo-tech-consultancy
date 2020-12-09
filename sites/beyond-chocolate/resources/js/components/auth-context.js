@@ -43,7 +43,11 @@ const useAuth = () => {
         setUser(null);
     };
 
-    return { user, login, logout };
+    const updateUser = data => {
+        setUser(data);
+    };
+
+    return { user, login, logout, updateUser };
 };
 
 const SecureRoute = ({ component: Component, ...rest }) => {
