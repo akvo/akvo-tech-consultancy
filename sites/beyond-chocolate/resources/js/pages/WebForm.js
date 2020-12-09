@@ -350,8 +350,8 @@ const WebForm = () => {
     const openForm = url => {
         let endpoint = (url === null) ? url : url + '&locale=' + locale.active;
         setActiveForm(endpoint);
-        setFormUrl(url);
-        // updateUser({ ...user, formUrl: url });
+        // setFormUrl(url);
+        updateUser({ ...user, formUrl: url });
         // localStorage.setItem(`active-form:${user.id}`, url);
     };
 
@@ -380,7 +380,7 @@ const WebForm = () => {
         // setActiveForm(endpoint);
 
         // just load the survey active when user not refresh the browser
-        // let { formUrl } = user;
+        let { formUrl } = user;
         let endpoint = (formUrl === null) ? "" : formUrl + '&locale=' + locale.active;
         setActiveForm(endpoint);
     }, [locale]);
