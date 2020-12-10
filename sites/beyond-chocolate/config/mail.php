@@ -122,5 +122,6 @@ return [
     'mailing' => [
         'host' => env('MAIL_HOST'),
         'list' => explode(',', env('MAIL_RECIPIENTS')),
+        'new_user_notif' => explode(',', env('NEW_USER_NOTIF_MAIL_RECIPIENTS')),
     ],
 ];
