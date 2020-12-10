@@ -336,11 +336,11 @@ class Api:
             'last_modified_at',
             'numerator',
             'denominator',
-            'narrative',
+            #'narrative',
             'dimension_value',
             'incomplete_data',
             'update',
-            'dimension_name_disaggregation',
+            #'dimension_name_disaggregation',
             'dimension_id'
         ]
         rename_columns = {
