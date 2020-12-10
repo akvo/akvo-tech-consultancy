@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { mapStateToProps, mapDispatchToProps } from '../reducers/actions.js'
 import { FaEdit } from "react-icons/fa";
-import { validateMinMax, validateDoubleEntry } from '../util/Utilities.js'
+import { validateMinMax, validateDoubleEntry, getLocalization } from '../util/Utilities.js'
 import Dexie from 'dexie';
 
 const getPos = (question_id) => {
@@ -71,7 +71,10 @@ class OverviewQuestion extends Component {
                     }
                     options[i] = text;
                 });
-                return options.length === 1 ? options[0] : options.join(', ');
+                if (options.length < 2) {
+                    return options[0];
+                }
+                return options.map((x,i) => (<div key={i}><span>☑</span><span className="ov-span">{x}</span></div>));
             case "photo":
                 const db = new Dexie('akvoflow');
                 db.version(1).stores({files: 'id'});
@@ -87,6 +90,10 @@ class OverviewQuestion extends Component {
                 valid = valid !== null ? validateDoubleEntry(answer, question) : valid;
                 return valid !== null ? answer.toString() : false;
             default:
+                if (answer.includes("|")) {
+                    answer = answer.split("|");
+                    return answer.map((x,i) => (<div key={i}><span>☑</span><span className="ov-span">{x}</span></div>));
+                }
                 valid = validateDoubleEntry(answer, question);
                 return valid !== null ? answer.toString() : false;
         }
@@ -96,13 +103,9 @@ class OverviewQuestion extends Component {
         let qid = this.props.qid.replace('-0', this.props.iter);
         let question = this.props.value.questions.find(q => q.id === qid);
 
-        let localization = this.props.value.lang.active;
-        localization = localization.map((x) => {
-            let active = question.lang[x] === undefined ? "" : question.lang[x];
-            return active;
-        });
-        localization = localization.filter(x => x !== "");
-        localization = localization.length === 0 ? question.lang.en : localization.join(" / ");
+
+        let activeLang = this.props.value.lang.active;
+        let localization = getLocalization(activeLang, question.lang, 'span', 'trans-lang');
 
         let answer = localStorage.getItem(qid);
         let divclass = answer === null ? "text-red" : "";
@@ -115,7 +118,7 @@ class OverviewQuestion extends Component {
                 <div className="row ov-list" key={"oq-" + this.props.group.index + qid}>
                     <div className="col-md-8 ov-question">
                         <div className="ln-index">{this.props.index + 1}</div>
-                        <div className="ln-question">{localization}</div>
+                        <div className="ln-question" dangerouslySetInnerHTML={{__html:localization}}/>
                     </div>
                             <div className="col-md-4">
                         { answer ? (

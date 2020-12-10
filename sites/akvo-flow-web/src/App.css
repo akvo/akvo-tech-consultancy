@@ -373,7 +373,7 @@ img.responsive-image {
     color:#ffffff;
 } 
 .ov-list{
-    padding: 1em;
+    padding: .5rem;
 }
 .ov-list:hover{
     background-color:#dae0e5;
@@ -382,6 +382,23 @@ img.responsive-image {
 .ov-answer {
     float:right;
     display: block;
+    font-size: 14px;
+    text-align:right;
+}
+
+.ov-answer div {
+    text-align:right;
+    display: inline-block;
+    min-width:100%;
+}
+.ov-answer div span {
+    text-align:right;
+    float:right;
+    min-width: 10%;
+}
+.ov-answer div span.ov-span {
+    max-width: 90%;
+    padding-right: 5px;
 }
 
 .ov-alerts {

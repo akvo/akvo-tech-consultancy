@@ -47,13 +47,15 @@ span.question-group-button{
 
 .ln-index {
     display: inline-block;
-    width: 10%;
+    width: 5%;
     vertical-align: top;
+    font-size: 14px;
 }
 .ln-question {
     display: inline-block;
-    width: 90%;
+    width: 95%;
     vertical-align: top;
+    font-size: 14px;
 }
 #notfound {
   position: relative;
