@@ -1,3 +1,5 @@
+import React, { Fragment } from "react";
+
 export const uiText = {
     en: {
         welcome: "Welcome to the GISCO Monitoring Pilot for 2019 data",
@@ -80,7 +82,7 @@ export const uiText = {
         // New
         valOptionNewFormDisabledInfo: "submission for the member already created",
         // Save Form Modal
-        valClickSave: 'Please make sure that the data has been saved before you navigate away from the page. To save the data please click on the "Save" button in the questionnaire. Do you want to navigate away from the page?',
+        valClickSave: <Fragment>Please make sure that the data has been saved before you navigate away from the page.<br/>To save the data please click on the "Save" button in the questionnaire.<br/>Do you want to navigate away from the page?'</Fragment>,
         valClickYes: 'Click "Yes" if you have already saved the data',
         valClickNo: 'Click "No" if you have not saved the data'
     },
@@ -132,8 +134,8 @@ export const uiText = {
         btnStartSurvey: "Klicken Sie hier um die Erhebung zu beginnen",
         btnRefresh: "Erneuern",
         btnOk: "OK",
-        btnYes: "Yes",
-        btnNo: "No",
+        btnYes: "Ja",
+        btnNo: "Nein",
         // Table
         tbColName: "Name",
         tbColEmail: "Email",
@@ -164,10 +166,10 @@ export const uiText = {
         valName: "Die Namenseingabe ist obligatorisch.",
         valFetchingData: "Daten werden geladen",
         // New
-        valOptionNewFormDisabledInfo: "submission for the member already created",
+        valOptionNewFormDisabledInfo: "Für dieses Mitglied wurde bereits ein Fragebogen erstellt",
         // Save Form Modal
-        valClickSave: 'Please make sure that the data has been saved before you navigate away from the page. To save the data please click on the "Save" button in the questionnaire. Do you want to navigate away from the page?',
-        valClickYes: 'Click "Yes" if you have already saved the data',
-        valClickNo: 'Click "No" if you have not saved the data'
+        valClickSave: <Fragment>Bitte stellen Sie sicher, dass Sie die eingegebenen Daten gespeichert haben, bevor Sie diese Seite verlassen.<br/>Um Ihre Eingaben zu speichern, drücken Sie bitte auf "Speichern", unten links im Fragebogen.<br/>Wollen Sie diese Seite verlassen?</Fragment>,
+        valClickYes: 'Klicken Sie "Ja" wenn Sie Ihre Eingaben bereits gespeichert haben',
+        valClickNo: 'Klicken Sie "Nein" wenn Sie Ihre Eingaben noch nicht gespeichert haben'
     },
 };
