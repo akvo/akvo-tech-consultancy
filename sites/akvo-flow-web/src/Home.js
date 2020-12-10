@@ -62,13 +62,7 @@ class Home extends Component {
             ...data,
         })
         if (!this.cacheId) {
-            let dataPointId = [
-                Math.random().toString(36).slice(2).substring(1, 5),
-                Math.random().toString(36).slice(2).substring(1, 5),
-                Math.random().toString(36).slice(2).substring(1, 5)
-            ]
             this.props.updateLocalStorage();
-            localStorage.setItem("_dataPointId", dataPointId.join("-"));
             localStorage.setItem("_submissionStart", Date.now());
             localStorage.setItem("_deviceId", "Akvo Flow Web");
             localStorage.setItem("_version", data.version);
@@ -186,7 +180,6 @@ class Home extends Component {
     componentDidMount() {
         this._isMounted = true;
         if (this._isMounted) {
-            this.props.generateUUID({})
             this.props.changeSettings({_isLoading:true})
             if (localStorage.getItem("_formId")) {
                 if (localStorage.getItem("_formId") !== this.surveyId){
@@ -194,6 +187,7 @@ class Home extends Component {
                     sessionStorage.clear();
                 }
             }
+            this.props.generateUUID({});
             if (this.cacheId) {
                 this.getCachedSurvey();
             } else {

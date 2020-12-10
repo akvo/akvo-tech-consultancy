@@ -5,7 +5,6 @@ import { isJsonString } from  '../util/QuestionHandler'
 import { PopupImage } from '../util/Popup'
 import { checkCustomOption, checkUnit } from '../util/Custom'
 import { getApi } from '../util/Api'
-import isoLangs from '../util/Languages'
 import { getLocalization } from '../util/Utilities';
 import MapForm from '../types/MapForm'
 import Dexie from 'dexie';
@@ -535,7 +534,6 @@ class QuestionType extends Component {
             }
             */
             if (!res) {
-                console.log(lv, ix, url, options, cascade, selected_value, init);
                 this.fetchCascade(lv, ix, url, options, cascade, selected_value, init);
             }
             return;

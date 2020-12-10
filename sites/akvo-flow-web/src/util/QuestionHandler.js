@@ -21,6 +21,23 @@ export const getQuestionType = (props) => {
     return qtype
 }
 
+export const parseAnswer = ({answer, qtype}) => {
+    switch(qtype) {
+        case "option":
+            answer = answer ? answer.map(x => x.text) : null;
+            answer = answer ? answer.join("|") : null;
+            return answer;
+        case "cascade":
+            answer = answer ? answer.map(x => x.text) : null;
+            answer = answer ? answer.join("|") : null;
+            return answer;
+        case "number":
+            return answer ? answer.toString() : answer
+        default:
+            return answer
+    }
+}
+
 export const isJsonString = (str) => {
     try {
         JSON.parse(str);

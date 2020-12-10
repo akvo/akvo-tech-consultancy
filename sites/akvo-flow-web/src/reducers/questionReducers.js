@@ -491,11 +491,15 @@ const replaceGroups = (groups, questions, answers) => {
 }
 
 const generateUUID = () => {
+    if (localStorage.getItem('_dataPointId')) {
+        return localStorage.getItem('_dataPointId');
+    }
     let id = uuid()
     id = id.split('-')
     id = id.map(x => {
         return x.substring(0, 4);
     }).slice(0,3);
+    localStorage.setItem('_dataPointId', id.join('-'));
     return id.join('-');
 }
 
