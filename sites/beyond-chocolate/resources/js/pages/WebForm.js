@@ -372,8 +372,8 @@ const WebForm = ({setFormLoaded}) => {
         let endpoint = (url === null) ? url : url + '&locale=' + locale.active;
         setActiveForm(endpoint);
         // setFormUrl(url);
-        updateUser({ ...user, formUrl: url });
-        // localStorage.setItem(`active-form:${user.id}`, url);
+        // updateUser({ ...user, formUrl: url });
+        localStorage.setItem(`active-form:${user.id}`, url);
     };
 
     const onSelectForm = ({ url, type, title }) => {
@@ -402,14 +402,14 @@ const WebForm = ({setFormLoaded}) => {
 
     useEffect(() => {
         // open form from previous session
-        // const form = localStorage.getItem(`active-form:${user.id}`);
-        // let endpoint = (form === null) ? form : form + '&locale=' + locale.active;
-        // setActiveForm(endpoint);
+        const form = localStorage.getItem(`active-form:${user.id}`);
+        let endpoint = (form === null) ? form : form + '&locale=' + locale.active;
+        setActiveForm(endpoint);
 
         // just load the survey active when user not refresh the browser
-        let { formUrl } = user;
-        let endpoint = (formUrl === null) ? "" : formUrl + '&locale=' + locale.active;
-        setActiveForm(endpoint);
+        // let { formUrl } = user;
+        // let endpoint = (formUrl === null) ? "" : formUrl + '&locale=' + locale.active;
+        // setActiveForm(endpoint);
     }, [locale]);
 
     const [show, setShow] = useState(false);

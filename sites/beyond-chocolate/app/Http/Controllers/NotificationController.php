@@ -64,9 +64,6 @@ class NotificationController extends Controller
                     $contact_email = $r->get($qcfg['contact_email']);
                     $comment = $r->get($qcfg['comment']);
                     return [
-                        // "member" => ($member !== null) ? $member['text'] : $member,
-                        // "contact_name" => $contact_name,
-                        // "contact_email" => $contact_email,
                         "member" => $member,
                         "recipients" => ["Email" => trim($contact_email), "Name" => trim($contact_name)],
                         "comment" => trim($comment),

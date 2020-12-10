@@ -39,6 +39,7 @@ const useAuth = () => {
     };
 
     const logout = async () => {
+        localStorage.clear();
         await authApi.logout();
         setUser(null);
     };

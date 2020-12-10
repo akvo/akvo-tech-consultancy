@@ -23,7 +23,8 @@ const Main = () => {
     
     useEffect(() => {
         // todo setup app version
-        console.log('setup the app version');
+        localStorage.clear();
+        // console.log('setup the app version');
     }, []);
 
     const [formLoaded, setFormLoaded] = useState(false);

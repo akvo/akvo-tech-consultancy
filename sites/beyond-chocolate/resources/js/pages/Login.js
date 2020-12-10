@@ -83,14 +83,14 @@ const Login = () => {
                                                 errors.password.message}
                                         </Form.Control.Feedback>
                                     </Form.Group>
-                                    <Form.Group controlId="formBasicCheckbox">
+                                    {/* <Form.Group controlId="formBasicCheckbox">
                                         <Form.Check
                                             type="checkbox"
                                             name="remember"
                                             label={ text.formRememberLogin }
                                             ref={register}
                                         />
-                                    </Form.Group>
+                                    </Form.Group> */}
                                     <Row>
                                         <Col md={7}>
                                             <Button type="submit">
