@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { mapStateToProps, mapDispatchToProps } from "../reducers/actions";
-import { Row, Col, Container, Form } from "react-bootstrap";
+import { Row, Col, Container, Form, Accordion, Card, Button } from "react-bootstrap";
 require("../data/burkina-faso.js");
 import Charts from "../components/Charts";
 import {
@@ -53,6 +53,8 @@ class PageOverviews extends Component {
         this.renderFirstFilterDropdown = this.renderFirstFilterDropdown.bind(this);
         this.renderFirstFilterLegend = this.renderFirstFilterLegend.bind(this);
         this.filterMapData = this.filterMapData.bind(this);
+        this.renderSecondFilterDropdown = this.renderSecondFilterDropdown.bind(this);
+        this.renderSecondFilterOption = this.renderSecondFilterOption.bind(this);
         this.state = {
             charts: [
                 {
@@ -60,9 +62,6 @@ class PageOverviews extends Component {
                     data: generateData(12, false, "800px")
                 }
             ],
-            // legends: [],
-            // data: [],
-            // mapData: [],
             ff_qid: null,
             ff_legend: null,
             sf: null,
@@ -198,15 +197,59 @@ class PageOverviews extends Component {
                         onClick={e => this.filterMapData(e)}
                         disabled={ff_legend === null ? false : ff_legend !== x.text}
                         id={"ff-"+i}
-                        key={x.id}
+                        key={"ff-"+x.id}
                         type="checkbox"
-                        name={"ff-legends-"+i}
+                        name={"ff-legends"}
                         label={x.text}
                         value={x.text} />
                 </div>
             );
         });
         return legends;
+    }
+
+    renderSecondFilterOption(options) {
+        let res = options.map((x, i) => {
+            return (
+                <div className="mt-2" key={"sf-wrapper-"+i}>
+                    <Form.Check 
+                        // TODO : filter data by second filter
+                        // onClick={e => this.filterMapData(e)}
+                        // disabled={ff_legend === null ? false : ff_legend !== x.text}
+                        id={"sf-"+i}
+                        key={"sf-"+x.id}
+                        type="checkbox"
+                        name={"sf-legends"}
+                        label={x.text}
+                        value={x.text} />
+                </div>
+            );
+        });
+        return res;
+    }
+
+    renderSecondFilterDropdown() {
+        let { page, filters } = this.props.value;
+        let { source, config } = filters[page.name];
+        let { second_filter } = config;
+
+        if (source === null) {
+            return "";
+        }
+
+        let res = second_filter.map((f, i) => {
+            return (
+                <Card key={"sf-toggle-"+i}>
+                    <Accordion.Collapse eventKey={f.question_id}>
+                        <Card.Body>{ this.renderSecondFilterOption(f.values) }</Card.Body>
+                    </Accordion.Collapse>
+                    <Accordion.Toggle as={Card.Header} variant="link" eventKey={f.question_id}>
+                        { f.text }
+                    </Accordion.Toggle>
+                </Card>
+            );
+        });
+        return res;
     }
 
     componentDidMount() {
@@ -230,7 +273,6 @@ class PageOverviews extends Component {
                             <Form.Control
                                 as="select"
                                 defaultValue={this.state.ff_qid}
-                                // onChange={e => this.renderFirstFilterLegend(e, this.state.ff_legend)}
                                 onChange={e => this.setState({ ...this.state, ff_qid: e.target.value })}
                             >
                                 <option value="">Select Filter</option>
@@ -238,11 +280,17 @@ class PageOverviews extends Component {
                             </Form.Control>
                         </Form>
                         <div className={ this.state.ff_qid === null ? "" : "mt-2" }>
-                            {/* { this.state.legends } */}
                             { this.renderFirstFilterLegend() }
                         </div>
                     </div>
+
                     {maps}
+
+                    <div className="second-filter">
+                        <Accordion>
+                            { this.renderSecondFilterDropdown() }
+                        </Accordion>
+                    </div>
                 </Row>
             </Container>
             </Fragment>

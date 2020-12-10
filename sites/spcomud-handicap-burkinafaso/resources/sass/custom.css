@@ -464,6 +464,16 @@ footer img.footer-img{
     padding: 10px;
     border: 1px solid #dddddd;
 }
+
+.second-filter {
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    z-index: 1;
+    margin-right: 15px;
+    margin-bottom: 15px;
+    min-width: 300px;
+}
 /* EOL Floating Filter CSS */
 
 @media (min-width: 992px) {

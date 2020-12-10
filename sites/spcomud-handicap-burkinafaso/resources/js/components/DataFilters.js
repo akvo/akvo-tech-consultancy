@@ -45,6 +45,7 @@ class DataFilters extends Component {
     }
 
     changeActive() {
+        this.props.chart.state.loading(true);
         let source = event.target.value;
         this.getMapSources('config/'+source).then(res => { 
             return res; 
@@ -80,6 +81,7 @@ class DataFilters extends Component {
                     );
                     return true;
                 }).then(status => {
+                    this.props.chart.state.loading(false);
                     if (status) {
                         localStorage.setItem('locval_'+source, JSON.stringify(this.props.value.filters));
                         localStorage.setItem('cache', JSON.stringify(this.props.value));
