@@ -32,29 +32,38 @@ class NotificationController extends Controller
              *      ],
              *      [ ...answer ]
              * ]
-             * 
-             * Need to collect the email data from here
+             * Need to filter response by today date
+             * Need to collect the email data from form instance response
              */
+
+            // Filter data response by todat date
+            
+
+            // collect the email data
             $emailData = $data->map(function ($val) use ($cfg) {
                 $qcfg = $cfg['question'];
                 $qgid = $qcfg['group'];
                 // reject response if not match qgid from config
                 $response = collect($val['responses'])->reject(function ($value, $key) use ($qgid) {
-                    return (int) $key !== (int) $qid;
+                    return (int) $key !== (int) $qgid;
                 })->flatten(1)->values()->map(function ($r) use ($qcfg) {
+                    $r = collect($r);
                     $member = $r->get($qcfg['member']);
                     $contact_name = $r->get($qcfg['contact_name']);
                     $contact_email = $r->get($qcfg['contact_email']);
                     $comment = $r->get($qcfg['comment']);
                     return [
-                        "member" => ($member !== null) ? $member['text'] : $member,
-                        "contact_name" => $contact_name,
-                        "contact_email" => $contact_email,
+                        // "member" => ($member !== null) ? $member['text'] : $member,
+                        // "contact_name" => $contact_name,
+                        // "contact_email" => $contact_email,
+                        "member" => $member,
+                        "recipients" => ["Email" => $contact_email, "Name" => $contact_name],
                         "comment" => $comment,
                     ];
                 });
                 return $response;
             })->flatten(1);
+            dump($emailData);
         }
         return "Done";
     }
