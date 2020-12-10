@@ -101,9 +101,10 @@ class NotificationController extends Controller
 
     private function sendEmail($emailData, $mails)
     {
-        $footer = "GISCO Monitoring Pilot for 2019 data"; 
-        $recipients = $emailData->get('recipients');
+        $recipients = collect();
+        $recipients->push($emailData->get('recipients'));
         $subject = 'Notification';
+        $footer = "GISCO Monitoring Pilot for 2019 data"; 
         $body = "Test notification <br/><br/>
                 ".$emailData->get('comment')." <hr/>
                 <strong>SENT VIA <a href='".env('APP_URL')."'>".$footer."</a></strong>
