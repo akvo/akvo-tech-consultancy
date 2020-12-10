@@ -18,6 +18,7 @@ import request from "../lib/request";
 import authApi from "../services/auth";
 import { useLocale } from "../lib/locale-context";
 import { uiText } from "../static/ui-text";
+import { DateTime } from "luxon";
 
 const PAGINATION_OFFSET = 4;
 
@@ -214,6 +215,7 @@ const Users = () => {
                             <tr>
                                 <th>{ text.tbColName }</th>
                                 <th>{ text.tbColEmail }</th>
+                                <th>{ text.tbColVerifiedOn }</th>
                                 <th>{ text.tbColOrganization }</th>
                                 <th>{ text.tbColRole }</th>
                                 <th>{ text.tbColSurveys }</th>
@@ -225,7 +227,9 @@ const Users = () => {
                                     let orgSuffix = (user.organization.parents !== null) 
                                         ? " (" + user.organization.parents.name + ")"
                                         : "";
-
+                                    let verifiedOn = (user.email_verified_at !== null) 
+                                        ? DateTime.fromISO(user.email_verified_at).toFormat("dd/LL/yyyy 'at' HH:mm")
+                                        : " - ";
                                     return (
                                         <tr
                                             key={user.id}
@@ -238,6 +242,7 @@ const Users = () => {
                                         >
                                             <td>{user.name}</td>
                                             <td>{user.email}</td>
+                                            <td>{verifiedOn}</td>
                                             <td>{user.organization.name + orgSuffix}</td>
                                             <td>{user.role?.name}</td>
                                             <td className="text-right">

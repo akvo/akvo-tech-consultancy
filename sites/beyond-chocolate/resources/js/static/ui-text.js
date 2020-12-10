@@ -84,7 +84,8 @@ export const uiText = {
         // Save Form Modal
         valClickSave: <Fragment>Please make sure that the data has been saved before you navigate away from the page.<br/>To save the data please click on the "Save" button in the questionnaire.<br/>Do you want to navigate away from the page?'</Fragment>,
         valClickYes: 'Click "Yes" if you have already saved the data',
-        valClickNo: 'Click "No" if you have not saved the data'
+        valClickNo: 'Click "No" if you have not saved the data',
+        tbColVerifiedOn: 'Verified on',
     },
 
     de: {
@@ -170,6 +171,7 @@ export const uiText = {
         // Save Form Modal
         valClickSave: <Fragment>Bitte stellen Sie sicher, dass Sie die eingegebenen Daten gespeichert haben, bevor Sie diese Seite verlassen.<br/>Um Ihre Eingaben zu speichern, drücken Sie bitte auf "Speichern", unten links im Fragebogen.<br/>Wollen Sie diese Seite verlassen?</Fragment>,
         valClickYes: 'Klicken Sie "Ja" wenn Sie Ihre Eingaben bereits gespeichert haben',
-        valClickNo: 'Klicken Sie "Nein" wenn Sie Ihre Eingaben noch nicht gespeichert haben'
+        valClickNo: 'Klicken Sie "Nein" wenn Sie Ihre Eingaben noch nicht gespeichert haben',
+        tbColVerifiedOn: 'Verified on',
     },
 };
