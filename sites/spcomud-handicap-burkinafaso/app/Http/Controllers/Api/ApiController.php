@@ -70,16 +70,20 @@ class ApiController extends Controller
                 $cascade = null;
                 $answerCascade = \App\AnswerCascade::where('answer_id', $y['id'])->first();
                 if ($answerCascade !== null) {
-                    $cascade = \App\Cascade::find($answerCascade['cascade_id']);
+                    $cascade = \App\Cascade::where('id', $answerCascade['cascade_id'])
+                                            ->with('parents.parents.parents.parents')
+                                            ->first();
                 }
                 $y['answer'] = ($y['name'] === null) ? $y['value'] : $y['name'];
                 if ($option !== null) {
                     $y['answer'] = $option['name'];
                 }
                 if ($cascade !== null) {
-                    $y['answer'] = $cascade['name'];
+                    $cascadeName = collect();
+                    $this->collectCascade($cascade, $cascadeName);
+                    $y['answer'] = $cascadeName->join('|');
                 }
-                return $y;
+                return $y->only('question_id', 'answer');
             });
             return $x->keyBy('question_id'); 
         })->map(function ($x) { 
@@ -87,6 +91,15 @@ class ApiController extends Controller
             return $x;
         });
         return $results;
+    }
+
+    private function collectCascade($data, $collections)
+    {
+        if ($data['level'] !== null) {
+            $collections->push($data['name']);
+            $this->collectCascade($data['parents'], $collections);
+        }
+        return $collections;
     }
 
     public function getMapsLocation(Request $requests)

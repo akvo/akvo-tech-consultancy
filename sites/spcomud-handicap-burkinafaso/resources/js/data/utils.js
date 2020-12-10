@@ -66,14 +66,15 @@ export const flattenLocations = (locations, results) => {
 
 export const mapDataByLocations = (locations, data, config) => {
     let res = locations.map(x => {
-        let filteredData = filter(data, (y) => {
-            return y[config.maps.match_question].answer.toLowerCase() === x.name.toLowerCase();
+        let dataByLocation = filter(data, (y) => {
+            return y[config.maps.match_question].answer.toLowerCase().includes(x.name.toLowerCase());
         });
-        filteredData = filter(filteredData, (z => z.active === true));
+        let filteredData = filter(dataByLocation, (z => z.active === true));
         return {
             name: x.text,
             value: filteredData.length,
-            details: null,
+            active: true,
+            // details: dataByLocation,
         }
     });
     return res;

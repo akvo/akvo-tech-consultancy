@@ -272,7 +272,7 @@ class PageOverviews extends Component {
                         <Form>
                             <Form.Control
                                 as="select"
-                                defaultValue={this.state.ff_qid}
+                                // defaultValue={455470955}
                                 onChange={e => this.setState({ ...this.state, ff_qid: e.target.value })}
                             >
                                 <option value="">Select Filter</option>

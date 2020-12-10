@@ -24,7 +24,6 @@ const initialState = {
     page: pageState,
     filters: filterState,
     charts: chartState,
-
 }
 
 export const states = (state = initialState, action) => {
