@@ -1,3 +1,5 @@
+docker rm $(docker ps -aq)
+docker build -t akvo-flow-web-api .
 docker run -it -p 5000:5000 \
     --env BASIC_ADMIN=akvo \
     --env BASIC_PWD=webform \
@@ -7,4 +9,5 @@ docker run -it -p 5000:5000 \
     --env AUTH0_USER=$AUTH0_USER \
     --env AUTH0_PWD=$AUTH0_PWD \
     --env SQLALCHEMY_DATABASE_URI=$SQLALCHEMY_DATABASE_URI \
+    --name "flow-api" \
     akvo-flow-web-api python app.py

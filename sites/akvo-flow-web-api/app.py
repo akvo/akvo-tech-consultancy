@@ -1,7 +1,7 @@
 # Travis removed
 
 from dataclasses import dataclass
-from flask import Flask, jsonify, render_template, request, make_response, send_file
+from flask import Flask, jsonify, render_template, request, make_response
 from flask_cors import CORS
 from lxml import etree
 from io import BytesIO
@@ -544,6 +544,22 @@ def get_saved_forms():
 
     return jsonify(result)
 
+@app.route('/download', methods=['POST'])
+def get_csv_forms():
+    if not os.path.exists('./static/excel'):
+        os.mkdir('./static/excel')
+    params = request.get_json()
+    filename = params["name"] + ".xlsx"
+    df = pd.DataFrame(params["data"]).fillna(" - ")
+    df['gid'] = df['groupId'].apply(lambda x: x.split('-')[0]).astype('int')
+    df['repeat'] = df['groupId'].apply(lambda x: int(x.split('-')[1]) + 1).astype('int')
+    df['qid'] = df['id'].apply(lambda x: x.split('-')[1]).astype('int')
+    df = df[['gid','groupName','repeat','qid','question','answer']]
+    df = df.sort_values(['gid','repeat','qid']);
+    df = df.groupby(['gid','groupName','repeat','qid','question','answer']).first()
+    df.style.set_properties(**{'text-align': 'right'})
+    df.to_excel('./static/excel/' + filename)
+    return jsonify({"message": "success"})
 
 if __name__ == '__main__':
     app.jinja_env.auto_reload = True
