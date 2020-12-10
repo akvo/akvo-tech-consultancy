@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use App\Models\Organization;
 
 class UserSavedFormsController
 {
@@ -52,13 +53,21 @@ class UserSavedFormsController
     {
         return array_map(function ($it) {
             $rawMeta = array_key_exists('meta', $it) ? $it['meta']: [];
-            $meta = array_merge(['formId' => '', 'dataPointName' => '', 'email' => '', 'formName' => ''], $rawMeta);
+            $meta = array_merge(['formId' => '', 'dataPointName' => '', 'email' => '', 'formName' => '', 'org' => ''], $rawMeta);
+            $org = Organization::find($meta['org']);
+            if (is_null($org)) {
+               $orgName = '';
+            } else {
+               $orgName = $org->name;
+            }
 
             return [
                 'url' => config('bc.form_url').$meta['formId'].'/'.$it['id'],
                 'submission_name' => $meta['dataPointName'],
                 'submitter' => $meta['email'],
                 'survey_name' => $meta['formName'],
+                'org_id' => $meta['org'],
+                'org_name' => $orgName,
                 'date' => $it['updated'],
             ];
         }, $data);

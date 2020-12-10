@@ -77,7 +77,7 @@ const SavedFormsSelector = ({ text, user, onSelect, watchValue, setConfirmAction
             <div className="savedFromGrid">
                 <div className="d-flex">
                     <div className="flex-fill savedFromGrid--name">
-                        {option.submission_name}
+                        {option.submission_name || option.org_name}
                     </div>
                     <div className="flex-fill  savedFromGrid--email">
                         {option.submitter}
