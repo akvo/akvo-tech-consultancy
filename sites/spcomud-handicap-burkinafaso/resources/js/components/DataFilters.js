@@ -2,7 +2,7 @@ import React, { Component, Fragment, useState } from 'react';
 import { connect } from 'react-redux';
 import { mapStateToProps, mapDispatchToProps } from '../reducers/actions.js';
 import { Form, Row, Col, } from 'react-bootstrap';
-import { checkCache, titleCase, flattenLocations, mapDataByLocations } from "../data/utils.js";
+import { flattenLocations, mapDataByLocations } from "../data/utils.js";
 import axios from 'axios';
 
 const prefixPage = process.env.MIX_PUBLIC_URL + "/api/";
@@ -75,15 +75,15 @@ class DataFilters extends Component {
                             config: results.config,
                             locations: results.locations,
                             mapData: mapData,
-                            filteredMapData: mapData,
                         }, 
                         this.props.value.page.name
                     );
+                    // localStorage.setItem('source', source);
                     return true;
                 }).then(status => {
                     this.props.chart.state.loading(false);
                     if (status) {
-                        localStorage.setItem('locval_'+source, JSON.stringify(this.props.value.filters));
+                        // localStorage.setItem('locval_'+source, JSON.stringify(this.props.value.filters));
                         localStorage.setItem('cache', JSON.stringify(this.props.value));
                     }
                 });   

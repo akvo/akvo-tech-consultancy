@@ -7,7 +7,11 @@ import Charts from "../components/Charts";
 import {
     generateData,
 } from "../data/chart-utils.js";
-import { checkCache, titleCase, flattenLocations, mapDataByLocations } from "../data/utils.js";
+import { 
+    flattenLocations, 
+    mapDataByLocations, 
+    filterMapData,
+} from "../data/utils.js";
 import filter from 'lodash/filter';
 import Maps from '../data/options/Maps';
 import DataFilters from '../components/DataFilters';
@@ -64,7 +68,8 @@ class PageOverviews extends Component {
             ],
             ff_qid: null,
             ff_legend: null,
-            sf: null,
+            sf_qid: null,
+            sf_legend: null,
         }
     }
 
@@ -94,7 +99,7 @@ class PageOverviews extends Component {
         if (filters.source === null) {
             return [];
         }
-        return filters.filteredMapData;
+        return filters.mapData;
     }
 
     getOptions(list) {
@@ -132,49 +137,40 @@ class PageOverviews extends Component {
         return res;
     }
 
-    filterMapData(e) {
+    filterMapData(e, type) {
         let answer = e.target.value;
-        let { ff_qid, ff_legend } = this.state;
+        let { ff_qid, ff_legend, sf_qid, sf_legend } = this.state;
         let page = this.props.value.page.name;
         let filters = this.props.value.filters[page];
         let { config, locations, data, mapData } = filters;
         let locationTemp = [];
         flattenLocations(locations, locationTemp);
+        let filteredData = [];
+        let res = [];
 
-        if (answer === ff_legend) {
+        // set qid and legend by filter type
+        let qid = (type === 'ff') ? ff_qid : sf_qid;
+        let legendSelected = (type === 'ff') ? ff_legend : sf_legend;
+        let stateKey = (type === 'ff') ? 'ff_legend' : 'sf_legend';
+
+        if (answer === legendSelected) {
             // DO : back data to normal (remove filtered data)
-            this.setState({ ...this.state, ff_legend: null });
-            this.props.filter.change(
-                {
-                    ...filters,
-                    filteredMapData: mapData,
-                }, 
-                page
-            );
-            return;
+            this.setState({ ...this.state, [stateKey]: null });
+            filteredData = filterMapData(false, data, qid, answer);
+            res = mapDataByLocations(locationTemp, filteredData, config);
         }
-        // DO : filter the data here, by legend selected, need to mapping old data again and transform it into dataLoc
-        this.setState({ ...this.state, ff_legend: answer });
-        let filteredData = data.map(x => {
-            if (typeof x[ff_qid] === 'undefined') {
-                return {
-                    ...x,
-                    active: false,
-                };
-            }
-            if (x[ff_qid].answer.toLowerCase() !== answer.toLowerCase()) {
-                return {
-                    ...x,
-                    active: false,
-                };
-            }
-            return { ...x };
-        });
-        let res = mapDataByLocations(locationTemp, filteredData, config);
+
+        if (answer !== legendSelected) {
+            // DO : filter the data here, by legend selected, need to mapping old data again and transform it into dataLoc
+            this.setState({ ...this.state, [stateKey]: answer });
+            filteredData = filterMapData(true, data, qid, answer);
+            res = mapDataByLocations(locationTemp, filteredData, config);
+        }
+
         this.props.filter.change(
             {
                 ...filters,
-                filteredMapData: res,
+                mapData: res,
             }, 
             page
         );
@@ -194,7 +190,7 @@ class PageOverviews extends Component {
             return (
                 <div className="mt-2" key={"ff-wrapper-"+i}>
                     <Form.Check 
-                        onClick={e => this.filterMapData(e)}
+                        onClick={e => this.filterMapData(e, 'ff')}
                         disabled={ff_legend === null ? false : ff_legend !== x.text}
                         id={"ff-"+i}
                         key={"ff-"+x.id}
@@ -213,9 +209,7 @@ class PageOverviews extends Component {
             return (
                 <div className="mt-2" key={"sf-wrapper-"+i}>
                     <Form.Check 
-                        // TODO : filter data by second filter
-                        // onClick={e => this.filterMapData(e)}
-                        // disabled={ff_legend === null ? false : ff_legend !== x.text}
+                        onClick={e => this.filterMapData(e, 'sf')}
                         id={"sf-"+i}
                         key={"sf-"+x.id}
                         type="checkbox"
@@ -243,7 +237,12 @@ class PageOverviews extends Component {
                     <Accordion.Collapse eventKey={f.question_id}>
                         <Card.Body>{ this.renderSecondFilterOption(f.values) }</Card.Body>
                     </Accordion.Collapse>
-                    <Accordion.Toggle as={Card.Header} variant="link" eventKey={f.question_id}>
+                    <Accordion.Toggle 
+                        as={Card.Header} 
+                        onClick={e => this.setState({ ...this.state, sf_qid: f.question_id })} 
+                        variant="link" 
+                        eventKey={f.question_id}
+                    >
                         { f.text }
                     </Accordion.Toggle>
                 </Card>
@@ -272,7 +271,6 @@ class PageOverviews extends Component {
                         <Form>
                             <Form.Control
                                 as="select"
-                                // defaultValue={455470955}
                                 onChange={e => this.setState({ ...this.state, ff_qid: e.target.value })}
                             >
                                 <option value="">Select Filter</option>

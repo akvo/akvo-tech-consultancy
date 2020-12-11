@@ -29,28 +29,6 @@ export const titleCase = (string) => {
   return sentence.join(" ");
 }
 
-export const getCovidTable = (params) => {
-    let data = params.data;
-    let html = '<hr/>District: <strong>' + params.name + '</strong></br>';
-    html += '<table class="table table-bordered">';
-    html += '<thead class="thead-dark">';
-    html += '<tr>';
-    html += '<th width="200">Cases</th>';
-    html += '<th width="50" class="text-right">total</th>';
-    html +='</tr>';
-    html += '</thead>';
-    html += '<tbody>';
-    for (const d in data.data) {
-        if (d !== "name") {
-            html += '<tr><td width="200">' + titleCase(d) + '</td>';
-            html += '<td width="50" class="text-right">' + data.data[d] + '</td></tr>';
-        }
-    }
-    html += '</tbody>';
-    html += '</table>';
-    return html;
-}
-
 export const flattenLocations = (locations, results) => {
     locations.forEach(x => {
         if (x.children_nested.length > 0) {
@@ -76,6 +54,34 @@ export const mapDataByLocations = (locations, data, config) => {
             active: true,
             // details: dataByLocation,
         }
+    });
+    return res;
+};
+
+export const filterMapData = (filter, data, qid, answer) => {
+    // filter = true mean data will filtered by legend
+    // filter = false data will return back to normal
+    let active = filter ? false : true;
+    let res = data.map(x => {
+        if (typeof x[qid] === 'undefined') {
+            x.active = active;
+            return x;
+            // return {
+            //     ...x,
+            //     active: active,
+            // };
+        }
+        // not includes
+        if (! x[qid].answer.toLowerCase().includes(answer.toLowerCase())) {
+            x.active = active;
+            return x;
+            // return {
+            //     ...x,
+            //     active: active,
+            // };
+        }
+        return x;
+        // return { ...x };
     });
     return res;
 };

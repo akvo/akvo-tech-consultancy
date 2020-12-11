@@ -7,7 +7,6 @@ export const filterState = {
         config: {},
         data: [],
         mapData: [],
-        filteredMapData: [],
     },
 }
 
@@ -18,7 +17,6 @@ export const initFilter = (base, state, page) => {
         data: state.data,
         locations: state.locations,
         mapData: state.mapData,
-        filteredMapData: state.filteredMapData,
     }
 }
 
@@ -27,13 +25,11 @@ export const changeFilter = (base, state, page, filter) => {
         let results = {
             ...state,
             overviews : {
-                // ...state.overviews,
                 source: filter.source,
                 config: filter.config,
                 data: filter.data,
                 locations: filter.locations,
                 mapData: filter.mapData,
-                filteredMapData: filter.filteredMapData
             },
         }
         return results;
