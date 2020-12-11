@@ -5,13 +5,14 @@ import { mapStateToProps, mapDispatchToProps } from '../reducers/actions';
 import Navigation from './Navigation';
 import {
     Container,
-    Row
+    Row,
 } from 'react-bootstrap';
 import PageOverviews from '../pages/PageOverviews';
 import PageActivities from '../pages/PageActivities';
 import PageWebform from '../pages/PageWebform';
 import axios from 'axios';
 import Loading from './Loading';
+import ModalDetail from './ModalDetail';
 
 const prefixPage = process.env.MIX_PUBLIC_URL + "/api/";
 
@@ -70,14 +71,17 @@ class Page extends Component {
 
     render() {
         let loading = this.props.value.page.loading;
-
         return (
             <Fragment>
-            <Navigation/>
-            {loading ? (<Loading/>) : this.activePage()}
-            {/* <footer className="text-center">
-                <img className="footer-img" src={`${process.env.MIX_PUBLIC_URL}/images/logo-wai.jpg`}/>
-            </footer> */}
+                <Navigation/>
+                {loading ? (<Loading/>) : this.activePage()}
+                {/* 
+                    <footer className="text-center">
+                        <img className="footer-img" src={`${process.env.MIX_PUBLIC_URL}/images/logo-wai.jpg`}/>
+                    </footer> 
+                */}
+
+                <ModalDetail />
             </Fragment>
         );
     }

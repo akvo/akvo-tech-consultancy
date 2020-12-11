@@ -1,5 +1,6 @@
 import {
     baseState,
+    toggleModal,
 } from './states/base-states.js';
 import {
     pageState,
@@ -108,6 +109,14 @@ export const states = (state = initialState, action) => {
             }
         case 'CACHE - RESTORE':
             return action.data;
+        case 'TOGGLE - MODAL':
+            return {
+                ...state,
+                base: {
+                    ...state.base,
+                    modal: toggleModal(state.base.modal, action.status, action.modalKey)
+                }
+            }
         default:
             return state;
     }

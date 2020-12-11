@@ -88,6 +88,15 @@ export const mapDispatchToProps = dispatch => {
                     data: data
                 });
             }
+        },
+        modal: {
+            toggle: (status, modalKey) => {
+                dispatch({
+                    type: "TOGGLE - MODAL",
+                    status: status,
+                    modalKey: modalKey
+                })
+            }
         }
     };
 };

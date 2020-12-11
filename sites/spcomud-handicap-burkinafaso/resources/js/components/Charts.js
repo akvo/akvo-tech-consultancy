@@ -42,7 +42,14 @@ class Charts extends Component {
     }
 
     clickEvent(param) {
-        console.log('Chart.js', param);
+        let { data, name } = param;
+        let page = this.props.value.page.name;
+        let { source } =  this.props.value.filters[page];
+        if (source !== null && typeof data !== 'undefined') {
+            setTimeout(() => {
+                this.props.modal.toggle(true, 'toggleModalDetail');
+            }, 500);
+        }
     }
 
     componentDidMount() {
