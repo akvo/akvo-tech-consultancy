@@ -34,7 +34,9 @@ class SendEmailUserSavedNotification
         });
         $subject = 'New User Registration';
         $footer = "GISCO Monitoring Pilot for 2019 data"; 
-        $body = "Test notification, User: ".$event->user->name." <".$event->user->email."> <br/><br/><hr/>
+        $body = "User: ".$event->user->name."<br/>
+                Organization: ".$event->user->organization->name."<br/>
+                <hr/>
                 <strong>SENT VIA <a href='".env('APP_URL')."'>".$footer."</a></strong>
                 <br/>";
         $text = "Registration Notification";
@@ -42,6 +44,7 @@ class SendEmailUserSavedNotification
         $mails = new Mails();
         $response = $mails->sendEmail($recipients, false, $subject, $body, $text);
         $response = ($response === null) ? "Failed to sent email" : $response;
+
         return $response;
     }
 }
