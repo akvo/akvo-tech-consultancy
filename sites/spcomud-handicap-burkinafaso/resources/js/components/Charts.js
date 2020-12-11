@@ -50,6 +50,7 @@ class Charts extends Component {
             setTimeout(() => {
                 this.props.page.loading(false);
                 this.props.modal.toggle(true, 'toggleModalDetail');
+                this.props.modal.setSelected(data, 'selectedModalDetail');
             }, 500);
         }
     }

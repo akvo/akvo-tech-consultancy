@@ -1,6 +1,6 @@
 import {
     baseState,
-    toggleModal,
+    updateModal,
 } from './states/base-states.js';
 import {
     pageState,
@@ -114,7 +114,15 @@ export const states = (state = initialState, action) => {
                 ...state,
                 base: {
                     ...state.base,
-                    modal: toggleModal(state.base.modal, action.status, action.modalKey)
+                    modal: updateModal(state.base.modal, action.data, action.key)
+                }
+            }
+        case 'SET - SELECTED - MODAL':
+            return {
+                ...state,
+                base: {
+                    ...state.base,
+                    modal: updateModal(state.base.modal, action.data, action.key)
                 }
             }
         default:

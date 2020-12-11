@@ -7,6 +7,11 @@ export const baseState = {
     }],
     modal: {
         toggleModalDetail: false,
+        selectedModalDetail: {
+            name: "Loading",
+            value: 0,
+            active: false,
+        },
     }
     // Need to figure it out what will we store here
     // data: [{
@@ -47,9 +52,9 @@ export const baseState = {
     // }]
 }
 
-export const toggleModal = (modal, status, modalKey) => {
+export const updateModal = (modal, data, key) => {
     return {
         ...modal,
-        [modalKey]: status,
+        [key]: data,
     }
 }

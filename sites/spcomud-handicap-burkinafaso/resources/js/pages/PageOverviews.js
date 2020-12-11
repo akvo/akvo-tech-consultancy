@@ -109,7 +109,11 @@ class PageOverviews extends Component {
         if (filters.source === null) {
             return [];
         }
-        return filters.mapData;
+        let { config, locations, data, mapData } = filters;
+        let locationTemp = [];
+        flattenLocations(locations, locationTemp);
+        let res = mapDataByLocations(locationTemp, data, config);
+        return res;
     }
 
     getOptions(list) {
@@ -153,10 +157,7 @@ class PageOverviews extends Component {
         let page = this.props.value.page.name;
         let filters = this.props.value.filters[page];
         let { config, locations, data, mapData } = filters;
-        let locationTemp = [];
-        flattenLocations(locations, locationTemp);
         let filteredData = [];
-        let res = [];
 
         // set qid and legend by filter type
         let qid = (type === 'ff') ? ff_qid : sf_qid;
@@ -167,20 +168,18 @@ class PageOverviews extends Component {
             // DO : back data to normal (remove filtered data)
             this.setState({ ...this.state, [stateKey]: null });
             filteredData = filterMapData(false, data, qid, answer);
-            res = mapDataByLocations(locationTemp, filteredData, config);
         }
 
         if (answer !== legendSelected) {
             // DO : filter the data here, by legend selected, need to mapping old data again and transform it into dataLoc
             this.setState({ ...this.state, [stateKey]: answer });
             filteredData = filterMapData(true, data, qid, answer);
-            res = mapDataByLocations(locationTemp, filteredData, config);
         }
 
         this.props.filter.change(
             {
                 ...filters,
-                mapData: res,
+                data: filteredData,
             }, 
             page
         );

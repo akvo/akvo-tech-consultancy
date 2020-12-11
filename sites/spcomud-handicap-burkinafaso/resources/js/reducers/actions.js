@@ -93,9 +93,16 @@ export const mapDispatchToProps = dispatch => {
             toggle: (status, modalKey) => {
                 dispatch({
                     type: "TOGGLE - MODAL",
-                    status: status,
-                    modalKey: modalKey
-                })
+                    data: status,
+                    key: modalKey
+                });
+            },
+            setSelected: (selected, selectedKey) => {
+                dispatch({
+                    type: "SET - SELECTED - MODAL",
+                    data: selected,
+                    key: selectedKey
+                });
             }
         }
     };
