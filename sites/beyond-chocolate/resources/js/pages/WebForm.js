@@ -19,6 +19,7 @@ import { wfc } from "../static/webform-content";
 import { uiText } from "../static/ui-text";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSyncAlt } from "@fortawesome/free-solid-svg-icons";
+import { filter } from "lodash";
 
 const ReloadableSelectMenu = props => {
     const { locale } = useLocale();
@@ -94,7 +95,10 @@ const SavedFormsSelector = ({ text, user, onSelect, watchValue, setConfirmAction
     };
     const loadData = async () => {
         const { data } = await request().get("/api/me/saved-surveys");
-        setAvailable(data);
+        // setAvailable(data);
+        // filter data by user login email
+        let filteredData = filter(data, (x => x.submitter === user.email));
+        setAvailable(filteredData);
     };
     const reload = e => {
         setLoadingSelect(true);
