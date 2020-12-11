@@ -42,11 +42,13 @@ class Charts extends Component {
     }
 
     clickEvent(param) {
+        this.props.page.loading(true);
         let { data, name } = param;
         let page = this.props.value.page.name;
         let { source } =  this.props.value.filters[page];
         if (source !== null && typeof data !== 'undefined') {
             setTimeout(() => {
+                this.props.page.loading(false);
                 this.props.modal.toggle(true, 'toggleModalDetail');
             }, 500);
         }

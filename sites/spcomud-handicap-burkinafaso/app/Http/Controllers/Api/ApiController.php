@@ -45,6 +45,7 @@ class ApiController extends Controller
         $questions = \App\Question::where('form_id', $requests->form_id)->get();
         
         return [
+            "template" => $configs['template'],
             "maps" => $configs['maps'],
             "first_filter" => $this->generateMapConfig($configs['first_filter'], $questions),
             "second_filter" => $this->generateMapConfig($configs['second_filter'], $questions),

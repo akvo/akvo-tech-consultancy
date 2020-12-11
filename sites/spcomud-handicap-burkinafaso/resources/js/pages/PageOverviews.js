@@ -78,7 +78,7 @@ class PageOverviews extends Component {
         let html = '<hr/>District: <strong>' + params.name + '</strong></br>';
         if (params.value && params.seriesType === "map") {
             // let details = params.data.details;
-            html += 'Survey count: <strong>' + params.value + '</strong><br/><br/>';
+            html += 'Data: <strong>' + params.value + '</strong><br/><br/>';
         } else {
             html += "<b>No Data</b>";
         }

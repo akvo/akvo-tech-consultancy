@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { mapStateToProps, mapDispatchToProps } from '../reducers/actions.js';
+import { configs } from '../customs/configs';
 
 class ModalDetail extends Component {
     constructor(props) {
@@ -14,6 +15,12 @@ class ModalDetail extends Component {
 
     render() {
         let { modal } = this.props.value.base;
+        let page = this.props.value.page.name;
+        let { source, config } = this.props.value.filters[page];
+        let js = null;
+        if (source !== null) {
+            js = config.template.js;
+        }
 
         return (
             <Modal 
@@ -35,6 +42,7 @@ class ModalDetail extends Component {
                     dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
                     consectetur ac, vestibulum at eros.
                     </p>
+                    { (source !== null) ? configs[js] : "" }
                 </Modal.Body>
                 <Modal.Footer>
                     <Button onClick={() => this.hideModal()}>Close</Button>

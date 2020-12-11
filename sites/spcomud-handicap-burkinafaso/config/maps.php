@@ -7,6 +7,10 @@ $colors = [
 
 return [
     "469750943" => [
+        "template" => [
+           "css" => "ophbf",
+           "js" => "ophbf" 
+        ],
         "maps" => [
             "polygon" => true,
             "point" => false,
