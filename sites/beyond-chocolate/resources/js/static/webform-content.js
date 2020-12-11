@@ -11,7 +11,8 @@ export const wfc = (handleShow) => {
                     "You can choose to report on all your projects as one (umbrella) programme, thus reporting aggregated data.",
                     'For each project you can specify the geographical intervention areas, this in "repeat groups" per country.'
                 ], 
-            } 
+            },
+            registerCheckBoxText: <Fragment>By clicking this box, I agree to my data being processed according to the <a onClick={handleShow} href="#">Data security provisions</a>.</Fragment>
         },
         
         de: {
@@ -23,7 +24,8 @@ export const wfc = (handleShow) => {
                     "Sie können alle Ihre Projekte zu ein (Dach-) Programm zusammenfassen und so aggregierte Daten rapportieren. Öffnen Sie in diesem Fall nur einen Projekt-Fragebogen und nutzen diesen für die aggregierten Daten.",
                     'Für jedes Projekt können Sie die Projektgebiete innerhalb eines Landes spezifizieren, in dem Sie die "repeat group"(Gruppe wiederholen)-Funktion (oben rechts) pro Land nutzen.'
                 ]
-            }
+            },
+            registerCheckBoxText: <Fragment>Durch das Ankreuzen dieses Feldes stimme ich der Verarbeitung meiner Daten gemäß der <a onClick={handleShow} href="#">Datenschutzvorkehrungen</a> zu.</Fragment>
         },
     }
 };

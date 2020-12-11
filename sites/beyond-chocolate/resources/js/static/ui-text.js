@@ -86,6 +86,7 @@ export const uiText = {
         valClickYes: 'Click "Yes" if you have already saved the data',
         valClickNo: 'Click "No" if you have not saved the data',
         tbColVerifiedOn: 'Verified on',
+        valRegisterCheckBox: 'Please check the check box to agree for Data security provisions.'
     },
 
     de: {
@@ -173,5 +174,6 @@ export const uiText = {
         valClickYes: 'Klicken Sie "Ja" wenn Sie Ihre Eingaben bereits gespeichert haben',
         valClickNo: 'Klicken Sie "Nein" wenn Sie Ihre Eingaben noch nicht gespeichert haben',
         tbColVerifiedOn: 'Verified on',
+        valRegisterCheckBox: 'Please check the check box to agree for Data security provisions.'
     },
 };

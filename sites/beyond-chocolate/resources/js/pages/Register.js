@@ -8,8 +8,11 @@ import config from "../config";
 import Select from "react-select";
 import { uiText } from "../static/ui-text";
 import { useLocale } from "../lib/locale-context";
+import { wfc } from "../static/webform-content";
+import { dsc } from "../static/data-security-content";
+import { ModalDataSecurity } from "../components/Modal";
 
-const RegisterForm = ({ text, setRegistered, organizations }) => {
+const RegisterForm = ({ text, content, setRegistered, organizations }) => {
     const {
         register,
         handleSubmit,
@@ -128,6 +131,23 @@ const RegisterForm = ({ text, setRegistered, organizations }) => {
                     </Form.Text>
                     ) : ""}
             </Form.Group>
+            <Form.Group controlId="formBasicCheckbox">
+                <Form.Check
+                    type="checkbox"
+                    name="agreement"
+                    label={ content.registerCheckBoxText }
+                    // isInvalid={!!errors.agreement}
+                    ref={register({
+                        required: text.valRegisterCheckBox
+                    })}
+                />
+                {!!errors.agreement &&
+                        errors.agreement.message ? 
+                            <Form.Text className="text-danger" style={{paddingLeft:"1.2rem"}}>
+                                {errors.agreement.message}
+                            </Form.Text>
+                        : ""}
+            </Form.Group>
             <Row>
                 <Col md={12}>
                     <Button type="submit">{ text.formRegister }</Button>
@@ -149,8 +169,13 @@ const Register = () => {
     const [registered, setRegistered] = useState(false);
     const [orgs, setOrgs] = useState([]);
 
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
     const { locale } = useLocale();
     let text = uiText[locale.active];
+    let content = wfc(handleShow)[locale.active];
 
     useEffect(async () => {
         try {
@@ -166,7 +191,7 @@ const Register = () => {
             <WelcomeBanner />
             <Container>
                 <Row className="justify-content-md-center">
-                    <Col md={6}>
+                    <Col md={8}>
                         <Card>
                             <Card.Header>{ text.formRegister }</Card.Header>
                             <Card.Body>
@@ -175,6 +200,7 @@ const Register = () => {
                                 ) : (
                                     <RegisterForm
                                         text={text}
+                                        content={content}
                                         setRegistered={setRegistered}
                                         organizations={orgs}
                                     />
@@ -194,6 +220,14 @@ const Register = () => {
                         </Card>
                     </Col>
                 </Row>
+
+                <ModalDataSecurity
+                    text={text}
+                    show={show}
+                    handleClose={handleClose}
+                    locale={locale}
+                    data={dsc}
+                />
             </Container>
         </>
     );
