@@ -5,7 +5,7 @@ import ReCAPTCHA from "react-google-recaptcha"
 import axios from 'axios'
 import { Spinner } from 'reactstrap'
 import '../App.css'
-import { PopupSuccess, PopupError, PopupToast } from '../util/Popup'
+import { PopupSuccess, PopupError, PopupToast, PopupCustomConfirmation } from '../util/Popup'
 import { API_URL, CAPTCHA_KEY , PARENT_URL, USING_PASSWORDS, SAVE_FEATURES} from '../util/Environment'
 import JSZip from 'jszip'
 import Dexie from 'dexie';
@@ -24,19 +24,22 @@ class Submit extends Component {
         super(props);
         this.submitForm = this.submitForm.bind(this)
         this.sendData = this.sendData.bind(this)
-        this.pushApi = this.pushApi.bind(this)
         this.handleCaptcha = this.handleCaptcha.bind(this)
         this.handlePassword = this.handlePassword.bind(this)
         this.handleUser = this.handleUser.bind(this)
         this.state = {
             _username: "",
             _skipPassword: false,
+            _skipMandatories: false,
             _hasSaveButton: false,
-            _showCaptcha : this.props.value.captcha,
             _showSpinner : false,
             _saveButton : true
         }
         this._reCaptchaRef = React.createRef();
+
+        /* CUSTOM */
+        this.pushApi = this.pushApi.bind(this);
+        /* END CUSTOM */
     }
 
     handlePassword (event) {
@@ -77,6 +80,7 @@ class Submit extends Component {
         this.props.updateDomain(url + '/' + newId + uParams);
     }
 
+    /* CUSTOM */
     pushApi(submitted) {
         let instanceApi = SAVE_FEATURES.find(x => x.instance === this.props.value.instanceName);
         let saveData = JSON.parse(localStorage.getItem('_meta')) || false;
@@ -106,6 +110,7 @@ class Submit extends Component {
                 });
         }
     }
+    /* END CUSTOM */
 
     saveData(content) {
         const files = JSON.parse(localStorage.getItem('__files__') || '{}');
@@ -126,7 +131,9 @@ class Submit extends Component {
                         postData, { headers: { 'Content-Type': 'application/json' } })
                         .then(res => {
                             PopupToast("Datapoint Updated!", "success");
+                            /* CUSTOM */
                             this.pushApi(false);
+                            /* END CUSTOM */
                             this.setState({_saveButton: true});
                         })
                         .catch(e => {
@@ -140,7 +147,9 @@ class Submit extends Component {
                         postData, { headers: { 'Content-Type': 'application/json' } })
                         .then(res => {
                             this.saveResult(res.data.id);
+                            /* CUSTOM */
                             this.pushApi(false);
+                            /* END CUSTOM */
                             this.setState({_saveButton: true});
                         })
                         .catch(e => {
@@ -227,7 +236,7 @@ class Submit extends Component {
                                         result.failed.forEach((file) => {
                                             PopupError("Something went wrong");
                                             console.error(file.error)
-                                            this.setState({ '_showSpinner': false })
+                                            this.setState({_showSpinner: false })
                                         })
                                     } else {
                                         axios.get('https://' + this.props.value.instanceName + '.akvoflow.org/processor', {
@@ -239,9 +248,11 @@ class Submit extends Component {
                                             }
                                         })
                                         .then(res => {
+                                            /* CUSTOM */
                                             this.pushApi(true);
+                                            /* END CUSTOM */
                                             PopupSuccess("New datapoint is sent! clearing form...");
-                                            this.setState({ '_showSpinner': false })
+                                            this.setState({_showSpinner: false })
                                             setTimeout(function () {
                                                 db.delete()
                                                 let username = localStorage.getItem('_username');
@@ -260,7 +271,7 @@ class Submit extends Component {
                                         .catch(e => {
                                             console.error(e);
                                             PopupError("Something went wrong");
-                                            this.setState({ '_showSpinner': false })
+                                            this.setState({_showSpinner: false })
                                         })
 
                                     }
@@ -278,17 +289,29 @@ class Submit extends Component {
                 return res;
             }).catch((e) => {
                 PopupError(e.response.data.message);
-                this.setState({ '_showSpinner': false })
+                this.setState({_showSpinner: false })
             })
     }
 
     submitForm (e) {
         e.stopPropagation();
+        this.setState({_showSpinner: true})
+        const showCustomConfirmation = this.state._skipMandatories && !this.props.value.captcha;
+        const dpname = localStorage.getItem('_dataPointName');
         localStorage.setItem("_submissionStop", Date.now())
-        this.setState({'_showSpinner': true})
-        let dpname = localStorage.getItem('_dataPointName');
         if (!dpname) {
             localStorage.setItem('_dataPointName','Untitled');
+        }
+        if (showCustomConfirmation) {
+            PopupCustomConfirmation().then(res => {
+                if (res.isConfirmed) {
+                    this.sendData(localStorage);
+                }
+                if (!res.isConfirmed) {
+                    this.setState({_showSpinner:false})
+                }
+            });
+            return false;
         }
         this.sendData(localStorage);
         return false;
@@ -308,12 +331,21 @@ class Submit extends Component {
         localStorage.setItem('_meta', false);
         let instance = SAVE_FEATURES.find(x => x.instance === this.props.value.instanceName);
         if (instance) {
+            const skipMandatories = instance.skipMandatories
+                ? instance.skipMandatories.includes(this.props.value.surveyId)
+                : false;
+            const password = skipMandatories ? "webform" : "";
+            this.setState({
+                _skipPassword: instance.skipPassword,
+                _skipMandatories:skipMandatories
+            });
+            localStorage.setItem(passvar, survey_form.includes(USING_PASSWORDS) ? "" : password);
             instance = instance.api;
         }
         if (instance && urlParams.user_id) {
             axios.get("https://" + instance + "/flow-submitter/" + urlParams.user_id)
                 .then(res => {
-                    this.setState({'_username': res.data.user, '_skipPassword':true})
+                    this.setState({'_username': res.data.user})
                     localStorage.setItem('_username',res.data.user);
                     let meta = res.data;
                     meta = {
@@ -330,7 +362,6 @@ class Submit extends Component {
                     }
                     this.props.updateUser(res.data.user);
                     localStorage.setItem('_meta',JSON.stringify(meta));
-                    localStorage.setItem(passvar, survey_form.includes(USING_PASSWORDS) ? "" : "webform");
                 })
                 .catch(err => console.log("INTERNAL SERVER ERROR"));
             this.setState({_hasSaveButton: true});
@@ -338,11 +369,13 @@ class Submit extends Component {
     }
 
     render() {
+        const submitIsActive = this.state._skipMandatories || this.props.value.submit;
+        const captchaIsActive = !this.state._skipMandatories && this.props.value.captcha;
         return (
             <Fragment>
                 <ReCAPTCHA
                     style={{
-                        'display': this.props.value.captcha ? 'block' : 'none',
+                        'display': captchaIsActive ? 'block' : 'none',
                         'overflow': 'hidden',
                         'borderBottom': '1px solid #ddd',
                         'padding': '8px',
@@ -355,7 +388,7 @@ class Submit extends Component {
                     asyncScriptOnLoad={this.asyncScriptOnLoad}
                 />
                 <div className="submit-block">
-                    <div style={{ 'display': this.props.value.submit ? 'block' : 'none' }} >
+                    <div style={{ 'display': submitIsActive ? 'block' : 'none' }} >
                         <label
                             className="form-password-label"
                             htmlFor={"submit-username"}>
@@ -392,8 +425,8 @@ class Submit extends Component {
                     ) : ""}
                     <button
                         onClick={e => this.submitForm(e)}
-                        className={"btn btn-block btn-" + ( this.props.value.submit ? "primary" : "secondary")}
-                        disabled={this.props.value.submit ? false : true}
+                        className={"btn btn-block btn-" + (submitIsActive ? "primary" : "secondary")}
+                        disabled={submitIsActive ? this.state._showSpinner : true}
                     >
                         { this.state._showSpinner ? <Spinner size="sm" color="light" /> : "" }
                         Submit

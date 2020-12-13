@@ -10,19 +10,17 @@ export const SAVE_FEATURES = [
         instance:"2scale",
         api: false,
         pushApi: false,
-        formEndpoint: true
-    },
-    {
-        instance:"seap",
-        save: false,
-        api: "gisco-demo.tc.akvo.org/api",
-        formEndpoint: false
+        skipPassword: false,
+        formEndpoint: true,
+        skipMandatories: false
     },
     {
         instance:"idh",
         save: true,
         api: "gisco-demo.tc.akvo.org/api",
-        formEndpoint: false
+        formEndpoint: false,
+        skipPassword: true,
+        skipMandatories: ["111510043", "113130042"],
     },
 ];
 

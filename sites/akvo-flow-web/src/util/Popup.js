@@ -124,3 +124,41 @@ export const PopupImage = (filename, unique, imageUrl) => {
         })
       });
 }
+
+export const PopupCustomConfirmation = (callBack) => {
+    const messages = [
+        "I have checked and tried to complete all mandatory fields that are marked as still to be completed!",
+        "I have used comments boxes in the corresponding question group to explain why I cannot complete the still uncompleted mandatory fields",
+        "I have used above comments box to provide any relevant additional information on the not completed mandatory field"
+    ];
+    const inputs = messages.map((m,i) =>{
+        return `
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="custom-confirm-${i}">
+                <label class="form-check-label" for="custom-confirm-${i}">${m}</label>
+            </div>
+        `
+    });
+    return Swal.fire({
+        html: inputs,
+        icon: 'warning',
+        focusConfirm: false,
+        heightAuto:false,
+        showCancelButton: true,
+        showClass: {
+            popup: 'fadeIn'
+        },
+        hideClass: {
+            popup: 'fadeOut'
+        },
+        confirmButtonText: 'Agree and Continue',
+        allowOutsideClick: false,
+        preConfirm: () => {
+            let results = messages.map((m, i) => {
+                return document.getElementById("custom-confirm-" + i).checked;
+            });
+            results = results.filter(x => x);
+            return results.length === messages.length;
+        }
+    });
+}

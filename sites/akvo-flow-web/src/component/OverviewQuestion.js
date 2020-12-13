@@ -56,9 +56,14 @@ class OverviewQuestion extends Component {
             case "cascade":
                 let cascade = [];
                 answer = JSON.parse(answer);
-                if (answer.length === question.levels.level.length) {
-                    answer.forEach(x => cascade.push(x.text));
-                    return cascade.join(' - ');
+                if (Array.isArray(question.levels.level)) {
+                    if (answer.length === question.levels.level.length) {
+                        answer.forEach(x => cascade.push(x.text));
+                        return cascade.join(' - ');
+                    }
+                }
+                if (!Array.isArray(question.levels.level)) {
+                    return answer[0].text;
                 }
                 return false;
             case "option":

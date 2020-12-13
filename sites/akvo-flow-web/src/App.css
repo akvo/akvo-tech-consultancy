@@ -68,6 +68,7 @@ button.btn-repeatable{
     text-align: center;
     padding: 8px;
     border-bottom: 1px #ddd solid;
+    border-top: 1px #ddd solid;
 }
 
 .data-point {
@@ -218,6 +219,12 @@ button.btn-repeatable{
     border-radius: .25rem;
     transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
+
+.swal2-html-container .form-check {
+    text-align: left;
+    font-size: 16px;
+}
+
 
 .form-password-label {
     text-align: left;
