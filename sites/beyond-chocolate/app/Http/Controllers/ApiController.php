@@ -42,9 +42,11 @@ class ApiController extends Controller
             'submitted' => 'required|boolean',
             // 'updated_at' => 'required'
         ]);
-        $post = new WebForm($input);
-        $post->updated_at = now();
-        $post->save();
+        // because the rule is 1 submission for each organization
+        $check = collect($input)->except(['submitted']);
+        // $check = collect($input)->only(['user_id', 'organization_id', 'form_id']); 
+        $input['updated'] =  now();
+        $post = WebForm::updateOrCreate($check->toArray(), $input);
         return $post;
     }
 
