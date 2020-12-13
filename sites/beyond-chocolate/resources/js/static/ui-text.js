@@ -86,7 +86,7 @@ export const uiText = {
         valClickYes: 'Click "Yes" if you have already saved the data',
         valClickNo: 'Click "No" if you have not saved the data',
         tbColVerifiedOn: 'Verified on',
-        valRegisterCheckBox: 'To complete registrations please consent to the data security provisions.'
+        valRegisterCheckBox: 'To complete your registration, please consent to the data security provisions.'
     },
 
     de: {
@@ -148,7 +148,7 @@ export const uiText = {
         // Modal
         modalDataSecurity: "Datensicherheitsmaßnahmen",
         modalNewProject: "Information zur Eröffnung eines neuen Projekt-Fragebogens",
-        modalSaveForm: "Save Form Data",
+        modalSaveForm: "Daten speichern",
         // Validation & Message
         valEmail: "Die Email Angabe ist obligatorisch.",
         valFeedbackError: "Etwas ist schiefgelaufen, versuchen Sie es bitte noch einmal.",
@@ -173,7 +173,7 @@ export const uiText = {
         valClickSave: <Fragment>Bitte stellen Sie sicher, dass Sie die eingegebenen Daten gespeichert haben, bevor Sie diese Seite verlassen.<br/>Um Ihre Eingaben zu speichern, drücken Sie bitte auf "Speichern", unten links im Fragebogen.<br/>Wollen Sie diese Seite verlassen?</Fragment>,
         valClickYes: 'Klicken Sie "Ja" wenn Sie Ihre Eingaben bereits gespeichert haben',
         valClickNo: 'Klicken Sie "Nein" wenn Sie Ihre Eingaben noch nicht gespeichert haben',
-        tbColVerifiedOn: 'Verified on',
-        valRegisterCheckBox: 'To complete registrations please consent to the data security provisions.'
+        tbColVerifiedOn: 'Verifiziert am',
+        valRegisterCheckBox: 'Um die Registrierung abzuschließen, stimmen Sie bitten den Datenschutz-Vorkehrungen zu.'
     },
 };
