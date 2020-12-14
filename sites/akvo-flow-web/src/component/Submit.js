@@ -251,17 +251,14 @@ class Submit extends Component {
                                             /* CUSTOM */
                                             this.pushApi(true);
                                             /* END CUSTOM */
-                                            PopupSuccess("New datapoint is sent! clearing form...");
-                                            this.setState({_showSpinner: false })
-                                            setTimeout(function () {
+                                            PopupSuccess("New datapoint is sent! clearing form...").then(res => {
+                                                this.setState({_showSpinner: false })
                                                 db.delete()
                                                 let username = localStorage.getItem('_username');
                                                 localStorage.clear();
                                                 localStorage.setItem('_username', username);
-                                                setTimeout(function () {
-                                                    that.endSurvey();
-                                                }, 3000);
-                                            }, 500);
+                                                that.endSurvey();
+                                            });
                                         })
                                         .catch(e => {
                                             console.error(e);
