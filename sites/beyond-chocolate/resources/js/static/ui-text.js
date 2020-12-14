@@ -88,6 +88,8 @@ export const uiText = {
         tbColVerifiedOn: 'Verified on',
         valRegisterCheckBox: 'To complete your registration, please consent to the data security provisions.',
         textFooterImpressum: "Impressum",
+        // assignment panel
+        textAssignmentPanel: "Thank you for completing your registration. The GISCO secretariat will verify your credentials and assign you the appropriate surveys. You will be notified by the secretariat via email.",
     },
 
     de: {
@@ -177,5 +179,7 @@ export const uiText = {
         tbColVerifiedOn: 'Verifiziert am',
         valRegisterCheckBox: 'Um die Registrierung abzuschließen, stimmen Sie bitten den Datenschutz-Vorkehrungen zu.',
         textFooterImpressum: "Impressum",
+        // assignment panel
+        textAssignmentPanel: "Thank you for completing your registration. The GISCO secretariat will verify your credentials and assign you the appropriate surveys. You will be notified by the secretariat via email.",
     },
 };

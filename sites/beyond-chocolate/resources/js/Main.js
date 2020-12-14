@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
+import HeaderPanel from "./components/HeaderPanel";
 import Navigation from "./components/Navigation";
 import Footer from "./components/Footer";
 import Login from "./pages/Login";
@@ -43,6 +44,7 @@ const Main = () => {
             <AuthProvider>
                 <header>
                     <Navigation formLoaded={formLoaded} setFormLoaded={setFormLoaded} />
+                    <HeaderPanel />
                 </header>
                 <main>
                     <Switch>
