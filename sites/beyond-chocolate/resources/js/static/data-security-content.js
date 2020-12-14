@@ -7,7 +7,7 @@ const dsc = {
                 The tool developer Akvo does not claim any data ownership. All data that will be collected through the system, will be legally owned by the organisations that enter the data. All rights remain with the organisations to whom the data belong. Akvo systems allow the administration of specified roles and permissions; with corresponding access to data and/or functionalities in the system. 
             </p>
             <p className="text-justify">
-                Considering the potential broadening of the system over time, we envisage separate meetings to clarify roles and responsibilities across various stakeholders and clear guidelines and data procedures to administer and implement these roles and corresponding access to data and/or functionalities in the system.
+                Considering the potential broadening of the system over time, we envisage separate meetings to clarify roles and responsibilities across various stakeholders and clear guidelines and data procedures to administer and implement these roles and corresponding access to data and/or functionalities in the system.
             </p>
             <br/>
 
@@ -22,13 +22,13 @@ const dsc = {
                 Akvo software ensures that all data is properly secured when in transit and at rest. For data at rest, Akvo relies on the capabilities of Amazon S3 and Google Datastore, which provide one of the highest security standards in the whole industry. Data is backed-up regularly and stored securely on Google Cloud Storage. For data in transit, all communications between different parts of Akvo’s systems (Browser apps, mobile app, backend services, databases) are encrypted using TLS.
             </p>
             <p className="text-justify">
-                Any communication to Akvo’s backend service is properly authenticated and authorized. Akvo software gives administrators the control on what permissions a user has on the platform at a very fine level. All Akvo’s servers are managed by Google which are ISO certified, comply with US and EU regulations and provide round-the-clock security maintenance and essential upgrades for the best level of security. Akvo’s tools are continuously monitored for uptime. 
+                Any communication to Akvo’s backend service is properly authenticated and authorized. Akvo software gives administrators the control on what permissions a user has on the platform at a very fine level. All Akvo’s servers are managed by Google which are ISO certified, comply with US and EU regulations and provide round-the-clock security maintenance and essential upgrades for the best level of security. Akvo’s tools are continuously monitored for uptime. 
             </p>
             <p className="text-justify">
                 For data <b>at rest</b>, Akvo relies on the capabilities of Google Cloud SQL, which provides one of the highest security standards in the industry. Data is backed-up regularly and stored securely. 
             </p>
             <p className="text-justify">
-                For data <b>in transit</b>, all communications between different parts of Akvo’s systems (Browser apps, mobile app, backend services, databases) are encrypted using TLS. Any communication to Akvo’s backend service is properly authenticated and authorised.
+                For data <b>in transit</b>, all communications between different parts of Akvo’s systems (Browser apps, mobile app, backend services, databases) are encrypted using TLS. Any communication to Akvo’s backend service is properly authenticated and authorised. 
             </p>
             <p className="text-justify">
                 All Akvo’s servers are <b>hosted in Belgium</b> and managed by Google Cloud Platform which meets ISO 27018, ISO 27017, ISO 27001, comply with US and EU regulations and provide round-the-clock security maintenance and essential upgrades for the best level of security. See <a href="https://cloud.google.com/security/compliance">https://cloud.google.com/security/compliance</a>.
@@ -76,9 +76,16 @@ const dsc = {
                 <li>Christine Müller</li>
                 <li>Simone Benguerel</li>
             </ul>
-
             <p className="text-justify">
-                Each of the named persons above is required to sign a confidentiality agreement before getting data access. Any new personnel at the secretariats or at C-Lever.org that needs to be granted access will have to have signed the confidentiality agreement before getting such access.
+                Each of the named persons above is required to sign a confidentiality agreement before getting access to the data of the corresponding platform members. Any new personnel at the secretariats or at C-Lever.org that needs to be granted access will have to have signed the confidentiality agreement before getting such access.
+            </p>
+
+            <h4>Data processing by Akvo</h4>
+            <p className="text-justify">
+                The Processor entrusts only such persons (whether legal or natural) with the data Processing under this Agreement who have given an undertaking to maintain confidentiality and have been informed of any special data protection requirements relevant to their work; Akvo acts as a data processor on behalf of Beyond Chocolate and GISCO.
+            </p>
+            <p className="text-justify">
+                The data collected are subject to the GDPR which is a EU law that protects personal data, this is also stated in Akvo’s  Data Processing Agreement: <a href="https://akvo.org/wp-content/uploads/2020/06/Akvo-DPA-Template-revised-June-2020.pdf">https://akvo.org/wp-content/uploads/2020/06/Akvo-DPA-Template-revised-June-2020.pdf</a>
             </p>
         </Fragment>
     ,
@@ -158,9 +165,16 @@ const dsc = {
                 <li>Christine Müller</li>
                 <li>Simone Benguerel</li>
             </ul>
-            
             <p className="text-justify">
-                Jede der oben genannten Personen muss eine Vertraulichkeitsvereinbarung unterzeichnen, bevor sie auf Daten zugreifen kann. Jede/r neue Mitarbeiter/in in den Sekretariaten oder auf C-Lever.org, dem/der Zugang gewährt wird, muss die Vertraulichkeitsvereinbarung unterzeichnet haben, bevor er/sie Zugang erhält.
+                Jede der oben genannten Personen muss eine Vertraulichkeitsvereinbarung unterzeichnen, bevor sie auf Daten der jeweiligen Plattformmitglieder zugreifen kann. Jede/r neue Mitarbeiter/in in den Sekretariaten oder auf C-Lever.org, dem/der Zugang gewährt wird, muss die Vertraulichkeitsvereinbarung unterzeichnet haben, bevor er/sie Zugang erhält.
+            </p>
+
+            <h4>Datenverarbeitung durch Akvo</h4>
+            <p className="text-justify">
+                Der Datenverarbeiter beauftragt nur Personen (ob legal oder natürlich) mit der Datenverarbeiten gemäß dieser Vereinbarung, die der Bewahrung der Datenvertraulichkeit zugestimmt haben und über besondere Datenschutzmaßnahmen in Bezug auf ihre Arbeit unterrichtet wurden. Akvo übernimmt die Rolle des Datenverarbeiters im Auftrag von Beyond Chocolate und dem Forum Nachhaltiger Kakao.
+            </p>
+            <p className="text-justify">
+                Die gespeicherten Daten unterliegen der DSGVO, dem europäischen Gesetz zum Schutz persönlicher Daten. Dies ist auch in Akvo`s Datenverarbeitungsbestimmung festgehalten: <a href="https://akvo.org/wp-content/uploads/2020/06/Akvo-DPA-Template-revised-June-2020.pdf">https://akvo.org/wp-content/uploads/2020/06/Akvo-DPA-Template-revised-June-2020.pdf</a>
             </p>
         </Fragment>
     ,
