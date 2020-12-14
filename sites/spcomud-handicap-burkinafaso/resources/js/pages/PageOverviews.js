@@ -13,6 +13,7 @@ import {
     filterMapData,
 } from "../data/utils.js";
 import filter from 'lodash/filter';
+import find from 'lodash/find';
 import Maps from '../data/options/Maps';
 import DataFilters from '../components/DataFilters';
 import { TextStyle } from '../data/features/animation.js';
@@ -70,9 +71,9 @@ class PageOverviews extends Component {
                 }
             ],
             ff_qid: null,
-            ff_legend: null,
+            ff_legend: [],
             sf_qid: null,
-            sf_legend: null,
+            sf_legend: [],
         }
     }
 
@@ -166,26 +167,42 @@ class PageOverviews extends Component {
         let qid = (type === 'ff') ? ff_qid : sf_qid;
         let legendSelected = (type === 'ff') ? ff_legend : sf_legend;
         let stateKey = (type === 'ff') ? 'ff_legend' : 'sf_legend';
+        let filterStatus = (type === 'ff') ? false : true;
 
-        if (answer === legendSelected) {
+        if (legendSelected.includes(answer)) {
             // DO : back data to normal (remove filtered data)
-            this.setState({ ...this.state, [stateKey]: null });
-            filteredData = filterMapData(false, data, qid, answer);
+            let reset_legend = filter(this.state[stateKey], (x => x !== answer));
+            this.setState(
+                { ...this.state, [stateKey]: reset_legend },
+                () => {
+                    // filteredData = filterMapData(false, data, qid, this.state[stateKey]);
+                    filteredData = filterMapData(filterStatus, data, qid, this.state[stateKey]);
+                    this.props.filter.change(
+                        {
+                            ...filters,
+                            data: filteredData,
+                        }, 
+                        page
+                    );
+                });
         }
 
-        if (answer !== legendSelected) {
+        if (!legendSelected.includes(answer)) {
             // DO : filter the data here, by legend selected, need to mapping old data again and transform it into dataLoc
-            this.setState({ ...this.state, [stateKey]: answer });
-            filteredData = filterMapData(true, data, qid, answer);
+            this.setState(
+                { ...this.state, [stateKey]: [...this.state[stateKey], answer] }, 
+                () => {
+                    filteredData = filterMapData(true, data, qid, this.state[stateKey]);
+                    this.props.filter.change(
+                        {
+                            ...filters,
+                            data: filteredData,
+                        }, 
+                        page
+                    );
+                });
         }
 
-        this.props.filter.change(
-            {
-                ...filters,
-                data: filteredData,
-            }, 
-            page
-        );
         return;
     }
 
@@ -204,7 +221,7 @@ class PageOverviews extends Component {
                 <div className="mt-2" key={"ff-wrapper-"+i}>
                     <Form.Check 
                         onClick={e => this.filterMapData(e, 'ff')}
-                        disabled={ff_legend === null ? false : ff_legend !== x.text}
+                        disabled={ff_legend.length === 0 ? false : !ff_legend.includes(x.text)}
                         id={"ff-"+i}
                         key={"ff-"+x.id}
                         type="checkbox"
@@ -222,6 +239,7 @@ class PageOverviews extends Component {
             return (
                 <div className="mt-2" key={"sf-wrapper-"+i}>
                     <Form.Check 
+                        defaultChecked={true}
                         onClick={e => this.filterMapData(e, 'sf')}
                         id={"sf-"+i}
                         key={"sf-"+x.id}
@@ -268,6 +286,15 @@ class PageOverviews extends Component {
         let key = type + '_qid';
         this.setState({ ...this.state, [key]: qid });
         this.props.active.update(qid, key);
+        // set default sf_legend
+        if (type === 'sf') {
+            let page = this.props.value.page.name;
+            let filters = this.props.value.filters[page];
+            let sf = filters.config.second_filter;
+            let sf_active = find(sf, (x => x.question_id === qid));
+            let sf_active_values = sf_active.values.map(x => x.text);
+            this.setState({ ...this.state, sf_legend: sf_active_values });
+        }
     }
 
     onLoadFilter() {

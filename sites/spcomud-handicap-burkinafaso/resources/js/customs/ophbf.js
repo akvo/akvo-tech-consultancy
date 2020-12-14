@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { mapStateToProps, mapDispatchToProps } from '../reducers/actions.js';
 import { Modal } from 'react-bootstrap';
-import { filter } from 'lodash';
+import { filter, find } from 'lodash';
 
 class OphBf extends Component {
     constructor(props) {
@@ -14,20 +14,35 @@ class OphBf extends Component {
         let { source, locations, config, data } = this.props.value.filters[page];
         let { match_question } = config.maps;
         let { active } = this.props.value.base;
+        let activeFilterValues = find(config.first_filter, (x) => x.question_id === active.ff_qid);
 
         let filteredData = locations.map(loc => {
             let filteredDataByLocation = filter(data, (x) => {
                 return x[match_question].answer.toLowerCase().includes(loc.name.toLowerCase());
             });
+
+            let mapFirstFilter = activeFilterValues.values.map(val => {
+                let filteredDataByFirstFilter = filter(filteredDataByLocation, (y) => {
+                    if (typeof y[active.ff_qid] === 'undefined') {
+                        return null;
+                    }
+                    return y[active.ff_qid].answer.toLowerCase().includes(val.text.toLowerCase());
+                });
+                return {
+                    legend: val.text,
+                    value: filteredDataByFirstFilter.length,
+                }
+            });
+
             return {
                 name: loc.name,
                 value: filteredDataByLocation.length,
-                active: true,
+                ff_value: mapFirstFilter,
             }
         });
 
         // TODO :: filter the data base on first filter active & create stack bar chart for that
-        console.log(active);
+        console.log(filteredData);
     }
 
     render() {

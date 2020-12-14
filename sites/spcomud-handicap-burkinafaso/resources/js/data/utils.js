@@ -61,27 +61,37 @@ export const mapDataByLocations = (locations, data, config) => {
 export const filterMapData = (filter, data, qid, answer) => {
     // filter = true mean data will filtered by legend
     // filter = false data will return back to normal
+    if (answer.length > 0) {
+        answer = answer.join('|').toLowerCase().split('|');
+    }
     let active = filter ? false : true;
     let res = data.map(x => {
         if (typeof x[qid] === 'undefined') {
-            x.active = active;
-            return x;
-            // return {
-            //     ...x,
-            //     active: active,
-            // };
+            // x.active = active;
+            // return x;
+            return {
+                ...x,
+                active: active,
+            };
+        }
+        // includes
+        if (answer.some(a => x[qid].answer.toLowerCase().includes(a) )) {
+            return {
+                ...x,
+                active: true,
+            };
         }
         // not includes
-        if (! x[qid].answer.toLowerCase().includes(answer.toLowerCase())) {
-            x.active = active;
-            return x;
-            // return {
-            //     ...x,
-            //     active: active,
-            // };
+        if (! answer.some(a => x[qid].answer.toLowerCase().includes(a) )) {
+            // x.active = active;
+            // return x;
+            return {
+                ...x,
+                active: active,
+            };
         }
-        return x;
-        // return { ...x };
+        // return x;
+        return { ...x };
     });
     return res;
 };
