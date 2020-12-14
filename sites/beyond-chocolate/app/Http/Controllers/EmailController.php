@@ -13,7 +13,7 @@ use App\Helpers\Mails;
 
 class EmailController extends Controller
 {
-    public function send(Request $request, Mails $mails)
+    public function sendFeedback(Request $request, Mails $mails)
     {
         $footer = "GISCO Monitoring Pilot for 2019 data"; 
         $recipients = config('mail.mailing.list');

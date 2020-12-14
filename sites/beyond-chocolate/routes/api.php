@@ -101,7 +101,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
 
 });
 
-Route::post('/send-email', [Email::class, 'send']);
+Route::post('/send-email', [Email::class, 'sendFeedback']);
 
 Route::get('/flow-submitter/{id}', function ($id) {
     $user = User::find($id);
