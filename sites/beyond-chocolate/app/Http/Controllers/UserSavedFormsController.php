@@ -20,10 +20,10 @@ class UserSavedFormsController
         }
         $result = self::formatData($data);
         usort($result, [self::class, 'compareData']);
-        // filter saved form by user login
+        // filter saved form by organization
         $result = collect($result)->filter(function ($res) use ($user) {
-            return $res['submitter'] === $user->email;
-        });
+            return $res['org_id'] === $user->organization_id;
+        })->values();
         return $result; 
     }
 

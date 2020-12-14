@@ -95,10 +95,7 @@ const SavedFormsSelector = ({ text, user, onSelect, watchValue, setConfirmAction
     };
     const loadData = async () => {
         const { data } = await request().get("/api/me/saved-surveys");
-        // setAvailable(data);
-        // filter data by user login email
-        let filteredData = filter(data, (x => x.submitter === user.email));
-        setAvailable(filteredData);
+        setAvailable(data);
     };
     const reload = e => {
         setLoadingSelect(true);
