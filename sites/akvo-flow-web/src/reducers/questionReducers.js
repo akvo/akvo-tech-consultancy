@@ -79,7 +79,8 @@ const initialState = {
         active: ["en"],
         list: [{id:"en",name:"Loading..."}]
     },
-    cascade:[]
+    cascade:[],
+    surveyIsEnd: false
 }
 
 const generateLang = (questions) => {
@@ -802,6 +803,11 @@ export const questionReducers = (state = initialState, action) => {
             return {
                 ...state,
                 user: action.user
+            }
+        case 'END SURVEY':
+            return {
+                ...state,
+                surveyIsEnd: true
             }
         default:
             return state;

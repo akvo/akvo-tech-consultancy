@@ -22,6 +22,7 @@ import { PopupError } from './util/Popup.js'
 import { API_URL, READ_CACHE } from './util/Environment.js'
 import Dexie from 'dexie';
 import qs from 'qs';
+import EndSurvey from './EndSurvey';
 
 const urlParams = qs.parse(document.location.search, {ignoreQueryPrefix: true});
 
@@ -216,6 +217,9 @@ class Home extends Component {
     }
 
     render() {
+        if (this.props.value.surveyIsEnd) {
+            return (<EndSurvey/>)
+        }
         return (
             <div className={this.state._fullscreen ? "wrapper d-flex toggled": "wrapper d-flex"}>
                 <div className="sidebar-wrapper bg-light border-right">

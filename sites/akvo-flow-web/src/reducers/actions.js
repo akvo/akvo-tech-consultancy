@@ -25,6 +25,7 @@ export const mapDispatchToProps = (dispatch) => {
         showError: () => dispatch({type:"SHOW ERROR"}),
         updateLocalStorage: () => dispatch({type:"STORAGE UPDATE"}),
         updateDomain: (url) => dispatch({type:"UPDATE DOMAIN", url:url}),
-        updateUser: (user) => dispatch({type:"UPDATE USER", user:user})
+        updateUser: (user) => dispatch({type:"UPDATE USER", user:user}),
+        endSurvey: () => dispatch({type:"END SURVEY"})
     }
 }

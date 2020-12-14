@@ -167,7 +167,7 @@ class Submit extends Component {
     }
 
     sendData(content) {
-        const cacheId = this.props.cacheId ? '/' + this.props.cacheId : this.props.cacheId;
+        const that = this.props;
         const uppy = Uppy({ debug: true })
             .use(AwsS3, {
                 getUploadParameters: function (file) {
@@ -259,12 +259,7 @@ class Submit extends Component {
                                                 localStorage.clear();
                                                 localStorage.setItem('_username', username);
                                                 setTimeout(function () {
-                                                    let redirect_url = window.location.origin + window.location.pathname;
-                                                    if (cacheId) {
-                                                        redirect_url = redirect_url.replace(cacheId, '')
-                                                    }
-                                                    redirect_url = redirect_url + document.location.search;
-                                                    window.location.replace(redirect_url);
+                                                    that.endSurvey();
                                                 }, 3000);
                                             }, 500);
                                         })
