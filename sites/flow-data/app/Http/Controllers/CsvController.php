@@ -55,10 +55,12 @@ class CsvController extends Controller
                 $repeatableTrue = collect($qgs->where('repeatable', 1))->values();
                 $repeatableFalse = collect($qgs->where('repeatable', 0))->values();
                 // collect repeatable records
+                $repeatableTrueData = [];
                 if ($repeatableTrue->count() > 0) {
                     $repeatableTrueData = $this->collectRecords($repeatableTrue, $form, $formInstances, true);
                 }
                 // collect non repeatable records
+                $repeatableFalseData = [];
                 if ($repeatableFalse->count() > 0) {
                     $repeatableFalseData = $this->collectRecords($repeatableFalse, $form, $formInstances, false);
                 }
