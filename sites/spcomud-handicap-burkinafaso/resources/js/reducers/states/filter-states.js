@@ -4,7 +4,17 @@ export const filterState = {
     overviews:{
         source: null,
         locations: [],
-        config: {},
+        config: {
+            first_filter: [],
+            second_filter: [],
+            template: {
+                css: null,
+                js: null,
+            },
+            maps: {
+                match_question: null,
+            },
+        },
         data: [],
     },
 }

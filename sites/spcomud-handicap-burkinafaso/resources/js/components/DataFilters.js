@@ -10,13 +10,13 @@ const prefixPage = process.env.MIX_PUBLIC_URL + "/api/";
 class DataFilters extends Component {
     constructor(props) {
         super(props);
+        this.changeActive = this.changeActive.bind(this);
+        this.getOptions = this.getOptions.bind(this);
+        this.getMapSources = this.getMapSources.bind(this);
         this.state = {
             active: null,
             disabled: true,
         };
-        this.changeActive = this.changeActive.bind(this);
-        this.getOptions = this.getOptions.bind(this);
-        this.getMapSources = this.getMapSources.bind(this);
     }
 
     getOptions (surveys) {
@@ -78,12 +78,14 @@ class DataFilters extends Component {
                         }, 
                         this.props.value.page.name
                     );
-                    // localStorage.setItem('source', source);
                     return true;
                 }).then(status => {
                     this.props.chart.state.loading(false);
                     if (status) {
-                        // localStorage.setItem('locval_'+source, JSON.stringify(this.props.value.filters));
+                        // set default selected value for first filter
+                        let page = this.props.value.page.name;
+                        let { first_filter } = this.props.value.filters[page].config;
+                        this.props.active.update(first_filter[0].question_id, "ff_qid");
                         localStorage.setItem('cache', JSON.stringify(this.props.value));
                     }
                 });   

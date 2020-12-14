@@ -104,6 +104,15 @@ export const mapDispatchToProps = dispatch => {
                     key: selectedKey
                 });
             }
+        },
+        active: {
+            update: (qid, key) => {
+                dispatch({
+                    type: "UPDATE - ACTIVE FILTER",
+                    qid: qid,
+                    key: key,
+                });
+            }
         }
     };
 };

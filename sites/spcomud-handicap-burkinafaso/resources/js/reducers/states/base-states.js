@@ -12,6 +12,10 @@ export const baseState = {
             value: 0,
             active: false,
         },
+    },
+    active: {
+        ff_qid: null,
+        sf_qid: null,
     }
     // Need to figure it out what will we store here
     // data: [{
@@ -56,5 +60,12 @@ export const updateModal = (modal, data, key) => {
     return {
         ...modal,
         [key]: data,
+    }
+}
+
+export const updateActive = (active, qid, key) => {
+    return {
+        ...active,
+        [key]: parseInt(qid),
     }
 }

@@ -1,6 +1,7 @@
 import {
     baseState,
     updateModal,
+    updateActive,
 } from './states/base-states.js';
 import {
     pageState,
@@ -123,6 +124,14 @@ export const states = (state = initialState, action) => {
                 base: {
                     ...state.base,
                     modal: updateModal(state.base.modal, action.data, action.key)
+                }
+            }
+        case 'UPDATE - ACTIVE FILTER':
+            return {
+                ...state,
+                base: {
+                    ...state.base,
+                    active: updateActive(state.base.active, action.qid, action.key)
                 }
             }
         default:

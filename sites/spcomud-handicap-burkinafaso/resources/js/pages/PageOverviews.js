@@ -60,6 +60,8 @@ class PageOverviews extends Component {
         this.filterMapData = this.filterMapData.bind(this);
         this.renderSecondFilterDropdown = this.renderSecondFilterDropdown.bind(this);
         this.renderSecondFilterOption = this.renderSecondFilterOption.bind(this);
+        this.onChangeFilter = this.onChangeFilter.bind(this);
+        this.onLoadFilter = this.onLoadFilter.bind(this);
         this.state = {
             charts: [
                 {
@@ -153,7 +155,8 @@ class PageOverviews extends Component {
 
     filterMapData(e, type) {
         let answer = e.target.value;
-        let { ff_qid, ff_legend, sf_qid, sf_legend } = this.state;
+        let { ff_qid, sf_qid } = this.props.value.base.active;
+        let { ff_legend, sf_legend } = this.state;
         let page = this.props.value.page.name;
         let filters = this.props.value.filters[page];
         let { config, locations, data, mapData } = filters;
@@ -190,7 +193,8 @@ class PageOverviews extends Component {
         let page = this.props.value.page.name;
         let filters = this.props.value.filters[page];
         let { config } = filters;
-        let { ff_qid, ff_legend } = this.state;
+        let { ff_legend } = this.state;
+        let { ff_qid } = this.props.value.base.active;
         if (ff_qid === null || ff_qid === "") {
             return [];
         }
@@ -248,7 +252,7 @@ class PageOverviews extends Component {
                     </Accordion.Collapse>
                     <Accordion.Toggle 
                         as={Card.Header} 
-                        onClick={e => this.setState({ ...this.state, sf_qid: f.question_id })} 
+                        onClick={() => this.onChangeFilter(f.question_id, "sf")} 
                         variant="link" 
                         eventKey={f.question_id}
                     >
@@ -260,11 +264,31 @@ class PageOverviews extends Component {
         return res;
     }
 
+    onChangeFilter(qid, type) {
+        let key = type + '_qid';
+        this.setState({ ...this.state, [key]: qid });
+        this.props.active.update(qid, key);
+    }
+
+    onLoadFilter() {
+        // set default selected value for first filter
+        let page = this.props.value.page.name;
+        let filters = this.props.value.filters[page];
+        if (filters.source !== null) {
+            let ff = filters.config.first_filter;
+            this.onChangeFilter(ff[0].question_id, "ff");
+        }
+    }
+
     componentDidMount() {
         this.props.chart.state.loading(false);
+        this.onLoadFilter();
+        this.setState({ ...this.state, "ff_qid": this.props.value.base.active.ff_qid });
     }
 
     render() {
+        let page = this.props.value.page.name;
+        let filters = this.props.value.filters[page];
         let maps = this.state.charts.map((list, index) => {
             return this.getCharts(list, index)
         });
@@ -276,28 +300,32 @@ class PageOverviews extends Component {
             </Container>
             <Container className="container-content container-sticky">
                 <Row>
-                    <div className="first-filter">
-                        <Form>
-                            <Form.Control
-                                as="select"
-                                onChange={e => this.setState({ ...this.state, ff_qid: e.target.value })}
-                            >
-                                <option value="">Select Filter</option>
-                                { this.renderFirstFilterDropdown() }
-                            </Form.Control>
-                        </Form>
-                        <div className={ this.state.ff_qid === null ? "" : "mt-2" }>
-                            { this.renderFirstFilterLegend() }
+                    { filters.source !== null ?
+                        <div className="first-filter">
+                            <Form>
+                                <Form.Control
+                                    as="select"
+                                    onChange={e => this.onChangeFilter(e.target.value, "ff")}
+                                >
+                                    {/* <option value="">Select Filter</option> */}
+                                    { this.renderFirstFilterDropdown() }
+                                </Form.Control>
+                            </Form>
+                            <div className={ this.state.ff_qid === null ? "" : "mt-2" }>
+                                { this.renderFirstFilterLegend() }
+                            </div>
                         </div>
-                    </div>
+                    : "" }
 
                     {maps}
 
-                    <div className="second-filter">
-                        <Accordion>
-                            { this.renderSecondFilterDropdown() }
-                        </Accordion>
-                    </div>
+                    { filters.source !== null ? 
+                        <div className="second-filter">
+                            <Accordion>
+                                { this.renderSecondFilterDropdown() }
+                            </Accordion>
+                        </div>
+                    : "" }
                 </Row>
             </Container>
             </Fragment>
