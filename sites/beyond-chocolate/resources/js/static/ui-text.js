@@ -86,7 +86,8 @@ export const uiText = {
         valClickYes: 'Click "Yes" if you have already saved the data',
         valClickNo: 'Click "No" if you have not saved the data',
         tbColVerifiedOn: 'Verified on',
-        valRegisterCheckBox: 'To complete your registration, please consent to the data security provisions.'
+        valRegisterCheckBox: 'To complete your registration, please consent to the data security provisions.',
+        textFooterImpressum: "Impressum",
     },
 
     de: {
@@ -174,6 +175,7 @@ export const uiText = {
         valClickYes: 'Klicken Sie "Ja" wenn Sie Ihre Eingaben bereits gespeichert haben',
         valClickNo: 'Klicken Sie "Nein" wenn Sie Ihre Eingaben noch nicht gespeichert haben',
         tbColVerifiedOn: 'Verifiziert am',
-        valRegisterCheckBox: 'Um die Registrierung abzuschließen, stimmen Sie bitten den Datenschutz-Vorkehrungen zu.'
+        valRegisterCheckBox: 'Um die Registrierung abzuschließen, stimmen Sie bitten den Datenschutz-Vorkehrungen zu.',
+        textFooterImpressum: "Impressum",
     },
 };

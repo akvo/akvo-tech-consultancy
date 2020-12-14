@@ -42,4 +42,22 @@ const SaveFormModal = ({ text, show, onHide, onConfirm }) => {
     );
 };
 
-export { ModalDataSecurity, SaveFormModal };
+const ModalImpressum = ({ text, content, show, handleClose}) => {
+    return (
+        <Modal size="xl" scrollable={true} show={show} onHide={handleClose}>
+            <Modal.Header closeButton>
+                <Modal.Title>{ content.t }</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                { content.c }
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose}>
+                    { text.btnClose }
+                </Button>
+            </Modal.Footer>
+        </Modal>
+    );
+};
+
+export { ModalDataSecurity, SaveFormModal, ModalImpressum };
