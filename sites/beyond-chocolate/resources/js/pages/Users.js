@@ -16,6 +16,8 @@ import * as qs from "query-string";
 import useForm, { Controller } from "../lib/use-form";
 import request from "../lib/request";
 import authApi from "../services/auth";
+import emailApi from "../services/email";
+import { useAuth } from "../components/auth-context";
 import { useLocale } from "../lib/locale-context";
 import { uiText } from "../static/ui-text";
 import { DateTime } from "luxon";
@@ -110,6 +112,7 @@ const Users = () => {
         setServerErrors,
         formState: { isDirty }
     } = useForm();
+    const { user: admin } = useAuth();
 
     const { locale } = useLocale();
     let text = uiText[locale.active];
@@ -183,6 +186,30 @@ const Users = () => {
         fetchUsers(pagination.currentPage);
         setSelected(null);
     };
+    const informUser = async user => {
+        const subject = 'Surveys assigned';
+        const questionnaires = user.questionnaires.map(q => q.title)
+        const adminName = admin?.name;
+        const adminOrg = orgs.find(it => it.id === admin.organization_id)?.name
+        try {
+            let sendData = {
+                email: user.email,
+                name: user.name,
+                questionnaires,
+                subject,
+                adminName,
+                adminOrg,
+            }
+            let res = await emailApi.informUser(sendData);
+            console.log(res)
+        } catch (e) {
+            if (e.status === 422 || e.status === 429) {
+                setServerErrors(e.errors);
+            } else {
+                throw e;
+            }
+        }
+    }
     const displayUserSurveys = user => {
         const count = user.questionnaires.length;
         return count >= questionnaires.length ||
@@ -401,9 +428,18 @@ const Users = () => {
                                     </Button>
                                     <Button
                                         variant="danger"
+                                        className="mr-2"
                                         onClick={() => deleteUser(selected)}
                                     >
                                         { text.btnDeleteUser }
+                                    </Button>
+                                    <Button
+                                        variant="secondary"
+                                        className="mr-2"
+                                        disabled={!selected?.email_verified_at || selected?.questionnaires?.length === 0}
+                                        onClick={() => informUser(selected)}
+                                    >
+                                        { text.btnInformUser }
                                     </Button>
                                 </Card.Footer>
                             </Card>
