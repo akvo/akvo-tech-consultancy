@@ -9,7 +9,8 @@ export default {
         login: "/login",
         register: "/register",
         resetPassword: "/reset-password/:token",
-        forgotPassword: "forgot-password"
+        forgotPassword: "forgot-password",
+        impressum: "/impressum",
     },
     userLanding: "/home"
 };

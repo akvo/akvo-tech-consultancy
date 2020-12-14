@@ -35,18 +35,18 @@ const Footer = () => {
                             </a>
                         </div>
                     </div> */}
-                    <div className="bottom-right">
+                    {/* <div className="bottom-right">
                         <a href="#" onClick={() => handleShow()}>{ text.textFooterImpressum }</a>
-                    </div>
+                    </div> */}
                 </Col>
             </Row>
 
-            <ModalImpressum 
+            {/* <ModalImpressum 
                 text={text}
                 content={content}
                 show={show}
                 handleClose={handleClose}
-            />
+            /> */}
         </>
     );
 };

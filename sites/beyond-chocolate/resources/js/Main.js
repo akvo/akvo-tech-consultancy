@@ -12,6 +12,7 @@ import Definition from "./pages/Definition";
 import Feedback from "./pages/Feedback";
 import Setting from "./pages/Setting";
 import Home from "./pages/Home";
+import Impressum from "./pages/Impressum";
 import {
     AuthProvider,
     SecureRoute,
@@ -57,6 +58,11 @@ const Main = () => {
                             exact
                             path={config.routes.feedback}
                             component={Feedback}
+                        />
+                        <SecureRoute
+                            exact
+                            path={config.routes.impressum}
+                            component={Impressum}
                         />
                         <SecureRoute
                             exact

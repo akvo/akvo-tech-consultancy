@@ -55,6 +55,9 @@ const Navigation = ({formLoaded, setFormLoaded}) => {
                             <Nav.Link as={NavLink} to={config.routes.feedback}>
                                 { text.navFeedback }
                             </Nav.Link>
+                            <Nav.Link as={NavLink} to={config.routes.impressum}>
+                                { text.textFooterImpressum }
+                            </Nav.Link>
                         </>
                     )}
                 </Nav>
