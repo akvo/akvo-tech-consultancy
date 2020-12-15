@@ -118,6 +118,12 @@ const Users = () => {
     const { locale } = useLocale();
     let text = uiText[locale.active];
 
+    useEffect(() => {
+        setSelectedOrgs({value:selected?.organization_id || false, error: false})
+        setEmailSent(false);
+    }, [selected]);
+
+
     const fetchUsers = async page => {
         const url = qs.stringifyUrl({
             url: "/api/users",
@@ -153,8 +159,7 @@ const Users = () => {
     const onSelectUser = user => {
         if (isDirty) return;
         setSelected(null);
-        setEmailSent(false);
-        setTimeout(() => { 
+        setTimeout(() => {
             setSelected(user);
         }, 0);
     };
