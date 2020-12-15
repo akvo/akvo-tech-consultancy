@@ -39,7 +39,7 @@ class EmailController extends Controller
     {
         $footer = "GISCO Monitoring Pilot for 2019 data";
         $recipients = [['Email' => $request->email, 'Name' => $request->name]];
-        $subject = $request->subject;
+        $subject = config('app.name').": ".$request->subject;
         $questionnaires = array_map(function($q){return '<li>' . $q . '</li>';}, $request->questionnaires);
         $questionnaires = implode("\n", $questionnaires);
         $body = "Hi $request->name<br/><br/>
