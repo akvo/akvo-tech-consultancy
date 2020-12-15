@@ -13,7 +13,7 @@ import request from "../lib/request";
 import { DateTime } from "luxon";
 import { useAuth } from "../components/auth-context";
 import { dsc } from "../static/data-security-content";
-import { useLocale } from "../lib/locale-context";
+import { useLocale, questionnaire } from "../lib/locale-context";
 import { ModalDataSecurity, SaveFormModal } from "../components/Modal";
 import { wfc } from "../static/webform-content";
 import { uiText } from "../static/ui-text";
@@ -181,7 +181,7 @@ const NewFormSelectMenu = props => {
     );
 };
 
-const NewFormSelector = ({ text, user, onSelect, watchValue, showModal, setSubmissionInfo, setShowSavePrompt, setConfirmAction }) => {
+const NewFormSelector = ({ locale, text, user, onSelect, watchValue, showModal, setSubmissionInfo, setShowSavePrompt, setConfirmAction }) => {
     const [available, setAvailable] = useState([]);
     const [selected, setSelected] = useState();
     const [value, setValue] = useState();
@@ -277,9 +277,10 @@ const NewFormSelector = ({ text, user, onSelect, watchValue, showModal, setSubmi
                             onChange={onChange}
                             isOptionDisabled={option => submissions.includes(parseInt(option.value))}
                             options={available.map(f => {
+                                let title = questionnaire[f.name][locale.active];
                                 return {
                                     value: f.name,
-                                    label: f.title
+                                    label: title
                                 }
                             })}
                             formatOptionLabel={formatLabel}
@@ -437,6 +438,7 @@ const WebForm = ({setFormLoaded}) => {
                         </div>
                         <div className="p-2 pr-3" style={{minWidth:"30%"}}>
                             <NewFormSelector
+                                locale={locale}
                                 text={text}
                                 user={user}
                                 onSelect={onSelectForm}

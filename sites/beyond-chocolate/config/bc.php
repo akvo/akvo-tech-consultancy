@@ -26,11 +26,11 @@ return [
     ],
 
     'questionnaires' => [
-        '113130042' => 'Industry - GISCO',
         '111510043' => 'Projects - GISCO',
-        '105640815' => 'C-Retail',
-        '111890828' => 'D-Civil Society',
-        '134210832' =>  'D-bis-Standard setters',
+        '113130042' => 'B - Industry',
+        '105640815' => 'C - Retail',
+        '111890828' => 'D - Civil Society (NGOs)',
+        '134210832' => 'D - Standard setting organisations',
     ],
 
     'form_url' => 'https://tech-consultancy.akvotest.org/akvo-flow-web/idh/',

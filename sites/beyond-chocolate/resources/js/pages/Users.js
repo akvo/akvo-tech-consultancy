@@ -18,7 +18,7 @@ import request from "../lib/request";
 import authApi from "../services/auth";
 import emailApi from "../services/email";
 import { useAuth } from "../components/auth-context";
-import { useLocale } from "../lib/locale-context";
+import { useLocale, questionnaire } from "../lib/locale-context";
 import { uiText } from "../static/ui-text";
 import { DateTime } from "luxon";
 
@@ -43,8 +43,16 @@ const pagesNumbers = config => {
     return pages;
 };
 
-const mapQuestionnaireToOption = qs => {
-    return qs.length ? qs.map(q => ({ value: q.name, label: q.title })) : [];
+const mapQuestionnaireToOption = (qs) => {
+    // return qs.length ? qs.map(q => ({ value: q.name, label: q.title })) : [];
+    if (qs.length === 0) {
+        return [];
+    }
+    let res = qs.map(q => {
+        let title = questionnaire[q.name];
+        return { value: q.name, label: title }
+    });
+    return res;
 };
 
 const Paging = ({ onChangePage, ...config }) => {
@@ -239,6 +247,15 @@ const Users = () => {
         });
     };
 
+    const renderDefaultQuestionnaire = data => {
+        if (data.length === 0) {
+            return [];
+        }
+        let res = mapQuestionnaireToOption(data);
+        res = res.map(x => ({ value: x.value, label: x.label[locale.active] }));
+        return res;
+    }
+
     useEffect(async () => {
         await Promise.all([fetchUsers(1), fetchRoles(), fetchQuestionnaires(), fetchOrgs()]);
     }, []);
@@ -421,10 +438,8 @@ const Users = () => {
                                             name="questionnaires"
                                             isMulti
                                             control={control}
-                                            defaultValue={mapQuestionnaireToOption(
-                                                selected.questionnaires
-                                            )}
-                                            options={questionnaires}
+                                            defaultValue={renderDefaultQuestionnaire(selected.questionnaires)}
+                                            options={questionnaires.map(x => ({value: x.value, label: x.label[locale.active]}))}
                                         />
                                     </Form.Group>
                                 </Card.Body>
