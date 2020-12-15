@@ -18,7 +18,7 @@ import Maps from '../data/options/Maps';
 import DataFilters from '../components/DataFilters';
 import { TextStyle } from '../data/features/animation.js';
 import Bar from "../data/options/Bar";
-
+import ModalDetail from '../components/ModalDetail';
 
 const MapsOverride = (TableView) => {
     return {
@@ -355,6 +355,9 @@ class PageOverviews extends Component {
                     : "" }
                 </Row>
             </Container>
+
+            <ModalDetail />
+            
             </Fragment>
         );
     }
