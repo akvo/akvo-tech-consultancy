@@ -37,19 +37,25 @@ class EmailController extends Controller
     //
     public function informUser(Request $request, Mails $mails)
     {
-        $footer = "GISCO Monitoring Pilot for 2019 data";
         $recipients = [['Email' => $request->email, 'Name' => $request->name]];
         $subject = config('app.name').": ".$request->subject;
         $questionnaires = array_map(function($q){return '<li>' . $q . '</li>';}, $request->questionnaires);
         $questionnaires = implode("\n", $questionnaires);
-        $body = "Hi $request->name<br/><br/>
-                $request->adminName from $request->adminOrg has assigned you the following surveys in the GISCO monitoring pilot for 2019 data portal for your input
+        $body = "Dear Mr./Ms. $request->name<br/><br/>
+                $request->adminName from $request->adminOrg has assigned you the following surveys in the GISCO monitoring pilot for 2019 data portal for your input:
                 <ul>
                 $questionnaires
                 </ul>
-                $request->message
-                <strong>Please visit <a href='".env('APP_URL')."'>".$footer."</a> to fill in your data.</strong><br/>
-                Incase of any issue please contact $request->adminName directly or use the feedback form on the portal.<br/>";
+                <strong>Please visit <a href='".env('APP_URL')."'>".env('APP_URL')."</a> and log in to fill in your data.</strong><br/>
+                In case of any issue please contact $request->adminName directly or use the feedback form on the portal.<br/>
+                <hr />
+                Liebe/r Herr/ Frau $request->name<br/><br/>
+                $request->adminName von $request->adminOrg hat im Pilot-Monitoring Portal die folgenden Fragebögen für Sie freigeschaltet:
+                <ul>
+                $questionnaires
+                </ul>
+                <strong>Bitte besuchen Sie die Seite <a href='".env('APP_URL')."'>".env('APP_URL')."</a> und loggen sich ein, um Ihre Daten einzugeben.</strong><br/>
+                Falls Sie Schwierigkeiten haben, können Sie $request->adminName kontaktieren oder das Feedback-Formular im Portal nutzen.<br/>";
         $text = "$request->adminName from $request->adminOrg has assigned surveys in the GISCO monitoring pilot for 2019 data portal for your input";
         $response = $mails->sendEmail($recipients, false, $subject, $body, $text);
 
