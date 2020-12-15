@@ -94,7 +94,7 @@ export const uiText = {
     },
 
     de: {
-        welcome: "Willkommen zum Pilotmonitoring des Forum nachhaltiger Kakao für das Berichtsjahr 2019! to the GISCO Monitoring Pilot for 2019 data",
+        welcome: "Willkommen zum Pilotmonitoring des Forum nachhaltiger Kakao für das Berichtsjahr 2019!",
         // Navigation
         navSurvey: "Umfrage",
         navDefinitions: "Definitionen",
@@ -133,7 +133,7 @@ export const uiText = {
         btnSaveChanges: "Änderungen speichern",
         btnDeleteUser: "Nutzer löschen",
         btnInformUser: "Inform User",
-        btnSubmit: "Endgültig einreichen",
+        btnSubmit: "Senden",
         btnLoading: "Laden",
         btnOpen: "Öffnen",
         btnSendEmail: "Email senden",
