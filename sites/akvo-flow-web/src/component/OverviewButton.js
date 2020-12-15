@@ -6,7 +6,7 @@ class OverviewButton extends Component {
     constructor(props) {
         super(props);
         this.showOverview = this.showOverview.bind(this);
-        this.listClass = "list-group-item list-group-item-action ";
+        this.listClass = "list-group-item list-group-item-action list-overview ";
     }
 
     showOverview() {

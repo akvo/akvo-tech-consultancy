@@ -115,12 +115,14 @@ class Overview extends Component {
                 <div className="col-md-6 header-left">
                     <h4 className="mt-2">
                         {"Overviews "}
-                        <button
-                            className={buttonClass}
+                    </h4>
+                    <div className={"badge-header"}>
+                        <div
+                            className={"badge badge badge-primary"}
                             onClick={(e => this.downloadSubmission())}
                         > Download <FaDownload/>
-                        </button>
-                    </h4>
+                        </div>
+                    </div>
                 </div>
                 <div className="col-md-6 text-right">
                     <div className="badge badge-red">Mandatory</div>

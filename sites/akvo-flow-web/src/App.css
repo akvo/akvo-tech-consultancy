@@ -451,7 +451,15 @@ img.responsive-image {
 }
 
 .header-left h4{
-    margin-top:.5rem;
+    margin-top: .5rem;
+    display: inline-block !important;
+    padding-right: 10px;
+}
+
+.question-group-buttons-block {
+    margin-bottom: 50px;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
 }
 
 .trans-lang,

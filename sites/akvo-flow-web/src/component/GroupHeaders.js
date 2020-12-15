@@ -26,12 +26,14 @@ class GroupHeaders extends Component {
 
     getRepeatButton = (group) => {
         return (
-            <button
-                className={"btn btn-primary btn-repeatable"}
-                onClick={(e => this.cloneGroup(group, false))}
-            >
-                Repeat Group <FaPlus/>
-            </button>
+            <div className={"badge-header"}>
+                <div
+                    className={"badge badge badge-primary"}
+                    onClick={(e => this.cloneGroup(group, false))}
+                >
+                    Repeat Group <FaPlus/>
+                </div>
+            </div>
         )
     }
 
@@ -42,8 +44,8 @@ class GroupHeaders extends Component {
             let localization = getLocalization(activeLang, group.lang, 'h4', 'trans-lang');
             return (
                 <nav className="navbar navbar-expand-lg navbar-light navbar-group bg-light border-bottom" key={"ghead-" + index}>
-                    <div className="col-md-9 header-left" dangerouslySetInnerHTML={{__html: localization}}/>
-                    <div className="col-md-3 text-right">
+                    <div className="col-md-7 header-left" dangerouslySetInnerHTML={{__html: localization}}/>
+                    <div className="col-md-5 text-right">
                         <div className="badge-header">
                             <div className={"badge badge-left badge-secondary"}>
                                 <FaExclamationTriangle /> Mandatory

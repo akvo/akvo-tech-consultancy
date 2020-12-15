@@ -29,6 +29,10 @@ div.sidebar-wrapper {
     color: #333;
     font-size: 14px;
 }
+.badge {
+    line-height: 1.5 !important;
+}
+
 span.badge.badge-group {
     position: absolute;
     top: 15px;

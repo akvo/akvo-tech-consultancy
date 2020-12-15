@@ -224,9 +224,11 @@ class Home extends Component {
             <div className={this.state._fullscreen ? "wrapper d-flex toggled": "wrapper d-flex"}>
                 <div className="sidebar-wrapper bg-light border-right">
                     <Header/>
-                    {this.state._rendered ? this.renderGroups() : ""}
-                    <OverviewButton />
                     {( this.props.value.questions.length === 1 ? "" : (<Submit cacheId={this.cacheId}/>) )}
+                    <OverviewButton />
+                    <div className="question-group-buttons-block">
+                    {this.state._rendered ? this.renderGroups() : ""}
+                    </div>
                 </div>
                 <div className="page-content-wrapper">
                     <nav className="navbar navbar-expand-lg navbar-light bg-light border-bottom">
