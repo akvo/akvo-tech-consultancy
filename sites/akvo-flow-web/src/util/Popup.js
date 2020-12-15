@@ -1,5 +1,7 @@
 import Swal from 'sweetalert2';
 import EXIF from 'exif-js';
+import { Locale } from './Languages';
+import { getLocalization } from './Utilities';
 
 const SwalOption = Swal.mixin({
     customClass: {
@@ -125,25 +127,24 @@ export const PopupImage = (filename, unique, imageUrl) => {
       });
 }
 
-export const PopupCustomConfirmation = (callBack) => {
-    const messages = [
-        "I have checked and tried to complete all mandatory fields that are marked as still to be completed!",
-        "I have used comments boxes in the corresponding question group to explain why I cannot complete the still uncompleted mandatory fields",
-        "I have used above comments box to provide any relevant additional information on the not completed mandatory field"
-    ];
-    const inputs = messages.map((m,i) =>{
+export const PopupCustomConfirmation = (active) => {
+    const messages = [Locale.customPopupOne, Locale.customPopupTwo];
+    let inputs = messages.map((m,i) =>{
+        let label = getLocalization(active, m, 'span', 'trans-lang-opt');
         return `
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="" id="custom-confirm-${i}">
-                <label class="form-check-label" for="custom-confirm-${i}">${m}</label>
+                <label class="form-check-label" for="custom-confirm-${i}">${label}</label>
             </div>
-        `
+        `;
     });
+    inputs = inputs.join('</br>');
     return Swal.fire({
         html: inputs,
+        title: 'Warning',
         icon: 'warning',
         focusConfirm: false,
-        heightAuto:false,
+        heightAuto: false,
         showCancelButton: true,
         showClass: {
             popup: 'fadeIn'

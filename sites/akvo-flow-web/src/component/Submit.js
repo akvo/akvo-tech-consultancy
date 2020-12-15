@@ -295,7 +295,7 @@ class Submit extends Component {
             localStorage.setItem('_dataPointName','Untitled');
         }
         if (showCustomConfirmation) {
-            PopupCustomConfirmation().then(res => {
+            PopupCustomConfirmation(this.props.value.lang.active).then(res => {
                 if (res.isConfirmed) {
                     this.sendData(localStorage);
                 }

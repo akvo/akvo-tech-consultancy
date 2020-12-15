@@ -729,4 +729,31 @@ export const isoLangs = {
     }
 }
 
+export const Locale = {
+    yes: {
+        en: "Yes",
+        de: "Ja",
+    },
+    no: {
+        en: "No",
+        de: "Nein"
+    },
+    confirm: {
+        en: "Confirm",
+        de: "Bestätigen"
+    },
+    warning: {
+        en: "Warning",
+        de: "Warnung"
+    },
+    customPopupOne: {
+        en: "I have checked and tried to complete all mandatory fields that are marked as still to be completed.",
+        de: "Ich habe versucht alle Pflichtfelder, die noch markiert sind, auszufüllen und habe dies kontrolliert."
+    },
+    customPopupTwo: {
+        en: "I have used the comments boxes in the corresponding question groups to explain why I cannot complete the still uncompleted mandatory fields.",
+        de: "Ich habe die Kommentarfelder genutzt, um Angaben dazu zu machen, warum ich bestimmte Pflichtfelder nicht ausfüllen konnte."
+    },
+}
+
 export default isoLangs;
