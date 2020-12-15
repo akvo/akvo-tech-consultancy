@@ -36,18 +36,16 @@ if (day == '01'):
     instanceURI = 'spiceup'
     requestURI = "https://api-auth0.akvo.org/flow/orgs/{}".format(instanceURI)
 
-    EMAIL_RECEPIENTS = ['akvo.tech.consultancy@gmail.com']
-    EMAIL_BCC = ['hatami.nugraha@gmail.com','everschuren@verstegen.nl','joy@akvo.org','hatami@cinquer.co.id','d.kurniawati@icco.nl','dymanohara@gmail.com','aharton2002@yahoo.com','akhmadfa@apps.ipb.ac.id','otihrostiana@gmail.com','ima@akvo.org','deden@akvo.org','galih@akvo.org', 'wietze.suijker@nelen-schuurmans.nl']
-
-    # EMAIL_RECEPIENTS = ['galih@akvo.org']
-    # EMAIL_BCC = ['galih@akvo.org']
-
+    EMAIL_RECEPIENTS = os.environ['EMAIL_RECEIVER'].split(',')
+    EMAIL_BCC = os.environ['EMAIL_BCC'].split(',')
+    print(EMAIL_RECEPIENTS, EMAIL_BCC)
+    
     MAILJET_APIKEY = os.environ['MAILJET_APIKEY']
     MAILJET_SECRET = os.environ['MAILJET_SECRET']
 
     mailjet = Client(auth=(MAILJET_SECRET, MAILJET_APIKEY), version='v3.1')
 
-    token = Flow.getAccessToken();
+    token = Flow.getAccessToken()
     apiData = Flow.getResponse(requestURI + '/surveys/227030237', token)
 
     forms = apiData.get('forms')

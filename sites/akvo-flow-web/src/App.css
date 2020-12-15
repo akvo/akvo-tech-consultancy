@@ -68,6 +68,7 @@ button.btn-repeatable{
     text-align: center;
     padding: 8px;
     border-bottom: 1px #ddd solid;
+    border-top: 1px #ddd solid;
 }
 
 .data-point {
@@ -151,6 +152,24 @@ button.btn-repeatable{
     color:#ffffff;
 } 
 
+.toast-header strong.mr-auto {
+    position: relative;
+    max-width: 100%;
+    width: 100%;
+}
+
+
+.info-survey-name {
+    display: inline-block;
+}
+
+.badge.badge-user {
+    position: absolute;
+    padding: 5px;
+    text-transform: uppercase;
+    right: -8px;
+}
+
 .badge-green{
     background-color:#4b2!important;
     color: #ffffff!important;
@@ -201,6 +220,12 @@ button.btn-repeatable{
     transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
 
+.swal2-html-container .form-check {
+    text-align: left;
+    font-size: 16px;
+}
+
+
 .form-password-label {
     text-align: left;
     width: 100%;
@@ -216,7 +241,7 @@ button.btn-repeatable{
         width: 100%;
     }
     .wrapper.toggled .sidebar-wrapper {
-        margin-left: -404px;
+        margin-left: -380px;
     }
 }
 
@@ -256,6 +281,20 @@ img.responsive-image {
 .tooltips:hover{
     visibility: visible !important;
     opacity: 1 !important;
+}
+.tooltips a {
+    color: #86c0ff;
+}
+.tooltips a:hover {
+    text-decoration: none;
+    color: #86c0ff;
+}
+.tooltips ul {
+    margin-block-start: 3px;
+    padding-inline-start: 20px;
+}
+.tooltips ul li{
+    padding: 2px;
 }
 
 /* Swall*/
@@ -341,7 +380,7 @@ img.responsive-image {
     color:#ffffff;
 } 
 .ov-list{
-    padding: 1em;
+    padding: .5rem;
 }
 .ov-list:hover{
     background-color:#dae0e5;
@@ -350,6 +389,23 @@ img.responsive-image {
 .ov-answer {
     float:right;
     display: block;
+    font-size: 14px;
+    text-align:right;
+}
+
+.ov-answer div {
+    text-align:right;
+    display: inline-block;
+    min-width:100%;
+}
+.ov-answer div span {
+    text-align:right;
+    float:right;
+    min-width: 10%;
+}
+.ov-answer div span.ov-span {
+    max-width: 90%;
+    padding-right: 5px;
 }
 
 .ov-alerts {
@@ -364,6 +420,120 @@ img.responsive-image {
     transition: background .25s ease-in;
 }
 
+.more-info {
+    margin-top: 5px;
+    margin-left: 25px;
+    padding: 0px 2px 1px 2px;
+    font-size: 70%;
+    border: 1px solid rgba(108,117,125, 0.2);
+    border-radius: .2rem;
+}
+
+.more-info.more-info-active {
+    border-radius: .2rem .2rem 0 0;
+}
+
+.more-info-content {
+    margin-left: 25px;
+    padding: 10px;
+    color: #6c757d;
+    border: solid 1px #d5d6d8;
+    background: #eaeaea;
+    font-size: small;
+    border-top-right-radius: .2rem;
+    border-bottom-left-radius: .2rem;
+    border-bottom-right-radius: .2rem;
+}
+
+.parent-options {
+    margin-left: -1.25rem;
+    margin-bottom: 1rem;
+}
+
+.header-left h4{
+    margin-top:.5rem;
+}
+
+.trans-lang,
+.trans-lang-opt {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    color: #6c757d;
+    border: solid 1px #d5d6d8;
+    background: #eaeaea;
+    display: table;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: small;
+}
+
+.trans-lang-group {
+    display:block;
+    margin-top: 5px;
+    border: solid 1px #d5d6d8;
+    background: #eaeaea;
+    color: #485056;
+    padding: 3px 7px;
+    border-radius: 5px;
+    font-size: 12px;
+}
+
+.trans-lang-opt {
+    display: table;
+    padding: 0 5px;
+    margin-left: 5px;
+}
+
+.trans-lang-ttp {
+    display: block;
+    border-top: 1px dashed #83888c;
+    padding-top: 10px;
+    margin-top: 10px;
+}
+
+span.badge.badge-circle {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
+}
+
+button:focus {
+    outline: none!important;
+}
+
+.btn-primary:focus,
+.btn-success:focus,
+.btn-secondary:focus,
+.btn-outline-primary:focus,
+.btn-outline-success:focus,
+.btn-outline-secondary:focus {
+    box-shadow:none!important;
+}
+
+.mandatory-icon {
+    position: absolute;
+    right: 0px;
+    padding: 5px;
+    border-bottom-left-radius: 5px;
+    border-left: #dfdfdf 1px solid;
+    border-bottom: #dfdfdf 1px solid;
+}
+
+.question-number{
+    vertical-align:top;
+    display: inline-block;
+    width: 25px;
+}
+
+.question-text {
+    display: inline-block;
+    width: calc(100% - 30px);
+}
+
 @keyframes blink { 50% { background:#f8f9fa ; }  }
 
-/* Overview */
+.form-check-input:disabled~.form-check-label,
+.form-check-input[disabled]~.form-check-label {
+    color: #212529!important;
+}

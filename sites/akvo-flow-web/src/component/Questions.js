@@ -4,9 +4,9 @@ import { mapStateToProps } from "../reducers/actions.js";
 //import { PROD_URL } from '../util/Environment'
 import QuestionType from "./QuestionType.js";
 import GroupPanels from "./GroupPanels.js";
-import { Mandatory, ToolTip } from "../util/Badges";
+import ToolTip, { Mandatory } from "../util/Badges";
 import { Card, CardBody, CardTitle } from "reactstrap";
-import { validateMinMax, validateDoubleEntry } from '../util/Utilities.js'
+import { validateMinMax, validateDoubleEntry, getLocalization } from '../util/Utilities.js'
 import "../App.css";
 
 class Questions extends Component {
@@ -75,24 +75,20 @@ class Questions extends Component {
             );
         }
         return questions.map(question => {
-            let localization = this.props.value.lang.active;
-            localization = localization.map((x) => {
-                let active = question.lang[x] === undefined ? "" : question.lang[x];
-                return active;
-            });
-            localization = localization.filter(x => x !== "");
-            localization = localization.length === 0 ? question.lang.en : localization.join(" / ");
+            let activeLang = this.props.value.lang.active;
+            let localization = getLocalization(activeLang, question.lang, 'span', 'trans-lang');
             let qid = question.id.toString();
             let qi = question.iteration.toString();
             return (
                 <div key={"card-" + qid + "-" + qi} id={"form-" + qid}>
                     {question.groupIndex && question.repeat ? (<GroupPanels data={question} type="header"/>) : ""}
                 <Card className={question.show === false ? "d-none" : ""}>
+                    {question.mandatory ? this.renderMandatoryIcon(qid, question) : ""}
                     <CardBody key={"card-body-" + qid} id={"card-body-" + qid}>
                         <CardTitle key={"card-title-" + qid}>
-                            {question.order.toString() + ". " + localization}
-                            {question.mandatory ? this.renderMandatoryIcon(qid, question) : ""}
-                            {question.help !== undefined ? ToolTip(question) : ""}
+                            <div className="question-number">{question.order.toString()}.</div>
+                            <div className="question-text" dangerouslySetInnerHTML={{__html:  localization}} />
+                            {question.help !== undefined ? <ToolTip tooltips={question.tooltips}/> : ""}
                             {question.type === "photo" ? this.renderCachedImage(qid) : ""}
                         </CardTitle>
                         {this.renderQuestion(qid, question)}

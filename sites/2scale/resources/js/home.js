@@ -1,5 +1,8 @@
 const axios = window.axios;
 import {getMaps, getCharts, getCards} from './charts.js';
+import {renderRsrTableTemplate, renderRsrTable} from './rsrDatatables.js';
+const baseurl = $("meta[name=path]").attr("content");
+console.log(baseurl);
 
 const info = {
     head: "Header Lorem Ipsum",
@@ -17,3 +20,8 @@ getCharts('reachreact/country-total/0/0', 'zero-row', info, "6", "purple");
 /* Second Row */
 getCharts('home/workstream', 'first-row', info, "7", "blue");
 getCharts('home/organisation-forms', 'first-row', info, "5", "morpheus-den");
+
+
+// Rsr Datatables
+renderRsrTableTemplate('datatables');
+renderRsrTable(['0', '0'].join('/'), baseurl, 'datatables');

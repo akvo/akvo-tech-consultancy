@@ -56,3 +56,16 @@ Route::get('/partnership/top-three/{country_id}/{partnership_id}/{start}/{end}',
 Route::get('/partnership/commodities/{country_id}/{partnership_id}/{start}/{end}', 'Api\ChartController@partnershipCharts');
 Route::get('/partnership/countries-total/{country_id}/{partnership_id}/{start}/{end}', 'Api\ChartController@partnershipTotalCharts');
 Route::get('/partnership/project-total/{country_id}/{partnership_id}/{start}/{end}', 'Api\ChartController@partnershipCommodityCharts');
+
+
+/**
+ * Chart for PDF Report
+ */
+Route::get('/report/reachreact/card/{country_id}/{partnership_id}/{start}/{end}', 'Api\ChartController@reportReactReactCard');
+Route::get('/report/{type}/{country_id}/{partnership_id}/{start}/{end}', 'Api\ChartController@reportReachReactBarChart');
+
+/**
+ * Test
+ */
+
+ Route::get('/rsr-datatables/{country_id}/{partnership_id}', 'Api\ChartController@getRsrDatatable');

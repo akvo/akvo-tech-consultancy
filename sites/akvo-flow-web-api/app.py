@@ -1,5 +1,7 @@
+# Travis removed
+
 from dataclasses import dataclass
-from flask import Flask, jsonify, render_template, request, make_response, send_file
+from flask import Flask, jsonify, render_template, request, make_response
 from flask_cors import CORS
 from lxml import etree
 from io import BytesIO
@@ -16,6 +18,7 @@ import ast
 import logging
 from flask_httpauth import HTTPBasicAuth
 from sqlalchemy import text
+from sqlalchemy.dialects.postgresql import JSONB
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -53,9 +56,11 @@ migrate.init_app(app, db)
 class FormInstance(db.Model):
     id: str
     state: str
+    meta: dict
 
     id = db.Column(db.String, primary_key=True, server_default=text('gen_random_uuid()::varchar'))
     state = db.Column(db.String, nullable=False)
+    meta = db.Column(JSONB)
     created = db.Column(db.DateTime, nullable=False, server_default=text('now()'))
     updated = db.Column(db.DateTime, nullable=False, server_default=text('now()'))
 
@@ -136,22 +141,26 @@ def survey(instance, survey_id, check):
         z.extractall(ziploc)
     response = readxml(ziploc + '/' + survey_id + '.xml')
     cascade_list = []
-    question_group_type = type(response["questionGroup"])
-    if question_group_type is list:
-        for groups in response["questionGroup"]:
-            try:
-                for q in groups["question"]:
+    question_group = response["questionGroup"]
+    if type(question_group) is list:
+        for groups in question_group:
+            questions = groups["question"]
+            if type(questions) is dict:
+                if questions["type"] == "cascade":
+                    cascade_list.append(endpoint + questions["cascadeResource"] + ".zip")
+            if type(questions) is list:
+                for q in questions:
                     if q["type"] == "cascade":
                         cascade_list.append(endpoint + q["cascadeResource"] + ".zip")
-            except:
-                pass
-    if question_group_type is dict:
-        try:
-            for q in response["questionGroup"]["question"]:
+    if type(question_group) is dict:
+        questions = question_group["question"]
+        if type(questions) is dict:
+            if questions["type"] == "cascade":
+                cascade_list.append(endpoint + questions["cascadeResource"] + ".zip")
+        if type(questions) is list:
+            for q in questions:
                 if q["type"] == "cascade":
                     cascade_list.append(endpoint + q["cascadeResource"] + ".zip")
-        except:
-            pass
     if len(cascade_list) > 0:
         for cascade in cascade_list:
             cascade_file = ziploc + '/' + cascade.split('/surveys/')[1].replace('.zip', '')
@@ -170,6 +179,8 @@ def survey(instance, survey_id, check):
 @app.route('/cascade/<instance>/<sqlite>/<lv>')
 def cascade(instance, sqlite, lv):
     location = './static/xml/' + instance + '/' + sqlite
+    if not os.path.exists(location):
+        return jsonify({"code":"", "id":1, "name":"ERROR", "parent":0})
     conn = sqlite3.connect(location)
     table = pd.read_sql_query("SELECT * FROM nodes;", conn)
     result = table[table['parent'] == int(lv)].sort_values(by="name").to_dict('records')
@@ -474,24 +485,84 @@ def form_instance(form_instance_id):
         return jsonify(instance)
     if request.method == 'POST':
         params = request.get_json()
+        meta = None
         if params.get('_formId') is None or params.get('_dataPointId') is None:
             return jsonify({"message": "Bad request, _formId and _dataPointId parameters are required"}), 400
-        instance = FormInstance(state=request.get_data(as_text=True));
+        if params.get('_meta'):
+            meta = json.loads(params.get('_meta'))
+        instance = FormInstance(state=request.get_data(as_text=True), meta=meta);
         db.session.add(instance)
         db.session.commit()
         return jsonify(instance)
     if request.method == 'PUT':
         instance = FormInstance.query.get(form_instance_id)
+        params = request.get_json()
+        meta = None
         if instance is None:
             return jsonify({"message": "Instance {} not found".format(form_instance_id)}), 400
         instance.updated = datetime.now()
         instance.state = request.get_data(as_text=True);
+        if params.get('_meta'):
+            instance.meta = json.loads(params.get('_meta'))
         db.session.add(instance)
         db.session.commit()
         return jsonify(instance)
     return jsonify({"message": "Bad request"}), 400
 
+@app.route('/json/<resource>')
+def get_json_cascade(resource):
+    json_path = './static/json/{}.json'.format(resource)
+    if os.path.exists(json_path):
+        with open(json_path) as f:
+            data = json.load(f)
+            return jsonify(data)
+    return jsonify({"message": "Bad request"}), 400
+
+@app.route('/saved-forms')
+def get_saved_forms():
+    args = request.args
+    if not args:
+        return jsonify([])
+
+    filters = []
+    for key, value in request.args.items():
+        values = value.split(',')
+        if len(values) == 1:
+            filters.append(FormInstance.meta[key].astext == value)
+        if len(values) > 1:
+            filters.append(FormInstance.meta[key].astext.in_(values))
+
+    result = [
+        {
+            'id': f.id,
+            'meta': f.meta,
+            'created': f.created.isoformat(),
+            'updated': f.updated.isoformat()
+        }
+        for f in FormInstance.query.filter(*filters).all()
+    ]
+
+    return jsonify(result)
+
+@app.route('/download', methods=['POST'])
+def get_csv_forms():
+    if not os.path.exists('./static/excel'):
+        os.mkdir('./static/excel')
+    params = request.get_json()
+    filename = params["name"] + ".xlsx"
+    df = pd.DataFrame(params["data"]).fillna(" - ")
+    df['gid'] = df['groupId'].apply(lambda x: x.split('-')[0]).astype('int')
+    df['repeat'] = df['groupId'].apply(lambda x: int(x.split('-')[1]) + 1).astype('int')
+    df['qid'] = df['id'].apply(lambda x: x.split('-')[1]).astype('int')
+    df = df[['gid','groupName','repeat','qid','question','answer']]
+    df = df.sort_values(['gid','repeat','qid']);
+    df = df.groupby(['gid','groupName','repeat','qid','question','answer']).first()
+    df.style.set_properties(**{'text-align': 'right'})
+    df.to_excel('./static/excel/' + filename)
+    return jsonify({"message": "success"})
+
 if __name__ == '__main__':
     app.jinja_env.auto_reload = True
     app.config['TEMPLATES_AUTO_RELOAD'] = True
-    app.run(host='0.0.0.0', debug=True, port=5000)
+    from waitress import serve
+    serve(app, host="0.0.0.0", port=5000)

@@ -15,11 +15,13 @@ use App\Question;
 use App\Answer;
 use App\Datapoint;
 use App\Partnership;
+use App\Option;
 
 class ChartController extends Controller
 {
 	public function __construct() {
-		$this->echarts = new Echarts();
+        $this->echarts = new Echarts();
+        $this->collections = collect();
 	}
 
     public function workStream(Request $request, Question $questions)
@@ -667,4 +669,311 @@ class ChartController extends Controller
         return $datapoints->get()->pluck('id');
     }
 
+    public function getRsrDatatable(Request $request)
+    {
+        $partnershipId = null;
+        if (isset($request->country_id) && $request->country_id !== "0") {
+            $partnershipId = $request->country_id;
+        }
+        if (isset($request->partnership_id) && $request->partnership_id !== "0") {
+            $partnershipId = $request->country_id; // generate datatables just from country level
+            // $partnershipId = $request->partnership_id; // generate datatables from partnership level
+        }
+
+        $data = \App\RsrProject::where('partnership_id', $partnershipId)
+                ->with(['rsr_results' => function ($query) {
+                    $query->orderBy('order');
+                    $query->with('rsr_indicators.rsr_dimensions.rsr_dimension_values');
+                    $query->with('rsr_indicators.rsr_periods.rsr_period_dimension_values');
+                    $query->with(['childrens' => function ($query) {
+                        $query->orderBy('order');
+                        $query->with('rsr_indicators.rsr_dimensions.rsr_dimension_values');
+                        $query->with('rsr_indicators.rsr_periods.rsr_period_dimension_values');
+                        $query->with(['childrens' => function ($query) {
+                            $query->orderBy('order');
+                            $query->with('rsr_indicators.rsr_dimensions.rsr_dimension_values');
+                            $query->with('rsr_indicators.rsr_periods.rsr_period_dimension_values');
+                        }]);
+                    }]);
+                }])->first();
+        
+        $this->collections = collect();
+        $data = $data['rsr_results']->transform(function ($res) {
+            $res['parent_project'] = null;
+            $res['level'] = 1;
+            $res = $this->aggregateRsrValues($res);
+            $res = $this->aggregateRsrChildrenValues($res, 2);
+            $res = Arr::except($res, ['childrens']);
+            $res['columns'] = [
+                'id' => $res['id'],
+                'title' => '# of '.Str::after($res['title'], ': '),
+                'subtitle' => [],
+            ];
+            if ($res['rsr_indicators_count'] > 1 && count($res['rsr_dimensions']) === 0) {
+                $subtitles = collect();
+                $res['rsr_indicators']->each(function ($ind) use ($subtitles) {
+                    $subtitles->push([
+                        "name" => $ind['title'],
+                        "values" => [],
+                    ]);
+                });
+                $res['columns']= [
+                    'id' => $res['id'],
+                    'title' => '# of '.Str::after($res['title'], ': '),
+                    'subtitle' => $subtitles,
+                ];
+            } 
+            if (count($res['rsr_dimensions']) > 0 && $res['rsr_indicators_count'] === 1) {
+                # UII 8 : As in RSR
+                $subtitles = collect();
+                $res['rsr_dimensions']->each(function ($dim) use ($subtitles) {
+                    $subtitles->push([
+                        "name" => $dim['name'],
+                        "values" => $dim['rsr_dimension_values']->pluck('name'),
+                    ]);
+                });
+                $res['columns'] = [
+                    'id' => $res['id'],
+                    'title' => '# of '.Str::after($res['title'], ': '),
+                    'subtitle' => $subtitles,
+                ];
+                # EOL UII 8 : As in RSR
+            }
+            if (count($res['rsr_dimensions']) > 0 && $res['rsr_indicators_count'] > 1) {
+                # UII 8 : Male-led - Female-led
+                // $res['columns'] = $res['rsr_dimensions']->map(function ($dim) use ($res) {
+                //     $resultIds = collect(config('akvo-rsr.datatables.uii8_results_ids'));
+                //     if ($resultIds->contains($res['id']) || $resultIds->contains($res['parent_result'])) {
+                //         $dimensionIds = collect(config('akvo-rsr.datatables.ui8_dimension_ids'));
+                //         if ($dimensionIds->contains($dim['id']) || $dimensionIds->contains($dim['parent_dimension_name'])) {
+                //             return [
+                //                 'id' => $res['id'],
+                //                 'title' => '# of '.Str::after($res['title'], ': '),
+                //                 'dimension' => $dim['name'],
+                //                 'subtitle' => $dim['rsr_dimension_values']->pluck('name'),
+                //             ];
+                //         }
+                //         return;
+                //     }
+                //     return [
+                //         'id' => $res['id'],
+                //         'title' => '# of '.Str::after($res['title'], ': '),
+                //         'dimension' => $dim['name'],
+                //         'subtitle' => $dim['rsr_dimension_values']->pluck('name'),
+                //     ];
+                // })->reject(function ($dim) {
+                //     return $dim === null;
+                // })->values()[0];
+                # EOL UII 8 : Male-led - Female-led
+
+                # UII 8 : As in RSR
+                $subtitles = collect();
+                $res['rsr_dimensions']->each(function ($dim) use ($subtitles) {
+                    $subtitles->push([
+                        "name" => $dim['name'],
+                        "values" => $dim['rsr_dimension_values']->pluck('name'),
+                    ]);
+                });
+                $res['rsr_indicators']->each(function ($ind) use ($subtitles) {
+                    $subtitles->push([
+                        "name" => $ind['title'],
+                        "values" => [],
+                    ]);
+                });
+                $res['columns'] = [
+                    'id' => $res['id'],
+                    'title' => '# of '.Str::after($res['title'], ': '),
+                    'subtitle' => $subtitles,
+                ];
+                # EOL UII 8 : As in RSR
+            }
+            $this->collections->push($res);
+            return $res;
+        });
+
+        $parents = $this->collections->where('level', 1)->values();
+        $results = $parents->first()->only('rsr_project_id', 'project');
+        $results['columns'] = $parents;
+
+        $childs = $this->collections->where('parent_project', $results['rsr_project_id']);
+        $results['childrens'] = $childs->unique('project')->values();
+        if (count($results['childrens']) > 0) {
+            $results['childrens'] = $results['childrens']->transform(function ($child) use ($childs) {
+                $child = $child->only('rsr_project_id', 'project');
+                $child['columns'] = $childs->where('rsr_project_id', $child['rsr_project_id'])->values();
+
+                $childs = $this->collections->where('parent_project', $child['rsr_project_id']);
+                $child['childrens'] = $childs->unique('project')->values();
+                if (count($child['childrens']) > 0) {
+                    $child['childrens'] = $child['childrens']->transform(function ($child) use ($childs) {
+                        $child = $child->only('rsr_project_id', 'project');
+                        $child['columns'] = $childs->where('rsr_project_id', $child['rsr_project_id'])->values();
+                        return $child;
+                    });
+                }
+
+                return $child;
+            });
+        }
+
+        return [
+            "config" => [
+                "result_ids" => config('akvo-rsr.datatables.uii8_results_ids'),
+            ],
+            "columns" => $data->pluck('columns'),
+            "data" => $results,
+        ];
+    }
+
+    private function aggregateRsrChildrenValues($res, $level)
+    {
+        if (count($res['childrens']) === 0) {
+            return $res;
+        }
+        $collections = collect();
+        $res['childrens'] = $res['childrens']->transform(function ($child) use ($collections, $res, $level) {
+            $child['parent_project'] = $res['rsr_project_id'];
+            $child['level'] = $level;
+            $child = $this->aggregateRsrValues($child);
+            // collect all childs dimensions value
+            if (count($child['rsr_dimensions']) > 0) {
+                foreach ($child['rsr_dimensions'] as $dim) {
+                    $collections->push($dim['rsr_dimension_values']);
+                }
+            }
+            $level += 1;
+            $child = $this->aggregateRsrChildrenValues($child, $level);
+            $child = Arr::except($child, ['childrens']);
+            $this->collections->push($child);
+            return $child;
+        });
+        // aggregate all value from children ( if the parent value 0, take it from children aggregate )
+        if ($res['total_target_value'] == 0) {
+            $res['total_target_value'] = $res['childrens']->sum('total_target_value');
+        }
+        if ($res['total_actual_value'] == 0) {
+            $res['total_actual_value'] = $res['childrens']->sum('total_actual_value');
+        }
+        if (count($res['rsr_dimensions']) > 0 && count($res['childrens']) !== 0) {
+            // aggregate dimension value
+            $res['rsr_dimensions'] = $res['rsr_dimensions']->transform(function ($dim) 
+                use ($collections) {
+                $dim['rsr_dimension_values'] = $dim['rsr_dimension_values']->transform(function ($dimVal) 
+                    use ($collections) {
+                    $values = $collections->flatten(1)->where('parent_dimension_value', $dimVal['id']);
+                    if ($dimVal['value'] == 0) {
+                        $dimVal['value'] = $values->sum('value');
+                    }
+                    if ($dimVal['total_actual_value'] == 0) {
+                        $dimVal['total_actual_value'] = $values->sum('total_actual_value');
+                    }
+                    return $dimVal;
+                });
+                return $dim;
+            });
+        }
+        // eol aggregate all value from children
+        return $res;
+    }
+
+    private function aggregateRsrValues($res)
+    {
+        $no_dimension_indicators = collect();
+        $res['rsr_indicators'] = $res['rsr_indicators']->transform(function ($ind) use ($no_dimension_indicators) {
+            // $ind['target_value'] = $ind['rsr_periods']->sum('target_value');
+            $ind['total_actual_value'] = $ind['rsr_periods']->sum('actual_value');
+            if ($ind['has_dimension']) {
+                // collect dimensions value all period
+                $periodDimensionValues = $ind['rsr_periods']->map(function ($per) {
+                    return $per['rsr_period_dimension_values'];
+                })->flatten(1);
+                // aggregate dimension value
+                $ind['rsr_dimensions'] = $ind['rsr_dimensions']->transform(function ($dim) 
+                    use ($periodDimensionValues) {
+                    $dim['rsr_dimension_values'] = $dim['rsr_dimension_values']->transform(function ($dimVal) 
+                        use ($periodDimensionValues) {
+                        $dimVal['total_actual_value'] = $periodDimensionValues
+                                                        ->where('rsr_dimension_value_id', $dimVal['id'])
+                                                        ->sum('value');
+                        return $dimVal;
+                    });
+                    return $dim;
+                });
+            }
+            if (!$ind['has_dimension']) {
+                $no_dimension_indicators->push($ind);
+            }
+            $ind = Arr::except($ind, ['rsr_periods']);
+            return $ind;
+        });
+        $res['rsr_dimensions'] = $res['rsr_indicators']->pluck('rsr_dimensions')->flatten(1);
+        $res['total_target_value'] = $res['rsr_indicators']->sum('target_value');
+        $res['total_actual_value'] = $res['rsr_indicators']->sum('total_actual_value');
+        $res['rsr_indicators_count'] = count($res['rsr_indicators']);
+        $res = Arr::except($res, ['rsr_indicators']);
+        $res['rsr_indicators'] = $no_dimension_indicators; // separate indicator with no dimension
+        return $res;
+    }
+
+    public function reportReactReactCard(Request $request)
+    {
+        $reachReactId = config('akvo-rsr.charts.reachreact.form_id');
+        $datapoints = Datapoint::where('form_id', $reachReactId)->get();
+        if (isset($request->country_id) && $request->country_id !== "0") {
+            $datapoints = $datapoints->where('country_id', $request->country_id);
+        }
+        if (isset($request->partnership_id) && $request->partnership_id !== "0") {
+            $datapoints = $datapoints->where('partnership_id', $request->partnership_id);
+        }
+        return [
+            "title" => config('akvo-rsr.charts.reachreact.title'),
+            "value" => count($datapoints),
+        ];
+    }
+
+    public function reportReachReactBarChart(Request $request)
+    {
+        $config = config('akvo-rsr.charts.'.$request->type);
+        $question = Question::where('question_id', $config['question_id'])->first();
+        $options = Option::where('question_id', $question->id)->get();
+        $answers = Answer::where('question_id', $config['question_id'])->with('datapoints')->get();
+        if (isset($request->country_id) && $request->country_id !== "0") {
+            $answers = $answers->where('datapoints.country_id', $request->country_id);
+        }
+        if (isset($request->partnership_id) && $request->partnership_id !== "0") {
+            $answers = $answers->where('datapoints.partnership_id', $request->partnership_id);
+        }
+        $data = collect();
+        $answers->map(function ($answer) use ($data) {
+            $values = str_replace('[', '', $answer['options']);
+            $values = str_replace(']', '', $values);
+            $values = explode(',', $values);
+            foreach ($values as $value) {
+                $data->push($value);
+            }
+            return;
+        });
+        $results = $data->countBy();
+        if (count($results) === 0) {
+            return response('no data available', 503);
+        };
+        $series = $options->map(function($option) use ($results, $request) {
+            $name = $option['text'];
+            if ($request->type === 'target-audience' && Str::contains($option['text'], '(')) {
+                $name = explode('(', $option['text']);
+                $name = $name[0];
+            }
+            return [
+                "name" => $name,
+                "value" => (isset($results[$option['id']])) ? $results[$option['id']] : 0,
+            ];
+        })->values();
+        $legends = $series->map(function($d){
+            return $d['name'];
+        });
+		$values = $series->map(function($d) {
+            return $d['value'];
+        });
+		return $this->echarts->generateSimpleBarCharts($legends, $values, true, true);
+    }
 }

@@ -26,4 +26,9 @@ class Form extends Model
     {
         return $this->hasMany('App\Datapoint', 'form_id', 'form_id');
     }
+
+    public function questiongroups()
+    {
+        return $this->hasMany('App\QuestionGroup', 'form_id', 'form_id');
+    }
 }

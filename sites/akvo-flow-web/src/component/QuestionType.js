@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { mapStateToProps, mapDispatchToProps } from '../reducers/actions.js'
-import axios from 'axios';
-import { isJsonString } from  '../util/QuestionHandler.js'
-import { API_URL } from '../util/Environment'
+import { mapStateToProps, mapDispatchToProps } from '../reducers/actions'
+import { isJsonString } from  '../util/QuestionHandler'
 import { PopupImage } from '../util/Popup'
-import MapForm from '../types/MapForm.js'
+import { checkCustomOption, checkUnit } from '../util/Custom'
+import { getApi } from '../util/Api'
+import { getLocalization } from '../util/Utilities';
+import MapForm from '../types/MapForm'
 import Dexie from 'dexie';
 import uuid from 'uuid/v4';
 
@@ -20,7 +21,13 @@ class QuestionType extends Component {
             other: this.other ? this.other : '',
             invalid: false,
             cascade_selected: [],
-            cascade_levels: 0
+            cascade_levels: 0,
+            custom_cascade: [{
+                name:'loading',
+                childs: []
+            }],
+            custom_cascade_other: false,
+            custom_cascade_type: 'checkBox'
         }
         this.setDpStorage = this.setDpStorage.bind(this);
         this.setDplStorage = this.setDplStorage.bind(this);
@@ -40,6 +47,11 @@ class QuestionType extends Component {
         this.handleCascadeChange = this.handleCascadeChange.bind(this);
         this.handleMapChange = this.handleMapChange.bind(this);
         this.handleGlobal = this.handleGlobal.bind(this);
+
+        /*CUSTOM*/
+        this.getCustomCascade = this.getCustomCascade.bind(this);
+        this.handleCustomChange = this.handleCustomChange.bind(this);
+        /* END CUSTOM */
     }
 
     handleGlobal(questionid, qval){
@@ -348,13 +360,8 @@ class QuestionType extends Component {
     }
 
     renderRadio (o, lang, opt, i, id, radioType, unique) {
-        let localization = this.props.value.lang.active;
-        localization = localization.map((x) => {
-            let active = lang[x] === undefined ? "" : lang[x];
-            return active;
-        });
-        localization = localization.filter(x => x !== "");
-        localization = localization.length === 0 ? lang.en : localization.join(' / ');
+        let activeLang = this.props.value.lang.active;
+        let localization = getLocalization(activeLang, lang, 'span', 'trans-lang-opt');
         let dataval = opt.code !== undefined
             ? JSON.stringify({"text":opt.value,"code":opt.code})
             : JSON.stringify({"text":opt.value})
@@ -388,9 +395,9 @@ class QuestionType extends Component {
                         />
                         <label
                             className="form-check-label badge badge-secondary"
-                            htmlFor={"input-" + (id).toString()}>
-                            {localization}
-                        </label>
+                            htmlFor={"input-" + (id).toString()}
+                            dangerouslySetInnerHTML={{__html:localization}}
+                        />
                     </div>
                 <hr/>
                     <div className={checked() ? "":"hidden"}>
@@ -427,9 +434,8 @@ class QuestionType extends Component {
             />
                 <label
                     className="form-check-label"
-                    htmlFor={"input-" + (id+i).toString()}>
-                    {localization}
-                </label>
+                    dangerouslySetInnerHTML={{__html:localization}}
+                    htmlFor={"input-" + (id+i).toString()}/>
             </div>
         )
     }
@@ -511,12 +517,13 @@ class QuestionType extends Component {
 
     getCascadeDropdown(lv, ix, selected_value, init) {
         if (this.props.data.type === "cascade") {
-            let url = API_URL + 'cascade/' + this.props.value.instanceName + '/' + this.props.data.cascadeResource + '/' + lv
+            let url = 'cascade/' + this.props.value.instanceName + '/' + this.props.data.cascadeResource + '/' + lv
             let options = "options_" + lv
             let cascade = "cascade_" + ix
+            let res = false;
+            /*
             let availcasc = this.props.value.cascade;
             let isavailable = false;
-            let res = false;
             if (availcasc.length > 0) {
                 isavailable = true;
             }
@@ -525,6 +532,7 @@ class QuestionType extends Component {
                     return x.url === url;
                 });
             }
+            */
             if (!res) {
                 this.fetchCascade(lv, ix, url, options, cascade, selected_value, init);
             }
@@ -534,15 +542,15 @@ class QuestionType extends Component {
 
     fetchCascade(lv, ix, url, options, cascade, selected_value, init) {
         let optlev = this.props.data.levels.level;
-        axios.get(url).then((res) =>{
-            if (res.data.length === 0) {
+        getApi(url).then(res => {
+            if (res.length === 0) {
                 return res
             }
             try {
                 this.setState({
-                    [options]: res.data,
+                    [options]: res,
                     [cascade]: [options],
-                    value: (res.data[ix] === undefined) ? res.data[0]['id'] : res.data[ix]['id'],
+                    value: (res[ix] === undefined) ? res[0]['id'] : res[ix]['id'],
                     levels: Array.isArray(optlev) ? optlev.length - 1 : 0
                 })
             } catch (err) {
@@ -552,7 +560,7 @@ class QuestionType extends Component {
         }).then((res) => {
             this.props.storeCascade({
                 url:url,
-                data:res.data
+                data:res
             })
             if (init) {
                 let selected = this.state.cascade_selected;
@@ -569,9 +577,8 @@ class QuestionType extends Component {
             validator = validation.minVal ? "Min Value (" + parseInt(validation.minVal) + ") " : validator;
             validator = validation.maxVal ? validator + "Max Value (" + parseInt(validation.maxVal) + ")" : validator;
         }
-        return (
-            <div>
-                <span className="text-danger text-sm">{validator}</span>
+        let unit = checkUnit(data);
+        const FormInput =
             <input
                 className={"form-control" + invalid}
                 value={answered ? answered : ""}
@@ -581,7 +588,16 @@ class QuestionType extends Component {
                 key={unique}
                 name={'Q-' + data.id.toString()}
                 onChange={this.handleChange}
-            />
+            />;
+        return (
+            <div>
+                <span className="text-danger text-sm">{validator}</span>
+                {unit ? (
+                    <div className="input-group">
+                        {FormInput}
+                        <div className="input-group-append"><span className="input-group-text">{unit}</span></div>
+                    </div>
+                ) : FormInput}
             </div>
         )
     }
@@ -697,7 +713,130 @@ class QuestionType extends Component {
         );
     }
 
+    /* CUSTOM */
+    handleCustomChange(event, childs, hasOther) {
+        let id = this.props.data.id;
+        let value = event.target.value;
+        if (this.state.custom_cascade_type === "radio") {
+            this.setState({custom_cascade_other:value === "Other"});
+            localStorage.setItem(id, value);
+            this.setState({value: value});
+            this.handleGlobal(id, value);
+            return;
+        }
+        let multipleValue = [];
+        let existValue = [];
+        if (localStorage.getItem(id) !== null) {
+            multipleValue = localStorage.getItem(id).split('|')
+        }
+        if (multipleValue.length > 0) {
+            existValue = multipleValue.map((val) =>{
+                return val;
+            });
+        }
+        if (existValue.indexOf(value) === -1) {
+            if (hasOther) {
+                this.setState({custom_cascade_other:true});
+            }
+            multipleValue.push(value)
+            existValue.push(value)
+        } else {
+            if (hasOther) {
+                this.setState({custom_cascade_other:false});
+            }
+            multipleValue.splice(existValue.indexOf(value), 1)
+        }
+        if (multipleValue.length > 0) {
+            localStorage.setItem(id, multipleValue.join("|"))
+            this.setState({value: multipleValue})
+            this.handleGlobal(id, value)
+        } else {
+            localStorage.removeItem(id)
+            this.setState({value: ""})
+        }
+        if(value === "") {
+            this.setState({value: value})
+            localStorage.removeItem(id)
+        }
+        this.handleGlobal(id, value)
+    }
+
+    getCustomCascade(id, data, unique, level, index, margin, parent="") {
+        const active = this.props.value.lang.active;
+        return data.map((x, i) => {
+            let value = parent !== "" ? (parent + " > " + x.name) : x.name;
+            let checked = false;
+            let selected = localStorage.getItem(id);
+            if (selected !== null) {
+                checked = selected.split('|').includes(value);
+            }
+            let indeterminate = false;
+            let lang = x.lang ? x.lang : {"en":x.name};
+            let localization = getLocalization(active, lang, 'span','trans-lang-opt', level === 0);
+            let grandParent =  x.name !== "Other" && level === 0 && x.childs.length !== 0;
+            if (grandParent) {
+                return (
+                    <div
+                        style={{marginLeft: margin + "rem"}}
+                        key={unique + '-radio-' + level + '-' + index + '-' + i.toString()}>
+                        <div className="parent-options" dangerouslySetInnerHTML={{__html:localization}}/>
+                        { x.childs.length > 0
+                            ? this.getCustomCascade(id, x.childs, unique, level + 1, i, margin + .2, value)
+                            : ""}
+                        { level === 0 ? <hr/> : ""}
+                    </div>
+                )
+            }
+            return (
+                <div
+                    style={{marginLeft: margin + "rem"}}
+                    key={unique + '-radio-' + level + '-' + index + '-' + i.toString()}>
+                    <input
+                        className="form-check-input"
+                        type={this.state.custom_cascade_type}
+                        name={"input-" + unique}
+                        onChange={e => this.handleCustomChange(e, x.childs, x.hasOther)}
+                        checked={checked}
+                        disabled={x.childs.length > 0}
+                        value={value}
+                        ref={e => e && (e.indeterminate = indeterminate)}
+                    />
+                    <label
+                        className="form-check-label"
+                        htmlFor={"input-" + unique}
+                        dangerouslySetInnerHTML={{__html:localization}}/>
+                    { x.childs.length > 0
+                        ? this.getCustomCascade(id, x.childs, unique, level + 1, i, margin + .2, value)
+                        : ""}
+                    { level === 0 ? <hr/> : ""}
+                </div>
+            )
+        });
+    }
+    /* END-CUSTOM */
+
     componentDidMount () {
+        /* CUSTOM */
+        if (this.props.data.type === "text") {
+            let customOption = checkCustomOption(this.props.data);
+            if (customOption) {
+                getApi('json/' + customOption.url).then(res => {
+                    res = res.map(x => ({...x, hasOther:false}));
+                    this.setState({
+                        custom_cascade: [...res, {name: 'Other', childs:[], hasOther:true}],
+                        custom_cascade_type: customOption.type
+                    });
+                    let multipleValue = localStorage.getItem(this.props.data.id.toString())
+                    if (multipleValue) {
+                        multipleValue = multipleValue.split('|');
+                        if (multipleValue.includes("Other")) {
+                            this.setState({custom_cascade_other:true});
+                        }
+                    }
+                });
+            }
+        }
+        /* END CUSTOM */
         if (this.props.data.type === "cascade"){
             let cascade_selected = [];
             if (this.props.data.levels.level.text !== undefined) {
@@ -751,6 +890,12 @@ class QuestionType extends Component {
         if ('localeLocationFlag' in data){
             this.setDplStorage()
         }
+        /* CUSTOM */
+        let customOption = checkCustomOption(data);
+        if (customOption) {
+            formtype = "custom-cascade";
+        }
+        /* END CUSTOM */
         switch(formtype) {
             case "option":
                 return this.getRadio(data, key)
@@ -769,6 +914,30 @@ class QuestionType extends Component {
                 return this.getInputOther(data, key, answered, formtype)
             case "geo":
                 return this.getGeo(data, key)
+            /* CUSTOM */
+            case "custom-cascade":
+                return (
+                    <div>
+                        {this.getCustomCascade(data.id, this.state.custom_cascade, key, 0, 0, 1.25)}
+                        <div className={this.state.custom_cascade_other ? "" : "hidden"}>
+                            <label
+                                className="form-label"
+                                htmlFor={data.id.toString() + "_OTHER"}>
+                                Other Answer:
+                            </label>
+                            <input
+                                className="form-control"
+                                key={data.id + "-radio-other"}
+                                value={this.state.other}
+                                type="text"
+                                name={"other_" + data.id.toString()}
+                                id={"other_" + data.id.toString()}
+                                onChange={this.handleChange}
+                            />
+                        </div>
+                    </div>
+                )
+            /* END CUSTOM */
             default:
                 if(data.requireDoubleEntry) {
                     return this.getDoubleEntry(data, key, answered, formtype);

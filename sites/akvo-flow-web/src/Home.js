@@ -21,6 +21,10 @@ import {
 import { PopupError } from './util/Popup.js'
 import { API_URL, READ_CACHE } from './util/Environment.js'
 import Dexie from 'dexie';
+import qs from 'qs';
+import EndSurvey from './EndSurvey';
+
+const urlParams = qs.parse(document.location.search, {ignoreQueryPrefix: true});
 
 class Home extends Component {
     _isMounted = false;
@@ -59,18 +63,13 @@ class Home extends Component {
             ...data,
         })
         if (!this.cacheId) {
-            let dataPointId = [
-                Math.random().toString(36).slice(2).substring(1, 5),
-                Math.random().toString(36).slice(2).substring(1, 5),
-                Math.random().toString(36).slice(2).substring(1, 5)
-            ]
             this.props.updateLocalStorage();
-            localStorage.setItem("_dataPointId", dataPointId.join("-"));
             localStorage.setItem("_submissionStart", Date.now());
             localStorage.setItem("_deviceId", "Akvo Flow Web");
             localStorage.setItem("_version", data.version);
             localStorage.setItem("_instanceId", data.app);
         }
+
     }
 
     updateQuestions = (index) => {
@@ -95,6 +94,9 @@ class Home extends Component {
                 this.updateData(res.data)
                 this.setState({ _rendered:true });
                 this.props.changeSettings({_isLoading:false})
+                if (urlParams.locale) {
+                    this.props.changeLang([urlParams.locale]);
+                }
             })
             .catch(error => {
                 console.error(error);
@@ -179,13 +181,14 @@ class Home extends Component {
     componentDidMount() {
         this._isMounted = true;
         if (this._isMounted) {
-            this.props.generateUUID({})
             this.props.changeSettings({_isLoading:true})
             if (localStorage.getItem("_formId")) {
                 if (localStorage.getItem("_formId") !== this.surveyId){
                     localStorage.clear();
+                    sessionStorage.clear();
                 }
             }
+            this.props.generateUUID({});
             if (this.cacheId) {
                 this.getCachedSurvey();
             } else {
@@ -214,6 +217,9 @@ class Home extends Component {
     }
 
     render() {
+        if (this.props.value.surveyIsEnd) {
+            return (<EndSurvey/>)
+        }
         return (
             <div className={this.state._fullscreen ? "wrapper d-flex toggled": "wrapper d-flex"}>
                 <div className="sidebar-wrapper bg-light border-right">

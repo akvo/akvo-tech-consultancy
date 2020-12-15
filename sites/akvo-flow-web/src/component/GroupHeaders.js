@@ -3,6 +3,7 @@ import { mapStateToProps, mapDispatchToProps } from "../reducers/actions.js";
 import React, { Component } from "react";
 import Loading from "../util/Loading";
 import Error from "../util/Error";
+import { getLocalization } from '../util/Utilities.js'
 import { FaPlus, FaExclamationTriangle } from "react-icons/fa";
 
 class GroupHeaders extends Component {
@@ -36,22 +37,24 @@ class GroupHeaders extends Component {
 
     getHeader = groups => {
         let active = groups.list.filter(g => g.index === groups.active);
-        return active.map((group, index) => (
-            <nav className="navbar navbar-expand-lg navbar-light navbar-group bg-light border-bottom" key={"ghead-" + index}>
-                <div className="col-md-4 header-left">
-                    <h4 className="mt-2">{group.heading}</h4>
-                </div>
-                <div className="col-md-8 text-right">
-                    <div className="badge-header">
-                        <div className={"badge badge-left badge-secondary"}>
-                            <FaExclamationTriangle /> Mandatory
+        let activeLang = this.props.value.lang.active;
+        return active.map((group, index) => {
+            let localization = getLocalization(activeLang, group.lang, 'h4', 'trans-lang');
+            return (
+                <nav className="navbar navbar-expand-lg navbar-light navbar-group bg-light border-bottom" key={"ghead-" + index}>
+                    <div className="col-md-9 header-left" dangerouslySetInnerHTML={{__html: localization}}/>
+                    <div className="col-md-3 text-right">
+                        <div className="badge-header">
+                            <div className={"badge badge-left badge-secondary"}>
+                                <FaExclamationTriangle /> Mandatory
+                            </div>
+                            <div className={"badge badge-right badge-red"}>{group.attributes.mandatories}</div>
                         </div>
-                        <div className={"badge badge-right badge-red"}>{group.attributes.mandatories}</div>
+                        { group.repeatable ? this.getRepeatButton(group) : "" }
                     </div>
-                    { group.repeatable ? this.getRepeatButton(group) : "" }
-                </div>
-            </nav>
-        ));
+                </nav>
+            )
+        });
     };
 
     getLoading = () => {

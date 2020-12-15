@@ -10,7 +10,7 @@ class Clear extends Component {
     }
 
     confirmClear() {
-        PopupAsk("Do you really want to clear all the form?",
+        PopupAsk("Do you really want to clear all data in this current submission? This change is irreversible",
             {confirm: {opt:"Yes"}, cancel:{opt:"Cancel"}}
         ).then(res => {
             if (res.value) {

@@ -1,4 +1,4 @@
-const isoLangs = {
+export const isoLangs = {
     "ab":{
         "name":"Abkhaz",
         "nativeName":"аҧсуа"
@@ -117,7 +117,7 @@ const isoLangs = {
     },
     "zh":{
         "name":"Chinese",
-        "nativeName":"中文 (Zhōngwén), 汉语, 漢語"
+        "nativeName":"中文 (Zhōngwén)"
     },
     "cv":{
         "name":"Chuvash",
@@ -341,7 +341,7 @@ const isoLangs = {
     },
     "ku":{
         "name":"Kurdish",
-        "nativeName":"Kurdî, كوردی‎"
+        "nativeName":"Kurdî, كوردی"
     },
     "kj":{
         "name":"Kwanyama, Kuanyama",
@@ -397,7 +397,7 @@ const isoLangs = {
     },
     "ms":{
         "name":"Malay",
-        "nativeName":"bahasa Melayu, بهاس ملايو‎"
+        "nativeName":"Bahasa Melayu, بهاس ملايو"
     },
     "ml":{
         "name":"Malayalam",
@@ -489,7 +489,7 @@ const isoLangs = {
     },
     "pa":{
         "name":"Panjabi, Punjabi",
-        "nativeName":"ਪੰਜਾਬੀ, پنجابی‎"
+        "nativeName":"ਪੰਜਾਬੀ, پنجابی"
     },
     "pi":{
         "name":"Pāli",
@@ -541,7 +541,7 @@ const isoLangs = {
     },
     "sd":{
         "name":"Sindhi",
-        "nativeName":"सिन्धी, سنڌي، سندھی‎"
+        "nativeName":"सिन्धी, سنڌي، سندھی"
     },
     "se":{
         "name":"Northern Sami",
@@ -617,7 +617,7 @@ const isoLangs = {
     },
     "tg":{
         "name":"Tajik",
-        "nativeName":"тоҷикӣ, toğikī, تاجیکی‎"
+        "nativeName":"тоҷикӣ, toğikī, تاجیکی"
     },
     "th":{
         "name":"Thai",
@@ -657,7 +657,7 @@ const isoLangs = {
     },
     "tt":{
         "name":"Tatar",
-        "nativeName":"татарча, tatarça, تاتارچا‎"
+        "nativeName":"татарча, tatarça, تاتارچا"
     },
     "tw":{
         "name":"Twi",
@@ -669,7 +669,7 @@ const isoLangs = {
     },
     "ug":{
         "name":"Uighur, Uyghur",
-        "nativeName":"Uyƣurqə, ئۇيغۇرچە‎"
+        "nativeName":"Uyƣurqə, ئۇيغۇرچە"
     },
     "uk":{
         "name":"Ukrainian",
@@ -681,7 +681,7 @@ const isoLangs = {
     },
     "uz":{
         "name":"Uzbek",
-        "nativeName":"zbek, Ўзбек, أۇزبېك‎"
+        "nativeName":"zbek, Ўзбек, أۇزبېك"
     },
     "ve":{
         "name":"Venda",

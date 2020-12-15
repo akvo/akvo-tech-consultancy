@@ -3,7 +3,11 @@ import { connect } from 'react-redux';
 import { mapStateToProps, mapDispatchToProps } from '../reducers/actions.js';
 import OverviewQuestion from './OverviewQuestion.js';
 import { Card, CardBody, CardTitle } from "reactstrap";
-import { FaPrint } from "react-icons/fa";
+import { FaPrint, FaDownload } from "react-icons/fa";
+import { parseAnswer } from "../util/QuestionHandler";
+import { API_URL } from '../util/Environment'
+import { PopupError } from '../util/Popup.js'
+import axios from 'axios';
 
 class Overview extends Component {
     constructor(props) {
@@ -13,6 +17,7 @@ class Overview extends Component {
         this.renderRepeatHeading = this.renderRepeatHeading.bind(this);
         this.renderQuestions = this.renderQuestions.bind(this);
         this.printOverview = this.printOverview.bind(this);
+        this.downloadSubmission = this.downloadSubmission.bind(this);
     }
 
     printOverview() {
@@ -31,7 +36,9 @@ class Overview extends Component {
             iter = '-' + repeat_ix;
             let qgroup = [];
             for (let ix = 0; ix < group.questions.length; ix++) {
-                qgroup[ix] = <OverviewQuestion key={group.questions[ix]} index={ix} group={group} iter={iter} qid={group.questions[ix]}/>;
+                qgroup[ix] = (
+                    <OverviewQuestion key={group.questions[ix]} index={ix} group={group} iter={iter} qid={group.questions[ix]}/>
+                )
             }
             groups.push({
                 heading: this.renderRepeatHeading(group.heading, repeat_ix),
@@ -74,20 +81,53 @@ class Overview extends Component {
         ));
     }
 
+    downloadSubmission() {
+        const { answers, surveyName, uuid } = this.props.value;
+        const questions = this.props.value.questions.filter(x => x.overview);
+        const data = questions.map(x => {
+            let answer = answers.find(a => a.id === x.id);
+                answer = {answer: answer ? answer.answer : null, qtype: x.type};
+            let groupName = x.repeat ? (x.heading + "-" + x.iteration.toString()) : x.heading;
+            return {
+                id: x.group.toString() + '-' + x.order,
+                groupId: x.group.toString() + "-" + x.iteration.toString(),
+                groupName: groupName,
+                question: x.text.replace(/(<([^>]+)>)/gi, ""),
+                answer: parseAnswer(answer),
+            }
+        });
+        const file = surveyName + "-" + uuid;
+        axios.post(API_URL + 'download', {data: data, name:file})
+            .then(res => {
+                window.open(API_URL + 'static/excel/' + file + ".xlsx");
+            })
+            .catch(err => {
+                PopupError("Download Failed");
+            });
+    }
+
     render() {
+        let buttonClass = "btn btn-primary btn-repeatable";
         return (
             <Fragment>
             <nav className="navbar navbar-expand-lg navbar-light navbar-group bg-light border-bottom" key="overview-group">
 
-                <div className="col-md-4 header-left">
-                    <h4 className="mt-2">Overviews</h4>
+                <div className="col-md-6 header-left">
+                    <h4 className="mt-2">
+                        {"Overviews "}
+                        <button
+                            className={buttonClass}
+                            onClick={(e => this.downloadSubmission())}
+                        > Download <FaDownload/>
+                        </button>
+                    </h4>
                 </div>
-                <div className="col-md-8 text-right">
+                <div className="col-md-6 text-right">
                     <div className="badge badge-red">Mandatory</div>
                 </div>
                 <div className="col-md-8 text-right">
                     <button
-                        className={"btn btn-primary btn-repeatable hidden"}
+                        className={buttonClass + " hidden"}
                         onClick={(e => this.printOverview())}
                     >
                         Print <FaPrint/>

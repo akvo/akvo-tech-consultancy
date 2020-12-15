@@ -56,7 +56,26 @@ const generateCards = (info, color, rank) => {
     }
 }
 
+const generateSingleCards = (info, color, id) => {
+    let html = `<div class="col-md-12" id="`+id+`-value" dataTitle="`+info.title+`" dataValue="`+info.value+`">
+                    <div class="card card-cascade wider">
+                        <div class="text-center view view-cascade gradient-card-header ` + color + `-gradient" style="color:white;">
+                            <h5 class="card-header-title mb-3 mt-3 text-bold">` + info.title + `</h5>
+                            <h3 class="card-header-title mb-3 mt-3" id="single-count-up-` + color + `">` + 0  + `</h3>
+                        </div>
+                    </div>
+                </div>`
+    $('#'+id).append(html);
+    const countUp = new CountUp('single-count-up-' + color , info.value);
+    if (!countUp.error) {
+      countUp.start();
+    } else {
+      console.error(countUp.error);
+    }
+}
+
 const fetchData = (endpoint) => {
+    // console.log(endpoint);
     const split = endpoint.split('/');
     const filter = [split[1], split[2], split[3], split[4]].join('/');
     return new Promise((resolve, reject) => {
@@ -106,9 +125,14 @@ export const getCards = (cards) => {
     });
 }
 
+export const getSingleCards = (cards, id) => {
+    const single = loadData(cards);
+    single.then(res => generateSingleCards(res, gradients[2], id));
+}
 
-export const getCharts = (chart, row, info, md, color) => {
+export const getCharts = (chart, row, info, md, color, customTitle=null) => {
     let chartname = chart.split("/")[1];
+    chartname = (customTitle !== null) ? customTitle : chartname;
     let html = `<div class="col-md-` + md + `">
                 <div class="card">
                   <div class="card-header gradient-card-header ` + color + `-gradient">` + titleCase(chartname) + `</div>

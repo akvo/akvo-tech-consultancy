@@ -13,6 +13,7 @@ const mix = require('laravel-mix');
 
 mix.js('resources/js/app.js', 'public/js').version()
     .js('resources/js/charts.js', 'public/js').version()
+    .js('resources/js/rsrDatatables.js', 'public/js').version()
     .js('resources/js/util.js', 'public/js').version()
     .js('resources/js/main.js', 'public/js').version()
     .js('resources/js/database.js', 'public/js').version()
@@ -31,3 +32,6 @@ mix.copyDirectory('resources/vendor', 'public/vendor');
 mix.copyDirectory('resources/images', 'public/images');
 mix.copy('resources/favicon.ico', 'public/');
 mix.copyDirectory('resources/json', 'public/json');
+
+mix.styles(['resources/css/print.css',], 'public/css/print.css');
+mix.styles(['resources/css/print-bootstrap.css',], 'public/css/print-bootstrap.css');

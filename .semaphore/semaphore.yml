@@ -7,6 +7,11 @@ agent:
 blocks:
   - name: 'Build, test & deploy'
     task:
+      secrets:
+        - name: GCP
+        - name: docker-hub-credentials
+        - name: TestEnv
+        - name: siteground
       prologue:
         commands:
           - checkout
@@ -14,12 +19,15 @@ blocks:
         - name: 'Build&Test'
           commands:
             - export AUTH0_PASSWORD=${PASSWORD}
+            - export GCLOUD_ACCOUNT_FILE=$(pwd)/akvo-lumen-a52cb7c6668a.json
             - export AUTH0_USER=${USERNAME}
             - export PATH=${HOME}/google-cloud-sdk/bin:$PATH
             - export TRAVIS_BRANCH=${SEMAPHORE_GIT_BRANCH}
             - export TRAVIS_TAG=${SEMAPHORE_GIT_TAG_NAME}
             - export TRAVIS_COMMIT=${SEMAPHORE_GIT_SHA}
             - export TRAVIS_COMMIT_RANGE=${SEMAPHORE_GIT_COMMIT_RANGE}
+            - export SITES_SSH_KEY=/home/semaphore/.siteground/private.key
+            - chmod 400 /home/semaphore/.siteground/private.key
             - |-
               if [ "$SEMAPHORE_GIT_REF_TYPE" = "pull-request" ]; then
                 export TRAVIS_PULL_REQUEST="true"

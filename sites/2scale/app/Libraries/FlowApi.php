@@ -4,9 +4,9 @@ use GuzzleHttp\Exception\RequestException;
 
 class FlowApi
 {
-    public function cascade($id){
+    public function cascade($resource, $id){
         $client = new \GuzzleHttp\Client();
-        $url = config('akvo-auth0.endpoints.cascades') . config('surveys.cascade') . '/' . $id;
+        $url = config('akvo-auth0.endpoints.cascades') . $resource . '/' . $id;
         try {
             $response = $client->get($url);
         } catch(RequestException $e) {
@@ -26,9 +26,15 @@ class FlowApi
         return $data;
     }
 
-    public function questions($form_id) {
+    public function questions($form_id, $update = false) {
         $client = new \GuzzleHttp\Client();
-        $url = config('akvo-auth0.endpoints.questions') . $form_id . '/'. config('akvo-auth0.cascadeMethod');
+
+        $cascadeMethod = config('akvo-auth0.cascadeMethod');
+        if ($update) {
+            $cascadeMethod = "update";
+        }
+
+        $url = config('akvo-auth0.endpoints.questions') . $form_id . '/'. $cascadeMethod;
         $data = null;
         try {
             $response = $client->get($url);

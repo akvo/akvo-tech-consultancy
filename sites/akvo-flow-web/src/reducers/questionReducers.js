@@ -18,8 +18,9 @@ const initialState = {
     instanceName:"Loading...",
     instanceId:"Loading...",
     surveyName:"Loading..",
-    surveyId:"Loading..",
-    version:"Loading..",
+    surveyId:"",
+    user: false,
+    version:"",
     questions: [{
         group: 1,
         groupIndex: true,
@@ -41,11 +42,8 @@ const initialState = {
             text:"Loading",
             type:"translation"
         }],
-        help: {
-            altText:null,
-            text:"Loading",
-            type: "tip"
-        }
+        help: {en: "Loading"},
+        lang: {en: ""}
     }],
     active: [],
     answers: [],
@@ -68,6 +66,7 @@ const initialState = {
                 badge: "badge-secondary"
             },
             questions: [1],
+            lang: {en: ""},
             repeatable: false,
             repeat:0
         }],
@@ -80,13 +79,18 @@ const initialState = {
         active: ["en"],
         list: [{id:"en",name:"Loading..."}]
     },
-    cascade:[]
+    cascade:[],
+    surveyIsEnd: false
 }
 
 const generateLang = (questions) => {
     let list = ["en"];
     questions = questions.map((x) => {
         let lang = {en:x.text};
+        let tooltips = false;
+        let help = false;
+        let hasUnit = false;
+        let notEmpty = true;
         if (x.altText !== undefined) {
             let listLang = Array.isArray(x.altText)
                 ? false
@@ -108,6 +112,34 @@ const generateLang = (questions) => {
                     }
                     i++;
                 } while (i < x.altText.length)
+            }
+        }
+        if (x.help) {
+            notEmpty = x.help.text !== null
+            hasUnit = !notEmpty
+                ? false
+                : (x.help.text.includes("##UNIT##")
+                    ? (x.help.text.split("##UNIT##").length === 1
+                        ? true
+                        : false
+                    )
+                    : false);
+            if (notEmpty && !hasUnit) {
+                help = x.help.text.includes("##UNIT##") ? x.help.text.split("##UNIT##")[0] : x.help.text;
+                help = help.includes("##MULTICASCADE##") ? help.split("##MULTICASCADE##")[0] : help;
+            }
+            tooltips = !help || help === "" ? false : ({en: help});
+            if (x.help.altText) {
+                if (Array.isArray(x.help.altText)) {
+                    let hi = 0;
+                    do {
+                        tooltips = {...tooltips, [x.help.altText[hi].language]: x.help.altText[hi].text}
+                        hi++;
+                    } while (hi < x.help.altText.length)
+                }
+                if (!Array.isArray(x.help.altText)) {
+                    tooltips = {...tooltips, [x.help.altText.language]: x.help.altText.text}
+                }
             }
         }
         if (x.type === "option") {
@@ -145,6 +177,7 @@ const generateLang = (questions) => {
                 x.options.lang = listOpt;
             }
         }
+        x.tooltips = tooltips;
         x.lang = lang;
         return x;
     });
@@ -282,14 +315,31 @@ const listDatapoints = (data) => {
 const listGroups = (data, questions, answers) => {
 	let groups = validateGroup(data.questionGroup,'lg');
     groups = groups.map((x,i) => {
+        let lang = {en: x.heading};
         let qgroup = questions.filter(q => q.group === i + 1).map(q => q.id);
+        if (x.altText) {
+            if (!Array.isArray(x.altText)) {
+                lang = {...lang, [x.altText.language]:x.altText.text}
+            }
+            if (Array.isArray(x.altText)) {
+                let ai = 0;
+                do {
+                    lang = {
+                        ...lang,
+                        [x.altText[ai].language]:x.altText[ai].text
+                    };
+                    ai++;
+                } while (ai < x.altText.length);
+            }
+        }
         return {
             index: (i + 1),
             heading: x.heading,
             attributes: getGroupAttributes(x, questions, answers),
             questions: qgroup,
             repeatable: x.repeatable,
-            repeat: x.repeatable ? 1 : 0
+            repeat: x.repeatable ? 1 : 0,
+            lang: lang
         }
     });
     return {
@@ -350,7 +400,7 @@ const showHideQuestions = (orig, group) => {
                     show = true
                 }
                 if (answer.filter(a => answer_value.includes(a)).length === 0){
-                    // localStorage.removeItem(x.id);
+                    localStorage.removeItem(x.id);
                     show = false
                 }
             }
@@ -399,6 +449,12 @@ const showHideQuestions = (orig, group) => {
 }
 
 const reduceDataPoint = (state) => {
+    let meta = localStorage.getItem("_meta");
+    if (meta !== null) {
+        meta = JSON.parse(meta);
+        meta = {...meta, dataPointName:state};
+        localStorage.setItem("_meta", JSON.stringify(meta));
+    }
     return state
 }
 
@@ -436,11 +492,15 @@ const replaceGroups = (groups, questions, answers) => {
 }
 
 const generateUUID = () => {
+    if (localStorage.getItem('_dataPointId')) {
+        return localStorage.getItem('_dataPointId');
+    }
     let id = uuid()
     id = id.split('-')
     id = id.map(x => {
         return x.substring(0, 4);
     }).slice(0,3);
+    localStorage.setItem('_dataPointId', id.join('-'));
     return id.join('-');
 }
 
@@ -738,6 +798,16 @@ export const questionReducers = (state = initialState, action) => {
             return {
                 ...state,
                 domain: action.url
+            }
+        case 'UPDATE USER':
+            return {
+                ...state,
+                user: action.user
+            }
+        case 'END SURVEY':
+            return {
+                ...state,
+                surveyIsEnd: true
             }
         default:
             return state;

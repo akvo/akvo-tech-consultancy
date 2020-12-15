@@ -1,0 +1,301 @@
+[
+    {
+        "name": "CHILD LABOUR AND HUMAN RIGHTS ",
+        "childs": [
+            {
+                "name": "Human Rights ",
+                "childs": [
+                    {
+                        "name": "Compliance with human rights (implementation of the UN Guidelines on Business and Human Rights, OECD Guidelines) ",
+                        "childs": []
+                    },
+                    {
+                        "name": "Implementation of a grievance mechanisms",
+                        "childs": []
+                    }
+                ]
+            },
+            {
+                "name": "Improving gender equality and opportunities for womenn ",
+                "childs": []
+            },
+            {
+                "name": "Prevention of Forced Labour ",
+                "childs": []
+            },
+            {
+                "name": "Prevention of worst forms of Child Labour ",
+                "childs": [
+                    {
+                        "name": "Implementation of a Child Labour Monitoring (& Remediation) system",
+                        "childs": []
+                    },
+                    {
+                        "name": "Prevention of abusive and dangerous child labour / the worst forms of child labour",
+                        "childs": []
+                    },
+                    {
+                        "name": "Promotion of schooling of children",
+                        "childs": []
+                    }
+                ]
+            },
+            {
+                "name": "Promoting the participation of young people in the cocoa cultivation/cocoa sector",
+                "childs": []
+            },
+            {
+                "name": "Promotion of local civil society ",
+                "childs": []
+            },
+            {
+                "name": "Strenghtening of cooperatives and farmer organisations",
+                "childs": []
+            }
+        ]
+    },
+    {
+        "name": "CLIMATE CHANGE ",
+        "childs": [
+            {
+                "name": "Cimate mitigation ",
+                "childs": []
+            },
+            {
+                "name": "Climate Smart Cocoa -best practices",
+                "childs": []
+            },
+            {
+                "name": "Climate adaption ",
+                "childs": []
+            },
+            {
+                "name": "REDD++ Activities ",
+                "childs": []
+            },
+            {
+                "name": "the status of protected areas and the role forest plays in climate regulation",
+                "childs": []
+            }
+        ]
+    },
+    {
+        "name": "DEVELOPMENT OF TRACEABILITY SYSTEMS ",
+        "childs": []
+    },
+    {
+        "name": "DIVERSIFICATION ",
+        "childs": [
+            {
+                "name": "Diversification of cultivation systems ",
+                "childs": []
+            },
+            {
+                "name": "Diversification of income for cocoa farming households ",
+                "childs": []
+            },
+            {
+                "name": "Provision of planting material for other cocoa-compatible crops",
+                "childs": []
+            },
+            {
+                "name": "Regional agricultural programs in order to create alternatives to cocoa cultivation.",
+                "childs": []
+            }
+        ]
+    },
+    {
+        "name": "EDUCATION AND HEALTH ",
+        "childs": [
+            {
+                "name": "Access to social Services ",
+                "childs": []
+            },
+            {
+                "name": "Balanced Nutrition ",
+                "childs": []
+            },
+            {
+                "name": "Clean water ",
+                "childs": []
+            }
+        ]
+    },
+    {
+        "name": "INCOME GENERATING ACTIVITIES  ",
+        "childs": [
+            {
+                "name": "Access to Finance ",
+                "childs": []
+            },
+            {
+                "name": "Access to Inputs ",
+                "childs": [
+                    {
+                        "name": "Provision of equipment for production ",
+                        "childs": []
+                    },
+                    {
+                        "name": "Distribution of plant material ",
+                        "childs": []
+                    }
+                ]
+            },
+            {
+                "name": "Better prices for cocoa ",
+                "childs": [
+                    {
+                        "name": "Payment of minimum prices ",
+                        "childs": []
+                    },
+                    {
+                        "name": "Premium systems ",
+                        "childs": []
+                    },
+                    {
+                        "name": "Improvement of producer prices for cocoa ",
+                        "childs": []
+                    },
+                    {
+                        "name": "Payment of a living income ",
+                        "childs": []
+                    }
+                ]
+            },
+            {
+                "name": "Business management plan - farmer-based organizations (FBO)",
+                "childs": []
+            },
+            {
+                "name": "Development of local markets",
+                "childs": []
+            },
+            {
+                "name": "Farmer Business Schools ",
+                "childs": []
+            },
+            {
+                "name": "Good Agricultural Practices ",
+                "childs": []
+            },
+            {
+                "name": "Improving of the service market for cocoa cultivation ",
+                "childs": []
+            },
+            {
+                "name": "Income Generating Activities (excluding VSCLA and crop diversification) ",
+                "childs": [
+                    {
+                        "name": "Numeracy ",
+                        "childs": []
+                    },
+                    {
+                        "name": "Literacy ",
+                        "childs": []
+                    },
+                    {
+                        "name": "Accounting, marketing and sales ",
+                        "childs": []
+                    },
+                    {
+                        "name": "Identifying the right product/ price/ volume",
+                        "childs": []
+                    },
+                    {
+                        "name": "Technical skills in production ",
+                        "childs": []
+                    }
+                ]
+            },
+            {
+                "name": "Infrastructure investments ",
+                "childs": []
+            }
+        ]
+    },
+    {
+        "name": "INTERNATIONAL INITIATIVES ",
+        "childs": [
+            {
+                "name": "Participation in ICI ",
+                "childs": []
+            },
+            {
+                "name": "Participation in WCF ",
+                "childs": []
+            },
+            {
+                "name": "Promoting multi-stakeholder partnerships and collaboration for more sustainability,",
+                "childs": []
+            }
+        ]
+    },
+    {
+        "name": "MAPPING OF COCOA FARMS ",
+        "childs": []
+    },
+    {
+        "name": "PROTECTING FORESTS  ",
+        "childs": [
+            {
+                "name": "Avoiding deforestation through the cultivation of cocoa ",
+                "childs": []
+            },
+            {
+                "name": "Conservation of forests ",
+                "childs": []
+            },
+            {
+                "name": "Reforestation of forest areas ",
+                "childs": []
+            },
+            {
+                "name": "The status of protected areas and the role forest plays in climate regulation  ",
+                "childs": []
+            }
+        ]
+    },
+    {
+        "name": "STRENGTHENING OF PRODUCER COUNTRIES ",
+        "childs": [
+            {
+                "name": "Promotion of the participation of the producer countries in national, regional and global (good) governance",
+                "childs": []
+            },
+            {
+                "name": "supporting governments and other stakeholders in the development of holistic regional agricultural programs ",
+                "childs": []
+            }
+        ]
+    },
+    {
+        "name": "SUSTAINABLE FARMING ",
+        "childs": [
+            {
+                "name": "Biodiversity and natural resources ",
+                "childs": [
+                    {
+                        "name": "Promotion of agroforestry ",
+                        "childs": []
+                    },
+                    {
+                        "name": "Development of integrated agricultural programmes for sustainable regions",
+                        "childs": []
+                    },
+                    {
+                        "name": "Promotion of the landscape approach",
+                        "childs": []
+                    },
+                    {
+                        "name": "Promotion of the jurisdictional approach ",
+                        "childs": []
+                    }
+                ]
+            },
+            {
+                "name": "Good Environmental Practices ",
+                "childs": []
+            }
+        ]
+    }
+]

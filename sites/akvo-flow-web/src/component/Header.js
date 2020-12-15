@@ -4,6 +4,12 @@ import { mapStateToProps, mapDispatchToProps } from '../reducers/actions.js'
 import { Toast, ToastHeader, ToastBody } from 'reactstrap'
 import { CopyToClipboard } from '../util/Utilities.js'
 import { PopupToast } from '../util/Popup'
+import { SAVE_FEATURES} from '../util/Environment'
+
+/*
+const BadgeCircle = ({kind}) =>
+    (<span className={"badge badge-" + kind + " badge-circle"}></span>);
+*/
 
 class Header extends Component {
 
@@ -26,7 +32,8 @@ class Header extends Component {
 
     renderLangOption() {
         let langprop = this.props.value.lang;
-        return langprop.list.map((x,i) => (
+        return langprop.list.map((x,i) => {
+            return (
             <div key={'lang-' + i + '-' + x.id} className="form-check localization">
                 <input
                     className="form-check-input"
@@ -43,7 +50,7 @@ class Header extends Component {
                 </label>
             </div>
             )
-        );
+        })
     }
 
     renderHeaderInfo(info) {
@@ -53,6 +60,12 @@ class Header extends Component {
     }
 
     getExtraHeader() {
+        let instance = SAVE_FEATURES.find(x => x.instance === this.props.value.instanceName);
+        if (instance) {
+            if (!instance.formEndpoint) {
+                return "";
+            }
+        }
         return (
             <Fragment>
               <ToastHeader>
@@ -77,23 +90,46 @@ class Header extends Component {
     }
 
     render() {
+        let totalquestion = this.props.value.groups.list.reduce((i, t) => {
+            if (i === 0) {
+                return t.attributes.questions;
+            }
+            return i + t.attributes.questions;
+        }, 0);
         let info = [
-            "Survey ID: " + this.props.value.surveyId,
-            "Version: " + this.props.value.version,
-        ]
+            "Question Groups: " + this.props.value.groups.list.length,
+            "Questions: " + totalquestion,
+        ];
+        let name = this.props.value.instanceName.toUpperCase() + " - ";
+            name += this.props.value.surveyName;
+            name += " v" + this.props.value.version;
+            name += " - " + this.props.value.surveyId;
+        let customPartner = SAVE_FEATURES.map(x => x.instance);
+            customPartner = customPartner.includes(this.props.value.instanceName);
+        let user = customPartner ? this.props.value.user : false;
         return (
             <div className='sidebar-heading'>
                 <div>
                 <Toast>
-                  <ToastHeader>
-                      {this.props.value.surveyName}
-                  </ToastHeader>
+                    <ToastHeader>
+                    { user ? (
+                        <>
+                            <div className="info-survey-name">
+                            {this.props.value.surveyName}
+                            </div>
+                            <div className="badge badge-secondary badge-user">
+                            {this.props.value.user}
+                            </div>
+                        </>
+                    ) : name }
+                    </ToastHeader>
                   <ToastBody>
                       {this.renderHeaderInfo(info)}
                   </ToastBody>
                       {this.props.value.savedUrl ? this.getExtraHeader() : ""}
+                  <ToastHeader></ToastHeader>
                   <ToastHeader>
-                      Localization:
+                      Localization
                   </ToastHeader>
                   <ToastBody>
                       {this.renderLangOption()}
