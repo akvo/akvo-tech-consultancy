@@ -38,7 +38,7 @@ class EmailController extends Controller
     public function informUser(Request $request, Mails $mails)
     {
         $footer = "GISCO Monitoring Pilot for 2019 data";
-        $recipients = collect(['Email' => $request->email, 'Name' => $request->name]);
+        $recipients = [['Email' => $request->email, 'Name' => $request->name]];
         $subject = $request->subject;
         $questionnaires = array_map(function($q){return '<li>' . $q . '</li>';}, $request->questionnaires);
         $questionnaires = implode("\n", $questionnaires);
