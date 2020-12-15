@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="cache-version" value="1.0.0">
         <title>{{ config('app.name', 'Beyond Chocolate') }}</title>
         <link href="{{mix('/css/app.css')}}" rel="stylesheet">
         <link rel="icon" type="image/png" href="{{asset('/images/favico.png')}}">
