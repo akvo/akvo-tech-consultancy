@@ -104,7 +104,7 @@ class DataFilters extends Component {
                             <Form.Control 
                                 as="select"
                                 onChange={this.changeActive}
-                                defaultValue={this.props.value.filters.overviews.source}
+                                defaultValue={this.props.value.filters['overviews'].source}
                             >
                                 {( this.props.value.filters.overviews.source === null) 
                                     ? <option value="">Select Data Source</option> : ""}

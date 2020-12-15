@@ -58,7 +58,7 @@ class PageOverviews extends Component {
         this.getMaps = this.getMaps.bind(this);
         this.renderFirstFilterDropdown = this.renderFirstFilterDropdown.bind(this);
         this.renderFirstFilterLegend = this.renderFirstFilterLegend.bind(this);
-        this.filterMapData = this.filterMapData.bind(this);
+        this.filterMap = this.filterMap.bind(this);
         this.renderSecondFilterDropdown = this.renderSecondFilterDropdown.bind(this);
         this.renderSecondFilterOption = this.renderSecondFilterOption.bind(this);
         this.onChangeFilter = this.onChangeFilter.bind(this);
@@ -74,6 +74,8 @@ class PageOverviews extends Component {
             ff_legend: [],
             sf_qid: null,
             sf_legend: [],
+            sf_checked: [],
+            sf_all_legends: [],
         }
     }
 
@@ -154,10 +156,9 @@ class PageOverviews extends Component {
         return res;
     }
 
-    filterMapData(e, type) {
-        let answer = e.target.value;
+    filterMap(answer, type, arrayDefaultValue) {
         let { ff_qid, sf_qid } = this.props.value.base.active;
-        let { ff_legend, sf_legend } = this.state;
+        let { ff_legend, sf_legend, sf_checked } = this.state;
         let page = this.props.value.page.name;
         let filters = this.props.value.filters[page];
         let { config, locations, data, mapData } = filters;
@@ -169,13 +170,27 @@ class PageOverviews extends Component {
         let stateKey = (type === 'ff') ? 'ff_legend' : 'sf_legend';
         let filterStatus = (type === 'ff') ? false : true;
 
+        // remove checked value for sf
+        let filter_checked = sf_checked;
+        if (type === 'sf' && sf_checked.includes(answer)) {
+            filter_checked = filter(sf_checked, (x => x !== answer));
+        }
+
+        // return checked value for sf
+        if (type === 'sf' && !sf_checked.includes(answer)) {
+            filter_checked = (answer !== null) ? (
+                                (answer !== 'select-all') 
+                                    ? [...sf_checked, answer] 
+                                    : arrayDefaultValue 
+                            ) : [];
+        }
+
         if (legendSelected.includes(answer)) {
             // DO : back data to normal (remove filtered data)
-            let reset_legend = filter(this.state[stateKey], (x => x !== answer));
+            let reset_legend = (type === 'ff') ? filter(this.state[stateKey], (x => x !== answer)) : filter_checked;
             this.setState(
-                { ...this.state, [stateKey]: reset_legend },
+                { ...this.state, [stateKey]: reset_legend, sf_checked: filter_checked },
                 () => {
-                    // filteredData = filterMapData(false, data, qid, this.state[stateKey]);
                     filteredData = filterMapData(filterStatus, data, qid, this.state[stateKey]);
                     this.props.filter.change(
                         {
@@ -189,8 +204,9 @@ class PageOverviews extends Component {
 
         if (!legendSelected.includes(answer)) {
             // DO : filter the data here, by legend selected, need to mapping old data again and transform it into dataLoc
+            let selected_legend = (type === 'ff') ? [...this.state[stateKey], answer] : filter_checked;
             this.setState(
-                { ...this.state, [stateKey]: [...this.state[stateKey], answer] }, 
+                { ...this.state, [stateKey]: selected_legend, sf_checked: filter_checked }, 
                 () => {
                     filteredData = filterMapData(true, data, qid, this.state[stateKey]);
                     this.props.filter.change(
@@ -220,7 +236,7 @@ class PageOverviews extends Component {
             return (
                 <div className="mt-2" key={"ff-wrapper-"+i}>
                     <Form.Check 
-                        onClick={e => this.filterMapData(e, 'ff')}
+                        onChange={e => this.filterMap(e.target.value, 'ff')}
                         disabled={ff_legend.length === 0 ? false : !ff_legend.includes(x.text)}
                         id={"ff-"+i}
                         key={"ff-"+x.id}
@@ -239,8 +255,8 @@ class PageOverviews extends Component {
             return (
                 <div className="mt-2" key={"sf-wrapper-"+i}>
                     <Form.Check 
-                        defaultChecked={true}
-                        onClick={e => this.filterMapData(e, 'sf')}
+                        checked={this.state.sf_checked.includes(x.text)}
+                        onChange={e => this.filterMap(e.target.value, 'sf')}
                         id={"sf-"+i}
                         key={"sf-"+x.id}
                         type="checkbox"
@@ -266,11 +282,28 @@ class PageOverviews extends Component {
             return (
                 <Card key={"sf-toggle-"+i}>
                     <Accordion.Collapse eventKey={f.question_id}>
-                        <Card.Body>{ this.renderSecondFilterOption(f.values) }</Card.Body>
+                        <Card.Body>
+                            { this.renderSecondFilterOption(f.values) }
+                            <hr/>
+                            <div id="button-checked-wrapper" className="mt-2">
+                                <Button 
+                                    block
+                                    variant="danger" 
+                                    onClick={() => this.filterMap(null, 'sf')}>
+                                        Deselect All
+                                </Button>
+                                <Button 
+                                    block
+                                    variant="primary" 
+                                    onClick={() => this.filterMap('select-all', 'sf', this.state.sf_all_legends)}>
+                                        Select All
+                                </Button>
+                            </div>
+                        </Card.Body>
                     </Accordion.Collapse>
                     <Accordion.Toggle 
                         as={Card.Header} 
-                        onClick={() => this.onChangeFilter(f.question_id, "sf")} 
+                        onClick={() => this.onChangeFilter(f.question_id, "sf", f.values)} 
                         variant="link" 
                         eventKey={f.question_id}
                     >
@@ -282,7 +315,7 @@ class PageOverviews extends Component {
         return res;
     }
 
-    onChangeFilter(qid, type) {
+    onChangeFilter(qid, type, values=[]) {
         let key = type + '_qid';
         this.setState({ ...this.state, [key]: qid });
         this.props.active.update(qid, key);
@@ -293,7 +326,14 @@ class PageOverviews extends Component {
             let sf = filters.config.second_filter;
             let sf_active = find(sf, (x => x.question_id === qid));
             let sf_active_values = sf_active.values.map(x => x.text);
-            this.setState({ ...this.state, sf_legend: sf_active_values });
+            // set default checked
+            let checked_all = values.map(x => x.text);
+            this.setState({ 
+                ...this.state, 
+                sf_legend: sf_active_values, 
+                sf_checked: checked_all, 
+                sf_all_legends: checked_all 
+            });
         }
     }
 

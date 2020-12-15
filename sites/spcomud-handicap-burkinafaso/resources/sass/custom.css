@@ -460,7 +460,7 @@ footer img.footer-img{
     z-index: 1;
     margin-right: 15px;
     margin-top: 15px;
-    min-width: 250px;
+    min-width: 325px;
     max-width: 350px;
     background-color: #ffffff;
     padding: 10px;
@@ -475,7 +475,7 @@ footer img.footer-img{
     z-index: 1;
     margin-right: 15px;
     margin-bottom: 15px;
-    min-width: 250px;
+    min-width: 325px;
     max-width: 350px;
 }
 /* EOL Floating Filter CSS */
