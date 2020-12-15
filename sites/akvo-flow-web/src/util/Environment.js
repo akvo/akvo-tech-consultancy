@@ -20,7 +20,7 @@ export const SAVE_FEATURES = [
         api: "gisco-demo.tc.akvo.org/api",
         formEndpoint: false,
         skipPassword: true,
-        skipMandatories: ["111510043", "113130042", "116950964","111890828","134210832"],
+        skipMandatories: ["111510043", "113130042", "105640815","111890828","134210832"],
     },
 ];
 
