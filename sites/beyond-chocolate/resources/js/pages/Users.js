@@ -436,7 +436,7 @@ const Users = () => {
                                     <Button
                                         variant="secondary"
                                         className="mr-2"
-                                        disabled={!selected?.email_verified_at || selected?.questionnaires?.length === 0}
+                                        disabled={isDirty || !selected?.email_verified_at || selected?.questionnaires?.length === 0}
                                         onClick={() => informUser(selected)}
                                     >
                                         { text.btnInformUser }
