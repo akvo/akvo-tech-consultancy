@@ -7,7 +7,7 @@ return [
             "max_submission" => null,
         ],
         "industry" => [
-            "fids" => ["113130042", ],
+            "fids" => ["113130042", "116950964", "111890828", "134210832"],
             "max_submission" => 1,
         ],
     ],

@@ -474,12 +474,12 @@ const WebForm = ({setFormLoaded}) => {
                         onHide={onClosedProjectInfo}
                         content={content.newProjectPopupText}
                     />
-                    <SubmissionInfoModal
+                    {/* <SubmissionInfoModal
                         text={text}
                         show={showSubmissionInfo}
                         onHide={e => setShowSubmissionInfo(false)}
                         submissionInfo={submissionInfo}
-                    />
+                    /> */}
                   <SaveFormModal
                     text={text}
                     show={formLoaded && showSavePrompt}

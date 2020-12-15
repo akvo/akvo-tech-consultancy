@@ -28,6 +28,9 @@ return [
     'questionnaires' => [
         '113130042' => 'Industry - GISCO',
         '111510043' => 'Projects - GISCO',
+        '116950964' => 'C-Retail',
+        '111890828' => 'D-Civil Society',
+        '134210832' =>  'D-bis-Standard setters',
     ],
 
     'form_url' => 'https://tech-consultancy.akvotest.org/akvo-flow-web/idh/',

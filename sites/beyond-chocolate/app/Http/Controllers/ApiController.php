@@ -147,7 +147,11 @@ class ApiController extends Controller
         if (collect($exception['organization']['ids'])->contains($orgId)) {
             return [];
         };
+        $projects = collect($config['forms']['project']['fids']);
         $submissions = WebForm::where('organization_id', $orgId)->get();
+        $submissions = $submissions->filter(function ($x) use ($projects) {
+            return !$projects->contains($x['form_id']);
+        });
         return $submissions->pluck('form_id');
     }
 
