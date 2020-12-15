@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faTimes, faCheck } from "@fortawesome/free-solid-svg-icons";
 import {
     Container,
     Row,
@@ -103,6 +103,7 @@ const Users = () => {
         total: 1
     });
     const [orgs, setOrgs] = useState([]);
+    const [emailSent, setEmailSent] = useState(false);
     const [selectedOrgs, setSelectedOrgs] = useState({value:false, label:"", error: false});
     const {
         register,
@@ -152,6 +153,7 @@ const Users = () => {
     const onSelectUser = user => {
         if (isDirty) return;
         setSelected(null);
+        setEmailSent(false);
         setTimeout(() => { 
             setSelected(user);
         }, 0);
@@ -202,6 +204,9 @@ const Users = () => {
             }
             let res = await emailApi.informUser(sendData);
             console.log(res)
+            if (res.status == 200) {
+                setEmailSent(true);
+            }
         } catch (e) {
             if (e.status === 422 || e.status === 429) {
                 setServerErrors(e.errors);
@@ -440,6 +445,7 @@ const Users = () => {
                                         onClick={() => informUser(selected)}
                                     >
                                         { text.btnInformUser }
+                                      {emailSent && <FontAwesomeIcon className="ml-2" icon={faCheck} />}
                                     </Button>
                                 </Card.Footer>
                             </Card>
