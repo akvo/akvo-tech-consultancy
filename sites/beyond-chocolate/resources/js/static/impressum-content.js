@@ -3,15 +3,16 @@ import { Accordion, Card } from "react-bootstrap";
 
 const ic = {
     en: {
-        t: "Responsible for the content",
+        t: "Impressum",
         c: <Fragment>
                 <Accordion defaultActiveKey="0">
                     <Card>
                         <Accordion.Toggle as={Card.Header} eventKey="0" style={{cursor:"pointer"}}>
-                            German Initiative on Sustainable Cocoa (GISCO)
+                            <h4>Responsible for the content</h4>
                         </Accordion.Toggle>
                         <Accordion.Collapse eventKey="0">
                             <Card.Body>
+                                <h4>German Initiative on Sustainable Cocoa (GISCO)</h4> <hr/>
                                 <Card.Text>
                                     Secretariat Berlin <br/>
                                     c/o Deutsche Gesellschaft für Internationale Zusammenarbeit (GIZ) GmbH <br/>
@@ -45,10 +46,11 @@ const ic = {
 
                     <Card>
                         <Accordion.Toggle as={Card.Header} eventKey="1" style={{cursor:"pointer"}}>
-                            Akvo Foundation
+                            <h4>Responsible for the technical realization</h4>
                         </Accordion.Toggle>
                         <Accordion.Collapse eventKey="1">
                             <Card.Body>
+                                <h4>Akvo Foundation</h4> <hr/>
                                 <Card.Text>
                                     's-Gravenhekje 1-A,  <br/>
                                     1011 TG Amsterdam, <br/>
@@ -83,7 +85,7 @@ const ic = {
                                     Email: <a href="mailto:">privacy@akvo.org</a> <br/> 
                                 </p>
                                 <p>
-                                    You can also contact the data security officer to file a complaint. <br/>
+                                    You can also contact the above named data security officer to file a complaint. <br/>
                                 </p>
                             </Card.Body>
                         </Accordion.Collapse>
@@ -93,15 +95,16 @@ const ic = {
     },
 
     de: {
-        t: "Verantwortlich für den Inhalt",
+        t: "Impressum",
         c: <Fragment>
                 <Accordion defaultActiveKey="0">
                     <Card>
                         <Accordion.Toggle as={Card.Header} eventKey="0" style={{cursor:"pointer"}}>
-                            Forum Nachhaltiger Kakao e.V
+                            <h4>Verantwortlich für den Inhalt</h4>
                         </Accordion.Toggle>
                         <Accordion.Collapse eventKey="0">
                             <Card.Body>
+                                <h4>Forum Nachhaltiger Kakao e.V</h4> <hr/>
                                 <Card.Text>
                                     Geschäftsstelle Berlin <br/>
                                     c/o Deutsche Gesellschaft für Internationale Zusammenarbeit (GIZ) GmbH <br/>
@@ -133,10 +136,11 @@ const ic = {
                     
                     <Card>
                         <Accordion.Toggle as={Card.Header} eventKey="1" style={{cursor:"pointer"}}>
-                            Stiftung Akvo
+                            <h4>Verantwortlich für die technische Umsetzung</h4>
                         </Accordion.Toggle>
                         <Accordion.Collapse eventKey="1">
                             <Card.Body>
+                                <h4>Stiftung Akvo</h4> <hr/>
                                 <Card.Text>
                                     's-Gravenhekje 1-A,  <br/>
                                     1011 TG Amsterdam, <br/>
@@ -171,7 +175,7 @@ const ic = {
                                     Email: <a href="mailto:">privacy@akvo.org</a> <br/>
                                 </p>
                                 <p>
-                                    Sie können sich auch an den Datenschutzbeauftragten wenden, um eine Beschwerde einzureichen. <br/>
+                                    Sie können sich auch an die oben genannte Datenschutzbeauftragte wenden, um eine Beschwerde einzureichen. <br/>
                                 </p>
                             </Card.Body>
                         </Accordion.Collapse>
