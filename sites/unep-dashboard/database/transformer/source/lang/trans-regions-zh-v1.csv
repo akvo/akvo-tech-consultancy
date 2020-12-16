@@ -1,0 +1,21 @@
+translationable_id,text,translationable_type,lang,source
+1,东亚海洋协调机构,App\Group,zh,COBSEA
+2,西北太平洋行动计划,App\Group,zh,NOWPAP
+3,《内罗毕公约》,App\Group,zh,Nairobi Convention
+4,地中海行动计划/巴塞罗纳,App\Group,zh,MAP/Barcelona
+5,阿比让,App\Group,zh,Abidjan
+6,德黑兰,App\Group,zh,Tehran
+7,大加勒比,App\Group,zh,Wider Caribbean
+8,黑海,App\Group,zh,Black Sea
+9,《奥斯巴公约》,App\Group,zh,OSPAR
+10,红海和亚丁湾（保护红海和亚丁湾环境区域组织）,App\Group,zh,Red Sea and Gulf of Aden (PERSGA)
+11,保护海洋环境区域组织的海域,App\Group,zh,ROPME Sea Area
+12,南亚海洋,App\Group,zh,South Asia Seas
+13,东南太平洋,App\Group,zh,South East Pacific
+14,太平洋,App\Group,zh,Pacific
+15,北极,App\Group,zh,Artic
+16,南极,App\Group,zh,Antarctic
+17,波罗的海,App\Group,zh,Baltic Sea
+18,东北太平洋,App\Group,zh,North East Pacific
+19,小岛屿发展中国家,App\Group,zh,Small Island Developing States
+20,最不发达国家,App\Group,zh,Least Developed Countries

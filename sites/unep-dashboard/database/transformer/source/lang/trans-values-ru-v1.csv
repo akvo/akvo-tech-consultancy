@@ -1,0 +1,245 @@
+translationable_id,text,translationable_type,lang,source
+1,Представление отчетности,App\Value,ru,Reporting
+2,В качестве физического лица,App\Value,ru,As an individual
+3,От имени организации,App\Value,ru,On behalf of an organisation
+4,Прочее,App\Value,ru,Other
+5,Вид деятельности,App\Value,ru,Type of Action
+6,"ЗАКОНОДАТЕЛЬСТВО, СТАНДАРТЫ, ПРАВИЛА: например, согласование новых или изменяющихся правил или стандартов, которые должны соблюдаться другими, новое регулирование, соглашения, политика, экономические инструменты и т.д., включая добровольные обязательства.",App\Value,ru,"LEGISLATION, STANDARDS, RULES: e.g. agreeing new or changing rules or standards that others should comply with, new regulation, agreements, policies, economic instruments etc. including voluntary commitments."
+7,"РАБОТА С ЛЮДЬМИ: поощрение других людей или предоставление им возможностей (например, образование, профессиональная подготовка, коммуникация, повышение осведомленности, программы по изменению поведения).",App\Value,ru,"WORKING WITH PEOPLE: Encouraging or enabling others (e.g., education, training, communication, awareness raising, behaviour change programmes"
+8,"ТЕХНОЛОГИЯ и ПРОЦЕССЫ: новые технические разработки/инновации (например, исследования и разработки, новая конструкция изделий, новые материалы, процессы и т.д.), изменения в практике, операционной деятельности, управлении и планировании в области охраны окружающей среды.",App\Value,ru,"TECHNOLOGY and PROCESSES: New technical developments/innovation (e.g., research and development, new product design, new materials, processes etc.) changes in practice, operations, environmental management and planning."
+9,"МОНИТОРИНГ И АНАЛИЗ: сбор фактических данных о сбросах  
+ пластмасс в океан/водные пути (например, мониторинг, анализ).",App\Value,ru,"MONITORING and ANALYSIS: Collecting evidence around plastic discharge to the ocean/waterways? (e.g. monitoring, analysis)"
+10,Официальные соглашения,App\Value,ru,Official agreements
+11,Изменение или разработка политики,App\Value,ru,Policy change or development
+12,Стратегия высокого уровня,App\Value,ru,High-level strategy
+13,Законодательство или регулирование,App\Value,ru,Legislation or regulations
+14,Добровольные обязательства,App\Value,ru,Voluntary commitments
+15,Новый(ые) стандарт(ы) или руководство(а),App\Value,ru,New standard(s) or guideline(s)
+16,Изменение в налогообложении/субсидии,App\Value,ru,Change in Taxes/Subsidies
+17,Субсидирование/финансовые стимулы,App\Value,ru,Subsidy/financial incentives
+18,Запрет(ы),App\Value,ru,Ban(s)
+19,"Набор мер, сочетающих стимулы и инфраструктуру (например, схемы поощрения вкладов)",App\Value,ru,Package of measures combining incentives and infrastructure (e.g. deposit reward schemes)
+20,Прочее,App\Value,ru,Other
+21,Повышение осведомленности и изменение поведения,App\Value,ru,Awareness raising and Behaviour change
+22,Образование/профессиональная подготовка,App\Value,ru,Education/Training
+23,Семинары-практикумы,App\Value,ru,Workshops
+24,Конференции,App\Value,ru,Conferences
+25,Прочее,App\Value,ru,Other
+26,Информационная кампания,App\Value,ru,Information campaign
+27,Кампания/программа по изменению поведения,App\Value,ru,Behaviour change campaign/programme
+28,Налаживание взаимодействия с общинами,App\Value,ru,Community Engagement
+29,Привлечение заинтересованных сторон,App\Value,ru,Stakeholder Engagement
+30,Гражданская наука,App\Value,ru,Citizen Science
+31,"Творческое/художественное мероприятие, выставка",App\Value,ru,Creative/arts event; exhibition
+32,Прочее,App\Value,ru,Other
+33,Разработка учебных программ,App\Value,ru,Curriculum development
+34,Обучение профессиональным навыкам,App\Value,ru,Professional skills training
+35,Другие программы обучения,App\Value,ru,Other training programmes
+36,Обучение на протяжении всей жизни,App\Value,ru,Life-long learning
+37,Институциональное развитие,App\Value,ru,Institutional development
+38,Прочее,App\Value,ru,Other
+39,Начальная школа,App\Value,ru,Primary school
+40,Средняя школа,App\Value,ru,Secondary school
+41,Высшее образование,App\Value,ru,Tertiary higher education
+42,Прочее,App\Value,ru,Other
+43,Новая конструкция изделий,App\Value,ru,New product design
+44,Изменение в предоставлении услуг,App\Value,ru,Change in service provision
+45,Экологическое социальное планирование,App\Value,ru,Environmental social planning
+46,Изменение практики,App\Value,ru,Change in practice
+47,Изменение деятельности,App\Value,ru,Change in operations
+48,Промышленный или производственный стандарт,App\Value,ru,Industrial or production standard
+49,Различное экологическое регулирование земельных ресурсов,App\Value,ru,Different environmental management of land based environments
+50,Различное экологическое регулирование водной среды,App\Value,ru,Different environmental management of aquatic environments
+51,Исследования и разработки,App\Value,ru,Research and Development
+52,Новая инфраструктура,App\Value,ru,New infrastructure
+53,Применение компостных пластмасс,App\Value,ru,The use of compostable plastic
+54,"Применение пластмасс, полученных из биологического сырья",App\Value,ru,The use of bio-based plastic
+55,Применение биоразлагаемых пластмасс,App\Value,ru,The use of biodegradable plastic
+56,Прочее,App\Value,ru,Other
+57,Снижение воздействия на окружающую среду,App\Value,ru,Reducing the environmental impact
+58,Разработка нового материала,App\Value,ru,Developing a new material
+59,Разработка нового процесса,App\Value,ru,Developing a new process
+60,Обработка и производство,App\Value,ru,Manufacturing and Production
+61,Стандарты,App\Value,ru,Standards
+62,Обращение с отходами,App\Value,ru,Waste Management
+63,Компостные пластмассы,App\Value,ru,Compostable plastic
+64,"Пластмассы, полученные из биологического сырья",App\Value,ru,Bio-based plastic
+65,Биоразлагаемые пластмассы,App\Value,ru,Bio-degradable pastic
+66,Прочее,App\Value,ru,Other
+67,Мониторинг: на поверхности океана или вблизи нее,App\Value,ru,Monitoring: On or near ocean surface
+68,Мониторинг: водная толща,App\Value,ru,Monitoring: Water column
+69,Мониторинг: на морском дне,App\Value,ru,Monitoring: On the seafloor
+70,Мониторинг: на береговой линии,App\Value,ru,Monitoring: On the shoreline
+71,Мониторинг: в биоте,App\Value,ru,Monitoring: In Biota
+72,Мониторинг: воздух,App\Value,ru,Monitoring: Air
+73,Обзор и обобщение: экологические,App\Value,ru,Review and synthesis :Environmental
+74,Обзор и обобщение: экономические,App\Value,ru,Review and synthesis: Economic
+75,Обзор и обобщение: материалы,App\Value,ru,Review and synthesis: Materials
+76,Прочее,App\Value,ru,Other
+77,Роль организации,App\Value,ru,Role Organisation
+78,Здесь мы только сообщаем об этом,App\Value,ru,We are only reporting it here
+79,Я/мы разработали это,App\Value,ru,I/We developed it
+80,Я/мы внедряем это,App\Value,ru,I/We are implementing it
+81,Мы являемся финансирующим органом,App\Value,ru,We are the funding body
+82,Прочее,App\Value,ru,Other
+83,Ответственный субъект,App\Value,ru,Responsible Actor
+84,"ГОСУДАРСТВЕННОЕ УПРАВЛЕНИЕ (организации, занимающиеся вопросами государственной политики и программ).",App\Value,ru,PUBLIC ADMINISTRATION (organisations concerned with government policies and programmes)
+85,"ОРГАНИЗАЦИЯ ЧАСТНОГО СЕКТОРА (коммерческие организации, управляемые отдельными лицами и группами, не находящиеся в государственной собственности).",App\Value,ru,"PRIVATE SECTOR ORGANISATION (for-profit organisations run by individuals and groups, free from government ownership)."
+86,"ТРЕТИЙ СЕКТОР (например, неправительственные и некоммерческие организации, в том числе благотворительные группы, общественные группы и т.д.).",App\Value,ru,"THIRD SECTOR (e.g. non-governmental and non-profit-making organisations, including charity groups, community groups etc)."
+87,Прочее,App\Value,ru,Other
+88,Международный орган,App\Value,ru,International body
+89,Национальное министерство/агентство,App\Value,ru,National ministry/agency
+90,Поднациональное министерство/агентство,App\Value,ru,Sub-national ministry/agency
+91,Прочее,App\Value,ru,Other
+92,Многонациональная корпорация,App\Value,ru,Multinational Corporation
+93,Национальная корпорация,App\Value,ru,National Corporation
+94,Малое или среднее предприятие,App\Value,ru,Small-medium sized enterprise
+95,Прочее,App\Value,ru,Other
+96,Неправительственная организация,App\Value,ru,Non-governmental organisation
+97,Общественная организация,App\Value,ru,Community based organisation
+98,Образовательный сектор,App\Value,ru,Educational sector
+99,Прочее,App\Value,ru,Other
+100,Отчетность и оценки,App\Value,ru,Reporting and Evaluations
+101,Да,App\Value,ru,Yes
+102,Нет,App\Value,ru,No
+103,Неприменимо,App\Value,ru,Not applicable
+104,Существует механизм обязательного представления отчетности,App\Value,ru,There is a mandatory reporting mechanism
+105,Отчетность является добровольной,App\Value,ru,Reporting is voluntary
+106,Прочее,App\Value,ru,Other
+107,Механизм представления отчетности отсутствует,App\Value,ru,There is no reporting mechanism
+108,Отчетность является добровольной,App\Value,ru,Reporting is voluntary
+109,Для содействия представлению отчетности недостаточно ресурсов,App\Value,ru,There is not enough resource to support reporting
+110,Представление отчетности сопряжено с чрезмерными усилиями,App\Value,ru,Reporting is too effortful
+111,Прочее,App\Value,ru,Other
+112,Результат оценен,App\Value,ru,Outcome Evaluated
+113,Да,App\Value,ru,Yes
+114,Нет,App\Value,ru,No
+115,Прочее,App\Value,ru,Other
+116,География,App\Value,ru,Geography
+117,Глобальный (охватывает весь мир),App\Value,ru,Global (it covers the whole world)
+118,Региональный (регионы ООН),App\Value,ru,Regional (UN Regions)
+119,"Транснациональный (участвуют несколько стран, в том числе двусторонний)",App\Value,ru,"Transnational (several countries are involved, including bilateral)"
+120,Национальный (охватывает одну страну целиком),App\Value,ru,National (it covers one entire country)
+121,Субнациональный (охватывает отдельные регионы одной страны),App\Value,ru,Sub-national (it covers parts of one country)
+122,Глобальный с элементами в конкретных областях,App\Value,ru,Global with elements in specific areas
+123,Прочее,App\Value,ru,Other
+124,От источника к морю,App\Value,ru,Source to Sea
+125,Горы и возвышенность,App\Value,ru,Mountains and upland area
+126,Сельскохозяйственные угодья/почва,App\Value,ru,Agricultural land/soils
+127,Водосборный бассейн в целом,App\Value,ru,Entire water catchment
+128,Леса или мангровые заросли,App\Value,ru,Forests or Mangroves
+129,Пресноводные реки и озера,App\Value,ru,Freshwater rivers and lakes
+130,Городская среда,App\Value,ru,Urban environment
+131,Места утилизации отходов,App\Value,ru,Waste disposal sites
+132,Прибрежная зона,App\Value,ru,Coastal zone
+133,Морской район в пределах действия национальной юрисдикции,App\Value,ru,Maritime area within national jurisdiction
+134,Районы за пределами действия национальной юрисдикции,App\Value,ru,Areas beyond national jurisdiction
+135,Открытый океан и открытое море,App\Value,ru,Open ocean and high seas
+136,Воздух,App\Value,ru,Air
+137,Все вышеперечисленное,App\Value,ru,All of the above
+138,Неприменимо,App\Value,ru,Not applicable
+139,Прочее,App\Value,ru,Other
+140,Жизненный цикл пластмасс,App\Value,ru,Lifecycle of Plastics
+141,Сырье,App\Value,ru,Raw materials
+142,Проектирование,App\Value,ru,Design
+143,Производство/изготовление,App\Value,ru,Production / Manufacture
+144,Применение/потребление,App\Value,ru,Use / consumption
+145,Сбор/сортировка пластмасс после применения,App\Value,ru,Collection / sorting of plastics after use
+146,Регулирование собранных пластмасс,App\Value,ru,Management of collected plastics
+147,Удаление пластмасс из окружающей среды,App\Value,ru,Clean-up of plastic from the environment
+148,Все вышеперечисленное,App\Value,ru,All of the above
+149,Неприменимо,App\Value,ru,Not applicable
+150,Прочее,App\Value,ru,Other
+151,Целенаправленное действие,App\Value,ru,Target Action
+152,Сокращение объема пластмасс,App\Value,ru,Reducing plastics
+153,Повторное применение пластмасс,App\Value,ru,Reusing plastic
+154,Вторичная переработка пластмасс,App\Value,ru,Recycling plastics
+155,Неприменимо,App\Value,ru,Not Applicable
+156,Прочее,App\Value,ru,Other
+157,Воздействие,App\Value,ru,Impact
+158,Здоровье и благополучие человека,App\Value,ru,Human health and wellbeing
+159,Биологическое разнообразие,App\Value,ru,Biodiversity
+160,Морские организмы,App\Value,ru,Marine organisms
+161,Экосистемные услуги,App\Value,ru,Ecosystem Services
+162,Пищевая цепь,App\Value,ru,Food chain
+163,Экономика и торговля,App\Value,ru,Economics and Trade
+164,Все вышеперечисленное,App\Value,ru,All of the above
+165,Неприменимо,App\Value,ru,Not applicable
+166,Прочее,App\Value,ru,Other
+167,"Загрязнитель, в отношении которого проводится деятельность",App\Value,ru,Pollutant Targeted
+168,"Крупные изделия из пластмасс (большие, более 20 мм, например,  
+ пластиковые бутылки)",App\Value,ru,"Macroplastic (large, more than 20 mm, e.g. plastic bottles)"
+169,"Микрочастицы пластмасс (мельчайшие частицы пластмасс диаметром менее 5 мм, например, в средствах личной гигиены/синтетических текстильных изделиях)",App\Value,ru,"Microplastics (tiny plastic particles less than 5 mm in diameter, e.g., found in personal care products/synthetic textiles)"
+170,"Добавки, применяемые в пластмассовых изделиях",App\Value,ru,Additives incorporated into plastic items
+171,Неприменимо,App\Value,ru,Not applicable
+172,Прочее,App\Value,ru,Other
+173,Бутылки,App\Value,ru,Bottles
+174,Пластиковые пакеты,App\Value,ru,Plastic bags
+175,"Упаковка пищевых продуктов (емкости, обертки и т.д.)",App\Value,ru,"Food packaging (containers, wrappers etc.)"
+176,"Упаковка непищевых продуктов (емкости, обертки и т.д.)",App\Value,ru,"Non-food packaging (containers, wrappers etc.)"
+177,"Мусор, связанный с курением (окурки и пачки)",App\Value,ru,Smoking related litter (cigarette butts and packets)
+178,"Предметы, связанные с рыбной ловлей",App\Value,ru,Fishing related items
+179,"Предметы, связанные с перевозкой",App\Value,ru,Shipping related items
+180,"Чашки (например, одноразовые кофейные чашки)",App\Value,ru,"Cups (e.g., disposable coffee cups)"
+181,"Пластиковые соломинки, мешалки, столовые приборы",App\Value,ru,"Plastic straws, stirrers, cutlery"
+182,"Предметы, находящиеся в сточных водах (к ним могут относиться  
+ ватные палочки, предметы женской гигиены и другие предметы, смываемые в унитаз)",App\Value,ru,"Sewage-related items (this could include cotton bud sticks, feminine hygiene items and others disposed of via toilets)"
+183,"Мусор, возникший в результате стихийного бедствия",App\Value,ru,Natural disaster/hazard related debris
+184,Предметы из полистирола,App\Value,ru,Polystyrene items
+185,Все вышеперечисленное,App\Value,ru,All of the above
+186,Неприменимо,App\Value,ru,Not applicable
+187,Прочее,App\Value,ru,Other
+188,"Микрогранулы, применяемые в косметике",App\Value,ru,Microbeads used in cosmetics
+189,"Микрочастицы пластмасс, применяемые в других изделиях, например, в красках",App\Value,ru,Microplastics used in other products e.g. paints
+190,Все вышеперечисленное,App\Value,ru,All of the above
+191,Неприменимо,App\Value,ru,Not applicable
+192,Прочее,App\Value,ru,Other
+193,Сектор,App\Value,ru,Sector
+194,Упаковка,App\Value,ru,Packaging
+195,Текстильные изделия,App\Value,ru,Textiles
+196,Перевозки,App\Value,ru,Transportation
+197,"Строительство, возведение конструкций, снос",App\Value,ru,"Building, Construction, Demolition"
+198,Промышленное оборудование,App\Value,ru,Industrial Machinery
+199,Автомобильная промышленность,App\Value,ru,Automotive
+200,Электротехнические и электронные изделия,App\Value,ru,Electrical and Electronics
+201,Сельское хозяйство,App\Value,ru,Agriculture
+202,Рыболовство,App\Value,ru,Fisheries
+203,Аквакультура,App\Value,ru,Aquaculture
+204,Продукты питания и напитки,App\Value,ru,Food & Beverages
+205,Персональное здравоохранение,App\Value,ru,Personal Healthcare
+206,Медицина,App\Value,ru,Medical
+207,Розничная торговля,App\Value,ru,Retail
+208,Туризм,App\Value,ru,Tourism
+209,Регулирование сточных/канализационных вод,App\Value,ru,Wastewater/Sewage management
+210,Все вышеперечисленное,App\Value,ru,All of the above
+211,Неприменимо,App\Value,ru,Not applicable
+212,Прочее,App\Value,ru,Other
+213,Финансирование,App\Value,ru,Funding
+214,Народное финансирование,App\Value,ru,Crowdfunded
+215,Добровольные пожертвования,App\Value,ru,Voluntary donations
+216,Государственное финансирование,App\Value,ru,Public Financing
+217,Частный сектор,App\Value,ru,Private Sector
+218,Смешанное финансирование,App\Value,ru,Mixed
+219,Все вышеперечисленное,App\Value,ru,All of the above
+220,Неприменимо,App\Value,ru,Not applicable
+221,Прочее,App\Value,ru,Other
+222,Продолжительность,App\Value,ru,Duration
+223,Отдельное мероприятие,App\Value,ru,Single event
+224,Непрерывная деятельность на протяжении менее одного года,App\Value,ru,Continuous activity less than one year
+225,Непрерывная деятельность на протяжении 1-3 лет,App\Value,ru,Continuous activity 1-3 Years
+226,Непрерывная деятельность на протяжении более 3 лет,App\Value,ru,Continuous activity more than 3 Years long
+227,Неприменимо,App\Value,ru,Not applicable
+228,Прочее,App\Value,ru,Other
+229,"Предоставление информации заинтересованным сторонам (например, листовки, плакаты)",App\Value,ru,"Giving information to stakeholders (e.g., leaflets, posters)"
+230,"Консультации с заинтересованными сторонами в интерактивном режиме (например, семинары-практикумы)",App\Value,ru,"Consulting with stakeholders interactively (e.g., workshops)"
+231,"Запрос отзывов от заинтересованных сторон (например, в онлайновом режиме)",App\Value,ru,Seeking feedback from stakeholders (e.g. online)
+232,Совместная деятельность с заинтересованными сторонами с самого начала,App\Value,ru,Co-creating the action with stakeholders from the start
+233,Прочее,App\Value,ru,Other
+234,Да,App\Value,ru,Yes
+235,Нет,App\Value,ru,No
+236,Промышленность,App\Value,ru,Industry
+237,Правительство,App\Value,ru,Government
+238,Неправительственные организации (НПО),App\Value,ru,Non Governmental Organisations (NGO's)
+239,Учреждение Организации Объединенных Наций,App\Value,ru,United Nations Agency
+240,Общественные группы/группа(ы) граждан,App\Value,ru,Community/citizen group(s)
+241,Прочее,App\Value,ru,Other

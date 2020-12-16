@@ -1,0 +1,242 @@
+translationable_id,text,translationable_type,lang,source
+1,报告,App\Value,zh,Reporting
+2,以个人名义,App\Value,zh,As an individual
+3,代表某组织,App\Value,zh,On behalf of an organisation
+4,其他,App\Value,zh,Other
+5,行动类型,App\Value,zh,Type of Action
+6,立法、标准、规则：例如，商定他方应遵守的新规则或标准，或改变规则或标准，新的法规、协议、政策、经济手段等，包括自愿承诺,App\Value,zh,"LEGISLATION, STANDARDS, RULES: e.g. agreeing new or changing rules or standards that others should comply with, new regulation, agreements, policies, economic instruments etc. including voluntary commitments."
+7,提高人的认识和能力：鼓励或帮助他人（例如教育、培训、交流、提高认识、行为改变方案）,App\Value,zh,"WORKING WITH PEOPLE: Encouraging or enabling others (e.g., education, training, communication, awareness raising, behaviour change programmes"
+8,技术和工艺：新技术开发/创新（例如研究与开发、新产品设计、新材料、工艺等），改变做法、操作方式、环境管理和规划,App\Value,zh,"TECHNOLOGY and PROCESSES: New technical developments/innovation (e.g., research and development, new product design, new materials, processes etc.) changes in practice, operations, environmental management and planning."
+9,监测和分析：收集有关将塑料排放到海洋/水道的证据？（例如监测、分析）,App\Value,zh,"MONITORING and ANALYSIS: Collecting evidence around plastic discharge to the ocean/waterways? (e.g. monitoring, analysis)"
+10,官方协定,App\Value,zh,Official agreements
+11,政策变化或发展,App\Value,zh,Policy change or development
+12,高级别战略,App\Value,zh,High-level strategy
+13,立法或规章,App\Value,zh,Legislation or regulations
+14,自愿承诺,App\Value,zh,Voluntary commitments
+15,新标准或准则,App\Value,zh,New standard(s) or guideline(s)
+16,改变税收/补贴,App\Value,zh,Change in Taxes/Subsidies
+17,补贴/财政激励,App\Value,zh,Subsidy/financial incentives
+18,禁令,App\Value,zh,Ban(s)
+19,将激励和基础设施相结合的一揽子措施（例如押金奖励制度）,App\Value,zh,Package of measures combining incentives and infrastructure (e.g. deposit reward schemes)
+20,其他,App\Value,zh,Other
+21,提高认识和行为改变,App\Value,zh,Awareness raising and Behaviour change
+22,教育/培训,App\Value,zh,Education/Training
+23,讲习班,App\Value,zh,Workshops
+24,会议,App\Value,zh,Conferences
+25,其他,App\Value,zh,Other
+26,宣传运动,App\Value,zh,Information campaign
+27,行为改变运动/方案,App\Value,zh,Behaviour change campaign/programme
+28,社区参与,App\Value,zh,Community Engagement
+29,利益攸关方参与,App\Value,zh,Stakeholder Engagement
+30,公众科学,App\Value,zh,Citizen Science
+31,创意/艺术活动；展览,App\Value,zh,Creative/arts event; exhibition
+32,其他,App\Value,zh,Other
+33,课程开发,App\Value,zh,Curriculum development
+34,专业技能培训,App\Value,zh,Professional skills training
+35,其他训练方案,App\Value,zh,Other training programmes
+36,终身学习,App\Value,zh,Life-long learning
+37,机构发展,App\Value,zh,Institutional development
+38,其他,App\Value,zh,Other
+39,小学,App\Value,zh,Primary school
+40,中学,App\Value,zh,Secondary school
+41,高等教育,App\Value,zh,Tertiary higher education
+42,其他,App\Value,zh,Other
+43,新产品设计,App\Value,zh,New product design
+44,服务方式改变,App\Value,zh,Change in service provision
+45,环境社会规划,App\Value,zh,Environmental social planning
+46,做法改变,App\Value,zh,Change in practice
+47,操作方式改变,App\Value,zh,Change in operations
+48,行业或生产标准,App\Value,zh,Industrial or production standard
+49,不同的陆地环境管理方式,App\Value,zh,Different environmental management of land based environments
+50,不同的水环境管理方式,App\Value,zh,Different environmental management of aquatic environments
+51,研究与开发,App\Value,zh,Research and Development
+52,新基础设施,App\Value,zh,New infrastructure
+53,可堆肥塑料用途,App\Value,zh,The use of compostable plastic
+54,生物基塑料用途,App\Value,zh,The use of bio-based plastic
+55,可生物降解塑料用途,App\Value,zh,The use of biodegradable plastic
+56,其他,App\Value,zh,Other
+57,减少环境影响,App\Value,zh,Reducing the environmental impact
+58,开发新材料,App\Value,zh,Developing a new material
+59,开发新工艺,App\Value,zh,Developing a new process
+60,制造和生产,App\Value,zh,Manufacturing and Production
+61,标准,App\Value,zh,Standards
+62,废物管理,App\Value,zh,Waste Management
+63,可堆肥塑料,App\Value,zh,Compostable plastic
+64,生物基塑料,App\Value,zh,Bio-based plastic
+65,可生物降解塑料,App\Value,zh,Bio-degradable pastic
+66,其他,App\Value,zh,Other
+67,监测：海面或海面附近,App\Value,zh,Monitoring: On or near ocean surface
+68,监测：水体剖面,App\Value,zh,Monitoring: Water column
+69,监测：海底,App\Value,zh,Monitoring: On the seafloor
+70,监测：海岸线,App\Value,zh,Monitoring: On the shoreline
+71,监测：生物群,App\Value,zh,Monitoring: In Biota
+72,监测：空气,App\Value,zh,Monitoring: Air
+73,审查和综述：环境,App\Value,zh,Review and synthesis :Environmental
+74,审查和综述：经济,App\Value,zh,Review and synthesis: Economic
+75,审查和综述：材料,App\Value,zh,Review and synthesis: Materials
+76,其他,App\Value,zh,Other
+77,组织角色,App\Value,zh,Role Organisation
+78,我们仅为报告方,App\Value,zh,We are only reporting it here
+79,我/我们是开发方,App\Value,zh,I/We developed it
+80,我/我们是执行方,App\Value,zh,I/We are implementing it
+81,我们是供资机构,App\Value,zh,We are the funding body
+82,其他,App\Value,zh,Other
+83,负责的行为体,App\Value,zh,Responsible Actor
+84,公共行政（与政府政策和方案有关的组织）,App\Value,zh,PUBLIC ADMINISTRATION (organisations concerned with government policies and programmes)
+85,私营部门组织（由个人或团体经营、非政府所有的营利性组织）,App\Value,zh,"PRIVATE SECTOR ORGANISATION (for-profit organisations run by individuals and groups, free from government ownership)."
+86,第三部门（例如非政府、非营利组织，包括慈善团体、社区团体等）,App\Value,zh,"THIRD SECTOR (e.g. non-governmental and non-profit-making organisations, including charity groups, community groups etc)."
+87,其他,App\Value,zh,Other
+88,国际机构,App\Value,zh,International body
+89,国家部委/机构,App\Value,zh,National ministry/agency
+90,国家以下部委/机构,App\Value,zh,Sub-national ministry/agency
+91,其他,App\Value,zh,Other
+92,多国公司,App\Value,zh,Multinational Corporation
+93,国有公司,App\Value,zh,National Corporation
+94,中小企业,App\Value,zh,Small-medium sized enterprise
+95,其他,App\Value,zh,Other
+96,非政府组织,App\Value,zh,Non-governmental organisation
+97,社区组织,App\Value,zh,Community based organisation
+98,教育部门,App\Value,zh,Educational sector
+99,其他,App\Value,zh,Other
+100,报告和评价,App\Value,zh,Reporting and Evaluations
+101,是,App\Value,zh,Yes
+102,否,App\Value,zh,No
+103,不适用,App\Value,zh,Not applicable
+104,存在强制性报告机制,App\Value,zh,There is a mandatory reporting mechanism
+105,自愿进行报告,App\Value,zh,Reporting is voluntary
+106,其他,App\Value,zh,Other
+107,不存在报告机制,App\Value,zh,There is no reporting mechanism
+108,自愿进行报告,App\Value,zh,Reporting is voluntary
+109,没有足够资源来支持报告,App\Value,zh,There is not enough resource to support reporting
+110,报告的工作量太大,App\Value,zh,Reporting is too effortful
+111,其他,App\Value,zh,Other
+112,已评价成果,App\Value,zh,Outcome Evaluated
+113,是,App\Value,zh,Yes
+114,否,App\Value,zh,No
+115,其他,App\Value,zh,Other
+116,地域,App\Value,zh,Geography
+117,全球（覆盖全世界）,App\Value,zh,Global (it covers the whole world)
+118,区域（联合国区域）,App\Value,zh,Regional (UN Regions)
+119,跨国（涉及多个国家，包括双边）,App\Value,zh,"Transnational (several countries are involved, including bilateral)"
+120,全国（覆盖整个国家）,App\Value,zh,National (it covers one entire country)
+121,国家以下（覆盖国家部分地区）,App\Value,zh,Sub-national (it covers parts of one country)
+122,全球，侧重特定地区,App\Value,zh,Global with elements in specific areas
+123,其他,App\Value,zh,Other
+124,从源头到海洋,App\Value,zh,Source to Sea
+125,山区和高原地区,App\Value,zh,Mountains and upland area
+126,农地/土壤,App\Value,zh,Agricultural land/soils
+127,全流域,App\Value,zh,Entire water catchment
+128,森林或红树林,App\Value,zh,Forests or Mangroves
+129,淡水河湖,App\Value,zh,Freshwater rivers and lakes
+130,城市环境,App\Value,zh,Urban environment
+131,废物处理场,App\Value,zh,Waste disposal sites
+132,沿海区,App\Value,zh,Coastal zone
+133,国家管辖范围内的海域,App\Value,zh,Maritime area within national jurisdiction
+134,国家管辖范围以外区域,App\Value,zh,Areas beyond national jurisdiction
+135,开阔洋和公海,App\Value,zh,Open ocean and high seas
+136,空气,App\Value,zh,Air
+137,以上所有,App\Value,zh,All of the above
+138,不适用,App\Value,zh,Not applicable
+139,其他,App\Value,zh,Other
+140,塑料的生命周期,App\Value,zh,Lifecycle of Plastics
+141,原材料,App\Value,zh,Raw materials
+142,设计,App\Value,zh,Design
+143,生产/制造,App\Value,zh,Production / Manufacture
+144,使用/消费,App\Value,zh,Use / consumption
+145,塑料使用后的收集/分拣,App\Value,zh,Collection / sorting of plastics after use
+146,管理收集到的塑料,App\Value,zh,Management of collected plastics
+147,清除环境中的塑料,App\Value,zh,Clean-up of plastic from the environment
+148,以上所有,App\Value,zh,All of the above
+149,不适用,App\Value,zh,Not applicable
+150,其他,App\Value,zh,Other
+151,目标行动,App\Value,zh,Target Action
+152,减少塑料,App\Value,zh,Reducing plastics
+153,重复使用塑料,App\Value,zh,Reusing plastic
+154,回收利用塑料,App\Value,zh,Recycling plastics
+155,不适用,App\Value,zh,Not Applicable
+156,其他,App\Value,zh,Other
+157,影响,App\Value,zh,Impact
+158,人类健康和福祉,App\Value,zh,Human health and wellbeing
+159,生物多样性,App\Value,zh,Biodiversity
+160,海洋生物,App\Value,zh,Marine organisms
+161,生态系统服务,App\Value,zh,Ecosystem Services
+162,食物链,App\Value,zh,Food chain
+163,经济和贸易,App\Value,zh,Economics and Trade
+164,以上所有,App\Value,zh,All of the above
+165,不适用,App\Value,zh,Not applicable
+166,其他,App\Value,zh,Other
+167,目标污染物,App\Value,zh,Pollutant Targeted
+168,大塑料（大型，超过20毫米，如塑料瓶）,App\Value,zh,"Macroplastic (large, more than 20 mm, e.g. plastic bottles)"
+169,微塑料（直径小于5毫米的微小塑料颗粒，如个人护理产品/合成纺织品中的塑料颗粒）,App\Value,zh,"Microplastics (tiny plastic particles less than 5 mm in diameter, e.g., found in personal care products/synthetic textiles)"
+170,塑料制品中加入的添加剂,App\Value,zh,Additives incorporated into plastic items
+171,不适用,App\Value,zh,Not applicable
+172,其他,App\Value,zh,Other
+173,瓶,App\Value,zh,Bottles
+174,塑料袋,App\Value,zh,Plastic bags
+175,食品包装（容器、包装材料等）,App\Value,zh,"Food packaging (containers, wrappers etc.)"
+176,非食品包装（容器、包装材料等）,App\Value,zh,"Non-food packaging (containers, wrappers etc.)"
+177,香烟类垃圾（烟头和烟盒）,App\Value,zh,Smoking related litter (cigarette butts and packets)
+178,捕鱼相关物品,App\Value,zh,Fishing related items
+179,航运相关物品,App\Value,zh,Shipping related items
+180,杯子（如一次性咖啡杯）,App\Value,zh,"Cups (e.g., disposable coffee cups)"
+181,塑料吸管、搅拌棒、餐具,App\Value,zh,"Plastic straws, stirrers, cutlery"
+182,污水相关物品（可能包括棉签、女性卫生用品和其他通过厕所丢弃的物品）,App\Value,zh,"Sewage-related items (this could include cotton bud sticks, feminine hygiene items and others disposed of via toilets)"
+183,自然灾难/灾害相关的瓦砾碎片,App\Value,zh,Natural disaster/hazard related debris
+184,聚苯乙烯物品,App\Value,zh,Polystyrene items
+185,以上所有,App\Value,zh,All of the above
+186,不适用,App\Value,zh,Not applicable
+187,其他,App\Value,zh,Other
+188,化妆品中使用的塑料微珠,App\Value,zh,Microbeads used in cosmetics
+189,其他产品（如涂料）中使用的微塑料,App\Value,zh,Microplastics used in other products e.g. paints
+190,以上所有,App\Value,zh,All of the above
+191,不适用,App\Value,zh,Not applicable
+192,其他,App\Value,zh,Other
+193,部门,App\Value,zh,Sector
+194,包装,App\Value,zh,Packaging
+195,纺织品,App\Value,zh,Textiles
+196,运输,App\Value,zh,Transportation
+197,建筑、施工、拆除,App\Value,zh,"Building, Construction, Demolition"
+198,工业机械,App\Value,zh,Industrial Machinery
+199,汽车,App\Value,zh,Automotive
+200,电气和电子产品,App\Value,zh,Electrical and Electronics
+201,农业,App\Value,zh,Agriculture
+202,渔业,App\Value,zh,Fisheries
+203,水产养殖,App\Value,zh,Aquaculture
+204,餐饮,App\Value,zh,Food & Beverages
+205,个人保健,App\Value,zh,Personal Healthcare
+206,医疗,App\Value,zh,Medical
+207,零售,App\Value,zh,Retail
+208,旅游,App\Value,zh,Tourism
+209,废水/污水管理,App\Value,zh,Wastewater/Sewage management
+210,以上所有,App\Value,zh,All of the above
+211,不适用,App\Value,zh,Not applicable
+212,其他,App\Value,zh,Other
+213,供资,App\Value,zh,Funding
+214,众筹,App\Value,zh,Crowdfunded
+215,自愿捐款,App\Value,zh,Voluntary donations
+216,财政补助,App\Value,zh,Public Financing
+217,私营部门,App\Value,zh,Private Sector
+218,混合,App\Value,zh,Mixed
+219,以上所有,App\Value,zh,All of the above
+220,不适用,App\Value,zh,Not applicable
+221,其他,App\Value,zh,Other
+222,持续时间,App\Value,zh,Duration
+223,单项活动,App\Value,zh,Single event
+224,持续活动不足1年,App\Value,zh,Continuous activity less than one year
+225,持续活动1-3年,App\Value,zh,Continuous activity 1-3 Years
+226,持续活动超过3年,App\Value,zh,Continuous activity more than 3 Years long
+227,不适用,App\Value,zh,Not applicable
+228,其他,App\Value,zh,Other
+229,向利益攸关方提供信息（例如传单、海报）,App\Value,zh,"Giving information to stakeholders (e.g., leaflets, posters)"
+230,与利益攸关方互动磋商（例如研讨会）,App\Value,zh,"Consulting with stakeholders interactively (e.g., workshops)"
+231,寻求利益攸关方反馈（例如在线）,App\Value,zh,Seeking feedback from stakeholders (e.g. online)
+232,从一开始就与利益攸关方一起共同发起行动,App\Value,zh,Co-creating the action with stakeholders from the start
+233,其他,App\Value,zh,Other
+234,是,App\Value,zh,Yes
+235,否,App\Value,zh,No
+236,工业,App\Value,zh,Industry
+237,政府,App\Value,zh,Government
+238,非政府组织,App\Value,zh,Non Governmental Organisations (NGO's)
+239,联合国机构,App\Value,zh,United Nations Agency
+240,社区/公民团体,App\Value,zh,Community/citizen group(s)
+241,其他,App\Value,zh,Other

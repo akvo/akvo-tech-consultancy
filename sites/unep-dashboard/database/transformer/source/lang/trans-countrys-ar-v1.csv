@@ -1,0 +1,196 @@
+translationable_id,text,translationable_type,lang,source
+1,أفغانستان,App\Country,ar,Afghanistan
+2,أنغولا,App\Country,ar,Angola
+3,ألبانيا,App\Country,ar,Albania
+4,أندورا,App\Country,ar,Andorra
+5,الإمارات العربية المتحدة,App\Country,ar,United Arab Emirates
+6,الأرجنتين,App\Country,ar,Argentina
+7,أرمينيا,App\Country,ar,Armenia
+8,أنتيغوا وبربودا,App\Country,ar,Antigua and Barbuda
+9,أستراليا,App\Country,ar,Australia
+10,النمسا,App\Country,ar,Austria
+11,أذربيجان,App\Country,ar,Azerbaijan
+12,بوروندي,App\Country,ar,Burundi
+13,بلجيكا,App\Country,ar,Belgium
+14,بنن,App\Country,ar,Benin
+15,بوركينا فاسو,App\Country,ar,Burkina Faso
+16,بنغلاديش,App\Country,ar,Bangladesh
+17,بلغاريا,App\Country,ar,Bulgaria
+18,البحرين,App\Country,ar,Bahrain
+19,جزر البهاما,App\Country,ar,Bahamas
+20,البوسنة والهرسك,App\Country,ar,Bosnia and Herzegovina
+21,بيلاروس,App\Country,ar,Belarus
+22,بليز,App\Country,ar,Belize
+23,بوليفيا (دولة – المتعددة القوميات),App\Country,ar,Bolivia
+24,البرازيل,App\Country,ar,Brazil
+25,بربادوس,App\Country,ar,Barbados
+26,بروني دار السلام,App\Country,ar,Brunei Darussalam
+27,بوتان,App\Country,ar,Bhutan
+28,بوتسوانا,App\Country,ar,Botswana
+29,جمهورية أفريقيا الوسطى,App\Country,ar,Central African Republic
+30,كندا,App\Country,ar,Canada
+31,سويسرا,App\Country,ar,Switzerland
+32,شيلي,App\Country,ar,Chile
+33,الصين,App\Country,ar,China
+34,كوت ديفوار,App\Country,ar,Côte d’Ivoire
+35,الكاميرون,App\Country,ar,Cameroon
+36,جمهورية الكونغو الديمقراطية,App\Country,ar,Democratic Republic of the Congo
+37,الكونغو,App\Country,ar,Congo
+38,كولومبيا,App\Country,ar,Colombia
+39,جزر القمر,App\Country,ar,Comoros
+40,كابو فيردي,App\Country,ar,Cape Verde
+41,كوستاريكا,App\Country,ar,Costa Rica
+42,كوبا,App\Country,ar,Cuba
+43,قبرص,App\Country,ar,Cyprus
+44,تشيكيا,App\Country,ar,Czechia
+45,ألمانيا,App\Country,ar,Germany
+46,جيبوتي,App\Country,ar,Djibouti
+47,دومينيكا,App\Country,ar,Dominica
+48,الدانمرك,App\Country,ar,Denmark
+49,الجمهورية الدومينيكية,App\Country,ar,Dominican Republic
+50,الجزائر,App\Country,ar,Algeria
+51,إكوادور,App\Country,ar,Ecuador
+52,مصر,App\Country,ar,Egypt
+53,إريتريا,App\Country,ar,Eritrea
+54,إسبانيا,App\Country,ar,Spain
+55,إستونيا,App\Country,ar,Estonia
+56,إثيوبيا,App\Country,ar,Ethiopia
+57,فنلندا,App\Country,ar,Finland
+58,فيجي,App\Country,ar,Fiji
+59,فرنسا,App\Country,ar,France
+60,ميكرونيزيا (ولايات - الموحدة),App\Country,ar,Micronesia (Federated States of)
+61,غابون,App\Country,ar,Gabon
+62,المملكة المتحدة لبريطانيا العظمى وأيرلندا الشمالية,App\Country,ar,U.K. of Great Britain and Northern Ireland
+63,جورجيا,App\Country,ar,Georgia
+64,غانا,App\Country,ar,Ghana
+65,غينيا,App\Country,ar,Guinea
+66,غامبيا,App\Country,ar,Gambia
+67,غينيا - بيساو,App\Country,ar,Guinea-Bissau
+68,غينيا الاستوائية,App\Country,ar,Equatorial Guinea
+69,اليونان,App\Country,ar,Greece
+70,غرينادا,App\Country,ar,Grenada
+71,غواتيمالا,App\Country,ar,Guatemala
+72,غيانا,App\Country,ar,Guyana
+73,هندوراس,App\Country,ar,Honduras
+74,كرواتيا,App\Country,ar,Croatia
+75,هايتي,App\Country,ar,Haiti
+76,هنغاريا,App\Country,ar,Hungary
+77,إندونيسيا,App\Country,ar,Indonesia
+78,الهند,App\Country,ar,India
+79,أيرلندا,App\Country,ar,Ireland
+80,إيران (جمهورية – الإسلامية),App\Country,ar,Iran (Islamic Republic of)
+81,العراق,App\Country,ar,Iraq
+82,أيسلندا,App\Country,ar,Iceland
+83,إسرائيل,App\Country,ar,Israel
+84,إيطاليا,App\Country,ar,Italy
+85,جامايكا,App\Country,ar,Jamaica
+86,الأردن,App\Country,ar,Jordan
+87,اليابان,App\Country,ar,Japan
+88,كازاخستان,App\Country,ar,Kazakhstan
+89,كينيا,App\Country,ar,Kenya
+90,قيرغيزستان,App\Country,ar,Kyrgyzstan
+91,كمبوديا,App\Country,ar,Cambodia
+92,كيريباس,App\Country,ar,Kiribati
+93,سانت كيتس ونيفس,App\Country,ar,Saint Kitts and Nevis
+94,جمهورية كوريا,App\Country,ar,Republic of Korea
+95,الكويت,App\Country,ar,Kuwait
+96,جمهورية لاو الديمقراطية الشعبية,App\Country,ar,Lao People's Democratic Republic
+97,لبنان,App\Country,ar,Lebanon
+98,ليبريا,App\Country,ar,Liberia
+99,ليبيا,App\Country,ar,Libya
+100,سانت لوسيا,App\Country,ar,Saint Lucia
+101,ليختنشتاين,App\Country,ar,Liechtenstein
+102,سري لانكا,App\Country,ar,Sri Lanka
+103,ليسوتو,App\Country,ar,Lesotho
+104,ليتوانيا,App\Country,ar,Lithuania
+105,لكسمبرغ,App\Country,ar,Luxembourg
+106,لاتفيا,App\Country,ar,Latvia
+107,المغرب,App\Country,ar,Morocco
+108,موناكو,App\Country,ar,Monaco
+109,جمهورية مولدوفا,App\Country,ar,"Moldova, Republic of"
+110,مدغشقر,App\Country,ar,Madagascar
+111,ملديف,App\Country,ar,Maldives
+112,المكسيك,App\Country,ar,Mexico
+113,جزر مارشال,App\Country,ar,Marshall Islands
+114,جمهورية مقدونيا الشمالية,App\Country,ar,The former Yugoslav Republic of Macedonia
+115,مالي,App\Country,ar,Mali
+116,مالطة,App\Country,ar,Malta
+117,ميانمار,App\Country,ar,Myanmar
+118,الجبل الأسود,App\Country,ar,Montenegro
+119,منغوليا,App\Country,ar,Mongolia
+120,موزامبيق,App\Country,ar,Mozambique
+121,موريتانيا,App\Country,ar,Mauritania
+122,موريشيوس,App\Country,ar,Mauritius
+123,ملاوي,App\Country,ar,Malawi
+124,ماليزيا,App\Country,ar,Malaysia
+125,ناميبيا,App\Country,ar,Namibia
+126,النيجر,App\Country,ar,Niger
+127,نيجيريا,App\Country,ar,Nigeria
+128,نيكاراغوا,App\Country,ar,Nicaragua
+129,هولندا,App\Country,ar,Netherlands
+130,النرويج,App\Country,ar,Norway
+131,نيبال,App\Country,ar,Nepal
+132,ناورو,App\Country,ar,Nauru
+133,نيوزيلندا,App\Country,ar,New Zealand
+134,عمان,App\Country,ar,Oman
+135,باكستان,App\Country,ar,Pakistan
+136,بنما,App\Country,ar,Panama
+137,بيرو,App\Country,ar,Peru
+138,الفلبين,App\Country,ar,Philippines
+139,بالاو,App\Country,ar,Palau
+140,بابوا غينيا الجديدة (دولة – المستقلة),App\Country,ar,Papua New Guinea
+141,بولندا,App\Country,ar,Poland
+142,جمهورية كوريا الشعبية الديمقراطية,App\Country,ar,Dem People's Rep of Korea
+143,البرتغال,App\Country,ar,Portugal
+144,باراغواي,App\Country,ar,Paraguay
+145,قطر,App\Country,ar,Qatar
+146,رومانيا,App\Country,ar,Romania
+147,الاتحاد الروسي,App\Country,ar,Russian Federation
+148,رواندا,App\Country,ar,Rwanda
+149,المملكة العربية السعودية,App\Country,ar,Saudi Arabia
+150,السنغال,App\Country,ar,Senegal
+151,سنغافورة,App\Country,ar,Singapore
+152,جزر سليمان,App\Country,ar,Solomon Islands
+153,سيراليون,App\Country,ar,Sierra Leone
+154,السلفادور,App\Country,ar,El Salvador
+155,سان مارينو,App\Country,ar,San Marino
+156,الصومال,App\Country,ar,Somalia
+157,صربيا,App\Country,ar,Serbia
+158,سان تومي وبرينسيبي,App\Country,ar,Sao Tome and Principe
+159,سورينام,App\Country,ar,Suriname
+160,سلوفاكيا,App\Country,ar,Slovakia
+161,سلوفينيا,App\Country,ar,Slovenia
+162,السويد,App\Country,ar,Sweden
+163,إسواتيني,App\Country,ar,Eswatini
+164,سيشيل,App\Country,ar,Seychelles
+165,الجمهورية العربية السورية,App\Country,ar,Syrian Arab Republic
+166,تشاد,App\Country,ar,Chad
+167,توغو,App\Country,ar,Togo
+168,تايلند,App\Country,ar,Thailand
+169,طاجيكستان,App\Country,ar,Tadjikistan
+170,تركمانستان,App\Country,ar,Turkmenistan
+171,تيمور- ليشتي,App\Country,ar,Timor-Leste
+172,تونغا,App\Country,ar,Tonga
+173,ترينيداد وتوباغو,App\Country,ar,Trinidad and Tobago
+174,تونس,App\Country,ar,Tunisia
+175,تركيا,App\Country,ar,Turkey
+176,توفالو,App\Country,ar,Tuvalu
+177,جمهورية تنزانيا المتحدة,App\Country,ar,United Republic of Tanzania
+178,أوغندا,App\Country,ar,Uganda
+179,أوكرانيا,App\Country,ar,Ukraine
+180,أوروغواي,App\Country,ar,Uruguay
+181,الولايات المتحدة الأمريكية,App\Country,ar,United States of America
+182,أوزبكستان,App\Country,ar,Uzbekistan
+183,سانت فنسنت وجزر غرينادين,App\Country,ar,Saint Vincent and the Grenadines
+184,فنزويلا (جمهورية - البوليفارية),App\Country,ar,Venezuela (Bolivarian Republic of)
+185,فييت نام,App\Country,ar,Viet Nam
+186,فانواتو,App\Country,ar,Vanuatu
+187,ساموا,App\Country,ar,Samoa
+188,اليمن,App\Country,ar,Yemen
+189,جنوب أفريقيا,App\Country,ar,South Africa
+190,زامبيا,App\Country,ar,Zambia
+191,زمبابوي,App\Country,ar,Zimbabwe
+192,السودان,App\Country,ar,Sudan
+193,جنوب السودان,App\Country,ar,South Sudan
+194,الجميع,App\Country,ar,All
+195,غير ذلك,App\Country,ar,Other

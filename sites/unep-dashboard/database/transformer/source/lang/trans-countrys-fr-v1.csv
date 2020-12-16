@@ -1,0 +1,196 @@
+translationable_id,text,translationable_type,lang,source
+1,Afghanistan,App\Country,fr,Afghanistan
+2,Angola,App\Country,fr,Angola
+3,Albanie,App\Country,fr,Albania
+4,Andorre,App\Country,fr,Andorra
+5,Émirats arabes unis,App\Country,fr,United Arab Emirates
+6,Argentine,App\Country,fr,Argentina
+7,Arménie,App\Country,fr,Armenia
+8,Antigua-et-Barbuda,App\Country,fr,Antigua and Barbuda
+9,Australie,App\Country,fr,Australia
+10,Autriche,App\Country,fr,Austria
+11,Azerbaïdjan,App\Country,fr,Azerbaijan
+12,Burundi,App\Country,fr,Burundi
+13,Belgique,App\Country,fr,Belgium
+14,Bénin,App\Country,fr,Benin
+15,Burkina Faso,App\Country,fr,Burkina Faso
+16,Bangladesh,App\Country,fr,Bangladesh
+17,Bulgarie,App\Country,fr,Bulgaria
+18,Bahreïn,App\Country,fr,Bahrain
+19,Bahamas,App\Country,fr,Bahamas
+20,Bosnie-Herzégovine,App\Country,fr,Bosnia and Herzegovina
+21,Bélarus,App\Country,fr,Belarus
+22,Belize,App\Country,fr,Belize
+23,Bolivie,App\Country,fr,Bolivia
+24,Brésil,App\Country,fr,Brazil
+25,Barbade,App\Country,fr,Barbados
+26,Brunéi Darussalam,App\Country,fr,Brunei Darussalam
+27,Bhoutan,App\Country,fr,Bhutan
+28,Botswana,App\Country,fr,Botswana
+29,République centrafricaine,App\Country,fr,Central African Republic
+30,Canada,App\Country,fr,Canada
+31,Suisse,App\Country,fr,Switzerland
+32,Chili,App\Country,fr,Chile
+33,Chine,App\Country,fr,China
+34,Côte d’Ivoire,App\Country,fr,Côte d’Ivoire
+35,Cameroun,App\Country,fr,Cameroon
+36,République démocratique du Congo,App\Country,fr,Democratic Republic of the Congo
+37,Congo,App\Country,fr,Congo
+38,Colombie,App\Country,fr,Colombia
+39,Comores,App\Country,fr,Comoros
+40,Cabo Verde,App\Country,fr,Cape Verde
+41,Costa Rica,App\Country,fr,Costa Rica
+42,Cuba,App\Country,fr,Cuba
+43,Chypre,App\Country,fr,Cyprus
+44,Tchéquie,App\Country,fr,Czechia
+45,Allemagne,App\Country,fr,Germany
+46,Djibouti,App\Country,fr,Djibouti
+47,Dominique,App\Country,fr,Dominica
+48,Danemark,App\Country,fr,Denmark
+49,République dominicaine,App\Country,fr,Dominican Republic
+50,Algérie,App\Country,fr,Algeria
+51,Équateur,App\Country,fr,Ecuador
+52,Égypte,App\Country,fr,Egypt
+53,Érythrée,App\Country,fr,Eritrea
+54,Espagne,App\Country,fr,Spain
+55,Estonie,App\Country,fr,Estonia
+56,Éthiopie,App\Country,fr,Ethiopia
+57,Finlande,App\Country,fr,Finland
+58,Fidji,App\Country,fr,Fiji
+59,France,App\Country,fr,France
+60,Micronésie (États fédérés de),App\Country,fr,Micronesia (Federated States of)
+61,Gabon,App\Country,fr,Gabon
+62,Royaume-Uni de Grande-Bretagne et d’Irlande du Nord,App\Country,fr,U.K. of Great Britain and Northern Ireland
+63,Géorgie,App\Country,fr,Georgia
+64,Ghana,App\Country,fr,Ghana
+65,Guinée,App\Country,fr,Guinea
+66,Gambie,App\Country,fr,Gambia
+67,Guinée-Bissau,App\Country,fr,Guinea-Bissau
+68,Guinée équatoriale,App\Country,fr,Equatorial Guinea
+69,Grèce,App\Country,fr,Greece
+70,Grenade,App\Country,fr,Grenada
+71,Guatemala,App\Country,fr,Guatemala
+72,Guyana,App\Country,fr,Guyana
+73,Honduras,App\Country,fr,Honduras
+74,Croatie,App\Country,fr,Croatia
+75,Haïti,App\Country,fr,Haiti
+76,Hongrie,App\Country,fr,Hungary
+77,Indonésie,App\Country,fr,Indonesia
+78,Inde,App\Country,fr,India
+79,Irlande,App\Country,fr,Ireland
+80,Iran (République islamique d’),App\Country,fr,Iran (Islamic Republic of)
+81,Iraq,App\Country,fr,Iraq
+82,Islande,App\Country,fr,Iceland
+83,Israël,App\Country,fr,Israel
+84,Italie,App\Country,fr,Italy
+85,Jamaïque,App\Country,fr,Jamaica
+86,Jordanie,App\Country,fr,Jordan
+87,Japon,App\Country,fr,Japan
+88,Kazakhstan,App\Country,fr,Kazakhstan
+89,Kenya,App\Country,fr,Kenya
+90,Kirghizistan,App\Country,fr,Kyrgyzstan
+91,Cambodge,App\Country,fr,Cambodia
+92,Kiribati,App\Country,fr,Kiribati
+93,Saint-Kitts-et-Nevis,App\Country,fr,Saint Kitts and Nevis
+94,République de Corée,App\Country,fr,Republic of Korea
+95,Koweït,App\Country,fr,Kuwait
+96,République démocratique populaire lao,App\Country,fr,Lao People's Democratic Republic
+97,Liban,App\Country,fr,Lebanon
+98,Libéria,App\Country,fr,Liberia
+99,Libye,App\Country,fr,Libya
+100,Sainte-Lucie,App\Country,fr,Saint Lucia
+101,Liechtenstein,App\Country,fr,Liechtenstein
+102,Sri Lanka,App\Country,fr,Sri Lanka
+103,Lesotho,App\Country,fr,Lesotho
+104,Lituanie,App\Country,fr,Lithuania
+105,Luxembourg,App\Country,fr,Luxembourg
+106,Lettonie,App\Country,fr,Latvia
+107,Maroc,App\Country,fr,Morocco
+108,Monaco,App\Country,fr,Monaco
+109,République de Moldova,App\Country,fr,"Moldova, Republic of"
+110,Madagascar,App\Country,fr,Madagascar
+111,Maldives,App\Country,fr,Maldives
+112,Mexique,App\Country,fr,Mexico
+113,Îles Marshall,App\Country,fr,Marshall Islands
+114,ex-République yougoslave de Macédoine,App\Country,fr,The former Yugoslav Republic of Macedonia
+115,Mali,App\Country,fr,Mali
+116,Malte,App\Country,fr,Malta
+117,Myanmar,App\Country,fr,Myanmar
+118,Monténégro,App\Country,fr,Montenegro
+119,Mongolie,App\Country,fr,Mongolia
+120,Mozambique,App\Country,fr,Mozambique
+121,Mauritanie,App\Country,fr,Mauritania
+122,Maurice,App\Country,fr,Mauritius
+123,Malawi,App\Country,fr,Malawi
+124,Malaisie,App\Country,fr,Malaysia
+125,Namibie,App\Country,fr,Namibia
+126,Niger,App\Country,fr,Niger
+127,Nigéria,App\Country,fr,Nigeria
+128,Nicaragua,App\Country,fr,Nicaragua
+129,Pays-Bas,App\Country,fr,Netherlands
+130,Norvège,App\Country,fr,Norway
+131,Népal,App\Country,fr,Nepal
+132,Nauru,App\Country,fr,Nauru
+133,Nouvelle-Zélande,App\Country,fr,New Zealand
+134,Oman,App\Country,fr,Oman
+135,Pakistan,App\Country,fr,Pakistan
+136,Panama,App\Country,fr,Panama
+137,Pérou,App\Country,fr,Peru
+138,Philippines,App\Country,fr,Philippines
+139,Palaos,App\Country,fr,Palau
+140,Papouasie-Nouvelle-Guinée,App\Country,fr,Papua New Guinea
+141,Pologne,App\Country,fr,Poland
+142,République populaire démocratique de Corée,App\Country,fr,Dem People's Rep of Korea
+143,Portugal,App\Country,fr,Portugal
+144,Paraguay,App\Country,fr,Paraguay
+145,Qatar,App\Country,fr,Qatar
+146,Roumanie,App\Country,fr,Romania
+147,Fédération de Russie,App\Country,fr,Russian Federation
+148,Rwanda,App\Country,fr,Rwanda
+149,Arabie saoudite,App\Country,fr,Saudi Arabia
+150,Sénégal,App\Country,fr,Senegal
+151,Singapour,App\Country,fr,Singapore
+152,Îles Salomon,App\Country,fr,Solomon Islands
+153,Sierra Leone,App\Country,fr,Sierra Leone
+154,El Salvador,App\Country,fr,El Salvador
+155,Saint-Marin,App\Country,fr,San Marino
+156,Somalie,App\Country,fr,Somalia
+157,Serbie,App\Country,fr,Serbia
+158,Sao Tomé-et-Principe,App\Country,fr,Sao Tome and Principe
+159,Suriname,App\Country,fr,Suriname
+160,Slovaquie,App\Country,fr,Slovakia
+161,Slovénie,App\Country,fr,Slovenia
+162,Suède,App\Country,fr,Sweden
+163,Eswatini,App\Country,fr,Eswatini
+164,Seychelles,App\Country,fr,Seychelles
+165,République arabe syrienne,App\Country,fr,Syrian Arab Republic
+166,Tchad,App\Country,fr,Chad
+167,Togo,App\Country,fr,Togo
+168,Thaïlande,App\Country,fr,Thailand
+169,Tadjikistan,App\Country,fr,Tadjikistan
+170,Turkménistan,App\Country,fr,Turkmenistan
+171,Timor-Leste,App\Country,fr,Timor-Leste
+172,Tonga,App\Country,fr,Tonga
+173,Trinité-et-Tobago,App\Country,fr,Trinidad and Tobago
+174,Tunisie,App\Country,fr,Tunisia
+175,Turquie,App\Country,fr,Turkey
+176,Tuvalu,App\Country,fr,Tuvalu
+177,République-Unie de Tanzanie,App\Country,fr,United Republic of Tanzania
+178,Ouganda,App\Country,fr,Uganda
+179,Ukraine,App\Country,fr,Ukraine
+180,Uruguay,App\Country,fr,Uruguay
+181,États-Unis d’Amérique,App\Country,fr,United States of America
+182,Ouzbékistan,App\Country,fr,Uzbekistan
+183,Saint-Vincent-et-les Grenadines,App\Country,fr,Saint Vincent and the Grenadines
+184,Venezuela (République bolivarienne du),App\Country,fr,Venezuela (Bolivarian Republic of)
+185,Viet Nam,App\Country,fr,Viet Nam
+186,Vanuatu,App\Country,fr,Vanuatu
+187,Samoa,App\Country,fr,Samoa
+188,Yémen,App\Country,fr,Yemen
+189,Afrique du Sud,App\Country,fr,South Africa
+190,Zambie,App\Country,fr,Zambia
+191,Zimbabwe,App\Country,fr,Zimbabwe
+192,Soudan,App\Country,fr,Sudan
+193,Soudan du Sud,App\Country,fr,South Sudan
+194,Tous,App\Country,fr,All
+195,Autre,App\Country,fr,Other

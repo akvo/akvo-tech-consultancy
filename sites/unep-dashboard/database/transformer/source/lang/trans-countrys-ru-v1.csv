@@ -1,0 +1,196 @@
+translationable_id,text,translationable_type,lang,source
+1,Афганистан,App\Country,ru,Afghanistan
+2,Ангола,App\Country,ru,Angola
+3,Албания,App\Country,ru,Albania
+4,Андорра,App\Country,ru,Andorra
+5,Объединенные Арабские Эмираты,App\Country,ru,United Arab Emirates
+6,Аргентина,App\Country,ru,Argentina
+7,Армения,App\Country,ru,Armenia
+8,Антигуа и Барбуда,App\Country,ru,Antigua and Barbuda
+9,Австралия,App\Country,ru,Australia
+10,Австрия,App\Country,ru,Austria
+11,Азербайджан,App\Country,ru,Azerbaijan
+12,Бурунди,App\Country,ru,Burundi
+13,Бельгия,App\Country,ru,Belgium
+14,Бенин,App\Country,ru,Benin
+15,Буркина-Фасо,App\Country,ru,Burkina Faso
+16,Бангладеш,App\Country,ru,Bangladesh
+17,Болгария,App\Country,ru,Bulgaria
+18,Бахрейн,App\Country,ru,Bahrain
+19,Багамские Острова,App\Country,ru,Bahamas
+20,Босния и Герцеговина,App\Country,ru,Bosnia and Herzegovina
+21,Беларусь,App\Country,ru,Belarus
+22,Белиз,App\Country,ru,Belize
+23,Боливия,App\Country,ru,Bolivia
+24,Бразилия,App\Country,ru,Brazil
+25,Барбадос,App\Country,ru,Barbados
+26,Бруней-Даруссалам,App\Country,ru,Brunei Darussalam
+27,Бутан,App\Country,ru,Bhutan
+28,Ботсвана,App\Country,ru,Botswana
+29,Центральноафриканская Республика,App\Country,ru,Central African Republic
+30,Канада,App\Country,ru,Canada
+31,Швейцария,App\Country,ru,Switzerland
+32,Чили,App\Country,ru,Chile
+33,Китай,App\Country,ru,China
+34,Кот-д'Ивуар,App\Country,ru,Côte d’Ivoire
+35,Камерун,App\Country,ru,Cameroon
+36,Демократическая Республика Конго,App\Country,ru,Democratic Republic of the Congo
+37,Конго,App\Country,ru,Congo
+38,Колумбия,App\Country,ru,Colombia
+39,Коморские Острова,App\Country,ru,Comoros
+40,Кабо-Верде,App\Country,ru,Cape Verde
+41,Коста-Рика,App\Country,ru,Costa Rica
+42,Куба,App\Country,ru,Cuba
+43,Кипр,App\Country,ru,Cyprus
+44,Чехия,App\Country,ru,Czechia
+45,Германия,App\Country,ru,Germany
+46,Джибути,App\Country,ru,Djibouti
+47,Доминика,App\Country,ru,Dominica
+48,Дания,App\Country,ru,Denmark
+49,Доминиканская Республика,App\Country,ru,Dominican Republic
+50,Алжир,App\Country,ru,Algeria
+51,Эквадор,App\Country,ru,Ecuador
+52,Египет,App\Country,ru,Egypt
+53,Эритрея,App\Country,ru,Eritrea
+54,Испания,App\Country,ru,Spain
+55,Эстония,App\Country,ru,Estonia
+56,Эфиопия,App\Country,ru,Ethiopia
+57,Финляндия,App\Country,ru,Finland
+58,Фиджи,App\Country,ru,Fiji
+59,Франция,App\Country,ru,France
+60,Микронезия (Федеративные Штаты),App\Country,ru,Micronesia (Federated States of)
+61,Габон,App\Country,ru,Gabon
+62,Соединенное Королевство Великобритании и Северной Ирландии,App\Country,ru,U.K. of Great Britain and Northern Ireland
+63,Грузия,App\Country,ru,Georgia
+64,Гана,App\Country,ru,Ghana
+65,Гвинея,App\Country,ru,Guinea
+66,Гамбия,App\Country,ru,Gambia
+67,Гвинея-Бисау,App\Country,ru,Guinea-Bissau
+68,Экваториальная Гвинея,App\Country,ru,Equatorial Guinea
+69,Греция,App\Country,ru,Greece
+70,Гренада,App\Country,ru,Grenada
+71,Гватемала,App\Country,ru,Guatemala
+72,Гайана,App\Country,ru,Guyana
+73,Гондурас,App\Country,ru,Honduras
+74,Хорватия,App\Country,ru,Croatia
+75,Гаити,App\Country,ru,Haiti
+76,Венгрия,App\Country,ru,Hungary
+77,Индонезия,App\Country,ru,Indonesia
+78,Индия,App\Country,ru,India
+79,Ирландия,App\Country,ru,Ireland
+80,Иран (Исламская Республика),App\Country,ru,Iran (Islamic Republic of)
+81,Ирак,App\Country,ru,Iraq
+82,Исландия,App\Country,ru,Iceland
+83,Израиль,App\Country,ru,Israel
+84,Италия,App\Country,ru,Italy
+85,Ямайка,App\Country,ru,Jamaica
+86,Иордания,App\Country,ru,Jordan
+87,Япония,App\Country,ru,Japan
+88,Казахстан,App\Country,ru,Kazakhstan
+89,Кения,App\Country,ru,Kenya
+90,Кыргызстан,App\Country,ru,Kyrgyzstan
+91,Камбоджа,App\Country,ru,Cambodia
+92,Кирибати,App\Country,ru,Kiribati
+93,Сент-Китс и Невис,App\Country,ru,Saint Kitts and Nevis
+94,Республика Корея,App\Country,ru,Republic of Korea
+95,Кувейт,App\Country,ru,Kuwait
+96,Лаосская Народно-Демократическая Республика,App\Country,ru,Lao People's Democratic Republic
+97,Ливан,App\Country,ru,Lebanon
+98,Либерия,App\Country,ru,Liberia
+99,Ливия,App\Country,ru,Libya
+100,Сент-Люсия,App\Country,ru,Saint Lucia
+101,Лихтенштейн,App\Country,ru,Liechtenstein
+102,Шри-Ланка,App\Country,ru,Sri Lanka
+103,Лесото,App\Country,ru,Lesotho
+104,Литва,App\Country,ru,Lithuania
+105,Люксембург,App\Country,ru,Luxembourg
+106,Латвия,App\Country,ru,Latvia
+107,Марокко,App\Country,ru,Morocco
+108,Монако,App\Country,ru,Monaco
+109,Республика Молдова,App\Country,ru,"Moldova, Republic of"
+110,Мадагаскар,App\Country,ru,Madagascar
+111,Мальдивские Острова,App\Country,ru,Maldives
+112,Мексика,App\Country,ru,Mexico
+113,Маршалловы Острова,App\Country,ru,Marshall Islands
+114,Бывшая югославская Республика Македония,App\Country,ru,The former Yugoslav Republic of Macedonia
+115,Мали,App\Country,ru,Mali
+116,Мальта,App\Country,ru,Malta
+117,Мьянма,App\Country,ru,Myanmar
+118,Черногория,App\Country,ru,Montenegro
+119,Монголия,App\Country,ru,Mongolia
+120,Мозамбик,App\Country,ru,Mozambique
+121,Мавритания,App\Country,ru,Mauritania
+122,Маврикий,App\Country,ru,Mauritius
+123,Малави,App\Country,ru,Malawi
+124,Малайзия,App\Country,ru,Malaysia
+125,Намибия,App\Country,ru,Namibia
+126,Нигер,App\Country,ru,Niger
+127,Нигерия,App\Country,ru,Nigeria
+128,Никарагуа,App\Country,ru,Nicaragua
+129,Нидерланды,App\Country,ru,Netherlands
+130,Норвегия,App\Country,ru,Norway
+131,Непал,App\Country,ru,Nepal
+132,Науру,App\Country,ru,Nauru
+133,Новая Зеландия,App\Country,ru,New Zealand
+134,Оман,App\Country,ru,Oman
+135,Пакистан,App\Country,ru,Pakistan
+136,Панама,App\Country,ru,Panama
+137,Перу,App\Country,ru,Peru
+138,Филиппины,App\Country,ru,Philippines
+139,Палау,App\Country,ru,Palau
+140,Папуа – Новая Гвинея,App\Country,ru,Papua New Guinea
+141,Польша,App\Country,ru,Poland
+142,Корейская Народно-Демократическая Республика,App\Country,ru,Dem People's Rep of Korea
+143,Португалия,App\Country,ru,Portugal
+144,Парагвай,App\Country,ru,Paraguay
+145,Катар,App\Country,ru,Qatar
+146,Румыния,App\Country,ru,Romania
+147,Российская Федерация,App\Country,ru,Russian Federation
+148,Руанда,App\Country,ru,Rwanda
+149,Саудовская Аравия,App\Country,ru,Saudi Arabia
+150,Сенегал,App\Country,ru,Senegal
+151,Сингапур,App\Country,ru,Singapore
+152,Соломоновы Острова,App\Country,ru,Solomon Islands
+153,Сьерра-Леоне,App\Country,ru,Sierra Leone
+154,Сальвадор,App\Country,ru,El Salvador
+155,Сан-Марино,App\Country,ru,San Marino
+156,Сомали,App\Country,ru,Somalia
+157,Сербия,App\Country,ru,Serbia
+158,Сан-Томе и Принсипи,App\Country,ru,Sao Tome and Principe
+159,Суринам,App\Country,ru,Suriname
+160,Словакия,App\Country,ru,Slovakia
+161,Словения,App\Country,ru,Slovenia
+162,Швеция,App\Country,ru,Sweden
+163,Эсватини,App\Country,ru,Eswatini
+164,Сейшельские Острова,App\Country,ru,Seychelles
+165,Сирийская Арабская Республика,App\Country,ru,Syrian Arab Republic
+166,Чад,App\Country,ru,Chad
+167,Того,App\Country,ru,Togo
+168,Таиланд,App\Country,ru,Thailand
+169,Таджикистан,App\Country,ru,Tadjikistan
+170,Туркменистан,App\Country,ru,Turkmenistan
+171,Тимор-Лешти,App\Country,ru,Timor-Leste
+172,Тонга,App\Country,ru,Tonga
+173,Тринидад и Тобаго,App\Country,ru,Trinidad and Tobago
+174,Тунис,App\Country,ru,Tunisia
+175,Турция,App\Country,ru,Turkey
+176,Тувалу,App\Country,ru,Tuvalu
+177,Объединенная Республика Танзания,App\Country,ru,United Republic of Tanzania
+178,Уганда,App\Country,ru,Uganda
+179,Украина,App\Country,ru,Ukraine
+180,Уругвай,App\Country,ru,Uruguay
+181,Соединенные Штаты Америки,App\Country,ru,United States of America
+182,Узбекистан,App\Country,ru,Uzbekistan
+183,Сент-Винсент и Гренадины,App\Country,ru,Saint Vincent and the Grenadines
+184,Венесуэла (Боливарианская Республика),App\Country,ru,Venezuela (Bolivarian Republic of)
+185,Вьетнам,App\Country,ru,Viet Nam
+186,Вануату,App\Country,ru,Vanuatu
+187,Самоа,App\Country,ru,Samoa
+188,Йемен,App\Country,ru,Yemen
+189,Южная Африка,App\Country,ru,South Africa
+190,Замбия,App\Country,ru,Zambia
+191,Зимбабве,App\Country,ru,Zimbabwe
+192,Судан,App\Country,ru,Sudan
+193,Южный Судан,App\Country,ru,South Sudan
+194,Все,App\Country,ru,All
+195,Другие,App\Country,ru,Other

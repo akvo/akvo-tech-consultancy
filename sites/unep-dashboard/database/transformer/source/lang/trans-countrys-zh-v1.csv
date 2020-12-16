@@ -1,0 +1,196 @@
+translationable_id,text,translationable_type,lang,source
+1,阿富汗,App\Country,zh,Afghanistan
+2,安哥拉,App\Country,zh,Angola
+3,阿尔巴尼亚,App\Country,zh,Albania
+4,安道尔,App\Country,zh,Andorra
+5,阿拉伯联合酋长国,App\Country,zh,United Arab Emirates
+6,阿根廷,App\Country,zh,Argentina
+7,亚美尼亚,App\Country,zh,Armenia
+8,安提瓜和巴布达,App\Country,zh,Antigua and Barbuda
+9,澳大利亚,App\Country,zh,Australia
+10,奥地利,App\Country,zh,Austria
+11,阿塞拜疆,App\Country,zh,Azerbaijan
+12,布隆迪,App\Country,zh,Burundi
+13,比利时,App\Country,zh,Belgium
+14,贝宁,App\Country,zh,Benin
+15,布基纳法索,App\Country,zh,Burkina Faso
+16,孟加拉国,App\Country,zh,Bangladesh
+17,保加利亚,App\Country,zh,Bulgaria
+18,巴林,App\Country,zh,Bahrain
+19,巴哈马,App\Country,zh,Bahamas
+20,波斯尼亚和黑塞哥维那,App\Country,zh,Bosnia and Herzegovina
+21,白俄罗斯,App\Country,zh,Belarus
+22,伯利兹,App\Country,zh,Belize
+23,玻利维亚,App\Country,zh,Bolivia
+24,巴西,App\Country,zh,Brazil
+25,巴巴多斯,App\Country,zh,Barbados
+26,文莱达鲁萨兰国,App\Country,zh,Brunei Darussalam
+27,不丹,App\Country,zh,Bhutan
+28,博茨瓦纳,App\Country,zh,Botswana
+29,中非共和国,App\Country,zh,Central African Republic
+30,加拿大,App\Country,zh,Canada
+31,瑞士,App\Country,zh,Switzerland
+32,智利,App\Country,zh,Chile
+33,中国,App\Country,zh,China
+34,科特迪瓦,App\Country,zh,Côte d’Ivoire
+35,喀麦隆,App\Country,zh,Cameroon
+36,刚果民主共和国,App\Country,zh,Democratic Republic of the Congo
+37,刚果,App\Country,zh,Congo
+38,哥伦比亚,App\Country,zh,Colombia
+39,科摩罗,App\Country,zh,Comoros
+40,佛得角,App\Country,zh,Cape Verde
+41,哥斯达黎加,App\Country,zh,Costa Rica
+42,古巴,App\Country,zh,Cuba
+43,塞浦路斯,App\Country,zh,Cyprus
+44,捷克,App\Country,zh,Czechia
+45,德国,App\Country,zh,Germany
+46,吉布提,App\Country,zh,Djibouti
+47,多米尼克,App\Country,zh,Dominica
+48,丹麦,App\Country,zh,Denmark
+49,多米尼加共和国,App\Country,zh,Dominican Republic
+50,阿尔及利亚,App\Country,zh,Algeria
+51,厄瓜多尔,App\Country,zh,Ecuador
+52,埃及,App\Country,zh,Egypt
+53,厄立特里亚,App\Country,zh,Eritrea
+54,西班牙,App\Country,zh,Spain
+55,爱沙尼亚,App\Country,zh,Estonia
+56,埃塞俄比亚,App\Country,zh,Ethiopia
+57,芬兰,App\Country,zh,Finland
+58,斐济,App\Country,zh,Fiji
+59,法国,App\Country,zh,France
+60,密克罗尼西亚联邦,App\Country,zh,Micronesia (Federated States of)
+61,加蓬,App\Country,zh,Gabon
+62,大不列颠及北爱尔兰联合王国,App\Country,zh,U.K. of Great Britain and Northern Ireland
+63,格鲁吉亚,App\Country,zh,Georgia
+64,加纳,App\Country,zh,Ghana
+65,几内亚,App\Country,zh,Guinea
+66,冈比亚,App\Country,zh,Gambia
+67,几内亚比绍,App\Country,zh,Guinea-Bissau
+68,赤道几内亚,App\Country,zh,Equatorial Guinea
+69,希腊,App\Country,zh,Greece
+70,格林纳达,App\Country,zh,Grenada
+71,危地马拉,App\Country,zh,Guatemala
+72,圭亚那,App\Country,zh,Guyana
+73,洪都拉斯,App\Country,zh,Honduras
+74,克罗地亚,App\Country,zh,Croatia
+75,海地,App\Country,zh,Haiti
+76,匈牙利,App\Country,zh,Hungary
+77,印度尼西亚,App\Country,zh,Indonesia
+78,印度,App\Country,zh,India
+79,爱尔兰,App\Country,zh,Ireland
+80,伊朗伊斯兰共和国,App\Country,zh,Iran (Islamic Republic of)
+81,伊拉克,App\Country,zh,Iraq
+82,冰岛,App\Country,zh,Iceland
+83,以色列,App\Country,zh,Israel
+84,意大利,App\Country,zh,Italy
+85,牙买加,App\Country,zh,Jamaica
+86,约旦,App\Country,zh,Jordan
+87,日本,App\Country,zh,Japan
+88,哈萨克斯坦,App\Country,zh,Kazakhstan
+89,肯尼亚,App\Country,zh,Kenya
+90,吉尔吉斯斯坦,App\Country,zh,Kyrgyzstan
+91,柬埔寨,App\Country,zh,Cambodia
+92,基里巴斯,App\Country,zh,Kiribati
+93,圣基茨和尼维斯,App\Country,zh,Saint Kitts and Nevis
+94,大韩民国,App\Country,zh,Republic of Korea
+95,科威特,App\Country,zh,Kuwait
+96,老挝人民民主共和国,App\Country,zh,Lao People's Democratic Republic
+97,黎巴嫩,App\Country,zh,Lebanon
+98,利比里亚,App\Country,zh,Liberia
+99,利比亚,App\Country,zh,Libya
+100,圣卢西亚,App\Country,zh,Saint Lucia
+101,列支敦士登,App\Country,zh,Liechtenstein
+102,斯里兰卡,App\Country,zh,Sri Lanka
+103,莱索托,App\Country,zh,Lesotho
+104,立陶宛,App\Country,zh,Lithuania
+105,卢森堡,App\Country,zh,Luxembourg
+106,拉脱维亚,App\Country,zh,Latvia
+107,摩洛哥,App\Country,zh,Morocco
+108,摩纳哥,App\Country,zh,Monaco
+109,摩尔多瓦共和国,App\Country,zh,"Moldova, Republic of"
+110,马达加斯加,App\Country,zh,Madagascar
+111,马尔代夫,App\Country,zh,Maldives
+112,墨西哥,App\Country,zh,Mexico
+113,马绍尔群岛,App\Country,zh,Marshall Islands
+114,前南斯拉夫的马其顿共和国,App\Country,zh,The former Yugoslav Republic of Macedonia
+115,马里,App\Country,zh,Mali
+116,马耳他,App\Country,zh,Malta
+117,缅甸,App\Country,zh,Myanmar
+118,黑山,App\Country,zh,Montenegro
+119,蒙古,App\Country,zh,Mongolia
+120,莫桑比克,App\Country,zh,Mozambique
+121,毛里塔尼亚,App\Country,zh,Mauritania
+122,毛里求斯,App\Country,zh,Mauritius
+123,马拉维,App\Country,zh,Malawi
+124,马来西亚,App\Country,zh,Malaysia
+125,纳米比亚,App\Country,zh,Namibia
+126,尼日尔,App\Country,zh,Niger
+127,尼日利亚,App\Country,zh,Nigeria
+128,尼加拉瓜,App\Country,zh,Nicaragua
+129,荷兰,App\Country,zh,Netherlands
+130,挪威,App\Country,zh,Norway
+131,尼泊尔,App\Country,zh,Nepal
+132,瑙鲁,App\Country,zh,Nauru
+133,新西兰,App\Country,zh,New Zealand
+134,阿曼,App\Country,zh,Oman
+135,巴基斯坦,App\Country,zh,Pakistan
+136,巴拿马,App\Country,zh,Panama
+137,秘鲁,App\Country,zh,Peru
+138,菲律宾,App\Country,zh,Philippines
+139,帕劳,App\Country,zh,Palau
+140,巴布亚新几内亚,App\Country,zh,Papua New Guinea
+141,波兰,App\Country,zh,Poland
+142,朝鲜民主主义人民共和国,App\Country,zh,Dem People's Rep of Korea
+143,葡萄牙,App\Country,zh,Portugal
+144,巴拉圭,App\Country,zh,Paraguay
+145,卡塔尔,App\Country,zh,Qatar
+146,罗马尼亚,App\Country,zh,Romania
+147,俄罗斯联邦,App\Country,zh,Russian Federation
+148,卢旺达,App\Country,zh,Rwanda
+149,沙特阿拉伯,App\Country,zh,Saudi Arabia
+150,塞内加尔,App\Country,zh,Senegal
+151,新加坡,App\Country,zh,Singapore
+152,所罗门群岛,App\Country,zh,Solomon Islands
+153,塞拉利昂,App\Country,zh,Sierra Leone
+154,萨尔瓦多,App\Country,zh,El Salvador
+155,圣马力诺,App\Country,zh,San Marino
+156,索马里,App\Country,zh,Somalia
+157,塞尔维亚,App\Country,zh,Serbia
+158,圣多美和普林西比,App\Country,zh,Sao Tome and Principe
+159,苏里南,App\Country,zh,Suriname
+160,斯洛伐克,App\Country,zh,Slovakia
+161,斯洛文尼亚,App\Country,zh,Slovenia
+162,瑞典,App\Country,zh,Sweden
+163,斯威士兰,App\Country,zh,Eswatini
+164,塞舌尔,App\Country,zh,Seychelles
+165,阿拉伯叙利亚共和国,App\Country,zh,Syrian Arab Republic
+166,乍得,App\Country,zh,Chad
+167,多哥,App\Country,zh,Togo
+168,泰国,App\Country,zh,Thailand
+169,塔吉克斯坦,App\Country,zh,Tadjikistan
+170,土库曼斯坦,App\Country,zh,Turkmenistan
+171,东帝汶,App\Country,zh,Timor-Leste
+172,汤加,App\Country,zh,Tonga
+173,特立尼达和多巴哥,App\Country,zh,Trinidad and Tobago
+174,突尼斯,App\Country,zh,Tunisia
+175,土耳其,App\Country,zh,Turkey
+176,图瓦卢,App\Country,zh,Tuvalu
+177,坦桑尼亚联合共和国,App\Country,zh,United Republic of Tanzania
+178,乌干达,App\Country,zh,Uganda
+179,乌克兰,App\Country,zh,Ukraine
+180,乌拉圭,App\Country,zh,Uruguay
+181,美利坚合众国,App\Country,zh,United States of America
+182,乌兹别克斯坦,App\Country,zh,Uzbekistan
+183,圣文森特和格林纳丁斯,App\Country,zh,Saint Vincent and the Grenadines
+184,委内瑞拉玻利瓦尔共和国,App\Country,zh,Venezuela (Bolivarian Republic of)
+185,越南,App\Country,zh,Viet Nam
+186,瓦努阿图,App\Country,zh,Vanuatu
+187,萨摩亚,App\Country,zh,Samoa
+188,也门,App\Country,zh,Yemen
+189,南非,App\Country,zh,South Africa
+190,赞比亚,App\Country,zh,Zambia
+191,津巴布韦,App\Country,zh,Zimbabwe
+192,苏丹,App\Country,zh,Sudan
+193,南苏丹,App\Country,zh,South Sudan
+194,所有,App\Country,zh,All
+195,其他,App\Country,zh,Other

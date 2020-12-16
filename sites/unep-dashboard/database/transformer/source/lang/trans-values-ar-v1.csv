@@ -1,0 +1,242 @@
+translationable_id,text,translationable_type,lang,source
+1,الإبلاغ,App\Value,ar,Reporting
+2,بصفة شخصية,App\Value,ar,As an individual
+3,بالنيابة عن منظمة,App\Value,ar,On behalf of an organisation
+4,غير ذلك,App\Value,ar,Other
+5,نوع الإجراء,App\Value,ar,Type of Action
+6,التشريعات والمعايير والقواعد: مثل الموافقة على قواعد أو معايير جديدة أو تغيير قواعد أو معايير قائمة ينبغي أن يمتثل لها الآخرون، واللوائح والاتفاقات والسياسات والصكوك الاقتصادية الجديدة وما إليها، بما في ذلك الالتزامات الطوعية.,App\Value,ar,"LEGISLATION, STANDARDS, RULES: e.g. agreeing new or changing rules or standards that others should comply with, new regulation, agreements, policies, economic instruments etc. including voluntary commitments."
+7,العمل الجماهيري: تشجيع الآخرين أو تمكينهم (عن طريق التعليم والتدريب والتواصل والتوعية وبرامج تغيير السلوكيات),App\Value,ar,"WORKING WITH PEOPLE: Encouraging or enabling others (e.g., education, training, communication, awareness raising, behaviour change programmes"
+8,التكنولوجيا والعمليات: التطورات التقنية الجديدة/الابتكار (مثل البحث والتطوير، والتصميم الجديد للمنتجات، واستخدام مواد وعمليات جديدة، وما إلى ذلك) وتغيير الممارسات والعمليات والإدارة البيئية والتخطيط.,App\Value,ar,"TECHNOLOGY and PROCESSES: New technical developments/innovation (e.g., research and development, new product design, new materials, processes etc.) changes in practice, operations, environmental management and planning."
+9,الرصد والتحليل: جمع الأدلة المتعلقة بعمليات تصريف البلاستيك في البحار والمحيطات/الممرات المائية؟ (على سبيل المثال، الرصد والتحليل),App\Value,ar,"MONITORING and ANALYSIS: Collecting evidence around plastic discharge to the ocean/waterways? (e.g. monitoring, analysis)"
+10,الاتفاقات الرسمية,App\Value,ar,Official agreements
+11,تغيير السياسات أو وضعها,App\Value,ar,Policy change or development
+12,الاستراتيجية الرفيعة المستوى,App\Value,ar,High-level strategy
+13,التشريعات أو اللوائح,App\Value,ar,Legislation or regulations
+14,الالتزامات الطوعية,App\Value,ar,Voluntary commitments
+15,المعايير أو المبادئ التوجيهية الجديدة,App\Value,ar,New standard(s) or guideline(s)
+16,التغيير في الضرائب/الإعانات,App\Value,ar,Change in Taxes/Subsidies
+17,الإعانات/الحوافز المالية,App\Value,ar,Subsidy/financial incentives
+18,الحظر,App\Value,ar,Ban(s)
+19,مجموعة من التدابير تجمع بين الحوافز والهياكل الأساسية (مثل مخططات استرداد التأمين عند إعادة العبوات),App\Value,ar,Package of measures combining incentives and infrastructure (e.g. deposit reward schemes)
+20,غير ذلك,App\Value,ar,Other
+21,التوعية وتغيير السلوكيات,App\Value,ar,Awareness raising and Behaviour change
+22,التعليم/التدريب,App\Value,ar,Education/Training
+23,حلقات العمل,App\Value,ar,Workshops
+24,المؤتمرات,App\Value,ar,Conferences
+25,غير ذلك,App\Value,ar,Other
+26,الحملات الإعلامية,App\Value,ar,Information campaign
+27,حملة/برنامج لتغيير السلوكيات,App\Value,ar,Behaviour change campaign/programme
+28,إشراك المجتمعات المحلية,App\Value,ar,Community Engagement
+29,إشراك أصحاب المصلحة,App\Value,ar,Stakeholder Engagement
+30,علم تشاركي,App\Value,ar,Citizen Science
+31,مناسبة إبداعية /فنية؛ معرض,App\Value,ar,Creative/arts event; exhibition
+32,غير ذلك,App\Value,ar,Other
+33,وضع مناهج دراسية,App\Value,ar,Curriculum development
+34,التدريب على المهارات المهنية,App\Value,ar,Professional skills training
+35,البرامج التدريبية الأخرى,App\Value,ar,Other training programmes
+36,التعلم مدى الحياة,App\Value,ar,Life-long learning
+37,تطوير المؤسسات,App\Value,ar,Institutional development
+38,غير ذلك,App\Value,ar,Other
+39,مدرسة ابتدائية,App\Value,ar,Primary school
+40,مدرسة ثانوية,App\Value,ar,Secondary school
+41,التعليم الجامعي العالي,App\Value,ar,Tertiary higher education
+42,غير ذلك,App\Value,ar,Other
+43,التصميم الجديد للمنتجات,App\Value,ar,New product design
+44,تغيير تقديم الخدمات,App\Value,ar,Change in service provision
+45,التخطيط الاجتماعي البيئي,App\Value,ar,Environmental social planning
+46,تغيير الممارسات,App\Value,ar,Change in practice
+47,تغيير العمليات,App\Value,ar,Change in operations
+48,معيار صناعي أو إنتاجي,App\Value,ar,Industrial or production standard
+49,الإدارة المختلفة بيئياً للبيئات البرية,App\Value,ar,Different environmental management of land based environments
+50,الإدارة المختلفة بيئياً للبيئات المائية,App\Value,ar,Different environmental management of aquatic environments
+51,البحوث والتنمية,App\Value,ar,Research and Development
+52,هياكل أساسية جديدة,App\Value,ar,New infrastructure
+53,البلاستيك القابل للتحول إلى سماد,App\Value,ar,The use of compostable plastic
+54,استخدام البلاستيك الحيوي,App\Value,ar,The use of bio-based plastic
+55,استخدام البلاستيك القابل للتحلل,App\Value,ar,The use of biodegradable plastic
+56,غير ذلك,App\Value,ar,Other
+57,خفض الأثر البيئي,App\Value,ar,Reducing the environmental impact
+58,تطوير مادة جديدة,App\Value,ar,Developing a new material
+59,تطوير عملية جديدة,App\Value,ar,Developing a new process
+60,التصنيع والإنتاج,App\Value,ar,Manufacturing and Production
+61,المعايير,App\Value,ar,Standards
+62,إدارة النفايات,App\Value,ar,Waste Management
+63,البلاستيك القابل للتحول إلى سماد,App\Value,ar,Compostable plastic
+64,البلاستيك الحيوي,App\Value,ar,Bio-based plastic
+65,البلاستيك القابل للتحلل,App\Value,ar,Bio-degradable pastic
+66,غير ذلك,App\Value,ar,Other
+67,الرصد: على سطح البحر أو المحيط أو بالقرب منه,App\Value,ar,Monitoring: On or near ocean surface
+68,الرصد: عمود المياه,App\Value,ar,Monitoring: Water column
+69,الرصد: في قاع البحر,App\Value,ar,Monitoring: On the seafloor
+70,الرصد: على خط الساحل,App\Value,ar,Monitoring: On the shoreline
+71,الرصد: في الكائنات الحية,App\Value,ar,Monitoring: In Biota
+72,رصد الهواء,App\Value,ar,Monitoring: Air
+73,الاستعراض والتوليف: البيئة,App\Value,ar,Review and synthesis :Environmental
+74,الاستعراض والتوليف: الاقتصاد,App\Value,ar,Review and synthesis: Economic
+75,الاستعراض والتوليف: المواد,App\Value,ar,Review and synthesis: Materials
+76,غير ذلك,App\Value,ar,Other
+77,دور المنظمة,App\Value,ar,Role Organisation
+78,لا نفعل سوى الإبلاغ,App\Value,ar,We are only reporting it here
+79,طورتها/طورناها,App\Value,ar,I/We developed it
+80,أنفذها/ننفذها,App\Value,ar,I/We are implementing it
+81,نحن الجهة المموِّلة,App\Value,ar,We are the funding body
+82,غير ذلك,App\Value,ar,Other
+83,الجهة الفاعلة المسؤولة,App\Value,ar,Responsible Actor
+84,الإدارة العامة (المنظمات المعنية بالسياسات والبرامج الحكومية),App\Value,ar,PUBLIC ADMINISTRATION (organisations concerned with government policies and programmes)
+85,منظمة تابعة للقطاع الخاص (منظمات هادفة للربح يديرها أفراد وجماعات وليست مملوكة للحكومة).,App\Value,ar,"PRIVATE SECTOR ORGANISATION (for-profit organisations run by individuals and groups, free from government ownership)."
+86,القطاع الثالث (مثل المنظمات غير الحكومية وغير الهادفة للربح، بما فيها المجموعات الخيرية، والمجموعات المجتمعية، وما إلى ذلك).,App\Value,ar,"THIRD SECTOR (e.g. non-governmental and non-profit-making organisations, including charity groups, community groups etc)."
+87,غير ذلك,App\Value,ar,Other
+88,هيئة دولية,App\Value,ar,International body
+89,وزارة/وكالة وطنية,App\Value,ar,National ministry/agency
+90,وزارة/وكالة دون وطنية,App\Value,ar,Sub-national ministry/agency
+91,غير ذلك,App\Value,ar,Other
+92,شركة متعددة الجنسيات,App\Value,ar,Multinational Corporation
+93,شركة وطنية,App\Value,ar,National Corporation
+94,مؤسسة صغيرة ومتوسطة الحجم,App\Value,ar,Small-medium sized enterprise
+95,غير ذلك,App\Value,ar,Other
+96,منظمة غير حكومية,App\Value,ar,Non-governmental organisation
+97,منظمة مجتمعية,App\Value,ar,Community based organisation
+98,قطاع التعليم,App\Value,ar,Educational sector
+99,جهة أخرى,App\Value,ar,Other
+100,الإبلاغ والتقييم,App\Value,ar,Reporting and Evaluations
+101,نعم,App\Value,ar,Yes
+102,لا,App\Value,ar,No
+103,غير منطبق,App\Value,ar,Not applicable
+104,هناك آلية إلزامية للإبلاغ,App\Value,ar,There is a mandatory reporting mechanism
+105,الإبلاغ طوعي,App\Value,ar,Reporting is voluntary
+106,غير ذلك,App\Value,ar,Other
+107,لا توجد آلية للإبلاغ,App\Value,ar,There is no reporting mechanism
+108,الإبلاغ طوعي,App\Value,ar,Reporting is voluntary
+109,لا توجد موارد كافية لدعم الإبلاغ,App\Value,ar,There is not enough resource to support reporting
+110,الإبلاغ يتطلب جهداً كبيراً للغاية,App\Value,ar,Reporting is too effortful
+111,غير ذلك,App\Value,ar,Other
+112,قُيِّمت النتيجة,App\Value,ar,Outcome Evaluated
+113,نعم,App\Value,ar,Yes
+114,لا,App\Value,ar,No
+115,غير ذلك,App\Value,ar,Other
+116,النطاق الجغرافي,App\Value,ar,Geography
+117,عالمي (يشمل العالم كله),App\Value,ar,Global (it covers the whole world)
+118,إقليمي (مناطق الأمم المتحدة),App\Value,ar,Regional (UN Regions)
+119,عبر وطني (بمشاركة عدة بلدان، بما في ذلك بصورة ثنائية),App\Value,ar,"Transnational (several countries are involved, including bilateral)"
+120,وطني (يشمل بلداً واحداً بأكمله),App\Value,ar,National (it covers one entire country)
+121,دون وطني (يشمل جزءاً من بلد),App\Value,ar,Sub-national (it covers parts of one country)
+122,عالمي مع عناصر في مجالات محددة,App\Value,ar,Global with elements in specific areas
+123,غير ذلك,App\Value,ar,Other
+124,المصدر إلى البحر,App\Value,ar,Source to Sea
+125,الجبال والمرتفعات,App\Value,ar,Mountains and upland area
+126,الأراضي/التربة الزراعية,App\Value,ar,Agricultural land/soils
+127,مستجمعات مياه بأكملها,App\Value,ar,Entire water catchment
+128,الغابات أو أشجار المنغروف,App\Value,ar,Forests or Mangroves
+129,الأنهار والبحيرات العذبة,App\Value,ar,Freshwater rivers and lakes
+130,بيئة حضرية,App\Value,ar,Urban environment
+131,مواقع التخلص من النفايات,App\Value,ar,Waste disposal sites
+132,المناطق الساحلية,App\Value,ar,Coastal zone
+133,المناطق البحرية الواقعة ضمن الولاية الوطنية,App\Value,ar,Maritime area within national jurisdiction
+134,المناطق الواقعة خارج نطاق الولاية الوطنية,App\Value,ar,Areas beyond national jurisdiction
+135,عرض المحيط وأعالي البحار,App\Value,ar,Open ocean and high seas
+136,الهواء,App\Value,ar,Air
+137,كل ما سبق,App\Value,ar,All of the above
+138,غير منطبق,App\Value,ar,Not applicable
+139,غير ذلك,App\Value,ar,Other
+140,دورة حياة البلاستيك,App\Value,ar,Lifecycle of Plastics
+141,المواد الخام,App\Value,ar,Raw materials
+142,التصميم,App\Value,ar,Design
+143,الإنتاج/التصنيع,App\Value,ar,Production / Manufacture
+144,الاستخدام/الاستهلاك,App\Value,ar,Use / consumption
+145,جمع/فرز البلاستيك بعد الاستخدام,App\Value,ar,Collection / sorting of plastics after use
+146,إدارة البلاستيك المجموع,App\Value,ar,Management of collected plastics
+147,تنظيف البيئة من البلاستيك,App\Value,ar,Clean-up of plastic from the environment
+148,كل ما سبق,App\Value,ar,All of the above
+149,غير منطبق,App\Value,ar,Not applicable
+150,غير ذلك,App\Value,ar,Other
+151,الإجراء المستهدف,App\Value,ar,Target Action
+152,خفض البلاستيك,App\Value,ar,Reducing plastics
+153,إعادة استخدام البلاستيك,App\Value,ar,Reusing plastic
+154,إعادة تدوير البلاستيك,App\Value,ar,Recycling plastics
+155,غير منطبق,App\Value,ar,Not Applicable
+156,غير ذلك,App\Value,ar,Other
+157,الأثر,App\Value,ar,Impact
+158,صحة الإنسان ورفاهه,App\Value,ar,Human health and wellbeing
+159,التنوع الأحيائي,App\Value,ar,Biodiversity
+160,الكائنات البحرية,App\Value,ar,Marine organisms
+161,خدمات النظم الإيكولوجية,App\Value,ar,Ecosystem Services
+162,السلسلة الغذائية,App\Value,ar,Food chain
+163,الاقتصاد والتجارة,App\Value,ar,Economics and Trade
+164,كل ما سبق,App\Value,ar,All of the above
+165,غير منطبق,App\Value,ar,Not applicable
+166,غير ذلك,App\Value,ar,Other
+167,الملوِّث المستهدَف,App\Value,ar,Pollutant Targeted
+168,الجسيمات البلاستيكية الكبيرة (كبيرة الحجم، أكثر من 20 ملم، مثل الزجاجات البلاستيكية),App\Value,ar,"Macroplastic (large, more than 20 mm, e.g. plastic bottles)"
+169,الجسيمات البلاستيكية الدقيقة (الجسيمات البلاستيكية الدقيقة التي يقل قطرها عن 5 مم، على سبيل المثال، التي توجد في منتجات العناية الشخصية/المنسوجات الاصطناعية),App\Value,ar,"Microplastics (tiny plastic particles less than 5 mm in diameter, e.g., found in personal care products/synthetic textiles)"
+170,المواد الإضافية التي تدخل في صناعة المواد البلاستيكية,App\Value,ar,Additives incorporated into plastic items
+171,غير منطبق,App\Value,ar,Not applicable
+172,غير ذلك,App\Value,ar,Other
+173,الزجاجات,App\Value,ar,Bottles
+174,الأكياس البلاستيكية,App\Value,ar,Plastic bags
+175,أغلفة المواد الغذائية (الحاويات والمغلفات وما إلى ذلك),App\Value,ar,"Food packaging (containers, wrappers etc.)"
+176,أغلفة المواد غير الغذائية (الحاويات والمغلفات وما إلى ذلك),App\Value,ar,"Non-food packaging (containers, wrappers etc.)"
+177,القمامة الناجمة عن التدخين (أعقاب السجائر وعلبها),App\Value,ar,Smoking related litter (cigarette butts and packets)
+178,المواد ذات الصلة بصيد الأسماك,App\Value,ar,Fishing related items
+179,المواد ذات الصلة بالنقل البحري,App\Value,ar,Shipping related items
+180,الأكواب (على سبيل المثال، أكواب القهوة الأحادية الاستخدام),App\Value,ar,"Cups (e.g., disposable coffee cups)"
+181,ماصات المشروبات وملاعق التلقيب وأدوات المائدة المصنوعة من البلاستيك,App\Value,ar,"Plastic straws, stirrers, cutlery"
+182,المواد المصروفة في المجاري (يمكن أن يشمل ذلك أعواد قطن تنظيف الأذن، ومواد النظافة الأنثوية وغيرها من المواد التي يتم التخلص منها عن طريق المراحيض),App\Value,ar,"Sewage-related items (this could include cotton bud sticks, feminine hygiene items and others disposed of via toilets)"
+183,الحطام الناجم عن الكوارث/المخاطر الطبيعية,App\Value,ar,Natural disaster/hazard related debris
+184,المواد المصنوعة من البوليسترين,App\Value,ar,Polystyrene items
+185,كل ما سبق,App\Value,ar,All of the above
+186,غير منطبق,App\Value,ar,Not applicable
+187,غير ذلك,App\Value,ar,Other
+188,الحبيبات الدقيقة المستخدمة في مستحضرات التجميل,App\Value,ar,Microbeads used in cosmetics
+189,الجسيمات البلاستيكية الدقيقة المستخدمة في منتجات أخرى مثل الدهانات,App\Value,ar,Microplastics used in other products e.g. paints
+190,كل ما سبق,App\Value,ar,All of the above
+191,غير منطبق,App\Value,ar,Not applicable
+192,غير ذلك,App\Value,ar,Other
+193,القطاع,App\Value,ar,Sector
+194,التعبئة,App\Value,ar,Packaging
+195,المنسوجات,App\Value,ar,Textiles
+196,النقل,App\Value,ar,Transportation
+197,البناء والتشييد والهدم,App\Value,ar,"Building, Construction, Demolition"
+198,الآلات الصناعية,App\Value,ar,Industrial Machinery
+199,السيارات,App\Value,ar,Automotive
+200,الأجهزة الكهربائية والإلكترونية,App\Value,ar,Electrical and Electronics
+201,الزراعة,App\Value,ar,Agriculture
+202,مصائد الأسماك,App\Value,ar,Fisheries
+203,تربية الأحياء المائية,App\Value,ar,Aquaculture
+204,الأغذية والمشروبات,App\Value,ar,Food & Beverages
+205,العناية الصحية الشخصية,App\Value,ar,Personal Healthcare
+206,العناية الطبية,App\Value,ar,Medical
+207,تجارة التجزئة,App\Value,ar,Retail
+208,السياحة,App\Value,ar,Tourism
+209,إدارة مياه الصرف الصحي/مياه المجاري,App\Value,ar,Wastewater/Sewage management
+210,كل ما سبق,App\Value,ar,All of the above
+211,غير منطبق,App\Value,ar,Not applicable
+212,غير ذلك,App\Value,ar,Other
+213,التمويل,App\Value,ar,Funding
+214,ممول تمويلاً جماعياً,App\Value,ar,Crowdfunded
+215,التبرعات,App\Value,ar,Voluntary donations
+216,المالية العامة,App\Value,ar,Public Financing
+217,القطاع الخاص,App\Value,ar,Private Sector
+218,مختلط,App\Value,ar,Mixed
+219,كل ما سبق,App\Value,ar,All of the above
+220,غير منطبق,App\Value,ar,Not applicable
+221,غير ذلك,App\Value,ar,Other
+222,المدة,App\Value,ar,Duration
+223,مناسبة واحدة,App\Value,ar,Single event
+224,نشاط مستمر تقل مدته عن سنة واحدة,App\Value,ar,Continuous activity less than one year
+225,نشاط مستمر تراوح مدته ما بين سنة وثلاث سنوات,App\Value,ar,Continuous activity 1-3 Years
+226,نشاط مستمر تزيد مدته عن ثلاث سنوات,App\Value,ar,Continuous activity more than 3 Years long
+227,غير منطبق,App\Value,ar,Not applicable
+228,غير ذلك,App\Value,ar,Other
+229,تقديم المعلومات إلى أصحاب المصلحة (عن طريق المنشورات والملصقات مثلاً),App\Value,ar,"Giving information to stakeholders (e.g., leaflets, posters)"
+230,التشاور مع أصحاب المصلحة بصورة تفاعلية (عن طريق حلقات العمل مثلاً),App\Value,ar,"Consulting with stakeholders interactively (e.g., workshops)"
+231,التماس آراء أصحاب المصلحة (عبر الإنترنت مثلاً),App\Value,ar,Seeking feedback from stakeholders (e.g. online)
+232,المشاركة في وضع الإجراء مع أصحاب المصلحة منذ البداية,App\Value,ar,Co-creating the action with stakeholders from the start
+233,غير ذلك,App\Value,ar,Other
+234,نعم,App\Value,ar,Yes
+235,لا,App\Value,ar,No
+236,قطاع الصناعة,App\Value,ar,Industry
+237,الحكومة,App\Value,ar,Government
+238,المنظمات غير الحكومية,App\Value,ar,Non Governmental Organisations (NGO's)
+239,وكالة من وكالات الأمم المتحدة,App\Value,ar,United Nations Agency
+240,جمعيات المجتمع المحلي/جمعيات المواطنين,App\Value,ar,Community/citizen group(s)
+241,غير ذلك,App\Value,ar,Other

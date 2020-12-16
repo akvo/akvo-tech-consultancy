@@ -1,0 +1,21 @@
+translationable_id,text,translationable_type,lang,source
+1,COBSEA,App\Group,es,COBSEA
+2,NOWPAP,App\Group,es,NOWPAP
+3,Convenio de Nairobi,App\Group,es,Nairobi Convention
+4,MAP/Barcelona,App\Group,es,MAP/Barcelona
+5,Abiyán,App\Group,es,Abidjan
+6,Teherán,App\Group,es,Tehran
+7,Gran Caribe,App\Group,es,Wider Caribbean
+8,Mar Negro,App\Group,es,Black Sea
+9,Convenio OSPAR,App\Group,es,OSPAR
+10,Mar Rojo y golfo de Adén (PERSGA),App\Group,es,Red Sea and Gulf of Aden (PERSGA)
+11,Zona marina de la ROPME,App\Group,es,ROPME Sea Area
+12,Mares de Asia Meridional,App\Group,es,South Asia Seas
+13,Pacífico Sudoriental,App\Group,es,South East Pacific
+14,Pacífico,App\Group,es,Pacific
+15,Ártico,App\Group,es,Artic
+16,Antártida,App\Group,es,Antarctic
+17,Mar Báltico,App\Group,es,Baltic Sea
+18,Pacífico Nordeste,App\Group,es,North East Pacific
+19,Pequeños Estados insulares en desarrollo,App\Group,es,Small Island Developing States
+20,Países menos adelantados,App\Group,es,Least Developed Countries

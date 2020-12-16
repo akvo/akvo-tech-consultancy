@@ -1,0 +1,21 @@
+translationable_id,text,translationable_type,lang,source
+1,هيئة التنسيق المعنية بالبحار في شرق آسيا,App\Group,ar,COBSEA
+2,الخطة الإجرائية لشمال غرب المحيط الهادئ,App\Group,ar,NOWPAP
+3,اتفاقية نيروبي,App\Group,ar,Nairobi Convention
+4,خطة العمل الخاصة بالبحر الأبيض المتوسط/اتفاقية برشلونة,App\Group,ar,MAP/Barcelona
+5,أبيدجان,App\Group,ar,Abidjan
+6,طهران,App\Group,ar,Tehran
+7,منطقة البحر الكاريبي الكبرى,App\Group,ar,Wider Caribbean
+8,البحر الأسود,App\Group,ar,Black Sea
+9,اتفاقية حماية البيئة البحرية لشمال شرق المحيط الأطلسي,App\Group,ar,OSPAR
+10,برنامج بيئة البحر الأحمر وخليج عدن,App\Group,ar,Red Sea and Gulf of Aden (PERSGA)
+11,المنظمة الإقليمية لحماية البيئة البحرية,App\Group,ar,ROPME Sea Area
+12,بحار جنوب آسيا,App\Group,ar,South Asia Seas
+13,جنوب شرق المحيط الهادئ,App\Group,ar,South East Pacific
+14,المحيط الهادئ,App\Group,ar,Pacific
+15,منطقة القطب الشمالي,App\Group,ar,Artic
+16,منطقة القطب الجنوبي,App\Group,ar,Antarctic
+17,بحر البلطيق,App\Group,ar,Baltic Sea
+18,شمال شرق المحيط الهادئ,App\Group,ar,North East Pacific
+19,الدول الجزرية الصغيرة النامية,App\Group,ar,Small Island Developing States
+20,أقل البلدان نمواً,App\Group,ar,Least Developed Countries

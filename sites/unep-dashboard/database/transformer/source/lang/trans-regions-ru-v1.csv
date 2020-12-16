@@ -1,0 +1,21 @@
+translationable_id,text,translationable_type,lang,source
+1,КОМВА,App\Group,ru,COBSEA
+2,НОВПАП,App\Group,ru,NOWPAP
+3,Найробийская конвенция,App\Group,ru,Nairobi Convention
+4,МПД/Барселона,App\Group,ru,MAP/Barcelona
+5,Абиджан,App\Group,ru,Abidjan
+6,Тегеран,App\Group,ru,Tehran
+7,Большой Карибский район,App\Group,ru,Wider Caribbean
+8,Черное море,App\Group,ru,Black Sea
+9,ОСПАР,App\Group,ru,OSPAR
+10,Красное море и Аденский залив (ПЕРСГА),App\Group,ru,Red Sea and Gulf of Aden (PERSGA)
+11,Морская зона РОПМЕ,App\Group,ru,ROPME Sea Area
+12,Моря Южной Азии,App\Group,ru,South Asia Seas
+13,Юго-восточная часть Тихого океана,App\Group,ru,South East Pacific
+14,Тихий океан,App\Group,ru,Pacific
+15,Арктика,App\Group,ru,Artic
+16,Антарктика,App\Group,ru,Antarctic
+17,Балтийское море,App\Group,ru,Baltic Sea
+18,Северо-восточная часть Тихого океана,App\Group,ru,North East Pacific
+19,Малые островные развивающиеся государства,App\Group,ru,Small Island Developing States
+20,Наименее развитые страны,App\Group,ru,Least Developed Countries

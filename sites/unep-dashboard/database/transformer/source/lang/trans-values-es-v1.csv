@@ -1,0 +1,242 @@
+translationable_id,text,translationable_type,lang,source
+1,Presentación de informes,App\Value,es,Reporting
+2,Como individuo,App\Value,es,As an individual
+3,En nombre de una organización,App\Value,es,On behalf of an organisation
+4,Otros,App\Value,es,Other
+5,Tipo de acción,App\Value,es,Type of Action
+6,"LEGISLACIÓN, NORMAS, REGLAS: por ejemplo, acordar nuevas reglas o normas o modificar las ya existentes, que otros deberían hacer cumplir mediante nuevas regulaciones, acuerdos, políticas, instrumentos económicos, etc., incluidos compromisos de carácter voluntario.",App\Value,es,"LEGISLATION, STANDARDS, RULES: e.g. agreeing new or changing rules or standards that others should comply with, new regulation, agreements, policies, economic instruments etc. including voluntary commitments."
+7,"TRABAJAR CON LAS PERSONAS: Alentar o capacitar a otros (por ejemplo, mediante la educación, capacitación, comunicación, concienciación y programas orientados al cambio de comportamiento)",App\Value,es,"WORKING WITH PEOPLE: Encouraging or enabling others (e.g., education, training, communication, awareness raising, behaviour change programmes"
+8,"TECNOLOGÍA Y PROCESOS: nuevos avances técnicos/innovación (por ejemplo, investigación y desarrollo, diseño de nuevos productos, nuevos materiales, procesos, etc.), cambios en la práctica, operaciones, gestión y planificación medioambientales.",App\Value,es,"TECHNOLOGY and PROCESSES: New technical developments/innovation (e.g., research and development, new product design, new materials, processes etc.) changes in practice, operations, environmental management and planning."
+9,"VIGILANCIA Y ANÁLISIS: ¿Recoger pruebas acerca de los vertidos de plástico en los océanos/vías fluviales? (Por ejemplo, vigilancia, análisis)",App\Value,es,"MONITORING and ANALYSIS: Collecting evidence around plastic discharge to the ocean/waterways? (e.g. monitoring, analysis)"
+10,Acuerdos oficiales,App\Value,es,Official agreements
+11,Cambios normativos o elaboración de políticas,App\Value,es,Policy change or development
+12,Estrategia de alto nivel,App\Value,es,High-level strategy
+13,Legislación o reglamentos,App\Value,es,Legislation or regulations
+14,Compromisos de carácter voluntario,App\Value,es,Voluntary commitments
+15,Nuevas normas o directrices,App\Value,es,New standard(s) or guideline(s)
+16,Cambio en los impuestos/subsidios,App\Value,es,Change in Taxes/Subsidies
+17,Subsidios/incentivos financieros,App\Value,es,Subsidy/financial incentives
+18,Prohibiciones,App\Value,es,Ban(s)
+19,"Paquete de medidas que combinan incentivos e infraestructura (por ejemplo, planes de recompensa en relación con los depósitos)",App\Value,es,Package of measures combining incentives and infrastructure (e.g. deposit reward schemes)
+20,Otros,App\Value,es,Other
+21,Sensibilización y cambio de comportamiento,App\Value,es,Awareness raising and Behaviour change
+22,Educación/formación,App\Value,es,Education/Training
+23,Talleres,App\Value,es,Workshops
+24,Conferencias,App\Value,es,Conferences
+25,Otros,App\Value,es,Other
+26,Campaña de información,App\Value,es,Information campaign
+27,Campaña/programa orientado al cambio de comportamiento,App\Value,es,Behaviour change campaign/programme
+28,Implicación comunitaria,App\Value,es,Community Engagement
+29,Participación de los interesados,App\Value,es,Stakeholder Engagement
+30,Ciencia ciudadana,App\Value,es,Citizen Science
+31,Evento creativo/artístico; exposición,App\Value,es,Creative/arts event; exhibition
+32,Otros,App\Value,es,Other
+33,Elaboración de planes de estudio,App\Value,es,Curriculum development
+34,Formación profesional,App\Value,es,Professional skills training
+35,Otros programas de capacitación,App\Value,es,Other training programmes
+36,Aprendizaje a lo largo de la vida,App\Value,es,Life-long learning
+37,Desarrollo institucional,App\Value,es,Institutional development
+38,Otros,App\Value,es,Other
+39,Enseñanza primaria,App\Value,es,Primary school
+40,Enseñanza secundaria,App\Value,es,Secondary school
+41,Enseñanza superior terciaria,App\Value,es,Tertiary higher education
+42,Otros,App\Value,es,Other
+43,Diseño de nuevos productos,App\Value,es,New product design
+44,Cambios en la prestación de servicios,App\Value,es,Change in service provision
+45,Planificación social ambiental,App\Value,es,Environmental social planning
+46,Cambios en la práctica,App\Value,es,Change in practice
+47,Cambios en las operaciones,App\Value,es,Change in operations
+48,Estándar industrial o de producción,App\Value,es,Industrial or production standard
+49,Distintas formas de gestión ambiental de los entornos terrestres,App\Value,es,Different environmental management of land based environments
+50,Distintas formas de gestión ambiental de los medios acuáticos,App\Value,es,Different environmental management of aquatic environments
+51,Investigación y desarrollo,App\Value,es,Research and Development
+52,Nueva infraestructura,App\Value,es,New infrastructure
+53,El uso de plástico compostable,App\Value,es,The use of compostable plastic
+54,El uso de plástico de base biológica,App\Value,es,The use of bio-based plastic
+55,El uso de plástico biodegradable,App\Value,es,The use of biodegradable plastic
+56,Otros,App\Value,es,Other
+57,Reducir el impacto ambiental,App\Value,es,Reducing the environmental impact
+58,Desarrollar nuevos materiales,App\Value,es,Developing a new material
+59,Desarrollar un nuevo proceso,App\Value,es,Developing a new process
+60,Fabricación y producción,App\Value,es,Manufacturing and Production
+61,Normas,App\Value,es,Standards
+62,Control de desechos,App\Value,es,Waste Management
+63,Plástico compostable,App\Value,es,Compostable plastic
+64,Plástico de base biológica,App\Value,es,Bio-based plastic
+65,Plástico biodegradable,App\Value,es,Bio-degradable pastic
+66,Otros,App\Value,es,Other
+67,Vigilancia: en la superficie del océano o cerca de ella,App\Value,es,Monitoring: On or near ocean surface
+68,Vigilancia: columna de agua,App\Value,es,Monitoring: Water column
+69,Vigilancia: en el fondo marino,App\Value,es,Monitoring: On the seafloor
+70,Vigilancia: en la costa,App\Value,es,Monitoring: On the shoreline
+71,Vigilancia: en la biota,App\Value,es,Monitoring: In Biota
+72,Vigilancia: aire,App\Value,es,Monitoring: Air
+73,Examen y síntesis: ambiental,App\Value,es,Review and synthesis :Environmental
+74,Examen y síntesis: económica,App\Value,es,Review and synthesis: Economic
+75,Examen y síntesis: materiales,App\Value,es,Review and synthesis: Materials
+76,Otros,App\Value,es,Other
+77,Papel de la organización,App\Value,es,Role Organisation
+78,Solo rendimos informe aquí,App\Value,es,We are only reporting it here
+79,Yo/nosotros lo desarrollé/desarrollamos,App\Value,es,I/We developed it
+80,Yo/nosotros lo estoy/estamos implementando,App\Value,es,I/We are implementing it
+81,Somos el organismo de financiación,App\Value,es,We are the funding body
+82,Otros,App\Value,es,Other
+83,Agente encargado,App\Value,es,Responsible Actor
+84,ADMINISTRACIÓN PÚBLICA (organizaciones que se ocupan de las políticas y programas gubernamentales),App\Value,es,PUBLIC ADMINISTRATION (organisations concerned with government policies and programmes)
+85,"ORGANIZACIÓN DEL SECTOR PRIVADO (organizaciones con fines de lucro dirigidas por individuos y grupos, que no son propiedad del Gobierno).",App\Value,es,"PRIVATE SECTOR ORGANISATION (for-profit organisations run by individuals and groups, free from government ownership)."
+86,"TERCER SECTOR (por ejemplo, organizaciones no gubernamentales y sin fines de lucro, entre otros, grupos benéficos, grupos comunitarios, etc.).",App\Value,es,"THIRD SECTOR (e.g. non-governmental and non-profit-making organisations, including charity groups, community groups etc)."
+87,Otros,App\Value,es,Other
+88,Órgano internacional,App\Value,es,International body
+89,Ministerio/organismo nacional,App\Value,es,National ministry/agency
+90,Ministerio/organismo subnacional,App\Value,es,Sub-national ministry/agency
+91,Otros,App\Value,es,Other
+92,Empresa multinacional,App\Value,es,Multinational Corporation
+93,Empresas nacionales,App\Value,es,National Corporation
+94,Pequeñas y medianas empresas,App\Value,es,Small-medium sized enterprise
+95,Otros,App\Value,es,Other
+96,Organizaciones no gubernamentales,App\Value,es,Non-governmental organisation
+97,Organizaciones de base comunitaria,App\Value,es,Community based organisation
+98,Sector de educación,App\Value,es,Educational sector
+99,Otros,App\Value,es,Other
+100,Presentación de informes y evaluaciones,App\Value,es,Reporting and Evaluations
+101,Sí,App\Value,es,Yes
+102,No,App\Value,es,No
+103,No se aplica,App\Value,es,Not applicable
+104,Existe un mecanismo de presentación obligatoria de informes,App\Value,es,There is a mandatory reporting mechanism
+105,La presentación de informes es voluntaria,App\Value,es,Reporting is voluntary
+106,Otros,App\Value,es,Other
+107,No existe un mecanismo de presentación de informes,App\Value,es,There is no reporting mechanism
+108,La presentación de informes es voluntaria,App\Value,es,Reporting is voluntary
+109,No se cuenta con recursos suficientes para apoyar la presentación de informes,App\Value,es,There is not enough resource to support reporting
+110,Rendir informes es sumamente difícil,App\Value,es,Reporting is too effortful
+111,Otros,App\Value,es,Other
+112,Resultado evaluado,App\Value,es,Outcome Evaluated
+113,Sí,App\Value,es,Yes
+114,No,App\Value,es,No
+115,Otros,App\Value,es,Other
+116,Geografía,App\Value,es,Geography
+117,Global (cubre todo el mundo),App\Value,es,Global (it covers the whole world)
+118,Regional (regiones de las Naciones Unidas),App\Value,es,Regional (UN Regions)
+119,"Transnacional (participan varios países, bilateral)",App\Value,es,"Transnational (several countries are involved, including bilateral)"
+120,Nacional (abarca todo un país),App\Value,es,National (it covers one entire country)
+121,Subnacional (abarca partes de un país),App\Value,es,Sub-national (it covers parts of one country)
+122,Global con elementos en zonas específicas,App\Value,es,Global with elements in specific areas
+123,Otros,App\Value,es,Other
+124,Desde la fuente hasta el mar,App\Value,es,Source to Sea
+125,Montañas y zonas altas,App\Value,es,Mountains and upland area
+126,Tierras/suelos agrícolas,App\Value,es,Agricultural land/soils
+127,Sectores enteros de captación de aguas,App\Value,es,Entire water catchment
+128,Bosques o manglares,App\Value,es,Forests or Mangroves
+129,Ríos y lagos de agua dulce,App\Value,es,Freshwater rivers and lakes
+130,Medio urbano,App\Value,es,Urban environment
+131,Instalaciones de eliminación de desechos,App\Value,es,Waste disposal sites
+132,Zona costera,App\Value,es,Coastal zone
+133,Espacio marino dentro de la jurisdicción nacional,App\Value,es,Maritime area within national jurisdiction
+134,Zonas situadas fuera de la jurisdicción nacional,App\Value,es,Areas beyond national jurisdiction
+135,Mar abierto y alta mar,App\Value,es,Open ocean and high seas
+136,Aire,App\Value,es,Air
+137,Todas las anteriores,App\Value,es,All of the above
+138,No se aplica,App\Value,es,Not applicable
+139,Otros,App\Value,es,Other
+140,Ciclo de vida de los plásticos,App\Value,es,Lifecycle of Plastics
+141,Materias primas,App\Value,es,Raw materials
+142,Diseño,App\Value,es,Design
+143,Producción/fabricación,App\Value,es,Production / Manufacture
+144,Uso/consumo,App\Value,es,Use / consumption
+145,Recogida/clasificación de plásticos una vez utilizados,App\Value,es,Collection / sorting of plastics after use
+146,Gestión de los plásticos recogidos,App\Value,es,Management of collected plastics
+147,Eliminación de plásticos del medio ambiente,App\Value,es,Clean-up of plastic from the environment
+148,Todas las anteriores,App\Value,es,All of the above
+149,No se aplica,App\Value,es,Not applicable
+150,Otros,App\Value,es,Other
+151,Objetivo de la acción,App\Value,es,Target Action
+152,Reducir los plásticos,App\Value,es,Reducing plastics
+153,Reutilizar los plásticos,App\Value,es,Reusing plastic
+154,Reciclar los plásticos,App\Value,es,Recycling plastics
+155,No se aplica,App\Value,es,Not Applicable
+156,Otros,App\Value,es,Other
+157,Repercusión,App\Value,es,Impact
+158,Salud y bienestar humanos,App\Value,es,Human health and wellbeing
+159,Diversidad biológica,App\Value,es,Biodiversity
+160,Organismos marinos,App\Value,es,Marine organisms
+161,Servicios ecosistémicos,App\Value,es,Ecosystem Services
+162,Cadena alimentaria,App\Value,es,Food chain
+163,Economía y Comercio,App\Value,es,Economics and Trade
+164,Todas las anteriores,App\Value,es,All of the above
+165,No se aplica,App\Value,es,Not applicable
+166,Otros,App\Value,es,Other
+167,Contaminante al que van dirigidas las acciones,App\Value,es,Pollutant Targeted
+168,"Macroplástico (grande, más de 20 mm, por ejemplo, botellas de plástico)",App\Value,es,"Macroplastic (large, more than 20 mm, e.g. plastic bottles)"
+169,"Microplásticos (diminutas partículas de plástico de menos de 5 mm de diámetro, por ejemplo, que se encuentran en productos de cuidado personal/textiles sintéticos)",App\Value,es,"Microplastics (tiny plastic particles less than 5 mm in diameter, e.g., found in personal care products/synthetic textiles)"
+170,Aditivos incorporados a los artículos de plástico,App\Value,es,Additives incorporated into plastic items
+171,No se aplica,App\Value,es,Not applicable
+172,Otros,App\Value,es,Other
+173,Botellas,App\Value,es,Bottles
+174,Bolsas de plástico,App\Value,es,Plastic bags
+175,"Envases de alimentos (contenedores, envoltorios, etc.)",App\Value,es,"Food packaging (containers, wrappers etc.)"
+176,"Envases de artículos que no son alimentos (contenedores, envoltorios, etc.)",App\Value,es,"Non-food packaging (containers, wrappers etc.)"
+177,Basura derivada del consumo de tabaco (colillas y paquetes de cigarrillos),App\Value,es,Smoking related litter (cigarette butts and packets)
+178,Artículos relacionados con la pesca,App\Value,es,Fishing related items
+179,Artículos relacionados con el transporte,App\Value,es,Shipping related items
+180,"Tazas (por ejemplo, tazas de café desechables)",App\Value,es,"Cups (e.g., disposable coffee cups)"
+181,"Pajitas de plástico, agitadores, cubiertos",App\Value,es,"Plastic straws, stirrers, cutlery"
+182,"Artículos relacionados con las aguas residuales (ello podría incluir bastoncillo de algodón, artículos de higiene femenina y otros que son desechados a través de los retretes)",App\Value,es,"Sewage-related items (this could include cotton bud sticks, feminine hygiene items and others disposed of via toilets)"
+183,Detritos derivados de desastres naturales/relacionados con peligros,App\Value,es,Natural disaster/hazard related debris
+184,Artículos de poliestireno,App\Value,es,Polystyrene items
+185,Todas las anteriores,App\Value,es,All of the above
+186,No se aplica,App\Value,es,Not applicable
+187,Otros,App\Value,es,Other
+188,Microperlas utilizadas en cosméticos,App\Value,es,Microbeads used in cosmetics
+189,"Microplásticos utilizados en otros productos, por ejemplo, pinturas",App\Value,es,Microplastics used in other products e.g. paints
+190,Todas las anteriores,App\Value,es,All of the above
+191,No se aplica,App\Value,es,Not applicable
+192,Otros,App\Value,es,Other
+193,Sector,App\Value,es,Sector
+194,Envasado,App\Value,es,Packaging
+195,Textiles,App\Value,es,Textiles
+196,Transporte,App\Value,es,Transportation
+197,"Edificación, construcción, demolición",App\Value,es,"Building, Construction, Demolition"
+198,Maquinaria industrial,App\Value,es,Industrial Machinery
+199,Automóviles,App\Value,es,Automotive
+200,Eléctrico y electrónico,App\Value,es,Electrical and Electronics
+201,Agricultura,App\Value,es,Agriculture
+202,Pesca,App\Value,es,Fisheries
+203,Acuicultura,App\Value,es,Aquaculture
+204,Alimentos y bebidas,App\Value,es,Food & Beverages
+205,Cuidado personal,App\Value,es,Personal Healthcare
+206,Médico,App\Value,es,Medical
+207,Venta al por menor,App\Value,es,Retail
+208,Turismo,App\Value,es,Tourism
+209,Gestión de aguas residuales/aguas negras,App\Value,es,Wastewater/Sewage management
+210,Todas las anteriores,App\Value,es,All of the above
+211,No se aplica,App\Value,es,Not applicable
+212,Otros,App\Value,es,Other
+213,Financiación,App\Value,es,Funding
+214,Financiación colectiva,App\Value,es,Crowdfunded
+215,Donaciones benéficas,App\Value,es,Voluntary donations
+216,Financiación pública,App\Value,es,Public Financing
+217,Sector privado,App\Value,es,Private Sector
+218,Mixta,App\Value,es,Mixed
+219,Todas las anteriores,App\Value,es,All of the above
+220,No se aplica,App\Value,es,Not applicable
+221,Otros,App\Value,es,Other
+222,Duración,App\Value,es,Duration
+223,Acontecimientos únicos,App\Value,es,Single event
+224,Actividad continua de menos de un año de duración,App\Value,es,Continuous activity less than one year
+225,Actividad continua de uno a tres años de duración,App\Value,es,Continuous activity 1-3 Years
+226,Actividad continua durante más de tres años,App\Value,es,Continuous activity more than 3 Years long
+227,No se aplica,App\Value,es,Not applicable
+228,Otros,App\Value,es,Other
+229,"Proporcionar información a los interesados (por ejemplo, folletos, carteles)",App\Value,es,"Giving information to stakeholders (e.g., leaflets, posters)"
+230,"Consultas con los interesados de manera interactiva (por ejemplo, talleres)",App\Value,es,"Consulting with stakeholders interactively (e.g., workshops)"
+231,"Búsqueda de retroalimentación de los interesados (por ejemplo, en línea)",App\Value,es,Seeking feedback from stakeholders (e.g. online)
+232,Desarrollo conjunto de acciones con los interesados desde el principio,App\Value,es,Co-creating the action with stakeholders from the start
+233,Otros,App\Value,es,Other
+234,Sí,App\Value,es,Yes
+235,No,App\Value,es,No
+236,Industria,App\Value,es,Industry
+237,Gobierno,App\Value,es,Government
+238,Organizaciones no gubernamentales (ONG),App\Value,es,Non Governmental Organisations (NGO's)
+239,Organismo de las Naciones Unidas,App\Value,es,United Nations Agency
+240,Comunidad/grupos de ciudadanos,App\Value,es,Community/citizen group(s)
+241,Otros,App\Value,es,Other
