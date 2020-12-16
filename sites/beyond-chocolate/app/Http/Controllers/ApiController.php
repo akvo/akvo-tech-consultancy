@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Organization;
 use App\Models\User;
 use App\Models\WebForm;
+use App\Models\Collaborator;
 
 class ApiController extends Controller
 {
@@ -21,6 +22,37 @@ class ApiController extends Controller
         });
 
         return $orgs;
+    }
+
+    public function addCollaboratorAssignment(Request $request)
+    {
+        $orgId = $request->organization_id;
+        $webFormId = $request->web_form_id;
+        $user = $request->user();
+        $form = WebForm::find($webFormId);
+        if (is_null($form) or $form->organization_id != $user->organization_id) {
+            return \response('Only primary organization users can add/remove collaborators', 403);
+        }
+        $collaborator = Collaborator::updateOrCreate(['web_form_id' => $webFormId, 'organization_id' => $orgId]);
+        if (!is_null($collaborator)) {
+        }
+        return $collaborator;
+    }
+
+    public function deleteCollaboratorAssignment(Request $request)
+    {
+        $orgId = $request->organization_id;
+        $webFormId = $request->web_form_id;
+        $user = $request->user();
+        $form = WebForm::find($webFormId);
+        if (is_null($form) or $form->organization_id != $user->organization_id) {
+            return \response('Only primary organization users can add/remove collaborators', 403);
+        }
+        $collaborator = Collaborator::where(['web_form_id' => $webFormId, 'organization_id' => $orgId])->first();
+        if (!is_null($collaborator)) {
+            $collaborator->delete();
+        }
+        return \response('Collaborator deleted', 204);
     }
 
     public function getConfig()
