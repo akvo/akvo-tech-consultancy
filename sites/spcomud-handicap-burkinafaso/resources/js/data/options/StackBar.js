@@ -1,4 +1,4 @@
-import { Easing, Color, TextStyle, backgroundColor, Icons } from '../features/animation.js';
+import { Easing, Color, TextStyle, backgroundColor, Icons, Legend } from '../features/animation.js';
 
 const StackBar = (title, subtitle, list) => {
     let option = {
@@ -11,8 +11,8 @@ const StackBar = (title, subtitle, list) => {
             ...TextStyle
         },
         grid: {
-            top: "100px",
-            left: "30%",
+            // top: "100px",
+            left: "20%",
             show: true
         },
         tooltip: {
@@ -24,6 +24,7 @@ const StackBar = (title, subtitle, list) => {
         legend: {
             // data: [...Beneficiaries_legends],
             data: list.legends,
+            ...Legend,
         },
         yAxis: {
             type: 'category',

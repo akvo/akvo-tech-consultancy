@@ -40,7 +40,7 @@ const MapsOverride = (TableView) => {
                 {start: 50, end: 75},
                 {start: 25, end: 50},
                 {start: 1, end: 25},
-                {end: 0, label:'No Data', icon:'circle'}
+                {end: 1, label:'No Data', icon:'circle'}
             ],
             color: ['#085fa6', '#567ba9', '#40a4dc','#bde2f2','#b6c4da'],
         }
