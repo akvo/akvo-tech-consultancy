@@ -16,7 +16,11 @@ export const baseState = {
     },
     active: {
         ff_qid: null,
+        ff_legend: [],
         sf_qid: null,
+        sf_legend: [],
+        sf_checked: [],
+        sf_all_legends: [],
     }
     // Need to figure it out what will we store here
     // data: [{
@@ -64,9 +68,9 @@ export const updateModal = (modal, data, key) => {
     }
 }
 
-export const updateActive = (active, qid, key) => {
+export const updateActive = (active, data, key) => {
     return {
         ...active,
-        [key]: parseInt(qid),
+        [key]: Array.isArray(data) ? data : parseInt(data),
     }
 }

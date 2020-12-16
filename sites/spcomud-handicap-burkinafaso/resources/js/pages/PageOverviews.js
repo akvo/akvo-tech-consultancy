@@ -81,7 +81,6 @@ class PageOverviews extends Component {
     TableView(params) {
         let html = '<hr/>District: <strong>' + params.name + '</strong></br>';
         if (params.value && params.seriesType === "map") {
-            // let details = params.data.details;
             html += 'Data: <strong>' + params.value + '</strong><br/><br/>';
         } else {
             html += "<b>No Data</b>";
@@ -182,6 +181,8 @@ class PageOverviews extends Component {
                 { ...this.state, [stateKey]: reset_legend, sf_checked: filter_checked },
                 () => {
                     filteredData = filterMapData(filterStatus, data, qid, this.state[stateKey]);
+                    this.props.active.update(reset_legend, stateKey);
+                    this.props.active.update(filter_checked, 'sf_checked');
                     this.props.filter.change(
                         {
                             ...filters,
@@ -199,6 +200,8 @@ class PageOverviews extends Component {
                 { ...this.state, [stateKey]: selected_legend, sf_checked: filter_checked }, 
                 () => {
                     filteredData = filterMapData(true, data, qid, this.state[stateKey]);
+                    this.props.active.update(selected_legend, stateKey);
+                    this.props.active.update(filter_checked, 'sf_checked');
                     this.props.filter.change(
                         {
                             ...filters,
@@ -216,8 +219,8 @@ class PageOverviews extends Component {
         let page = this.props.value.page.name;
         let filters = this.props.value.filters[page];
         let { config } = filters;
-        let { ff_legend } = this.state;
-        let { ff_qid } = this.props.value.base.active;
+        // let { ff_legend } = this.state;
+        let { ff_qid, ff_legend } = this.props.value.base.active;
         if (ff_qid === null || ff_qid === "") {
             return [];
         }
@@ -241,11 +244,13 @@ class PageOverviews extends Component {
     }
 
     renderSecondFilterOption(options) {
+        let sf_checked = this.props.value.base.active.sf_checked;
         let res = options.map((x, i) => {
             return (
                 <div className="mt-2" key={"sf-wrapper-"+i}>
                     <Form.Check 
-                        checked={this.state.sf_checked.includes(x.text)}
+                        // checked={this.state.sf_checked.includes(x.text)}
+                        checked={sf_checked.includes(x.text)}
                         onChange={e => this.filterMap(e.target.value, 'sf')}
                         id={"sf-"+i}
                         key={"sf-"+x.id}
@@ -285,7 +290,8 @@ class PageOverviews extends Component {
                                 <Button 
                                     block
                                     variant="primary" 
-                                    onClick={() => this.filterMap('select-all', 'sf', this.state.sf_all_legends)}>
+                                    // onClick={() => this.filterMap('select-all', 'sf', this.state.sf_all_legends)}>
+                                    onClick={() => this.filterMap('select-all', 'sf', this.props.value.base.active.sf_all_legends)}>
                                         Select All
                                 </Button>
                             </div>
@@ -296,6 +302,7 @@ class PageOverviews extends Component {
                         onClick={() => this.onChangeFilter(f.question_id, "sf", f.values)} 
                         variant="link" 
                         eventKey={f.question_id}
+                        style={{cursor:"pointer"}}
                     >
                         { f.text }
                     </Accordion.Toggle>
@@ -318,6 +325,8 @@ class PageOverviews extends Component {
             let sf_active_values = sf_active.values.map(x => x.text);
             // set default checked
             let checked_all = values.map(x => x.text);
+            this.props.active.update(checked_all, 'sf_checked');
+            this.props.active.update(checked_all, 'sf_all_legends');
             this.setState({ 
                 ...this.state, 
                 sf_legend: sf_active_values, 

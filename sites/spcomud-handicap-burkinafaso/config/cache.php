@@ -100,6 +100,6 @@ return [
     */
 
     'prefix' => env('CACHE_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_cache'),
-    'version' => env('CACHE_VERSION', '1.0.0'),
+    'version' => env('CACHE_VERSION', '1.0.1'),
 
 ];

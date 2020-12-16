@@ -106,10 +106,10 @@ export const mapDispatchToProps = dispatch => {
             }
         },
         active: {
-            update: (qid, key) => {
+            update: (data, key) => {
                 dispatch({
                     type: "UPDATE - ACTIVE FILTER",
-                    qid: qid,
+                    data: data,
                     key: key,
                 });
             }

@@ -131,7 +131,7 @@ export const states = (state = initialState, action) => {
                 ...state,
                 base: {
                     ...state.base,
-                    active: updateActive(state.base.active, action.qid, action.key)
+                    active: updateActive(state.base.active, action.data, action.key)
                 }
             }
         default:
