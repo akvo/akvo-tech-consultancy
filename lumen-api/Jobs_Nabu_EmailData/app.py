@@ -25,10 +25,9 @@ if (day == '01'):
     MAILJET_APIKEY = os.environ['MAILJET_APIKEY']
     MAILJET_SECRET = os.environ['MAILJET_SECRET']
 
-    #EMAIL_RECEIVER = ['Stefanie.Brandes@NABU.de', 'Svane.Bender@NABU.de', 'Mesfin.Tekle.nabu@gmail.com']
-    EMAIL_RECEIVER = ['akvo.tech.consultancy@gmail.com']
-    EMAIL_BCC = ['joy@akvo.org', 'deden@akvo.org', 'galih@akvo.org', 'Stefanie.Brandes@NABU.de', 'Svane.Bender@NABU.de', 'Mesfin.Tekle.nabu@gmail.com']
-
+    EMAIL_RECEIVER = os.environ['EMAIL_RECEIVER'].split(',')
+    EMAIL_BCC = os.environ['EMAIL_BCC'].split(',')
+    
     mailjet = Client(auth=(MAILJET_SECRET, MAILJET_APIKEY), version='v3.1')
 
     try:

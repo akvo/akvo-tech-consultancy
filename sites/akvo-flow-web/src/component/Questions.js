@@ -4,12 +4,11 @@ import { mapStateToProps } from "../reducers/actions.js";
 //import { PROD_URL } from '../util/Environment'
 import QuestionType from "./QuestionType.js";
 import GroupPanels from "./GroupPanels.js";
-import { Mandatory, ToolTip } from "../util/Badges";
+import ToolTip, { Mandatory } from "../util/Badges";
 import { Card, CardBody, CardTitle } from "reactstrap";
 import { validateMinMax, validateDoubleEntry } from '../util/Utilities.js'
+import { colorPallet } from '../util/Themes.js'
 import "../App.css";
-
-//const API_ORIGIN = (PROD_URL ? ( window.location.origin + "/" + window.location.pathname.split('/')[1] + "-api/" ) : process.env.REACT_APP_API_URL);
 
 class Questions extends Component {
     constructor(props) {
@@ -46,8 +45,10 @@ class Questions extends Component {
         }
         if (answered && question.type === "cascade") {
             answer = JSON.parse(answer);
-            let levels = Array.isArray(question.levels.level) ? question.levels.level.length : 1;
+            let cascadeIsArray = Array.isArray(question.levels.level);
+            let levels = cascadeIsArray ? question.levels.level.length : 1;
             answered = answer.length === levels;
+            return Mandatory(answered);
         }
         answered = validateMinMax(answer, question) !== null;
         answered = answered ? validateDoubleEntry(answer, question) !== null : answered;
@@ -80,19 +81,24 @@ class Questions extends Component {
                 let active = question.lang[x] === undefined ? "" : question.lang[x];
                 return active;
             });
+            localization = localization.map((x,i) => {
+                let colorIndex = colorPallet.length < i ? (i - i) : i;
+                return "<span style='color:"+ colorPallet[colorIndex] +"'>" + x + "</span>"
+            });
             localization = localization.filter(x => x !== "");
-            localization = localization.length === 0 ? question.lang.en : localization.join(" / ");
+            localization = localization.length === 0 ? question.lang.en : localization.join("</br>");
             let qid = question.id.toString();
             let qi = question.iteration.toString();
             return (
                 <div key={"card-" + qid + "-" + qi} id={"form-" + qid}>
                     {question.groupIndex && question.repeat ? (<GroupPanels data={question} type="header"/>) : ""}
                 <Card className={question.show === false ? "d-none" : ""}>
+                    {question.mandatory ? this.renderMandatoryIcon(qid, question) : ""}
                     <CardBody key={"card-body-" + qid} id={"card-body-" + qid}>
                         <CardTitle key={"card-title-" + qid}>
-                            {question.order.toString() + ". " + localization}
-                            {question.mandatory ? this.renderMandatoryIcon(qid, question) : ""}
-                            {question.help !== undefined ? ToolTip(question) : ""}
+                            <div className="question-number">{question.order.toString()}.</div>
+                            <div className="question-text" dangerouslySetInnerHTML={{__html:  localization}} />
+                            {question.help !== undefined ? <ToolTip question={question}/> : ""}
                             {question.type === "photo" ? this.renderCachedImage(qid) : ""}
                         </CardTitle>
                         {this.renderQuestion(qid, question)}

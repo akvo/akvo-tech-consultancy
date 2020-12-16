@@ -93,6 +93,27 @@ const changePartnershipCode = (data) => {
 };
 
 $("#generate-partnership-page").on('click', () => {
+    generatePartnershipChart();
+});
+
+const generatePartnershipChart = async () => {
+    await new Promise(resolve => { 
+        let params = selectPicker();
+        let date = $('input[name="daterange"]')[0].value.split(' - ');
+        date = date.map((x) => {
+            params = [...params, moment(x).format('YYYY-MM-DD')];
+            return moment(x).format('YYYY-MM-DD');
+        });
+        params = params.join("/");
+        $("#data-frame").attr("src", "/frame/partnership/" + params);
+        setTimeout(() => {
+            resolve(console.log('generated'));
+        }, 10000); 
+    });
+    return;
+};
+
+const selectPicker = () => {
     let params = [];
     $(".selectpicker").each((d, i) => {
         let value = $(i).val();
@@ -101,26 +122,80 @@ $("#generate-partnership-page").on('click', () => {
         }
         params = [...params, value];
     });
+    return params;
+};
 
-    let date = $('input[name="daterange"]')[0].value.split(' - ');
-    date = date.map((x) => {
-        params = [...params, moment(x).format('YYYY-MM-DD')];
-        return moment(x).format('YYYY-MM-DD');
+$("#generate-report-link").on('click', () => {
+    let country = $("#partnership-country").val();
+    let code = $("#partnership-code").val();
+    let pid = (code == 0) ? country : code;
+    console.log(pid);
+
+    // Loading
+    $("#myModalBtnClose").hide();
+    $("#myModalAuthTitle").html("Please Wait");
+    $("#myModalAuthBody").html('<br>\
+        <div class="d-flex justify-content-center" id="loader-spinner">\
+            <div class="spinner-border text-primary loader-spinner" role="status">\
+                <span class="sr-only">Loading...</span>\
+            </div>\
+        </div><br>');
+    $("#myModalAuth").modal({backdrop: 'static', keyboard: false});
+    
+    generatePartnershipChart().then(res => {
+        console.log('get canvas');
+        let iframe = document.getElementsByTagName("iframe");
+        let token = document.querySelector('meta[name="csrf-token"]').content;
+        let canvas = iframe[0].contentWindow.document.getElementsByTagName("canvas");
+        let formData = new FormData();
+    
+        let filename = 'partnership-' + selectPicker().join('-');
+        formData.set('partnership_id', pid);
+        formData.set('filename', filename);
+    
+        let image = 0;
+        let imgWidth = [];
+        let minWidth = [];
+        do {
+            let image_url = canvas[image].toDataURL('image/png');
+            formData.append('images[]', image_url);
+            imgWidth.push(parseInt(canvas[image].width));
+            minWidth.push(parseInt(canvas[image].width));
+            image++;
+        } while(image < canvas.length);
+        
+        minWidth = minWidth.sort((a,b) => a-b)[0];
+        imgWidth.forEach(x => {
+            let column = Math.round(x/minWidth);
+            formData.append('columns[]', column)
+        });
+        
+        setTimeout(() => {
+            // var appUrl = document.querySelector('meta[name="app-url"]').content;
+            // var api = appUrl+'/rsr-report/';
+            // console.log(api);
+            axios.post('rsr-report', formData, {'Content-Type':'multipart/form-data', 'X-CSRF-TOKEN': token})
+            .then(res => {
+                // console.log(res);
+                $("#loader-spinner").remove();
+                $("#myModalAuthTitle").html("Report ready to download");
+                $("#myModalAuthBody").html('<a target="_blank" href="'+res.data+'">\
+                    <button type="button" class="btn btn-primary"> Download Report</button>\
+                </a>');
+                $("#myModalBtnClose").show();
+            }).catch(err => {
+                console.log("internal server error");
+                $("#loader-spinner").remove();
+                $("#myModalAuthTitle").html("Error");
+                $("#myModalAuthBody").html('<div class="alert alert-danger" role="alert">Please try again later!</div>');
+                $("#myModalBtnClose").show();
+            });
+        }, 10000);
     });
-    params = params.join("/");
-    $("#data-frame").attr("src", "/frame/partnership/" + params);
 });
 
 $("#generate-reachreact-page").on('click', () => {
-    let params = [];
-    $(".selectpicker").each((d, i) => {
-        let value = $(i).val();
-        if (value === undefined || value === "") {
-            value = 0;
-        }
-        params = [...params, value];
-    });
-
+    let params = selectPicker();
     let date = $('input[name="daterange"]')[0].value.split(' - ');
     date = date.map((x) => {
         params = [...params, moment(x).format('YYYY-MM-DD')];

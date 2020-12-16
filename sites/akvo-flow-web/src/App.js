@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { BrowserRouter, Route } from 'react-router-dom'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import Home from './Home'
+import Error from './Error'
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { questionReducers } from './reducers/questionReducers.js'
@@ -18,7 +19,11 @@ class App extends Component {
         return (
 	        <Provider store={store}>
             <BrowserRouter>
-                <Route path={ BASE_URL + path} render={ props => <Home key="home" {...props} />} />
+                <Switch>
+                    <Route exact path={ BASE_URL + "/"} render={ props => <Error/>} />
+                    <Route exact path={ BASE_URL + "/:instance"} render={props => <Error/>} />
+                    <Route exact path={ BASE_URL + path} render={ props => <Home key="home" {...props} />} />
+                </Switch>
             </BrowserRouter>
 	        </Provider>
         )

@@ -1,3 +1,5 @@
+# Travis removed
+
 from dataclasses import dataclass
 from flask import Flask, jsonify, render_template, request, make_response, send_file
 from flask_cors import CORS
@@ -136,22 +138,26 @@ def survey(instance, survey_id, check):
         z.extractall(ziploc)
     response = readxml(ziploc + '/' + survey_id + '.xml')
     cascade_list = []
-    question_group_type = type(response["questionGroup"])
-    if question_group_type is list:
-        for groups in response["questionGroup"]:
-            try:
-                for q in groups["question"]:
+    question_group = response["questionGroup"]
+    if type(question_group) is list:
+        for groups in question_group:
+            questions = groups["question"]
+            if type(questions) is dict:
+                if questions["type"] == "cascade":
+                    cascade_list.append(endpoint + questions["cascadeResource"] + ".zip")
+            if type(questions) is list:
+                for q in questions:
                     if q["type"] == "cascade":
                         cascade_list.append(endpoint + q["cascadeResource"] + ".zip")
-            except:
-                pass
-    if question_group_type is dict:
-        try:
-            for q in response["questionGroup"]["question"]:
+    if type(question_group) is dict:
+        questions = question_group["question"]
+        if type(questions) is dict:
+            if questions["type"] == "cascade":
+                cascade_list.append(endpoint + questions["cascadeResource"] + ".zip")
+        if type(questions) is list:
+            for q in questions:
                 if q["type"] == "cascade":
                     cascade_list.append(endpoint + q["cascadeResource"] + ".zip")
-        except:
-            pass
     if len(cascade_list) > 0:
         for cascade in cascade_list:
             cascade_file = ziploc + '/' + cascade.split('/surveys/')[1].replace('.zip', '')
@@ -170,6 +176,8 @@ def survey(instance, survey_id, check):
 @app.route('/cascade/<instance>/<sqlite>/<lv>')
 def cascade(instance, sqlite, lv):
     location = './static/xml/' + instance + '/' + sqlite
+    if not os.path.exists(location):
+        return jsonify({"code":"", "id":1, "name":"ERROR", "parent":0})
     conn = sqlite3.connect(location)
     table = pd.read_sql_query("SELECT * FROM nodes;", conn)
     result = table[table['parent'] == int(lv)].sort_values(by="name").to_dict('records')
@@ -229,7 +237,10 @@ def get_payload(rec, _uuid, webform=False):
             elif answer_type[i] == "CASCADE":
                 values = []
                 for rc in list(ast.literal_eval(rec[ids])):
-                    values.append({"code": rc["text"], "name": rc["text"]})
+                    try:
+                        values.append({"code": rc["code"], "name": rc["text"]})
+                    except:
+                        values.append({"code": "", "name": rc["text"]})
                 val = json.dumps(values)
             elif answer_type[i] == "DATE":
                 obj_date = datetime.strptime(rec[ids], "%Y-%m-%d")
@@ -491,4 +502,5 @@ def form_instance(form_instance_id):
 if __name__ == '__main__':
     app.jinja_env.auto_reload = True
     app.config['TEMPLATES_AUTO_RELOAD'] = True
-    app.run(host='0.0.0.0', debug=True, port=5000)
+    from waitress import serve
+    serve(app, host="0.0.0.0", port=5000)
