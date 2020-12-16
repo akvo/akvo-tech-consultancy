@@ -52,7 +52,7 @@ export const mapDataByLocations = (locations, data, config) => {
             name: x.text,
             value: filteredData.length,
             active: true,
-            // details: dataByLocation,
+            details: dataByLocation,
         }
     });
     return res;

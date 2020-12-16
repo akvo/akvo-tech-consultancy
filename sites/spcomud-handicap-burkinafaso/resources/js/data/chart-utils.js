@@ -2,6 +2,7 @@ import Bar from './options/Bar';
 import Maps from './options/Maps';
 import Pie from './options/Pie';
 import TreeMap from './options/TreeMap';
+import StackBar from './options/StackBar';
 
 const loadingState = {
         id: 1,
@@ -19,6 +20,8 @@ export const loadingChart = (type) => {
             return Pie(loadingState.values, "LOADING", "loading");
         case "TREEMAP":
             return TreeMap(loadingState.values, "LOADING", "loading");
+        case "STACK":
+            return StackBar(loadingState.values, "LOADING", "loading");
         default:
             return Bar(loadingState.values, "LOADING", "loading");
     }

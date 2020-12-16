@@ -17,21 +17,20 @@ import find from 'lodash/find';
 import Maps from '../data/options/Maps';
 import DataFilters from '../components/DataFilters';
 import { TextStyle } from '../data/features/animation.js';
-import Bar from "../data/options/Bar";
 import ModalDetail from '../components/ModalDetail';
 
 const MapsOverride = (TableView) => {
     return {
-        tooltip: {
-            trigger: 'item',
-            showDelay: 0,
-            padding:10,
-            transitionDuration: 0.2,
-            formatter: TableView,
-            backgroundColor: "#fff",
-            position: [10,150],
-            ...TextStyle,
-        },
+        // tooltip: {
+        //     trigger: 'item',
+        //     showDelay: 0,
+        //     padding:10,
+        //     transitionDuration: 0.2,
+        //     formatter: TableView,
+        //     backgroundColor: "#fff",
+        //     position: [10,150],
+        //     ...TextStyle,
+        // },
         dataRange: {
             left: 15,
             top: 10,
@@ -88,15 +87,6 @@ class PageOverviews extends Component {
             html += "<b>No Data</b>";
         }
         return '<div class="tooltip-maps">' + html + '</div>';
-        // return (
-        //     <Charts
-        //         key={112}
-        //         kind="BAR"
-        //         data={{column: 6, line: false, style: { height: "300px" }}}
-        //         page={this.props.value.page.name}
-        //         options={Bar("", "", { labels: ['A', 'B'], values: [100, 110] })}
-        //     />
-        // )
     }
 
     getMaps() {

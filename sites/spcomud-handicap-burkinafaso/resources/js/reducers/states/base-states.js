@@ -11,6 +11,7 @@ export const baseState = {
             name: "Loading",
             value: 0,
             active: false,
+            details: [],
         },
     },
     active: {

@@ -13,9 +13,16 @@ const Maps = (title, subtitle, list) => {
             trigger: 'item',
             showDelay: 0,
             transitionDuration: 0.2,
-            formatter: list.formatter,
-            backgroundColor: "#ffffff",
-            ...TextStyle
+            // formatter: list.formatter,
+            // backgroundColor: "#ffffff",
+            // ...TextStyle
+            formatter: function(params) {
+                let value = "No Data";
+                if (typeof params.data !== 'undefined') {
+                    value = (params.data.value !== 0) ? params.data.value : value;
+                }
+                return params.name + ": " + value;
+            }
         },
         geo: {
             map: 'burkina-faso',

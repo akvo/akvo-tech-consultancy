@@ -24,6 +24,7 @@ class ModalDetail extends Component {
 
         return (
             <Modal 
+                style={{zIndex:9999999}}
                 show={modal.toggleModalDetail}
                 onHide={() => this.hideModal()}
                 size="lg"
