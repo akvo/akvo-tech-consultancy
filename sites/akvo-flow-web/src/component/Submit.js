@@ -97,8 +97,10 @@ class Submit extends Component {
             }
         }
         if (instanceApi) {
-            instanceApi = instanceApi.save ? (instanceApi.api + '/submission') : false;
-        }
+            let demo = urlParams.demo ? (urlParams.demo === "1" ? true : false) : false;
+            instanceApi = instanceApi.save ?  (demo ? instanceApi.demoApi : instanceApi.api) : false;
+            instanceApi = instanceApi + '/submission';
+        };
         if (saveData && instanceApi) {
             axios.post('https://' + instanceApi, saveData, {headers: {'Content-Type':'application/json'}})
                 .then(res => {
@@ -322,6 +324,7 @@ class Submit extends Component {
     componentDidMount() {
         localStorage.setItem('_meta', false);
         let instance = SAVE_FEATURES.find(x => x.instance === this.props.value.instanceName);
+        let instanceApi = false;
         if (instance) {
             const skipMandatories = instance.skipMandatories
                 ? instance.skipMandatories.includes(this.props.value.surveyId)
@@ -332,9 +335,10 @@ class Submit extends Component {
                 _skipMandatories:skipMandatories
             });
             localStorage.setItem(passvar, survey_form.includes(USING_PASSWORDS) ? "" : password);
-            instance = instance.api;
+            instanceApi = instance.api;
         }
-        if (instance && urlParams.user_id) {
+        if (instanceApi && urlParams.user_id) {
+            instance = urlParams.demo ? (urlParams.demo === "1" ? instance.demoApi : instanceApi) : instanceApi;
             axios.get("https://" + instance + "/flow-submitter/" + urlParams.user_id)
                 .then(res => {
                     this.setState({'_username': res.data.user})
