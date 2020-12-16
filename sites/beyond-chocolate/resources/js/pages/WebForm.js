@@ -371,7 +371,9 @@ const WebForm = ({setFormLoaded}) => {
     const [confirmAction, setConfirmAction] = useState(null);
 
     const openForm = url => {
-        let endpoint = (url === null) ? url : url + '&locale=' + locale.active;
+        const isDemo = location.hostname.startsWith('gisco-pilot') ? 0 : 1;
+        let endpoint = (url === null) ? url : `${url}&locale=${locale.active}&demo=${isDemo}`;
+        console.log(isDemo, '????', endpoint);
         setActiveForm(endpoint);
         // setFormUrl(url);
         // updateUser({ ...user, formUrl: url });
@@ -404,8 +406,9 @@ const WebForm = ({setFormLoaded}) => {
 
     useEffect(() => {
         // open form from previous session
+        const isDemo = location.hostname.startsWith('gisco-pilot') ? 0 : 1;
         const form = localStorage.getItem(`active-form:${user.id}`);
-        let endpoint = (form === null) ? form : form + '&locale=' + locale.active;
+        let endpoint = (form === null) ? form : `${form}&locale=${locale.active}&demo=${isDemo}`;
         setActiveForm(endpoint);
 
         // just load the survey active when user not refresh the browser
