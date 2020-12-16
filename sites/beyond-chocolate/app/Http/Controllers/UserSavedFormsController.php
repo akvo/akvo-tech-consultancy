@@ -4,28 +4,53 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Models\Organization;
+use App\Models\WebForm;
 
 class UserSavedFormsController
 {
     public function __invoke(Request $request)
     {
+        $config = config('bc');
+        $qs = $config['questionnaires'];
+        $url = $config['form_url_no_instance'];
         $user = $request->user();
-        $query = self::getFetchQuery($user);
-        if (count($query) < 1) {
-            return [];
-        }
-        $data = self::fetchData($query);
-        if (!is_array($data) || count($data) < 1) {
-            return [];
-        }
-        $result = self::formatData($data);
-        usort($result, [self::class, 'compareData']);
-        // filter saved form by organization
-        $result = collect($result)->filter(function ($res) use ($user) {
-            return $res['org_id'] === $user->organization_id;
-        })->values();
-        return $result; 
+        $webforms = WebForm::where([
+            ['organization_id', $user->organization_id],
+            ['submitted', false]
+        ])->get();
+        $webforms = $webforms->map(function ($wf) use ($qs, $url) {
+            return [
+                "date" => $wf->updated_at,
+                "org_id" => $wf->organization_id,
+                "org_name" => $wf->organization->name,
+                "submission_name" => null,
+                "submitter" => $wf->user->email,
+                "survey_name" => $qs[$wf->form_id],
+                "url" => $url . $wf->form_instance_url
+            ];
+        });
+        return $webforms;
     }
+
+    // public function __invoke(Request $request)
+    // {
+    //     $user = $request->user();
+    //     $query = self::getFetchQuery($user);
+    //     if (count($query) < 1) {
+    //         return [];
+    //     }
+    //     $data = self::fetchData($query);
+    //     if (!is_array($data) || count($data) < 1) {
+    //         return [];
+    //     }
+    //     $result = self::formatData($data);
+    //     usort($result, [self::class, 'compareData']);
+    //     // filter saved form by organization
+    //     $result = collect($result)->filter(function ($res) use ($user) {
+    //         return $res['org_id'] === $user->organization_id;
+    //     })->values();
+    //     return $result; 
+    // }
 
     private static function fetchData($query)
     {

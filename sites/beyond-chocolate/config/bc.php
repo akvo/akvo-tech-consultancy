@@ -36,4 +36,6 @@ return [
     'form_url' => 'https://tech-consultancy.akvotest.org/akvo-flow-web/idh/',
 
     'saved_form_endpoint' => 'https://tech-consultancy.akvotest.org/akvo-flow-web-api/saved-forms',
+
+    'form_url_no_instance' => 'https://tech-consultancy.akvotest.org/akvo-flow-web/',
 ];
