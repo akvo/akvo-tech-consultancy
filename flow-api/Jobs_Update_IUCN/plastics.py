@@ -12,7 +12,7 @@ pp = pprint.PrettyPrinter(indent=4)
 
 APIKEY='&api_key='+os.environ['CARTO_KEY']
 CARTOURL='https://akvo.cartodb.com/api/v2/sql?q='
-#DATABASEID = "test_iucn_tof"
+# DATABASEID = "test_iucn_plastics"
 DATABASEID = "iucn_plastics_249830001"
 INSTANCE='iucn'
 SURVEYID='239480001'
