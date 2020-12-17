@@ -635,6 +635,17 @@ footer {
     }
 
 }
+.faqList {
+    h5 {
+        color:#6c3317;
+        font-size: 1.1rem;
+    }
+    ol {
+        margin-left: 1.5rem!important;
+        margin-bottom: 0px;
+    }
+}
+
 .form-group .invalid-feedback {
   white-space: pre-line;
 }
