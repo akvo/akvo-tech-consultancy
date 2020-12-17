@@ -43,7 +43,7 @@ class UserSavedFormsController
                 "date" => $wf->updated_at,
                 "org_id" => $wf->organization_id,
                 "org_name" => $wf->organization->name,
-                "submission_name" => null,
+                "submission_name" => $wf->display_name,
                 "submitter" => $wf->user->email,
                 "survey_name" => $qs[$wf->form_id],
                 "url" => $url . $wf->form_instance_url,
