@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Models\Organization;
 use App\Models\WebForm;
+use App\Models\Collaborator;
 
 class UserSavedFormsController
 {
@@ -14,10 +15,18 @@ class UserSavedFormsController
         $qs = $config['questionnaires'];
         $url = $config['form_url_no_instance'];
         $user = $request->user();
+        $collaboratorForms = Collaborator::where([
+            ['organization_id', $user->organization_id],
+        ])->get()->map(function($collaboration){
+            return $collaboration->web_form_id;
+        });
         $webforms = WebForm::where([
             ['organization_id', $user->organization_id],
             ['submitted', false]
-        ])->get();
+        ])->orWhere(function ($query) use ($collaboratorForms) {
+            $query->where('submitted', false)
+                  ->whereIn('id', $collaboratorForms);
+        })->get();
         $webforms = $webforms->map(function ($wf) use ($qs, $url) {
             return [
                 "date" => $wf->updated_at,
