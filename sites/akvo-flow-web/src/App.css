@@ -347,6 +347,17 @@ img.responsive-image {
 .repeat-group-delete{
     margin-bottom: 20px;
 }
+.repeat-group-custom-intro {
+    text-align: left;
+    font-size: 14px;
+    border-bottom: 1px #ddd solid;
+    padding: .5rem 1rem;
+}
+.repeat-group-custom-intro span{
+    text-align:justify;
+}
+
+
 /* RepatGroup */
 
 /* Exif */

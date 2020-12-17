@@ -754,6 +754,10 @@ export const Locale = {
         en: "I have used the comments boxes in the corresponding question groups to explain why I cannot complete the still uncompleted mandatory fields.",
         de: "Ich habe die Kommentarfelder genutzt, um Angaben dazu zu machen, warum ich bestimmte Pflichtfelder nicht ausfüllen konnte."
     },
+    customRepeatGroupInfo: {
+        en: "Please note that the below question block is provided in a <b>repeat</b> mode. Each repeat group allows you to report for only 1 initiative, 1 country, 1 lesson learned, 1 project partner, etc. To add another repeat group, please click the blue <b>Repeat Group +</b> button in the top right of your screen. Please click on <b>more info</b> to learn how this applies to the below group of questions.",
+        de: "Bitte beachten Sie, dass der folgende Fragenblock in einem Wiederholungsmodus bereitgestellt wird. Mit jeder <b>Wiederholungsgruppe</b> können Sie nur für 1 Initiative, 1 Land, 1 Lektion, 1 Projektpartner usw. Bericht erstatten. Um eine weitere Wiederholungsgruppe hinzuzufügen, klicken Sie oben rechts auf dem Bildschirm auf die blaue Schaltfläche <b>Wiederholungsgruppe +</b> . Bitte klicken Sie auf <b>Weitere Informationen</b>, um zu erfahren, wie dies für die folgende Gruppe von Fragen gilt."
+    }
 }
 
 export default isoLangs;
