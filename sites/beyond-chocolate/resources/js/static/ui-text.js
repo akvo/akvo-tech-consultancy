@@ -83,7 +83,7 @@ export const uiText = {
         valVerificationThank: "Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn't receive the email, we will gladly send you another.",
         valVerificationInfo: "A new verification link has been sent to the email address you provided during registration.",
         valName: "The name field is required.",
-        valFetchingData: "Fetching data", 
+        valFetchingData: "Fetching data",
         // New
         valOptionNewFormDisabledInfo: "submission for the member already created",
         // Save Form Modal
@@ -93,6 +93,7 @@ export const uiText = {
         tbColVerifiedOn: 'Verified on',
         valRegisterCheckBox: 'To complete your registration, please consent to the data security provisions.',
         textFooterImpressum: "Impressum",
+        textFooterFaq: "FAQ",
         // assignment panel
         textAssignmentPanel: "Thank you for completing your registration. The GISCO secretariat will verify your credentials and assign you the appropriate surveys. You will be notified by the secretariat via email.",
     },
@@ -189,6 +190,7 @@ export const uiText = {
         tbColVerifiedOn: 'Verifiziert am',
         valRegisterCheckBox: 'Um die Registrierung abzuschließen, stimmen Sie bitten den Datenschutz-Vorkehrungen zu.',
         textFooterImpressum: "Impressum",
+        textFooterFaq: "FAQ",
         // assignment panel
         textAssignmentPanel: "Thank you for completing your registration. The GISCO secretariat will verify your credentials and assign you the appropriate surveys. You will be notified by the secretariat via email.",
     },
