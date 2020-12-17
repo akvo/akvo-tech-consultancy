@@ -18,6 +18,9 @@ import Maps from '../data/options/Maps';
 import DataFilters from '../components/DataFilters';
 import { TextStyle } from '../data/features/animation.js';
 import ModalDetail from '../components/ModalDetail';
+import Draggable from 'react-draggable';
+import Pie from "../data/options/Pie";
+import { faCommentsDollar } from "@fortawesome/free-solid-svg-icons";
 
 const MapsOverride = (TableView) => {
     return {
@@ -62,11 +65,18 @@ class PageOverviews extends Component {
         this.renderSecondFilterOption = this.renderSecondFilterOption.bind(this);
         this.onChangeFilter = this.onChangeFilter.bind(this);
         this.onLoadFilter = this.onLoadFilter.bind(this);
+        this.getPie = this.getPie.bind(this);
         this.state = {
             charts: [
                 {
                     kind: "MAPS",
                     data: generateData(12, false, "800px")
+                }
+            ],
+            pie_chart: [
+                {
+                    kind: "PIE",
+                    data: generateData(12, false, "500px")
                 }
             ],
             ff_qid: null,
@@ -110,12 +120,50 @@ class PageOverviews extends Component {
         return res;
     }
 
+    getPie() {
+        let page = this.props.value.page.name;
+        let filters = this.props.value.filters[page];
+        let { active } = this.props.value.base;
+        if (filters.source === null) {
+            return [];
+        }
+
+        let activeFilter = filters.config.first_filter.find(x => x.question_id === active.ff_qid);
+        // DO :: Maps data with active filter
+        let pieData = activeFilter.values.map(val => {
+            let dataByFirstFilter = filter(filters.data, (x) => {
+                if (typeof x[active.ff_qid] === 'undefined') {
+                    return null;
+                }
+                return x[active.ff_qid].answer.toLowerCase().includes(val.text.toLowerCase());
+            });
+            let filteredDataByFirstFilter = filter(dataByFirstFilter, (z => z.active === true));
+            return {
+                value: filteredDataByFirstFilter.length,
+                name: val.text,
+            };
+        });
+        console.log(pieData);
+        return pieData;
+    }
+
     getOptions(list) {
         let page = this.props.value.page.name;
-        let filters = this.props.value.filters[page].filters;
-        let title = "";
-        let subtitle = "";
-        return Maps(title, subtitle, this.getMaps());
+        let filters = this.props.value.filters[page];
+        let { active } = this.props.value.base;
+        switch (list.kind) {
+            case "MAPS":
+                return Maps("", "", this.getMaps());        
+            default:
+                // rose pie
+                let title = "";
+                if (filters.source !== null) {
+                    let activeFilter = filters.config.first_filter.find(x => x.question_id === active.ff_qid);
+                    console.log(activeFilter);
+                    title = activeFilter.text;
+                }
+                return Pie(this.getPie(), title, "", null, null, true);
+        }
     }
 
     getCharts(list, index) {
@@ -334,6 +382,7 @@ class PageOverviews extends Component {
                 sf_all_legends: checked_all 
             });
         }
+        return;
     }
 
     onLoadFilter() {
@@ -344,6 +393,7 @@ class PageOverviews extends Component {
             let ff = filters.config.first_filter;
             this.onChangeFilter(ff[0].question_id, "ff");
         }
+        return;
     }
 
     componentDidMount() {
@@ -356,8 +406,15 @@ class PageOverviews extends Component {
         let page = this.props.value.page.name;
         let filters = this.props.value.filters[page];
         let maps = this.state.charts.map((list, index) => {
-            return this.getCharts(list, index)
+            return this.getCharts(list, index);
         });
+        let pie = "";
+        if (filters.source !== null) { 
+            pie = this.state.pie_chart.map((list, index) => {
+                return this.getCharts(list, index);
+            });
+        }
+
         return (
             <Fragment>
             <Container className="top-container">
@@ -366,6 +423,7 @@ class PageOverviews extends Component {
             </Container>
             <Container className="container-content container-sticky">
                 <Row>
+                    {/* First Filter */}
                     { filters.source !== null ?
                         <div className="first-filter">
                             <Form>
@@ -385,12 +443,22 @@ class PageOverviews extends Component {
 
                     {maps}
 
+                    {/* Second Filter */}
                     { filters.source !== null ? 
                         <div className="second-filter">
                             <Accordion>
                                 { this.renderSecondFilterDropdown() }
                             </Accordion>
                         </div>
+                    : "" }
+
+                    {/* Pie Chart */}
+                    { filters.source !== null ? 
+                        <Draggable>
+                            <div className="pie-filter">
+                                { pie }
+                            </div>
+                        </Draggable>
                     : "" }
                 </Row>
             </Container>

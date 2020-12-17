@@ -16,6 +16,7 @@ import 'echarts/lib/component/grid';
 import 'echarts/lib/component/title';
 import 'echarts/lib/component/dataZoom';
 import 'echarts/lib/component/visualMap';
+import { faPastafarianism } from "@fortawesome/free-solid-svg-icons";
 
 
 class LoadingChart extends Component {
@@ -42,19 +43,22 @@ class Charts extends Component {
     }
 
     clickEvent(param) {
-        let { data, name } = param;
-        let page = this.props.value.page.name;
-        let { source } =  this.props.value.filters[page];
-        if (source !== null && typeof data !== 'undefined') {
-            this.props.chart.state.loading(true);
-            setTimeout(() => {
-                this.props.chart.state.loading(false);
-                this.props.modal.setSelected(data, 'selectedModalDetail');
-                this.props.modal.toggle(true, 'toggleModalDetail');
-            }, 0);
-            // this.props.modal.setSelected(data, 'selectedModalDetail');
-            // this.props.modal.toggle(true, 'toggleModalDetail');
+        if (param.seriesType === 'map') {
+            let { data, name } = param;
+            let page = this.props.value.page.name;
+            let { source } =  this.props.value.filters[page];
+            if (source !== null && typeof data !== 'undefined') {
+                this.props.chart.state.loading(true);
+                setTimeout(() => {
+                    this.props.chart.state.loading(false);
+                    this.props.modal.setSelected(data, 'selectedModalDetail');
+                    this.props.modal.toggle(true, 'toggleModalDetail');
+                }, 0);
+                // this.props.modal.setSelected(data, 'selectedModalDetail');
+                // this.props.modal.toggle(true, 'toggleModalDetail');
+            }
         }
+        return;
     }
 
     componentDidMount() {

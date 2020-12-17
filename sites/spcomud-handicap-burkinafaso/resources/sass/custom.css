@@ -478,6 +478,22 @@ footer img.footer-img{
     min-width: 325px;
     max-width: 350px;
 }
+
+.pie-filter {
+    font-size: 1rem;
+    left: 0;
+    bottom: 0;
+    position: absolute;
+    z-index: 1;
+    margin-left: 15px;
+    margin-bottom: 150px;
+    min-width: 375px;
+    /* max-width: 450px; */
+    background-color: #ffffff;
+    opacity: .7;
+    padding: 10px;
+    border: 1px solid #dddddd;
+}
 /* EOL Floating Filter CSS */
 
 @media (min-width: 992px) {
