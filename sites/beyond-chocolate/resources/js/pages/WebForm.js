@@ -210,15 +210,17 @@ const FormCollaborators = ({webFormId, editable}) => {
         const options = orgs.filter(it => collaboratorIds.indexOf(it.id) === -1)
                             .map(it => {return {value: it.id, label: it.name}});
         return (
-            <>
-              <Select
-                placeholder={text.valSelectOrganization}
-                value={newOrg}
-                options={options}
-                onChange={(data) => setNewOrg(data)}
-              />
+            <Form as={Col} inline className="pl-0">
+              <div className="col pl-0">
+                <Select
+                  placeholder={text.valSelectOrganization}
+                  value={newOrg}
+                  options={options}
+                  onChange={(data) => setNewOrg(data)}
+                />
+              </div>
               <Button disabled={newOrg === null} variant="primary" onClick={() => addCollaborator(newOrg.value)}>{text.btnAdd}</Button>
-            </>
+            </Form>
         )
     }
 
@@ -240,16 +242,16 @@ const FormCollaborators = ({webFormId, editable}) => {
           <Col md={12}>
             <Row>{ text.formCollaborators }</Row>
             <Row>
-              { editable && <AddCollaborator />}
-              <ButtonGroup aria-label={ text.formCollaborators }>
-                {collaborators.map(collaborator => (
-                    <Button className="contributors" size="sm" key={collaborator.organization_id} variant={collaborator.primary ? "outline-primary": "outline-secondary"}>
-                      {collaborator.organization_name}
-                      {collaborator.primary && ` (${text.btnPrimary})`}
-                      {editable && !collaborator.primary && <RemoveCollaborator collaborator={collaborator}/>}
-                    </Button>
-                ))}
-              </ButtonGroup>
+                { editable && <AddCollaborator />}
+                <ButtonGroup aria-label={ text.formCollaborators }>
+                  {collaborators.map(collaborator => (
+                      <Button className="contributors" size="sm" key={collaborator.organization_id} variant={collaborator.primary ? "outline-primary": "outline-secondary"}>
+                        {collaborator.organization_name}
+                        {collaborator.primary && ` (${text.btnPrimary})`}
+                        {editable && !collaborator.primary && <RemoveCollaborator collaborator={collaborator}/>}
+                      </Button>
+                  ))}
+                </ButtonGroup>
             </Row>
           </Col>
         </div>
