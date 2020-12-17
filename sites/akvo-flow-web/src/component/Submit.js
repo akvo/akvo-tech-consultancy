@@ -90,6 +90,7 @@ class Submit extends Component {
                 user_id: saveData.user,
                 organization_id: saveData.org,
                 form_id: saveData.formId,
+                display_name: localStorage.getItem('_dataPointName') ? localStorage.getItem('_dataPointName') : 'Untitled',
                 form_instance_id: saveData.instanceName,
                 form_instance_url: formInstanceUrl,
                 submitted: submitted,
