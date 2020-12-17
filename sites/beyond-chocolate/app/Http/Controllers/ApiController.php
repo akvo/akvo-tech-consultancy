@@ -24,6 +24,28 @@ class ApiController extends Controller
         return $orgs;
     }
 
+    public function getCollaboratorAssignments(Request $request)
+    {
+        $webForm = WebForm::find($request->web_form_id);
+        if (is_null($webForm)) {
+            return [];
+        }
+        $collaborators = Collaborator::where(['web_form_id' => $webForm->id])->get();
+        $orgs = $collaborators->map(function($collaborator){
+            $org = [
+                "organization_id" => $collaborator->organization_id,
+                "primary"=> false,
+                "organization_name" => Organization::where(['id' => $collaborator->organization_id])->first()->name
+            ];
+            return $org;
+        })->push([
+            "organization_id" => $webForm->organization_id,
+            "primary"=> true,
+            "organization_name" => Organization::where(['id' => $webForm->organization_id])->first()->name
+        ]);
+        return $orgs;
+    }
+
     public function addCollaboratorAssignment(Request $request)
     {
         $orgId = $request->organization_id;

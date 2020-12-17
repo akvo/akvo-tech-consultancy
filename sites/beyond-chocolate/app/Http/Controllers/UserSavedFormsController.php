@@ -26,7 +26,8 @@ class UserSavedFormsController
                 "submission_name" => null,
                 "submitter" => $wf->user->email,
                 "survey_name" => $qs[$wf->form_id],
-                "url" => $url . $wf->form_instance_url
+                "url" => $url . $wf->form_instance_url,
+                "web_form_id" => $wf->id
             ];
         });
         return $webforms;

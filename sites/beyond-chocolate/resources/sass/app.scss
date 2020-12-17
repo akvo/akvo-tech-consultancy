@@ -385,6 +385,14 @@ main {
            min-width: 425px;
        }
     }
+    .formCollaborators {
+        padding: 1rem;
+        border-radius: 0.3rem;
+        .contributors {
+            margin-left: 0;
+            margin-right: 0.3rem;
+        }
+    }
     div[class$="-container"] {
         width: 100% !important;
     }

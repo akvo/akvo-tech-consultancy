@@ -57,7 +57,7 @@ const SavedFormsSelector = ({ text, user, onSelect, watchValue, setConfirmAction
         if (!selected) return;
         setShowSavePrompt(false);
         const url = `${selected.url}?user_id=${user.id}`;
-        onSelect({ url, type: null });
+        onSelect({ url, type: null, webFormId:selected.web_form_id });
     };
     const promptSave = (e) => {
         if (!selected) return;
@@ -168,6 +168,36 @@ const SavedFormsSelector = ({ text, user, onSelect, watchValue, setConfirmAction
     );
 };
 
+
+const FormCollaborators = ({webFormId}) => {
+    const { locale } = useLocale();
+    const text = uiText[locale.active];
+    const [collaborators, setCollaborators] = useState([]);
+    useEffect(async () => {
+        if (!webFormId) { return; }
+        const endpoint = `/api/collaborators/${webFormId}/`;
+        const { data } = await request().get(endpoint);
+        const sortOrgs = (a, b) => a.primary ? -1 : b.primary ? 1 : a.organization_id - b.organization_id;
+        setCollaborators(data.sort(sortOrgs));
+    }, [webFormId]);
+
+    return (
+        <div className="formCollaborators">
+          <Col md={12}>
+            <Row>{ text.formCollaborators }</Row>
+            <Row>
+              <ButtonGroup aria-label={ text.formCollaborators }>
+                {collaborators.map(collaborator => (
+                    <Button className="contributors" size="sm" key={collaborator.organization_id} variant={collaborator.primary ? "outline-primary": "outline-secondary"}>
+                    {collaborator.organization_name} {collaborator.primary && `(${text.btnPrimary})`}
+                    </Button>
+                ))}
+              </ButtonGroup>
+            </Row>
+          </Col>
+        </div>
+    );
+}
 
 const NewFormSelectMenu = props => {
     const { locale } = useLocale();
@@ -369,6 +399,7 @@ const WebForm = ({setFormLoaded}) => {
     const [formUrl, setFormUrl] = useState(null);
     const [showSavePrompt, setShowSavePrompt] = useState(false);
     const [confirmAction, setConfirmAction] = useState(null);
+    const [webFormId, setWebFormId] = useState(null);
 
     const openForm = url => {
         const isDemo = location.hostname.startsWith('gisco-pilot') ? 0 : 1;
@@ -377,7 +408,7 @@ const WebForm = ({setFormLoaded}) => {
         localStorage.setItem(`active-form:${user.id}`, url);
     };
 
-    const onSelectForm = ({ url, type }) => {
+    const onSelectForm = ({ url, type, webFormId }) => {
         if (type == "111510043" || user.project_fids.includes(type)) {
             // new form
             setShowProjectInfo(true);
@@ -385,6 +416,7 @@ const WebForm = ({setFormLoaded}) => {
         } else {
             // saved form
             openForm(url);
+            setWebFormId(webFormId);
         }
     };
 
@@ -423,6 +455,9 @@ const WebForm = ({setFormLoaded}) => {
     return (
         <Container fluid>
             <Row>
+                <p className="pl-3 text-muted">
+                    { content.dataSecurityText }
+                </p>
                 <Col md={12}>
                     <div className="d-flex">
                         <div className="p-2 flex-grow-1" style={{maxWidth:"70%"}}>
@@ -449,10 +484,7 @@ const WebForm = ({setFormLoaded}) => {
                             />
                         </div>
                     </div>
-                    <hr />
-                    <p className="pl-3 text-muted">
-                        { content.dataSecurityText }
-                    </p>
+                    {webFormId && <FormCollaborators webFormId={webFormId}/>}
                     <Card>
                         {activeForm && (
                             <iframe

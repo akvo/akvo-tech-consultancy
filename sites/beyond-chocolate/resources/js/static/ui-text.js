@@ -35,6 +35,7 @@ export const uiText = {
         formRegister: "Register",
         formFullName: "Full Name",
         formResetPwd: "Reset Password",
+        formCollaborators: "Contributing organizations",
         // Button
         btnUpdate: "Update",
         btnClose: "Close",
@@ -51,6 +52,7 @@ export const uiText = {
         btnOk: "OK",
         btnYes: "Yes",
         btnNo: "No",
+        btnPrimary: "Primary",
         // Table
         tbColName: "Name",
         tbColEmail: "Email",
@@ -127,6 +129,7 @@ export const uiText = {
         formRegister: "Registrieren",
         formFullName: "Name",
         formResetPwd: "Passwort zurücksetzen",
+        formCollaborators: "Contributing organizations",
         // Button
         btnUpdate: "Update",
         btnClose: "Schließen",
@@ -143,6 +146,7 @@ export const uiText = {
         btnOk: "OK",
         btnYes: "Ja",
         btnNo: "Nein",
+        btnPrimary: "Primary",
         // Table
         tbColName: "Name",
         tbColEmail: "Email",
