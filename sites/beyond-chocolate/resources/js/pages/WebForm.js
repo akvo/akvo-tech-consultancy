@@ -388,7 +388,7 @@ const SubmissionInfoModal = ({ text, show, onHide, submissionInfo }) => {
     );
 };
 
-const WebForm = ({setFormLoaded}) => {
+const WebForm = ({setFormLoaded, webFormId, setWebFormId}) => {
     const { user, updateUser } = useAuth();
     const { locale } = useLocale();
     const [activeForm, setActiveForm] = useState();
@@ -399,7 +399,6 @@ const WebForm = ({setFormLoaded}) => {
     const [formUrl, setFormUrl] = useState(null);
     const [showSavePrompt, setShowSavePrompt] = useState(false);
     const [confirmAction, setConfirmAction] = useState(null);
-    const [webFormId, setWebFormId] = useState(null);
 
     const openForm = url => {
         const isDemo = location.hostname.startsWith('gisco-pilot') ? 0 : 1;

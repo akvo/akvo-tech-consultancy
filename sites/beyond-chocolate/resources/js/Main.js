@@ -48,6 +48,7 @@ const Main = () => {
     }, []);
 
     const [formLoaded, setFormLoaded] = useState(false);
+    const [webFormId, setWebFormId] = useState(null);
 
     window.onbeforeunload = (e) => {
         if (formLoaded) {
@@ -104,6 +105,8 @@ const Main = () => {
                             path={config.routes.survey}
                             component={WebForm}
                             setFormLoaded={setFormLoaded}
+                            setWebFormId={setWebFormId}
+                            webFormId={webFormId}
                         />
                         <PublicOnlyRoute
                             exact
