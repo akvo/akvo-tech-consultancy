@@ -206,7 +206,6 @@ const FormCollaborators = ({webForm, editable}) => {
             const org = orgs.find(it => it.id === Number(data.organization_id));
             const collaborator = {organization_id: org.id, organization_name: org.name, primary: false};
             setCollaborators(collaborators.concat([collaborator]));
-            setNewOrg(null);
         }
         const collaboratorIds = collaborators.map(it => it.organization_id);
         const options = orgs.filter(it => collaboratorIds.indexOf(it.id) === -1)
