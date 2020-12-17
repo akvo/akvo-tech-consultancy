@@ -39,13 +39,13 @@ class AppServiceProvider extends ServiceProvider
             return (new \Illuminate\Notifications\Messages\MailMessage)
                 ->subject('Verify Email Address – Emailadresse bestätigen')
                 ->line('Please click the button below to verify your email address.')
-                ->line('Bitte klicken Sie auf dieses Feld um Ihre Emailadresse zu bestätigen.')
+                // ->line('Bitte klicken Sie auf dieses Feld um Ihre Emailadresse zu bestätigen.')
                 ->action(
-                    'Verify Email Address/ Emailadresse bestätigen',
+                    'Verify Email Address',
                     $verifyUrl
                 )
-                ->line('If you did not create an account, no further action is required.')
-                ->line('Wenn sie keine Registrierung vorgenommen haben, ignorieren Sie bitte diese Email.');
+                ->line('If you did not create an account, no further action is required.');
+                // ->line('Wenn sie keine Registrierung vorgenommen haben, ignorieren Sie bitte diese Email.');
         });
     }
 }
