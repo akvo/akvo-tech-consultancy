@@ -58,7 +58,7 @@ const SavedFormsSelector = ({ text, user, onSelect, watchValue, setConfirmAction
         if (!selected) return;
         setShowSavePrompt(false);
         const url = `${selected.url}?user_id=${user.id}`;
-        onSelect({ url, type: null, webFormId:selected.web_form_id });
+        onSelect({ url, type: null, webForm:selected });
     };
     const promptSave = (e) => {
         if (!selected) return;
@@ -170,7 +170,7 @@ const SavedFormsSelector = ({ text, user, onSelect, watchValue, setConfirmAction
 };
 
 
-const FormCollaborators = ({webFormId}) => {
+const FormCollaborators = ({webFormId, editable}) => {
     const { locale } = useLocale();
     const text = uiText[locale.active];
     const [collaborators, setCollaborators] = useState([]);
@@ -194,7 +194,6 @@ const FormCollaborators = ({webFormId}) => {
     }, []);
 
     const AddCollaborator = () => {
-        // FIXME: Permissions check
         const { locale } = useLocale();
         const text = uiText[locale.active];
         const [newOrg, setNewOrg] = useState(null);
@@ -224,7 +223,6 @@ const FormCollaborators = ({webFormId}) => {
     }
 
     const RemoveCollaborator = ({collaborator}) => {
-        // FIXME: Permissions check
         const removeCollaborator = async (collaboratorId) => {
             const endpoint = `/api/collaborators/${webFormId}/${collaboratorId}`;
             const { data } = await request().delete(endpoint);
@@ -242,13 +240,13 @@ const FormCollaborators = ({webFormId}) => {
           <Col md={12}>
             <Row>{ text.formCollaborators }</Row>
             <Row>
-              <AddCollaborator />
+              { editable && <AddCollaborator />}
               <ButtonGroup aria-label={ text.formCollaborators }>
                 {collaborators.map(collaborator => (
                     <Button className="contributors" size="sm" key={collaborator.organization_id} variant={collaborator.primary ? "outline-primary": "outline-secondary"}>
                       {collaborator.organization_name}
                       {collaborator.primary && ` (${text.btnPrimary})`}
-                      {!collaborator.primary && <RemoveCollaborator collaborator={collaborator}/>}
+                      {editable && !collaborator.primary && <RemoveCollaborator collaborator={collaborator}/>}
                     </Button>
                 ))}
               </ButtonGroup>
@@ -447,8 +445,8 @@ const SubmissionInfoModal = ({ text, show, onHide, submissionInfo }) => {
     );
 };
 
-const WebForm = ({setFormLoaded, webFormId, setWebFormId}) => {
-    const { user, updateUser } = useAuth();
+const WebForm = ({setFormLoaded, webForm, setWebForm}) => {
+    const { user } = useAuth();
     const { locale } = useLocale();
     const [activeForm, setActiveForm] = useState();
     const [delayedActiveForm, setDelayedActiveForm] = useState();
@@ -459,6 +457,8 @@ const WebForm = ({setFormLoaded, webFormId, setWebFormId}) => {
     const [showSavePrompt, setShowSavePrompt] = useState(false);
     const [confirmAction, setConfirmAction] = useState(null);
 
+    const editableCollaborators = user?.organization_id === webForm?.org_id;
+
     const openForm = url => {
         const isDemo = location.hostname.startsWith('gisco-pilot') ? 0 : 1;
         let endpoint = (url === null) ? url : `${url}&locale=${locale.active}&demo=${isDemo}`;
@@ -466,7 +466,7 @@ const WebForm = ({setFormLoaded, webFormId, setWebFormId}) => {
         localStorage.setItem(`active-form:${user.id}`, url);
     };
 
-    const onSelectForm = ({ url, type, webFormId }) => {
+    const onSelectForm = ({ url, type, webForm }) => {
         if (type == "111510043" || user.project_fids.includes(type)) {
             // new form
             setShowProjectInfo(true);
@@ -474,7 +474,7 @@ const WebForm = ({setFormLoaded, webFormId, setWebFormId}) => {
         } else {
             // saved form
             openForm(url);
-            setWebFormId(webFormId);
+            setWebForm(webForm);
         }
     };
 
@@ -542,7 +542,7 @@ const WebForm = ({setFormLoaded, webFormId, setWebFormId}) => {
                             />
                         </div>
                     </div>
-                    {webFormId && <FormCollaborators webFormId={webFormId}/>}
+                    {webForm?.web_form_id && <FormCollaborators webFormId={webForm?.web_form_id} editable={editableCollaborators}/>}
                     <Card>
                         {activeForm && (
                             <iframe
