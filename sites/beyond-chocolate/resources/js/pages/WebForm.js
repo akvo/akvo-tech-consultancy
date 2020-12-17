@@ -170,7 +170,8 @@ const SavedFormsSelector = ({ text, user, onSelect, watchValue, setConfirmAction
 };
 
 
-const FormCollaborators = ({webFormId, editable}) => {
+const FormCollaborators = ({webForm, editable}) => {
+    const webFormId = webForm?.web_form_id;
     const { locale } = useLocale();
     const text = uiText[locale.active];
     const [collaborators, setCollaborators] = useState([]);
@@ -200,7 +201,8 @@ const FormCollaborators = ({webFormId, editable}) => {
 
         const addCollaborator = async (collaboratorId) => {
             const endpoint = `/api/collaborators/${webFormId}/${collaboratorId}`;
-            const { data } = await request().post(endpoint);
+            const payload = {projectTitle: webForm?.submission_name || text.textUntitledProject}
+            const { data } = await request().post(endpoint, payload);
             const org = orgs.find(it => it.id === Number(data.organization_id));
             const collaborator = {organization_id: org.id, organization_name: org.name, primary: false};
             setCollaborators(collaborators.concat([collaborator]));
@@ -544,7 +546,7 @@ const WebForm = ({setFormLoaded, webForm, setWebForm}) => {
                             />
                         </div>
                     </div>
-                    {webForm?.web_form_id && <FormCollaborators webFormId={webForm?.web_form_id} editable={editableCollaborators}/>}
+                    {webForm?.web_form_id && <FormCollaborators webForm={webForm} editable={editableCollaborators}/>}
                     <Card>
                         {activeForm && (
                             <iframe

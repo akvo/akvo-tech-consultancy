@@ -96,6 +96,7 @@ export const uiText = {
         textFooterFaq: "FAQ",
         // assignment panel
         textAssignmentPanel: "Thank you for completing your registration. The GISCO secretariat will verify your credentials and assign you the appropriate surveys. You will be notified by the secretariat via email.",
+        textUntitledProject: "Untitled Project",
     },
 
     de: {
@@ -193,5 +194,6 @@ export const uiText = {
         textFooterFaq: "FAQ",
         // assignment panel
         textAssignmentPanel: "Thank you for completing your registration. The GISCO secretariat will verify your credentials and assign you the appropriate surveys. You will be notified by the secretariat via email.",
+        textUntitledProject: "Untitled Project",
     },
 };
