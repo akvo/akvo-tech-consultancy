@@ -7,6 +7,7 @@ use App\Models\Organization;
 use App\Models\User;
 use App\Models\WebForm;
 use App\Models\Collaborator;
+use App\Helpers\Mails;
 
 class ApiController extends Controller
 {
@@ -58,7 +59,37 @@ class ApiController extends Controller
         $collaborator = Collaborator::updateOrCreate(['web_form_id' => $webFormId, 'organization_id' => $orgId]);
         if (!is_null($collaborator)) {
         }
+        $mails = new Mails();
+        self::notifyCollaborators($request, $user, $mails);
         return $collaborator;
+    }
+
+    // email all users of a collaborator organization
+    public function notifyCollaborators(Request $request, User $assigningUser, Mails $mails)
+    {
+        $users = User::select(['name', 'organization_id', 'email'])
+               ->where('organization_id', $request->organization_id)
+               ->get();
+        $subject = "Organisation added as collaborator";
+        $project_title = "YYY";
+        $assigningOrg = $assigningUser->organization()->first();
+        $users->map(function($user) use ($assigningUser, $assigningOrg, $subject, $project_title, $mails){
+            $recipients = [['Email' => $user->email, 'Name' => $user->name]];
+            $subject = config('app.name').": ".$subject;
+            $body = "Dear Mr./Ms. $user->name<br/><br/>
+                $assigningUser->name from $assigningOrg->name has added your organisation as a collaborator for Project: $project_title.
+
+                You can now view and data to the saved project in your \"previously saved forms\" section in the GISCO portal.
+
+                Please contact us via the feedback form in case you face any issues.";
+            $text = "$assigningUser->name from $assigningOrg->name has added your organisation as a collaborator for Project: $project_title.";
+            error_log($body);
+            $mails->sendEmail($recipients, false, $subject, $body, $text);
+        });
+
+        return response([
+            'message' => 'The user has been informed!', 'mails' => []
+        ]);
     }
 
     public function deleteCollaboratorAssignment(Request $request)
