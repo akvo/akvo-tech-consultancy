@@ -15,6 +15,11 @@ class UserSavedFormsController
         $qs = $config['questionnaires'];
         $url = $config['form_url_no_instance'];
         $user = $request->user();
+        // filter user with no questionnaires
+        $userQs = collect($user->questionnaires);
+        if ($userQs->count() === 0 && $user->role->key !== 'admin') {
+            return [];
+        }
         $collaboratorForms = Collaborator::where([
             ['organization_id', $user->organization_id],
         ])->get()->map(function($collaboration){
@@ -27,6 +32,12 @@ class UserSavedFormsController
             $query->where('submitted', false)
                   ->whereIn('id', $collaboratorForms);
         })->get();
+        // filter questions webforms if user have questionnaire assigned
+        if ($user->role->key !== 'admin') {
+            $webforms = $webforms->filter(function ($wf) use ($userQs) {
+                return $userQs->pluck('name')->contains($wf->form_id);
+            });
+        }
         $webforms = $webforms->map(function ($wf) use ($qs, $url) {
             return [
                 "date" => $wf->updated_at,
