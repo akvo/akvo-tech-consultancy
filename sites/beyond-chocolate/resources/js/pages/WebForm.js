@@ -18,7 +18,7 @@ import { ModalDataSecurity, SaveFormModal } from "../components/Modal";
 import { wfc } from "../static/webform-content";
 import { uiText } from "../static/ui-text";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSyncAlt } from "@fortawesome/free-solid-svg-icons";
+import { faSyncAlt, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import { filter } from "lodash";
 
 const ReloadableSelectMenu = props => {
@@ -181,6 +181,19 @@ const FormCollaborators = ({webFormId}) => {
         setCollaborators(data.sort(sortOrgs));
     }, [webFormId]);
 
+    const removeCollaborator = async (collaboratorId) => {
+        const endpoint = `/api/collaborators/${webFormId}/${collaboratorId}`;
+        const { data } = await request().delete(endpoint);
+        setCollaborators(collaborators.filter(it => it.organization_id !== collaboratorId));
+    }
+    const RemoveCollaborator = ({collaborator}) => {
+        return (
+            <a onClick={() => removeCollaborator(collaborator.organization_id)}>
+              <FontAwesomeIcon className="ml-2" icon={faTimesCircle} />
+            </a>
+        );
+    }
+
     return (
         <div className="formCollaborators">
           <Col md={12}>
@@ -189,7 +202,9 @@ const FormCollaborators = ({webFormId}) => {
               <ButtonGroup aria-label={ text.formCollaborators }>
                 {collaborators.map(collaborator => (
                     <Button className="contributors" size="sm" key={collaborator.organization_id} variant={collaborator.primary ? "outline-primary": "outline-secondary"}>
-                    {collaborator.organization_name} {collaborator.primary && `(${text.btnPrimary})`}
+                      {collaborator.organization_name}
+                      {collaborator.primary && ` (${text.btnPrimary})`}
+                      {!collaborator.primary && <RemoveCollaborator collaborator={collaborator}/>}
                     </Button>
                 ))}
               </ButtonGroup>
