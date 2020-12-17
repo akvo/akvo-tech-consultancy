@@ -197,7 +197,7 @@ const NewFormSelector = ({ locale, text, user, onSelect, watchValue, showModal, 
         // if not max submission
         if (!data.max_submission) {
             const url = `${selected.url}?user_id=${user.id}`;
-            onSelect({ url, type: selected.name, title: selected.title });
+            onSelect({ url, type: selected.name });
             return;
         }
         setSubmissionInfo(data);
@@ -373,15 +373,11 @@ const WebForm = ({setFormLoaded}) => {
     const openForm = url => {
         const isDemo = location.hostname.startsWith('gisco-pilot') ? 0 : 1;
         let endpoint = (url === null) ? url : `${url}&locale=${locale.active}&demo=${isDemo}`;
-        console.log(isDemo, '????', endpoint);
         setActiveForm(endpoint);
-        // setFormUrl(url);
-        // updateUser({ ...user, formUrl: url });
         localStorage.setItem(`active-form:${user.id}`, url);
     };
 
-    const onSelectForm = ({ url, type, title }) => {
-        // updateUser({ ...user, formActive: {value: type, label: title} });
+    const onSelectForm = ({ url, type }) => {
         if (type == "111510043" || user.project_fids.includes(type)) {
             // new form
             setShowProjectInfo(true);
