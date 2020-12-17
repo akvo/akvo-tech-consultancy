@@ -1,5 +1,5 @@
 import React, { useEffect, Fragment } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Card, Accordion } from "react-bootstrap";
 import { useLocale } from "../lib/locale-context";
 import { faq } from "../static/faq-content";
 
@@ -10,10 +10,16 @@ const Faq = () => {
         let data = faq[locale.active];
         return data.map((x,idx) => {
             return (
-                <Fragment key={"fr-"+idx}>
-                <dt key={"dt-"+idx}>{idx + 1}. {x.h}</dt>
-                <dd key={"dd-"+idx}>{x.c}</dd>
-                </Fragment>
+                <Card key={"fr-"+idx}>
+                    <Accordion.Toggle as={Card.Header} eventKey={"ac-" + idx} style={{cursor:"pointer"}} className="faqList">
+                        <h5>{idx + 1}. {x.h}</h5>
+                    </Accordion.Toggle>
+                    <Accordion.Collapse eventKey={"ac-" + idx}>
+                        <Card.Body className="faqList">
+                            {x.c}
+                        </Card.Body>
+                    </Accordion.Collapse>
+                </Card>
             )
         });
     };
@@ -24,11 +30,13 @@ const Faq = () => {
 
     return (
         <Container fluid>
-            <Row className="faqList">
-                <Col>
-                    <dl>
+            <Row>
+                <Col className="mx-auto" md="8">
+                    <h3>Frequently Asked Question</h3>
+                    <hr/>
+                    <Accordion>
                         {renderFaq()}
-                    </dl>
+                    </Accordion>
                 </Col>
             </Row>
         </Container>

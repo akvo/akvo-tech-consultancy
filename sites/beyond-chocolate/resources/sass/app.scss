@@ -636,30 +636,13 @@ footer {
 
 }
 .faqList {
-    width: 80%;
-    margin: 0 auto;
-    dl {
-    display: block;
-        dt {
-            background: rgba($color-primary,0);
-            text-align: left;
-            font-size: 1rem;
-            color: $color-primary;
-            font-weight: 400;
-        }
-        dd {
-            margin: 0;
-            padding: 1.5rem 1rem;
-            padding-top: .5rem;
-            &:not(:last-of-type) {
-                margin-bottom: 1rem;
-                border-bottom: 1px solid rgba($color-primary,.3);
-                }
-                ol {
-                    margin-left: 2rem!important;
-                    margin-bottom: 0px;
-                }
-        }
+    h5 {
+        color:#6c3317;
+        font-size: 1.1rem;
+    }
+    ol {
+        margin-left: 1.5rem!important;
+        margin-bottom: 0px;
     }
 }
 
