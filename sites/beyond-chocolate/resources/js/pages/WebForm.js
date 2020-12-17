@@ -217,7 +217,7 @@ const FormCollaborators = ({webFormId, editable}) => {
                 options={options}
                 onChange={(data) => setNewOrg(data)}
               />
-              <Button variant="primary" onClick={() => addCollaborator(newOrg.value)}>{text.btnAdd}</Button>
+              <Button disabled={newOrg === null} variant="primary" onClick={() => addCollaborator(newOrg.value)}>{text.btnAdd}</Button>
             </>
         )
     }
