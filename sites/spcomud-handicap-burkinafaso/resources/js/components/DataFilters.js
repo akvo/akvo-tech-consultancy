@@ -71,6 +71,8 @@ class DataFilters extends Component {
                     let locationTemp = [];
                     flattenLocations(locations, locationTemp);
                     let mapData = mapDataByLocations(locationTemp, data, config);
+                    // set default selected value for first filter
+                    this.props.active.update(results.config.first_filter[0].question_id, "ff_qid");
                     // eol transform data
                     this.props.filter.change(
                         {
@@ -88,9 +90,6 @@ class DataFilters extends Component {
                         ? this.props.chart.state.loading(false)
                         : this.props.page.loading(false);
                     if (status) {
-                        // set default selected value for first filter
-                        let { first_filter } = this.props.value.filters['overviews'].config;
-                        this.props.active.update(first_filter[0].question_id, "ff_qid");
                         localStorage.setItem('cache', JSON.stringify(this.props.value));
                     }
                 });   

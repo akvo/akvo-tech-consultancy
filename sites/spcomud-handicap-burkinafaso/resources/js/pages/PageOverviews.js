@@ -407,11 +407,11 @@ class PageOverviews extends Component {
             return this.getCharts(list, index);
         });
         let pie = "";
-        // if (filters.source !== null) { 
-        //     pie = this.state.pie_chart.map((list, index) => {
-        //         return this.getCharts(list, index);
-        //     });
-        // }
+        if (filters.source !== null) { 
+            pie = this.state.pie_chart.map((list, index) => {
+                return this.getCharts(list, index);
+            });
+        }
 
         return (
             <Fragment>

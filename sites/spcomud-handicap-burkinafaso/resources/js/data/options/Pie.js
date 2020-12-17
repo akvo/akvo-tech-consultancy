@@ -1,4 +1,5 @@
 import { Color, Easing, Legend, TextStyle, backgroundColor, Icons } from '../features/animation.js';
+import { textWordWrap } from '../utils';
 
 const Pie = (data, title, subtitle, valtype, calc, rose=false) => {
     data = data.map((x) => {
@@ -31,7 +32,7 @@ const Pie = (data, title, subtitle, valtype, calc, rose=false) => {
     let option = {
         ...Color,
         title: {
-            text: title,
+            text: textWordWrap(title),
             subtext: subtitle,
             left: 'center',
             top: '20px',
