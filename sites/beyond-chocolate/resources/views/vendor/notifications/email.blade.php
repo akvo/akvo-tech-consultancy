@@ -47,23 +47,11 @@
 {{ config('app.name') }}
 @endif
 
-{{-- Subcopy --}}
-@isset($actionText)
-@slot('subcopy')
-@lang(
-    "If you’re having trouble clicking the \":actionText\" button, copy and paste the URL below\n".
-    'into your web browser:',
-    [
-        'actionText' => $actionText,
-    ]
-) <span class="break-all">[{{ $displayableActionUrl }}]({{ $actionUrl }})</span>
-@endslot
-@endisset
-
+<hr />
 
 {{-- Override --}}
 # @lang('Hello!')
-Bitte klicken Sie auf dieses Feld um Ihre Emailadresse zu bestätigen.<br/>
+<br/>Bitte klicken Sie auf dieses Feld um Ihre Emailadresse zu bestätigen.<br/>
 
 {{-- Action Button --}}
 @isset($actionText)
@@ -88,12 +76,20 @@ Wenn sie keine Registrierung vorgenommen haben, ignorieren Sie bitte diese Email
 Freundliche Grüße, <br/>
 Forum Nachhaltiger Kakao
 
+
 {{-- Subcopy --}}
 @isset($actionText)
 @slot('subcopy')
-Wenn die Funktion  “Verify Email Address/ Emailadresse bestätigen” nicht funktionieren sollte, kopieren Sie bitte die unten stehende URL in Ihren Web-Browser: 
+@lang(
+    "If you’re having trouble clicking the \":actionText\" button, copy and paste the URL below\n".
+    'into your web browser:',
+    [
+        'actionText' => $actionText,
+    ]
+) <br/>
+Wenn die Funktion  “Verify Email Address/ Emailadresse bestätigen” nicht funktionieren sollte, kopieren Sie bitte die unten stehende URL in Ihren Web-Browser:
+<br/>
 <span class="break-all">[{{ $displayableActionUrl }}]({{ $actionUrl }})</span>
-{{-- EOL Override --}}
 @endslot
 @endisset
 

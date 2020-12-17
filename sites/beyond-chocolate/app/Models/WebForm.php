@@ -11,7 +11,7 @@ class WebForm extends Model
 
     protected $hidden = ['created_at'];
     protected $fillable = [
-        'user_id', 'organization_id', 'form_id', 'form_instance_id', 'form_instance_url', 'submitted', 'updated_at'
+        'user_id', 'organization_id', 'form_id', 'form_instance_id', 'form_instance_url', 'submitted', 'updated_at', 'display_name'
     ];
 
     public function user()

@@ -100,6 +100,9 @@ class ApiController extends Controller
         $check = collect($input)->except(['submitted']);
         // $check = collect($input)->only(['user_id', 'organization_id', 'form_id']); 
         $input['updated'] =  now();
+        if (isset($request->display_name)) {
+            $input['display_name'] = (strtolower($request->display_name) !== 'untitled') ? $request->display_name : null;
+        }
         $post = WebForm::updateOrCreate($check->toArray(), $input);
         return $post;
     }
