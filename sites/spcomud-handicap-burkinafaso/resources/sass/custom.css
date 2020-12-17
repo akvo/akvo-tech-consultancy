@@ -487,11 +487,11 @@ footer img.footer-img{
     z-index: 1;
     margin-left: 15px;
     margin-bottom: 150px;
-    min-width: 375px;
+    min-width: 525px;
     /* max-width: 450px; */
     background-color: #ffffff;
     opacity: .7;
-    padding: 10px;
+    /* padding: 10px; */
     border: 1px solid #dddddd;
 }
 /* EOL Floating Filter CSS */

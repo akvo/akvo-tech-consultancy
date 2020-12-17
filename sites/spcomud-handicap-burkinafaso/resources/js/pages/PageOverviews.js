@@ -151,9 +151,7 @@ class PageOverviews extends Component {
         let filters = this.props.value.filters[page];
         let { active } = this.props.value.base;
         switch (list.kind) {
-            case "MAPS":
-                return Maps("", "", this.getMaps());        
-            default:
+            case "PIE":
                 // rose pie
                 let title = "";
                 if (filters.source !== null) {
@@ -161,6 +159,10 @@ class PageOverviews extends Component {
                     title = activeFilter.text;
                 }
                 return Pie(this.getPie(), title, "", null, null, true);
+            default:
+                // MAPS
+                return Maps("", "", this.getMaps());        
+                
         }
     }
 
@@ -257,7 +259,6 @@ class PageOverviews extends Component {
                     );
                 });
         }
-
         return;
     }
 

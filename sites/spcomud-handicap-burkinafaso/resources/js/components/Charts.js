@@ -40,25 +40,40 @@ class Charts extends Component {
         };
         this.clickEvent = this.clickEvent.bind(this);
         this.appendCovidData = this.appendCovidData.bind(this);
+        this.pieClickEvent = this.pieClickEvent.bind(this);
+    }
+
+
+    pieClickEvent() {
+        let { ff_qid, sf_qid, ff_legend, sf_legend, sf_checked } = this.props.value.base.active;
+        let page = this.props.value.page.name;
+        let filters = this.props.value.filters[page];
+        let { config, locations, data, mapData } = filters;
+        let filteredData = [];
+        // console.log(ff_qid, sf_qid, ff_legend, sf_legend, sf_checked);
+        return;
     }
 
     clickEvent(param) {
-        if (param.seriesType === 'map') {
-            let { data, name } = param;
-            let page = this.props.value.page.name;
-            let { source } =  this.props.value.filters[page];
-            if (source !== null && typeof data !== 'undefined') {
-                this.props.chart.state.loading(true);
-                setTimeout(() => {
-                    this.props.chart.state.loading(false);
-                    this.props.modal.setSelected(data, 'selectedModalDetail');
-                    this.props.modal.toggle(true, 'toggleModalDetail');
-                }, 0);
-                // this.props.modal.setSelected(data, 'selectedModalDetail');
-                // this.props.modal.toggle(true, 'toggleModalDetail');
-            }
+        let { data, name } = param;
+        let page = this.props.value.page.name;
+        let { source } =  this.props.value.filters[page];
+        switch (param.seriesType) {
+            case 'pie':
+                this.pieClickEvent();
+                break;
+            default:
+                // map
+                if (source !== null && typeof data !== 'undefined') {
+                    this.props.chart.state.loading(true);
+                    setTimeout(() => {
+                        this.props.chart.state.loading(false);
+                        this.props.modal.setSelected(data, 'selectedModalDetail');
+                        this.props.modal.toggle(true, 'toggleModalDetail');
+                    }, 0);
+                }
+                break;
         }
-        return;
     }
 
     componentDidMount() {

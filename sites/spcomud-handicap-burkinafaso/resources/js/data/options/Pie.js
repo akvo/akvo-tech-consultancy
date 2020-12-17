@@ -1,3 +1,4 @@
+import { legend } from 'echarts/lib/theme/dark';
 import { Color, Easing, Legend, TextStyle, backgroundColor, Icons } from '../features/animation.js';
 import { textWordWrap } from '../utils';
 
@@ -5,12 +6,18 @@ const Pie = (data, title, subtitle, valtype, calc, rose=false) => {
     data = data.map((x) => {
         return {
             ...x,
+            name: textWordWrap(x.name),
             group: calc
         }
     });
     let labels = data.map(x => x.name);
     let roseType = (rose) ? {roseType: 'area'} : "";
-    let radius = (rose) ? {radius: ["25%", "70%"]} : {radius: ["40%", "70%"]};
+    let radius = (rose) ? {radius: ["20%", "60%"]} : {radius: ["40%", "70%"]};
+    let legend = (!rose) 
+                    ? {legend: {
+                        ...Legend,
+                        data: labels,
+                    }} : "";
     let toolboxFeatures = (!rose) 
                             ? {
                                 feature: {
@@ -28,7 +35,27 @@ const Pie = (data, title, subtitle, valtype, calc, rose=false) => {
                                         backgroundColor: '#ffffff'
                                     },
                                 },
-                            } : ""
+                            } : "";
+    let seriesLabel = (!rose)
+                        ? {
+                            label: {
+                                normal: {
+                                    show: false,
+                                    position: "center"
+                                },
+                                emphasis: {
+                                    formatter: "{b}",
+                                    show: true,
+                                    ...TextStyle
+                                }
+                            },
+                            labelLine: {
+                                normal: {
+                                    show: false
+                                }
+                            }
+                        } : "";
+
     let option = {
         ...Color,
         title: {
@@ -55,32 +82,14 @@ const Pie = (data, title, subtitle, valtype, calc, rose=false) => {
             {
                 name: title,
                 type: "pie",
-                ...radius,
                 avoidLabelOverlap: false,
-                label: {
-                    normal: {
-                        show: false,
-                        position: "center"
-                    },
-                    emphasis: {
-                        formatter: "{b}",
-                        show: true,
-                        ...TextStyle
-                    }
-                },
-                labelLine: {
-                    normal: {
-                        show: false
-                    }
-                },
                 data: data,
+                ...radius,
+                ...seriesLabel,
                 ...roseType
             }
         ],
-        legend: {
-            ...Legend,
-            data: labels,
-        },
+        ...legend,
         ...backgroundColor,
         ...Easing,
     };
