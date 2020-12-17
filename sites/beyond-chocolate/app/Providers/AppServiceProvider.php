@@ -13,7 +13,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        /**
+         * Override Login
+         */
+        $this->app->bind(
+            \Laravel\Fortify\Http\Controllers\AuthenticatedSessionController::class,
+            \App\Http\Controllers\AuthenticatedSessionController::class
+        );
     }
 
     /**
