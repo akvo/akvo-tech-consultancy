@@ -33,10 +33,23 @@ div.sidebar-wrapper {
     line-height: 1.5 !important;
 }
 
+.question-group-buttons-block {
+    margin-bottom: 50px;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    margin-left: 0px;
+}
+
+span.question-group-button{
+    max-width: 240px;
+    display: inline-block;
+    margin-left: 40px;
+}
+
 span.badge.badge-group {
     position: absolute;
     top: 15px;
-    right: 30px;
+    left: 30px;
     height: 20px;
     width: 20px;
     line-height: 15px;
@@ -44,10 +57,14 @@ span.badge.badge-group {
     font-size:10px;
 }
 
-span.question-group-button{
-    max-width: 240px;
-    display: inline-block;
+.badge-group.badge-right {
+    right:24px!important;
 }
+
+.badge-group.badge-left {
+    left:10px!important;
+}
+
 
 .ln-index {
     display: inline-block;

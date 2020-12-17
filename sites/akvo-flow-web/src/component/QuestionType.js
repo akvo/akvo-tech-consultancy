@@ -763,7 +763,9 @@ class QuestionType extends Component {
 
     getCustomCascade(id, data, unique, level, index, margin, parent="") {
         const active = this.props.value.lang.active;
+        const alphabets = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'];
         return data.map((x, i) => {
+            const alphabet = alphabets[i];
             let value = parent !== "" ? (parent + " > " + x.name) : x.name;
             let checked = false;
             let selected = localStorage.getItem(id);
@@ -771,7 +773,12 @@ class QuestionType extends Component {
                 checked = selected.split('|').includes(value);
             }
             let indeterminate = false;
-            let lang = x.lang ? x.lang : {"en":x.name};
+            let lang = x.lang
+                ? x.lang
+                : {"en": level === 0 && x.name !== '##OTHER##'
+                    ? (alphabet + '. ' + x.name)
+                    : x.name
+                };
             let localization = getLocalization(active, lang, 'span','trans-lang-opt', level === 0);
                 localization = localization.replace("##OTHER##", "Other");
             let grandParent =  x.name !== "##OTHER##" && level === 0 && x.childs.length !== 0;
