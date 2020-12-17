@@ -45,8 +45,12 @@ class DataFilters extends Component {
     }
 
     changeActive() {
-        this.props.chart.state.loading(true);
         let source = event.target.value;
+        let page = this.props.value.page.name;
+        (page === 'overviews') 
+            ? this.props.chart.state.loading(true)
+            : this.props.page.loading(true);
+
         this.getMapSources('config/'+source).then(res => { 
             return res; 
         }).then(config => {
@@ -80,11 +84,12 @@ class DataFilters extends Component {
                     );
                     return true;
                 }).then(status => {
-                    this.props.chart.state.loading(false);
+                    (page === 'overviews') 
+                        ? this.props.chart.state.loading(false)
+                        : this.props.page.loading(false);
                     if (status) {
                         // set default selected value for first filter
-                        let page = this.props.value.page.name;
-                        let { first_filter } = this.props.value.filters[page].config;
+                        let { first_filter } = this.props.value.filters['overviews'].config;
                         this.props.active.update(first_filter[0].question_id, "ff_qid");
                         localStorage.setItem('cache', JSON.stringify(this.props.value));
                     }

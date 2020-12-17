@@ -7,7 +7,7 @@ body {
     min-width: 100%;
     min-height: 100%;
     background-color: #ffffff;
-    opacity: .7;
+    opacity: .5;
     z-index: 999;
     text-align: center;
 }
@@ -385,7 +385,7 @@ div.table-floating.table-floating-bottom{
     min-width:100%;
 }
 .container.container-content.container-iframe{
-    margin-top: 42px;
+    /* margin-top: 42px; */
     position: fixed;
     padding-bottom: calc(56.25% - 42px); /* 16:9 */
     padding-top: 25px;

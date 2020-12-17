@@ -29,7 +29,7 @@ export const initFilter = (base, state, page) => {
 }
 
 export const changeFilter = (base, state, page, filter) => {
-    if (page === "overviews") {
+    if (page === "overviews" || page === "webform") {
         let results = {
             ...state,
             overviews : {

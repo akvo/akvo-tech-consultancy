@@ -46,14 +46,14 @@ class Charts extends Component {
         let page = this.props.value.page.name;
         let { source } =  this.props.value.filters[page];
         if (source !== null && typeof data !== 'undefined') {
-            // this.props.page.loading(true);
-            // setTimeout(() => {
-            //     this.props.page.loading(false);
-            //     this.props.modal.setSelected(data, 'selectedModalDetail');
-            //     this.props.modal.toggle(true, 'toggleModalDetail');
-            // }, 800);
-            this.props.modal.setSelected(data, 'selectedModalDetail');
-            this.props.modal.toggle(true, 'toggleModalDetail');
+            this.props.chart.state.loading(true);
+            setTimeout(() => {
+                this.props.chart.state.loading(false);
+                this.props.modal.setSelected(data, 'selectedModalDetail');
+                this.props.modal.toggle(true, 'toggleModalDetail');
+            }, 0);
+            // this.props.modal.setSelected(data, 'selectedModalDetail');
+            // this.props.modal.toggle(true, 'toggleModalDetail');
         }
     }
 
