@@ -143,7 +143,6 @@ class PageOverviews extends Component {
                 name: val.text,
             };
         });
-        console.log(pieData);
         return pieData;
     }
 
@@ -159,7 +158,6 @@ class PageOverviews extends Component {
                 let title = "";
                 if (filters.source !== null) {
                     let activeFilter = filters.config.first_filter.find(x => x.question_id === active.ff_qid);
-                    console.log(activeFilter);
                     title = activeFilter.text;
                 }
                 return Pie(this.getPie(), title, "", null, null, true);
@@ -409,11 +407,11 @@ class PageOverviews extends Component {
             return this.getCharts(list, index);
         });
         let pie = "";
-        if (filters.source !== null) { 
-            pie = this.state.pie_chart.map((list, index) => {
-                return this.getCharts(list, index);
-            });
-        }
+        // if (filters.source !== null) { 
+        //     pie = this.state.pie_chart.map((list, index) => {
+        //         return this.getCharts(list, index);
+        //     });
+        // }
 
         return (
             <Fragment>
