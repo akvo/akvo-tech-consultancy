@@ -103,7 +103,12 @@ class ApiController extends Controller
         if (isset($request->display_name)) {
             $input['display_name'] = (strtolower($request->display_name) !== 'untitled') ? $request->display_name : null;
         }
-        $post = WebForm::updateOrCreate($check->toArray(), $input);
+        $update = WebForm::where('form_instance_url', $input['form_instance_url'])->first();
+        if ($update) {
+            $res = $update->update($input);
+            return $res;
+        }
+        $post = WebForm::create($input);
         return $post;
     }
 
