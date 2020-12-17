@@ -20,7 +20,9 @@ const faqEn = [
     }, {
         h: "Can I delegate the reporting of our projects/ programs to project/program managers outside of my organization?",
         c: <ol className="ml-2" type="a">
-            <li>Your colleagues from your organisation who are added to the portal can view and edit your data. There is also the provision to download the data from a questionnaire before submission from the Overview group.</li>
+            <li>Your colleagues from your organisation who are added to the portal can view and edit your data. There is also the provision to <b>download</b> the data from a questionnaire before submission from the <b>Overview</b> section.<br/><br/>
+                <img width={"80%"} className="img img-shadows" src={require('../../images/faq-download-form.png')}/><br/><br/>
+            </li>
             <li>Projects questionnaire can be assigned to other member organisations by the coordinator member for contribution on projects that have been jointly implemented.</li>
         </ol>
     }, {
@@ -39,9 +41,9 @@ const faqEn = [
     }, {
         h: <Fragment>How does <b>repeat group</b> work?</Fragment>,
         c: <Fragment>
-            Some sections of the questionnaires are designed so that you can report on more than one occurrence. Such sections have a <b>Repeat Group</b> button displayed on the top right.<br/>
-            To respond to the multiple occurrences , please click the “Repeat Group” button to generate additional group of the same questions.<br/>
-            Example  of repeat groups can be found while reporting on countries, project partners,Multi-stakeholder & Policy Initiatives etc.
+            Some sections of the questionnaires are designed so that you can report on more than one occurrence. Such sections have a <b>Repeat Group</b> button displayed on the top right.<br/><br/>
+            <img width={"60%"} className="img img-shadows" src={require('../../images/faq-repeat-group.png')}/><br/><br/>
+            To respond to the multiple occurrences , please click the “Repeat Group” button to generate additional group of the same questions. Example  of repeat groups can be found while reporting on countries, project partners,Multi-stakeholder & Policy Initiatives etc.
         </Fragment>
     }, {
         h: "Can several colleagues work on the same questionnaire?",
