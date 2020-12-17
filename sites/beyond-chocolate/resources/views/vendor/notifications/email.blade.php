@@ -50,8 +50,8 @@
 <hr />
 
 {{-- Override --}}
-# @lang('Hello!')
-<br/>Bitte klicken Sie auf dieses Feld um Ihre Emailadresse zu bestätigen.<br/>
+<b>Guten Tag!</b><br/>
+Bitte klicken Sie auf dieses Feld um Ihre Emailadresse zu bestätigen.<br/>
 
 {{-- Action Button --}}
 @isset($actionText)
