@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use App\Models\Organization;
 use App\Models\WebForm;
+use App\Models\Collaborator;
 
 class UserSavedFormsController
 {
@@ -14,19 +15,39 @@ class UserSavedFormsController
         $qs = $config['questionnaires'];
         $url = $config['form_url_no_instance'];
         $user = $request->user();
+        // filter user with no questionnaires
+        $userQs = collect($user->questionnaires);
+        if ($userQs->count() === 0 && $user->role->key !== 'admin') {
+            return [];
+        }
+        $collaboratorForms = Collaborator::where([
+            ['organization_id', $user->organization_id],
+        ])->get()->map(function($collaboration){
+            return $collaboration->web_form_id;
+        });
         $webforms = WebForm::where([
             ['organization_id', $user->organization_id],
             ['submitted', false]
-        ])->get();
+        ])->orWhere(function ($query) use ($collaboratorForms) {
+            $query->where('submitted', false)
+                  ->whereIn('id', $collaboratorForms);
+        })->get();
+        // filter questions webforms if user have questionnaire assigned
+        if ($user->role->key !== 'admin') {
+            $webforms = $webforms->filter(function ($wf) use ($userQs) {
+                return $userQs->pluck('name')->contains($wf->form_id);
+            });
+        }
         $webforms = $webforms->map(function ($wf) use ($qs, $url) {
             return [
                 "date" => $wf->updated_at,
                 "org_id" => $wf->organization_id,
                 "org_name" => $wf->organization->name,
-                "submission_name" => null,
+                "submission_name" => $wf->display_name,
                 "submitter" => $wf->user->email,
                 "survey_name" => $qs[$wf->form_id],
-                "url" => $url . $wf->form_instance_url
+                "url" => $url . $wf->form_instance_url,
+                "web_form_id" => $wf->id
             ];
         });
         return $webforms;

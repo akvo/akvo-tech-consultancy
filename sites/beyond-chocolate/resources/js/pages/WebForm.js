@@ -18,8 +18,9 @@ import { ModalDataSecurity, SaveFormModal } from "../components/Modal";
 import { wfc } from "../static/webform-content";
 import { uiText } from "../static/ui-text";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSyncAlt } from "@fortawesome/free-solid-svg-icons";
+import { faSyncAlt, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import { filter } from "lodash";
+import authApi from "../services/auth";
 
 const ReloadableSelectMenu = props => {
     const { locale } = useLocale();
@@ -57,7 +58,7 @@ const SavedFormsSelector = ({ text, user, onSelect, watchValue, setConfirmAction
         if (!selected) return;
         setShowSavePrompt(false);
         const url = `${selected.url}?user_id=${user.id}`;
-        onSelect({ url, type: null });
+        onSelect({ url, type: null, webForm:selected });
     };
     const promptSave = (e) => {
         if (!selected) return;
@@ -169,6 +170,94 @@ const SavedFormsSelector = ({ text, user, onSelect, watchValue, setConfirmAction
 };
 
 
+const FormCollaborators = ({webFormId, editable}) => {
+    const { locale } = useLocale();
+    const text = uiText[locale.active];
+    const [collaborators, setCollaborators] = useState([]);
+    const [orgs, setOrgs] = useState([]);
+
+    const fetchCollaborators = async () => {
+        if (!webFormId) { return; }
+        const endpoint = `/api/collaborators/${webFormId}/`;
+        const { data } = await request().get(endpoint);
+        const sortOrgs = (a, b) => a.primary ? -1 : b.primary ? 1 : a.organization_id - b.organization_id;
+        setCollaborators(data.sort(sortOrgs));
+    };
+
+    const fetchOrgs = async () => {
+        const res = await authApi.getOrganizations();
+        setOrgs(res.data);
+    }
+
+    useEffect(async () => {
+        await Promise.all([fetchCollaborators(), fetchOrgs()]);
+    }, []);
+
+    const AddCollaborator = () => {
+        const { locale } = useLocale();
+        const text = uiText[locale.active];
+        const [newOrg, setNewOrg] = useState(null);
+
+        const addCollaborator = async (collaboratorId) => {
+            const endpoint = `/api/collaborators/${webFormId}/${collaboratorId}`;
+            const { data } = await request().post(endpoint);
+            const org = orgs.find(it => it.id === Number(data.organization_id));
+            const collaborator = {organization_id: org.id, organization_name: org.name, primary: false};
+            setCollaborators(collaborators.concat([collaborator]));
+            setNewOrg(null);
+        }
+        const collaboratorIds = collaborators.map(it => it.organization_id);
+        const options = orgs.filter(it => collaboratorIds.indexOf(it.id) === -1)
+                            .map(it => {return {value: it.id, label: it.name}});
+        return (
+            <Form as={Col} inline className="pl-0">
+              <div className="col pl-0">
+                <Select
+                  placeholder={text.valSelectOrganization}
+                  value={newOrg}
+                  options={options}
+                  onChange={(data) => setNewOrg(data)}
+                />
+              </div>
+              <Button disabled={newOrg === null} variant="primary" onClick={() => addCollaborator(newOrg.value)}>{text.btnAdd}</Button>
+            </Form>
+        )
+    }
+
+    const RemoveCollaborator = ({collaborator}) => {
+        const removeCollaborator = async (collaboratorId) => {
+            const endpoint = `/api/collaborators/${webFormId}/${collaboratorId}`;
+            const { data } = await request().delete(endpoint);
+            setCollaborators(collaborators.filter(it => it.organization_id !== collaboratorId));
+        }
+        return (
+            <a onClick={() => removeCollaborator(collaborator.organization_id)}>
+              <FontAwesomeIcon className="ml-2" icon={faTimesCircle} />
+            </a>
+        );
+    }
+
+    return (
+        <div className="formCollaborators">
+          <Col md={12}>
+            <Row>{ text.formCollaborators }</Row>
+            <Row>
+                { editable && <AddCollaborator />}
+                <ButtonGroup aria-label={ text.formCollaborators }>
+                  {collaborators.map(collaborator => (
+                      <Button className="contributors" size="sm" key={collaborator.organization_id} variant={collaborator.primary ? "outline-primary": "outline-secondary"}>
+                        {collaborator.organization_name}
+                        {collaborator.primary && ` (${text.btnPrimary})`}
+                        {editable && !collaborator.primary && <RemoveCollaborator collaborator={collaborator}/>}
+                      </Button>
+                  ))}
+                </ButtonGroup>
+            </Row>
+          </Col>
+        </div>
+    );
+}
+
 const NewFormSelectMenu = props => {
     const { locale } = useLocale();
     let text = uiText[locale.active];
@@ -197,7 +286,7 @@ const NewFormSelector = ({ locale, text, user, onSelect, watchValue, showModal, 
         // if not max submission
         if (!data.max_submission) {
             const url = `${selected.url}?user_id=${user.id}`;
-            onSelect({ url, type: selected.name, title: selected.title });
+            onSelect({ url, type: selected.name });
             return;
         }
         setSubmissionInfo(data);
@@ -358,8 +447,8 @@ const SubmissionInfoModal = ({ text, show, onHide, submissionInfo }) => {
     );
 };
 
-const WebForm = ({setFormLoaded}) => {
-    const { user, updateUser } = useAuth();
+const WebForm = ({setFormLoaded, webForm, setWebForm}) => {
+    const { user } = useAuth();
     const { locale } = useLocale();
     const [activeForm, setActiveForm] = useState();
     const [delayedActiveForm, setDelayedActiveForm] = useState();
@@ -370,16 +459,16 @@ const WebForm = ({setFormLoaded}) => {
     const [showSavePrompt, setShowSavePrompt] = useState(false);
     const [confirmAction, setConfirmAction] = useState(null);
 
+    const editableCollaborators = user?.organization_id === webForm?.org_id;
+
     const openForm = url => {
-        let endpoint = (url === null) ? url : url + '&locale=' + locale.active;
+        const isDemo = location.hostname.startsWith('gisco-pilot') ? 0 : 1;
+        let endpoint = (url === null) ? url : `${url}&locale=${locale.active}&demo=${isDemo}`;
         setActiveForm(endpoint);
-        // setFormUrl(url);
-        // updateUser({ ...user, formUrl: url });
         localStorage.setItem(`active-form:${user.id}`, url);
     };
 
-    const onSelectForm = ({ url, type, title }) => {
-        // updateUser({ ...user, formActive: {value: type, label: title} });
+    const onSelectForm = ({ url, type, webForm }) => {
         if (type == "111510043" || user.project_fids.includes(type)) {
             // new form
             setShowProjectInfo(true);
@@ -387,6 +476,7 @@ const WebForm = ({setFormLoaded}) => {
         } else {
             // saved form
             openForm(url);
+            setWebForm(webForm);
         }
     };
 
@@ -404,8 +494,9 @@ const WebForm = ({setFormLoaded}) => {
 
     useEffect(() => {
         // open form from previous session
+        const isDemo = location.hostname.startsWith('gisco-pilot') ? 0 : 1;
         const form = localStorage.getItem(`active-form:${user.id}`);
-        let endpoint = (form === null) ? form : form + '&locale=' + locale.active;
+        let endpoint = (form === null) ? form : `${form}&locale=${locale.active}&demo=${isDemo}`;
         setActiveForm(endpoint);
 
         // just load the survey active when user not refresh the browser
@@ -424,6 +515,9 @@ const WebForm = ({setFormLoaded}) => {
     return (
         <Container fluid>
             <Row>
+                <p className="pl-3 text-muted">
+                    { content.dataSecurityText }
+                </p>
                 <Col md={12}>
                     <div className="d-flex">
                         <div className="p-2 flex-grow-1" style={{maxWidth:"70%"}}>
@@ -450,10 +544,7 @@ const WebForm = ({setFormLoaded}) => {
                             />
                         </div>
                     </div>
-                    <hr />
-                    <p className="pl-3 text-muted">
-                        { content.dataSecurityText }
-                    </p>
+                    {webForm?.web_form_id && <FormCollaborators webFormId={webForm?.web_form_id} editable={editableCollaborators}/>}
                     <Card>
                         {activeForm && (
                             <iframe

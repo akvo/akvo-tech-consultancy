@@ -99,6 +99,10 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
         $user->delete();
     })->middleware('can:delete,user');
 
+    Route::get('/collaborators/{web_form_id}', [Api::class, 'getCollaboratorAssignments']);
+    Route::post('/collaborators/{web_form_id}/{organization_id}', [Api::class, 'addCollaboratorAssignment']);
+    Route::delete('/collaborators/{web_form_id}/{organization_id}', [Api::class, 'deleteCollaboratorAssignment']);
+
 });
 
 Route::post('/send-email', [Email::class, 'sendFeedback']);

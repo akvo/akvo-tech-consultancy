@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Organization;
 use App\Models\User;
 use App\Models\WebForm;
+use App\Models\Collaborator;
 
 class ApiController extends Controller
 {
@@ -21,6 +22,59 @@ class ApiController extends Controller
         });
 
         return $orgs;
+    }
+
+    public function getCollaboratorAssignments(Request $request)
+    {
+        $webForm = WebForm::find($request->web_form_id);
+        if (is_null($webForm)) {
+            return [];
+        }
+        $collaborators = Collaborator::where(['web_form_id' => $webForm->id])->get();
+        $orgs = $collaborators->map(function($collaborator){
+            $org = [
+                "organization_id" => $collaborator->organization_id,
+                "primary"=> false,
+                "organization_name" => Organization::where(['id' => $collaborator->organization_id])->first()->name
+            ];
+            return $org;
+        })->push([
+            "organization_id" => $webForm->organization_id,
+            "primary"=> true,
+            "organization_name" => Organization::where(['id' => $webForm->organization_id])->first()->name
+        ]);
+        return $orgs;
+    }
+
+    public function addCollaboratorAssignment(Request $request)
+    {
+        $orgId = $request->organization_id;
+        $webFormId = $request->web_form_id;
+        $user = $request->user();
+        $form = WebForm::find($webFormId);
+        if (is_null($form) or $form->organization_id != $user->organization_id) {
+            return \response('Only primary organization users can add/remove collaborators', 403);
+        }
+        $collaborator = Collaborator::updateOrCreate(['web_form_id' => $webFormId, 'organization_id' => $orgId]);
+        if (!is_null($collaborator)) {
+        }
+        return $collaborator;
+    }
+
+    public function deleteCollaboratorAssignment(Request $request)
+    {
+        $orgId = $request->organization_id;
+        $webFormId = $request->web_form_id;
+        $user = $request->user();
+        $form = WebForm::find($webFormId);
+        if (is_null($form) or $form->organization_id != $user->organization_id) {
+            return \response('Only primary organization users can add/remove collaborators', 403);
+        }
+        $collaborator = Collaborator::where(['web_form_id' => $webFormId, 'organization_id' => $orgId])->first();
+        if (!is_null($collaborator)) {
+            $collaborator->delete();
+        }
+        return \response('Collaborator deleted', 204);
     }
 
     public function getConfig()
@@ -46,6 +100,9 @@ class ApiController extends Controller
         $check = collect($input)->except(['submitted']);
         // $check = collect($input)->only(['user_id', 'organization_id', 'form_id']); 
         $input['updated'] =  now();
+        if (isset($request->display_name)) {
+            $input['display_name'] = (strtolower($request->display_name) !== 'untitled') ? $request->display_name : null;
+        }
         $post = WebForm::updateOrCreate($check->toArray(), $input);
         return $post;
     }

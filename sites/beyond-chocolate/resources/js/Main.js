@@ -14,6 +14,7 @@ import Feedback from "./pages/Feedback";
 import Setting from "./pages/Setting";
 import Home from "./pages/Home";
 import Impressum from "./pages/Impressum";
+import Faq from "./pages/Faq";
 import {
     AuthProvider,
     SecureRoute,
@@ -48,6 +49,7 @@ const Main = () => {
     }, []);
 
     const [formLoaded, setFormLoaded] = useState(false);
+    const [webForm, setWebForm] = useState(null);
 
     window.onbeforeunload = (e) => {
         if (formLoaded) {
@@ -86,6 +88,11 @@ const Main = () => {
                         />
                         <SecureRoute
                             exact
+                            path={config.routes.faq}
+                            component={Faq}
+                        />
+                        <SecureRoute
+                            exact
                             path={config.routes.users}
                             component={Users}
                         />
@@ -104,6 +111,8 @@ const Main = () => {
                             path={config.routes.survey}
                             component={WebForm}
                             setFormLoaded={setFormLoaded}
+                            setWebForm={setWebForm}
+                            webForm={webForm}
                         />
                         <PublicOnlyRoute
                             exact

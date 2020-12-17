@@ -35,6 +35,7 @@ export const uiText = {
         formRegister: "Register",
         formFullName: "Full Name",
         formResetPwd: "Reset Password",
+        formCollaborators: "Contributing organizations",
         // Button
         btnUpdate: "Update",
         btnClose: "Close",
@@ -51,6 +52,8 @@ export const uiText = {
         btnOk: "OK",
         btnYes: "Yes",
         btnNo: "No",
+        btnAdd: "Add",
+        btnPrimary: "Primary",
         // Table
         tbColName: "Name",
         tbColEmail: "Email",
@@ -74,12 +77,13 @@ export const uiText = {
         valOldPwd: "The old password field is required.",
         valNewPwd: "The new password field is required.",
         valPwdNotMatch: "The passwords do not match.",
+        valSelectOrganization: "Select Organization",
         valOrganization: "Select one of Organization.",
         valRegisterSuccess: "Congratulations, you have been registered.",
         valVerificationThank: "Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn't receive the email, we will gladly send you another.",
         valVerificationInfo: "A new verification link has been sent to the email address you provided during registration.",
         valName: "The name field is required.",
-        valFetchingData: "Fetching data", 
+        valFetchingData: "Fetching data",
         // New
         valOptionNewFormDisabledInfo: "submission for the member already created",
         // Save Form Modal
@@ -89,6 +93,7 @@ export const uiText = {
         tbColVerifiedOn: 'Verified on',
         valRegisterCheckBox: 'To complete your registration, please consent to the data security provisions.',
         textFooterImpressum: "Impressum",
+        textFooterFaq: "FAQ",
         // assignment panel
         textAssignmentPanel: "Thank you for completing your registration. The GISCO secretariat will verify your credentials and assign you the appropriate surveys. You will be notified by the secretariat via email.",
     },
@@ -127,6 +132,7 @@ export const uiText = {
         formRegister: "Registrieren",
         formFullName: "Name",
         formResetPwd: "Passwort zurücksetzen",
+        formCollaborators: "Contributing organizations",
         // Button
         btnUpdate: "Update",
         btnClose: "Schließen",
@@ -143,6 +149,8 @@ export const uiText = {
         btnOk: "OK",
         btnYes: "Ja",
         btnNo: "Nein",
+        btnAdd: "Add",
+        btnPrimary: "Primary",
         // Table
         tbColName: "Name",
         tbColEmail: "Email",
@@ -166,6 +174,7 @@ export const uiText = {
         valOldPwd: 'Das Feld "Altes Passwort" ist obligatorisch.',
         valNewPwd: 'Das Feld "Neues Passwort" ist obligatorisch.',
         valPwdNotMatch: "Die Passwörter stimmen nicht überein.",
+        valSelectOrganization: "Select Organization",
         valOrganization: "Wählen Sie Ihre Organisation aus.",
         valRegisterSuccess: "Sie wurden erfolgreich registriert.",
         valVerificationThank: "Vielen Dank für Ihre Anmeldung. Bitte verifizieren Sie Ihre Emailadresse, indem Sie auf den Link klicken, den wir Ihnen soeben per Email geschickt haben. Sie haben keinen Link erhalten? Dann senden wir gerne nochmal eine Email.",
@@ -181,6 +190,7 @@ export const uiText = {
         tbColVerifiedOn: 'Verifiziert am',
         valRegisterCheckBox: 'Um die Registrierung abzuschließen, stimmen Sie bitten den Datenschutz-Vorkehrungen zu.',
         textFooterImpressum: "Impressum",
+        textFooterFaq: "FAQ",
         // assignment panel
         textAssignmentPanel: "Thank you for completing your registration. The GISCO secretariat will verify your credentials and assign you the appropriate surveys. You will be notified by the secretariat via email.",
     },
