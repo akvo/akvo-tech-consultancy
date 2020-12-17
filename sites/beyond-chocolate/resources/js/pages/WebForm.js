@@ -20,6 +20,7 @@ import { uiText } from "../static/ui-text";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSyncAlt, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import { filter } from "lodash";
+import authApi from "../services/auth";
 
 const ReloadableSelectMenu = props => {
     const { locale } = useLocale();
@@ -173,20 +174,62 @@ const FormCollaborators = ({webFormId}) => {
     const { locale } = useLocale();
     const text = uiText[locale.active];
     const [collaborators, setCollaborators] = useState([]);
-    useEffect(async () => {
+    const [orgs, setOrgs] = useState([]);
+
+    const fetchCollaborators = async () => {
         if (!webFormId) { return; }
         const endpoint = `/api/collaborators/${webFormId}/`;
         const { data } = await request().get(endpoint);
         const sortOrgs = (a, b) => a.primary ? -1 : b.primary ? 1 : a.organization_id - b.organization_id;
         setCollaborators(data.sort(sortOrgs));
-    }, [webFormId]);
+    };
 
-    const removeCollaborator = async (collaboratorId) => {
-        const endpoint = `/api/collaborators/${webFormId}/${collaboratorId}`;
-        const { data } = await request().delete(endpoint);
-        setCollaborators(collaborators.filter(it => it.organization_id !== collaboratorId));
+    const fetchOrgs = async () => {
+        const res = await authApi.getOrganizations();
+        setOrgs(res.data);
     }
+
+    useEffect(async () => {
+        await Promise.all([fetchCollaborators(), fetchOrgs()]);
+    }, []);
+
+    const AddCollaborator = () => {
+        // FIXME: Permissions check
+        const { locale } = useLocale();
+        const text = uiText[locale.active];
+        const [newOrg, setNewOrg] = useState(null);
+
+        const addCollaborator = async (collaboratorId) => {
+            const endpoint = `/api/collaborators/${webFormId}/${collaboratorId}`;
+            const { data } = await request().post(endpoint);
+            const org = orgs.find(it => it.id === Number(data.organization_id));
+            const collaborator = {organization_id: org.id, organization_name: org.name, primary: false};
+            setCollaborators(collaborators.concat([collaborator]));
+            setNewOrg(null);
+        }
+        const collaboratorIds = collaborators.map(it => it.organization_id);
+        const options = orgs.filter(it => collaboratorIds.indexOf(it.id) === -1)
+                            .map(it => {return {value: it.id, label: it.name}});
+        return (
+            <>
+              <Select
+                placeholder={text.valSelectOrganization}
+                value={newOrg}
+                options={options}
+                onChange={(data) => setNewOrg(data)}
+              />
+              <Button variant="primary" onClick={() => addCollaborator(newOrg.value)}>{text.btnAdd}</Button>
+            </>
+        )
+    }
+
     const RemoveCollaborator = ({collaborator}) => {
+        // FIXME: Permissions check
+        const removeCollaborator = async (collaboratorId) => {
+            const endpoint = `/api/collaborators/${webFormId}/${collaboratorId}`;
+            const { data } = await request().delete(endpoint);
+            setCollaborators(collaborators.filter(it => it.organization_id !== collaboratorId));
+        }
         return (
             <a onClick={() => removeCollaborator(collaborator.organization_id)}>
               <FontAwesomeIcon className="ml-2" icon={faTimesCircle} />
@@ -199,6 +242,7 @@ const FormCollaborators = ({webFormId}) => {
           <Col md={12}>
             <Row>{ text.formCollaborators }</Row>
             <Row>
+              <AddCollaborator />
               <ButtonGroup aria-label={ text.formCollaborators }>
                 {collaborators.map(collaborator => (
                     <Button className="contributors" size="sm" key={collaborator.organization_id} variant={collaborator.primary ? "outline-primary": "outline-secondary"}>

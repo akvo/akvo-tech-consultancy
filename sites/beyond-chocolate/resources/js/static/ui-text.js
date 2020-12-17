@@ -52,6 +52,7 @@ export const uiText = {
         btnOk: "OK",
         btnYes: "Yes",
         btnNo: "No",
+        btnAdd: "Add",
         btnPrimary: "Primary",
         // Table
         tbColName: "Name",
@@ -76,6 +77,7 @@ export const uiText = {
         valOldPwd: "The old password field is required.",
         valNewPwd: "The new password field is required.",
         valPwdNotMatch: "The passwords do not match.",
+        valSelectOrganization: "Select Organization",
         valOrganization: "Select one of Organization.",
         valRegisterSuccess: "Congratulations, you have been registered.",
         valVerificationThank: "Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn't receive the email, we will gladly send you another.",
@@ -146,6 +148,7 @@ export const uiText = {
         btnOk: "OK",
         btnYes: "Ja",
         btnNo: "Nein",
+        btnAdd: "Add",
         btnPrimary: "Primary",
         // Table
         tbColName: "Name",
@@ -170,6 +173,7 @@ export const uiText = {
         valOldPwd: 'Das Feld "Altes Passwort" ist obligatorisch.',
         valNewPwd: 'Das Feld "Neues Passwort" ist obligatorisch.',
         valPwdNotMatch: "Die Passwörter stimmen nicht überein.",
+        valSelectOrganization: "Select Organization",
         valOrganization: "Wählen Sie Ihre Organisation aus.",
         valRegisterSuccess: "Sie wurden erfolgreich registriert.",
         valVerificationThank: "Vielen Dank für Ihre Anmeldung. Bitte verifizieren Sie Ihre Emailadresse, indem Sie auf den Link klicken, den wir Ihnen soeben per Email geschickt haben. Sie haben keinen Link erhalten? Dann senden wir gerne nochmal eine Email.",
