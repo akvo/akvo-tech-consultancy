@@ -10,8 +10,11 @@ use Illuminate\Support\Str;
 
 class ApiController extends Controller
 {
-    public function sources() {
+    public function sources(Request $request) {
         $data = config('data.sources');
+        if (isset($request->instanceId) && isset($request->surveyId)) {
+            $data = collect($data)->where('sid', $request->surveyId);
+        }
         $data = collect($data)->map(function($d){
             $d['survey'] = env('APP_URL').'/api/survey/idh/'.$d['sid'];
             $d['form-instances'] = env('APP_URL').'/api/form-instances/idh/'.$d['sid'].'/'.$d['fid'];
@@ -37,6 +40,9 @@ class ApiController extends Controller
 
             return $d;
         });
+        if (isset($request->instanceId) && isset($request->surveyId)) {
+            return count($data) ? $data[0] : \response(404);
+        }
         return $data;
     }
 
