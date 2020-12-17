@@ -241,6 +241,7 @@ img.img-shadows {
     box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
+
 header {
     background-color:white;
     border-bottom:.1rem solid  $color-secondary;
@@ -644,6 +645,9 @@ footer {
     h5 {
         color:#6c3317;
         font-size: 1.1rem;
+    }
+    h5.green {
+        color:#789922
     }
     ol {
         margin-left: 1.5rem!important;

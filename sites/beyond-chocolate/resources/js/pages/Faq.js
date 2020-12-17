@@ -1,9 +1,22 @@
-import React, { useEffect, Fragment } from "react";
+import React, { useEffect, Fragment, useState } from "react";
 import { Container, Row, Col, Card, Accordion } from "react-bootstrap";
 import { useLocale } from "../lib/locale-context";
 import { faq } from "../static/faq-content";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+    faAngleRight,
+    faAngleDown,
+} from "@fortawesome/free-solid-svg-icons";
 
 const Faq = () => {
+    const [activeId, setActiveId] = useState(null);
+    const toggleActive = (id) => {
+        if (activeId === id) {
+            setActiveId(null);
+        } else {
+            setActiveId(id);
+        }
+    }
     const { locale } = useLocale();
     let content = faq[locale.active];
     const renderFaq = () => {
@@ -11,8 +24,13 @@ const Faq = () => {
         return data.map((x,idx) => {
             return (
                 <Card key={"fr-"+idx}>
-                    <Accordion.Toggle as={Card.Header} eventKey={"ac-" + idx} style={{cursor:"pointer"}} className="faqList">
-                        <h5>{idx + 1}. {x.h}</h5>
+                    <Accordion.Toggle as={Card.Header} eventKey={"ac-" + idx} style={{cursor:"pointer"}} className="faqList" onClick={()=> toggleActive(idx)}>
+                        <h5 className={activeId === idx ? "green" : ""}>
+                            <FontAwesomeIcon
+                                className="mr-2"
+                                icon={activeId === idx ? faAngleDown : faAngleRight}
+                            /> {x.h}
+                        </h5>
                     </Accordion.Toggle>
                     <Accordion.Collapse eventKey={"ac-" + idx}>
                         <Card.Body className="faqList">
@@ -31,7 +49,7 @@ const Faq = () => {
     return (
         <Container fluid>
             <Row>
-                <Col className="mx-auto" md="8">
+                <Col className="mx-auto" md="9">
                     <h3>Frequently Asked Question</h3>
                     <hr/>
                     <Accordion>
