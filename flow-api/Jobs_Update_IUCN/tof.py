@@ -12,7 +12,7 @@ pp = pprint.PrettyPrinter(indent=4)
 
 APIKEY='&api_key='+os.environ['CARTO_KEY']
 CARTOURL='https://akvo.cartodb.com/api/v2/sql?q='
-#DATABASEID = "test_iucn_tof"
+# DATABASEID = "test_iucn_tof"
 DATABASEID = "tof_28030003"
 INSTANCE='iucn'
 SURVEYID='550001'
@@ -89,6 +89,8 @@ def str_list(x, column):
     x = str(x).replace("[","").replace("]","").replace("None","null").replace("nan","null").replace('"','')
     if column:
         return x.replace("'","")
+    if ": # " in x:
+        return x.replace("'","$$").replace(": # ", " - ");
     return x.replace("'","$$")
 
 column_list = str_list(question_columns, True)
