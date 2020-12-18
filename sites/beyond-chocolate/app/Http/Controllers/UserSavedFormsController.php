@@ -21,7 +21,10 @@ class UserSavedFormsController
         // filter user with no questionnaires
         $userQs = collect($user->questionnaires);
         if ($userQs->count() === 0 && $user->role->key !== 'admin') {
-            return [];
+            return [
+                'last_activity' => $check,
+                'data' => [],
+            ];
         }
         $collaboratorForms = Collaborator::where([
             ['organization_id', $user->organization_id],
