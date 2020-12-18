@@ -102,6 +102,12 @@ const SavedFormsSelector = ({ text, user, onSelect, watchValue, setConfirmAction
             window.location.reload();
             return;
         }
+        // set selected form value btn reload
+        if (typeof selected !== 'undefined') {
+            const updatedSelectedValue = data.data.find(f => f.url === selected.value);
+            setSelected(updatedSelectedValue);
+            setValue(selected);
+        }
         setAvailable(data.data);
     };
     const reload = e => {
