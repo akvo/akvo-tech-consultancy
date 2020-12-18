@@ -92,7 +92,7 @@ class AuthController extends Controller
         $dateNow = $date->now();
         $diff = $dateNow->diff($last_activity);
 
-        if ($diff->h >= 2) {
+        if ($diff->h >= 2 || is_null($user->last_activity)) {
             $session = new AuthenticatedSessionController($guard);
             $logout = $session->destroy($request);
             return $user->last_activity;
