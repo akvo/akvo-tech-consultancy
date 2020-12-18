@@ -118,6 +118,8 @@ Route::post('/inform-user', [Email::class, 'informUser']);
 
 Route::get('/flow-submitter/{id}', function ($id) {
     $user = User::find($id);
+    $user->last_activity = now();
+    $user->save();
     if (is_null($user)) {
         throw new NotFoundHttpException();
     }
