@@ -47,10 +47,10 @@
 {{ config('app.name') }}
 @endif
 
-<hr />
+<hr /> <br/>
 
 {{-- Override --}}
-<b>Guten Tag!</b><br/>
+<br>Guten Tag!</br><br/>
 Bitte klicken Sie auf dieses Feld um Ihre Emailadresse zu bestätigen.<br/>
 
 {{-- Action Button --}}
