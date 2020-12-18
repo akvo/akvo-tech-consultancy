@@ -26,7 +26,7 @@ return [
         ],
         [
             "code" => "C",
-            "name" => "ALDI Einkauf GmbH & Co. oHG, Unternehmensgruppe ALDI SÜD"
+            "name" => "ALDI SÜD Group, HOFER KG (Retail)"
         ],
         [
             "code" => "B",

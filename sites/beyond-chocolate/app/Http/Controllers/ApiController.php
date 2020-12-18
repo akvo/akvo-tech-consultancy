@@ -134,9 +134,9 @@ class ApiController extends Controller
             // 'updated_at' => 'required'
         ]);
         // update user last activity
-        // $user = User::find($input['id']);
-        // $user->last_activity = now();
-        // $user->save();
+        $user = User::find($input['user_id']);
+        $user->last_activity = now();
+        $user->save();
         // because the rule is 1 submission for each organization
         // $check = collect($input)->except(['submitted']);
         // $check = collect($input)->only(['user_id', 'organization_id', 'form_id']); 
