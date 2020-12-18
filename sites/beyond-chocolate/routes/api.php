@@ -15,6 +15,7 @@ use App\Http\Controllers\ApiController as Api;
 use App\Http\Controllers\SeedController as Seed;
 use App\Http\Controllers\UserSavedFormsController;
 use App\Http\Controllers\NotificationController as Notification;
+use Illuminate\Contracts\Auth\StatefulGuard;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,9 +28,9 @@ use App\Http\Controllers\NotificationController as Notification;
 |
 */
 
-Route::middleware(['auth:sanctum'])->get('/me', function (Request $request) {
+Route::middleware(['auth:sanctum'])->get('/me', function (Request $request, Auth $auth, StatefulGuard $guard) {
     $user = $request->user();
-
+    $check = $auth->checkLastActivity($request, $guard);
     return [
         'id' => $user->id,
         'name' => $user->name,
@@ -41,26 +42,33 @@ Route::middleware(['auth:sanctum'])->get('/me', function (Request $request) {
         'questionnaires' => $user->questionnaires,
         'formUrl' => null,
         'formActive' => null,
+        'last_activity' => $user->last_activity,
+        // 'check_last_activity' => $check
     ];
 });
 
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
 
-    Route::get('/me/surveys', function (Request $request) {
+    Route::get('/me/surveys', function (Request $request, Auth $auth, StatefulGuard $guard) {
         $user = $request->user();
-
+        $check = $auth->checkLastActivity($request, $guard);
+        $res['last_activity'] = $check;
         if (in_array('manage-surveys', $user->role->permissions)) {
-            return Questionnaire::all();
+            $res['data'] = Questionnaire::all();
+            return $res;
         }
-
-        return $user->questionnaires;
+        $res['data'] = $user->questionnaires;
+        return $res;
     });
 
     Route::get('/me/saved-surveys', UserSavedFormsController::class);
 
-    Route::get('/users', function () {
+    Route::get('/users', function (Request $request, Auth $auth, StatefulGuard $guard) {
         // return User::paginate(10);
-        return User::with('organization.parents')->paginate(10);
+        $check = $auth->checkLastActivity($request, $guard);
+        $res['last_activity'] = $check;
+        $res ['data'] = User::with('organization.parents')->paginate(10);
+        return $res;
     })->middleware('can:viewAny,App\Models\User');
 
     Route::get('/roles', function () {

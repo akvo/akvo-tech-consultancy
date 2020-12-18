@@ -96,7 +96,13 @@ const SavedFormsSelector = ({ text, user, onSelect, watchValue, setConfirmAction
     };
     const loadData = async () => {
         const { data } = await request().get("/api/me/saved-surveys");
-        setAvailable(data);
+        // check user last activity
+        if (data.last_activity === null) {
+            // reload page
+            window.location.reload();
+            return;
+        }
+        setAvailable(data.data);
     };
     const reload = e => {
         setLoadingSelect(true);
@@ -332,7 +338,13 @@ const NewFormSelector = ({ locale, text, user, onSelect, watchValue, showModal, 
     useEffect(async () => {
         checkSubmissionOnLoad();
         const { data } = await request().get("/api/me/surveys");
-        setAvailable(data);
+        // check user last activity
+        if (data.last_activity === null) {
+            // reload page
+            window.location.reload();
+            return;
+        }
+        setAvailable(data.data);
     }, []);
 
     useEffect(() => {

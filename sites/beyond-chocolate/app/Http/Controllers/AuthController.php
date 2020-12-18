@@ -7,6 +7,9 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Helpers\Mails;
+use Carbon\Carbon;
+use App\Http\Controllers\AuthenticatedSessionController;
+use Illuminate\Contracts\Auth\StatefulGuard;
 
 class AuthController extends Controller
 {
@@ -76,5 +79,33 @@ class AuthController extends Controller
             ]);
         };
         return response(['message' => 'Invalid password'], 401);
+    }
+
+    public function checkLastActivity(Request $request, StatefulGuard $guard)
+    {
+        $user = $request->user();
+        /**
+         * Check user last activity (2 hours)
+         */
+        $last_activity = new Carbon($user->last_activity);
+        $date = new Carbon();
+        $dateNow = $date->now();
+        $diff = $dateNow->diff($last_activity);
+
+        if ($diff->h >= 2) {
+            $session = new AuthenticatedSessionController($guard);
+            $logout = $session->destroy($request);
+            return $user->last_activity;
+        }
+
+        /**
+         * Update last activity if less than 2 hours
+        */
+        $user->last_activity = now();
+        $user->save();
+        return $user->last_activity;
+        /**
+         * if last activity null, user must be redirect to login page
+         */
     }
 }

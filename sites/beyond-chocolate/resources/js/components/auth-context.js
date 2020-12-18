@@ -23,6 +23,12 @@ const withPermission = user => {
 
 const initUser = async () => {
     const user = await authApi.getUser();
+    // check user last activity
+    if (user.last_activity === null) {
+        // reload page
+        window.location.reload();
+        return;
+    }
     return withPermission(user);
 };
 

@@ -24,19 +24,19 @@ const Login = () => {
     const { locale } = useLocale();
     let text = uiText[locale.active];
 
-    const setCache = () => {
-        // set login time
-        const now = new Date();
-        let cache_version = document.getElementsByName("cache-version")[0].getAttribute("value");
-        localStorage.clear();
-        localStorage.setItem("cache-time", now.getTime());
-        localStorage.setItem("cache-version", cache_version);
-    };
+    // const setCache = () => {
+    //     // set login time
+    //     const now = new Date();
+    //     let cache_version = document.getElementsByName("cache-version")[0].getAttribute("value");
+    //     localStorage.clear();
+    //     localStorage.setItem("cache-time", now.getTime());
+    //     localStorage.setItem("cache-version", cache_version);
+    // };
 
     const onSubmit = async data => {
         try {
             await login(data);
-            setCache();
+            // setCache();
             history.push(config.userLanding);
         } catch (e) {
             if (e.status === 422 || e.status === 429) {

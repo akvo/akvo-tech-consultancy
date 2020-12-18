@@ -26,26 +26,27 @@ import authApi from "./services/auth";
 const Main = () => {
 
     useEffect(async () => {
+        localStorage.clear();
         // check cache time / login expired
-        const now = new Date();
-        let cachetime = localStorage.getItem("cache-time");
-        let cache_version = document.getElementsByName("cache-version")[0].getAttribute("value");
-        let current_version = localStorage.getItem("cache-version");
-        let expiredon_cachetime = cachetime !== null ? new Date(parseInt(cachetime) + 2 * 60 * 60 * 1000) : new Date(0); // 2 hours
-        if ((now > expiredon_cachetime || cache_version !== current_version) && cachetime !== null) {
-            localStorage.clear();
-            await authApi.logout();
-            window.location.reload();
-            return;
-        }
-        if (now < expiredon_cachetime && cache_version === current_version) {
-            let ct = localStorage.getItem("cache-time");
-            let cv = localStorage.getItem("cache-version");
-            localStorage.clear();
-            localStorage.setItem("cache-time", ct);
-            localStorage.setItem("cache-version", cv);
-            return;
-        }
+        // const now = new Date();
+        // let cachetime = localStorage.getItem("cache-time");
+        // let cache_version = document.getElementsByName("cache-version")[0].getAttribute("value");
+        // let current_version = localStorage.getItem("cache-version");
+        // let expiredon_cachetime = cachetime !== null ? new Date(parseInt(cachetime) + 2 * 60 * 60 * 1000) : new Date(0); // 2 hours
+        // if ((now > expiredon_cachetime || cache_version !== current_version) && cachetime !== null) {
+        //     localStorage.clear();
+        //     await authApi.logout();
+        //     window.location.reload();
+        //     return;
+        // }
+        // if (now < expiredon_cachetime && cache_version === current_version) {
+        //     let ct = localStorage.getItem("cache-time");
+        //     let cv = localStorage.getItem("cache-version");
+        //     localStorage.clear();
+        //     localStorage.setItem("cache-time", ct);
+        //     localStorage.setItem("cache-version", cv);
+        //     return;
+        // }
     }, []);
 
     const [formLoaded, setFormLoaded] = useState(false);

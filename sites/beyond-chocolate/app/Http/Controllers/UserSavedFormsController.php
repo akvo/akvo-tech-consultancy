@@ -6,15 +6,18 @@ use Illuminate\Support\Facades\Http;
 use App\Models\Organization;
 use App\Models\WebForm;
 use App\Models\Collaborator;
+use Illuminate\Contracts\Auth\StatefulGuard;
+use App\Http\Controllers\AuthController as Auth;
 
 class UserSavedFormsController
 {
-    public function __invoke(Request $request)
+    public function __invoke(Request $request, Auth $auth, StatefulGuard $guard)
     {
         $config = config('bc');
         $qs = $config['questionnaires'];
         $url = $config['form_url_no_instance'];
         $user = $request->user();
+        $check = $auth->checkLastActivity($request, $guard);
         // filter user with no questionnaires
         $userQs = collect($user->questionnaires);
         if ($userQs->count() === 0 && $user->role->key !== 'admin') {
@@ -50,7 +53,10 @@ class UserSavedFormsController
                 "web_form_id" => $wf->id
             ];
         });
-        return $webforms;
+        return [
+            'last_activity' => $check,
+            'data' => $webforms
+        ];
     }
 
     // public function __invoke(Request $request)

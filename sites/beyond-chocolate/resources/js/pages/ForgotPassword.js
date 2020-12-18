@@ -18,7 +18,6 @@ const ForgotPasswordForm = ({ text, setSuccess }) => {
     const [error, setError] = useState({status: false, message: ""});
 
     const onSubmit = async data => {
-        console.log(data);
         try {
             const res = await authApi.forgotPassword(data);
             reset();

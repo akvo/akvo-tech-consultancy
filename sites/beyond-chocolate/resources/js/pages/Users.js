@@ -137,7 +137,14 @@ const Users = () => {
             url: "/api/users",
             query: { page: page }
         });
-        const { data } = await request().get(url);
+        const response = await request().get(url);
+        // check user last activity
+        if (response.data.last_activity === null) {
+            // reload page
+            window.location.reload();
+            return;
+        }
+        let data = response.data.data;
         const pagination = {
             currentPage: parseInt(data.current_page),
             from: parseInt(data.from),
@@ -216,7 +223,6 @@ const Users = () => {
                 adminOrg,
             }
             let res = await emailApi.informUser(sendData);
-            console.log(res)
             if (res.status == 200) {
                 setEmailSent(true);
             }
