@@ -65,6 +65,7 @@ export const uiText = {
         modalDataSecurity: "Data Security Provisions",
         modalNewProject: "New projects questionnaire information",
         modalSaveForm: "Save Form Data",
+        modalWarning: "Warning",
         // Validation & Message
         valEmail: "The email field is required.",
         valFeedbackError: "Something wrong, please try again!",
@@ -163,6 +164,7 @@ export const uiText = {
         modalDataSecurity: "Datensicherheitsmaßnahmen",
         modalNewProject: "Information zur Eröffnung eines neuen Projekt-Fragebogens",
         modalSaveForm: "Daten speichern",
+        modalWarning: "Warnung",
         // Validation & Message
         valEmail: "Die Email Angabe ist obligatorisch.",
         valFeedbackError: "Etwas ist schiefgelaufen, versuchen Sie es bitte noch einmal.",

@@ -60,4 +60,23 @@ const ModalImpressum = ({ text, content, show, handleClose}) => {
     );
 };
 
-export { ModalDataSecurity, SaveFormModal, ModalImpressum };
+const ModalWarning = ({text, content, show, handleClose}) => {
+    return (
+        <Modal size="md" show={show} onHide={handleClose}>
+            <Modal.Header closeButton>
+                <Modal.Title>{ text.modalWarning }</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                {content}
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose}>
+                    { text.btnClose }
+                </Button>
+            </Modal.Footer>
+        </Modal>
+    )
+
+}
+
+export { ModalDataSecurity, SaveFormModal, ModalImpressum, ModalWarning };

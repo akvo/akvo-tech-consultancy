@@ -20,6 +20,7 @@ import emailApi from "../services/email";
 import { useAuth } from "../components/auth-context";
 import { useLocale, questionnaire } from "../lib/locale-context";
 import { uiText } from "../static/ui-text";
+import { ModalWarning } from "../components/Modal";
 import { DateTime } from "luxon";
 
 const PAGINATION_OFFSET = 4;
@@ -102,6 +103,8 @@ const Users = () => {
     const [roles, setRoles] = useState([]);
     const [questionnaires, setQuestionnaires] = useState([]);
     const [selected, setSelected] = useState();
+    const [modalState, showModal] = useState(false);
+    const [modalContent, setModalContent] = useState("");
     const [pagination, setPagination] = useState({
         currentPage: 1,
         from: 1,
@@ -159,6 +162,7 @@ const Users = () => {
         setSelected(null);
         setUsers(data.data);
         setPagination(pagination);
+        return response;
     };
     const fetchRoles = async () => {
         const { data } = await request().get("/api/roles");
@@ -171,13 +175,22 @@ const Users = () => {
     const setPage = page => {
         fetchUsers(page);
     };
+
     const onSelectUser = user => {
-        if (isDirty) return;
+        if (isDirty) {
+            setModalContent(`You have unsaved changes on row: ${selected.name} (${selected.email})`);
+            showModal(true);
+            return;
+        };
         setSelected(null);
         setTimeout(() => {
             setSelected(user);
         }, 0);
     };
+
+    const hideModal = () => {
+        showModal(false);
+    }
 
     const saveUser = async ({ id, ...data }) => {
         if (!selectedOrgs.value) {
@@ -193,8 +206,10 @@ const Users = () => {
                 ...data,
                 questionnaires
             });
-            fetchUsers(pagination.currentPage);
-            setSelected(null);
+            fetchUsers(pagination.currentPage).then(res => {
+                const current = res.data.data.data.find(x => x.id === selected.id);
+                setSelected(current);
+            });
         } catch (e) {
             if (e.status === 422) {
                 setServerErrors(e.errors);
@@ -265,11 +280,11 @@ const Users = () => {
     useEffect(async () => {
         await Promise.all([fetchUsers(1), fetchRoles(), fetchQuestionnaires(), fetchOrgs()]);
     }, []);
-    
+
     return (
         <Container fluid className="usersTab">
             <Row>
-                <Col md={8}>
+                <Col md={8} className="well">
                     <Table className="users-table">
                         <thead>
                             <tr>
@@ -284,10 +299,10 @@ const Users = () => {
                         <tbody>
                             {users &&
                                 users.map(user => {
-                                    let orgSuffix = (user.organization.parents !== null) 
+                                    let orgSuffix = (user.organization.parents !== null)
                                         ? " (" + user.organization.parents.name + ")"
                                         : "";
-                                    let verifiedOn = (user.email_verified_at !== null) 
+                                    let verifiedOn = (user.email_verified_at !== null)
                                         ? DateTime.fromISO(user.email_verified_at).toFormat("dd/LL/yyyy 'at' HH:mm")
                                         : " - ";
                                     return (
@@ -388,7 +403,7 @@ const Users = () => {
                                             { text.tbColOrganization }
                                         </Form.Label>
                                         <Col sm={8}>
-                                            <Select 
+                                            <Select
                                                 defaultValue={{
                                                     value: selected.organization_id,
                                                     label: orgs.find(x => x.id === selected.organization_id)['name']
@@ -396,7 +411,7 @@ const Users = () => {
                                                 onChange={opt => setSelectedOrgs(opt)}
                                                 options={renderOrganizations(orgs)}
                                             />
-                                            { selectedOrgs.error ? ( 
+                                            { selectedOrgs.error ? (
                                                 <Form.Text className="text-danger">
                                                     { text.valOrganization }
                                                 </Form.Text>
@@ -465,9 +480,12 @@ const Users = () => {
                                         { text.btnDeleteUser }
                                     </Button>
                                     <Button
-                                        variant="secondary"
+                                        variant={isDirty || selected?.questionnaires?.length === 0
+                                            ? "secondary"
+                                            : "success"
+                                        }
                                         className="mr-2"
-                                        disabled={isDirty || !selected?.email_verified_at || selected?.questionnaires?.length === 0}
+                                        disabled={isDirty || selected?.questionnaires?.length === 0}
                                         onClick={() => informUser(selected)}
                                     >
                                         { text.btnInformUser }
@@ -479,6 +497,7 @@ const Users = () => {
                     )}
                 </Col>
             </Row>
+            <ModalWarning show={modalState} text={text} content={modalContent} handleClose={hideModal}/>
         </Container>
     );
 };
