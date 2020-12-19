@@ -42,7 +42,7 @@ class UserSavedFormsController
         if ($user->role->key !== 'admin') {
             $webforms = $webforms->filter(function ($wf) use ($userQs) {
                 return $userQs->pluck('name')->contains($wf->form_id);
-            });
+            })->values();
         }
         $webforms = $webforms->map(function ($wf) use ($qs, $url) {
             return [
