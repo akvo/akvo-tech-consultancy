@@ -54,6 +54,8 @@ const SavedFormsSelector = ({ text, user, onSelect, watchValue, setConfirmAction
     const [value, setValue] = useState();
     const [fetchingData, setFetchingData] = useState(false);
     const [loadingSelect, setLoadingSelect] = useState(false);
+    const [disableBtnCollaborator, setdisableBtnCollaborator] = useState(true);
+
     const onSubmit = () => {
         if (!selected) return;
         setShowSavePrompt(false);
@@ -71,6 +73,9 @@ const SavedFormsSelector = ({ text, user, onSelect, watchValue, setConfirmAction
     };
     const onChange = savedForm => {
         const form = available.find(f => f.url === savedForm.value);
+        // check btn collaborator enabled by project questionnaire & the user assign was from same organization with the questionnaire
+        (user.project_fids.some(id => savedForm.value.includes(id)) && user?.organization_id === savedForm?.org_id) 
+            ? setdisableBtnCollaborator(false) : setdisableBtnCollaborator(true);
         setSelected(form);
         setValue(savedForm);
     };
@@ -166,15 +171,20 @@ const SavedFormsSelector = ({ text, user, onSelect, watchValue, setConfirmAction
                             isLoading={loadingSelect}
                         />
                     </div>
-                    <div className="ml-8" style={{float:"right"}}>
+                    <div className="btnContainer">
                         <Button variant="info" style={{float:"left"}} className="mb-2" onClick={reload}>
                             <FontAwesomeIcon
                                 icon={faSyncAlt}
                             />
                         </Button>
-                        <Button className="ml-2 mb-2" onClick={promptSave}>
-                            { text.btnOpen }
-                        </Button>
+                        <div style={{float:"rigt"}}>
+                            <Button style={{float:"left"}} className="ml-3 mb-2" onClick={promptSave}>
+                                { text.btnOpen }
+                            </Button>
+                            <Button style={{float:"right"}} className="ml-2 mb-2" onClick={promptSave} disabled={disableBtnCollaborator}>
+                                { text.btnCollaborators }
+                            </Button>
+                        </div>
                     </div>
                 </Form>
             </Row>
@@ -205,7 +215,7 @@ const FormCollaborators = ({webForm, editable}) => {
 
     useEffect(async () => {
         await Promise.all([fetchCollaborators(), fetchOrgs()]);
-    }, []);
+    }, [webForm]);
 
     const AddCollaborator = () => {
         const { locale } = useLocale();
@@ -225,16 +235,16 @@ const FormCollaborators = ({webForm, editable}) => {
                             .map(it => {return {value: it.id, label: it.name}});
         return (
             <Form as={Col} inline className="pl-0">
-              <div className="col pl-0">
-                <Select
-                  placeholder={text.valSelectOrganization}
-                  value={newOrg}
-                  options={options}
-                  onChange={(data) => setNewOrg(data)}
-                />
-              </div>
-              <Button disabled={newOrg === null} variant="primary" onClick={() => addCollaborator(newOrg.value)}>{text.btnAdd}</Button>
-            </Form>
+                <div className="col pl-0">
+                    <Select
+                        placeholder={text.valSelectOrganization}
+                        value={newOrg}
+                        options={options}
+                        onChange={(data) => setNewOrg(data)}
+                    />
+                </div>
+                <Button disabled={newOrg === null} variant="primary" onClick={() => addCollaborator(newOrg.value)}>{text.btnAdd}</Button>
+            </Form>  
         )
     }
 
@@ -493,10 +503,14 @@ const WebForm = ({setFormLoaded, webForm, setWebForm}) => {
             // new form
             setShowProjectInfo(true);
             setDelayedActiveForm(url);
+            // always show collaborators
+            // setWebForm({ web_form_id: null, submission_name: null, new_questionnaire: true, show_collaborator: true, fid: parseInt(type)});
         } else {
             // saved form
             openForm(url);
-            (user.project_fids.some(id => url.includes(id))) ? setWebForm(webForm) : setWebForm(null);
+            (user.project_fids.some(id => url.includes(id))) 
+                ? setWebForm({...webForm, new_questionnaire: false, show_collaborator: true, fid: null}) 
+                : setWebForm(null);
         }
     };
 
@@ -565,6 +579,7 @@ const WebForm = ({setFormLoaded, webForm, setWebForm}) => {
                         </div>
                     </div>
                     {webForm?.web_form_id && <FormCollaborators webForm={webForm} editable={editableCollaborators}/>}
+                    {/* {webForm?.show_collaborator && <FormCollaborators webForm={webForm} editable={editableCollaborators}/>} */}
                     <Card>
                         {activeForm && (
                             <iframe

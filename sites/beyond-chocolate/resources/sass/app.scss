@@ -368,12 +368,19 @@ main {
             width:100%;
             .selectContainer {
                 // width:calc(100% - 84px);
-                width:calc(100% - 140px);
+                // width:calc(100% - 140px);
+                width:calc(100% - 320px);
             }
-            button {
+            // button {
+            //     display: inline;
+            //     float: right;
+            //     margin-top: -3rem;            
+            // }
+            .btnContainer {
                 display: inline;
                 float: right;
-                margin-top: -3rem;            
+                margin-top: -3rem;  
+                width: 300px;          
             }
         }    
     }

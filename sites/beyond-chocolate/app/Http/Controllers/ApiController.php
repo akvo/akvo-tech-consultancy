@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\WebForm;
 use App\Models\Collaborator;
 use App\Helpers\Mails;
+use Carbon\Carbon;
 
 class ApiController extends Controller
 {
@@ -137,16 +138,15 @@ class ApiController extends Controller
         $user = User::find($input['user_id']);
         $user->last_activity = now();
         $user->save();
-        // because the rule is 1 submission for each organization
-        // $check = collect($input)->except(['submitted']);
-        // $check = collect($input)->only(['user_id', 'organization_id', 'form_id']); 
+
         $input['updated'] =  now();
         if (isset($request->display_name)) {
             $input['display_name'] = (strtolower($request->display_name) !== 'untitled') ? $request->display_name : null;
         }
         $update = WebForm::where('form_instance_url', $input['form_instance_url'])->first();
         if ($update) {
-            $res = $update->update($input);
+            // do not update the organization when submission saved/submitted (because there was a collaborators rule, submission will still on assignned organization)
+            $res = $update->update(collect($input)->except(['organization_id'])->toArray());
             return $res;
         }
         $post = WebForm::create($input);
