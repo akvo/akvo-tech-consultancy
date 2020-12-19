@@ -496,7 +496,7 @@ const WebForm = ({setFormLoaded, webForm, setWebForm}) => {
         } else {
             // saved form
             openForm(url);
-            setWebForm(webForm);
+            (user.project_fids.some(id => url.includes(id))) ? setWebForm(webForm) : setWebForm(null);
         }
     };
 
