@@ -178,7 +178,7 @@ const Users = () => {
 
     const onSelectUser = user => {
         if (isDirty) {
-            setModalContent(`You have unsaved changes on row: ${selected.name} (${selected.email})`);
+            setModalContent(`${text.textUnsavedChanges}: ${selected.name} (${selected.email})`);
             showModal(true);
             return;
         };

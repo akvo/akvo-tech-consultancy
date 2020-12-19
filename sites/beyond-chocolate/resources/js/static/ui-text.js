@@ -98,6 +98,7 @@ export const uiText = {
         // assignment panel
         textAssignmentPanel: "Thank you for completing your registration. The GISCO secretariat will verify your credentials and assign you the appropriate surveys. You will be notified by the secretariat via email.",
         textUntitledProject: "Untitled Project",
+        textUnsavedChanges: "You have unsaved changes for user ",
     },
 
     de: {
@@ -197,5 +198,6 @@ export const uiText = {
         // assignment panel
         textAssignmentPanel: "Thank you for completing your registration. The GISCO secretariat will verify your credentials and assign you the appropriate surveys. You will be notified by the secretariat via email.",
         textUntitledProject: "Untitled Project",
+        textUnsavedChanges: "You have unsaved changes for the user ",
     },
 };
