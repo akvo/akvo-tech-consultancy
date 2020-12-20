@@ -25,7 +25,7 @@ import authApi from "../services/auth";
 const ReloadableSelectMenu = props => {
     const { locale } = useLocale();
     let text = uiText[locale.active];
-    
+
     return (
         <components.Menu {...props}>
             <div>
@@ -74,7 +74,7 @@ const SavedFormsSelector = ({ text, user, onSelect, watchValue, setConfirmAction
     const onChange = savedForm => {
         const form = available.find(f => f.url === savedForm.value);
         // check btn collaborator enabled by project questionnaire & the user assign was from same organization with the questionnaire
-        (user.project_fids.some(id => savedForm.value.includes(id)) && user?.organization_id === savedForm?.org_id) 
+        (user.project_fids.some(id => savedForm.value.includes(id)) && user?.organization_id === savedForm?.org_id)
             ? setdisableBtnCollaborator(false) : setdisableBtnCollaborator(true);
         setSelected(form);
         setValue(savedForm);
@@ -244,7 +244,7 @@ const FormCollaborators = ({webForm, editable}) => {
                     />
                 </div>
                 <Button disabled={newOrg === null} variant="primary" onClick={() => addCollaborator(newOrg.value)}>{text.btnAdd}</Button>
-            </Form>  
+            </Form>
         )
     }
 
@@ -343,7 +343,7 @@ const NewFormSelector = ({ locale, text, user, onSelect, watchValue, showModal, 
 
     const formatLabel = option => {
         let disabled = submissions.includes(parseInt(option.value));
-        let info = (disabled) ? 
+        let info = (disabled) ?
             <small className="font-italic">
                 { text.valOptionNewFormDisabledInfo }
             </small> : "";
@@ -404,7 +404,7 @@ const NewFormSelector = ({ locale, text, user, onSelect, watchValue, showModal, 
                             })}
                             formatOptionLabel={formatLabel}
                         />
-                        { 
+                        {
                             alert ?
                                 <Form.Text as="small" className="text-danger ml-2">
                                     { text.valOptionNewFormDisabledInfo }
@@ -412,11 +412,11 @@ const NewFormSelector = ({ locale, text, user, onSelect, watchValue, showModal, 
                         }
                     </div>
                     {
-                        alert 
-                            ? 
+                        alert
+                            ?
                             <Button style={{marginBottom:"2rem"}} onClick={promptSave}>
                                 { text.btnOpen }
-                            </Button> 
+                            </Button>
                             :
                             <Button className="mb-2" onClick={promptSave}>
                               { text.btnOpen }
@@ -508,8 +508,8 @@ const WebForm = ({setFormLoaded, webForm, setWebForm}) => {
         } else {
             // saved form
             openForm(url);
-            (user.project_fids.some(id => url.includes(id))) 
-                ? setWebForm({...webForm, new_questionnaire: false, show_collaborator: true, fid: null}) 
+            (user.project_fids.some(id => url.includes(id)))
+                ? setWebForm({...webForm, new_questionnaire: false, show_collaborator: true, fid: null})
                 : setWebForm(null);
         }
     };

@@ -226,7 +226,7 @@ $color-red: rgb(155,19,53);
 }
 body {
     font-family: 'Open Sans','Nanum Gothic', sans-serif;
-    line-height: 1.7;
+    line-height: 1.25;
     background: white;
 }
 h1, h2, h3, h4, h5 {
@@ -252,15 +252,15 @@ header {
         background-color:white;
         box-shadow: 0 .3rem .3rem rgba(0,0,0,.2);
         .navbar-brand {
-            margin: 1rem 3rem 0 0;
+            margin: 1rem 1rem 0 0;
             text-transform: uppercase;
-            color: $color-tertiary;
-            text-indent:-9999px;
-            background-image: url(../images/GiscoLogo.jpg);
-            background-repeat:  no-repeat;
+            color: #789922;
+            text-indent: -9999px;
+            background-image: url(/images/GiscoLogo.jpg?61d6ec5…);
+            background-repeat: no-repeat;
             background-size: 94%;
-            width:20rem;
-            height:7rem;
+            width: 16rem;
+            height: 6rem;
             &:hover {
                 color: $color-tertiary;
             }
@@ -312,6 +312,7 @@ main {
     .homeLanding {
         position: relative;
         margin-top: -1.6rem;
+        margin-bottom: -2rem;
         height: calc(100vh - 7rem);
         background-image: /*linear-gradient(
         to right bottom,
@@ -324,11 +325,11 @@ main {
             h1 {    
                 text-transform: uppercase;
                 font-weight: 800;
-                font-size: 3rem;
-                text-shadow: 0.1rem 0.1rem 0 rgba(white,.8);
+                font-size: 2rem;
+                text-shadow: 0.1rem 0.1rem 0 rgba(white,.9);
             }
             p {
-                font-size: 1.4rem;
+                font-size: 1rem;
                 span {
                     display: inline-block;
                     background: rgba($color-tertiary,.7);
@@ -339,7 +340,7 @@ main {
                     margin-bottom: .5rem;
                 }
             }
-            width:50%;
+            width:80%;
             position: absolute;
             top: 50%;
             left: 50%;
@@ -350,7 +351,7 @@ main {
             background: rgba(white,.8);
             border-radius: .5rem;
             border: .1rem solid white;
-            box-shadow:-.2rem -.2rem 0 rgba($color-yellow,.5), .2rem .2rem 0 rgba($color-primary,.5);
+            box-shadow:-0.2rem -0.2rem 10px rgb(0 0 0 / 15%);
         }
     }
 
@@ -394,8 +395,7 @@ main {
         }
        background: rgba( $color-secondary,1);
         .selectContainer {
-        //    min-width: 300px;
-           min-width: 425px;
+           min-width: 300px;
        }
     }
     .formCollaborators {
@@ -419,15 +419,27 @@ main {
         font-size: .8rem;
         &--name{
             width: 35%;
+            max-width:35%;
+            text-overflow: ellipsis;
+            overflow: hidden;
         }
         &--email {
             width: 25%;
+            max-width:25%;
+            text-overflow: ellipsis;
+            overflow: hidden;
         }
         &--date {
             width: 15%;
+            max-width:15%;
+            text-overflow: ellipsis;
+            overflow: hidden;
         }
         &--type {
             width: 15%;
+            max-width:15%;
+            text-overflow: ellipsis;
+            overflow: hidden;
         }
     }
 }

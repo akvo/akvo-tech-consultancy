@@ -59,7 +59,6 @@ const Main = () => {
             e.returnValue = '';
         }
     }
-
     return (
         <BrowserRouter>
             <AuthProvider>
@@ -137,9 +136,11 @@ const Main = () => {
                         />
                     </Switch>
                 </main>
+                {/*
                 <footer>
                     <Footer />
                 </footer>
+                */}
             </AuthProvider>
         </BrowserRouter>
     );
