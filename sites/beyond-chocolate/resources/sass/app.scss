@@ -354,7 +354,17 @@ main {
             box-shadow:-0.2rem -0.2rem 10px rgb(0 0 0 / 15%);
         }
     }
-
+    .webform-block {
+        display:flex!important;
+        .saved-form-block {
+            min-width: 70%;
+            max-width: 70%;
+        }
+        .new-form-block {
+            min-width: 30%;
+            max-width: 30%;
+        }
+    }
     .savedForms {
         padding: 0.5rem 1rem; 
         margin: 0;
@@ -365,6 +375,7 @@ main {
         }
        background: rgba($color-primary,.1);
         .form-inline {
+            padding: 10px 0px 0px 0px;
             display: inline-block;
             width:100%;
             .selectContainer {
@@ -395,7 +406,14 @@ main {
         }
        background: rgba( $color-secondary,1);
         .selectContainer {
-           min-width: 300px;
+           min-width: calc(100% - 76px);
+       }
+       .row {
+           .form-inline{
+               padding: 10px 0px 0px 0px;
+               min-width:100%;
+               width:100%;
+           }
        }
     }
     .formCollaborators {
@@ -686,5 +704,20 @@ footer {
             font-size:1.5rem;
         }
     }
-  
+    main {
+        .webform-block {
+            display:inline-block!important;
+            min-width:100%;
+            .new-form-block,
+            .saved-form-block {
+                display:block!important;
+                min-width:100%;
+                max-width:100%;
+                width:100%;
+            }
+        }
+        .newForms {
+            display:block;
+        }
+    }
 }

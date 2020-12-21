@@ -553,8 +553,8 @@ const WebForm = ({setFormLoaded, webForm, setWebForm}) => {
                     { content.dataSecurityText }
                 </p>
                 <Col md={12}>
-                    <div className="d-flex">
-                        <div className="p-2 flex-grow-1" style={{maxWidth:"70%"}}>
+                    <div className="d-flex webform-block">
+                        <div className="p-2 flex-grow-1 saved-form-block">
                             <SavedFormsSelector
                                 text={text}
                                 user={user}
@@ -564,7 +564,7 @@ const WebForm = ({setFormLoaded, webForm, setWebForm}) => {
                                 setConfirmAction={setConfirmAction}
                             />
                         </div>
-                        <div className="p-2 pr-3" style={{minWidth:"30%"}}>
+                        <div className="p-2 new-form-block">
                             <NewFormSelector
                                 locale={locale}
                                 text={text}

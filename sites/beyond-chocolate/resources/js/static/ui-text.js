@@ -99,7 +99,7 @@ export const uiText = {
         textAssignmentPanel: "Thank you for completing your registration. The GISCO secretariat will verify your credentials and assign you the appropriate surveys. You will be notified via email.",
         textUntitledProject: "Untitled Project",
         textUnsavedChanges: "You have unsaved changes for user ",
-        textEmailNotVerifiedYet: "is not verified yet",
+        textEmailNotVerifiedYet: <Fragment>is not verified yet.<br/><hr/>The user can only be informed about the assignment to questionnaires after he/she has verified his/her email address.</Fragment>,
         // collaborators
         btnCollaborators: "Add Collaborators",
     },
@@ -202,7 +202,7 @@ export const uiText = {
         textAssignmentPanel: "Vielen Dank, dass Sie sich registriert haben. Die Geschäftsstelle des Forum Nachhaltiger Kakao wird Ihre Kontaktdaten verifizieren und Ihnen die für Ihre Mitgliedsgruppe passenden Fragebögen freischalten. Sie werden per Email informiert, sobald Sie freigeschaltet wurden.",
         textUntitledProject: "Untitled Project",
         textUnsavedChanges: "Sie haben ungespeicherte Änderungen für den Nutzer/die Nutzerin ",
-        textEmailNotVerifiedYet: "is not verified yet",
+        textEmailNotVerifiedYet: <Fragment>wurde noch nicht verifiziert. <br/><hr/>Der Nutzer/die Nutzerin kann nur über seine/ihre Freischaltung von Fragebögen informiert werden, nachdem er seine/ sie ihre Emailadresse verifiziert hat.</Fragment>,
         // collaborators
         btnCollaborators: "Partner hinzufügen",
     },
