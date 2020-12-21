@@ -34,17 +34,19 @@ const defs = {
             i: 'Supply origin transparency level',
             t: 'Supply origin transparency level',
             d: <Fragment>
-                The "supply origin transparency level" is about the extent that detailed information on the origin of cocoa is being documented at the initial stages of the sourcing process, with such information remaining available at later stages of the supply chain.
-                <br/>Distinction is made between the follwing supply origin transparency levels:
-                <ul className="list-unstyled">
-                    <li>Score 1: origin unknown or only country of origin known </li>
-                    <li>Score 2: country and region  of origin known </li>
-                    <li>Score 3: country, region and municipality/cooperative of origin known </li>
-                    <li>Score 4: farm known, in addition to the country, region and municipality/cooperative of origin</li>
-                    <li>Score 5: farm known and having point coordinates of the farm household (farm mapping)</li>
-                    <li>Score 5+: farm known and having polygon boundaries of the farm. </li>
-                    <li>Score 6: farm known, having polygon boundaries of the farm and farm fields verified as not in a protected forest and as not comprising land that was deforested since 2018. Having a high origin transparency score still allows for massing and mixing of beans at later stages (during transport and/or processing)!</li>
-                </ul>
+                The "supply origin transparency level" is about the extent that detailed information on the origin of cocoa is being documented at the initial stages of the sourcing process, with such information remaining available at later stages of the supply chain.<br/>
+                Distinction is made between the follwing supply origin transparency levels:<br/><br/>
+                <table>
+                    <tbody>
+                    <tr><td width="20%"><b>Score 1</b></td><td>origin unknown or only country of origin known </td></tr>
+                    <tr><td width="20%"><b>Score 2</b></td><td>country and region  of origin known </td></tr>
+                    <tr><td width="20%"><b>Score 3</b></td><td>country, region and municipality/cooperative of origin known </td></tr>
+                    <tr><td width="20%"><b>Score 4</b></td><td>farm known, in addition to the country, region and municipality/cooperative of origin</td></tr>
+                    <tr><td width="20%"><b>Score 5</b></td><td>farm known and having point coordinates of the farm household (farm mapping)</td></tr>
+                    <tr><td width="20%"><b>Score 5+</b></td><td>farm known and having polygon boundaries of the farm. </td></tr>
+                    <tr><td width="20%"><b>Score 6</b></td><td>farm known, having polygon boundaries of the farm and farm fields verified as not in a protected forest and as not comprising land that was deforested since 2018. Having a high origin transparency score still allows for massing and mixing of beans at later stages (during transport and/or processing)!</td></tr>
+                    </tbody>
+                </table>
                 </Fragment>
         }, {
             i: 'Direct supply',
@@ -101,29 +103,21 @@ const defs = {
             i: 'Categories for Cocoa AGROFORESTRY systems',
             t: 'Categories for Cocoa AGROFORESTRY systems',
             d: <Fragment>
-                <p>
-                    <b>Entry level for AGROFORESTRY (1):</b> <br/>
-                    At least 16 (non cocoa) trees per ha with a minimum of 3 different tree species, that are preferably native<br/>
-                    Description: This entry level for AGROFORESTRY systems corresponds to CFI and WCF indicators on AGROFORESTRY<br/><br/>
-                </p>
-                <p>
-                    <b>Basic Category for AGROFERSTRY (2):</b><br/>
-                    At least 40% shade canopy cover with a minimum of 5 different native tree species. This category for AGROFORESTRY is in accordance with Rainforest Alliance’s shade coverage and species diversity reference parameters. <br/><br/>
-                </p>
-                <p>
-                    <b>Advanced Category for AGROFORESTRY (3):</b><br/>
-                    <ul style={{marginLeft:"25px"}}>
-                        <li>At least 40% shade canopy cover</li>
-                        <li>Minimum of 12 different native tree species (pioneer specied excluded)</li>
-                        <li>At least 15% native vegetation coverage</li>
-                        <li>2 strata or stories and shade species should attain a minimum of 12-15 meters in height</li>
-                    </ul>
-                    In this category a special focus is given to the landscape approach on AGROFORESTRY. This category is alignment with the recommendations of the VOICE Network.<br/><br/>
-                </p>
-                <p>
-                    <b>Dynamic AGROFORESTRY Systems (4):</b><br/>
-                    These systems are characterized by a very high density of trees per hectare. There is an abundance of different tree species, high biodiversity, plant communities with different life cycles that serve different purposes (CO2, income sources, food etc). They grow in different stories (strata) without competition  There are at least 3 different stories (strata), regernative practices are used, and food security and income sources outside of cocoa are guaranteed.  This system mimics the natural habitat of cacao in a highly developed cultivation system. Chocolats Halba's Dynamic AGROFORESTRY Projects are seen as a model for this category.
-                </p>
+                <b>Entry level for AGROFORESTRY (1):</b> <br/><br/>
+                At least 16 (non cocoa) trees per ha with a minimum of 3 different tree species, that are preferably native<br/>
+                Description: This entry level for AGROFORESTRY systems corresponds to CFI and WCF indicators on AGROFORESTRY<br/><hr/>
+                <b>Basic Category for AGROFERSTRY (2):</b><br/><br/>
+                At least 40% shade canopy cover with a minimum of 5 different native tree species. This category for AGROFORESTRY is in accordance with Rainforest Alliance’s shade coverage and species diversity reference parameters. <br/><hr/>
+                <b>Advanced Category for AGROFORESTRY (3):</b><br/><br/>
+                <ul style={{marginLeft:"25px"}}>
+                    <li>At least 40% shade canopy cover</li>
+                    <li>Minimum of 12 different native tree species (pioneer specied excluded)</li>
+                    <li>At least 15% native vegetation coverage</li>
+                    <li>2 strata or stories and shade species should attain a minimum of 12-15 meters in height</li>
+                </ul>
+                In this category a special focus is given to the landscape approach on AGROFORESTRY. This category is alignment with the recommendations of the VOICE Network.<br/><hr/>
+                <b>Dynamic AGROFORESTRY Systems (4):</b><br/><br/>
+                These systems are characterized by a very high density of trees per hectare. There is an abundance of different tree species, high biodiversity, plant communities with different life cycles that serve different purposes (CO2, income sources, food etc). They grow in different stories (strata) without competition  There are at least 3 different stories (strata), regernative practices are used, and food security and income sources outside of cocoa are guaranteed.  This system mimics the natural habitat of cacao in a highly developed cultivation system. Chocolats Halba's Dynamic AGROFORESTRY Projects are seen as a model for this category.
             </Fragment>
         }
     ],
@@ -227,26 +221,19 @@ const defs = {
             i: 'Categories for Cocoa AGROFORESTRY systems',
             t: 'Kategorien für AGROFORSTSYSTEME für Kakao',
             d: <Fragment>
-                <p>
-                    <b>Einstiegstufe für AGROFORSTSYSTEME (1):</b> <br/>
-                    Mindestens 16 (Nicht-Kakao) Bäume pro Hektar mit mindestens 3 verschiedenen Baumarten, die vorzugsweise einheimisch sind. Diese Einstiegsstufe für AGROFORSTSYSTEME entspricht CFI und WCF Indikatoren zu Agroforst. <br/><br/>
-                </p>
-                <p>
-                    <b>Basiskategorie für AGROFORSTSYSTEME (2):</b><br/>
-                    Mindestens 40 % Baumschattenbedeckung mit mindestens 5 verschiedenen einheimischen Baumarten. Diese Kategorie für AGROFORSTSYSTEME entspricht den Rainforest Alliance Referenzparametern für Beschattung und Artenvielfalt.<br/><br/>
-                </p>
-                <p>
-                    <b>Fortgeschrittene Kategorie für AGROFORSTSYSTEME (3):</b><br/>
-                    <ul style={{marginLeft:"25px"}}>
-                        <li>Mindestens 40% Baumschattenbedeckung, mindestens 12 verschiedene einheimische Baumarten (Pionierbaumarten ausgeschlossen)</li>
-                        <li>Mindestens 15% einheimische Vegetationsbedeckung, mindestens, 2 Stockwerke, Baumstrata und die Schattenbäume sollten eine Mindesthöhe von 12-15 Metern erreichen</li>
-                    </ul>
-                    In dieser Kategorie wird ein besonderer Fokus auf den landschaftlichen Ansatz der Agroforstwirtschaft gelegt. Diese Kategorie orientiert sich an den Empfehlungen des VOICE-Netzwerks.<br/><br/>
-                </p>
-                <p>
-                    <b>Dynamische AGROFORSTSYSTEME (4):</b><br/>
-                    Diese Systeme zeichnen sich durch eine sehr hohe Baumdichte pro Hektar aus. Es gibt einen Reichtum an verschiedenen Baumarten, hohe Biodiversität, Pflanzengemeinschaften mit unterschiedlichen Lebenszyklen, die unterschiedliche Zwecke erfüllen (CO2, Einkommensquellen, Nahrung etc). Sie wachsen dabei in verschiedenen Baumschichten ohne Konkurrenz zueinander. Es gibt mindestens 3 verschiedene Stockwerke (Strata), es werden regernative Praktiken angewendet und Nahrungssicherheit und Einkommensquellen außerhalb des Kakaos sind gewährleistet.  Dieses System ahmt den natürlichen Lebensraum des Kakaos in einem hoch entwickelten Anbausystem nach, wobei die Dynamischen Agroforstprojekte von Chocolats Halba als Vorbild gelten.
-                </p>
+                <b>Einstiegstufe für AGROFORSTSYSTEME (1):</b> <br/><br/>
+                <p>Mindestens 16 (Nicht-Kakao) Bäume pro Hektar mit mindestens 3 verschiedenen Baumarten, die vorzugsweise einheimisch sind. <br/>
+                Diese Einstiegsstufe für AGROFORSTSYSTEME entspricht CFI und WCF Indikatoren zu Agroforst. </p><hr/>
+                <b>Basiskategorie für AGROFORSTSYSTEME (2):</b><br/><br/>
+                <p>Mindestens 40 % Baumschattenbedeckung mit mindestens 5 verschiedenen einheimischen Baumarten. Diese Kategorie für AGROFORSTSYSTEME entspricht den Rainforest Alliance Referenzparametern für Beschattung und Artenvielfalt.</p><hr/>
+                <b>Fortgeschrittene Kategorie für AGROFORSTSYSTEME (3):</b><br/><br/>
+                <ul style={{marginLeft:"25px"}}>
+                    <li>Mindestens 40% Baumschattenbedeckung, mindestens 12 verschiedene einheimische Baumarten <br/>(Pionierbaumarten ausgeschlossen)</li>
+                    <li>Mindestens 15% einheimische Vegetationsbedeckung, mindestens<br/> 2 Stockwerke, Baumstrata und die Schattenbäume sollten <br/>eine Mindesthöhe von 12-15 Metern erreichen</li>
+                </ul>
+                <p>In dieser Kategorie wird ein besonderer Fokus auf den landschaftlichen Ansatz der Agroforstwirtschaft gelegt. Diese Kategorie orientiert sich an den Empfehlungen des VOICE-Netzwerks.</p><hr/>
+                <b>Dynamische AGROFORSTSYSTEME (4):</b><br/><br/>
+                <p>Diese Systeme zeichnen sich durch eine sehr hohe Baumdichte pro Hektar aus. Es gibt einen Reichtum an verschiedenen Baumarten, hohe Biodiversität, Pflanzengemeinschaften mit unterschiedlichen Lebenszyklen, die unterschiedliche Zwecke erfüllen (CO2, Einkommensquellen, Nahrung etc). Sie wachsen dabei in verschiedenen Baumschichten ohne Konkurrenz zueinander. <br/>Es gibt mindestens 3 verschiedene Stockwerke (Strata), es werden regernative Praktiken angewendet und Nahrungssicherheit und Einkommensquellen außerhalb des Kakaos sind gewährleistet.  Dieses System ahmt den natürlichen Lebensraum des Kakaos in einem hoch entwickelten Anbausystem nach, wobei die Dynamischen Agroforstprojekte von Chocolats Halba als Vorbild gelten.</p>
             </Fragment>
         }
     ],

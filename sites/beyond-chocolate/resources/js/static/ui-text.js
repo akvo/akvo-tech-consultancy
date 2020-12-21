@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 
 export const uiText = {
     en: {
-        welcome: "Welcome to the GISCO Monitoring Pilot for 2019 data",
+        welcome: <Fragment>Welcome<br/>to the GISCO Monitoring Pilot<br/>for 2019 data</Fragment>,
         // Navigation
         navSurvey: "Survey",
         navDefinitions: "Definitions",
@@ -35,7 +35,7 @@ export const uiText = {
         formRegister: "Register",
         formFullName: "Full Name",
         formResetPwd: "Reset Password",
-        formCollaborators: "Contributing organizations",
+        formCollaborators: "Contributing organization(s)",
         // Button
         btnUpdate: "Update",
         btnClose: "Close",
@@ -96,15 +96,16 @@ export const uiText = {
         textFooterImpressum: "Impressum",
         textFooterFaq: "FAQ",
         // assignment panel
-        textAssignmentPanel: "Thank you for completing your registration. The GISCO secretariat will verify your credentials and assign you the appropriate surveys. You will be notified by the secretariat via email.",
+        textAssignmentPanel: "Thank you for completing your registration. The GISCO secretariat will verify your credentials and assign you the appropriate surveys. You will be notified via email.",
         textUntitledProject: "Untitled Project",
         textUnsavedChanges: "You have unsaved changes for user ",
+        textEmailNotVerifiedYet: "is not verified yet",
         // collaborators
         btnCollaborators: "Add Collaborators",
     },
 
     de: {
-        welcome: "Willkommen zum Pilotmonitoring des Forum nachhaltiger Kakao für das Berichtsjahr 2019!",
+        welcome: <Fragment>Willkommen<br/>zum Pilotmonitoring des Forum nachhaltiger Kakao<br/>für das Berichtsjahr 2019!</Fragment>,
         // Navigation
         navSurvey: "Umfrage",
         navDefinitions: "Definitionen",
@@ -137,13 +138,13 @@ export const uiText = {
         formRegister: "Registrieren",
         formFullName: "Name",
         formResetPwd: "Passwort zurücksetzen",
-        formCollaborators: "Contributing organizations",
+        formCollaborators: "Beitragende Organisation(en)",
         // Button
         btnUpdate: "Update",
         btnClose: "Schließen",
         btnSaveChanges: "Änderungen speichern",
         btnDeleteUser: "Nutzer löschen",
-        btnInformUser: "Inform User",
+        btnInformUser: "Nutzer/in informieren",
         btnSubmit: "Senden",
         btnLoading: "Laden",
         btnOpen: "Öffnen",
@@ -198,10 +199,11 @@ export const uiText = {
         textFooterImpressum: "Impressum",
         textFooterFaq: "FAQ",
         // assignment panel
-        textAssignmentPanel: "Thank you for completing your registration. The GISCO secretariat will verify your credentials and assign you the appropriate surveys. You will be notified by the secretariat via email.",
+        textAssignmentPanel: "Vielen Dank, dass Sie sich registriert haben. Die Geschäftsstelle des Forum Nachhaltiger Kakao wird Ihre Kontaktdaten verifizieren und Ihnen die für Ihre Mitgliedsgruppe passenden Fragebögen freischalten. Sie werden per Email informiert, sobald Sie freigeschaltet wurden.",
         textUntitledProject: "Untitled Project",
-        textUnsavedChanges: "You have unsaved changes for the user ",
+        textUnsavedChanges: "Sie haben ungespeicherte Änderungen für den Nutzer/die Nutzerin ",
+        textEmailNotVerifiedYet: "is not verified yet",
         // collaborators
-        btnCollaborators: "Add Collaborators",
+        btnCollaborators: "Partner hinzufügen",
     },
 };

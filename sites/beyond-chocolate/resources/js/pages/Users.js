@@ -485,13 +485,18 @@ const Users = () => {
                                             : "success"
                                         }
                                         className="mr-2"
-                                        disabled={isDirty || selected?.questionnaires?.length === 0}
+                                        disabled={isDirty || !selected?.email_verified_at || selected?.questionnaires?.length === 0}
                                         onClick={() => informUser(selected)}
                                     >
                                         { text.btnInformUser }
                                       {emailSent && <FontAwesomeIcon className="ml-2" icon={faCheck} />}
                                     </Button>
                                 </Card.Footer>
+                                {!selected?.email_verified_at ? (
+                                <Card.Footer>
+                                    <b>{selected?.email}</b> { text.textEmailNotVerifiedYet}
+                                </Card.Footer>
+                                ) : ""}
                             </Card>
                         </Form>
                     )}
