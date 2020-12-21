@@ -93,10 +93,10 @@ const defs = {
             i: 'AGROFORESTRY System for Cocoa Production  (Description)',
             t: 'AGROFORESTRY System for Cocoa Production  (Description)',
             d: <Fragment>
-                <b>Please note that this is a description, not a definition</b> In this case, the term AGROFORESTRY refers to farming fields in which cacao trees are deliberately combined with preferably native non-cocoa tree species that have proven to be useful for AGROFORESTRY in a stratified spatial arrangement and temporal sequence. This includes other agricultural crops on the same land management unit, triggering ecological, economic, social and sociocultural benefits. AGROFORESTRY approaches should be locally adapted and should consider the ecologic, social and cultural environment. <br/>
-                The functions of AGROFORESTRY systems are to enable long term, sustainable cocoa production which preserves biodiversity, prevents erosion, protects the climate and natural genetic resources, diversifies and sustains production to the benefit of all land users.  Cocoa AGROFORESTRY systems can be developed from different starting points, in different ecologic environments.<br/>
-                AGROFORESTRY systems aim to provide diversified sources of income, can reduce costs and can create co-benefits to increase the economic resilience and to enhance health and food supply of particularly smallholder farmers and local communities living in rural areas.<br/>
-                Cocoa farmers play a crucial role for the definition, adoption and longevity of AGROFORESTRY systems. A joint process where the needs, preferences and experiences of farmers are taken into account is very important to maintain and improve the existing production system towards long-term sustainability. The establishment of AGROFORESTRY systems must not stem from deforestation or degradation of forest areas.<br/>
+                <b>Please note that this is a description, not a definition</b> In this case, the term AGROFORESTRY refers to farming fields in which cacao trees are deliberately combined with preferably native non-cocoa tree species that have proven to be useful for AGROFORESTRY in a stratified spatial arrangement and temporal sequence. This includes other agricultural crops on the same land management unit, triggering ecological, economic, social and sociocultural benefits. AGROFORESTRY approaches should be locally adapted and should consider the ecologic, social and cultural environment. <br/><br/>
+                The functions of AGROFORESTRY systems are to enable long term, sustainable cocoa production which preserves biodiversity, prevents erosion, protects the climate and natural genetic resources, diversifies and sustains production to the benefit of all land users.  Cocoa AGROFORESTRY systems can be developed from different starting points, in different ecologic environments.<br/><br/>
+                AGROFORESTRY systems aim to provide diversified sources of income, can reduce costs and can create co-benefits to increase the economic resilience and to enhance health and food supply of particularly smallholder farmers and local communities living in rural areas.<br/><br/>
+                Cocoa farmers play a crucial role for the definition, adoption and longevity of AGROFORESTRY systems. A joint process where the needs, preferences and experiences of farmers are taken into account is very important to maintain and improve the existing production system towards long-term sustainability. The establishment of AGROFORESTRY systems must not stem from deforestation or degradation of forest areas.<br/><br/>
                 Banana plants/ plantains do not count as trees/tree species.
             </Fragment>
         }, {
@@ -119,6 +119,20 @@ const defs = {
                 <b>Dynamic AGROFORESTRY Systems (4):</b><br/><br/>
                 These systems are characterized by a very high density of trees per hectare. There is an abundance of different tree species, high biodiversity, plant communities with different life cycles that serve different purposes (CO2, income sources, food etc). They grow in different stories (strata) without competition  There are at least 3 different stories (strata), regernative practices are used, and food security and income sources outside of cocoa are guaranteed.  This system mimics the natural habitat of cacao in a highly developed cultivation system. Chocolats Halba's Dynamic AGROFORESTRY Projects are seen as a model for this category.
             </Fragment>
+        }, {
+            i: "Hazardous Pesticides",
+            t: "Hazardous Pesticides",
+            d: <Fragment>
+                Hazardous pesticides include as minimum requirement all substances which: <br/><br/>
+                <ol type="1" style={{marginLeft:"1.5rem"}}>
+                    <li>are listed as <b>persistent  organic pollutants (POPs)</b> in the Stockholm Convention within the Annex III of the Rotterdam Convention and/or the Montreal Protocol</li>
+                    <li>are classified by WHO as A1 or 1B, (3) are listed in the <b>Dirty Dozen</b> of PAN, or</li>
+                    <li>are identified by UN-GHS as substances with <b>chronic toxicity</b>.</li>
+                </ol><br/>
+                In addition, specifically for cocoa cultivation, they include pesticides that are not permitted for use in export goods to EU countries.<br/><br/>
+                (The definition is currently under revision, <i>Nov. 2020</i> )
+            </Fragment>
+
         }
     ],
 
@@ -211,9 +225,9 @@ const defs = {
             i: 'AGROFORESTRY System for Cocoa Production  (Description)',
             t: 'AGROFORSTSYSTEM für Kakao (Beschreibung)',
             d: <Fragment>
-                <b>Bitte beachten Sie, dass es sich hier um eine Beschreibung, nicht um eine Definition, handelt.</b> Der Begriff Agroforst bezieht sich in diesem Fall auf Anbauflächen, in denen Kakaobäume bewusst mit vorzugsweise einheimischen Nicht-Kakaobaumarten, die sich für die Agroforstwirtschaft als nützlich erwiesen haben, in stratifizierter räumlicher Anordnung und zeitlicher Abfolge kombiniert werden. Dies schließt auch andere Agrarkulturen auf der gleichen Bewirtschaftungseinheit ein, wodurch ökologische, ökonomische, soziale und soziokulturelle Vorteile entstehen. Agroforstliche Methoden sollten lokal angepasst sein und das ökologische, soziale und kulturelle Umfeld berücksichtigen.<br/>
-                Die Funktionen von AGROFORSTSYSTEMEN bestehen darin, eine langfristige, nachhaltige Kakaoproduktion zu ermöglichen, die die Biodiversität erhält, Erosion verhindert, das Klima und die natürlichen genetischen Ressourcen schützt, die Produktion diversifiziert - zum Vorteil aller Landnutzer.  Kakao-AGROFORSTSYSTEME können von verschiedenen Ausgangspunkten aus und in unterschiedlichen ökologischen Umgebungen entwickelt werden. AGROFORSTSYSTEME zielen darauf ab, diversifizierte Einkommensquellen zu erschließen, können Kosten reduzieren und zusätzlichen Nutzen schaffen, um die wirtschaftliche Widerstandsfähigkeit zu erhöhen und die Gesundheit und Nahrungsmittelversorgung von Kleinbauern und lokalen Gemeinschaften, die in ländlichen Gebieten leben, verbessern.<br/>
-                Kakaobauern spielen eine entscheidende Rolle für die Definition, Annahme und Langlebigkeit von AGROFORSTSYSTEMEN. Ein gemeinsamer Prozess, in dem die Bedürfnisse, Präferenzen und Erfahrungen der Bauern und Bäuerinnen berücksichtigt werden, ist sehr wichtig, um das bestehende Produktionssystem zu erhalten und in Richtung langfristiger Nachhaltigkeit zu verbessern. Die Etablierung von AGROFORSTSYSTEMEN darf nicht durch Abholzung oder Degradierung von Waldflächen erfolgen.<br/>
+                <b>Bitte beachten Sie, dass es sich hier um eine Beschreibung, nicht um eine Definition, handelt.</b> Der Begriff Agroforst bezieht sich in diesem Fall auf Anbauflächen, in denen Kakaobäume bewusst mit vorzugsweise einheimischen Nicht-Kakaobaumarten, die sich für die Agroforstwirtschaft als nützlich erwiesen haben, in stratifizierter räumlicher Anordnung und zeitlicher Abfolge kombiniert werden. Dies schließt auch andere Agrarkulturen auf der gleichen Bewirtschaftungseinheit ein, wodurch ökologische, ökonomische, soziale und soziokulturelle Vorteile entstehen. Agroforstliche Methoden sollten lokal angepasst sein und das ökologische, soziale und kulturelle Umfeld berücksichtigen.<br/><br/>
+                Die Funktionen von AGROFORSTSYSTEMEN bestehen darin, eine langfristige, nachhaltige Kakaoproduktion zu ermöglichen, die die Biodiversität erhält, Erosion verhindert, das Klima und die natürlichen genetischen Ressourcen schützt, die Produktion diversifiziert - zum Vorteil aller Landnutzer.  Kakao-AGROFORSTSYSTEME können von verschiedenen Ausgangspunkten aus und in unterschiedlichen ökologischen Umgebungen entwickelt werden. AGROFORSTSYSTEME zielen darauf ab, diversifizierte Einkommensquellen zu erschließen, können Kosten reduzieren und zusätzlichen Nutzen schaffen, um die wirtschaftliche Widerstandsfähigkeit zu erhöhen und die Gesundheit und Nahrungsmittelversorgung von Kleinbauern und lokalen Gemeinschaften, die in ländlichen Gebieten leben, verbessern.<br/><br/>
+                Kakaobauern spielen eine entscheidende Rolle für die Definition, Annahme und Langlebigkeit von AGROFORSTSYSTEMEN. Ein gemeinsamer Prozess, in dem die Bedürfnisse, Präferenzen und Erfahrungen der Bauern und Bäuerinnen berücksichtigt werden, ist sehr wichtig, um das bestehende Produktionssystem zu erhalten und in Richtung langfristiger Nachhaltigkeit zu verbessern. Die Etablierung von AGROFORSTSYSTEMEN darf nicht durch Abholzung oder Degradierung von Waldflächen erfolgen.<br/><br/>
                 Bananenpflanzen/ Kochbananen zählen nicht als Bäume/Baumarten.
 
             </Fragment>
@@ -234,6 +248,21 @@ const defs = {
                 <p>In dieser Kategorie wird ein besonderer Fokus auf den landschaftlichen Ansatz der Agroforstwirtschaft gelegt. Diese Kategorie orientiert sich an den Empfehlungen des VOICE-Netzwerks.</p><hr/>
                 <b>Dynamische AGROFORSTSYSTEME (4):</b><br/><br/>
                 <p>Diese Systeme zeichnen sich durch eine sehr hohe Baumdichte pro Hektar aus. Es gibt einen Reichtum an verschiedenen Baumarten, hohe Biodiversität, Pflanzengemeinschaften mit unterschiedlichen Lebenszyklen, die unterschiedliche Zwecke erfüllen (CO2, Einkommensquellen, Nahrung etc). Sie wachsen dabei in verschiedenen Baumschichten ohne Konkurrenz zueinander. <br/>Es gibt mindestens 3 verschiedene Stockwerke (Strata), es werden regernative Praktiken angewendet und Nahrungssicherheit und Einkommensquellen außerhalb des Kakaos sind gewährleistet.  Dieses System ahmt den natürlichen Lebensraum des Kakaos in einem hoch entwickelten Anbausystem nach, wobei die Dynamischen Agroforstprojekte von Chocolats Halba als Vorbild gelten.</p>
+            </Fragment>
+        }, {
+            i: 'Hazardous Pesticides',
+            t: 'Gefährliche Pestizide',
+            d: <Fragment>
+                Gefährliche Pestizide umfassen als Mindestanforderung alle Substanzen, die<br/><br/>
+                <ol type="1" style={{marginLeft:"1.5rem"}}>
+                    <li>als <b><i>Persistent Organic Pollutants</i> (POPs)</b> in der Stockholm Konvention geführt sind, im Annex III der Rotterdam Konvention bzw. im Mont-real Protokoll geführt sind,</li>
+                    <li>von der WHO als 1A oder 1B klassifiziert sind,</li>
+                    <li>auf der Liste der <b><i>Dirty Dozen</i></b> der PAN geführt sind, oder die</li>
+                    <li>im UN-GHS als Substanzen mit <b><i>Chronic Toxicity</i></b> ausgewiesen werden.</li>
+                </ol>
+                ausgewiesen werden. Zudem spezifisch für den Kakaoanbau solche Pestizide, deren Verwendung für Exportgut in
+                EU-Staaten nicht zugelassen sind.<br/><br/> (Die Definition ist derzeit in Überarbeitung, <i>Nov.2020</i> )
+
             </Fragment>
         }
     ],
