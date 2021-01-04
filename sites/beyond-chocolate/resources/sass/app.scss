@@ -683,14 +683,27 @@ footer {
 .faqList {
     h5 {
         color:#6c3317;
-        font-size: 1.1rem;
+        font-size: 1rem;
+        margin-left: 15px;
+        margin-bottom: 0px;
+    }
+    h5 span.arrow svg {
+        margin-left: -21px;
     }
     h5.green {
         color:#789922
     }
+    p b {
+        color:#6c3317
+    }
+    ul,
     ol {
         margin-left: 1.5rem!important;
         margin-bottom: 0px;
+    }
+    ul li,
+    ol li {
+        margin-bottom: 15px;
     }
 }
 

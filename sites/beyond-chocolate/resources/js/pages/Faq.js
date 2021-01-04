@@ -26,10 +26,12 @@ const Faq = () => {
                 <Card key={"fr-"+idx}>
                     <Accordion.Toggle as={Card.Header} eventKey={"ac-" + idx} style={{cursor:"pointer"}} className="faqList" onClick={()=> toggleActive(idx)}>
                         <h5 className={activeId === idx ? "green" : ""}>
+                            <span className="arrow">
                             <FontAwesomeIcon
                                 className="mr-2"
                                 icon={activeId === idx ? faAngleDown : faAngleRight}
-                            /> {x.h}
+                            />
+                            </span> {x.h}
                         </h5>
                     </Accordion.Toggle>
                     <Accordion.Collapse eventKey={"ac-" + idx}>
