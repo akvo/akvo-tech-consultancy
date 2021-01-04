@@ -78,17 +78,29 @@ class ApiController extends Controller
             $recipients = [['Email' => $user->email, 'Name' => $user->name]];
             $subject = config('app.name').": ".$subject;
             $body = "Dear Mr./Ms. $user->name<br/><br/>
+                    <p> $assigningUser->name from $assigningOrg->name has added your
+                    organisation as a collaborator for Project: $project_title.
+                    </p>
 
-                <p> $assigningUser->name from $assigningOrg->name has added your
-                organisation as a collaborator for Project: $project_title.
-                </p>
+                    <p> You can now view and data to the saved project in your
+                    \"previously saved forms\" section in the GISCO portal.
+                    </p>
 
-                <p> You can now view and data to the saved project in your
-                \"previously saved forms\" section in the GISCO portal.
-                </p>
+                    <p>Please contact us via the feedback form in case you face any issues.</p>
+                    
+                    <hr />
 
-                <p>Please contact us via the feedback form in case you face any issues.</p>";
+                    Liebe/r $user->name<br/><br/>
+                    <p> $assigningUser->name von $assigningOrg->name 
+                    hat Ihre Organisation als Partner für das Projekt $project_title registriert.
+                    </p>
 
+                    <p> Der gespeicherte Projekt-Fragebogen erscheint nun im Monitoringportal in Ihrem Menu 
+                    \"Auswahl eines zuvor gespeicherten Fragebogens\" (oben links). 
+                    Sie können Ihn ansehen und bearbeiten.
+                    </p>
+
+                    <p>Bitte kontaktieren Sie uns über das Feedback-Formular, falls Sie Schwierigkeiten haben.</p>";
             $text = "$assigningUser->name from $assigningOrg->name has added your organisation as a collaborator for Project: $project_title.";
             error_log($body);
             $mails->sendEmail($recipients, false, $subject, $body, $text);
