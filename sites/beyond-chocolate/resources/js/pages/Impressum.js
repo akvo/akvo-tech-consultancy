@@ -7,11 +7,20 @@ import {
     faAngleRight,
     faAngleDown,
 } from "@fortawesome/free-solid-svg-icons";
+import { ModalDataSecurity } from "../components/Modal";
+import { dsc } from "../static/data-security-content";
+import { uiText } from "../static/ui-text";
 
 const Impressum = () => {
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
     const [activeId, setActiveId] = useState(0);
     const { locale } = useLocale();
-    let content = ic[locale.active];
+
+    let content = ic(handleShow);
+        content = content[locale.active];
+    let text = uiText[locale.active];
 
     const toggleActive = (id) => {
         if (activeId === id) {
@@ -22,7 +31,8 @@ const Impressum = () => {
     };
 
     const renderImpressum = () => {
-        let data = ic[locale.active];
+        let content = ic(handleShow);
+        let data = content[locale.active];
         return data.list.map((x,idx) => {
             return (
                 <Card key={"ic-"+idx}>
@@ -62,6 +72,14 @@ const Impressum = () => {
                     </Accordion>
                 </Col>
             </Row>
+
+            <ModalDataSecurity
+                text={text}
+                show={show}
+                handleClose={handleClose}
+                locale={locale}
+                data={dsc}
+            />
         </Container>
     );
 };
