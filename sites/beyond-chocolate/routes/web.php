@@ -38,3 +38,7 @@ Route::get('/login', [AuthenticatedSessionController::class, 'create'])
     ->name('login');
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->name('logout');
+Route::get('/login/azure', [AuthenticatedSessionController::class, 'handleAzureRequest'])
+    ->name('azureLogin');
+Route::post('/callback/azure', [AuthenticatedSessionController::class, 'handleAzureRequest'])
+    ->name('azureCallback');

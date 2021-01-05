@@ -109,4 +109,5 @@ class AuthController extends Controller
          * if last activity null, user must be redirect to login page
          */
     }
+
 }
