@@ -17,6 +17,7 @@ use Laravel\Fortify\Features;
 use Laravel\Fortify\Fortify;
 use Laravel\Fortify\Http\Requests\LoginRequest;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController as SanctumLogin;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthenticatedSessionController extends SanctumLogin
 {
@@ -114,5 +115,27 @@ class AuthenticatedSessionController extends SanctumLogin
         $request->session()->regenerateToken();
 
         return app(LogoutResponse::class);
+    }
+
+    /**
+     * Get Authentication from Azure
+     * TODO::change akvo tenant
+     * @param  \Illuminate\Http\Request $request
+     * @return \Socialite\Redirect
+     */
+    public function handleAzureRequest(Request $request)
+    {
+        return Socialite::driver('azure')->redirect();
+    }
+
+    /**
+     * Obtain the user information from GitHub.
+     *
+     * @return \Illuminate\Http\Response
+     * */
+    public function handleAzureCallback()
+    {
+        $azureUser = Socialite::with('azure')->user();
+        return $azureUser;
     }
 }

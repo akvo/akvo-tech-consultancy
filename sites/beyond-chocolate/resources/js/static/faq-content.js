@@ -45,7 +45,7 @@ const faqEn = [
         c:
         <Fragment>
             <p>You can indeed download the data of a (fully / partially) completed questionnaire. You can do this to allow for off-line review and/or contribution by a colleague, before submitting the questionnaire.</p>
-            <img width={"60%"} className="img img-shadows" src={require('../../images/faq-download-form.png')}/><br/><br/>
+            <img height="400px" className="img img-shadows" src={require('../../images/faq-download-form.png')}/><br/><br/>
             <p>To activate such download, please first click the <b>Overviews</b> button at the left side of your screen (above the question group navigation menu in the left column of the screen).</p>
             <p>Before submitting your completed questionnaire, you are also advised to download a version for your own records.</p>
         </Fragment>
@@ -90,7 +90,7 @@ const faqEn = [
             <p>Some sections of the questionnaires are designed to allow you to report separately on more than one occurrence. Such sections have a <b>Repeat Group +</b> button displayed on the top right.</p>
             <p>Each <b>Repeat Group</b> allows you to report on only one initiative/ one country/ one lesson learned/ one project partner, etc.</p>
             <p>To report on additional occurrences in your answer to a question, please add another repeat group by clicking the blue <b>Repeat Group +</b> button in the top right of your screen.</p>
-            <img width={"100%"} className="img img-shadows" src={require('../../images/faq-repeat-group.png')}/><br/><br/>
+            <img height="120px" className="img img-shadows" src={require('../../images/faq-repeat-group.png')}/><br/><br/>
             <p>To learn how this applies to specific questions, please click on the “More Info” button displayed with those questions.</p>
             <p>Examples of Repeat Groups can be found while reporting on countries, project partners, Multi-stakeholder & Policy Initiatives, etc.</p>
         </Fragment>,
@@ -179,7 +179,7 @@ const faqDe = [
         c:
         <Fragment>
             <p>Sie können in der Tat die Daten eines (vollständig / teilweise) ausgefüllten Fragebogens herunterladen. Sie können dies tun, um eine Offline-Überprüfung und / oder einen Beitrag eines Kollegen zu ermöglichen, bevor Sie den Fragebogen einreichen.</p>
-            <img width={"60%"} className="img img-shadows" src={require('../../images/faq-download-form.png')}/><br/><br/>
+            <img height="400px" className="img img-shadows" src={require('../../images/faq-download-form.png')}/><br/><br/>
             <p>Um einen solchen Download zu aktivieren, klicken Sie zunächst auf die Schaltfläche <b>Übersichten (<i>Overviews</i>)</b> auf der linken Seite Ihres Bildschirms (über dem Navigationsmenü der Fragengruppe in der linken Spalte des Bildschirms).</p>
             <p>Bevor Sie Ihren ausgefüllten Fragebogen einreichen, sollten Sie auch eine Version für Ihre eigenen Unterlagen herunterladen.</p>
         </Fragment>
@@ -224,7 +224,7 @@ const faqDe = [
             <p>In einigen Abschnitten der Fragebögen können Sie mehr als ein Ereignis separat melden. In solchen Abschnitten wird oben rechts die Schaltfläche <b>Gruppe wiederholen (<i>Repeat Group + </i>)</b> angezeigt.</p>
             <p>Mit jeder <b>Wiederholungsgruppe</b> können Sie nur über eine Initiative / ein Land / eine Lektion / einen Projektpartner usw. berichten.</p>
             <p>Um weitere Aussagen in Ihrer Antwort auf eine Frage zu treffen, fügen Sie bitte eine weitere Wiederholungsgruppe hinzu, indem Sie oben rechts auf dem Bildschirm auf die blaue Schaltfläche <b>Wiederholungsgruppe (<i>Repeat Group+ </i>) </b>klicken.</p>
-            <img width={"100%"} className="img img-shadows" src={require('../../images/faq-repeat-group.png')}/><br/><br/>
+            <img height="120px" className="img img-shadows" src={require('../../images/faq-repeat-group.png')}/><br/><br/>
             <p>Um zu erfahren, wie dies für bestimmte Fragen gilt, klicken Sie bitte auf die Schaltfläche <b>Weitere Informationen (<i>More Info</i>)</b>, die mit diesen Fragen angezeigt wird.</p>
             <p>Beispiele für Wiederholungsgruppen finden Sie bei der Berichterstattung über Länder, Projektpartner, Multi-Stakeholder- und Richtlinieninitiativen usw.</p>
         </Fragment>,
