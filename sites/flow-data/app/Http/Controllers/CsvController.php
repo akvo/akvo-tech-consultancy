@@ -18,6 +18,7 @@ class CsvController extends Controller
         $this->geoHeaders = ["GEO-Latitude", "GEO-Longitude", "GEO-Elevation"];
         $this->geoRows = ["lat", "long", "elev"];
         $this->headers = ["Identifier", "Display Name", "Device Identifier", "Instance", "Submission Date", "Submitter", "Duration", "Form Version"];
+        $this->repeatableHeaders = ["Identifier", "Repeat no", "Display Name", "Device Identifier", "Instance", "Submission Date", "Submitter", "Duration", "Form Version"];
         $this->api = new ApiController();
         $this->flowApiForm = collect();
     }
@@ -32,7 +33,7 @@ class CsvController extends Controller
             $this->init = true;
         }
 
-        $sources = $this->api->sources();
+        $sources = $this->api->sources($request);
         // collect all surveys
         $surveys = $sources->map(function ($source) {
             return collect($this->api->getSurvey($this->instance, $source['sid']));
@@ -151,18 +152,43 @@ class CsvController extends Controller
                     $questions = collect($r['questions']);
                     // skip if no response
                     if (collect($res['responses'])->has($qgId) === false) {
-                        $questions->each(function ($q) use ($row) { $row->push(''); });
+                        $questions->each(function ($q) use ($row) { 
+                            $row->push('');
+                            if ($q['type'] === "GEO") {
+                                // because geo split to 3 columns (lat, lng, elev)
+                                $row->push('');
+                                $row->push('');
+                            }
+                            $checkOther = $this->filterFlowApiForm($q['id'])['options']['allowOther'];
+                            if ($checkOther) {
+                                $row->push('');
+                            } 
+                        });
                         return;
                     }
                     // collect response
+                    // $responses = collect($res['responses'][$qgId]);
+                    // $responses->each(function ($response, $key) use ($res, $questions, $row) {
+                    //     // transform response value
+                    //     $questions->each(function ($q) use ($row, $response) {
+                    //         // $answer = $this->transformResponse($q, $response);
+                    //         // $row->push($answer);
+                    //         $row = $this->transformResponse($q, $response, $row);
+                    //     });
+                    // });
+                    
+                    // collect response
                     $responses = collect($res['responses'][$qgId]);
-                    $responses->each(function ($response, $key) use ($res, $questions, $row) {
+                    $questions->each(function ($q) use ($row, $responses, $res) {
+                        $response = [];
+                        foreach ($responses as $key => $value) {
+                            if (isset($value[$q['id']])) {
+                                $response[$q['id']] = $value[$q['id']];
+                            }
+                        }
                         // transform response value
-                        $questions->each(function ($q) use ($row, $response) {
-                            // $answer = $this->transformResponse($q, $response);
-                            // $row->push($answer);
-                            $row = $this->transformResponse($q, $response, $row);
-                        });
+                        $row = $this->transformResponse($q, $response, $row);
+                        return;
                     });
                 });
                 $records->push($row);
@@ -180,13 +206,14 @@ class CsvController extends Controller
             // create csv 
             return $this->writeCsv($data);
         }
-
+        
+        // repeat true
         $data = $data->map(function ($r) use ($form, $formInstances, $repeatable) {
             $qgId = $r['id'];
             $questions = collect($r['questions']);
 
             // create headers
-            $headers = collect($this->headers);
+            $headers = collect($this->repeatableHeaders);
             $questions->each(function ($q) use ($headers) {
                 $text = $q['id'] . '|' . $q['name'];
                 $headers->push($text);
@@ -202,8 +229,10 @@ class CsvController extends Controller
             $formInstances->each(function ($res, $key) use ($records, $qgId, $questions) {
                 // skip if no response
                 if (collect($res['responses'])->has($qgId) === false) {
+                    $repeatNo = 1;
                     $row = collect([
                         $res['identifier'],
+                        $repeatNo,
                         $res['displayName'],
                         $res['deviceIdentifier'],
                         $res['id'],
@@ -212,14 +241,22 @@ class CsvController extends Controller
                         $res['surveyalTime'],
                         $res['formVersion'],
                     ]);
-                    $questions->each(function ($q) use ($row) { $row->push(''); });
+                    $questions->each(function ($q) use ($row) { 
+                        $row->push('');
+                        $checkOther = $this->filterFlowApiForm($q['id'])['options']['allowOther'];
+                        if ($checkOther) {
+                            $row->push('');
+                        }  
+                    });
                     return;
                 }
                 // collect response
                 $responses = collect($res['responses'][$qgId]);
                 $responses->each(function ($response, $key) use ($res, $records, $questions) {
+                    $repeatNo = $key + 1;
                     $row = collect([
                         $res['identifier'],
+                        $repeatNo,
                         $res['displayName'],
                         $res['deviceIdentifier'],
                         $res['id'],
@@ -228,9 +265,11 @@ class CsvController extends Controller
                         $res['surveyalTime'],
                         $res['formVersion'],
                     ]);
-                    if ($key > 0) {
-                        $row = collect(['','','','','','','','',]);
-                    }
+                    // make the repeated answer meta null
+                    // if ($key > 0) {
+                    //     $row = collect(['','','','','','','','',]);
+                    // }
+
                     // transform response value
                     $questions->each(function ($q) use ($row, $response) {
                         // $answer = $this->transformResponse($q, $response);
@@ -350,7 +389,6 @@ class CsvController extends Controller
                 $answer = $val->first()['name'];
             }
         }
-
         $row->push($answer);
         return $row;
     }
