@@ -15,6 +15,4 @@ log Creating Production image
 
 docker build --rm=false -t eu.gcr.io/${PROJECT_NAME}/tech-consultancy-appsa-api:${TRAVIS_COMMIT} .
 
-docker tag eu.gcr.io/${PROJECT_NAME}/tech-consultancy-appsa-api:${TRAVIS_COMMIT} eu.gcr.io/${PROJECT_NAME}/tech-consultancy-appsa-api:latest
-
 log Done
