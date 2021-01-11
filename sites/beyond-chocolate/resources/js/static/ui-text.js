@@ -25,7 +25,7 @@ export const uiText = {
         formTitle: "Title",
         formFeedback: "Feedback",
         formCaptcha: "Insert captcha value",
-        formPickPreviousSavedForms: "Pick a previously saved forms",
+        formPickPreviousSavedForms: "Pick a previously saved form",
         formStartFillingNewForm: "Start filling a new form",
         formLogin: "Login",
         formRememberLogin: "Remember Login",
