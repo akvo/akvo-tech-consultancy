@@ -50,7 +50,7 @@ class UserSavedFormsController
                 "org_id" => $wf->organization_id,
                 "org_name" => $wf->organization->name,
                 "submission_name" => $wf->display_name,
-                "submitter" => $wf->user->email,
+                "submitter" => $wf->user['email'],
                 "survey_name" => $qs[$wf->form_id],
                 "url" => $url . $wf->form_instance_url,
                 "web_form_id" => $wf->id
