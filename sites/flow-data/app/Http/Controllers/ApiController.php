@@ -39,7 +39,7 @@ class ApiController extends Controller
             $d['csv_no_repeatable'] = $csvFalse;
 
             return $d;
-        });
+        })->values();
         if (isset($request->instanceId) && isset($request->surveyId)) {
             return count($data) ? $data[0] : \response(404);
         }
