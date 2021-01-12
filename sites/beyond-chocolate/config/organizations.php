@@ -26,7 +26,7 @@ return [
         ],
         [
             "code" => "C",
-            "name" => "ALDI SÜD Group, HOFER KG (Retail)"
+            "name" => "ALDI SÜD Group, HOFER KG"
         ],
         [
             "code" => "B",
@@ -226,7 +226,7 @@ return [
         ],
         [
             "code" => "D",
-            "name" => "Rainforest Alliance (seit 2018 zusammengeschlossen mit UTZ)"
+            "name" => "Rainforest Alliance/ UTZ"
         ],
         [
             "code" => "C",
@@ -325,5 +325,9 @@ return [
             "code" => null,
             "name" => "staff Akvo"
         ],
+        [
+            "code" => null,
+            "name" => "BMZ/ GIZ"
+        ]
     ],
 ];
