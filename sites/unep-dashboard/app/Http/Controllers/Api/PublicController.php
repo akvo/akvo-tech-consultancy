@@ -188,7 +188,7 @@ class PublicController extends Controller
     public function getPublicGroups()
     {
         $groups = \App\Group::with('countries.country')->get();
-        return ($groups->count > 0)
+        return (count($groups) > 0)
             ? $groups
             : \response("No Content", 204);
     }
