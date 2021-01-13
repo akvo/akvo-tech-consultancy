@@ -83,7 +83,7 @@ class Navigation extends Component {
               <Container>
               <Navbar.Brand href="#home">
                   <Image
-                      src={`${process.env.MIX_PUBLIC_URL}/images/logo-unicef-sdg.jpg`}
+                      src={`${process.env.MIX_PUBLIC_URL}/images/logo.png`}
                       height="38px"
                   />
               </Navbar.Brand>
