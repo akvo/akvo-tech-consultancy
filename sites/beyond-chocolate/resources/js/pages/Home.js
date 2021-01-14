@@ -40,9 +40,9 @@ const Home = () => {
             </Row>
         </Container>
 
-        {/* <Container fluid className="mt-5">
+        <Container fluid className="mt-5 gettingStarted">
             <Row className="mt-5">
-                <Col md="12" className="mt-5 text-center">
+                <Col md="12" className="mt-5 text-center gsText">
                     <h1>Getting Started</h1>
                     <p>For in-depth info, please watch the video at this <a href="#">link</a> (or watch it directly below).</p>
                     <p>You should also visit our <a href="/faq">FAQ section</a> which contain answers to most questions.</p>
@@ -58,7 +58,7 @@ const Home = () => {
                     <p>If you need any more info, don't hesitate to get in touch directly: <a href="/feedback">feedback form</a></p>
                 </Col>
             </Row>
-        </Container> */}
+        </Container>
 
         <ModalDataSecurity
             text={text}

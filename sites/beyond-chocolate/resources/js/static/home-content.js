@@ -17,7 +17,7 @@ const hc = (handleShow) => {
             p1: "Liebe Teilnehmerinnen und Teilnehmer, ",
             p2: <Fragment>
                     vielen Dank für Ihre Teilnahme an der Pilot-Anwendung unseres neuen Monitoringsystems. Ihre Kommentare zum Monitoringsystem sind für uns sehr wertvoll – Sie können diese im Feedbackformular (im Menu oben) oder in den Kommentarfeldern der Fragebögen machen. <br/>
-                    Bevor Sie beginnen, verwenden Sie bitte <a onClick={handleShow} href="#">diesen link</a>, um die ergriffenen Datensicherheits- und Datenvertraulichkeitsmaßnahmen zu überprüfen. <br/><br/>
+                    Bevor Sie beginnen, verwenden Sie bitte diesen <a onClick={handleShow} href="#">link</a>, um die ergriffenen Datensicherheits- und Datenvertraulichkeitsmaßnahmen zu überprüfen. <br/><br/>
                     Vielen Dank für Ihren Beitrag zur Verbesserung der Nachhaltigkeit des Kakaosektors!
                 </Fragment>,
         },

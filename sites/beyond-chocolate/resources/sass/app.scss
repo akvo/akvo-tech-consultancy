@@ -356,14 +356,35 @@ main {
             border: 0.1rem solid white;
             box-shadow: -0.2rem -0.2rem 10px rgb(0 0 0 / 15%);
         }
-        // .introStartBtn {
-        //     background-color: rgba($color-tertiary, 1);
-        //     border: 0.2rem solid white;
-        //     border-radius: 0.2rem;
-        //     font-size: 1.2rem;
-        //     text-transform: uppercase;
-        //     position: absolute;
-        // }
+        .introStartBtn {
+            background-color: rgba($color-tertiary, 1);
+            border: 0.2rem solid white;
+            border-radius: 0.2rem;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            position: absolute;
+            margin-top: 0.5rem;
+            margin-left: auto;
+            margin-right: auto;
+            left: 0;
+            right: 0;
+            text-align: center;
+            width: 30%;
+        }
+    }
+    .gettingStarted {
+        .gsText {
+            font-size: 1rem;
+            h1 {
+                font-size: 2rem;
+                color: $color-primary;
+                text-transform: uppercase;
+                font-weight: 800;
+            }
+            p > a {
+                font-weight: 600;
+            }
+        }
     }
     .webform-block {
         display: flex !important;
