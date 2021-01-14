@@ -72,11 +72,11 @@ const Main = () => {
                         <Route exact path="/">
                             <Redirect to={config.routes.login} />
                         </Route>
-                        <Route
+                        {/* <Route
                             exact
                             path={config.routes.gettingStarted}
                             component={GettingStarted}
-                        />
+                        /> */}
                         <Route
                             exact
                             path={config.routes.definition}

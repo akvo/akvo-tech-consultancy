@@ -209,14 +209,14 @@
 
 /* Gisco branding */
 @import "~bootstrap/scss/bootstrap";
-@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap");
 
 $color-primary: rgb(103, 48, 22); /*Brown*/
-$color-secondary: rgb(234, 236,236); /*Grey*/
-$color-tertiary: rgb(120,153,34); /*Green*/
-$color-yellow: rgb(250,187,0);
-$color-red: rgb(155,19,53);
+$color-secondary: rgb(234, 236, 236); /*Grey*/
+$color-tertiary: rgb(120, 153, 34); /*Green*/
+$color-yellow: rgb(250, 187, 0);
+$color-red: rgb(155, 19, 53);
 
 *,
 *::after,
@@ -225,11 +225,15 @@ $color-red: rgb(155,19,53);
     padding: 0;
 }
 body {
-    font-family: 'Open Sans','Nanum Gothic', sans-serif;
+    font-family: "Open Sans", "Nanum Gothic", sans-serif;
     line-height: 1.25;
     background: white;
 }
-h1, h2, h3, h4, h5 {
+h1,
+h2,
+h3,
+h4,
+h5 {
     color: $color-tertiary;
 }
 html {
@@ -241,16 +245,15 @@ img.img-shadows {
     box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
-
 header {
-    background-color:white;
-    border-bottom:.1rem solid  $color-secondary;
-    margin-bottom: .5rem;
+    background-color: white;
+    border-bottom: 0.1rem solid $color-secondary;
+    margin-bottom: 0.5rem;
     z-index: 999;
     .navbar {
         text-transform: uppercase;
-        background-color:white;
-        box-shadow: 0 .3rem .3rem rgba(0,0,0,.2);
+        background-color: white;
+        box-shadow: 0 0.3rem 0.3rem rgba(0, 0, 0, 0.2);
         .navbar-brand {
             margin: 1rem 1rem 0 0;
             text-transform: uppercase;
@@ -277,15 +280,15 @@ header {
         .navbar-nav {
             .nav-link {
                 color: black;
-                padding: .2rem;
-                font-size: .9rem;
+                padding: 0.2rem;
+                font-size: 0.9rem;
                 font-weight: 400;
                 &:not(:last-child) {
-                    margin-right: .6rem;
+                    margin-right: 0.6rem;
                 }
                 &.active {
                     color: $color-tertiary;
-                    border-bottom: .3rem solid $color-tertiary;
+                    border-bottom: 0.3rem solid $color-tertiary;
                 }
                 &:hover {
                     background-color: $color-tertiary;
@@ -296,7 +299,7 @@ header {
     }
 }
 main {
-    padding:1rem 0 2rem 0;
+    padding: 1rem 0 2rem 0;
     background: white;
     h1 {
         font-size: 2rem;
@@ -305,7 +308,7 @@ main {
     .loginPg {
         padding-top: 1rem;
         .card-header {
-            background-color: rgba($color-tertiary,.8);
+            background-color: rgba($color-tertiary, 0.8);
             color: white;
         }
     }
@@ -317,45 +320,53 @@ main {
         background-image: /*linear-gradient(
         to right bottom,
         rgba($color-tertiary, 0.2),
-        rgba($color-tertiary, 0.6)), */url(../images/cacao-seeds.jpg);
-        background-repeat:  no-repeat;
+        rgba($color-tertiary, 0.6)), */ url(../images/cacao-seeds.jpg);
+        background-repeat: no-repeat;
         background-size: cover;
         z-index: 998;
         .introTxt {
-            h1 {    
+            h1 {
                 text-transform: uppercase;
                 font-weight: 800;
                 font-size: 2rem;
-                text-shadow: 0.1rem 0.1rem 0 rgba(white,.9);
+                text-shadow: 0.1rem 0.1rem 0 rgba(white, 0.9);
             }
             p {
                 font-size: 1rem;
                 span {
                     display: inline-block;
-                    background: rgba($color-tertiary,.7);
-                    color: white;
-                    padding: .5rem .2rem;
-                    border-radius: .2rem;
-                    font-weight: 700;
-                    margin-bottom: .5rem;
+                    // background: rgba($color-tertiary,.7);
+                    // color: white;
+                    // padding: .5rem .2rem;
+                    // border-radius: .2rem;
+                    // font-weight: 700;
+                    margin-bottom: 0.5rem;
                 }
             }
-            width:80%;
+            width: 80%;
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            
+
             padding: 2rem;
             height: auto;
-            background: rgba(white,.8);
-            border-radius: .5rem;
-            border: .1rem solid white;
-            box-shadow:-0.2rem -0.2rem 10px rgb(0 0 0 / 15%);
+            background: rgba(white, 0.8);
+            border-radius: 0.5rem;
+            border: 0.1rem solid white;
+            box-shadow: -0.2rem -0.2rem 10px rgb(0 0 0 / 15%);
         }
+        // .introStartBtn {
+        //     background-color: rgba($color-tertiary, 1);
+        //     border: 0.2rem solid white;
+        //     border-radius: 0.2rem;
+        //     font-size: 1.2rem;
+        //     text-transform: uppercase;
+        //     position: absolute;
+        // }
     }
     .webform-block {
-        display:flex!important;
+        display: flex !important;
         .saved-form-block {
             min-width: 70%;
             max-width: 70%;
@@ -366,55 +377,55 @@ main {
         }
     }
     .savedForms {
-        padding: 0.5rem 1rem; 
+        padding: 0.5rem 1rem;
         margin: 0;
         border-radius: 0.3rem;
-        > div { 
+        > div {
             padding: 0;
             margin: 0;
         }
-       background: rgba($color-primary,.1);
+        background: rgba($color-primary, 0.1);
         .form-inline {
             padding: 10px 0px 0px 0px;
             display: inline-block;
-            width:100%;
+            width: 100%;
             .selectContainer {
                 // width:calc(100% - 84px);
                 // width:calc(100% - 140px);
-                width:calc(100% - 320px);
+                width: calc(100% - 320px);
             }
             // button {
             //     display: inline;
             //     float: right;
-            //     margin-top: -3rem;            
+            //     margin-top: -3rem;
             // }
             .btnContainer {
                 display: inline;
                 float: right;
-                margin-top: -3rem;  
-                width: 300px;          
+                margin-top: -3rem;
+                width: 300px;
             }
-        }    
+        }
     }
     .newForms {
-        padding: 0.5rem 1rem; 
+        padding: 0.5rem 1rem;
         margin: 0;
         border-radius: 0.3rem;
-        > div { 
+        > div {
             padding: 0;
             margin: 0;
         }
-       background: rgba( $color-secondary,1);
+        background: rgba($color-secondary, 1);
         .selectContainer {
-           min-width: calc(100% - 76px);
-       }
-       .row {
-           .form-inline{
-               padding: 10px 0px 0px 0px;
-               min-width:100%;
-               width:100%;
-           }
-       }
+            min-width: calc(100% - 76px);
+        }
+        .row {
+            .form-inline {
+                padding: 10px 0px 0px 0px;
+                min-width: 100%;
+                width: 100%;
+            }
+        }
     }
     .formCollaborators {
         padding: 1rem;
@@ -430,32 +441,32 @@ main {
     div[class$="control"] {
         width: 100% !important;
     }
-     div[class$="singleValue"] {
+    div[class$="singleValue"] {
         width: 100% !important;
     }
     .savedFromGrid {
-        font-size: .8rem;
-        &--name{
+        font-size: 0.8rem;
+        &--name {
             width: 35%;
-            max-width:35%;
+            max-width: 35%;
             text-overflow: ellipsis;
             overflow: hidden;
         }
         &--email {
             width: 25%;
-            max-width:25%;
+            max-width: 25%;
             text-overflow: ellipsis;
             overflow: hidden;
         }
         &--date {
             width: 15%;
-            max-width:15%;
+            max-width: 15%;
             text-overflow: ellipsis;
             overflow: hidden;
         }
         &--type {
             width: 15%;
-            max-width:15%;
+            max-width: 15%;
             text-overflow: ellipsis;
             overflow: hidden;
         }
@@ -468,26 +479,27 @@ main {
             cursor: pointer;
         }
         .active {
-            background: rgba($color-tertiary, .1);
+            background: rgba($color-tertiary, 0.1);
             color: $color-tertiary;
         }
         width: 100%;
         text-align: left;
         border-collapse: collapse;
-        border: 0.1rem solid rgba($color-tertiary, .8);
-        border-radius: .5rem;
-        td,th {
+        border: 0.1rem solid rgba($color-tertiary, 0.8);
+        border-radius: 0.5rem;
+        td,
+        th {
             padding: 1rem;
         }
         td {
             padding-left: 2rem;
         }
         thead {
-            background: rgba($color-tertiary, .8);
+            background: rgba($color-tertiary, 0.8);
             border: none;
             th {
                 font-weight: bold;
-                color:white;
+                color: white;
                 border: none;
                 &:first-child {
                     border-left: none;
@@ -499,31 +511,31 @@ main {
     .card {
         background: rgba($color-tertiary, 0);
         padding: 0;
-        border: 0.1rem solid rgba($color-tertiary, .8);
+        border: 0.1rem solid rgba($color-tertiary, 0.8);
         .form-group {
-            padding: .5rem 1rem;
+            padding: 0.5rem 1rem;
             label {
-                color: rgba(black, .3);
+                color: rgba(black, 0.3);
             }
         }
         .card-footer {
-            padding:1rem;
+            padding: 1rem;
         }
-        .card-body{
-            padding:0;
+        .card-body {
+            padding: 0;
             .d-flex {
-                top:0;
+                top: 0;
                 width: 100.1%;
-                background: rgba(55,89,55,.8);
+                background: rgba(55, 89, 55, 0.8);
                 .close {
                     color: white;
                     text-shadow: none;
                     opacity: 1;
-                    span{     
+                    span {
                         position: absolute;
-                        top: .9rem;
-                        right: .9rem;              
-                        font-size: .9rem;
+                        top: 0.9rem;
+                        right: 0.9rem;
+                        font-size: 0.9rem;
                         padding-right: 1rem;
                     }
                     svg {
@@ -538,45 +550,46 @@ main {
     }
 }
 .jumbotron {
-    margin:-1.4rem 0 0 0;
+    margin: -1.4rem 0 0 0;
     border-radius: 0 !important;
     height: 20vh;
     background-image: /*linear-gradient(
         to right bottom,
         rgba($color-yellow, 0.12),
-        rgba($color-tertiary, 0.5)),*/
-        url(../images/cacao-seeds.jpg);
-        background-size: cover;
-        background-position: center;
-        position: relative;
-        .colourBg1 {
-            position: absolute;
-            height: 100%;
-            width: 25%;
-            top:0;
-            clip-path: polygon(10% 0, 100% 0, 100% 100%, 0 100%);
-            background-image: linear-gradient(
-                to right bottom,
-                rgba($color-yellow, 0.2),
-                rgba($color-tertiary, 0.5));
-            left:50%;
-            z-index: 998;
-            opacity: 0;
-        }
-        .colourBg2 {
-            position: absolute;
-            height: 100%;
-            width: 25%;
-            top:0;
-            background-image: linear-gradient(
-                to right bottom,
-                rgba($color-secondary, 0.3),
-                rgba($color-red, 0.5));
-            left:75%;
-            z-index: 998;
-             opacity: 0;
-        }
-        h1 {
+        rgba($color-tertiary, 0.5)),*/ url(../images/cacao-seeds.jpg);
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    .colourBg1 {
+        position: absolute;
+        height: 100%;
+        width: 25%;
+        top: 0;
+        clip-path: polygon(10% 0, 100% 0, 100% 100%, 0 100%);
+        background-image: linear-gradient(
+            to right bottom,
+            rgba($color-yellow, 0.2),
+            rgba($color-tertiary, 0.5)
+        );
+        left: 50%;
+        z-index: 998;
+        opacity: 0;
+    }
+    .colourBg2 {
+        position: absolute;
+        height: 100%;
+        width: 25%;
+        top: 0;
+        background-image: linear-gradient(
+            to right bottom,
+            rgba($color-secondary, 0.3),
+            rgba($color-red, 0.5)
+        );
+        left: 75%;
+        z-index: 998;
+        opacity: 0;
+    }
+    h1 {
         text-transform: uppercase;
         position: absolute;
         z-index: 999;
@@ -587,15 +600,15 @@ main {
         color: $color-secondary;
         font-weight: 800;
         font-size: 2rem;
-        text-shadow: .2rem .2rem 0 rgba($color-primary,.7);
-        }
+        text-shadow: 0.2rem 0.2rem 0 rgba($color-primary, 0.7);
     }
+}
 footer {
     background: white;
     text-align: center;
     padding: 2rem 0;
-    border-top:.1rem solid  $color-secondary;
-    border-bottom:.1rem solid  $color-secondary;
+    border-top: 0.1rem solid $color-secondary;
+    border-bottom: 0.1rem solid $color-secondary;
     .mt-md-5 {
         margin-top: 0 !important;
     }
@@ -609,10 +622,10 @@ footer {
         margin: 0 auto;
 
         .partnerImg {
-            padding: .5rem;
+            padding: 0.5rem;
             width: 33%;
             height: 15rem;
-            margin: 0 .5% 0 0;
+            margin: 0 0.5% 0 0;
             line-height: 15rem;
             color: white;
             font-weight: bold;
@@ -621,8 +634,8 @@ footer {
 
             a {
                 img {
-                max-height: 12rem;
-                max-width: 75%;
+                    max-height: 12rem;
+                    max-width: 75%;
                 }
             }
 
@@ -636,31 +649,31 @@ footer {
         margin-right: 2rem;
     }
 }
-  .copyRights {
+.copyRights {
     margin: 2rem auto 0;
-  }
+}
 
 .definitionList {
     width: 80%;
     margin: 0 auto;
     dl {
-    display: flex;
-    flex-flow: row wrap;
+        display: flex;
+        flex-flow: row wrap;
         dt {
             flex-basis: 20%;
-            padding:1.75rem 1rem;
-            background: rgba($color-primary,0);
+            padding: 1.75rem 1rem;
+            background: rgba($color-primary, 0);
             text-align: left;
             font-size: 1.2rem;
             color: $color-primary;
             font-weight: 400;
-            min-width:31%;
+            min-width: 31%;
             &:first-of-type {
-                border-top: 1px solid rgba($color-primary,.3);
+                border-top: 1px solid rgba($color-primary, 0.3);
             }
             &:not(:last-of-type) {
                 margin-bottom: 1.5rem;
-                border-bottom: 1px solid rgba($color-primary,.3);
+                border-bottom: 1px solid rgba($color-primary, 0.3);
             }
         }
         dd {
@@ -668,21 +681,20 @@ footer {
             flex-grow: 1;
             margin: 0;
             padding: 1.75rem 1rem;
-            max-width:69%;
+            max-width: 69%;
             &:first-of-type {
-                border-top: 1px solid rgba($color-primary,.3);
+                border-top: 1px solid rgba($color-primary, 0.3);
             }
             &:not(:last-of-type) {
                 margin-bottom: 1.5rem;
-                border-bottom: 1px solid rgba($color-primary,.3);
-                }
+                border-bottom: 1px solid rgba($color-primary, 0.3);
+            }
         }
     }
-
 }
 .faqList {
     h5 {
-        color:#6c3317;
+        color: #6c3317;
         font-size: 1rem;
         margin-left: 15px;
         margin-bottom: 0px;
@@ -691,14 +703,14 @@ footer {
         margin-left: -21px;
     }
     h5.green {
-        color:#789922
+        color: #789922;
     }
     p b {
-        color:#6c3317
+        color: #6c3317;
     }
     ul,
     ol {
-        margin-left: 1.5rem!important;
+        margin-left: 1.5rem !important;
         margin-bottom: 0px;
     }
     ul li,
@@ -708,29 +720,29 @@ footer {
 }
 
 .form-group .invalid-feedback {
-  white-space: pre-line;
+    white-space: pre-line;
 }
 
 @media (max-width: 767px) {
     .jumbotron {
         h1 {
-            font-size:1.5rem;
+            font-size: 1.5rem;
         }
     }
     main {
         .webform-block {
-            display:inline-block!important;
-            min-width:100%;
+            display: inline-block !important;
+            min-width: 100%;
             .new-form-block,
             .saved-form-block {
-                display:block!important;
-                min-width:100%;
-                max-width:100%;
-                width:100%;
+                display: block !important;
+                min-width: 100%;
+                max-width: 100%;
+                width: 100%;
             }
         }
         .newForms {
-            display:block;
+            display: block;
         }
     }
 }

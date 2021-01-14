@@ -488,17 +488,20 @@ const WebForm = ({setFormLoaded, webForm, setWebForm}) => {
     const [formUrl, setFormUrl] = useState(null);
     const [showSavePrompt, setShowSavePrompt] = useState(false);
     const [confirmAction, setConfirmAction] = useState(null);
+    const [formLoading, setFormLoading] = useState(false);
 
     const editableCollaborators = user?.organization_id === webForm?.org_id;
 
-    const openForm = url => {
+    const openForm = (url, cache=0) => {
+        setFormLoading(false);
         const isDemo = location.hostname.startsWith('gisco-pilot') ? 0 : 1;
-        let endpoint = (url === null) ? url : `${url}&locale=${locale.active}&demo=${isDemo}`;
+        let endpoint = (url === null) ? url : `${url}&locale=${locale.active}&demo=${isDemo}&cache=${cache}`;
         setActiveForm(endpoint);
         localStorage.setItem(`active-form:${user.id}`, url);
     };
 
     const onSelectForm = ({ url, type, webForm }) => {
+        setFormLoading(true);
         if (type == "111510043" || user.project_fids.includes(type)) {
             // new form
             setShowProjectInfo(true);
@@ -507,7 +510,7 @@ const WebForm = ({setFormLoaded, webForm, setWebForm}) => {
             // setWebForm({ web_form_id: null, submission_name: null, new_questionnaire: true, show_collaborator: true, fid: parseInt(type)});
         } else {
             // saved form
-            openForm(url);
+            openForm(url, 1);
             (user.project_fids.some(id => url.includes(id)))
                 ? setWebForm({...webForm, new_questionnaire: false, show_collaborator: true, fid: null})
                 : setWebForm(null);
@@ -585,7 +588,7 @@ const WebForm = ({setFormLoaded, webForm, setWebForm}) => {
                             <iframe
                                 frameBorder="0"
                                 style={{ height: "100vh", width: "100%" }}
-                                src={activeForm}
+                                src={formLoading ? '' : activeForm}
                             />
                         )}
                     </Card>
