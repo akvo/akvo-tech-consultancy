@@ -18,6 +18,7 @@
         "laravel/sanctum": "^2.8",
         "laravel/socialite": "^5.1",
         "laravel/tinker": "^2.5",
+        "league/csv": "^9.6",
         "socialiteproviders/microsoft-azure": "^4.2",
         "thedoctor0/laravel-mailjet-driver": "^1.0"
     },
