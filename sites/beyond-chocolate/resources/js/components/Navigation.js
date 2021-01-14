@@ -42,6 +42,9 @@ const Navigation = ({formLoaded, setFormLoaded}) => {
                 <Nav className="mr-auto">
                     {user?.verified && (
                         <>
+                            <Nav.Link as={NavLink} to={config.routes.gettingStarted}>
+                                { text.navGettingStarted }
+                            </Nav.Link>
                             <Nav.Link as={NavLink} to={config.routes.survey}>
                                 { text.navSurvey }
                             </Nav.Link>

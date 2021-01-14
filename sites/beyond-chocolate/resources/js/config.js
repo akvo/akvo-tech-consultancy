@@ -11,7 +11,8 @@ export default {
         resetPassword: "/reset-password/:token",
         forgotPassword: "forgot-password",
         impressum: "/impressum",
-        faq: "/faq"
+        faq: "/faq",
+        gettingStarted: "/getting-started",
     },
     userLanding: "/home"
 };

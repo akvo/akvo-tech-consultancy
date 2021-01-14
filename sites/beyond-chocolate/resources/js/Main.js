@@ -22,6 +22,7 @@ import {
 } from "./components/auth-context";
 import config from "./config";
 import authApi from "./services/auth";
+import GettingStarted from "./pages/GettingStarted";
 
 const Main = () => {
 
@@ -71,6 +72,11 @@ const Main = () => {
                         <Route exact path="/">
                             <Redirect to={config.routes.login} />
                         </Route>
+                        <Route
+                            exact
+                            path={config.routes.gettingStarted}
+                            component={GettingStarted}
+                        />
                         <Route
                             exact
                             path={config.routes.definition}
