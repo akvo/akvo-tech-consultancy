@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 
-const hc = (handleShow) => {
+const hc = (handleShow, youtubeLink, slideLink) => {
     return {
         en: {
             h: "Welcome to the GISCO Monitoring Pilot!",
@@ -10,6 +10,17 @@ const hc = (handleShow) => {
                     Before you start, please use this <a onClick={handleShow} href="#">link</a> to check on the data security and confidentiality measures taken. <br/><br/>
                     Thank you very much for your contribution to making the cocoa sector more sustainable!
                 </Fragment>,
+            gettingStarted: {
+                h: "Getting Started",
+                p1: [
+                        <Fragment>For in-depth info, please watch the video at this <a target="_blank" href={youtubeLink}>link</a> (or watch it directly below).</Fragment>,
+                        <Fragment>You should also visit our <a href="/faq">FAQ section</a> which contain answers to most questions.</Fragment>
+                    ],
+                p2: [
+                    <Fragment>We also prepare a <a target="_blank" href={slideLink}>slide</a>, describing the tool functionalities.</Fragment>,
+                    <Fragment>If you need any more info, don't hesitate to get in touch directly: <a href="/feedback">feedback form</a></Fragment>
+                ]
+            }
         },
 
         de: {
@@ -20,6 +31,17 @@ const hc = (handleShow) => {
                     Bevor Sie beginnen, verwenden Sie bitte diesen <a onClick={handleShow} href="#">link</a>, um die ergriffenen Datensicherheits- und Datenvertraulichkeitsmaßnahmen zu überprüfen. <br/><br/>
                     Vielen Dank für Ihren Beitrag zur Verbesserung der Nachhaltigkeit des Kakaosektors!
                 </Fragment>,
+            gettingStarted: {
+                h: "Getting Started",
+                p1: [
+                        <Fragment>For in-depth info, please watch the video at this <a target="_blank" href={youtubeLink}>link</a> (or watch it directly below).</Fragment>,
+                        <Fragment>You should also visit our <a href="/faq">FAQ section</a> which contain answers to most questions.</Fragment>
+                    ],
+                p2: [
+                    <Fragment>We also prepare a <a target="_blank" href={slideLink}>slide</a>, describing the tool functionalities.</Fragment>,
+                    <Fragment>If you need any more info, don't hesitate to get in touch directly: <a href="/feedback">feedback form</a></Fragment>
+                ]
+            }
         },
     }
 }
