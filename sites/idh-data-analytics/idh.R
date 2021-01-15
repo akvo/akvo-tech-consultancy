@@ -14,6 +14,13 @@ library(splitstackshape); library(sf); library(jsonlite)
 
 #* R run script for IDH
 #* @param survey_id as the id of survey
+#* @get /demo
+function(msg="Hello World!") {
+  list(msg = paste0("The message is: '", msg, "'"))
+}
+
+#* R run script for IDH
+#* @param survey_id as the id of survey
 #* @get /idh/<survey_id>
 function(survey_id) {
   # ---- functions ----

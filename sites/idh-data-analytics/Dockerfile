@@ -31,6 +31,4 @@ WORKDIR /usr/src/app
 
 COPY idh.R api.R
 
-EXPOSE 8000
-ENTRYPOINT ["R", "-e", "library(plumber); pr <- plumber::plumb(rev(commandArgs())[1]); pr$run(host='0.0.0.0', port=8000, swagger=TRUE)"]
 CMD ["/usr/src/app/api.R"]
