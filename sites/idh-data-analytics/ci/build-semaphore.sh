@@ -7,6 +7,10 @@ function log {
 
 export PROJECT_NAME=akvo-lumen
 
+if [[ "${TRAVIS_BRANCH}" != "master" && "${TRAVIS_BRANCH}" != "develop" ]]; then
+    exit 0
+fi
+
 if [ -z "$TRAVIS_COMMIT" ]; then
     export TRAVIS_COMMIT=local
 fi
