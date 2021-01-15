@@ -113,7 +113,11 @@ class ApiController extends Controller
 
         if ($request->tab === "overview") {
             $submission = Utils::getLastSubmissionDate($id);
-            $submission_month = Carbon::now()->format('m') - Carbon::parse($submission)->format('m');
+            // $submission_month = Carbon::now()->format('m') - Carbon::parse($submission)->format('m');
+            $dateNow = date_create(now());
+            $submissionDate = date_create($submission);
+            $diff = date_diff($dateNow, $submissionDate);
+            $submission_month = $diff->m;
 
             $farm_size = Utils::getValues($id, 'f_size (acre)');
 
