@@ -18,6 +18,13 @@ spec:
           image: eu.gcr.io/akvo-lumen/tech-consultancy-idh-data-analytics:${TRAVIS_COMMIT}
           ports:
             - containerPort: 8000
+          resources:
+            requests:
+              cpu: 100m
+              memory: 540Mi
+            limits:
+              cpu: 1
+              memory: 540Mi
 ---
 apiVersion: v1
 kind: Service
