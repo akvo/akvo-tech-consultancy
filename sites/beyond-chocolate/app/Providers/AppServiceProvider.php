@@ -35,7 +35,7 @@ class AppServiceProvider extends ServiceProvider
         \Illuminate\Auth\Notifications\VerifyEmail::toMailUsing(function ($notifiable) {
             $verifyUrl = \URL::temporarySignedRoute(
                 'verification.verify',
-                \Illuminate\Support\Carbon::now()->addMinutes(\Illuminate\Support\Facades 
+                \Illuminate\Support\Carbon::now()->addMinutes(\Illuminate\Support\Facades, 
                 \Config::get('auth.verification.expire', 60)),
                 [
                     'id' => $notifiable->getKey(),
