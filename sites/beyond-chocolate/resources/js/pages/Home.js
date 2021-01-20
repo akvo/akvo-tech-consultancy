@@ -19,8 +19,10 @@ const Home = () => {
         content = content[locale.active];
     let gsContent = content.gettingStarted;
     let text = uiText[locale.active];
+    const host = window.location.hostname.split('.')[0];
     
     const renderGsParagraph = (texts) => {
+        console.log(host);
         return texts.map(x => {
             return <p>{x}</p>;
         })
@@ -48,23 +50,25 @@ const Home = () => {
             </Row>
         </Container>
 
-        <Container fluid className="mt-5 gettingStarted">
-            <Row className="mt-5">
-                <Col md="12" className="mt-5 text-center gsText">
-                    <h1>{gsContent.h}</h1>
-                    {renderGsParagraph(gsContent.p1)}
-                    <iframe 
-                        className="mt-3 mb-3"
-                        src={youtubeLink} 
-                        width="700px" 
-                        height="400px"
-                        frameBorder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                        allowFullScreen></iframe>
-                    {renderGsParagraph(gsContent.p2)}
-                </Col>
-            </Row>
-        </Container>
+        { (host === "gisco-pilot") ? "" : (
+            <Container fluid className="mt-5 gettingStarted">
+                <Row className="mt-5">
+                    <Col md="12" className="mt-5 text-center gsText">
+                        <h1>{gsContent.h}</h1>
+                        {renderGsParagraph(gsContent.p1)}
+                        <iframe 
+                            className="mt-3 mb-3"
+                            src={youtubeLink} 
+                            width="700px" 
+                            height="400px"
+                            frameBorder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowFullScreen></iframe>
+                        {renderGsParagraph(gsContent.p2)}
+                    </Col>
+                </Row>
+            </Container>
+        ) }
 
         <ModalDataSecurity
             text={text}
