@@ -20,7 +20,10 @@ class SeedController extends Controller
                 $child = collect($child)->except('code');
                 $child['parent_id'] = $insertParent->id;
                 $child['level'] = 1;
-                $insertChild = Organization::updateOrCreate(collect($child)->toArray());
+                $insertChild = Organization::updateOrCreate(
+                    ['name' => $child['name'], 'parent_id' => $insertParent->id], 
+                    collect($child)->toArray()
+                );
             });
         });
         // seed child with null code
@@ -29,7 +32,10 @@ class SeedController extends Controller
                 $child = collect($child)->except('code');
                 $child['parent_id'] = null;
                 $child['level'] = 1;
-                $insertChild = Organization::updateOrCreate(collect($child)->toArray());
+                $insertChild = Organization::updateOrCreate(
+                    ['name' => $child['name'], 'parent_id' => null], 
+                    collect($child)->toArray()
+                );
             }
         });
 

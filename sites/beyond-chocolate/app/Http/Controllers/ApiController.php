@@ -14,7 +14,7 @@ class ApiController extends Controller
 {
     public function getOrganizations()
     {
-        $orgs = Organization::where('level', 1)->with('parents')->get();
+        $orgs = Organization::where([['level', 1], ['active', true]])->with('parents')->get();
         $orgs = $orgs->transform(function ($org) {
             if ($org['parents'] !== null) {
                 $org['name'] = $org['name'] . " ("  .$org['parents']['name'] .")";

@@ -10,7 +10,7 @@ class Organization extends Model
     use HasFactory;
 
     protected $hidden = ['created_at','updated_at'];
-    protected $fillable = ['parent_id', 'code', 'name'];
+    protected $fillable = ['parent_id', 'code', 'name', 'level', 'active'];
 
     public function childrens()
     {
