@@ -19,6 +19,15 @@ function(msg="Hello World!") {
   list(msg = paste0("The message is: '", msg, "'"))
 }
 
+#' Download file
+#' @serializer contentType list(type="application/octet-stream")
+#' @get /file/<filename>
+function(filename) {
+  file <- list.files(pattern=filename)
+  print(file)
+  readBin(file, "raw", n = file.info(file)$size)
+} 
+
 #* R run script for IDH
 #* @param survey_id as the id of survey
 #* @get /idh/<survey_id>
@@ -1320,8 +1329,9 @@ function(survey_id) {
     "Categorical descriptives" = categorical_descriptives
   )
 
-  # write.xlsx(sets_anonymized, file = here::here(paste0(survey_id, ".xlsx")))
-  print("Finished")
+  filename <- paste0(survey_id, ".xlsx")
+  write.xlsx(sets_anonymized, file = here::here(filename))
+  print(paste0("http://tech-consultancy.akvotest.org/idh-data-analytics/file/", filename))
 
   # write.xlsx(sets_anonymized, file = here::here("data/output", paste0(anonymized_output_file, ".xlsx")))
   # write.xlsx(sets, file = here::here("data/output", paste0(output_file, ".xlsx")))
