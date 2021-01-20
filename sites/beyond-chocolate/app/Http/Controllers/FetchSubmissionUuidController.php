@@ -26,7 +26,7 @@ class FetchSubmissionUuidController extends Controller
             $user = $users->where('email', $item['submitter'])->first();
             $webform = $webforms->filter(function ($wf) use ($user, $item) {
                 $dpname = (strtolower($item['displayName']) === 'untitled') ? null : $item['displayName'];
-                return $wf['user_id'] === $user->id && $wf['organization_id'] === $user->organization_id && $wf['form_id'] === (int) $item['formId'] && $wf['display_name'] === $dpname;
+                return $wf['user_id'] === $user['id'] && $wf['organization_id'] === $user['organization_id'] && $wf['form_id'] === (int) $item['formId'] && $wf['display_name'] === $dpname;
             })->values();
             // update webform
             $update = [];
