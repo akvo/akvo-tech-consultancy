@@ -1,6 +1,8 @@
 <?php
 use App\Models\Role;
 
+$flowDataURL = 'https://flow-data.tc.akvo.org/api/';
+
 return [
     'permissions' => [
         'submit-survey',
@@ -38,4 +40,38 @@ return [
     'saved_form_endpoint' => 'https://tech-consultancy.akvotest.org/akvo-flow-web-api/saved-forms',
 
     'form_url_no_instance' => 'https://tech-consultancy.akvotest.org/akvo-flow-web/',
+
+    
+    ## CONFIG for submission uuid scripts
+    'forms' => [
+        [
+            "surveyGroupId" => "116680069",
+            "surveyId" => "111510043",
+            "name" => "Projects"
+        ],
+        [
+            "surveyGroupId" => "104950081",
+            "surveyId" => "113130042",
+            "name" => "B Industry"
+        ],
+        [
+            "surveyGroupId" => "93050763",
+            "surveyId" => "105640815",
+            "name" => "C Retail"
+        ],
+        [
+            "surveyGroupId" => "108870348",
+            "surveyId" => "111890828",
+            "name" => "D-Civil Society"
+        ],
+        [
+            "surveyGroupId" => "93050740",
+            "surveyId" => "134210832",
+            "name" => "D-bis-Standard setters"
+        ],
+    ],
+
+    'flow_data_form_instance_url' => $flowDataURL.'form-instances/idh/' # survey_group_id / survey_id
+    ## END OF CONFIG for submission uuid scripts
+
 ];

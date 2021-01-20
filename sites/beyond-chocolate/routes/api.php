@@ -17,6 +17,7 @@ use App\Http\Controllers\UserSavedFormsController;
 use App\Http\Controllers\NotificationController as Notification;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\FetchSubmissionUuidController;
 
 /*
 |--------------------------------------------------------------------------
@@ -145,3 +146,6 @@ Route::get('/flow/check-survey/{survey_id}', [Notification::class, 'checkSurvey'
 
 # Reports
 Route::get('reports/submission', [ReportController::class, 'generateSubmissionReport']);
+
+# Scripts
+Route::get('scripts/fetch-submission-uuid', [FetchSubmissionUuidController::class, 'fetch']);
