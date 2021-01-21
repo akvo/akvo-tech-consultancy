@@ -26,6 +26,25 @@ class ReportController extends Controller
         return ["link" => $this->writeCsv($results, "GISCO-Submission-Report")];
     }
 
+    public function generateUserWithSavedSubmissionReport()
+    {
+        $forms = config('bc.questionnaires');
+        $wfs = WebForm::with('organization')->with('user')->get();
+        $wfs = $wfs->where('user', '!=', null)->values();
+        $data = $wfs->map(function ($item) use ($forms) {
+            $item['user_name'] = $item['user']['name'];
+            $item['user_email'] = $item['user']['email'];
+            $item['org_name'] = $item['organization']['name'];
+            $item['form_name'] = $forms[$item['form_id']];
+            $item['status'] = ($item['submitted']) ? 'Submitted' : 'Saved';
+            return collect($item)->only('user_name', 'user_email', 'org_name', 'form_name', 'status');
+        })->sortBy(['org_name', 'user_name'])->values();
+        $results = [];
+        $results['headers'] = ["User Name", "User Email", "Organization", "Form Name", "Submission Status"];
+        $results['records'] = $data;
+        return ["link" => $this->writeCsv($results, "GISCO-UserSubmission-Report")];
+    }
+
     private function transformSubmissionData($data, $submitted)
     {
         $filter = $data->where('submitted', $submitted)->values();

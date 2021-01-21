@@ -146,6 +146,7 @@ Route::get('/flow/check-survey/{survey_id}', [Notification::class, 'checkSurvey'
 
 # Reports
 Route::get('reports/submission', [ReportController::class, 'generateSubmissionReport']);
+Route::get('reports/user-with-saved-submission', [ReportController::class, 'generateUserWithSavedSubmissionReport']);
 
 # Scripts
 Route::get('scripts/fetch-submission-uuid', [FetchSubmissionUuidController::class, 'fetch']);
