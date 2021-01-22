@@ -23,6 +23,7 @@ import {
 import config from "./config";
 import authApi from "./services/auth";
 import GettingStarted from "./pages/GettingStarted";
+import Submission from "./pages/Submission";
 
 const Main = () => {
 
@@ -77,6 +78,11 @@ const Main = () => {
                             path={config.routes.gettingStarted}
                             component={GettingStarted}
                         /> */}
+                         <Route
+                            exact
+                            path={config.routes.submission}
+                            component={Submission}
+                        />
                         <Route
                             exact
                             path={config.routes.definition}

@@ -12,6 +12,7 @@ export const uiText = {
         navLogout: "Logout",
         navSearch: "Search",
         navGettingStarted: "Getting Started",
+        navSubmission: "Submission",
         // Form
         formChangePwd: "Change Password",
         formEmail: "Email Address",
@@ -116,6 +117,7 @@ export const uiText = {
         navLogout: "Ausloggen",
         navSearch: "Suchen",
         navGettingStarted: "Getting Started",
+        navSubmission: "Submission",
         // Form
         formChangePwd: "Passwort ändern",
         formEmail: "Emailadresse",

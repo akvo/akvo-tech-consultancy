@@ -18,6 +18,7 @@ use App\Http\Controllers\NotificationController as Notification;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\FetchSubmissionUuidController;
+use App\Http\Controllers\SubmissionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -112,7 +113,6 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('/collaborators/{web_form_id}', [Api::class, 'getCollaboratorAssignments']);
     Route::post('/collaborators/{web_form_id}/{organization_id}', [Api::class, 'addCollaboratorAssignment']);
     Route::delete('/collaborators/{web_form_id}/{organization_id}', [Api::class, 'deleteCollaboratorAssignment']);
-
 });
 
 Route::post('/send-email', [Email::class, 'sendFeedback']);
@@ -150,3 +150,7 @@ Route::get('reports/user-with-saved-submission', [ReportController::class, 'gene
 
 # Scripts
 Route::get('scripts/fetch-submission-uuid', [FetchSubmissionUuidController::class, 'fetch']);
+
+# Submitted Data
+Route::middleware(['auth:sanctum'])->get('/submissions/submitted', [SubmissionController::class, 'getSubmittedData']);
+Route::middleware(['auth:sanctum'])->get('/submissions/download/{form_id}/{instance_id}', [SubmissionController::class, 'downloadData']);

@@ -586,6 +586,7 @@ const WebForm = ({setFormLoaded, webForm, setWebForm}) => {
                     <Card>
                         {activeForm && (
                             <iframe
+                                // sandbox="allow-same-origin allow-scripts allow-forms allow-modals"
                                 frameBorder="0"
                                 style={{ height: "100vh", width: "100%" }}
                                 src={formLoading ? '' : activeForm}

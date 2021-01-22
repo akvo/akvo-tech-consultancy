@@ -13,6 +13,7 @@ export default {
         impressum: "/impressum",
         faq: "/faq",
         gettingStarted: "/getting-started",
+        submission: "/submission",
     },
     userLanding: "/home"
 };

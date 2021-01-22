@@ -19,6 +19,7 @@ const Navigation = ({formLoaded, setFormLoaded}) => {
     const { user, logout } = useAuth();
     const { locale, update } = useLocale();
     const [showSavePrompt, setShowSavePrompt] = useState(false);
+    const host = window.location.hostname.split('.')[0];
 
     let text = uiText[locale.active];
 
@@ -48,6 +49,12 @@ const Navigation = ({formLoaded, setFormLoaded}) => {
                             <Nav.Link as={NavLink} to={config.routes.survey}>
                                 { text.navSurvey }
                             </Nav.Link>
+
+                            { (host !== "localhost") ? "" : (
+                                <Nav.Link as={NavLink} to={config.routes.submission}>
+                                    { text.navSubmission }
+                                </Nav.Link>
+                            )}
                         </>
                     )}
                     <Nav.Link as={NavLink} to={config.routes.definition}>

@@ -20,6 +20,14 @@ class AppServiceProvider extends ServiceProvider
             \Laravel\Fortify\Http\Controllers\AuthenticatedSessionController::class,
             \App\Http\Controllers\AuthenticatedSessionController::class
         );
+
+        /**
+         * Override DataPointSeeder
+         */
+        $this->app->bind(
+            \Akvo\Seeds\DataPointSeeder::class,
+            \App\Seeds\DataPointSeeder::class
+        );
     }
 
     /**

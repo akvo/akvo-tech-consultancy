@@ -22,7 +22,6 @@ const Home = () => {
     const host = window.location.hostname.split('.')[0];
     
     const renderGsParagraph = (texts) => {
-        console.log(host);
         return texts.map(x => {
             return <p>{x}</p>;
         })
