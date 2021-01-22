@@ -346,7 +346,7 @@ return [
         [
             "code" => "B",
             "name" => "United-Agro-Alliance GmbH",
-            "active" => true,
+            "active" => false,
         ],
         [
             "code" => "B",
