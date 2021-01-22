@@ -413,6 +413,11 @@ return [
             "code" => null,
             "name" => "BMZ",
             "active" => true,
-        ]
+        ],
+        [
+            "code" => null,
+            "name" => "Bundesministerium für Ernährung und Landwirtschaft (BMEL)",
+            "active" => true,
+        ],
     ],
 ];
