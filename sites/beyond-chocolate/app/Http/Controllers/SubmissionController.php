@@ -59,38 +59,68 @@ class SubmissionController extends Controller
                 }
                 $qid = $qIndex + 1;
                 $question = $q['name'];
-                $answer = $answers->where('question_id', $q['id']);
+                $answer = $answers->where('question_id', $q['id'])->values();
                 # TODO:: Repeat question-answer values
+                $repeat = 1;
                 if ($qg['repeat']) {
                     foreach ($answer as $key => $value) {
-                        $fetchAnswer = $this->fetchAnswer($q['type'], $answer->first());
-                        $repeat = ($qIndex === 0) ? $fetchAnswer['repeat'] : null;
-                        $answerValue = $fetchAnswer['answer'];
-                        $records->push([$gid, $groupName, $repeat, $qid, $question, $answerValue]);
+                        $repeatValue = ($qIndex === 0) ? $repeat : null;
+                        $answerValue = $this->fetchAnswer($q['type'], $answer->first());
+                        // $records->push([$gid, $groupName, $repeatValue, $qid, $question, $answerValue]);
+                        $records->push([
+                            'gid' => $qgIndex + 1, 
+                            'groupName' => $groupName, 
+                            'repeat' => $repeat, 
+                            'qid' => $qid, 
+                            'question' => $question, 
+                            'answer' => $answerValue
+                        ]);
+                        $repeat++;
                     }
                 }
+                # END:: Repeat question-answer values
+                
                 # TODO:: Non repeat question-answer values
                 if (!$qg['repeat']) {
-                    $fetchAnswer = $this->fetchAnswer($q['type'], $answer->first());
-                    $repeat = ($qIndex === 0) ? $fetchAnswer['repeat'] : null;
-                    $answerValue = $fetchAnswer['answer'];
-                    $records->push([$gid, $groupName, $repeat, $qid, $question, $answerValue]);
+                    $repeatValue = ($qIndex === 0) ? $repeat : null;
+                    $answerValue = $this->fetchAnswer($q['type'], $answer->first());
+                    // $records->push([$gid, $groupName, $repeatValue, $qid, $question, $answerValue]);
+                    $records->push([
+                        'gid' => $qgIndex + 1, 
+                        'groupName' => $groupName, 
+                        'repeat' => $repeat, 
+                        'qid' => $qid, 
+                        'question' => $question, 
+                        'answer' => $answerValue
+                    ]);
                 }
             }
         });
-        $results = ["headers" => $headers, "records" => $records];
+        // $results = ["headers" => $headers, "records" => $records];
+        $groupRecords = $records->groupBy(['gid', 'repeat'])->values()->flatten(1);
+        $remapRecords = collect();
+        foreach ($groupRecords as $gIndex => $gValue) {
+            foreach ($gValue as $itemIndex => $item) {
+                $gid = ($item['groupName'] !== null) ? $item['gid'] : null;
+                $groupName = ($item['groupName'] !== null) ? $item['groupName'] : null;
+                $repeat = ($item['groupName'] !== null) ? $item['repeat'] : null;
+                $qid = $item['qid'];
+                $question = $item['question'];
+                $answer = $item['answer'];
+                $remapRecords->push([$gid, $groupName, $repeat, $qid, $question, $answer]);
+            }
+        }
+        $results = ["headers" => $headers, "records" => $remapRecords];
         return ["link" => $this->writeCsv($results, $request->filename)];
     }
 
     private function fetchAnswer($qtype, $answer)
     {
-        // return answer and repeat_index
-        $repeat_index = 1;
         if ($answer === null) {
             $answer = 'NA';
-            return ['repeat' => $repeat_index, 'answer' => $answer];
+            return $answer;
         }
-        $repeat_index += $answer['repeat_index'];
+        $repeat_index = $answer['repeat_index'] + 1;
         if ($qtype === 'free') {
             $answer = $answer['name'];
         }
@@ -104,18 +134,18 @@ class SubmissionController extends Controller
             // TODO:: Check for multiple select
             if ($answer['cascade'] === null) {
                 $answer = 'NA';
-                return ['repeat' => $repeat_index, 'answer' => $answer];
+                return $answer;
             }
             if (!is_array($answer['cascade'])) {
                 $answer = $answer['cascade']['cascade']['name'];
-                return ['repeat' => $repeat_index, 'answer' => $answer];
+                return $answer;
             }
             if (is_array($answer['cascade'])) {
                 $answer = $answer['cascade']->pluck('cascades')->pluck('name')->join(' | ');
-                return ['repeat' => $repeat_index, 'answer' => $answer];
+                return $answer;
             }
         }
-        return ['repeat' => $repeat_index, 'answer' => $answer];
+        return $answer;
     }
 
     private function writeCsv($data, $filename)
