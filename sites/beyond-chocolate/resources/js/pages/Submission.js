@@ -34,10 +34,19 @@ const Submission = () => {
     };
 
     const handleDownload = async (item) => {
-        const { id, form_id } = item;
+        const { id, form_id, form_name, submitter_name } = item;
         setLoading(id, true);
-        const { data } = await request().get(`/api/submissions/download/${form_id}/${id}`);
-        console.log(data);
+        const filename = form_name.replace(' - ', '-').replace(' ', '') + '-' + submitter_name.replace(' ', '');
+        const { data, status } = await request().get(`/api/submissions/download/${form_id}/${id}/${filename}`);
+        if (status === 200) {
+            const link = document.createElement('a');
+            link.href = data.link;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        } else {
+            // create error notif
+        }
         setLoading(id, false);
     };
     

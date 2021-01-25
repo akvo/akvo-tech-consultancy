@@ -9,6 +9,8 @@ use App\Models\Collaborator;
 use Akvo\Models\FormInstance;
 use Akvo\Models\QuestionGroup;
 use Akvo\Models\Answer;
+use League\Csv\Writer;
+use Illuminate\Support\Facades\Storage;
 
 class SubmissionController extends Controller
 {
@@ -43,65 +45,90 @@ class SubmissionController extends Controller
     public function downloadData(Request $request)
     {
         $headers = ["gid", "groupName", "repeat", "qid", "question", "answer"];
-        $questions = QuestionGroup::where('form_id', $request->form_id)->with('questions')->get();
+        $qGroups = QuestionGroup::where('form_id', $request->form_id)->with('questions')->get();
         $answers = Answer::where('form_instance_id', $request->instance_id)->with('option.option', 'cascade.cascade')->get();
         $records = collect();
-        $results = $questions->map(function ($q) use ($answers, $records) {
-            foreach ($q['questions'] as $key => $value) {
+        $results = $qGroups->map(function ($qg, $qgIndex) use ($answers, $records) {
+            foreach ($qg['questions'] as $qIndex => $q) {
                 $gid = null;
                 $groupName = null;
                 $repeat = null;
-                if ($key === 0) {
-                    $gid = $q['id'];
-                    $groupName = $q['name'];
-                    $repeat = $q['repeat'];
+                if ($qIndex === 0) {
+                    $gid = $qgIndex + 1;
+                    $groupName = $qg['name'];
                 }
-                $qid = $key;
-                $question = $value['name'];
-                $answer = $this->fetchAnswer($value, $answers);
-                $records->push([$gid, $groupName, $repeat, $qid, $question, $answer]);
+                $qid = $qIndex + 1;
+                $question = $q['name'];
+                $answer = $answers->where('question_id', $q['id']);
+                # TODO:: Repeat question-answer values
+                if ($qg['repeat']) {
+                    foreach ($answer as $key => $value) {
+                        $fetchAnswer = $this->fetchAnswer($q['type'], $answer->first());
+                        $repeat = ($qIndex === 0) ? $fetchAnswer['repeat'] : null;
+                        $answerValue = $fetchAnswer['answer'];
+                        $records->push([$gid, $groupName, $repeat, $qid, $question, $answerValue]);
+                    }
+                }
+                # TODO:: Non repeat question-answer values
+                if (!$qg['repeat']) {
+                    $fetchAnswer = $this->fetchAnswer($q['type'], $answer->first());
+                    $repeat = ($qIndex === 0) ? $fetchAnswer['repeat'] : null;
+                    $answerValue = $fetchAnswer['answer'];
+                    $records->push([$gid, $groupName, $repeat, $qid, $question, $answerValue]);
+                }
             }
         });
-        return [$headers, $records];
-        return [$questions, $answers];
+        $results = ["headers" => $headers, "records" => $records];
+        return ["link" => $this->writeCsv($results, $request->filename)];
     }
 
-    private function fetchAnswer($question, $answers)
+    private function fetchAnswer($qtype, $answer)
     {
-        $qtype = $question['type'];
-        $answer = $answers->where('question_id', $question['id']);
-        if (count($answer) === 0) {
+        // return answer and repeat_index
+        $repeat_index = 1;
+        if ($answer === null) {
             $answer = 'NA';
-            return $answer;
+            return ['repeat' => $repeat_index, 'answer' => $answer];
         }
+        $repeat_index += $answer['repeat_index'];
         if ($qtype === 'free') {
-            if (count($answer) === 1) {
-                $answer = $answer->first();
-                $answer = $answer['name'];
-            }
+            $answer = $answer['name'];
         }
         if ($qtype === 'numeric') {
-            if (count($answer) === 1) {
-                $answer = $answer->first();
-                $answer = $answer['value'];
-            }
+            $answer = $answer['value'];
         }
         if ($qtype === 'option') {
-            if (count($answer) === 1) {
-                $answer = $answer->first();
-                $answer = ($answer['option'] === null) ? "NA" : $answer['option']['option']['name'];
-            } else {
-                dd($answer);
-            }
+            $answer = ($answer['option'] === null) ? "NA" : $answer['option']['option']['name'];
         }
         if ($qtype === 'cascade') {
-            if (count($answer) === 1) {
-                $answer = $answer->first();
-                $answer = ($answer['cascade'] === null) ? "NA" : $answer['cascade']['cascade']['name'];
-            } else {
-                dd($answer);
+            // TODO:: Check for multiple select
+            if ($answer['cascade'] === null) {
+                $answer = 'NA';
+                return ['repeat' => $repeat_index, 'answer' => $answer];
+            }
+            if (!is_array($answer['cascade'])) {
+                $answer = $answer['cascade']['cascade']['name'];
+                return ['repeat' => $repeat_index, 'answer' => $answer];
+            }
+            if (is_array($answer['cascade'])) {
+                $answer = $answer['cascade']->pluck('cascades')->pluck('name')->join(' | ');
+                return ['repeat' => $repeat_index, 'answer' => $answer];
             }
         }
-        return $answer;
+        return ['repeat' => $repeat_index, 'answer' => $answer];
+    }
+
+    private function writeCsv($data, $filename)
+    {
+        $filename .= ".csv";
+        if (count($data) === 0) {
+            return Storage::disk('public')->url($filename);
+        }
+
+        $writer = Writer::createFromPath('../public/uploads/'.$filename, 'w+');
+        $writer->insertOne(collect($data['headers'])->toArray());
+        $writer->insertAll(collect($data['records'])->toArray());
+
+        return Storage::disk('public')->url($filename);
     }
 }
