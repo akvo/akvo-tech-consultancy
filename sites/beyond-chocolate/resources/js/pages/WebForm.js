@@ -6,7 +6,7 @@ import {
     Card,
     Form,
     Button,
-    Modal, ButtonGroup
+    Modal, ButtonGroup, Spinner
 } from "react-bootstrap";
 import Select, { components } from "react-select";
 import request from "../lib/request";
@@ -21,6 +21,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSyncAlt, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import { filter } from "lodash";
 import authApi from "../services/auth";
+import { Fragment } from "react";
 
 const ReloadableSelectMenu = props => {
     const { locale } = useLocale();
@@ -489,6 +490,8 @@ const WebForm = ({setFormLoaded, webForm, setWebForm}) => {
     const [showSavePrompt, setShowSavePrompt] = useState(false);
     const [confirmAction, setConfirmAction] = useState(null);
     const [formLoading, setFormLoading] = useState(false);
+    const [isWebFormLoaded, setIsWebFormLoaded] = useState(null);
+    const [isSpinner, setIsSpinner] = useState(false);
 
     const editableCollaborators = user?.organization_id === webForm?.org_id;
 
@@ -502,6 +505,8 @@ const WebForm = ({setFormLoaded, webForm, setWebForm}) => {
 
     const onSelectForm = ({ url, type, webForm }) => {
         setFormLoading(true);
+        setIsWebFormLoaded(null);
+        setIsSpinner(true);
         if (type == "111510043" || user.project_fids.includes(type)) {
             // new form
             setShowProjectInfo(true);
@@ -523,11 +528,19 @@ const WebForm = ({setFormLoaded, webForm, setWebForm}) => {
         setShowProjectInfo(false);
     };
 
+    const checkIframeLoaded = (event) => {
+        setTimeout(() => {
+            let isLoaded = event.target.contentWindow.window.length;
+            setIsWebFormLoaded((isLoaded !== 0) ? true : false);
+            setIsSpinner(false);
+        }, 5000);
+    };
+
     const formLoaded = activeForm || delayedActiveForm;
 
     useEffect(() => {
-        setFormLoaded(formLoaded)
-    }, [activeForm, delayedActiveForm]);
+        setFormLoaded(formLoaded);
+    }, [activeForm, delayedActiveForm, isWebFormLoaded, isSpinner]);
 
     useEffect(() => {
         // open form from previous session
@@ -583,6 +596,24 @@ const WebForm = ({setFormLoaded, webForm, setWebForm}) => {
                     </div>
                     {webForm?.web_form_id && <FormCollaborators webForm={webForm} editable={editableCollaborators}/>}
                     {/* {webForm?.show_collaborator && <FormCollaborators webForm={webForm} editable={editableCollaborators}/>} */}
+
+                    {/* Manage blank iFrame */}
+                    {
+                        (isSpinner) && (
+                            <div style={{display:"flex", alignItems: "center", justifyContent: "center" }} className="mb-3">
+                                <Spinner animation="border" role="status" size="sm" variant="info">
+                                    <span className="sr-only">Loading...</span>
+                                </Spinner>
+                            </div>
+                        )
+                    }
+                    {
+                        (activeForm && isWebFormLoaded === false && isWebFormLoaded !== null) ? (
+                            <Button variant="info" block onClick={() => window.open(activeForm)}> Open in New Tab </Button>
+                        ) : ""
+                    }
+                    {/* End of Manage blank iFrame */}
+
                     <Card>
                         {activeForm && (
                             <iframe
@@ -590,6 +621,7 @@ const WebForm = ({setFormLoaded, webForm, setWebForm}) => {
                                 frameBorder="0"
                                 style={{ height: "100vh", width: "100%" }}
                                 src={formLoading ? '' : activeForm}
+                                onLoad={(event) => checkIframeLoaded(event)}
                             />
                         )}
                     </Card>
