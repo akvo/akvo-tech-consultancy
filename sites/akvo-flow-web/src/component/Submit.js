@@ -94,6 +94,7 @@ class Submit extends Component {
                 form_instance_id: saveData.instanceName,
                 form_instance_url: formInstanceUrl,
                 submitted: submitted,
+                uuid: (submitted) ? localStorage.getItem('_dataPointId') : null,
                 updated_at: new Date(),
             }
         }

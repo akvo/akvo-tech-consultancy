@@ -96,7 +96,8 @@ class Overview extends Component {
                 answer: parseAnswer(answer),
             }
         });
-        const file = surveyName + "-" + uuid;
+        const filename = surveyName.replace(' ', '-');
+        const file = filename + "-" + uuid;
         axios.post(API_URL + 'download', {data: data, name:file})
             .then(res => {
                 window.open(API_URL + 'static/excel/' + file + ".xlsx");
