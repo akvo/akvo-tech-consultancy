@@ -1,5 +1,5 @@
 import React, { useEffect, Fragment, useState } from "react";
-import { Container, Row, Col, Table, Button } from "react-bootstrap";
+import { Container, Row, Col, Table, Button, Spinner } from "react-bootstrap";
 import { useLocale } from "../lib/locale-context";
 import request from "../lib/request";
 
@@ -54,10 +54,10 @@ const Submission = () => {
         return submissions.map((x, i) => {
             return (
                 <tr key={'submission-'+i}>
-                    <td>{x.org_name}</td>
-                    <td>{x.submitter_name}</td>
-                    <td>{x.form_name}</td>
-                    <td>
+                    <td className="pl-3">{x.org_name}</td>
+                    <td className="pl-3">{x.submitter_name}</td>
+                    <td className="pl-3">{x.form_name}</td>
+                    <td className="pl-3">
                         <Button
                             key={'btnDownload-'+i} 
                             variant="primary" 
@@ -65,7 +65,17 @@ const Submission = () => {
                             disabled={x.isLoading}
                             onClick={!x.isLoading ? () => handleDownload(x) : null}
                         >
-                            { x.isLoading ? 'Loading...' : 'Download' }
+                            { x.isLoading ? (
+                                    <>
+                                        <Spinner
+                                            as="span"
+                                            animation="border"
+                                            size="sm"
+                                            role="status"
+                                            aria-hidden="true"
+                                        />{'  '} Downloading
+                                    </>
+                                ) : 'Download' }
                         </Button>
                     </td>
                 </tr>
@@ -81,10 +91,10 @@ const Submission = () => {
                     <Table bordered hover responsive size="sm">
                         <thead>
                             <tr>
-                                <th>Organization Name</th>
-                                <th>Submitter</th>
-                                <th>Form</th>
-                                <th>Action</th>
+                                <th className="pl-3">Organization Name</th>
+                                <th className="pl-3">Submitter</th>
+                                <th className="pl-3">Form</th>
+                                <th className="pl-3">Action</th>
                             </tr>
                         </thead>
                         <tbody>
