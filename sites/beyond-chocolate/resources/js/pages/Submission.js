@@ -2,6 +2,7 @@ import React, { useEffect, Fragment, useState } from "react";
 import { Container, Row, Col, Table, Button, Spinner } from "react-bootstrap";
 import { useLocale } from "../lib/locale-context";
 import request from "../lib/request";
+import { uiText } from "../static/ui-text";
 
 const defData = [
     {
@@ -18,6 +19,8 @@ const Submission = () => {
     const { locale } = useLocale();
     const [submissions, setSubmissions] = useState(defData);
     const [btnLoading, setBtnLoading] = useState([]);
+
+    let text = uiText[locale.active];
 
     useEffect( async () => {
         const { data } = await request().get("/api/submissions/submitted");
@@ -73,9 +76,9 @@ const Submission = () => {
                                             size="sm"
                                             role="status"
                                             aria-hidden="true"
-                                        />{'  '} Downloading
+                                        />{'  ' + text.btnDownloading}
                                     </>
-                                ) : 'Download' }
+                                ) : text.btnDownload }
                         </Button>
                     </td>
                 </tr>
@@ -85,16 +88,17 @@ const Submission = () => {
 
     return (
         <Container fluid>
-            <Row>
-                <Col>
-                    <h1>Submission</h1>
+            <Row className="justify-content-center">
+                <Col className="mx-auto" md="10">
+                    <h3>{ text.navSubmission }</h3>
+                    <hr/>
                     <Table bordered hover responsive size="sm">
                         <thead>
                             <tr>
-                                <th className="pl-3">Organization Name</th>
-                                <th className="pl-3">Submitter</th>
-                                <th className="pl-3">Form</th>
-                                <th className="pl-3">Action</th>
+                                <th className="pl-3">{ text.tbColOrganization }</th>
+                                <th className="pl-3">{ text.tbColSubmitter }</th>
+                                <th className="pl-3">{ text.tbColForm }</th>
+                                <th className="pl-3">{ text.tbColAction }</th>
                             </tr>
                         </thead>
                         <tbody>
