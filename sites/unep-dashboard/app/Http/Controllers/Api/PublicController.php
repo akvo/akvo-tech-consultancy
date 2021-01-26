@@ -35,7 +35,6 @@ class PublicController extends Controller
         return $actions;
     }
 
-
     /**
      * ---------------------------------------------
      * Public API & Documentation
@@ -528,4 +527,38 @@ class PublicController extends Controller
             ? $datapoint 
             : \response('Not Found', 404);
     }
+
+    /* PROJECT EXPORT */
+
+    public function exportProjectActions() {
+        return \App\Value::get();
+    }
+
+    public function exportProjectActionDetails() {
+        return \App\Question::with('value')->get();
+    }
+
+    public function exportProjects() {
+        $datapoints = \App\Datapoint::with(
+            ['countries.country','values.value','answers.question'])->get();
+        $datapoints = collect($datapoints)->map(function($x){
+            $x->countries->transform(function($c){
+                return $c['country']['name'];
+            });
+            $x['action_codes'] = collect($x->values)->map(function($c){
+                return (int) $c['value']['code'];
+            });
+            $actionDetails = collect($x->answers)->map(function($a){
+                return [
+                    'action_detail_code' => (int) $a['question']['code'],
+                    'value' => $a['value']
+                ];
+            });
+            $x['action_details'] = collect($actionDetails)->whereNotNull('value')->values();
+            return $x->makeHidden(['values','answers']);
+        });
+        return $datapoints;
+    }
+
+
 }

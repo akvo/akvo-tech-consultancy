@@ -49,3 +49,9 @@ Route::prefix('public')->group(function () {
     Route::get('datapoints', 'Api\PublicController@getPublicDatapoints');
     Route::get('datapoint/{uuid}', 'Api\PublicController@getPublicDatapointByUuid');
 });
+
+Route::prefix('export')->group(function() {
+    Route::get('projects', 'Api\PublicController@exportProjects');
+    Route::get('project-actions', 'Api\PublicController@exportProjectActions');
+    Route::get('project-action-details', 'Api\PublicController@exportProjectActionDetails');
+});
