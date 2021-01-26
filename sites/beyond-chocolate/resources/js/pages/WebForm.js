@@ -6,7 +6,10 @@ import {
     Card,
     Form,
     Button,
-    Modal, ButtonGroup, Spinner
+    Modal, 
+    ButtonGroup, 
+    Spinner, 
+    Alert
 } from "react-bootstrap";
 import Select, { components } from "react-select";
 import request from "../lib/request";
@@ -609,7 +612,11 @@ const WebForm = ({setFormLoaded, webForm, setWebForm}) => {
                     }
                     {
                         (activeForm && isWebFormLoaded === false && isWebFormLoaded !== null) ? (
-                            <Button variant="info" block onClick={() => window.open(activeForm)}> Open in New Tab </Button>
+                            <Alert variant="warning">
+                                Failed to load survey because third party cookies disabled on this browser. {' '}
+                                <Alert.Link href={activeForm} target="_blank">Click here </Alert.Link> to open survey in new tab.
+                            </Alert>
+                            // <Button variant="info" block onClick={() => window.open(activeForm)}> Open Survey in New Tab </Button>
                         ) : ""
                     }
                     {/* End of Manage blank iFrame */}
