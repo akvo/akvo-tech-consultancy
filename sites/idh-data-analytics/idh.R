@@ -32,6 +32,19 @@ function(filename) {
 #* @param survey_id as the id of survey
 #* @get /idh/<survey_id>
 function(survey_id) {
+  # check if file exist
+  filename <- paste0(survey_id, ".xlsx")
+  files <- list.files(pattern="\\.xlsx$")
+  if (is.element(filename, files)) {
+    # file exist
+    return(paste0("http://tech-consultancy.akvotest.org/idh-data-analytics/file/", filename))
+  } else {
+    # run scripts
+    idh_scripts(survey_id)
+  }
+}
+
+idh_scripts <- function(survey_id) {
   # ---- functions ----
 
   # DATA TYPE Set factors to integers
