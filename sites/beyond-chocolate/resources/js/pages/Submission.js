@@ -54,6 +54,13 @@ const Submission = () => {
     };
     
     const renderSubmissions = () => {
+        if (submissions.length === 0) {
+            return (
+                <tr key="submission-no-data">
+                    <td colspan="4" className="pl-3 text-muted text-center">{ text.infoNoSubmittedData }</td>
+                </tr>
+            );
+        }
         return submissions.map((x, i) => {
             return (
                 <tr key={'submission-'+i}>

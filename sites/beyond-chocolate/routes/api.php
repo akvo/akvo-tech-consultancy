@@ -153,5 +153,5 @@ Route::get('scripts/fetch-submission-uuid', [FetchSubmissionUuidController::clas
 
 # Submitted Data
 Route::middleware(['auth:sanctum'])->get('/submissions/submitted', [SubmissionController::class, 'getSubmittedData']);
-// Route::middleware(['auth:sanctum'])->get('/submissions/download/{form_id}/{instance_id}/{filename}', [SubmissionController::class, 'downloadData']);
-Route::get('/submissions/download/{form_id}/{instance_id}/{filename}', [SubmissionController::class, 'downloadData']);
+Route::middleware(['auth:sanctum'])->get('/submissions/download/{form_id}/{instance_id}/{filename}', [SubmissionController::class, 'downloadData']);
+// Route::get('/submissions/download/{form_id}/{instance_id}/{filename}', [SubmissionController::class, 'downloadData']);

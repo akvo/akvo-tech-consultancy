@@ -109,6 +109,7 @@ export const uiText = {
         textEmailNotVerifiedYet: <Fragment>is not verified yet.<br/><hr/>The user can only be informed about the assignment to questionnaires after he/she has verified his/her email address.</Fragment>,
         // collaborators
         btnCollaborators: "Add Collaborators",
+        infoNoSubmittedData: "No Submitted Data",
     },
 
     de: {
@@ -219,5 +220,6 @@ export const uiText = {
         textEmailNotVerifiedYet: <Fragment>wurde noch nicht verifiziert. <br/><hr/>Der Nutzer/die Nutzerin kann nur über seine/ihre Freischaltung von Fragebögen informiert werden, nachdem er seine/ sie ihre Emailadresse verifiziert hat.</Fragment>,
         // collaborators
         btnCollaborators: "Partner hinzufügen",
+        infoNoSubmittedData: "No Submitted Data",
     },
 };

@@ -78,7 +78,7 @@ const Main = () => {
                             path={config.routes.gettingStarted}
                             component={GettingStarted}
                         /> */}
-                         <Route
+                         <SecureRoute
                             exact
                             path={config.routes.submission}
                             component={Submission}
