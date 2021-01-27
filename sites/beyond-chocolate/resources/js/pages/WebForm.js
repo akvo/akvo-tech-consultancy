@@ -562,7 +562,7 @@ const WebForm = ({setFormLoaded, webForm, setWebForm}) => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    let content = wfc(handleShow)[locale.active];
+    let content = wfc(handleShow, activeForm)[locale.active];
     let text = uiText[locale.active];
 
     return (
@@ -612,11 +612,7 @@ const WebForm = ({setFormLoaded, webForm, setWebForm}) => {
                     }
                     {
                         (activeForm && isWebFormLoaded === false && isWebFormLoaded !== null) ? (
-                            <Alert variant="warning">
-                                Failed to load survey because third party cookies disabled on this browser. {' '}
-                                <Alert.Link href={activeForm} target="_blank">Click here </Alert.Link> to open survey in new tab.
-                            </Alert>
-                            // <Button variant="info" block onClick={() => window.open(activeForm)}> Open Survey in New Tab </Button>
+                            <Alert variant="warning">{ content.iframeNotLoaded }</Alert>
                         ) : ""
                     }
                     {/* End of Manage blank iFrame */}
