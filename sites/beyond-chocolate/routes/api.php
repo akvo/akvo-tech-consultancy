@@ -20,6 +20,8 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\FetchSubmissionUuidController;
 use App\Http\Controllers\SubmissionController;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Contracts\Encryption\DecryptException;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,7 +49,8 @@ Route::middleware(['auth:sanctum'])->get('/me', function (Request $request, Auth
         'formUrl' => null,
         'formActive' => null,
         'last_activity' => $user->last_activity,
-        'hash' => Hash::make($user->id),
+        'hash' => Crypt::encryptString($user->id),
+        // 'hash' => Hash::make($user->id),
         // 'check_last_activity' => $check
     ];
 });
@@ -121,8 +124,14 @@ Route::post('/send-email', [Email::class, 'sendFeedback']);
 Route::post('/inform-user', [Email::class, 'informUser']);
 
 Route::get('/flow-submitter/{id}', function (Request $request, Auth $auth) {
-    $user = User::find($request->id);
+    // $user = User::find($request->id);
     // $user = $auth->checkUserIdHash($request->id);
+    try {
+        $userId = Crypt::decryptString($request->id);
+        $user = User::find($userId);
+    } catch (DecryptException $e) {
+        $user = null;
+    }
     if (is_null($user)) {
         throw new NotFoundHttpException();
     }

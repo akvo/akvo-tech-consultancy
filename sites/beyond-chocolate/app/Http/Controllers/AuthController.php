@@ -119,6 +119,9 @@ class AuthController extends Controller
     {
         $users = \App\Models\User::whereNotNull('email_verified_at')
                                  ->whereNotNull('last_activity')->get();
+        if (is_null($users)) {
+            return null;
+        }
         foreach ($users as $key => $user) {
             if (Hash::check($user['id'], $hash)) {
                 return $user;
