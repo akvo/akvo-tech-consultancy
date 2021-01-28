@@ -502,14 +502,13 @@ const WebForm = ({setFormLoaded, webForm, setWebForm}) => {
         setFormLoading(false);
         const isDemo = location.hostname.startsWith('gisco-pilot') ? 0 : 1;
         let endpoint = (url === null) ? url : `${url}&locale=${locale.active}&demo=${isDemo}&cache=${cache}`;
-        setIsSpinner((localStorage.getItem(`active-form:${user.id}`) === endpoint) ? false : true);
         setActiveForm(endpoint);
-        // localStorage.setItem(`active-form:${user.id}`, url);
-        localStorage.setItem(`active-form:${user.id}`, endpoint);
+        localStorage.setItem(`active-form:${user.id}`, url);
     };
 
     const onSelectForm = ({ url, type, webForm }) => {
-        setFormLoading(true);
+        setFormLoading((localStorage.getItem(`active-form:${user.id}`) === url) ? true : false);
+        setIsSpinner(true);
         setIsWebFormLoaded(null);
         if (type == "111510043" || user.project_fids.includes(type)) {
             // new form
@@ -544,7 +543,7 @@ const WebForm = ({setFormLoaded, webForm, setWebForm}) => {
 
     useEffect(() => {
         setFormLoaded(formLoaded);
-    }, [activeForm, delayedActiveForm, isWebFormLoaded, isSpinner]);
+    }, [activeForm, delayedActiveForm]);
 
     useEffect(() => {
         // open form from previous session
@@ -624,9 +623,8 @@ const WebForm = ({setFormLoaded, webForm, setWebForm}) => {
                                 // sandbox="allow-same-origin allow-scripts allow-forms allow-modals"
                                 frameBorder="0"
                                 style={{ height: "100vh", width: "100%" }}
-                                // src={formLoading ? '' : activeForm}
-                                src={activeForm}
-                                onLoad={(event) => checkIframeLoaded(event)}
+                                src={formLoading ? '' : activeForm}
+                                onLoad={(event) => formLoading ? '' : checkIframeLoaded(event)}
                             />
                         )}
                     </Card>

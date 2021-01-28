@@ -131,7 +131,7 @@ Route::get('/flow-submitter/{id}', function (Request $request, Auth $auth) {
     if ($diff->d >=1 || $diff->h >= 2 || $diff->i >= 30) {
         throw new NotFoundHttpException();
     }
-    return $user;
+
     return [
         'user' => $user->email,
         'org' => $user->organization_id,
