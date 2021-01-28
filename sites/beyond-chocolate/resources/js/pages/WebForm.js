@@ -533,10 +533,8 @@ const WebForm = ({setFormLoaded, webForm, setWebForm}) => {
     };
 
     const checkIframeLoaded = (event) => {
-        console.log('iframe loaded', event);
         setTimeout(() => {
             let isLoaded = event.target.contentWindow.window.length;
-            console.log('iframe status', isLoaded);
             setIsWebFormLoaded((isLoaded !== 0) ? true : false);
             setIsSpinner(false);
         }, 5000);
