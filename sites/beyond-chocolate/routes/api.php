@@ -121,8 +121,8 @@ Route::post('/send-email', [Email::class, 'sendFeedback']);
 Route::post('/inform-user', [Email::class, 'informUser']);
 
 Route::get('/flow-submitter/{id}', function (Request $request, Auth $auth) {
-    // $user = User::find($request->id);
-    $user = $auth->checkUserIdHash($request->id);
+    $user = User::find($request->id);
+    // $user = $auth->checkUserIdHash($request->id);
     if (is_null($user)) {
         throw new NotFoundHttpException();
     }
@@ -131,11 +131,12 @@ Route::get('/flow-submitter/{id}', function (Request $request, Auth $auth) {
     }
     // check user last_activity
     $diff = $auth->getUserTimeDiff($user);
-    if ($diff->d >=1 || $diff->h >= 2 || $diff->i >= 30) {
+    if ($diff->d >=1 || $diff->h >= 2) {
         throw new NotFoundHttpException();
     }
 
     return [
+        'id' => $user->id,
         'user' => $user->email,
         'org' => $user->organization_id,
     ];

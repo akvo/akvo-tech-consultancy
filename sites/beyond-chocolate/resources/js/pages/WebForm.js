@@ -63,8 +63,8 @@ const SavedFormsSelector = ({ text, user, onSelect, watchValue, setConfirmAction
     const onSubmit = () => {
         if (!selected) return;
         setShowSavePrompt(false);
-        // const url = `${selected.url}?user_id=${user.id}`;
-        const url = `${selected.url}?user_id=${user.hash}`;
+        const url = `${selected.url}?user_id=${user.id}`;
+        // const url = `${selected.url}?user_id=${user.hash}`;
         onSelect({ url, type: null, webForm:selected });
     };
     const promptSave = (e) => {
@@ -139,8 +139,8 @@ const SavedFormsSelector = ({ text, user, onSelect, watchValue, setConfirmAction
     useEffect(() => {
         // Clear value if other form is active
         if (!selected) return;
-        // if (!watchValue.startsWith(`${selected.url}?user_id=${user.id}`)) {
-        if (!watchValue.startsWith(`${selected.url}?user_id=${user.hash}`)) {
+        if (!watchValue.startsWith(`${selected.url}?user_id=${user.id}`)) {
+        // if (!watchValue.startsWith(`${selected.url}?user_id=${user.hash}`)) {
             setValue(null);
         }
     }, [watchValue]);
@@ -149,8 +149,8 @@ const SavedFormsSelector = ({ text, user, onSelect, watchValue, setConfirmAction
         // Fill in value from the previous session
         if (selected || !watchValue || available.length < 1) return;
         const form = available.find(
-            // f => `${f.url}?user_id=${user.id}` === watchValue
-            f => `${f.url}?user_id=${user.hash}` === watchValue
+            f => `${f.url}?user_id=${user.id}` === watchValue
+            // f => `${f.url}?user_id=${user.hash}` === watchValue
         );
         if (form) {
             setSelected(form);
@@ -316,8 +316,8 @@ const NewFormSelector = ({ locale, text, user, onSelect, watchValue, showModal, 
         const { data } = await request().get(endpoint);
         // if not max submission
         if (!data.max_submission) {
-            // const url = `${selected.url}?user_id=${user.id}`;
-            const url = `${selected.url}?user_id=${user.hash}`;
+            const url = `${selected.url}?user_id=${user.id}`;
+            // const url = `${selected.url}?user_id=${user.hash}`;
             onSelect({ url, type: selected.name });
             return;
         }
@@ -375,8 +375,8 @@ const NewFormSelector = ({ locale, text, user, onSelect, watchValue, showModal, 
     useEffect(() => {
         // Clear value if other form is active
         if (!selected) return;
-        // if (!watchValue.startsWith(`${selected.url}?user_id=${user.id}`)) {
-        if (!watchValue.startsWith(`${selected.url}?user_id=${user.hash}`)) {
+        if (!watchValue.startsWith(`${selected.url}?user_id=${user.id}`)) {
+        // if (!watchValue.startsWith(`${selected.url}?user_id=${user.hash}`)) {
             setValue(null);
         }
     }, [watchValue]);
@@ -385,8 +385,8 @@ const NewFormSelector = ({ locale, text, user, onSelect, watchValue, showModal, 
         // Fill in value from the previous session
         if (selected || !watchValue || available.length < 1) return;
         const form = available.find(
-            // f => `${f.url}?user_id=${user.id}` === watchValue
-            f => `${f.url}?user_id=${user.hash}` === watchValue
+            f => `${f.url}?user_id=${user.id}` === watchValue
+            // f => `${f.url}?user_id=${user.hash}` === watchValue
         );
         if (form) {
             setSelected(form);

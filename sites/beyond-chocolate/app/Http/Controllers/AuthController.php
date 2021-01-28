@@ -117,7 +117,8 @@ class AuthController extends Controller
 
     public function checkUserIdHash($hash)
     {
-        $users = \App\Models\User::whereNotNull('email_verified_at')->get();
+        $users = \App\Models\User::whereNotNull('email_verified_at')
+                                 ->whereNotNull('last_activity')->get();
         foreach ($users as $key => $user) {
             if (Hash::check($user['id'], $hash)) {
                 return $user;
