@@ -115,4 +115,15 @@ class AuthController extends Controller
         return $diff;
     }
 
+    public function checkUserIdHash($hash)
+    {
+        $users = \App\Models\User::whereNotNull('email_verified_at')->get();
+        foreach ($users as $key => $user) {
+            if (Hash::check($user['id'], $hash)) {
+                return $user;
+            }
+        }
+        return null;
+    }
+
 }
