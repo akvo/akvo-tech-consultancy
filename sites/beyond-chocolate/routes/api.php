@@ -118,12 +118,20 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
 Route::post('/send-email', [Email::class, 'sendFeedback']);
 Route::post('/inform-user', [Email::class, 'informUser']);
 
-Route::get('/flow-submitter/{id}', function ($id) {
-    $user = User::find($id);
+Route::get('/flow-submitter/{id}', function (Request $request, Auth $auth) {
+    $user = User::find($request->id);
     if (is_null($user)) {
         throw new NotFoundHttpException();
     }
-
+    if (is_null($user->email_verified_at) || is_null($user->last_activity)) {
+        throw new NotFoundHttpException();
+    }
+    // check user last_activity
+    $diff = $auth->getUserTimeDiff($user);
+    if ($diff->d >=1 || $diff->h >= 2 || $diff->i >= 30) {
+        throw new NotFoundHttpException();
+    }
+    return $user;
     return [
         'user' => $user->email,
         'org' => $user->organization_id,

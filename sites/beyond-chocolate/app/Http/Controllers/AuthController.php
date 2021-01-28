@@ -87,13 +87,8 @@ class AuthController extends Controller
         /**
          * Check user last activity (2 hours)
          */
-        $last_activity = new Carbon($user->last_activity);
-        $date = new Carbon();
-        $dateNow = $date->now();
-        $diff = $dateNow->diff($last_activity);
-
-        // if ($diff->h >= 2 || is_null($user->last_activity)) {
-        if ($diff->h >= 2) {
+        $diff = $this->getUserTimeDiff($user);
+        if ($diff->h >= 2 || $diff->d >= 1) {
             $session = new AuthenticatedSessionController($guard);
             $logout = $session->destroy($request);
             return $user->last_activity;
@@ -108,6 +103,16 @@ class AuthController extends Controller
         /**
          * if last activity null, user must be redirect to login page
          */
+    }
+
+    public function getUserTimeDiff($user)
+    {
+        $last_activity = new Carbon($user->last_activity);
+        $date = new Carbon();
+        $dateNow = $date->now();
+        // $diff = $dateNow->diff($last_activity);
+        $diff = date_diff($last_activity, $dateNow);
+        return $diff;
     }
 
 }
