@@ -513,10 +513,10 @@ const WebForm = ({setFormLoaded, webForm, setWebForm}) => {
     };
 
     const onSelectForm = ({ url, type, webForm }) => {
-        setFormLoading((localStorage.getItem(`active-form:${user.id}`) === url) ? true : false);
         setIsSpinner(true);
         setIsWebFormLoaded(null);
         if (type == "111510043" || user.project_fids.includes(type)) {
+            setFormLoading((localStorage.getItem(`active-form:${user.id}`) === url) ? true : false);
             // new project form
             setShowProjectInfo(true);
             setDelayedActiveForm(url);
