@@ -501,11 +501,13 @@ const WebForm = ({setFormLoaded, webForm, setWebForm}) => {
     const [formLoading, setFormLoading] = useState(false);
     const [isWebFormLoaded, setIsWebFormLoaded] = useState(null);
     const [isSpinner, setIsSpinner] = useState(false);
+    const [iframeKey, setIframeKey] = useState(1);
 
     const editableCollaborators = user?.organization_id === webForm?.org_id;
 
     const openForm = (url, cache=0) => {
         setFormLoading(false);
+        setIframeKey(iframeKey + 1);
         const isDemo = location.hostname.startsWith('gisco-pilot') ? 0 : 1;
         let endpoint = (url === null) ? url : `${url}&locale=${locale.active}&demo=${isDemo}&cache=${cache}`;
         setActiveForm(endpoint);
@@ -513,10 +515,10 @@ const WebForm = ({setFormLoaded, webForm, setWebForm}) => {
     };
 
     const onSelectForm = ({ url, type, webForm }) => {
+        setFormLoading((localStorage.getItem(`active-form:${user.id}`) === url) ? true : false);
         setIsSpinner(true);
         setIsWebFormLoaded(null);
         if (type == "111510043" || user.project_fids.includes(type)) {
-            setFormLoading((localStorage.getItem(`active-form:${user.id}`) === url) ? true : false);
             // new project form
             setShowProjectInfo(true);
             setDelayedActiveForm(url);
@@ -629,9 +631,11 @@ const WebForm = ({setFormLoaded, webForm, setWebForm}) => {
                         {activeForm && (
                             <iframe
                                 // sandbox="allow-same-origin allow-scripts allow-forms allow-modals"
+                                key={iframeKey}
                                 frameBorder="0"
                                 style={{ height: "100vh", width: "100%" }}
-                                src={formLoading ? '' : activeForm}
+                                // src={formLoading ? '' : activeForm}
+                                src={activeForm}
                                 onLoad={(event) => formLoading ? '' : checkIframeLoaded(event)}
                             />
                         )}
