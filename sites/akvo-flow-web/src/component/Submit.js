@@ -347,7 +347,7 @@ class Submit extends Component {
                     localStorage.setItem('_username',res.data.user);
                     let meta = res.data;
                     meta = {
-                        user: parseInt(urlParams.user_id),
+                        user: parseInt(res.data.id),
                         email: res.data.user,
                         instanceName: this.props.value.instanceName,
                         formId: parseInt(this.props.value.surveyId),
@@ -361,7 +361,14 @@ class Submit extends Component {
                     this.props.updateUser(res.data.user);
                     localStorage.setItem('_meta',JSON.stringify(meta));
                 })
-                .catch(err => console.log("INTERNAL SERVER ERROR"));
+                .catch(err => {
+                    console.log("INTERNAL SERVER ERROR");
+                    PopupError("URL is not available, redirecting...");
+                    setTimeout(() => {
+                        const redirect = window.location.origin + '/not-found';
+                        window.location.replace(redirect);
+                    }, 2000);
+                });
             this.setState({_hasSaveButton: true});
         }
     }
