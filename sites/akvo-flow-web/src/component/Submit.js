@@ -6,7 +6,7 @@ import axios from 'axios'
 import { Spinner } from 'reactstrap'
 import '../App.css'
 import { PopupSuccess, PopupError, PopupToast, PopupCustomConfirmation } from '../util/Popup'
-import { API_URL, CAPTCHA_KEY , PARENT_URL, USING_PASSWORDS, SAVE_FEATURES} from '../util/Environment'
+import { API_URL, CAPTCHA_KEY , PARENT_URL, USING_PASSWORDS, SAVE_FEATURES, BASE_URL } from '../util/Environment'
 import JSZip from 'jszip'
 import Dexie from 'dexie';
 import Uppy from '@uppy/core';
@@ -365,7 +365,7 @@ class Submit extends Component {
                     console.log("INTERNAL SERVER ERROR");
                     PopupError("URL is not available, redirecting...");
                     setTimeout(() => {
-                        const redirect = window.location.origin + '/not-found';
+                        const redirect = window.location.origin + BASE_URL + '/not-found';
                         window.location.replace(redirect);
                     }, 2000);
                 });
