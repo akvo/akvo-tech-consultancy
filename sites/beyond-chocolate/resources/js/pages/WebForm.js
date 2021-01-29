@@ -517,14 +517,15 @@ const WebForm = ({setFormLoaded, webForm, setWebForm}) => {
         setIsSpinner(true);
         setIsWebFormLoaded(null);
         if (type == "111510043" || user.project_fids.includes(type)) {
-            // new form
+            // new project form
             setShowProjectInfo(true);
             setDelayedActiveForm(url);
             // always show collaborators
             // setWebForm({ web_form_id: null, submission_name: null, new_questionnaire: true, show_collaborator: true, fid: parseInt(type)});
         } else {
-            // saved form
-            openForm(url, 1);
+            // if type null ? saved form : new form;
+            let cache = (type === null) ? 1 : 0;
+            openForm(url, cache);
             (user.project_fids.some(id => url.includes(id)))
                 ? setWebForm({...webForm, new_questionnaire: false, show_collaborator: true, fid: null})
                 : setWebForm(null);
@@ -533,11 +534,12 @@ const WebForm = ({setFormLoaded, webForm, setWebForm}) => {
 
     const onClosedProjectInfo = () => {
         openForm(delayedActiveForm);
-        setDelayedActiveForm(null);
         setShowProjectInfo(false);
+        setDelayedActiveForm(null);
     };
 
     const checkIframeLoaded = (event) => {
+        setFormLoading(false);
         setTimeout(() => {
             let isLoaded = event.target.contentWindow.window.length;
             setIsWebFormLoaded((isLoaded !== 0) ? true : false);

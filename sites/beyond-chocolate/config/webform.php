@@ -14,7 +14,8 @@ return [
     "exception" => [
         "organization" => [
             "name" => ["staff akvo", "staff gisco secretariat"],
-            "ids" => [78, 74],
+            // "ids" => [78, 74],
+            "ids" => [],
         ],
     ],
     "surveys" => [
