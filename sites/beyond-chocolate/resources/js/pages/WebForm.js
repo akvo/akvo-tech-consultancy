@@ -502,8 +502,23 @@ const WebForm = ({setFormLoaded, webForm, setWebForm}) => {
     const [isWebFormLoaded, setIsWebFormLoaded] = useState(null);
     const [isSpinner, setIsSpinner] = useState(false);
     const [iframeKey, setIframeKey] = useState(1);
+    const [isIndexDB, setIsIndexDB] = useState(true);
 
     const editableCollaborators = user?.organization_id === webForm?.org_id;
+
+    const checkIndexDB = () => {
+        let db;
+        let request = indexedDB.open('test');
+        request.onerror = function(event) {
+            setIsIndexDB(false);
+            console.log('indexDB not allowed');
+        }
+        request.onsuccess = function(event) {
+            setIsIndexDB(true);
+            console.log('indexDB allowed');
+            db = event.target.result;
+        }
+    }
 
     const openForm = (url, cache=0) => {
         setFormLoading(false);
@@ -553,7 +568,9 @@ const WebForm = ({setFormLoaded, webForm, setWebForm}) => {
 
     useEffect(() => {
         setFormLoaded(formLoaded);
-    }, [activeForm, delayedActiveForm]);
+        checkIndexDB();
+        console.log(isIndexDB);
+    }, [activeForm, delayedActiveForm, isIndexDB]);
 
     useEffect(() => {
         // open form from previous session
@@ -612,7 +629,7 @@ const WebForm = ({setFormLoaded, webForm, setWebForm}) => {
 
                     {/* Manage blank iFrame */}
                     {
-                        (isSpinner) && (
+                        (isSpinner && isIndexDB) && (
                             <div style={{display:"flex", alignItems: "center", justifyContent: "center" }} className="mb-3">
                                 <Spinner animation="border" role="status" size="sm" variant="info">
                                     <span className="sr-only">Loading...</span>
@@ -627,8 +644,16 @@ const WebForm = ({setFormLoaded, webForm, setWebForm}) => {
                     }
                     {/* End of Manage blank iFrame */}
 
+                    {/* Manage indexDB not allowed on Firefox private mode */}
+                    {
+                        (activeForm && !isIndexDB) && (
+                            <Alert variant="warning">Please don't use private mode on your browser.</Alert>
+                        )
+                    }
+                    {/* End of Manage indexDB not allowed on Firefox private mode */}
+
                     <Card>
-                        {activeForm && (
+                        {(activeForm && isIndexDB) && (
                             <iframe
                                 // sandbox="allow-same-origin allow-scripts allow-forms allow-modals"
                                 key={iframeKey}
