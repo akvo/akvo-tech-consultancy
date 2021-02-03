@@ -71,7 +71,7 @@ class SeedController extends Controller
             ]);
             return $user;
         });
-        
+
         return $results;
     }
 

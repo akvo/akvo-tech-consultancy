@@ -422,398 +422,70 @@ return [
 
     "bc_members" => [
         [
+            "code" => "B",
+            "name" => "Barry Callebaut - Beyond Chocolate",
+            "active" => true,
+        ],
+        [
+            "code" => "B",
+            "name" => "Cargill - Beyond Chocolate",
+            "active" => true,
+        ],
+        [
+            "code" => "B",
+            "name" => "Puratos - Beyond Chocolate",
+            "active" => true,
+        ],
+        [
+            "code" => "B",
+            "name" => "Mondelez - Beyond Chocolate",
+            "active" => true,
+        ],
+        [
+            "code" => "B",
+            "name" => "Nestlé - Beyond Chocolate",
+            "active" => true,
+        ],
+        [
+            "code" => "B",
+            "name" => "Mars - Beyond Chocolate",
+            "active" => true,
+        ],
+        [
+            "code" => "B",
+            "name" => "Oxfam - Beyond Chocolate",
+            "active" => true,
+        ],
+        //
+        [
             "code" => "C",
-            "name" => "ALDI Einkauf GmbH & Co. oHG, Unternehmensgruppe ALDI Nord - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "C",
-            "name" => "ALDI SÜD Group, HOFER KG - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "B",
-            "name" => "Alfred Ritter GmbH & Co. KG - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "B",
-            "name" => "August Storck KG - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "B",
-            "name" => "Barry Callebaut Deutschland AG - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "B",
-            "name" => "Brandt Zwieback - Schokoladen GmbH + Co. KG - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "B",
-            "name" => "Bundesverband der Deutschen Süßwarenindustrie e.V. (BDSI) - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "C",
-            "name" => "Bundesverband des Deutschen Lebensmittelhandels e.V. (BVLH) - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "B",
-            "name" => "Cargill GmbH - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "B",
-            "name" => "Chocoladefabriken Lindt & Sprüngli GmbH - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "B",
-            "name" => "Chr. Storz GmbH & Co. KG - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "B",
-            "name" => "Continental Bakeries B.V. - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "D",
-            "name" => "Die Taube der Hoffnung e.V. - Beyond Chocolate",
+            "name" => "Colruyt Group - Beyond Chocolate",
             "active" => true,
         ],
         [
             "code" => "C",
-            "name" => "EDEKA ZENTRALE AG & Co. KG - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "D",
-            "name" => "Ein Dach für Afrika - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "B",
-            "name" => "Eisbär Eis GmbH - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "D",
-            "name" => "Exposure- und Dialogprogramme e.V  - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "B",
-            "name" => "FERRERO DEUTSCHLAND GmbH - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "D",
-            "name" => "Förderverein der Maria Montessori Gesamtschule, Düsseldorf - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "D",
-            "name" => "FORUM FAIRER HANDEL e.V. - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "B",
-            "name" => "Frankonia Schokoladenwerke GmbH - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "B",
-            "name" => "Fuchs & Hoffmann Kakaoprodukte GmbH - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "D",
-            "name" => "Gewerkschaft Nahrung-Genuss-Gaststätten (NGG) - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "B",
-            "name" => "Griesson-de Beukelaer GmbH & Co. KG - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "B",
-            "name" => "Gustav Berning GmbH und Co. KG - Beyond Chocolate",
-            "active" => false,
-        ],
-        [
-            "code" => "B",
-            "name" => "Gut Springenheide GmbH - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "B",
-            "name" => "H.C.C.O Hamburg Cocoa & Commodity Office GmbH - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "B",
-            "name" => "H.D.Cotterell GmbH & Co. KG - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "B",
-            "name" => "Hachez Chocoversum GmbH  - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "D",
-            "name" => "Hamburger Stiftung für Wirtschaftsethik - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "B",
-            "name" => "Hanns G. Werner GmbH + Co. KG - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "B",
-            "name" => "Hanseatisches Chocoladen Kontor GmbH & Co. KG - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "B",
-            "name" => "Hans Riegelein & Sohn GmbH & Co. KG - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "B",
-            "name" => "HARIBO Holding GmbH & Co. KG - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "B",
-            "name" => "Henry Lambertz GmbH & Co. KG (Aachener Printen und Schokoladenfabrik) - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "B",
-            "name" => "Infozentrum Schokolade - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "D",
-            "name" => "INKOTA-Netzwerk e.V. - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "D",
-            "name" => "ISCC System GmbH - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "B",
-            "name" => "J.G. Niederegger GmbH & Co. KG - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "D ",
-            "name" => "Jacobs Foundation - Beyond Chocolate",
+            "name" => "Lidl Belgium - Beyond Chocolate",
             "active" => true,
         ],
         [
             "code" => "C",
-            "name" => "LIDL Stiftung & Co. KG - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "B",
-            "name" => "Lübecker Marzipan-Fabrik v. Minden & Bruhns GmbH & Co. KG (Lubeca) - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "B",
-            "name" => "Ludwig Schokolade GmbH & Co. KG  - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "B",
-            "name" => "Ludwig Weinrich GmbH & Co. KG - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "B",
-            "name" => "Mars GmbH - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "B",
-            "name" => "Mondelēz Deutschland Services GmbH & Co.KG - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "D",
-            "name" => "Myclimate - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "B",
-            "name" => "Nestlé Kaffee und Schokoladen GmbH  - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "B",
-            "name" => "Olam Cocoa Deutschland GmbH - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "B",
-            "name" => "Piasten GmbH / Treets GmbH - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "D",
-            "name" => "Plant-for-the-Planet - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "D",
-            "name" => "Rainforest Alliance/ UTZ - Beyond Chocolate",
+            "name" => "Aldi Belgium - Beyond Chocolate",
             "active" => true,
         ],
         [
             "code" => "C",
-            "name" => "REWE Group - Beyond Chocolate",
+            "name" => "Delhaize Belgium - Beyond Chocolate",
             "active" => true,
         ],
+        //
         [
-            "code" => "B",
-            "name" => "Rübezahl Schokoladen GmbH - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "B",
-            "name" => "Schöki GmbH - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "B",
-            "name" => "SCHOKINAG-Schokolade-Industrie GmbH - Beyond Chocolate",
+            "code" => "D",
+            "name" => "Rainforest Alliance - Beyond Chocolate",
             "active" => true,
         ],
         [
             "code" => "D",
-            "name" => "Schokoladenmuseum Köln GmbH - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "D",
-            "name" => "Solidaridad - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "B",
-            "name" => "Stiftung der Deutschen Kakao- und Schokoladenwirtschaft - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "B",
-            "name" => "Stollwerck Schokoladen Vertriebs GmbH - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "D",
-            "name" => "SÜDWIND e.V. - Institut für Ökonomie und Ökumene  - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "C",
-            "name" => "tegut… gute Lebensmittel GmbH & Co. KG - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "D",
-            "name" => "TransFair e.V. (Fairtrade Deutschland) - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "B",
-            "name" => "Ulmer Schokoladen GmbH & Co. KG - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "B",
-            "name" => "United-Agro-Alliance GmbH - Beyond Chocolate",
-            "active" => false,
-        ],
-        [
-            "code" => "B",
-            "name" => "Verdener Keks- und Waffelfabrik Hans Freitag GmbH & Co.KG - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "B",
-            "name" => "Verein der am Rohkakaohandel beteiligten Firmen e. V. - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "B",
-            "name" => "Vollers Hamburg GmbH  - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "B",
-            "name" => "WETZEL Karlsbader Oblaten- und Waffelfabrik GmbH - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "B",
-            "name" => "ZDS Solingen - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => "D",
-            "name" => "ZNU – Zentrum für Nachhaltige Unternehmensführung der Universität Witten/Herdecke - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => null,
-            "name" => "staff GISCO secretariat - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => null,
-            "name" => "staff SWISSCO secretariat - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => null,
-            "name" => "staff Beyond Chocolate Secretariat - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => null,
-            "name" => "staff C-Lever - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => null,
-            "name" => "staff Akvo - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => null,
-            "name" => "BMZ/ GIZ - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => null,
-            "name" => "BMZ - Beyond Chocolate",
-            "active" => true,
-        ],
-        [
-            "code" => null,
-            "name" => "Bundesministerium für Ernährung und Landwirtschaft (BMEL) - Beyond Chocolate",
+            "name" => "Fairtrade Belgium - Beyond Chocolate",
             "active" => true,
         ],
     ],
