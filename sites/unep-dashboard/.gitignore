@@ -15,7 +15,6 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 package-lock.json
-composer.lock
 yarn-error.log
 .~lock.data-production_2020-08-03.csv#
 .pdf
