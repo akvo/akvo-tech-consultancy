@@ -569,7 +569,7 @@ const WebForm = ({setFormLoaded, webForm, setWebForm}) => {
     useEffect(() => {
         setFormLoaded(formLoaded);
         checkIndexDB();
-        console.log(isIndexDB);
+        // console.log(isIndexDB);
     }, [activeForm, delayedActiveForm, isIndexDB]);
 
     useEffect(() => {

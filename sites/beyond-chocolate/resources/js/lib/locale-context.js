@@ -36,6 +36,27 @@ const questionnaire = {
         en: "D - Standard setting organisations",
         de: "D - Standardsetzende Organisationen",
     },
+    //
+    "143215090": {
+        en: "Projects - Beyond Chocolate",
+        de: "Projects - Beyond Chocolate",
+    },
+    "130990814": {
+        en: "B - Industry - Beyond Chocolate",
+        de: "B - Industrie - Beyond Chocolate",
+    },
+    "143340791": {
+        en: "C - Retail - Beyond Chocolate",
+        de: "C - Lebensmittelhandel - Beyond Chocolate",
+    },
+    "150700609": {
+        en: "D - Civil Society (NGOs) - Beyond Chocolate",
+        de: "D - Zivilgesellschaft (NROs) - Beyond Chocolate",
+    },
+    "148430590": {
+        en: "D - Standard setting organisations - Beyond Chocolate",
+        de: "D - Standardsetzende Organisationen - Beyond Chocolate",
+    },
 }
 
 export { useLocale, langs, questionnaire }

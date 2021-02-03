@@ -155,7 +155,6 @@ Route::post('/auth/forgot-password', [Auth::class, 'forgotPassword']);
 Route::post('/auth/reset-password', [Auth::class, 'resetPassword']);
 Route::middleware(['auth:sanctum'])->post('/user/update', [Auth::class, 'update']);
 Route::get('/organizations', [Api::class, 'getOrganizations']);
-Route::get('/seed', [Seed::class, 'seedDatabase']);
 Route::get('/config', [Api::class, 'getConfig']);
 Route::post('/submission', [Api::class, 'postWebForm']);
 Route::patch('/submission', [Api::class, 'updateWebForm']);
@@ -165,12 +164,16 @@ Route::get('/submission/check/{organization_id}/{form_id}', [Api::class, 'checkW
 Route::get('/job/project/notification', [Notification::class, 'projectNotification']);
 Route::get('/flow/check-survey/{survey_id}', [Notification::class, 'checkSurvey']);
 
+# Seeder
+Route::get('/seed/organizations', [Seed::class, 'seedOrganizations']);
+Route::get('/seed/users/{password}', [Seed::class, 'seedUser']);
+
 # Reports
-Route::get('reports/submission', [ReportController::class, 'generateSubmissionReport']);
-Route::get('reports/user-with-saved-submission', [ReportController::class, 'generateUserWithSavedSubmissionReport']);
+Route::get('/reports/submission', [ReportController::class, 'generateSubmissionReport']);
+Route::get('/reports/user-with-saved-submission', [ReportController::class, 'generateUserWithSavedSubmissionReport']);
 
 # Scripts
-Route::get('scripts/fetch-submission-uuid', [FetchSubmissionUuidController::class, 'fetch']);
+Route::get('/scripts/fetch-submission-uuid', [FetchSubmissionUuidController::class, 'fetch']);
 
 # Submitted Data
 Route::middleware(['auth:sanctum'])->get('/submissions/submitted', [SubmissionController::class, 'getSubmittedData']);

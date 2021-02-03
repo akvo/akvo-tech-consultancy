@@ -4,6 +4,11 @@ use App\Models\Role;
 $flowDataURL = 'https://flow-data.tc.akvo.org/api/';
 
 return [
+    'credentials' => [
+        'user' => env('USER_PWD'),
+        'api' => env('API_PWD'), 
+    ],
+
     'permissions' => [
         'submit-survey',
         'manage-users',
@@ -33,6 +38,12 @@ return [
         '105640815' => 'C - Retail',
         '111890828' => 'D - Civil Society (NGOs)',
         '134210832' => 'D - Standard setting organisations',
+        //
+        '143215090' => 'Projects - Beyond Chocolate',
+        '130990814' => 'B - Industry - Beyond Chocolate',
+        '143340791' => 'C - Retail - Beyond Chocolate',
+        '150700609' => 'D - Civil Society (NGOs) - Beyond Chocolate',
+        '148430590' => 'D - Standard setting organisations - Beyond Chocolate',
     ],
 
     'form_url' => 'https://tech-consultancy.akvotest.org/akvo-flow-web/idh/',
@@ -68,6 +79,32 @@ return [
             "surveyGroupId" => "93050740",
             "surveyId" => "134210832",
             "name" => "D-bis-Standard setters"
+        ],
+        //
+        [
+            "surveyGroupId" => "144631860",
+            "surveyId" => "143215090",
+            "name" => "Projects BC"
+        ],
+        [
+            "surveyGroupId" => "143340765",
+            "surveyId" => "130990814",
+            "name" => "B Industry BC"
+        ],
+        [
+            "surveyGroupId" => "135240618",
+            "surveyId" => "143340791",
+            "name" => "C Retail BC"
+        ],
+        [
+            "surveyGroupId" => "133020766",
+            "surveyId" => "150700609",
+            "name" => "D-Civil Society BC"
+        ],
+        [
+            "surveyGroupId" => "146740652",
+            "surveyId" => "148430590",
+            "name" => "D-bis-Standard setters BC"
         ],
     ],
 
