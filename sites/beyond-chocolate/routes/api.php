@@ -169,8 +169,8 @@ Route::get('/seed/organizations', [Seed::class, 'seedOrganizations']);
 Route::get('/seed/users/{password}', [Seed::class, 'seedUser']);
 
 # Reports
-Route::get('/reports/submission', [ReportController::class, 'generateSubmissionReport']);
-Route::get('/reports/user-with-saved-submission', [ReportController::class, 'generateUserWithSavedSubmissionReport']);
+Route::get('/reports/submission/{password}', [ReportController::class, 'generateSubmissionReport']);
+Route::get('/reports/user-with-saved-submission/{password}', [ReportController::class, 'generateUserWithSavedSubmissionReport']);
 
 # Scripts
 Route::get('/scripts/fetch-submission-uuid', [FetchSubmissionUuidController::class, 'fetch']);

@@ -9,8 +9,13 @@ use Illuminate\Support\Facades\Storage;
 
 class ReportController extends Controller
 {
-    public function generateSubmissionReport()
+    public function generateSubmissionReport(Request $request)
     {
+        $credentials = config('bc.credentials');
+        if ($request->password !== $credentials['api']) {
+            throw new NotFoundHttpException();
+        }
+
         $forms = config('bc.questionnaires');
         $wfs = WebForm::with('organization')->get();
         $data = $wfs->map(function ($item) use ($forms) {
@@ -23,11 +28,17 @@ class ReportController extends Controller
         $results = [];
         $results['headers'] = ["Form Name", "Organization", "Count", "Submission Status"];
         $results['records'] = $saved->concat($submitted)->sortBy('org_name')->values();
+
         return ["link" => $this->writeCsv($results, "GISCO-Submission-Report")];
     }
 
-    public function generateUserWithSavedSubmissionReport()
+    public function generateUserWithSavedSubmissionReport(Request $request)
     {
+        $credentials = config('bc.credentials');
+        if ($request->password !== $credentials['api']) {
+            throw new NotFoundHttpException();
+        }
+
         $forms = config('bc.questionnaires');
         $wfs = WebForm::with('organization')->with('user')->get();
         $wfs = $wfs->where('user', '!=', null)->values();
@@ -42,6 +53,7 @@ class ReportController extends Controller
         $results = [];
         $results['headers'] = ["User Name", "User Email", "Organization", "Form Name", "Submission Status"];
         $results['records'] = $data;
+
         return ["link" => $this->writeCsv($results, "GISCO-UserSubmission-Report")];
     }
 
