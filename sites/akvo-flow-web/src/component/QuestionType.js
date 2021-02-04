@@ -718,7 +718,7 @@ class QuestionType extends Component {
         let id = this.props.data.id;
         let value = event.target.value;
         if (this.state.custom_cascade_type === "radio") {
-            this.setState({custom_cascade_other:value === "Other"});
+            this.setState({custom_cascade_other:value === "##OTHER##"});
             localStorage.setItem(id, value);
             this.setState({value: value});
             this.handleGlobal(id, value);
@@ -763,7 +763,9 @@ class QuestionType extends Component {
 
     getCustomCascade(id, data, unique, level, index, margin, parent="") {
         const active = this.props.value.lang.active;
+        const alphabets = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'];
         return data.map((x, i) => {
+            const alphabet = alphabets[i];
             let value = parent !== "" ? (parent + " > " + x.name) : x.name;
             let checked = false;
             let selected = localStorage.getItem(id);
@@ -771,9 +773,15 @@ class QuestionType extends Component {
                 checked = selected.split('|').includes(value);
             }
             let indeterminate = false;
-            let lang = x.lang ? x.lang : {"en":x.name};
+            let lang = x.lang
+                ? x.lang
+                : {"en": level === 0 && x.name !== '##OTHER##'
+                    ? (alphabet + '. ' + x.name)
+                    : x.name
+                };
             let localization = getLocalization(active, lang, 'span','trans-lang-opt', level === 0);
-            let grandParent =  x.name !== "Other" && level === 0 && x.childs.length !== 0;
+                localization = localization.replace("##OTHER##", "Other");
+            let grandParent =  x.name !== "##OTHER##" && level === 0 && x.childs.length !== 0;
             if (grandParent) {
                 return (
                     <div
@@ -823,13 +831,13 @@ class QuestionType extends Component {
                 getApi('json/' + customOption.url).then(res => {
                     res = res.map(x => ({...x, hasOther:false}));
                     this.setState({
-                        custom_cascade: [...res, {name: 'Other', childs:[], hasOther:true}],
+                        custom_cascade: [...res, {name: '##OTHER##', childs:[], hasOther:true}],
                         custom_cascade_type: customOption.type
                     });
                     let multipleValue = localStorage.getItem(this.props.data.id.toString())
                     if (multipleValue) {
                         multipleValue = multipleValue.split('|');
-                        if (multipleValue.includes("Other")) {
+                        if (multipleValue.includes("##OTHER##")) {
                             this.setState({custom_cascade_other:true});
                         }
                     }

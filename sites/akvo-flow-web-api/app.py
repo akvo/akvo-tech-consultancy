@@ -255,6 +255,14 @@ def get_payload(rec, _uuid, webform=False):
                 a_type = "VALUE"
             if answer_type[i] in ["PHOTO"]:
                 a_type = "IMAGE"
+            ## CUSTOM HANDLE OTHER IDH
+            if answer_type[i] in ["TEXT"]:
+                try:
+                    val = val.replace("##OTHER##", "Other: " + rec["other_" + ids])
+                except:
+                    val = val.replace("##OTHER##", "")
+                    pass
+            ## END CUSTOM HANDLE OTHER IDH
             question_id = ids.split('-')[0]
             form = {
                 "answerType": a_type,

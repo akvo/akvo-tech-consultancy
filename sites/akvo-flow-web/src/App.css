@@ -190,13 +190,6 @@ button.btn-repeatable{
     border-radius: 0 .25rem .25rem 0!important;
 }
 
-.badge-group.badge-right {
-    right:24px!important;
-}
-.badge-group.badge-left {
-    right:45px!important;
-}
-
 .swal-button-container {
     width: 100%;
 }
@@ -241,7 +234,7 @@ button.btn-repeatable{
         width: 100%;
     }
     .wrapper.toggled .sidebar-wrapper {
-        margin-left: -380px;
+        margin-left: -335px;
     }
 }
 
@@ -354,6 +347,17 @@ img.responsive-image {
 .repeat-group-delete{
     margin-bottom: 20px;
 }
+.repeat-group-custom-intro {
+    text-align: left;
+    font-size: 14px;
+    border-bottom: 1px #ddd solid;
+    padding: .5rem 1rem;
+}
+.repeat-group-custom-intro span{
+    text-align:justify;
+}
+
+
 /* RepatGroup */
 
 /* Exif */
@@ -454,12 +458,6 @@ img.responsive-image {
     margin-top: .5rem;
     display: inline-block !important;
     padding-right: 10px;
-}
-
-.question-group-buttons-block {
-    margin-bottom: 50px;
-    border-top: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
 }
 
 .trans-lang,

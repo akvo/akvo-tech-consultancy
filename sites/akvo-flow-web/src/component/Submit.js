@@ -6,7 +6,7 @@ import axios from 'axios'
 import { Spinner } from 'reactstrap'
 import '../App.css'
 import { PopupSuccess, PopupError, PopupToast, PopupCustomConfirmation } from '../util/Popup'
-import { API_URL, CAPTCHA_KEY , PARENT_URL, USING_PASSWORDS, SAVE_FEATURES} from '../util/Environment'
+import { API_URL, CAPTCHA_KEY , PARENT_URL, USING_PASSWORDS, SAVE_FEATURES, BASE_URL } from '../util/Environment'
 import JSZip from 'jszip'
 import Dexie from 'dexie';
 import Uppy from '@uppy/core';
@@ -90,15 +90,19 @@ class Submit extends Component {
                 user_id: saveData.user,
                 organization_id: saveData.org,
                 form_id: saveData.formId,
+                display_name: localStorage.getItem('_dataPointName') ? localStorage.getItem('_dataPointName') : 'Untitled',
                 form_instance_id: saveData.instanceName,
                 form_instance_url: formInstanceUrl,
                 submitted: submitted,
+                uuid: (submitted) ? localStorage.getItem('_dataPointId') : null,
                 updated_at: new Date(),
             }
         }
         if (instanceApi) {
-            instanceApi = instanceApi.save ? (instanceApi.api + '/submission') : false;
-        }
+            let demo = urlParams.demo ? (urlParams.demo === "1" ? true : false) : false;
+            instanceApi = instanceApi.save ?  (demo ? instanceApi.demoApi : instanceApi.api) : false;
+            instanceApi = instanceApi + '/submission';
+        };
         if (saveData && instanceApi) {
             axios.post('https://' + instanceApi, saveData, {headers: {'Content-Type':'application/json'}})
                 .then(res => {
@@ -322,6 +326,7 @@ class Submit extends Component {
     componentDidMount() {
         localStorage.setItem('_meta', false);
         let instance = SAVE_FEATURES.find(x => x.instance === this.props.value.instanceName);
+        let instanceApi = false;
         if (instance) {
             const skipMandatories = instance.skipMandatories
                 ? instance.skipMandatories.includes(this.props.value.surveyId)
@@ -332,16 +337,17 @@ class Submit extends Component {
                 _skipMandatories:skipMandatories
             });
             localStorage.setItem(passvar, survey_form.includes(USING_PASSWORDS) ? "" : password);
-            instance = instance.api;
+            instanceApi = instance.api;
         }
-        if (instance && urlParams.user_id) {
+        if (instanceApi && urlParams.user_id) {
+            instance = urlParams.demo ? (urlParams.demo === "1" ? instance.demoApi : instanceApi) : instanceApi;
             axios.get("https://" + instance + "/flow-submitter/" + urlParams.user_id)
                 .then(res => {
                     this.setState({'_username': res.data.user})
                     localStorage.setItem('_username',res.data.user);
                     let meta = res.data;
                     meta = {
-                        user: parseInt(urlParams.user_id),
+                        user: parseInt(res.data.id),
                         email: res.data.user,
                         instanceName: this.props.value.instanceName,
                         formId: parseInt(this.props.value.surveyId),
@@ -355,7 +361,14 @@ class Submit extends Component {
                     this.props.updateUser(res.data.user);
                     localStorage.setItem('_meta',JSON.stringify(meta));
                 })
-                .catch(err => console.log("INTERNAL SERVER ERROR"));
+                .catch(err => {
+                    console.log("INTERNAL SERVER ERROR");
+                    PopupError("URL is not available, redirecting...");
+                    setTimeout(() => {
+                        const redirect = window.location.origin + BASE_URL + '/not-found';
+                        window.location.replace(redirect);
+                    }, 2000);
+                });
             this.setState({_hasSaveButton: true});
         }
     }

@@ -1,8 +1,24 @@
 import { connect } from "react-redux";
-import { mapStateToProps, mapDispatchToProps } from "../reducers/actions.js";
+import { mapStateToProps, mapDispatchToProps } from "../reducers/actions";
 import React, { Component } from "react";
 import { FaTrash } from "react-icons/fa";
+import { SAVE_FEATURES } from "../util/Environment"
+import { Locale } from  "../util/Languages"
+import { getLocalization } from "../util/Utilities"
 
+const useCustomInfo = (props) => {
+    let registered = SAVE_FEATURES.find(x => x.instance === props.instanceName);
+    if (registered) {
+        registered = registered.skipMandatories.includes(props.surveyId);
+    }
+    if (registered) {
+        const localization = getLocalization(props.lang.active, Locale.customRepeatGroupInfo, "span", "trans-lang");
+        return (
+            <div className="col-md-12 repeat-group-custom-intro" dangerouslySetInnerHTML={{__html:localization}}/>
+        )
+    }
+    return "";
+}
 
 class GroupPanels extends Component {
 
@@ -27,6 +43,7 @@ class GroupPanels extends Component {
                     <div className="col-md-5 repeat-group-line"><hr/></div>
                     <div className="col-md-2 repeat-group-header"> Repeat Group {i} </div>
                     <div className="col-md-5 repeat-group-line"><hr/></div>
+                    {useCustomInfo(this.props.value)}
                 </div>
             )
         }
