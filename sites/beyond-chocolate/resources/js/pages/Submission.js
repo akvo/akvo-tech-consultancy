@@ -30,17 +30,22 @@ const Submission = () => {
 
     const setLoading = (id, status) =>{
         let updateSubmissions = submissions.map(x => {
-            x.isLoading = (x.id === id) ? status : x.isLoading;
+            // x.isLoading = (x.id === id) ? status : x.isLoading;
+            x.isLoading = (x.uuid === id) ? status : x.isLoading;
             return x;
         });
         setSubmissions(updateSubmissions);
     };
 
     const handleDownload = async (item) => {
-        const { id, form_id, form_name, submitter_name } = item;
-        setLoading(id, true);
+        // # TODO :: change this api link to sync data
+        // const { id, form_id, form_name, submitter_name } = item;
+        // setLoading(id, true);
+        const { uuid, form_id, form_name, submitter_name } = item;
+        setLoading(uuid, true);
         const filename = form_name.replace(' - ', '-').replace(' ', '') + '-' + submitter_name.replace(' ', '');
-        const { data, status } = await request().get(`/api/submissions/download/${form_id}/${id}/${filename}`);
+        // const { data, status } = await request().get(`/api/submissions/download/${form_id}/${id}/${filename}`);
+        const { data, status } = await request().get(`/api/submissions/sync-download/${form_id}/${uuid}/${filename}`);
         if (status === 200) {
             const link = document.createElement('a');
             link.href = data.link;
@@ -49,8 +54,10 @@ const Submission = () => {
             document.body.removeChild(link);
         } else {
             // create error notif
+            console.log('download error');
         }
-        setLoading(id, false);
+        // setLoading(id, false);
+        setLoading(uuid, false);
     };
     
     const renderSubmissions = () => {

@@ -16,6 +16,7 @@ class SubmissionController extends Controller
 {
     public function getSubmittedData(Request $request, StatefulGuard $guard)
     {
+        $questionnaires = config('bc.questionnaires');
         $user = $request->user();
         $collaboratorForms = Collaborator::where('organization_id', $user->organization_id)->get()->pluck('web_form_id');
         $webforms = WebForm::where([
@@ -24,29 +25,39 @@ class SubmissionController extends Controller
         ])->orWhere(function ($query) use ($collaboratorForms) {
             $query->where('submitted', true)
                   ->whereIn('id', $collaboratorForms);
-        })->with('organization', 'user')->get()->map(function ($wf) {
+        })->with('organization', 'user')->get()->map(function ($wf) use ($questionnaires) {
             $wf['org_name'] = $wf['organization']['name'];
-            $wf['user_name'] = $wf['user']['name'];
-            return collect($wf)->only('uuid', 'org_name', 'user_name');
+            // $wf['user_name'] = $wf['user']['name'];
+            // return collect($wf)->only('uuid', 'org_name', 'user_name');
+            $wf['submitter_name'] = $wf['user']['name'];
+            $display_name = (is_null($wf['display_name'])) ? '' : ' - '.$wf['display_name'];
+            $wf['form_name'] = $questionnaires[$wf['form_id']].$display_name;
+            return collect($wf)->only('uuid', 'org_name', 'submitter_name', 'form_name', 'form_id');
         });
-        $form_instances = FormInstance::whereIn('identifier', $webforms->pluck('uuid'))
-            ->with('datapoint', 'form')
-            ->get()
-            ->map(function ($fi) use ($webforms) {
-                $wf = $webforms->where('uuid', $fi['identifier'])->first();
-                $fi['org_name'] = $wf['org_name'];
-                $fi['submitter_name'] = $wf['user_name'];
-                $fi['form_name'] = $fi['form']['name'].' - '.$fi['datapoint']['display_name'];
-                return collect($fi)->only('org_name', 'submitter_name', 'form_name', 'id', 'form_id', 'data_point_id');
-            });
-        return $form_instances;
+        
+        return $webforms;
+
+        // $form_instances = FormInstance::whereIn('identifier', $webforms->pluck('uuid'))
+        //     ->with('datapoint', 'form')
+        //     ->get()
+        //     ->map(function ($fi) use ($webforms) {
+        //         $wf = $webforms->where('uuid', $fi['identifier'])->first();
+        //         $fi['org_name'] = $wf['org_name'];
+        //         $fi['submitter_name'] = $wf['user_name'];
+        //         $fi['form_name'] = $fi['form']['name'].' - '.$fi['datapoint']['display_name'];
+        //         return collect($fi)->only('org_name', 'submitter_name', 'form_name', 'id', 'form_id', 'data_point_id');
+        //     });
+        // return $form_instances;
     }
 
-    public function downloadData(Request $request)
+    public function downloadData($form_id, $instance_id, $filename)
+    // public function downloadData(Request $request)
     {
         $headers = ["gid", "groupName", "repeat", "qid", "question", "answer"];
-        $qGroups = QuestionGroup::where('form_id', $request->form_id)->with('questions')->get();
-        $answers = Answer::where('form_instance_id', $request->instance_id)->with('option.option', 'cascade.cascade')->get();
+        // $qGroups = QuestionGroup::where('form_id', $request->form_id)->with('questions')->get();
+        // $answers = Answer::where('form_instance_id', $request->instance_id)->with('option.option', 'cascade.cascade')->get();
+        $qGroups = QuestionGroup::where('form_id', $form_id)->with('questions')->get();
+        $answers = Answer::where('form_instance_id', $instance_id)->with('option.option', 'cascade.cascade')->get();
         $records = collect();
         $results = $qGroups->map(function ($qg, $qgIndex) use ($answers, $records) {
             foreach ($qg['questions'] as $qIndex => $q) {
@@ -111,7 +122,22 @@ class SubmissionController extends Controller
             }
         }
         $results = ["headers" => $headers, "records" => $remapRecords];
-        return ["link" => $this->writeCsv($results, $request->filename)];
+        // return ["link" => $this->writeCsv($results, $request->filename)];
+        return ["link" => $this->writeCsv($results, $filename)];
+    }
+
+    public function syncAndDownloadData(Request $request)
+    {
+        # TODO :: check if uuid has been on database
+        $uuid = $request->uuid;
+        $form_instance = FormInstance::where('identifier', $uuid)->first();
+        if (!is_null($form_instance)) {
+            # Download data, use downloadData function
+            return $this->downloadData($request->form_id, $form_instance->id, $request->filename);
+        }
+
+        # TODO :: if uuid not found, then run sync first, then download the data
+        return 'Sync';
     }
 
     private function fetchAnswer($qtype, $answer)
