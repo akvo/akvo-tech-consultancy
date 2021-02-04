@@ -35,7 +35,7 @@ fi
 
 log Pushing images
 gcloud auth configure-docker
-docker push eu.gcr.io/${PROJECT_NAME}/jobs-update-iucn
+docker push "eu.gcr.io/${PROJECT_NAME}/jobs-update-iucn:${TRAVIS_COMMIT}"
 
 sed -e "s/\${TRAVIS_COMMIT}/$TRAVIS_COMMIT/" ci/k8s/cronjob.yaml.template > cronjob.yaml.donotcommit
 

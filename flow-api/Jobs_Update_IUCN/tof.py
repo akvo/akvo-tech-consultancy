@@ -76,14 +76,20 @@ def download():
     return output
 
 def append_columns():
-    for q in ["q14290003", "q22270002", "q18380002", "q30000004", "q9910003", "q5930003", "q22250002", "q9770001"]:
+    last_append = ["q14290003", "q22270002", "q18380002", "q30000004", "q9910003", "q5930003", "q22250002", "q9770001"]
+    new_append = ["q398750071", "q403770079"]
+    for q in new_append:
         query = "ALTER TABLE " + DATABASEID + " ADD " + q + " text;"
         newcolumn = r.get(CARTOURL + query + APIKEY)
         print(newcolumn.json())
         time.sleep(1)
 
+print('Starting download...')
 data = download()
 data[data['q4800002'] == 'Result'].to_dict('records')
+
+print('Append column...')
+# append_columns()
 
 def str_list(x, column):
     x = str(x).replace("[","").replace("]","").replace("None","null").replace("nan","null").replace('"','')
@@ -93,10 +99,12 @@ def str_list(x, column):
         return x.replace("'","$$").replace(": # ", " - ");
     return x.replace("'","$$")
 
+print('Starting truncate...')
 column_list = str_list(question_columns, True)
 truncate = r.get(CARTOURL + "TRUNCATE TABLE " + DATABASEID + " RESTART IDENTITY;" + APIKEY)
 print(truncate.text)
 
+print('Starting insert...')
 increment = 0
 for g in data.to_dict('split')['data']:
     increment += 1
