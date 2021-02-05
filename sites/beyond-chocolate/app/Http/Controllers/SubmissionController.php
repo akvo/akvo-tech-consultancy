@@ -61,7 +61,7 @@ class SubmissionController extends Controller
         }
 
         # TODO :: if uuid not found, then run sync first, then download the data
-        $sync = $flowData->seedFlowData($request->form_id);
+        $sync = $flowData->seedFlowData(false, $request->form_id);
         if ($sync !== true) {
             return \response('Sync failed', 204);
         }

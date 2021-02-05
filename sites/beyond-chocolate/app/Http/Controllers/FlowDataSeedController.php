@@ -31,7 +31,7 @@ class FlowDataSeedController extends Controller
         return "Done";
     }
 
-    public function seedFlowData($form_id = null)
+    public function seedFlowData($init = true, $form_id = null)
     {
         $config = config('bc');
         $auth = new Auth();
@@ -46,42 +46,54 @@ class FlowDataSeedController extends Controller
         $surveys = collect($config['forms']);
         # Filter surveys by form_id
         if (!is_null($form_id)) {
-            $surveys = $surveys->filter(function ($survey) use ($form_id) {
-                return $survey['surveyId'] === $form_id;
-            });
+            $surveys = $surveys->where('surveyId', $form_id);
         }
-        foreach ($surveys as $key => $survey) {
-            $id = $survey['surveyGroupId'];
-            $new_endpoint = $endpoint.'/surveys/'.$id;
-            $data = $api->fetch($new_endpoint);
-            // echo('Seeding Surveys');
-            $survey = \Akvo\Models\Survey::updateOrCreate(
-                ['id' => (int) $data['id']],
-                [
-                    'id' => (int) $data['id'],
-                    'name' => $data['name'],
-                    'path' => '',
-                    'registration_id' => (int) $data['registrationFormId']
-                ]
-            );
-            // echo(PHP_EOL.'Done Seeding Surveys'.PHP_EOL);
-            // echo('Seeding Forms');
-            foreach($data['forms'] as $form) {
-                $input = \Akvo\Models\Form::updateOrCreate(
-                    ['id' => (int) $form['id']],
-                    [
-                        'id' => (int) $form['id'],
-                        'survey_id' => (int) $data['id'],
-                        'name' => $form['name']
-                    ]
-                );
-            }
-            $formSeeder = new FormSeeder($api);
-            $formSeeder->seed();
-            // echo(PHP_EOL.'Done Seeding Forms'.PHP_EOL);
-            $dataPointSeeder = new DataPointSeeder($api, $id);
-            $dataPointSeeder->seed($data);
+        foreach ($surveys as $key => $value) {
+            $id = $value['surveyGroupId'];
+            ($init && is_null($form_id)) 
+                ? $this->seedAllFlowData($api, $endpoint, $id)
+                : $this->seedDataPoint($api, $endpoint, $id, $form_id);
         }
         return true;
+    }
+
+    private function seedAllFlowData($api, $endpoint, $id)
+    {
+        $new_endpoint = $endpoint.'/surveys/'.$id;
+        $data = $api->fetch($new_endpoint);
+        $survey = \Akvo\Models\Survey::updateOrCreate(
+            ['id' => (int) $data['id']],
+            [
+                'id' => (int) $data['id'],
+                'name' => $data['name'],
+                'path' => '',
+                'registration_id' => (int) $data['registrationFormId']
+            ]
+        );
+        foreach($data['forms'] as $form) {
+            $input = \Akvo\Models\Form::updateOrCreate(
+                ['id' => (int) $form['id']],
+                [
+                    'id' => (int) $form['id'],
+                    'survey_id' => (int) $data['id'],
+                    'name' => $form['name']
+                ]
+            );
+        }
+        $formSeeder = new FormSeeder($api);
+        $formSeeder->seed();
+        $dataPointSeeder = new DataPointSeeder($api, $id);
+        $dataPointSeeder->seed($data);
+        return;
+    }
+
+    private function seedDatapoint($api, $endpoint, $id, $form_id)
+    {
+        $datapoint_url = $endpoint.'/data_points?survey_id='.$id;
+        $dataPointSeeder = new DataPointSeeder($api, $id);
+        $dataPointSeeder->seedDatapoints($datapoint_url);
+        $form_instance_url = $endpoint.'/form_instances?survey_id='.$id.'&form_id='.$form_id;
+        $dataPointSeeder->seedFormInstances($form_instance_url, (int) $form_id);
+        return;
     }
 }
