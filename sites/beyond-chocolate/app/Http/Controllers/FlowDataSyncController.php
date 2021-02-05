@@ -76,7 +76,10 @@ class FlowDataSyncController extends Controller
         }
 
         # TODO :: save last sync_url
-        $sync = Sync::create(['survey_id' => 116680069, 'url' => $sync_url]);
+        $checkSyncUrl = Sync::where('url', $sync_url)->first();
+        if(is_null($checkSyncUrl)) {
+            $sync = Sync::create(['survey_id' => 116680069, 'url' => $sync_url]);
+        } 
 
         return ($init) ? "Done" : true;
     }
