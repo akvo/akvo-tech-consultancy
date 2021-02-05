@@ -11,6 +11,7 @@ use Akvo\Models\QuestionGroup;
 use Akvo\Models\Answer;
 use League\Csv\Writer;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\FlowDataSeedController;
 
 class SubmissionController extends Controller
 {
@@ -48,6 +49,27 @@ class SubmissionController extends Controller
         //         return collect($fi)->only('org_name', 'submitter_name', 'form_name', 'id', 'form_id', 'data_point_id');
         //     });
         // return $form_instances;
+    }
+
+    public function syncAndDownloadData(Request $request, FlowDataSeedController $flowData)
+    {
+        # TODO :: check if uuid has been on database
+        $form_instance = FormInstance::where('identifier', $request->uuid)->first();
+        if (!is_null($form_instance)) {
+            # Download data, use downloadData function
+            return $this->downloadData($request->form_id, $form_instance->id, $request->filename);
+        }
+
+        # TODO :: if uuid not found, then run sync first, then download the data
+        $sync = $flowData->seedFlowData($request->form_id);
+        if ($sync !== true) {
+            return \response('Sync failed', 204);
+        }
+        $form_instance = FormInstance::where('identifier', $request->uuid)->first();
+        if (is_null($form_instance)) {
+            return \response('No Content', 204);
+        }
+        return $this->downloadData($request->form_id, $form_instance->id, $request->filename);
     }
 
     public function downloadData($form_id, $instance_id, $filename)
@@ -124,20 +146,6 @@ class SubmissionController extends Controller
         $results = ["headers" => $headers, "records" => $remapRecords];
         // return ["link" => $this->writeCsv($results, $request->filename)];
         return ["link" => $this->writeCsv($results, $filename)];
-    }
-
-    public function syncAndDownloadData(Request $request)
-    {
-        # TODO :: check if uuid has been on database
-        $uuid = $request->uuid;
-        $form_instance = FormInstance::where('identifier', $uuid)->first();
-        if (!is_null($form_instance)) {
-            # Download data, use downloadData function
-            return $this->downloadData($request->form_id, $form_instance->id, $request->filename);
-        }
-
-        # TODO :: if uuid not found, then run sync first, then download the data
-        return 'Sync';
     }
 
     private function fetchAnswer($qtype, $answer)

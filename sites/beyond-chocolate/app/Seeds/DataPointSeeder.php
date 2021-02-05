@@ -21,15 +21,15 @@ class DataPointSeeder
     }
 
     public function seed($data) {
-        echo('Seeding Datapoints');
+        // echo('Seeding Datapoints');
         $this->seedDataPoints($data['dataPointsUrl']);
-        echo(PHP_EOL.'Done Seeding Datapoints'.PHP_EOL);
-        echo('Seeding FormInstances');
+        // echo(PHP_EOL.'Done Seeding Datapoints'.PHP_EOL);
+        // echo('Seeding FormInstances');
         foreach($data['forms'] as $form) {
             $formId = (int) $form['id'];
             $this->seedFormInstances($form['formInstancesUrl'], $formId);
         }
-        echo(PHP_EOL.'Done Seeding FormInstances'.PHP_EOL);
+        // echo(PHP_EOL.'Done Seeding FormInstances'.PHP_EOL);
     }
 
     public function seedDataPoints($url) {
@@ -49,7 +49,7 @@ class DataPointSeeder
             ]);
         }
         if (isset($data['nextPageUrl'])) {
-            echo('.');
+            // echo('.');
             $this->seedDataPoints($data['nextPageUrl']);
         }
         return;
@@ -116,7 +116,7 @@ class DataPointSeeder
             }
         }
         if (isset($data['nextPageUrl'])) {
-            echo('.');
+            // echo('.');
             $this->seedFormInstances($data['nextPageUrl'], $formId);
         }
         return;

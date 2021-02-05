@@ -9,7 +9,7 @@ use Akvo\Api\FlowApi;
 use Akvo\Seeds\FormSeeder;
 use App\Seeds\DataPointSeeder;
 
-class SubmissionInitialSeedController extends Controller
+class FlowDataSeedController extends Controller
 {
     public function initialSeed(Request $request)
     {
@@ -27,6 +27,13 @@ class SubmissionInitialSeedController extends Controller
         }
 
         # TODO :: seed flow tables
+        $seed = $this->seedFlowData();
+        return "Done";
+    }
+
+    public function seedFlowData($form_id = null)
+    {
+        $config = config('bc');
         $auth = new Auth();
         $token = $auth->getToken();
         if (!$token) {
@@ -37,11 +44,17 @@ class SubmissionInitialSeedController extends Controller
         $endpoint = env('AKVOFLOW_API_URL').'/';
         $endpoint .= env('AKVOFLOW_INSTANCE');
         $surveys = collect($config['forms']);
+        # Filter surveys by form_id
+        if (!is_null($form_id)) {
+            $surveys = $surveys->filter(function ($survey) use ($form_id) {
+                return $survey['surveyId'] === $form_id;
+            });
+        }
         foreach ($surveys as $key => $survey) {
             $id = $survey['surveyGroupId'];
             $new_endpoint = $endpoint.'/surveys/'.$id;
             $data = $api->fetch($new_endpoint);
-            echo('Seeding Surveys');
+            // echo('Seeding Surveys');
             $survey = \Akvo\Models\Survey::updateOrCreate(
                 ['id' => (int) $data['id']],
                 [
@@ -51,8 +64,8 @@ class SubmissionInitialSeedController extends Controller
                     'registration_id' => (int) $data['registrationFormId']
                 ]
             );
-            echo(PHP_EOL.'Done Seeding Surveys'.PHP_EOL);
-            echo('Seeding Forms');
+            // echo(PHP_EOL.'Done Seeding Surveys'.PHP_EOL);
+            // echo('Seeding Forms');
             foreach($data['forms'] as $form) {
                 $input = \Akvo\Models\Form::updateOrCreate(
                     ['id' => (int) $form['id']],
@@ -65,11 +78,10 @@ class SubmissionInitialSeedController extends Controller
             }
             $formSeeder = new FormSeeder($api);
             $formSeeder->seed();
-            echo(PHP_EOL.'Done Seeding Forms'.PHP_EOL);
+            // echo(PHP_EOL.'Done Seeding Forms'.PHP_EOL);
             $dataPointSeeder = new DataPointSeeder($api, $id);
             $dataPointSeeder->seed($data);
         }
-
-        return "Done";
+        return true;
     }
 }

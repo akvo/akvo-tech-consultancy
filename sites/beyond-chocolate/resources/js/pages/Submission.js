@@ -1,5 +1,5 @@
 import React, { useEffect, Fragment, useState } from "react";
-import { Container, Row, Col, Table, Button, Spinner } from "react-bootstrap";
+import { Container, Row, Col, Table, Button, Spinner, Alert } from "react-bootstrap";
 import { useLocale } from "../lib/locale-context";
 import request from "../lib/request";
 import { uiText } from "../static/ui-text";
@@ -19,6 +19,7 @@ const Submission = () => {
     const { locale } = useLocale();
     const [submissions, setSubmissions] = useState(defData);
     const [btnLoading, setBtnLoading] = useState([]);
+    const [isError, setIsError] = useState({show: false, msg: null});
 
     let text = uiText[locale.active];
 
@@ -54,7 +55,8 @@ const Submission = () => {
             document.body.removeChild(link);
         } else {
             // create error notif
-            console.log('download error');
+            let msg = (status === 204) ? `Failed to download ${filename}.csv. Generate data process failed.` : "Something went wrong.";
+            setIsError({show: true, msg});
         }
         // setLoading(id, false);
         setLoading(uuid, false);
@@ -100,12 +102,36 @@ const Submission = () => {
         });
     };
 
+    const renderAlert = () => {
+        const { show, msg } = isError;
+        return show && (
+            <Alert 
+                key={msg} 
+                variant='warning'
+                onClose={() => setIsError({show: false, msg: null})}
+                dismissible
+            >
+                <Alert.Heading>Failed!</Alert.Heading>
+                <hr/>
+                {msg}
+            </Alert>
+        );
+    };
+
+    useEffect(() => {
+        isError.show ? 
+            setTimeout(() => {
+                setIsError({show: false, msg: null});
+            }, 5000) : "";
+    }, [isError]);
+
     return (
         <Container fluid>
             <Row className="justify-content-center">
                 <Col className="mx-auto" md="10">
                     <h3>{ text.navSubmission }</h3>
                     <hr/>
+                    { renderAlert() }
                     <Table bordered hover responsive size="sm">
                         <thead>
                             <tr>
