@@ -32,8 +32,13 @@ class DataPointSeeder
         // echo(PHP_EOL.'Done Seeding FormInstances'.PHP_EOL);
     }
 
-    public function seedDataPoints($url) {
-        $data = $this->api->fetch($url);
+    public function seedDataPoints($url, $fetch = true, $datapoints = [], $surveyId = null) {
+        if ($fetch) {
+            $data = $this->api->fetch($url);
+        }
+        if (!$fetch) {
+            $data['dataPoints'] = $datapoints;
+        }
         foreach($data['dataPoints'] as $dataPoint) {
             $position = null;
             $position = $dataPoint['latitude'] !== null
@@ -42,7 +47,7 @@ class DataPointSeeder
             $dataPointId = (int) $dataPoint['id'];
             DataPoint::updateOrCreate([
                 'id' => (int) $dataPoint['id'],
-                'survey_id' => $this->surveyId,
+                'survey_id' => ($fetch) ? $this->surveyId : (int) $surveyId,
                 'display_name' => $dataPoint['displayName'],
                 'position' => $position,
                 'created_at' => Carbon::parse($dataPoint['createdAt'])
@@ -55,12 +60,17 @@ class DataPointSeeder
         return;
     }
 
-    public function seedFormInstances($url, $formId) {
-        $data = $this->api->fetch($url);
+    public function seedFormInstances($url, $formId, $fetch = true, $form_instances = []) {
+        if ($fetch) {
+            $data = $this->api->fetch($url);
+        }
+        if (!$fetch) {
+            $data['formInstances'] = $form_instances;
+        }
         foreach($data['formInstances'] as $formInstance){
             $formInstanceId = FormInstance::updateOrCreate([
                 'fid' => (int) $formInstance['id'],
-                'form_id' => $formId,
+                'form_id' => ($fetch) ? $formId : (int) $formInstance['formId'],
                 'data_point_id' => $formInstance['dataPointId'],
                 'identifier' => $formInstance['identifier'],
                 'submitter' => $formInstance['submitter'],

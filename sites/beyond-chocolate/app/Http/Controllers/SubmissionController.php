@@ -12,6 +12,7 @@ use Akvo\Models\Answer;
 use League\Csv\Writer;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\FlowDataSeedController;
+use App\Http\Controllers\FlowDataSyncController;
 
 class SubmissionController extends Controller
 {
@@ -51,7 +52,7 @@ class SubmissionController extends Controller
         // return $form_instances;
     }
 
-    public function syncAndDownloadData(Request $request, FlowDataSeedController $flowData)
+    public function syncAndDownloadData(Request $request, FlowDataSeedController $flowData, FlowDataSyncController $syncData)
     {
         # TODO :: check if uuid has been on database
         $form_instance = FormInstance::where('identifier', $request->uuid)->first();
@@ -61,7 +62,8 @@ class SubmissionController extends Controller
         }
 
         # TODO :: if uuid not found, then run sync first, then download the data
-        $sync = $flowData->seedFlowData(false, $request->form_id);
+        // $sync = $flowData->seedFlowData(false, $request->form_id); # using seed to sync
+        $sync = $syncData->syncData(false, $request->uuid); # using flow sync api
         if ($sync !== true) {
             return \response('Sync failed', 204);
         }

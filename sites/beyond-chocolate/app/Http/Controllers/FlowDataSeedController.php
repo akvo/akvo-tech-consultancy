@@ -8,6 +8,7 @@ use Akvo\Api\Auth;
 use Akvo\Api\FlowApi;
 use Akvo\Seeds\FormSeeder;
 use App\Seeds\DataPointSeeder;
+use Akvo\Models\Sync;
 
 class FlowDataSeedController extends Controller
 {
@@ -44,9 +45,15 @@ class FlowDataSeedController extends Controller
         $endpoint = env('AKVOFLOW_API_URL').'/';
         $endpoint .= env('AKVOFLOW_INSTANCE');
         $surveys = collect($config['forms']);
+        # Save sync url
+        $init_sync = $endpoint.'/sync?initial=true';
+        $sync_url = $api->fetch($init_sync);
+        // survey_id not affect the sync_url
+        $sync = Sync::create(['survey_id' => 116680069, 'url' => $sync_url['nextSyncUrl']]);
+        
         # Filter surveys by form_id
         if (!is_null($form_id)) {
-            $surveys = $surveys->where('surveyId', $form_id);
+            $surveys = $surveys->where('surveyId', $form_id)->values();
         }
         foreach ($surveys as $key => $value) {
             $id = $value['surveyGroupId'];

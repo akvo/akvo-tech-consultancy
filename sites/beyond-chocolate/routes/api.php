@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Contracts\Encryption\DecryptException;
 use App\Http\Controllers\FlowDataSeedController;
+use App\Http\Controllers\FlowDataSyncController;
 
 /*
 |--------------------------------------------------------------------------
@@ -183,3 +184,4 @@ Route::middleware(['auth:sanctum'])->get('/submissions/sync-download/{form_id}/{
 
 # Flow Data
 Route::get('/flow/initial-seed/{password}', [FlowDataSeedController::class, 'initialSeed']); # INITIAL SEEDER FLOW DATA
+Route::get('/flow/sync', [FlowDataSyncController::class, 'syncData']); # SYNC DATA USING FLOW SYNC API
