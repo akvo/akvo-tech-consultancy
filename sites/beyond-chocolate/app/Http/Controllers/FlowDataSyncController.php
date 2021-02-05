@@ -57,17 +57,22 @@ class FlowDataSyncController extends Controller
         } while($repeat);
 
         # TODO :: collect all webform table value if submitted
-        if ($init) {
-            $webforms = WebForm::where('submitted', true)->pluck('uuid');
+        // if ($init) {
+        $webforms = WebForm::where('submitted', true)->pluck('uuid');
+        if (!$init && !is_null($uuid) && !collect($webforms)->contains($uuid)) {
+            $webforms = collect($webforms)->push($uuid);
         }
+        // }
 
         # TODO :: sync database with collections value
         $dataPointSeeder = new DataPointSeeder($api, null);
         if (count($dataPointChanged) > 0 && count($formInstanceChanged) > 0) {
             $datapoints = $dataPointChanged->flatten(1);
-            $datapoints = ($init) ? $datapoints->whereIn('identifier', $webforms)->values() : $datapoints->where('identifier', $uuid)->values();
+            // $datapoints = ($init) ? $datapoints->whereIn('identifier', $webforms)->values() : $datapoints->where('identifier', $uuid)->values();
+            $datapoints = $datapoints->whereIn('identifier', $webforms)->values();
             $form_instances = $formInstanceChanged->flatten(1);
-            $form_instances = ($init) ? $form_instances->whereIn('identifier', $webforms)->values() : $form_instances->where('identifier', $uuid)->values();
+            // $form_instances = ($init) ? $form_instances->whereIn('identifier', $webforms)->values() : $form_instances->where('identifier', $uuid)->values();
+            $form_instances = $form_instances->whereIn('identifier', $webforms)->values();
             foreach ($form_instances as $key => $fi) {
                 $survey = $surveys->where('surveyId', $fi['formId'])->first();
                 $datapoint_updates = $dataPointSeeder->seedDataPoints(null, false, $datapoints, $survey['surveyGroupId']);
