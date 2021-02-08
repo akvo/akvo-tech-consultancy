@@ -511,11 +511,11 @@ const WebForm = ({setFormLoaded, webForm, setWebForm}) => {
         let request = indexedDB.open('test');
         request.onerror = function(event) {
             setIsIndexDB(false);
-            console.log('indexDB not allowed');
+            // console.log('indexDB not allowed');
         }
         request.onsuccess = function(event) {
             setIsIndexDB(true);
-            console.log('indexDB allowed');
+            // console.log('indexDB allowed');
             db = event.target.result;
         }
     }

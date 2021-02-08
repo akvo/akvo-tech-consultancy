@@ -20,13 +20,27 @@ const Submission = () => {
     const [submissions, setSubmissions] = useState(defData);
     const [btnLoading, setBtnLoading] = useState([]);
     const [isError, setIsError] = useState({show: false, msg: null});
+    const [isDelay, setIsDelay] = useState(true); // to delay the download button for 60 seconds
 
     let text = uiText[locale.active];
+    let checkDelay = 0;
+
+    const delayInterval = setInterval(() => {
+        // to delay the download button for 60 seconds
+        checkDelay += 1;
+        if (checkDelay === 1) {
+            clearInterval(delayInterval);
+        }
+        // do function here
+        console.log('delayInterval');
+        setIsDelay(false);
+    }, 60 * 1000);
 
     useEffect( async () => {
         const { data } = await request().get("/api/submissions/submitted");
         let results = data.map(x => ({...x, 'isLoading': false}));
         setSubmissions(results);
+        delayInterval;
     }, []);
 
     const setLoading = (id, status) =>{
@@ -36,6 +50,7 @@ const Submission = () => {
             return x;
         });
         setSubmissions(updateSubmissions);
+        return;
     };
 
     const handleDownload = async (item) => {
@@ -60,25 +75,27 @@ const Submission = () => {
         }
         // setLoading(id, false);
         setLoading(uuid, false);
+        return;
     };
 
-    const checkDelay = (updated_at) => {
+    const checkDataDelay = (updated_at) => {
         let updated = new Date(updated_at).getTime();
         let now = new Date().getTime();
         let interval = (now - updated) / 1000; // in seconds
-        return interval <= 60;
+        let status = interval <= 60;
+        return status;
     };
     
     const renderSubmissions = () => {
         if (submissions.length === 0) {
             return (
                 <tr key="submission-no-data">
-                    <td colspan="4" className="pl-3 text-muted text-center">{ text.infoNoSubmittedData }</td>
+                    <td colSpan="4" className="pl-3 text-muted text-center">{ text.infoNoSubmittedData }</td>
                 </tr>
             );
         }
         return submissions.map((x, i) => {
-            let delay = checkDelay(x.updated_at);
+            let delay = checkDataDelay(x.updated_at);
             return (
                 <tr key={'submission-'+i}>
                     <td className="pl-3">{x.org_name}</td>
@@ -89,10 +106,10 @@ const Submission = () => {
                             key={'btnDownload-'+i} 
                             variant="primary" 
                             size="sm"
-                            disabled={(delay) ? true : x.isLoading}
+                            disabled={(delay && isDelay) ? true : x.isLoading}
                             onClick={!x.isLoading ? () => handleDownload(x) : null}
                         >
-                            { x.isLoading || delay ? (
+                            { x.isLoading || (delay && isDelay) ? (
                                     <>
                                         <Spinner
                                             as="span"
@@ -100,7 +117,7 @@ const Submission = () => {
                                             size="sm"
                                             role="status"
                                             aria-hidden="true"
-                                        />{'  ' + ((delay) ? text.btnUploading : text.btnDownloading)}
+                                        />{'  ' + ((delay && isDelay) ? text.btnUploading : text.btnDownloading)}
                                     </>
                                 ) : text.btnDownload }
                         </Button>
