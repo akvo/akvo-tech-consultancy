@@ -107,6 +107,30 @@ class FlowDataSyncController extends Controller
             }
             $form_instance_updates = $dataPointSeeder->seedFormInstances(null, null, false, $form_instances);
         }
+        // FORM INSTANCE DELETED
+        if ($init & count($formInstanceDeleted) > 0) {
+            $fis = $formInstanceDeleted->flatten(1)->values();
+            // also delete webforms table
+            $fiData = \Akvo\Models\FormInstance::whereIn('fid', $fis)->get();
+            $webforms = WebForm::where('submitted', true)->get();
+            $webformsDeleted = $webforms->whereIn('uuid', $fiData->pluck('identifier'))->delete();
+            $fiDeleted = $fiData->delete();
+        }
+        // DATAPOINT DELETED
+        if ($init & count($dataPointDeleted) > 0) {
+            $dpIds = $dataPointDeleted->flatten(1)->values();
+            $dpDeleted = \Akvo\Models\DataPoint::whereIn('id', $dpIds)->delete();
+        }
+        // FORM DELETED
+        if ($init & count($formDeleted) > 0) {
+            $fIds = $formDeleted->flatten(1)->values();
+            $fDeleted = \Akvo\Models\Form::whereIn('id', $fIds)->delete();
+        }
+        // SURVEY DELETED
+        if ($init & count($surveyDeleted) > 0) {
+            $sIds = $surveyDeleted->flatten(1)->values();
+            $sDeleted = \Akvo\Models\Survey::whereIn('id', $sIds)->delete();
+        }
 
         # TODO :: save last sync_url
         $checkSyncUrl = Sync::where('url', $sync_url)->first();
