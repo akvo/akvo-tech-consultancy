@@ -57,7 +57,7 @@ export const uiText = {
         btnAdd: "Add",
         btnPrimary: "Primary",
         btnDownload: "Download",
-        btnDownloading: "Downloading",
+        btnGenerating: "Generating",
         btnUploading: "Uploading",
         // Table
         tbColName: "Name",
@@ -111,6 +111,7 @@ export const uiText = {
         // collaborators
         btnCollaborators: "Add Collaborators",
         infoNoSubmittedData: "No Submitted Data",
+        textInfoSubmission: "There's maybe a slight delay between a submission made and data being ready to download.",
     },
 
     de: {
@@ -169,7 +170,7 @@ export const uiText = {
         btnAdd: "Add",
         btnPrimary: "Primary",
         btnDownload: "Download",
-        btnDownloading: "Downloading",
+        btnGenerating: "Generating",
         btnUploading: "Uploading",
         // Table
         tbColName: "Name",
@@ -223,5 +224,6 @@ export const uiText = {
         // collaborators
         btnCollaborators: "Partner hinzufügen",
         infoNoSubmittedData: "No Submitted Data",
+        textInfoSubmission: "There's maybe a slight delay between a submission made and data being ready to download.",
     },
 };

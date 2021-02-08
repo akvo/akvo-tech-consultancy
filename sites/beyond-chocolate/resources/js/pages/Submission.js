@@ -117,7 +117,7 @@ const Submission = () => {
                                             size="sm"
                                             role="status"
                                             aria-hidden="true"
-                                        />{'  ' + ((delay && isDelay) ? text.btnUploading : text.btnDownloading)}
+                                        />{'  ' + ((delay && isDelay) ? text.btnUploading : text.btnGenerating)}
                                     </>
                                 ) : text.btnDownload }
                         </Button>
@@ -155,6 +155,7 @@ const Submission = () => {
             <Row className="justify-content-center">
                 <Col className="mx-auto" md="10">
                     <h3>{ text.navSubmission }</h3>
+                    <p>{ text.textInfoSubmission }</p>
                     <hr/>
                     { renderAlert() }
                     <Table bordered hover responsive size="sm">
