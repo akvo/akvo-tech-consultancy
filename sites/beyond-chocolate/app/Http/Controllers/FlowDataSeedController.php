@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
 use Akvo\Api\Auth;
 use Akvo\Api\FlowApi;
-use Akvo\Seeds\FormSeeder;
+use App\Seeds\FormSeeder;
 use App\Seeds\DataPointSeeder;
 use Akvo\Models\Sync;
 

@@ -28,6 +28,14 @@ class AppServiceProvider extends ServiceProvider
             \Akvo\Seeds\DataPointSeeder::class,
             \App\Seeds\DataPointSeeder::class
         );
+
+        /**
+         * Override FormSeeder
+         */
+        $this->app->bind(
+            \Akvo\Seeds\FormSeeder::class,
+            \App\Seeds\FormSeeder::class
+        );
     }
 
     /**
