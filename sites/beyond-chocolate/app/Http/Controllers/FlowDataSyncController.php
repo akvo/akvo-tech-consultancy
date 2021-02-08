@@ -112,9 +112,8 @@ class FlowDataSyncController extends Controller
             $fis = $formInstanceDeleted->flatten(1)->values();
             // also delete webforms table
             $fiData = \Akvo\Models\FormInstance::whereIn('fid', $fis)->get();
-            $webforms = WebForm::where('submitted', true)->get();
-            $webformsDeleted = $webforms->whereIn('uuid', $fiData->pluck('identifier'))->delete();
-            $fiDeleted = $fiData->delete();
+            $webformsDeleted = WebForm::where('submitted', true)->whereIn('uuid', $fiData->pluck('identifier'))->delete();
+            $fiDeleted = \Akvo\Models\FormInstance::whereIn('fid', $fis)->delete();
         }
         // DATAPOINT DELETED
         if ($init & count($dataPointDeleted) > 0) {
