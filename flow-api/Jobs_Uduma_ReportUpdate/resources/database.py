@@ -94,10 +94,17 @@ def check_caddisfly(rows):
             del row[delete]
     return rows
 
+def get_form_column_ids(form):
+    qids_list = []
+    for qg in form.question_group:
+        qids_list += [table_column_regex(q.name, q.id) for q in qg.questions]
+    return qids_list
 
-def generate_pandas_sql(data, table_name, engine):
+def generate_pandas_sql(column_ids, data, table_name, engine):
     data = check_caddisfly(data)
     df = pd.DataFrame(data)
+    all_column_names = set(list(df) + column_ids)
+    df = df.reindex(columns=list(all_column_names))
     df = df[sorted(list(df))]
     column_name = dict(ChainMap(*[{x:x.replace('0_','')} for x in list(df)]))
     df = df.rename(columns=column_name)
@@ -163,10 +170,12 @@ def schema_generator(session, engine):
                     })
                     group_rows[gr]['data'].append(repeated_instance)
         if len(rows) > 0:
-            generate_pandas_sql(rows, table_name, engine)
+            column_ids = get_form_column_ids(fm);
+            generate_pandas_sql(column_ids, rows, table_name, engine)
             for group_id in [*group_rows]:
                 group_data_rows = group_rows[group_id]['data']
-                generate_pandas_sql(group_data_rows, group_rows[group_id]['name'], engine)
+                group_column_ids = group_rows[group_id]['ids']
+                generate_pandas_sql(group_column_ids, group_data_rows, group_rows[group_id]['name'], engine)
     if len(table_views) > 0:
         for new_view in table_views:
             sql.execute(new_view, engine)
