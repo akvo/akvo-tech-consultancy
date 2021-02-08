@@ -50,11 +50,9 @@ const Navigation = ({formLoaded, setFormLoaded}) => {
                                 { text.navSurvey }
                             </Nav.Link>
 
-                            { (host === "gisco-pilot") ? "" : (
-                                <Nav.Link as={NavLink} to={config.routes.submission}>
-                                    { text.navSubmission }
-                                </Nav.Link>
-                            )}
+                            <Nav.Link as={NavLink} to={config.routes.submission}>
+                                { text.navSubmission }
+                            </Nav.Link>
                         </>
                     )}
                     <Nav.Link as={NavLink} to={config.routes.definition}>
