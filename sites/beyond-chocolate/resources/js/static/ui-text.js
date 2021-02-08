@@ -58,6 +58,7 @@ export const uiText = {
         btnPrimary: "Primary",
         btnDownload: "Download",
         btnDownloading: "Downloading",
+        btnUploading: "Uploading",
         // Table
         tbColName: "Name",
         tbColEmail: "Email",
@@ -169,6 +170,7 @@ export const uiText = {
         btnPrimary: "Primary",
         btnDownload: "Download",
         btnDownloading: "Downloading",
+        btnUploading: "Uploading",
         // Table
         tbColName: "Name",
         tbColEmail: "Email",

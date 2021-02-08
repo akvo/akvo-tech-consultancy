@@ -61,6 +61,13 @@ const Submission = () => {
         // setLoading(id, false);
         setLoading(uuid, false);
     };
+
+    const checkDelay = (updated_at) => {
+        let updated = new Date(updated_at).getTime();
+        let now = new Date().getTime();
+        let interval = (now - updated) / 1000; // in seconds
+        return interval <= 60;
+    };
     
     const renderSubmissions = () => {
         if (submissions.length === 0) {
@@ -71,6 +78,7 @@ const Submission = () => {
             );
         }
         return submissions.map((x, i) => {
+            let delay = checkDelay(x.updated_at);
             return (
                 <tr key={'submission-'+i}>
                     <td className="pl-3">{x.org_name}</td>
@@ -81,10 +89,10 @@ const Submission = () => {
                             key={'btnDownload-'+i} 
                             variant="primary" 
                             size="sm"
-                            disabled={x.isLoading}
+                            disabled={(delay) ? true : x.isLoading}
                             onClick={!x.isLoading ? () => handleDownload(x) : null}
                         >
-                            { x.isLoading ? (
+                            { x.isLoading || delay ? (
                                     <>
                                         <Spinner
                                             as="span"
@@ -92,7 +100,7 @@ const Submission = () => {
                                             size="sm"
                                             role="status"
                                             aria-hidden="true"
-                                        />{'  ' + text.btnDownloading}
+                                        />{'  ' + ((delay) ? text.btnUploading : text.btnDownloading)}
                                     </>
                                 ) : text.btnDownload }
                         </Button>

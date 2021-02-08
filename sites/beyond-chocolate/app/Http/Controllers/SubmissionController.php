@@ -34,7 +34,7 @@ class SubmissionController extends Controller
             $wf['submitter_name'] = $wf['user']['name'];
             $display_name = (is_null($wf['display_name'])) ? '' : ' - '.$wf['display_name'];
             $wf['form_name'] = $questionnaires[$wf['form_id']].$display_name;
-            return collect($wf)->only('uuid', 'org_name', 'submitter_name', 'form_name', 'form_id');
+            return collect($wf)->only('uuid', 'org_name', 'submitter_name', 'form_name', 'form_id', 'updated_at');
         });
         
         return $webforms;
