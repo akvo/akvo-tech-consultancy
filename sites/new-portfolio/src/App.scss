@@ -1,0 +1,45 @@
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.App {
+  font-size: 1.2rem;
+
+  h2 {
+    color: black;
+  }
+}
+.App-logo {
+  float: left;
+  height: 31px;
+  pointer-events: none;
+  margin: 16px 24px 16px 0;
+
+  @media (prefers-reduced-motion: no-preference) {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+.App-sections {
+  padding-top: 100px;
+  min-height: 100vh;
+}
+.App-footer-copyrights {
+  text-align: center;
+}
+
+.ant-layout-header {
+  position: fixed;
+  z-index: 1;
+  width: 100%;
+}
+.ant-layout-content {
+  margin-top: 0;
+}
+.ant-layout-footer {
+  margin-top: 20px;
+}

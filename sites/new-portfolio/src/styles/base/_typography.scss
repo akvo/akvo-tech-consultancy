@@ -1,0 +1,58 @@
+h1, h2, h3, h4, h5, h6 {
+    font-family: poppins;
+    font-weight: 600;
+    color: white;
+    hyphens: manual;
+  }
+h4 {
+    color: $color-blue-dark;
+    text-shadow:.2rem .2rem 0 rgba($color-blue-medium, .4) ;
+    font-size: 1.4rem;
+
+}
+.heading-primary {
+    text-transform: inherit;
+    backface-visibility: hidden;
+    padding: 0 1rem 3rem 0rem;
+    &--main { 
+        display: block;
+        font-size: 6rem;
+        animation: moveInLeft 0.7s ease-out;
+        text-align: left;
+        color: rgba($color-blue-light, .7);
+        text-shadow: .3rem .3rem 0 rgba($color-primary-dark, .5) ;
+        @include respond(phone) {
+            letter-spacing: 1rem;
+            font-size: 5rem;
+        }
+        span {
+            padding: 1rem 2rem;
+            background: rgba($color-blue-light, .7);
+            color: white;
+            border-radius: .4rem;
+        }
+    }
+}
+.infoContainer {
+    margin-top: -1rem;
+    background: rgba(white, .5);
+    border-radius: .5rem;
+    padding: .5rem 2rem;
+    box-shadow: 1px 1px 0 rgba(white, .4), 3px 3px 0 rgba($color-blue-light, .2) ;
+    height: fit-content;
+    p {
+      color: $color-blue-dark;    
+      font-size: 1.6rem;
+    }
+}
+.paragraph {
+    font-size: $default-font-size;
+    
+    &:not(:last-child) {
+        margin-bottom: 3rem;
+    }
+}
+small {
+    font-size: 1rem;
+    line-height: 1;
+}
