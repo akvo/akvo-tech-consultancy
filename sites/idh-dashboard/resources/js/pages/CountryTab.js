@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import { connect } from "react-redux";
 import { mapStateToProps, mapDispatchToProps } from "../reducers/actions";
 import { useLocation } from 'react-router-dom';
