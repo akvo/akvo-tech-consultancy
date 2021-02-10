@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import { connect } from "react-redux";
 import { mapStateToProps, mapDispatchToProps } from "../reducers/actions";
 import { useLocation } from 'react-router-dom';
@@ -6,7 +7,7 @@ import LoadingContainer from "../components/LoadingContainer";
 import Charts from "../components/Charts.js";
 import Cards from "../components/Cards.js";
 import Tables from "../components/Tables.js";
-import { Row, Col, Card, Form, Button } from "react-bootstrap";
+import { Row, Col, Card, Form, Button, Jumbotron } from "react-bootstrap";
 import { queueApi, getApi, userDownload } from "../data/api.js";
 import { generateData } from "../charts/chart-generator.js";
 
@@ -34,7 +35,8 @@ class CountryTab extends Component {
             summary: "Loading",
             loading: false,
             download: false,
-            tab: "overview"
+            tab: "overview",
+            iframeH: "916px",
         };
     }
 
@@ -132,38 +134,91 @@ class CountryTab extends Component {
         const label = "This file contains confidential data that belongs to IDH. Please do not share with client.";
         let aClass = "btn btn-sm btn-block";
         aClass += this.state.download ? " btn-success" : " btn-secondary";
-        return reports.map((x, i) => (
-            <Col md={4} key={"report-" + i}>
-                <Card>
-                    <Card.Body>
-                        <Card.Text className="text-center">
-                            {x.text} ({x.to})
-                        </Card.Text>
-                    </Card.Body>
-                    <Card.Footer>
+        let reportResults = reports.map((x, i) => {
+            return (
+                // <Col md={4} key={"report-" + i}>
+                //     <Card>
+                //         <Card.Body>
+                //             <Card.Text className="text-center">
+                //                 {x.text} ({x.to})
+                //             </Card.Text>
+                //         </Card.Body>
+                //         <Card.Footer>
+                //             <Form>
+                //                 <Form.Group controlId="formBasicCheckbox" onChange={this.handleCheckDownload}>
+                //                     <Form.Check type="checkbox" label={label} defaultChecked={this.state.download} />
+                //                 </Form.Group>
+                //             </Form>
+                //             <hr />
+                //             {this.state.download ? (
+                //                 <a href={"/files/" + file + x.to}
+                //                     onClick={e => userDownload(this.props.match.params.companyId)}
+                //                     target="_blank"
+                //                     className={aClass}
+                //                 >
+                //                     Download
+                //                 </a>
+                //             ) : (
+                //                 <button className={aClass} disabled>
+                //                     Download
+                //                 </button>
+                //             )}
+                //         </Card.Footer>
+                //     </Card>
+                // </Col>   
+                <Col md={6} key={"report-" + i}>
+                    <Jumbotron style={{backgroundImage:'none', backgroundColor:'white'}} className="text-center">
+                        <h6>{x.text} ({x.to})</h6>
                         <Form>
                             <Form.Group controlId="formBasicCheckbox" onChange={this.handleCheckDownload}>
                                 <Form.Check type="checkbox" label={label} defaultChecked={this.state.download} />
                             </Form.Group>
-                        </Form>
-                        <hr />
-                        {this.state.download ? (
-                            <a href={"/files/" + file + x.to}
-                                onClick={e => userDownload(this.props.match.params.companyId)}
-                                target="_blank"
-                                className={aClass}
-                            >
-                                Download
-                            </a>
-                        ) : (
-                            <button className={aClass} disabled>
-                                Download
-                            </button>
-                        )}
-                    </Card.Footer>
-                </Card>
+                         </Form>
+                         <div className="d-flex justify-content-center">
+                            {this.state.download ? (
+                                <a href={"/files/" + file + x.to}
+                                    onClick={e => userDownload(this.props.match.params.companyId)}
+                                    target="_blank"
+                                    className={aClass}
+                                    style={{width:"25rem"}}
+                                >
+                                    Download
+                                </a>
+                            ) : (
+                                <button className={aClass} style={{width:"25rem"}} disabled>
+                                    Download
+                                </button>
+                            )}
+                         </div>
+                    </Jumbotron>
+                </Col>
+            );
+        });
+        return (
+            <>
+            {reportResults}
+            <Col className="mt-3" md={12} key="data-delivey">
+                <iframe 
+                    id="iframe-test"
+                    src={"/files/Data-delivery-Rubutco.html"}
+                    style={{overflow:"hidden !important"}}
+                    frameBorder={0}
+                    width={"100%"}
+                    height={this.state.iframeH}
+                    onLoad={(e) => {
+                        const iframe = document.getElementById('iframe-test');
+                        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                        const head = iframeDoc.head;
+                        const scrollH = iframeDoc.body.scrollHeight;
+                        const iframeH = scrollH + (scrollH/2) + 'px';
+                        head.innerHTML = head.innerHTML + '<style>.main-container{max-width: 90%!important;}</style>';
+                        this.setState({ iframeH });
+                    }}
+                >
+                </iframe>
             </Col>
-        ));
+            </>
+        );
     }
 
     componentDidMount() {
