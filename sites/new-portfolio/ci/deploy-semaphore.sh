@@ -6,6 +6,7 @@ function log {
    echo "$(date +"%T") - INFO - $*"
 }
 
+log Running deployment script
 export PROJECT_NAME=akvo-lumen
 
 if [[ "${TRAVIS_BRANCH}" != "master" && "${TRAVIS_BRANCH}" != "develop" && "${TRAVIS_BRANCH}" != "sites/new-portfolio" ]]; then
@@ -15,12 +16,6 @@ fi
 if [[ "${TRAVIS_PULL_REQUEST}" != "false" ]]; then
     exit 0
 fi
-
-log Making sure gcloud and kubectl are installed and up to date
-gcloud components install kubectl
-gcloud components update
-gcloud version
-which gcloud kubectl
 
 log Authentication with gcloud and kubectl
 gcloud auth activate-service-account --key-file "${GCLOUD_ACCOUNT_FILE}"
@@ -39,7 +34,7 @@ fi
 
 log Pushing images
 gcloud auth configure-docker
-docker push eu.gcr.io/${PROJECT_NAME}/tech-consultancy-new-portfolio
+docker push eu.gcr.io/${PROJECT_NAME}/tech-consultancy-new-portfolio:${CI_COMMIT}
 
 sed -e "s/\${TRAVIS_COMMIT}/$TRAVIS_COMMIT/" ci/k8s/deployment.yaml > deployment.yaml.donotcommit
 
