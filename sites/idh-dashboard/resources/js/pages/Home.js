@@ -67,6 +67,10 @@ class Home extends Component {
     }
 
     render() {
+        let user = this.props.value.user;
+        if (user.id === 0) {
+            return <Redirect to="/login" />;
+        }
         let page = this.props.value.page;
         let data = page.filters.map((x) => {
             return {
@@ -74,7 +78,6 @@ class Home extends Component {
                 value: x.childrens.length,
             };
         });
-        let user = this.props.value.user;
         let source = flatFilters(page.filters);
         source = user.id === 0
             ? []
@@ -99,9 +102,6 @@ class Home extends Component {
             kind: "MAPS",
             config: generateData(12, false, "60vh"),
         };
-        if (user.id === 0) {
-            return <Redirect to="/login" />;
-        }
         return (
             <Fragment>
                 <JumbotronWelcome text={false}/>

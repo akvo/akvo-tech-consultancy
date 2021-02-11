@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { mapStateToProps, mapDispatchToProps } from "../reducers/actions";
 import { Row, Col, Form, Button, Alert, Card, ListGroup } from "react-bootstrap";
-import { updateUser } from "../data/api";
+import { updateUser, auth } from "../data/api";
 import { flatFilters, initialNotification } from '../data/utils.js';
 import intersectionBy from "lodash/intersectionBy";
 import JumbotronWelcome from "../components/JumbotronWelcome";
+import { Redirect } from "react-router-dom";
 
 const initialErrors = {
     new_password: false,
@@ -29,8 +30,27 @@ class Setting extends Component {
                 new_password_confirmation: "",
             },
             validated :false,
-            setValidated: false
+            setValidated: false,
+            redirect: false,
         };
+    }
+
+    componentDidMount() {
+        const token = localStorage.getItem("access_token");
+        if (token === null) {
+            this.props.user.logout();
+            this.setState({redirect:true});
+        }
+        if (token) {
+            auth(token).then(res => {
+                const { status, message } = res;
+                if (status === 401) {
+                    this.props.user.logout();
+                    this.setState({redirect:true});
+                }
+                return res;
+            });
+        }
     }
 
     handleOldPassword(e) {
@@ -114,6 +134,9 @@ class Setting extends Component {
 
 
     render() {
+        if (this.state.redirect) {
+            return <Redirect to="/login" />;
+        }
         let error = this.state.error === "" ? false : this.state.error;
         let user = this.props.value.user;
         let source = flatFilters(this.props.value.page.filters);

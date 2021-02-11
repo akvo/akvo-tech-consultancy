@@ -182,7 +182,7 @@ export const auth = (access_token) => {
                 resolve({ login: true, ...res.data });
             })
             .catch((err) => {
-                resolve(err.message);
+                resolve({status: err.response.status, message: err.message});
             });
     });
 };
@@ -264,24 +264,20 @@ export const userDownload = (form_id) => {
     })
 }
 
-export const userLogs = () => {
-    const access_token = localStorage.getItem("access_token");
-    if (access_token === null) {
-        return;
-    }
+export const userLogs = (token) => {
     return new Promise((resolve, reject) => {
         axios
             .post("/api/logs", {},{
                 headers: {
                     Accept: "application/json",
-                    Authorization: "Bearer " + access_token,
+                    Authorization: "Bearer " + token,
                 },
             })
             .then((res) => {
                 resolve(res.data);
             })
             .then((err) => {
-                resolve(err);
+                resolve({status: err.response.status, message: err.message});
             })
     })
 }

@@ -19,6 +19,7 @@ import { queueApi, getApi } from '../data/api.js';
 import { flatFilters, randomVal } from '../data/utils.js';
 import { generateData } from "../charts/chart-generator.js";
 import intersectionBy from "lodash/intersectionBy";
+import { auth } from "../data/api.js";
 
 class Compare extends Component {
 
@@ -200,7 +201,18 @@ class Compare extends Component {
     componentDidMount() {
         const token = localStorage.getItem("access_token");
         if (token === null) {
+            this.props.user.logout();
             this.setState({redirect:true});
+        }
+        if (token) {
+            auth(token).then(res => {
+                const { status, message } = res;
+                if (status === 401) {
+                    this.props.user.logout();
+                    this.setState({redirect:true});
+                }
+                return res;
+            });
         }
         this.props.value.page.compare.items.map(x => {
             this.saveChart(x.id);
@@ -208,10 +220,9 @@ class Compare extends Component {
     }
 
     renderChart(id) {
-        // if (this.state.redirect) {
-        //     return <Redirect to="/login" />;
-        //     // return <Redirect to="/not-found" />;
-        // }
+        if (this.state.redirect) {
+            return <Redirect to="/login" />;
+        }
         // let width = 'calc(100% / ' + this.state.charts.length  + ')';
         let source = flatFilters(this.props.value.page.filters);
         // let width = 75/source.length+'%';

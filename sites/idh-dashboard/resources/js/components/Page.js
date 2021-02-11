@@ -37,13 +37,10 @@ class Page extends Component {
         let current_version = localStorage.getItem("cache-version");
         let access_token = localStorage.getItem("access_token");
         cachetime = cachetime !== null ? new Date(parseInt(cachetime) + 60 * 60 * 1000) : new Date(0); // 1 hour
-        // cachetime = cachetime !== null ? new Date(parseInt(cachetime) + 1 * 10 * 1000) : new Date(0); // 10 second
+        // cachetime = cachetime !== null ? new Date(parseInt(cachetime) + 1 * 15 * 1000) : new Date(0); // 10 second
         if (now > cachetime || cache_version !== current_version) {
-            localStorage.clear(); // don't clear all, because there was a token
-            // localStorage.removeItem("caches");
-            // localStorage.removeItem("cache-time");
-            // localStorage.removeItem("cache-version");
-            (access_token !== null) && localStorage.setItem("access_token", access_token);
+            localStorage.clear();
+            // (access_token !== null) && localStorage.setItem("access_token", access_token);
             const calls = [getApi("filters")];
             Promise.all(calls).then((res) => {
                 caches = JSON.stringify(res[0]);
@@ -98,6 +95,7 @@ class Page extends Component {
                     <PrivateRoute exact path='/setting' component={Setting} isLogin={login} />
                     <PrivateRoute exact path='/manage-user' component={Manage} isLogin={login} />
                     <PrivateRoute exact path='/logs' component={Logs} isLogin={login} /> */}
+                    
                     <Route exact path='/'>
                         <Redirect to='/home' />
                     </Route>
@@ -108,6 +106,7 @@ class Page extends Component {
                     <Route exact path='/setting' component={Setting} />
                     <Route exact path='/manage-user' component={Manage} />
                     <Route exact path='/logs' component={Logs} />
+                    
                     <Route exact path='/login' component={Login} />
                     <Route exact path='/register' component={Registration} />
                     <Route exact path='/forgot_password' component={ForgotPassword} />

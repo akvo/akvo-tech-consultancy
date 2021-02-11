@@ -8,7 +8,7 @@ import CountryTab from "./CountryTab.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import intersectionBy from "lodash/intersectionBy";
 import Loading from '../components/Loading';
-import NotFound from './NotFound';
+import { auth } from "../data/api.js";
 
 String.prototype.toTitle = function() {
     return this.replace(/(^|\s)\S/g, function(t) {
@@ -46,7 +46,18 @@ class Country extends Component {
     componentDidMount() {
         const token = localStorage.getItem("access_token");
         if (token === null) {
+            this.props.user.logout();
             this.setState({redirect:true});
+        }
+        if (token) {
+            auth(token).then(res => {
+                const { status, message } = res;
+                if (status === 401) {
+                    this.props.user.logout();
+                    this.setState({redirect:true});
+                }
+                return res;
+            });
         }
         window.addEventListener('scroll', this.handleScroll);
     }
@@ -68,7 +79,6 @@ class Country extends Component {
     render() {
         if (this.state.redirect) {
             return <Redirect to="/login" />;
-            // return <Redirect to="/not-found" />;
         }
         if (this.props.value.page.loading) {
             return <Loading />

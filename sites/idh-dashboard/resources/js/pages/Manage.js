@@ -222,11 +222,13 @@ class Manage extends Component {
     componentDidMount() {
         const token = localStorage.getItem("access_token");
         if (token === null) {
+            this.props.user.logout();
             this.setState({redirect:true});
         }
         if (token !== null) {
             getUser(token).then(res => {
                 if (res === "unauthorized") {
+                    this.props.user.logout();
                     this.setState({redirect: true});
                 }
                 if (res !== "unauthorized") {
@@ -262,7 +264,6 @@ class Manage extends Component {
         }
         if (this.state.redirect) {
             return <Redirect to="/login" />;
-            // return <Redirect to="/not-found" />;
         }
         return (
             <>

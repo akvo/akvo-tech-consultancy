@@ -112,6 +112,7 @@ export const states = (state = initialState, action) => {
                 user: user,
             };
         case "USER - LOGOUT":
+            localStorage.clear();
             return {
                 ...state,
                 user: initialState.user,
