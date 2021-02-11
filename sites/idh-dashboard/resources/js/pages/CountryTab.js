@@ -36,6 +36,10 @@ class CountryTab extends Component {
             download: false,
             tab: "overview",
             iframeH: "916px",
+            downloadContent: {
+                files: [],
+                report_url: null,
+            }
         };
     }
 
@@ -48,7 +52,16 @@ class CountryTab extends Component {
         const url = "country-data/" + id + "/" + tab;
         this.setState({ active: id , tab: tab});
         if (tab === "download") {
-            this.setState({loading:false});
+            getApi(url).then((res) => {
+                let response = res[url];
+                this.setState({ summary: generateSummary(response.summary), loading: false });
+                if (response.tabs.length !== 0) {
+                    response = response.tabs.map((tab) => {
+                        this.setState({ downloadContent: {files: tab.files, report_url: tab.report_url} });
+                    });
+                }
+            });
+            // this.setState({loading:false});
             return;
         }
         getApi(url).then((res) => {
@@ -129,7 +142,8 @@ class CountryTab extends Component {
         let file = params.country + "-" + company.company.toLowerCase().replace(' ', '_');
         file = file.toLowerCase();
         file = file.replace(" ", "_");
-        const reports = [{ type: "raw", text: "Analyzed Farmer Data", to: ".xlsx" }];
+        // const reports = [{ type: "raw", text: "Analyzed Farmer Data", to: ".xlsx" }];
+        const reports = this.state.downloadContent.files;
         const label = "This file contains confidential data that belongs to IDH. Please do not share with client.";
         let aClass = "btn btn-sm btn-block";
         aClass += this.state.download ? " btn-success" : " btn-secondary";
@@ -165,10 +179,10 @@ class CountryTab extends Component {
                 //         </Card.Footer>
                 //     </Card>
                 // </Col>   
-                <Col md={6} key={"report-" + i}>
+                <Col md={reports.length === 1 ? 12 : 6} key={"report-" + i}>
                     <Jumbotron style={{backgroundImage:'none', backgroundColor:'white'}} className="text-center">
                         <h6>{x.text} ({x.to})</h6>
-                        <Form>
+                        <Form className="mt-2">
                             <Form.Group controlId="formBasicCheckbox" onChange={this.handleCheckDownload}>
                                 <Form.Check type="checkbox" label={label} defaultChecked={this.state.download} />
                             </Form.Group>
@@ -195,18 +209,18 @@ class CountryTab extends Component {
         });
         return (
             <>
-                <Col className="mt-5" md={10} md={10}>
-                    <h3>Download Report</h3>
-                    <hr/>
+                <Col className="mt-2" md={10} md={10}>
+                    <Row className="d-flex justify-content-center">{reportResults}</Row>
                 </Col>
-                {reportResults}
                 
                 <Col className="mt-5" md={10} key="data-delivey">
-                    <h3>Data Analysis Report</h3>
-                    <hr/>
+                    <div className="text-center">
+                        <h3>Data Analysis Report</h3>
+                        <hr/>
+                    </div>
                     <iframe 
                         id="iframe-test"
-                        src={"/files/Data-delivery-Rubutco.html"}
+                        src={this.state.downloadContent.report_url}
                         style={{overflow:"hidden !important"}}
                         frameBorder={0}
                         width={"100%"}
@@ -217,7 +231,7 @@ class CountryTab extends Component {
                             const head = iframeDoc.head;
                             const scrollH = iframeDoc.body.scrollHeight;
                             const iframeH = scrollH + (scrollH/2) + 'px';
-                            head.innerHTML = head.innerHTML + '<style>.main-container{max-width: 100%!important;}</style>';
+                            head.innerHTML = head.innerHTML + '<style>.main-container{max-width: 100%!important;} html, body {background-color: #fff; color: #636b6f; font-family: "Assistant", sans-serif; font-weight: 200; height: 100vh; margin: 0;}</style>'
                             this.setState({ iframeH });
                         }}
                     >

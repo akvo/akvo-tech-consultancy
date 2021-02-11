@@ -453,6 +453,21 @@ class ApiController extends Controller
                 ]]
             ];
         }
+
+        if ($request->tab === "download") {
+            $files = [
+                ["type" => "raw", "text" => "Analyzed Farmer Data", "to" => ".xlsx" ],
+            ];
+            $report_url = '/files/Data-delivery-Rubutco.html';
+            return [
+                'summary' => [$total, $form->kind, $form->country, $form->company],
+                'tabs' => [[
+                    'name' => 'download',
+                    'files' => $files,
+                    'report_url' => $report_url,
+                ]]
+            ];
+        }
     
     }
 
