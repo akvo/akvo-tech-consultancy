@@ -44,6 +44,10 @@ class UserSavedFormsController
                 return $userQs->pluck('name')->contains($wf->form_id);
             })->values();
         }
+        // open all saved forms on Joy email
+        if ($user->email === env('SAVED_FORM_EXCEPTION_USER')) {
+            $webforms = WebForm::where('submitted', false)->get();
+        }
         $webforms = $webforms->map(function ($wf) use ($qs, $url) {
             return [
                 "date" => $wf->updated_at,
