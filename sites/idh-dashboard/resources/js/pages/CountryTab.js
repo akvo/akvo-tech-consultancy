@@ -195,27 +195,34 @@ class CountryTab extends Component {
         });
         return (
             <>
-            {reportResults}
-            <Col className="mt-3" md={12} key="data-delivey">
-                <iframe 
-                    id="iframe-test"
-                    src={"/files/Data-delivery-Rubutco.html"}
-                    style={{overflow:"hidden !important"}}
-                    frameBorder={0}
-                    width={"100%"}
-                    height={this.state.iframeH}
-                    onLoad={(e) => {
-                        const iframe = document.getElementById('iframe-test');
-                        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-                        const head = iframeDoc.head;
-                        const scrollH = iframeDoc.body.scrollHeight;
-                        const iframeH = scrollH + (scrollH/2) + 'px';
-                        head.innerHTML = head.innerHTML + '<style>.main-container{max-width: 90%!important;}</style>';
-                        this.setState({ iframeH });
-                    }}
-                >
-                </iframe>
-            </Col>
+                <Col className="mt-5" md={10} md={10}>
+                    <h3>Download Report</h3>
+                    <hr/>
+                </Col>
+                {reportResults}
+                
+                <Col className="mt-5" md={10} key="data-delivey">
+                    <h3>Data Analysis Report</h3>
+                    <hr/>
+                    <iframe 
+                        id="iframe-test"
+                        src={"/files/Data-delivery-Rubutco.html"}
+                        style={{overflow:"hidden !important"}}
+                        frameBorder={0}
+                        width={"100%"}
+                        height={this.state.iframeH}
+                        onLoad={(e) => {
+                            const iframe = document.getElementById('iframe-test');
+                            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                            const head = iframeDoc.head;
+                            const scrollH = iframeDoc.body.scrollHeight;
+                            const iframeH = scrollH + (scrollH/2) + 'px';
+                            head.innerHTML = head.innerHTML + '<style>.main-container{max-width: 100%!important;}</style>';
+                            this.setState({ iframeH });
+                        }}
+                    >
+                    </iframe>
+                </Col>
             </>
         );
     }
