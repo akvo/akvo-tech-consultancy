@@ -132,6 +132,21 @@ const SavedFormsSelector = ({ text, user, onSelect, watchValue, setConfirmAction
         }, 300);
     };
 
+    const customFilter = (option, searchText) => {
+        const { data, value } = option;
+        const { org_name, submission_name, submitter, survey_name } = data;
+        let text = searchText.toLowerCase();
+        let title = (submission_name !== null) ? submission_name.toLowerCase().includes(text) : false;
+        if (
+            org_name.toLowerCase().includes(text) || title ||
+            submitter.toLowerCase().includes(text) || survey_name.toLowerCase().includes(text) 
+        ) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+
     useEffect(async () => {
         await loadData();
     }, []);
@@ -176,6 +191,7 @@ const SavedFormsSelector = ({ text, user, onSelect, watchValue, setConfirmAction
                             fetchingData={fetchingData}
                             reload={reload}
                             isLoading={loadingSelect}
+                            filterOption={customFilter}
                         />
                     </div>
                     <div className="btnContainer">
