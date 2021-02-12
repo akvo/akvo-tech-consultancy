@@ -132,6 +132,24 @@ class AuthController extends Controller
 
     public function info(Request $request)
     {
+        // check last user activity 
+        // (change this if personal access token expired in auth provider change)
+        $auth = Auth::user()->tokens->first();
+        $updated_at = $auth->updated_at;
+        $expires_at = $auth->expires_at;
+        $new_update = now();
+        $new_expire = date("Y-m-d H:i:s", strtotime("+1 hours"));
+        $interval = date_diff(date_create($new_update), date_create($updated_at));
+        if ($interval->h > 1) {
+            $deleteAuth = $auth->delete();
+            return response([
+                'message' => 'Login session timeout',
+            ], 401);
+        }
+        // end of check last user activity
+        $auth->updated_at = $new_update;
+        $auth->expires_at = $new_expire;
+        $updateAuth = $auth->update();
         $user = \App\Models\User::where('id', Auth::user()->id)
             ->with('forms')->first();
         return response($user);
