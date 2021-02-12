@@ -6,7 +6,7 @@ import LoadingContainer from "../components/LoadingContainer";
 import Charts from "../components/Charts.js";
 import Cards from "../components/Cards.js";
 import Tables from "../components/Tables.js";
-import { Row, Col, Card, Form, Button, Jumbotron } from "react-bootstrap";
+import { Row, Col, Card, Form, Button, Jumbotron, Spinner } from "react-bootstrap";
 import { queueApi, getApi, userDownload } from "../data/api.js";
 import { generateData } from "../charts/chart-generator.js";
 
@@ -35,11 +35,12 @@ class CountryTab extends Component {
             loading: false,
             download: false,
             tab: "overview",
+            iframeLoading: true,
             iframeH: "916px",
             downloadContent: {
                 files: [],
                 report_url: null,
-            }
+            },
         };
     }
 
@@ -218,10 +219,17 @@ class CountryTab extends Component {
                         <h3>Data Analysis Report</h3>
                         <hr/>
                     </div>
+                    { 
+                        (this.state.iframeLoading) && (
+                            <div className="d-flex justify-content-center">
+                                <Spinner className="mt-3" animation="border" variant="primary" />
+                            </div>
+                        )
+                    }
                     <iframe 
                         id="iframe-test"
                         src={this.state.downloadContent.report_url}
-                        style={{overflow:"hidden !important"}}
+                        style={{overflow:"hidden !important", visibility: 'hidden'}}
                         frameBorder={0}
                         width={"100%"}
                         height={this.state.iframeH}
@@ -232,7 +240,8 @@ class CountryTab extends Component {
                             const scrollH = iframeDoc.body.scrollHeight;
                             const iframeH = scrollH + (scrollH/2) + 'px';
                             head.innerHTML = head.innerHTML + '<style>.main-container{max-width: 100%!important;} html, body {background-color: #fff; color: #636b6f; font-family: "Assistant", sans-serif; font-weight: 200; height: 100vh; margin: 0;}</style>'
-                            this.setState({ iframeH });
+                            this.setState({ iframeLoading: false, iframeH: iframeH });
+                            iframe.style.removeProperty('visibility');
                         }}
                     >
                     </iframe>
