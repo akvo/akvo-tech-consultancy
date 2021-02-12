@@ -55,10 +55,13 @@ class Compare extends Component {
             return;
         }
         let source = flatFilters(this.props.value.page.filters);
-        source = source.map(x => ({
-            ...x,
-            name: x.name + " - " + x.company
-        }));
+        source = source.map(x => {
+            let case_number = (x.case_number !== null) ? x.case_number + ' ' : '';
+            return {
+                ...x,
+                name: x.name + " - " + case_number + x.company
+            }
+        });
         let access = this.props.value.user.forms;
             access = access.map(x => {
                 return {...x, id: x.form_id};
