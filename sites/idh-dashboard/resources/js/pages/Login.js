@@ -105,9 +105,9 @@ class Login extends Component {
                                             <Form.Label>Password</Form.Label>
                                             <Form.Control type="password" placeholder="Password" />
                                         </Form.Group>
-                                        <Form.Group controlId="formBasicCheckbox">
+                                        {/* <Form.Group controlId="formBasicCheckbox">
                                             <Form.Check type="checkbox" label="Remember Login" />
-                                        </Form.Group>
+                                        </Form.Group> */}
                                         <Row>
                                             <Col md={7}>
                                                 <Button variant="success" type="submit">
