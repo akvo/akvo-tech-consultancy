@@ -14,7 +14,11 @@ return [
             'company' => 'Mwea Rice',
             'cascade' => [
                 'name' => 'pi_location_cascade_county',
-            ]
+            ],
+            'files' => [
+                ["type" => "raw", "text" => "Analyzed Farmer Data", "to" => ".xlsx" ],
+            ],
+            'report_url' => '/files/Data-delivery-Rubutco.html',
         ],
         [
             'sid' => 66630001,
@@ -25,7 +29,11 @@ return [
             'company' => 'E-granary',
             'cascade' => [
                 'name' => 'pi_location_cascade_county',
-            ]
+            ],
+            'files' => [
+                ["type" => "raw", "text" => "Analyzed Farmer Data", "to" => ".xlsx" ],
+            ],
+            'report_url' => '/files/Data-delivery-Rubutco.html',
         ],
         [
             'sid' => 110530001,
@@ -36,7 +44,11 @@ return [
             'company' => 'Rubutco Tea',
             'cascade' => [
                 'name' => 'pi_location_cascade_county',
-            ]
+            ],
+            'files' => [
+                ["type" => "raw", "text" => "Analyzed Farmer Data", "to" => ".xlsx" ],
+            ],
+            'report_url' => '/files/Data-delivery-Rubutco.html',
         ],
     ],
     'relations' => [

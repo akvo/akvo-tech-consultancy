@@ -455,16 +455,16 @@ class ApiController extends Controller
         }
 
         if ($request->tab === "download") {
-            $files = [
-                ["type" => "raw", "text" => "Analyzed Farmer Data", "to" => ".xlsx" ],
-            ];
-            $report_url = '/files/Data-delivery-Rubutco.html';
+            $sources = collect(config('data.sources'));
+            $source = $sources->filter(function ($source) use ($form) {
+                return $source['fid'] === $form->fid;
+            })->values()->first();
             return [
                 'summary' => [$total, $form->kind, $form->country, $form->company],
                 'tabs' => [[
                     'name' => 'download',
-                    'files' => $files,
-                    'report_url' => $report_url,
+                    'files' => $source['files'],
+                    'report_url' => $source['report_url'],
                 ]]
             ];
         }
