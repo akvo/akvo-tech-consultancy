@@ -140,7 +140,7 @@ class AuthController extends Controller
         $new_update = now();
         $new_expire = date("Y-m-d H:i:s", strtotime("+1 hours"));
         $interval = date_diff(date_create($new_update), date_create($updated_at));
-        if ($interval->h > 1) {
+        if ($interval->h >= 1) {
             $deleteAuth = $auth->delete();
             return response([
                 'message' => 'Login session timeout',
