@@ -67,6 +67,7 @@ const dsc = {
                 <li>Beate Weiskopf, GISCO</li>
                 <li>Julia Jawtusch, GISCO</li>
                 <li>Patrick Stoop, C-Lever.org</li>
+                <li>Hilde Geens, C-Lever.org</li>
             </ul>
 
             <p className="text-justify">
@@ -76,6 +77,7 @@ const dsc = {
                 <li>Charles Snoeck</li>
                 <li>Marloes Humbeeck</li>
                 <li>Patrick Stoop, C-Lever.org</li>
+                <li>Hilde Geens, C-Lever.org</li>
             </ul>
 
             <p className="text-justify">
@@ -174,6 +176,7 @@ const dsc = {
                 <li>Beate Weiskopf, GISCO</li>
                 <li>Julia Jawtusch, GISCO</li>
                 <li>Patrick Stoop, C-Lever.org</li>
+                <li>Hilde Geens, C-Lever.org</li>
             </ul>
 
             <p className="text-justify">
@@ -183,6 +186,7 @@ const dsc = {
                 <li>Charles Snoeck</li>
                 <li>Marloes Humbeeck</li>
                 <li>Patrick Stoop, C-Lever.org</li>
+                <li>Hilde Geens, C-Lever.org</li>
             </ul>
 
             <p className="text-justify">
