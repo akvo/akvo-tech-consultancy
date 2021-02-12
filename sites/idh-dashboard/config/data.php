@@ -12,6 +12,7 @@ return [
             'kind' => 'Rice',
             'country' => 'Kenya',
             'company' => 'Mwea Rice',
+            'case_number' => 86,
             'cascade' => [
                 'name' => 'pi_location_cascade_county',
             ],
@@ -27,6 +28,7 @@ return [
             'kind' => 'Maize',
             'country' => 'Kenya',
             'company' => 'E-granary',
+            'case_number' => 81,
             'cascade' => [
                 'name' => 'pi_location_cascade_county',
             ],
@@ -42,6 +44,7 @@ return [
             'kind' => 'Rice',
             'country' => 'Tanzania',
             'company' => 'Rubutco Tea',
+            'case_number' => null,
             'cascade' => [
                 'name' => 'pi_location_cascade_county',
             ],

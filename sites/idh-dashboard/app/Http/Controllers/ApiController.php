@@ -19,11 +19,14 @@ class ApiController extends Controller
 {
     public function filters(Form $form)
     {
+        $sources = collect(config('data.sources'));
         $data = $form->withCount('formInstances as total')->get()->groupBy('country');
-        $data = collect($data)->map(function($list, $key){
-            $list = $list->map(function ($item) {
+        $data = collect($data)->map(function($list, $key) use ($sources) {
+            $list = $list->map(function ($item) use ($sources) {
+                $source = $sources->where('fid', $item['fid'])->first();
                 $date = Utils::getLastSubmissionDate($item['id']);
                 $item['submission'] = Carbon::parse($date)->format('M Y');
+                $item['case_number'] = $source['case_number'];
                 return $item;
             });
             return [
@@ -456,9 +459,8 @@ class ApiController extends Controller
 
         if ($request->tab === "download") {
             $sources = collect(config('data.sources'));
-            $source = $sources->filter(function ($source) use ($form) {
-                return $source['fid'] === $form->fid;
-            })->values()->first();
+            $source = $sources->where('fid', $form->fid)->first();
+            
             return [
                 'summary' => [$total, $form->kind, $form->country, $form->company],
                 'tabs' => [[

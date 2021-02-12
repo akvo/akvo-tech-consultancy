@@ -117,7 +117,7 @@ class Country extends Component {
                                             to={"/country/"  + country.toLowerCase() + "/" + x.id + "/overview"}
                                             className={x.id === companyId ? "active" : ""}
                                         >
-                                            {x.company}
+                                            { (x.case_number !== null) ? x.case_number + ' ' + x.company : x.company }
                                         </Link>
                                     )) }
                                 </div>
