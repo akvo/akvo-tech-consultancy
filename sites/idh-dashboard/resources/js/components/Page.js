@@ -37,9 +37,10 @@ class Page extends Component {
         let current_version = localStorage.getItem("cache-version");
         let access_token = localStorage.getItem("access_token");
         cachetime = cachetime !== null ? new Date(parseInt(cachetime) + 60 * 60 * 1000) : new Date(0); // 1 hour
-        // cachetime = cachetime !== null ? new Date(parseInt(cachetime) + 1 * 15 * 1000) : new Date(0); // 10 second
+        // cachetime = cachetime !== null ? new Date(parseInt(cachetime) + 1 * 15 * 1000) : new Date(0); // 15 second
         if (now > cachetime || cache_version !== current_version) {
             localStorage.clear();
+            this.props.user.logout();
             // (access_token !== null) && localStorage.setItem("access_token", access_token);
             const calls = [getApi("filters")];
             Promise.all(calls).then((res) => {
@@ -64,7 +65,12 @@ class Page extends Component {
         if (access_token !== null) {
             auth(access_token)
                 .then((res) => {
-                    this.props.user.login(res);
+                    const { status, message } = res;
+                    if (status === 401) {
+                        this.props.user.logout();
+                    } else {
+                        this.props.user.login(res);
+                    }
                 })
                 .catch((err) => {
                     this.props.user.logout();

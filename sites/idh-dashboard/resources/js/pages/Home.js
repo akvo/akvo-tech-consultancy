@@ -7,6 +7,7 @@ import Charts from "../components/Charts";
 import { generateData } from "../charts/chart-generator.js";
 import { flatFilters } from '../data/utils.js';
 import JumbotronWelcome from "../components/JumbotronWelcome";
+import { auth } from "../data/api.js";
 
 const MapsOverride = (TableView, noValue) => {
     let config = {
@@ -38,8 +39,10 @@ class Home extends Component {
     constructor(props) {
         super(props);
         this.TableView = this.TableView.bind(this);
+        this.checkAuth = this.checkAuth.bind(this);
         this.state = {
             charts: [],
+            redirect: false,
         };
     }
 
@@ -66,11 +69,40 @@ class Home extends Component {
         return '<div class="tooltip-maps">' + html + '</div>';
     }
 
+    checkAuth() {
+        const token = localStorage.getItem("access_token");
+        if (token === null) {
+            this.props.user.logout();
+            this.setState({redirect:true});
+            return;
+        }
+        if (token) {
+            auth(token).then(res => {
+                const { status, message } = res;
+                if (status === 401) {
+                    this.props.user.logout();
+                    this.setState({redirect:true});
+                }
+                return res;
+            });
+        }
+        return;
+    }
+
+    componentDidMount() {
+        this.props.page.loading(true);
+        setTimeout(() => {
+            this.checkAuth();
+            this.props.page.loading(false);
+        }, 1000);
+    }
+    
+
     render() {
-        let user = this.props.value.user;
-        if (user.id === 0) {
+        if (this.state.redirect) {
             return <Redirect to="/login" />;
         }
+        let user = this.props.value.user;
         let page = this.props.value.page;
         let data = page.filters.map((x) => {
             return {
