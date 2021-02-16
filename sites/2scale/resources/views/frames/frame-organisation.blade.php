@@ -78,6 +78,9 @@ button.btn.dropdown-toggle.btn-pink.bs-placeholder {
         @endforeach
     </select>
     </nav>
+    <div class="d-flex justify-content-center mt-2">
+        <small class="text-muted">Actors collaborating within the partnerships</small>
+    </div>
 </div>
     <!-- End Jumbotron-->
 

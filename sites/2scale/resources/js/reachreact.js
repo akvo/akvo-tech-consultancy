@@ -7,6 +7,7 @@ const partnership_id = $("meta[name='partnership']").attr("content");
 const start_date = $("meta[name='start-date']").attr("content");
 const end_date = $("meta[name='end-date']").attr("content");
 const endpoints = [country_id, partnership_id, start_date, end_date].join('/');
+console.log(endpoints);
 
 /* Static */
 const info = {

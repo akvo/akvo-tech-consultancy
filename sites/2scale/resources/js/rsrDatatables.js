@@ -683,7 +683,7 @@ export const renderRsrTableTemplate = (datatableId) => {
         </div>\
         <div class="table-wrapper-scroll-y my-custom-scrollbar" style="margin-top:25px; margin-bottom:50px;">\
             <div class="d-flex justify-content-center" id="loader-spinner-table">\
-                <div class="spinner-border text-primary loader-spinner" style="top:160%; margin-bottom:50px;" role="status">\
+                <div class="spinner-border text-primary loader-spinner" style="top:220%; margin-bottom:50px;" role="status">\
                     <span class="sr-only">Loading...</span>\
                 </div>\
             </div>\

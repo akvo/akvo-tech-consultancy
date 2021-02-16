@@ -132,7 +132,7 @@ class ChartController extends Controller
             return response('no data available', 503);
         };
         $legends = ["Female > 35", "Female ≤ 35", "Male > 35", "Male ≤ 35"];
-        $all = collect($all)->groupBy('country')->map(function($countries)
+        $all = collect($all)->sortByDesc('country')->values()->groupBy('country')->map(function($countries)
             use ($femaleold, $femaleyoung, $maleold, $maleyoung)
         {
             $countries = $countries->map(function($country)
@@ -642,7 +642,7 @@ class ChartController extends Controller
             );
         })->values();
         return array(
-            "name" => "2Scale",
+            "name" => "2SCALE",
             "value" => "Global",
             "children" => $organisation,
             "itemStyle" => array("color" => "#aa66cc"),

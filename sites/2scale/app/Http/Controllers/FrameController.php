@@ -87,7 +87,14 @@ class FrameController extends Controller
 
     public function dashboard(Request $request)
     {
-		return view('frames.frame-dashboard');
+        $start = '2018-01-01';
+        $end = date("Y-m-d");
+		return view('frames.frame-dashboard', [
+            'country_id' => 0,
+            'partnership_id' => 0,
+            'start' => $start,
+            'end' => $end
+        ]);
     }
 
     public function reachreact(Request $request)

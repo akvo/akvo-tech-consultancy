@@ -1,6 +1,13 @@
 const axios = window.axios;
 import {getMaps, getCharts, getCards} from './charts.js';
 import {renderRsrTableTemplate, renderRsrTable} from './rsrDatatables.js';
+
+/* Static */
+const country_id = $("meta[name='country']").attr("content");
+const partnership_id = $("meta[name='partnership']").attr("content");
+const start_date = $("meta[name='start-date']").attr("content");
+const end_date = $("meta[name='end-date']").attr("content");
+const endpoints = [country_id, partnership_id, start_date, end_date].join('/');
 const baseurl = $("meta[name=path]").attr("content");
 
 const info = {
@@ -8,17 +15,23 @@ const info = {
     content: "Lorem Ipsum Dolor Sit Amet for Footer"
 };
 
+
+$("main").append("<div class='row' id='first-row'></div>");
+$("main").append("<hr/><div class='row' id='second-row'></div>");
+
 /* Cards Row */
 getCards('home/top-three');
 getMaps('maps', 'home/map');
 
-/* First Row */
-$("main").append("<div class='row' id='first-row'></div>");
+/* Zero Row */
 getCharts('reachreact/country-total/0/0', 'zero-row', info, "6", "purple");
 
+/* First Row */
+getCharts('reachreact/gender/' + endpoints, 'first-row', info, "12", "blue");
+
 /* Second Row */
-getCharts('home/workstream', 'first-row', info, "7", "blue");
-getCharts('home/organisation-forms', 'first-row', info, "5", "morpheus-den");
+getCharts('home/workstream', 'second-row', info, "7", "blue");
+getCharts('home/organisation-forms', 'second-row', info, "5", "morpheus-den");
 
 
 // Rsr Datatables
