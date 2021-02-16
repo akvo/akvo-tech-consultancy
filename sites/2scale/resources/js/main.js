@@ -1,11 +1,15 @@
 import { staticText, gradient, titleCase} from './util.js'; import Dexie from 'dexie';
 const selectorbar = ($(".selector-bar").length === 1 ? 60 : 0);
 const navbar = $("nav.nav").length === 1 ? 56 : 3;
-const iframeheight = window.innerHeight - (navbar + selectorbar);
 const axios = require("axios");
+let iframeheight = window.innerHeight - (navbar + selectorbar);
+if (window.location.pathname === '/') {
+    iframeheight = (iframeheight/2 ) + iframeheight  + 250;
+}
 
 $("#akvo-flow-web").attr("height", iframeheight);
 $("#data-frame").attr("height", iframeheight);
+
 
 /* Akvo Flow Web API */
 let prev = "init";

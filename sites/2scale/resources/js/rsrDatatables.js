@@ -23,7 +23,7 @@ const fetchData = (endpoint) => {
     
 // load from dixie if exist
 const loadData = async (endpoint) => {
-    console.log(endpoint);
+    // console.log(endpoint);
     const res = await table.get({name: endpoint});
     if (res === undefined) {
         return fetchData(endpoint);
@@ -511,7 +511,7 @@ export const renderRsrTable = (endpoint, baseurl, datatableId) => {
         // EOL data refactoring
         return datas;
     }).then(res => {
-        console.log(res);
+        // console.log(res);
         // Header 1
         html += '<thead class="thead-dark">';
         // html += '<tr>';

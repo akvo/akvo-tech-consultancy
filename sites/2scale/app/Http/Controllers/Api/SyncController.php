@@ -9,6 +9,7 @@ use App\Libraries\FlowApi;
 use App\Libraries\FlowAuth0;
 use App\SurveyGroup;
 use App\Partnership;
+use App\Sector;
 use App\Form;
 use App\Question;
 use App\Option;
@@ -68,12 +69,43 @@ class SyncController extends Controller
         return $childs;
     }
 
-    private function breakCascade($cascades, $partnerships = false){
-       $cascades = collect($cascades)->map(function($cascade) {
+    public function syncSectors(FlowApi $flow, Sector $sectors, $sync = false, $cascadeResource = null)
+    {
+        # TODO :: need to create this sync condition (sync cron job)
+        $id = 0;
+        $resource = config('surveys.sector_cascade');
+        if ($sync && $cascadeResource !== null) {
+            $resource = $cascadeResource;
+        }
+
+        $cascades = $flow->cascade($resource, $id);
+        $cascades = $this->breakCascade($cascades, false);
+        $insert = collect($cascades)->map(function ($cascade) use ($sectors) {
+            return $sectors->updateOrCreate(['cascade_id' => $cascade['cascade_id']], $cascade);
+        });
+        $childs = $sectors->get();
+        $childs = collect($childs)->map(function($child) use ($flow, $sectors, $resource) {
+                $sector = $sectors->find($child->id);
+                $cascades = $flow->cascade($resource, $sector->cascade_id);
+                $cascades = $this->breakCascade($cascades, false);
+                if (!empty($cascades)) {
+                    $cascades = collect($cascades)->map(function($cascade) use ($sector, $sectors) {
+                        $cascade['parent_id'] = $sector['id'];
+                        return $sectors->updateOrCreate(['cascade_id' => $cascade['cascade_id']], $cascade);
+                    });
+                    return [$child->id => $cascades];
+                }
+                return [$child->id => 'no-childrens'];
+        });
+        return $childs;
+    }
+
+    private function breakCascade($cascades, $partnership = true){
+       $cascades = collect($cascades)->map(function($cascade) use ($partnership) {
            $cascade = $cascade;
            $cascade['cascade_id'] = $cascade['id'];
            if ($cascade['parent'] === null || $cascade['parent'] === 0) {
-                $cascade['level'] = 'country';
+                $cascade['level'] = ($partnership) ? 'country' : 'industry';
            }
            if ($cascade['code'] === '' || $cascade['code'] === null) {
                $cascade['code'] = Str::before($cascade['name'], '_');
@@ -94,6 +126,7 @@ class SyncController extends Controller
 			->map(function($group) use ($surveyGroups, $flow) {
                 $id = $surveyGroups->insertGetId(['name' => $group['name']]);
 				$forms = collect($group['list'])->map(function($form) {
+                    $form = collect($form)->except('sector_qid')->toArray();
 					$form = new Form($form);
 					return $form;
 				});

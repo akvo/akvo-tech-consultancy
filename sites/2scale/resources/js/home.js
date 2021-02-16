@@ -2,7 +2,6 @@ const axios = window.axios;
 import {getMaps, getCharts, getCards} from './charts.js';
 import {renderRsrTableTemplate, renderRsrTable} from './rsrDatatables.js';
 const baseurl = $("meta[name=path]").attr("content");
-console.log(baseurl);
 
 const info = {
     head: "Header Lorem Ipsum",
@@ -11,7 +10,7 @@ const info = {
 
 /* Cards Row */
 getCards('home/top-three');
-getMaps();
+getMaps('maps', 'home/map');
 
 /* First Row */
 $("main").append("<div class='row' id='first-row'></div>");

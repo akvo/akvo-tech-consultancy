@@ -14,15 +14,17 @@ const popupFormatter = (params) => {
     return params.name + ': ' + value;
 };
 
-const mapOption = new Promise((resolve, reject) => {
-    axios.get('/charts/home/map')
-        .then(res => {
-            resolve(res.data);
-        })
-        .catch(err => {
-            reject(err);
-        });
-});
+const mapOption = (endpoint) => {
+    return new Promise((resolve, reject) => {
+        axios.get('/charts/' + endpoint)
+            .then(res => {
+                resolve(res.data);
+            })
+            .catch(err => {
+                reject(err);
+            });
+    });
+}
 
 const generateCards = (info, color, rank) => {
     let rankhtml = (rank) => {
@@ -163,8 +165,8 @@ export const getCharts = (chart, row, info, md, color, customTitle=null) => {
         });
 }
 
-export const getMaps = () => {
-    var element = document.getElementById("maps");
+export const getMaps = (id, endpoint) => {
+    var element = document.getElementById(id);
     var myChart = echarts.init(element);
     axios.get('/json/africa.geojson')
         .then(res => {
@@ -175,7 +177,7 @@ export const getMaps = () => {
             return true;
         })
         .then(echarts => {
-            mapOption.then((response) => {
+            mapOption(endpoint).then((response) => {
                 let tooltip = {...response.tooltip,...{formatter: popupFormatter}};
                 response = {
                     ...response,

@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
 
         /* Sync */
         $this->call(PartnershipTableSeeder::class);
+        $this->call(SectorTableSeeder::class);
         $this->call(SurveyFormsTableSeeder::class);
         $this->call(QuestionsTableSeeder::class);
         $this->call(QuestionOptionTableSeeder::class);

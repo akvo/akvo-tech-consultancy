@@ -15,6 +15,7 @@ use App\Question;
 use App\Answer;
 use App\Datapoint;
 use App\Partnership;
+use App\Sector;
 use App\Option;
 
 class ChartController extends Controller
@@ -976,4 +977,60 @@ class ChartController extends Controller
         });
 		return $this->echarts->generateSimpleBarCharts($legends, $values, true, true);
     }
+
+    public function homePartnershipMapChart(Request $request, Partnership $partnerships)
+    {
+        $data = $partnerships
+            ->where('level', 'country')
+            ->get()
+            ->transform(function($d){
+                return array (
+                    'name' => $d->name,
+                    'value' => $d->childrens->count()
+                );
+            });
+        $min = collect($data)->min('value');
+        $max = collect($data)->max('value');
+        return $this->echarts->generateMapCharts($data, $min, $max);
+    }
+
+    public function homeSectorDistribution(Request $request, Sector $sectors)
+    {
+        // $forms = collect(config('surveys.forms'));
+        // $list = $forms->pluck('list')->flatten(1);
+        // $sector_qids = $list->whereNotNull('sector_qid')->pluck('sector_qid');
+        // $data = $answers->whereIn('question_id', $sector_qids)->get();
+        // $data = $data->map(function ($d) {
+        //     $text = explode('|', $d['text']);
+        //     $d['level_1'] = $text[0];
+        //     $d['level_2'] = (isset($text[1])) ? $text[1] : null;
+        //     return $d;
+        // });
+        // return $data;
+        $data = $sectors
+        ->where('level', 'industry')
+        ->get()
+        ->transform(function ($d) {
+            return array (
+                'name' => $d->name,
+                'value' => $d->childrens->count()
+            );
+        });
+        return $this->echarts->generateDonutCharts($data->pluck('name'), $data);
+    }
+
+    public function homePartnershipDistribution(Request $request, Partnership $partnerships)
+    {
+        $data = $partnerships
+        ->where('level', 'country')
+        ->get()
+        ->transform(function($d){
+            return array (
+                'name' => $d->name,
+                'value' => $d->childrens->count()
+            );
+        });
+        return $this->echarts->generateDonutCharts($data->pluck('name'), $data);
+    }
+    
 }
