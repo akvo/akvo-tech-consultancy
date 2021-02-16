@@ -71,9 +71,16 @@ Route::get('/report/{type}/{country_id}/{partnership_id}/{start}/{end}', 'Api\Ch
 Route::get('/home/map/partnership', 'Api\ChartController@homePartnershipMapChart'); // Add choropleth map coded by partnership counts
 Route::get('/home/sector-distribution', 'Api\ChartController@homeSectorDistribution'); // add visual for sector distribution and partnership distribution
 Route::get('/home/partnership-per-country', 'Api\ChartController@homePartnershipDistribution'); // add visual for sector distribution and partnership distribution
+Route::get('/home/investment-tracking', 'Api\ChartController@homeInvestmentTracking'); // add investment tracking by 2scale and private contribution against target
+
+
+/**
+ * Reports tab (new update) 
+ */
+Route::get('/report/activities-total', 'Api\ChartController@reportTotalActivities'); // Total number of activities captured filtered by country and partnership
+
 
 /**
  * Test
  */
-
  Route::get('/rsr-datatables/{country_id}/{partnership_id}', 'Api\ChartController@getRsrDatatable');
