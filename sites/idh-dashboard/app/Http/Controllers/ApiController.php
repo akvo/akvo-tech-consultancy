@@ -120,7 +120,7 @@ class ApiController extends Controller
             $dateNow = date_create(now());
             $submissionDate = date_create($submission);
             $diff = date_diff($dateNow, $submissionDate);
-            $submission_month = $diff->m;
+            $submission_month = round($diff->days / 30.4167, 0, PHP_ROUND_HALF_DOWN);
 
             $farm_size = Utils::getValues($id, 'f_size (acre)');
 
