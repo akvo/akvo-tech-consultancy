@@ -282,6 +282,7 @@ class Echarts
           ),
         );
     }
+
     private function titler($name) {
         return ucwords(str_replace('_',' ', strtolower($name)));
     }
@@ -336,5 +337,71 @@ class Echarts
                 ],
             ]
 		];
+    }
+
+    public function generateTreeMapCharts($name, $data)
+    {
+        $levelOption = [
+            [
+                'itemStyle' => [
+                    'borderColor' => '#777',
+                    'borderWidth' => 0,
+                    'gapWidth' => 1
+                ],
+                'upperLabel' => [
+                    'show' => false
+                ]
+            ],
+            [
+                'itemStyle' => [
+                    'borderColor' => '#555',
+                    'borderWidth' => 5,
+                    'gapWidth' => 1
+                ],
+                'emphasis' => [
+                    'itemStyle' => [
+                        'borderColor' => '#ddd'
+                    ]
+                ]
+            ],
+            [
+                'colorSaturation' => [0.35, 0.5],
+                'itemStyle' => [
+                    'borderWidth' => 5,
+                    'gapWidth' => 1,
+                    'borderColorSaturation' => 0.6
+                ]
+            ]
+        ];
+
+        return [
+            'toolbox' => array(
+                'show' => true,
+                'feature' => array( 
+                    'saveAsImage' => array( 'show' =>  true, 'title' => 'Save')
+                ),
+                'bottom' => 0, 
+                'right' => 0, 
+            ),
+            'series' => [[
+                'name' => $name,
+                'type' => 'treemap',
+                'visibleMin' => 300,
+                'label' => [
+                    'show' => true,
+                    'formatter' => '({c}) - {b}',
+                ],
+                'upperLabel' => [
+                    'show' => true,
+                    'height' => 30,
+                    'formatter' => '({c}) - {b}',
+                ],
+                'itemStyle' => [
+                    'borderColor' => '#fff',
+                ],
+                'levels' => $levelOption,
+                'data' => $data
+            ],],
+        ];
     }
 }

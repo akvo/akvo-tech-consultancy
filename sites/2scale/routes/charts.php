@@ -77,7 +77,7 @@ Route::get('/home/investment-tracking', 'Api\ChartController@homeInvestmentTrack
 /**
  * Reports tab (new update) 
  */
-Route::get('/report/activities-total', 'Api\ChartController@reportTotalActivities'); // Total number of activities captured filtered by country and partnership
+Route::get('/report/total-activities', 'Api\ChartController@reportTotalActivities'); // Total number of activities captured filtered by country and partnership
 
 
 /**

@@ -1040,41 +1040,47 @@ class ChartController extends Controller
 
     public function reportTotalActivities(Request $request)
     {
-        // $forms = collect(config('surveys.forms'));
-        // $list = $forms->pluck('list')->flatten(1);
-        // $partner_qids = $list->whereNotNull('partner_qid')->pluck('partner_qid');
-        // $answers = Answer::whereIn('question_id', $partner_qids)->get()
-        //     ->map(function ($a)  {
-        //         $text = explode('|', $a['text']);
-        //         $a['country'] = $text[0];
-        //         $a['partnership'] = (isset($text[1])) ? $text[1] : null;
-        //         return $a;
-        //     });
-
         $countries = Partnership::where('level', 'country')
-            // ->with('country_datapoints')
+            ->with('country_datapoints')
             ->with('childrens.partnership_datapoints')->get();
-        $categories = $countries->pluck('name');
-        $series = $countries->map(function ($c) use ($categories) {
-            return collect($c['childrens'])->map(function ($p) use ($c, $categories) {
-                $values = collect();
-                foreach ($categories as $cat) {
-                    if ($c['name'] === $cat) {
-                        $values->push(count($p['partnership_datapoints']));
-                    } else {
-                        $values->push(null);
-                    }
-                }
+
+        $series = $countries->map(function ($c) {
+            $childs = collect($c['childrens'])->map(function ($p) use ($c) {
                 return [
                     'name' => $p['name'],
-                    'data' => $values,
-                    'stack' => 'activities',
+                    'path' => $c['name'].'/'.$p['name'],
+                    'value' => count($p['partnership_datapoints']),
                 ];
             });
-        })->flatten(1);
-        $type = "Horizontal";
-        $legends = $series->pluck('name');
-        return $this->echarts->generateBarCharts($legends, $categories, $type, $series);
+            return [
+                'name' => $c['name'],
+                'path' => $c['name'],
+                'value' => count($c['country_datapoints']),
+                'children' => $childs,
+            ];
+        });
+        return $this->echarts->generateTreeMapCharts('Total Activities', $series);
+        // $categories = $countries->pluck('name');
+        // $series = $countries->map(function ($c) use ($categories) {
+        //     return collect($c['childrens'])->map(function ($p) use ($c, $categories) {
+        //         $values = collect();
+        //         foreach ($categories as $cat) {
+        //             if ($c['name'] === $cat) {
+        //                 $values->push(count($p['partnership_datapoints']));
+        //             } else {
+        //                 $values->push(null);
+        //             }
+        //         }
+        //         return [
+        //             'name' => $p['name'],
+        //             'data' => $values,
+        //             'stack' => 'activities',
+        //         ];
+        //     });
+        // })->flatten(1);
+        // $type = "Horizontal";
+        // $legends = $series->pluck('name');
+        // return $this->echarts->generateBarCharts($legends, $categories, $type, $series);
     }
     
 }

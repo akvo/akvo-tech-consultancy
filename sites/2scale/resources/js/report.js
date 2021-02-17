@@ -11,9 +11,9 @@ const info = {
 
 $("main").append("<div class='row' id='first-row'></div>");
 /* First Row */
-// getCharts('report/activities-total', 'first-row', info, "12", "blue");
+getCharts('report/total-activities', 'first-row', info, "12", "blue");
 
 // Rsr Datatables
-// renderRsrTableTemplate('datatables', '75%');
-renderRsrTableTemplate('datatables', '20%');
+renderRsrTableTemplate('datatables', '75%');
+// renderRsrTableTemplate('datatables', '20%');
 renderRsrTable(['0', '0'].join('/'), baseurl, 'datatables');
