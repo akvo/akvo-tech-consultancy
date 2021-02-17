@@ -17,7 +17,7 @@ return [
                 'name' => 'pi_location_cascade_county',
             ],
             'files' => [
-                ["type" => "raw", "text" => "Analyzed Farmer Data", "to" => ".xlsx" ],
+                ["type" => "raw", "text" => "Analyzed Mwea Rice Data", "to" => ".xlsx" ],
             ],
             'report_url' => '/files/Data-delivery-Mwea.html',
         ],
@@ -33,7 +33,7 @@ return [
                 'name' => 'pi_location_cascade_county',
             ],
             'files' => [
-                ["type" => "raw", "text" => "Analyzed Farmer Data", "to" => ".xlsx" ],
+                ["type" => "raw", "text" => "Analyzed E-granary Data", "to" => ".xlsx" ],
             ],
             'report_url' => '/files/Data-delivery-Egranary.html',
         ],
