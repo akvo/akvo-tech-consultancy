@@ -19,7 +19,7 @@ return [
             'files' => [
                 ["type" => "raw", "text" => "Analyzed Farmer Data", "to" => ".xlsx" ],
             ],
-            'report_url' => '/files/Data-delivery-Rubutco.html',
+            'report_url' => '/files/Data-delivery-Mwea.html',
         ],
         [
             'sid' => 66630001,
@@ -35,7 +35,7 @@ return [
             'files' => [
                 ["type" => "raw", "text" => "Analyzed Farmer Data", "to" => ".xlsx" ],
             ],
-            'report_url' => '/files/Data-delivery-Rubutco.html',
+            'report_url' => '/files/Data-delivery-Egranary.html',
         ],
         [
             'sid' => 110530001,
