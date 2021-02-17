@@ -22,6 +22,7 @@ mix.js('resources/js/app.js', 'public/js').version()
     .js('resources/js/organisation.js', 'public/js').version()
     .js('resources/js/partnership.js', 'public/js').version()
     .js('resources/js/reachreact.js', 'public/js').version()
+    .js('resources/js/report.js', 'public/js').version()
     .js('resources/js/dexie.js', 'public/js').version()
     .sass('resources/sass/app.scss', 'public/css').version();
 

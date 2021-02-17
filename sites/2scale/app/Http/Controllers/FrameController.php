@@ -143,4 +143,10 @@ class FrameController extends Controller
     {
         return view('frames.frame-support');
     }
+
+    public function report()
+    {
+        return view('frames.frame-report');
+    }
+
 }

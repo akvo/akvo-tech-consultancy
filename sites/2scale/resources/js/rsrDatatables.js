@@ -6,6 +6,8 @@ const echarts = window.echarts;
 const axios = window.axios;
 const table = db.databases;
 const tableTitle = 'Reported Values for Universal Impact Indicators';
+var footerColspan = 1;
+var mainColumn = [];
 
 const fetchData = (endpoint) => {
     return new Promise((resolve, reject) => {
@@ -201,6 +203,7 @@ const renderRow = (data, level=1, parentId='', childId='') => {
 
     if (level === 1) {
         icon_plus = '';
+        mainColumn = data.columns;
     }
 
     if (level === 2) {
@@ -216,18 +219,36 @@ const renderRow = (data, level=1, parentId='', childId='') => {
         indent = 'style="padding-left:25px;"';
     }
 
+    // manage the child columns not match with children columns
+    if (mainColumn.length !== data.columns.length && level !== 1) {
+        let tmp = mainColumn.map(val => {
+            let find = data.columns.find(x => x.order === val.order);
+            if (typeof find === 'undefined') {
+                return {dimensions: [], total_actual_value: 0};
+            }
+            return find;
+        });
+        data.columns = tmp;
+    }
+
     let last_child = (data.childrens.length > 0) ? '' : 'last_child';
     row += '<tr '+data_id+' data-level="'+level+'" class="'+style+' level_'+level+' '+last_child+'">';
     row += '<td class="partner" '+indent+'>'+icon_plus+' '+titleFormat(data.project)+'</td>';
     data.columns.forEach(val => {
         if (val.dimensions.length > 0) {
             val.dimensions.forEach(val => {
+                if (level === 1) {
+                    footerColspan = footerColspan + 1;
+                }
                 row += "<td class='text-right'>";
                 row += val.total_actual_value.toLocaleString();
                 row += "</td>";
             });
         }
         else {
+            if (level === 1) {
+                footerColspan = footerColspan + 1;
+            }
             row += "<td class='text-right'>";
             row += val.total_actual_value.toLocaleString();
             row += "</td>";
@@ -604,10 +625,9 @@ export const renderRsrTable = (endpoint, baseurl, datatableId) => {
         // html += renderExtra(res.data.extras, parentId, '', true, false);
     
         html += '</tbody>';
-        let tdCount = $('tr.level_1').children().length;
         html += '<tfoot><tr>';
         // html += '<td>&nbsp;</td>';
-        html += '<td colspan="'+tdCount+'">'+ legend +'</td>';
+        html += '<td colspan="'+footerColspan+'">'+ legend +'</td>';
         html += '</tr></tfoot>';
         $("#datatables").append(html);
         return res;
@@ -672,7 +692,7 @@ export const renderRsrTable = (endpoint, baseurl, datatableId) => {
     });
 };
 
-export const renderRsrTableTemplate = (datatableId) => {
+export const renderRsrTableTemplate = (datatableId, position) => {
     return $("main").append('<hr>\
         <div class="row">\
             <div class="col-md-12">\
@@ -683,7 +703,7 @@ export const renderRsrTableTemplate = (datatableId) => {
         </div>\
         <div class="table-wrapper-scroll-y my-custom-scrollbar" style="margin-top:25px; margin-bottom:50px;">\
             <div class="d-flex justify-content-center" id="loader-spinner-table">\
-                <div class="spinner-border text-primary loader-spinner" style="top:220%; margin-bottom:50px;" role="status">\
+                <div class="spinner-border text-primary loader-spinner" style="top:'+position+'; margin-bottom:50px;" role="status">\
                     <span class="sr-only">Loading...</span>\
                 </div>\
             </div>\

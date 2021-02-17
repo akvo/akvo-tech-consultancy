@@ -29,7 +29,7 @@ getCharts('partnership/countries-total/' + endpoints, 'second-row', info, "6");
 getCharts('partnership/project-total/' + endpoints, 'second-row', info, "6");
 
 // Table container
-renderRsrTableTemplate('datatables');
+renderRsrTableTemplate('datatables', '160%');
 
 // put a div (hidden) to store the charts for pdf report
 $("main").append("<div id='chart-report-container' class='invisible' style='margin-top:-999rem'></div>");

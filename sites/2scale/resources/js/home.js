@@ -35,5 +35,5 @@ getCharts('home/organisation-forms', 'second-row', info, "5", "morpheus-den");
 
 
 // Rsr Datatables
-renderRsrTableTemplate('datatables');
-renderRsrTable(['0', '0'].join('/'), baseurl, 'datatables');
+// renderRsrTableTemplate('datatables');
+// renderRsrTable(['0', '0'].join('/'), baseurl, 'datatables');

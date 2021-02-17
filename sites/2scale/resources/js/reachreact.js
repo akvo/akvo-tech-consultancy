@@ -15,7 +15,7 @@ const info = {
     content: "Lorem Ipsum Dolor Sit Amet for Footer"
 };
 
-getCards('reachreact/gender-count/' + endpoints);
+// getCards('reachreact/gender-count/' + endpoints);
 
 /* First Row */
 $("main").append("<div class='row' id='first-row'></div>");

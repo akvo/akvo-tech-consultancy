@@ -21,3 +21,4 @@ Route::get('/database/{form_id}/{start}/{end}', 'FrameController@database');
 Route::get('/database/{form_id}/{country}/{start}/{end}', 'FrameController@database');
 
 Route::get('/support', 'FrameController@support');
+Route::get('/report', 'FrameController@report');

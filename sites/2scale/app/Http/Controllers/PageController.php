@@ -89,5 +89,11 @@ class PageController extends Controller
     public function support()
     {
         return view('pages.support');
-    }
+	}
+	
+	public function report()
+    {
+        return view('pages.report');
+	}
+	
 }
