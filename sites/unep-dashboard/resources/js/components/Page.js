@@ -47,7 +47,7 @@ const toursteps = (act) => {
     const intro = {
             content: ({ close, goTo, inDOM }) => (
                 <div className="col-tour text-center">
-                    <strong>Welcome Stocktaking Data Portal</strong><br/><br/>
+                    <strong>Welcome UNEP Data Portal</strong><br/><br/>
                     Click the following navigation below <br/>to take the tour or use <br/>keyboard cursor to navigate.<br/><br/>
                     <a href="#" onClick={close}>Skip the tour</a><br/><br/>
                 </div>

@@ -68,7 +68,7 @@ class ReportController extends Controller
             "charts" => $charts,
             "blocks" => $blocks, // 1 (colspan 2), 2 (no colspan)
         ];
-        $title = "UNEP_STOCKTAKE_REPORT-";
+        $title = "UNEP_REPORT-";
         $title .= implode('-', $this->code->unique()->values()->toArray());
         return view('report', ['data' => $results, 'title' => $title]);
     }

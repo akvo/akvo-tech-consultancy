@@ -120,9 +120,9 @@ class Navigation extends Component {
                     <Nav.Link
                         data-tour={"tab-compare"}
                         eventKey="compare" active={"compare" === page}>{lang.compare}</Nav.Link>
-                    <Nav.Link
+                    {/* <Nav.Link
                         data-tour={"tab-support"}
-                        eventKey="support" active={"support" === page}>{lang.support}</Nav.Link>
+                        eventKey="support" active={"support" === page}>{lang.support}</Nav.Link> */}
                     <Nav.Link
                         data-tour={"tab-documentation"}
                         eventKey="documentation" active={"documentation" === page}>{lang.documentation}</Nav.Link>

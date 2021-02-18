@@ -28,7 +28,7 @@ class SupportController extends Controller
                 Support Request From: <strong>$request->email</strong><br/><br/>
                 $request->message <hr/>
                 <strong>SENT VIA
-                <a href='https://unep.tc.akvo.org'>UNEP STOCKTACKING DATA PORTAL</a></strong>
+                <a href='https://unep.tc.akvo.org'>UNEP DATA PORTAL</a></strong>
                 <br/>
             ",
             'Recipients' => $recipients
