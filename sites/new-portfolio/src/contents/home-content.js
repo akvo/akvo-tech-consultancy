@@ -4,7 +4,7 @@ export const homeContent = [
         description: "Make use of an integrated M&E data portal that is tailored to your data needs.",
         icon_position: "left",
         icon: "/icons/ic-monitoring-evaluation.svg",
-        link: "#",
+        link: "/data-portal",
     },
     {
         title: "Remote data collection",
@@ -17,7 +17,7 @@ export const homeContent = [
         title: "Custom reports",
         description: "Combine quantitative data in flexible, graphic-designed reports.",
         icon_position: "left",
-        icon: "/icons/ic-monitoring-evaluation.svg",
+        icon: "/icons/ic-custom-reports.svg",
         link: "#",
     },
 ];

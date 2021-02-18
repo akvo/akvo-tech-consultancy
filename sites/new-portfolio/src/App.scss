@@ -30,9 +30,14 @@
   // margin-left: 11.3rem;
   margin-top: 1.2rem;
   font-size: 1rem;
-  color: white;
   font-weight: 700;
   font-family: 'Poppins', sans-serif;
+}
+.subtitle .dark {
+  color: white;
+}
+.subtitle .light {
+  color: #191919;
 }
 .App-sections {
   padding-top: 100px;
@@ -63,6 +68,9 @@
 .ant-layout-content {
   margin-top: 0;
 }
+.ant-layout-header .ant-menu {
+  line-height: none;
+}
 .ant-menu.ant-menu-dark, .ant-menu-dark .ant-menu-sub, .ant-menu.ant-menu-dark .ant-menu-sub {
   color: white;
   background: #03AD8C;
@@ -73,6 +81,18 @@
 }
 .ant-menu-light.ant-menu-horizontal > .ant-menu-item:hover {
   background-color: transparent;
+}
+.ant-menu-horizontal > .ant-menu-item a {
+  color: #191919;
+  font-size: 1.3rem;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+}
+.ant-menu-horizontal > .ant-menu-item a:hover {
+  color: #DF4D95;
+}
+.ant-menu-horizontal > .ant-menu-item-selected a {
+  color: #DF4D95;
 }
 
 
@@ -166,4 +186,55 @@
   font-size: 1.7rem;
   font-family: 'Poppins', sans-serif;
   cursor: pointer;
+}
+
+
+.page-wrapper {
+  background-color: white;
+}
+.page-heading {
+  padding-top: 11rem;
+  background-color: white;
+  // min-height: 65rem;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+}
+.page-title {
+  font-size: 3rem;
+  font-weight: 700;
+  letter-spacing: 0px;
+  color: #DF4D95;
+  text-shadow: 2px 3px 0px #DF4D9577;
+}
+.page-subtitle {
+  font-weight: normal;
+}
+.page-body {
+  margin-top: 2.5rem;
+  width: 100%;
+}
+.page-content {
+  padding: 4rem 16rem;
+}
+.page-content.dark {
+  color: white;
+  background-color: #191919;
+}
+.page-content.dark > h3 {
+  font-size: 1.9rem;
+  font-weight: bolder;
+  color: white;
+}
+.page-content.dark > p {
+  font-size: 1.4rem;
+}
+.page-content.light {
+  background-color: white;
+}
+.page-content.light > h3 {
+  font-size: 1.9rem;
+  font-weight: bolder;
+}
+.page-content.light > p {
+  font-size: 1.4rem;
 }

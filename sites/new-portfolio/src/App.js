@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 import { Layout } from "antd";
 import { HeaderWeb, FooterWeb } from "./components";
-import { Home } from "./pages";
+import { Home, DataPortal } from "./pages";
 
 const defaultState = {
   page: {
@@ -34,17 +34,18 @@ function App() {
   return (
     <div className="App">
       <Layout>
-        <HeaderWeb value={state} />
-        
         <Router>
+          <HeaderWeb value={state} />
           <Switch>
             <Route exact path="/">
               <Home value={state} onLoad={(props) => updateState(props)} />
             </Route>
+            <Route exact path="/data-portal">
+              <DataPortal value={state} onLoad={(props) => updateState(props)} />
+            </Route>
           </Switch>
+          <FooterWeb />
         </Router>
-        
-        <FooterWeb />
       </Layout>
     </div>
   );
