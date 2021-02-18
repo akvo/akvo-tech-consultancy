@@ -115,16 +115,16 @@ const toursteps = (act) => {
             position: 'bottom',
             style: {borderRadius: 0},
         },
-        {
-            selector: '[data-tour="tab-support"]',
-            content: ({ goTo, inDOM }) => (
-              <div className="col-tour">
-                  <p>Get in touch with queries / suggestions</p>
-              </div>
-            ),
-            position: 'bottom',
-            style: {borderRadius: 0},
-        },
+        // {
+        //     selector: '[data-tour="tab-support"]',
+        //     content: ({ goTo, inDOM }) => (
+        //       <div className="col-tour">
+        //           <p>Get in touch with queries / suggestions</p>
+        //       </div>
+        //     ),
+        //     position: 'bottom',
+        //     style: {borderRadius: 0},
+        // },
         {
             selector: '[data-tour="tab-documentation"]',
             content: ({ goTo, inDOM }) => (
