@@ -5,22 +5,41 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
 } from "react-router-dom";
 import { Layout } from "antd";
 import { HeaderWeb, FooterWeb } from "./components";
 import { Home } from "./pages";
 
+const defaultState = {
+  page: {
+    location: 'home',
+    header: 'green',
+  },
+  home: {
+    section: 'home',
+  }
+};
+
 function App() {
+  const [state, setState] = useState(defaultState);
+
+  const updateState = (props) => {
+    setState(props);
+  }
+
+  useEffect(() => {
+    console.log(state);
+  }, [state]);
+
   return (
     <div className="App">
       <Layout>
-        <HeaderWeb />
+        <HeaderWeb value={state} />
         
         <Router>
           <Switch>
             <Route exact path="/">
-              <Home />
+              <Home value={state} onLoad={(props) => updateState(props)} />
             </Route>
           </Switch>
         </Router>

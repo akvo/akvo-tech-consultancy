@@ -15,20 +15,29 @@
   }
 }
 .App-logo {
-  float: left;
-  height: 50px;
+  // float: left;
+  height: 4.5rem;
   pointer-events: none;
-  margin: 16px 24px 16px 0;
-
+  // margin: 0 24px 16px 0;
   // @media (prefers-reduced-motion: no-preference) {
   //   animation: App-logo-spin infinite 20s linear;
   // }
+}
+.subtitle  {
+  // position: absolute;
+  // top: 4rem;
+  // left: 0;
+  // margin-left: 11.3rem;
+  margin-top: 1.2rem;
+  font-size: 1rem;
+  color: white;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
 }
 .App-sections {
   padding-top: 100px;
   min-height: 100vh;
 }
-
 .App-footer {
   color: white;
   background-color: #191919;
@@ -41,44 +50,39 @@
   position: fixed;
   z-index: 1;
   width: 100%;
-  height: 8rem;
+  height: 9rem;
+  padding: 1.5rem 10rem;
+  line-height: 0;
+}
+.ant-layout-header.dark {
   background: #03AD8C;
-  padding: 0 10rem;
+}
+.ant-layout-header.light {
+  background: #FFFFFF;
 }
 .ant-layout-content {
   margin-top: 0;
 }
-.ant-layout-footer {
-  margin-top: 20px;
-}
-
 .ant-menu.ant-menu-dark, .ant-menu-dark .ant-menu-sub, .ant-menu.ant-menu-dark .ant-menu-sub {
   color: white;
   background: #03AD8C;
   margin-top: 0.8rem;
 }
-
 .ant-menu-dark.ant-menu-horizontal > .ant-menu-item:hover {
   background-color: transparent;
 }
-
-.subtitle  {
-  position: absolute;
-  top: 4rem;
-  left: 0;
-  margin-left: 11.3rem;
-  font-size: 1rem;
-  color: white;
-  font-weight: 700;
+.ant-menu-light.ant-menu-horizontal > .ant-menu-item:hover {
+  background-color: transparent;
 }
+
 
 .welcome-container {
-  margin-top: -1.2rem;
-  padding-top: 4.5rem;
+  // margin-top: -1.2rem;
+  // padding-top: 4.5rem;
+  padding-top: 11rem;
   background-color: #03AD8C;
-  min-height: 60rem;
+  min-height: 65rem;
 }
-
 .welcome-text {
   width: 80rem;
   margin: auto;
@@ -89,7 +93,6 @@
   text-align: center;
   font-family: 'Raleway', sans-serif;
 }
-
 .welcome-heading {
   width: 80rem;
   margin: auto;
@@ -103,33 +106,64 @@
   text-align: center;
   font-family: 'Poppins', sans-serif;
 }
-
 .btn-discover-container {
   width: 60%;
   margin: auto;
   margin-top: 7rem;
   text-align: center;
 }
-
 .btn-discover {
   font-family: 'Poppins', sans-serif;
   background-color: transparent;
   color: #404898;
   border: 0.4rem solid #404898;
   padding: 1rem 2rem;
+  height: 5rem;
   font-size: 1.3rem;
   text-transform: uppercase;
+  cursor: pointer;
 }
-
+.btn-discover:focus {
+  outline: 0;
+}
 .solution-container {
   padding: 5rem;
+  background-color: white;
   text-align: center;
 }
-
 .solution-container > h1 {
   font-size: 3.5rem;
   font-weight: 700;
   font-family: 'Poppins', sans-serif;
   color: #404898;
   text-shadow: 2px 4px 0px #40489879;
+}
+.solution-cards-container {
+  padding: 2rem;
+}
+.solution-card {
+  padding: 4rem 7rem;
+}
+.solution-card-content {
+  text-align: "left"!important;
+}
+.solution-card-content .title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+}
+.solution-card-content .description {
+  font-size: 1.8rem;
+  font-family: 'Poppins', sans-serif;
+}
+.btn-find-more {
+  margin-top: 1.2rem;
+  font-family: 'Poppins', sans-serif;
+  background-color: transparent;
+  color: #03AD8C;
+  border: 0.2rem solid #03AD8C;
+  padding: 0.5rem 1rem;
+  font-size: 1.7rem;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
 }
