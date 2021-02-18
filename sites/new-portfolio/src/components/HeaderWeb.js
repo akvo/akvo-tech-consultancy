@@ -1,6 +1,6 @@
 import React from 'react'
 import { Layout, Menu, Row, Col } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const { Header } = Layout;
 
@@ -12,14 +12,16 @@ export const HeaderWeb = ({ ...props }) => {
   const subtitleClassName = 'subtitle ' + page.header;
   const github = (page.header === 'dark') ? '/icons/ic-github.svg' : '/icons/ic-github-black.svg';
   const mail = (page.header === 'dark') ? '/icons/ic-mail.svg' : '/icons/ic-mail-black.svg';
+  let location = useLocation();
 
   const renderMenu = () => {
     return (
       <Menu
         theme={page.header}
         mode="horizontal"
+        selectedKeys={[location.pathname]}
       >
-        <Menu.Item key="1">
+        <Menu.Item key="/data-portal">
           <Link to="/data-portal">Monitoring & evaluation data portals</Link>
         </Menu.Item>
         <Menu.Item key="2">
@@ -44,7 +46,7 @@ export const HeaderWeb = ({ ...props }) => {
           </div>
         </Col>
         <Col span={17}>
-          { (page.location !== 'home') && renderMenu() }
+          { (page.location !== '/home') && renderMenu() }
         </Col>
         <Col span={3}>
           <div style={{float:'right'}}>

@@ -12,8 +12,8 @@ import { Home, DataPortal } from "./pages";
 
 const defaultState = {
   page: {
-    location: 'home',
-    header: 'green',
+    location: '/home',
+    header: 'dark',
   },
   home: {
     section: 'home',

@@ -9,7 +9,7 @@ export const Home = (props) => {
     const { value, onLoad } = props;
 
     useEffect(() => {
-        onLoad({...value, page:{location:'home', header: 'dark'}});
+        onLoad({...value, page:{location:'/home', header: 'dark'}});
     }, []);
 
     const renderCards = () => {
@@ -25,21 +25,21 @@ export const Home = (props) => {
                 >
                     { x.icon_position === 'left' && (
                         <Col className="gutter-row" span={3}>
-                            <Image height={180} src={x.icon} />
+                            <Image height="12rem" src={x.icon} />
                         </Col>
                     )}
                     <Col span={14} className="solution-card-content gutter-row" style={{textAlign:'left'}}>
                         <div className="title">{x.title}</div>
                         <div className="description">{x.description}</div>
-                        <Link to={x.link}>
+                        <a href={x.link}>
                             <button className="btn-find-more">
                                 Find out more
                             </button>
-                        </Link>
+                        </a>
                     </Col>
                     { x.icon_position === 'right' && (
                         <Col className="gutter-row" span={3}>
-                            <Image height={180} src={x.icon} />
+                            <Image height="12rem" src={x.icon} />
                         </Col>
                     )}
                 </Row>
