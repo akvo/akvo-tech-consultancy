@@ -9,26 +9,26 @@ export const Home = (props) => {
     const { value, onLoad } = props;
 
     useEffect(() => {
-        onLoad({...value, page:{location:'/home', header: 'dark'}});
+        onLoad({...value, page:{title: 'Home', location:'/home', header: 'dark'}});
     }, []);
 
     const renderCards = () => {
         return homeContent.map((x, i) => {
+            let orderLeft = (x.icon_position === 'left') ? 1 : 2;
+            let orderRight = (x.icon_position === 'right') ? 1 : 2;
             return ( 
                 <Row 
                     key={i} 
-                    bordered={false} 
+                    bordered={false.toString()} 
                     className="solution-card" 
                     justify="center" 
                     align="middle"
                     gutter={[40, 16]}
                 >
-                    { x.icon_position === 'left' && (
-                        <Col className="gutter-row" span={3}>
-                            <Image height="12rem" src={x.icon} />
-                        </Col>
-                    )}
-                    <Col span={14} className="solution-card-content gutter-row" style={{textAlign:'left'}}>
+                    <Col align={x.icon_position} md={3} order={orderLeft} className="gutter-row">
+                        <Image height="12rem" src={x.icon} style={{transform: x.transform}}/>
+                    </Col>
+                    <Col align="left" md={14} order={orderRight} className="solution-card-content gutter-row">
                         <div className="title">{x.title}</div>
                         <div className="description">{x.description}</div>
                         <a href={x.link}>
@@ -37,11 +37,6 @@ export const Home = (props) => {
                             </button>
                         </a>
                     </Col>
-                    { x.icon_position === 'right' && (
-                        <Col className="gutter-row" span={3}>
-                            <Image height="12rem" src={x.icon} />
-                        </Col>
-                    )}
                 </Row>
             );
         });

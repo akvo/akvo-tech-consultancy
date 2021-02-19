@@ -12,12 +12,10 @@ import { Home, DataPortal } from "./pages";
 
 const defaultState = {
   page: {
+    title: 'Home',
     location: '/home',
     header: 'dark',
   },
-  home: {
-    section: 'home',
-  }
 };
 
 function App() {
@@ -29,6 +27,7 @@ function App() {
 
   useEffect(() => {
     console.log(state);
+    document.title = state.page.title;
   }, [state]);
 
   return (

@@ -5,6 +5,7 @@ export const homeContent = [
         icon_position: "left",
         icon: "/icons/ic-monitoring-evaluation.svg",
         link: "/data-portal",
+        transform: false,
     },
     {
         title: "Remote data collection",
@@ -12,6 +13,7 @@ export const homeContent = [
         icon_position: "right",
         icon: "/icons/ic-remote-data-collection.svg",
         link: "#",
+        transform: false,
     },
     {
         title: "Custom reports",
@@ -19,5 +21,6 @@ export const homeContent = [
         icon_position: "left",
         icon: "/icons/ic-custom-reports.svg",
         link: "#",
+        transform: "rotate(-10deg)",
     },
 ];

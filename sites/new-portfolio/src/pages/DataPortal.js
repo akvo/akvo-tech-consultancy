@@ -5,17 +5,15 @@ import { dataPortalContent } from "../contents";
 
 const { Content } = Layout;
 
-const SampleNextArrow = props => {
+const NextArrow = props => {
     const { className, style, onClick } = props;
-    console.log(props);
     return (
         <div
             className={className}
             style={{
-            ...style,
-            color: "#707070",
-            fontSize: '15px',
-            lineHeight: '1.5715'
+                ...style,
+                color: "#707070",
+                fontSize: '50px',
             }}
             onClick={onClick}
         >
@@ -24,7 +22,7 @@ const SampleNextArrow = props => {
     )
   }
 
-const SamplePrevArrow = props => {
+const PrevArrow = props => {
     const { className, style, onClick } = props;
     return (
         <div
@@ -32,8 +30,7 @@ const SamplePrevArrow = props => {
             style={{
                 ...style,
                 color: "#707070",
-                fontSize: '15px',
-                lineHeight: '1.5715'
+                fontSize: '50px',
             }}
             onClick={onClick}
         >
@@ -43,15 +40,15 @@ const SamplePrevArrow = props => {
 }
 
 const settings = {
-    nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />
 }
 
 export const DataPortal = (props) => {
     const { value, onLoad } = props;
 
     useEffect(() => {
-        onLoad({...value, page:{location:'/data-portal', header: 'light'}});
+        onLoad({...value, page:{title: 'Data Portal', location:'/data-portal', header: 'light'}});
     }, []);
 
     const renderContent = () => {
@@ -65,9 +62,8 @@ export const DataPortal = (props) => {
                     <h3>{x.title}</h3>
                     <p>{x.description}</p>
                     <Row justify="center" align="middle">
-                        <Col span={4} align="center"></Col>
-                        <Col span={16} align="center">
-                            <Carousel autoplay arrows {...settings}>
+                        <Col span={18} align="center">
+                            <Carousel effect="fade" autoplay arrows {...settings}>
                                 {x.images.map((y, z) => {
                                     let source = "/images/" + y;
                                     return (
@@ -76,7 +72,6 @@ export const DataPortal = (props) => {
                                 })}
                             </Carousel>
                         </Col>
-                        <Col span={4} align="center"></Col>
                     </Row>
                 </div>
             );

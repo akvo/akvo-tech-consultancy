@@ -33,10 +33,10 @@
   font-weight: 700;
   font-family: 'Poppins', sans-serif;
 }
-.subtitle .dark {
+.subtitle.dark {
   color: white;
 }
-.subtitle .light {
+.subtitle.light {
   color: #191919;
 }
 .App-sections {
@@ -131,10 +131,10 @@
   margin: auto;
   margin-top: 5rem;
   font-size: 4rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0px;
   color: #191919;
-  text-shadow: 2px 3px 0px #19191988;
+  text-shadow: 1px 2px 0px #19191988;
   opacity: 1;
   text-align: center;
   font-family: 'Poppins', sans-serif;
@@ -169,35 +169,32 @@
   font-weight: 700;
   font-family: 'Poppins', sans-serif;
   color: #404898;
-  text-shadow: 2px 4px 0px #40489879;
+  text-shadow: 1px 3px 0px #40489879;
 }
 .solution-cards-container {
   padding: 2rem 0;
 }
 .solution-card {
   padding: 4rem 7rem;
+  font-family: 'Poppins', sans-serif;
 }
 .solution-card-content {
   text-align: "left"!important;
 }
 .solution-card-content .title {
-  font-size: 2.5rem;
-  font-weight: 700;
-  font-family: 'Poppins', sans-serif;
+  font-size: 2.2rem;
+  font-weight: 600;
 }
 .solution-card-content .description {
-  font-size: 1.8rem;
-  font-family: 'Poppins', sans-serif;
+  font-size: 1.5rem;
 }
 .btn-find-more {
   margin-top: 1.2rem;
-  font-family: 'Poppins', sans-serif;
   background-color: transparent;
   color: #03AD8C;
   border: 0.2rem solid #03AD8C;
-  padding: 0.5rem 1rem;
-  font-size: 1.7rem;
-  font-family: 'Poppins', sans-serif;
+  padding: 0.4rem 0.8rem;
+  font-size: 1.5rem;
   cursor: pointer;
 }
 
@@ -254,6 +251,8 @@
 
 
 .ant-carousel {
+  border-radius: 1rem;
+  border: 0.2rem solid #707070 ;
   .slick-next {
     &::before {
       content: '';
@@ -264,6 +263,12 @@
       content: '';
     }
   }
+}
+.ant-carousel .slick-prev {
+  left: -55px;
+}
+.ant-carousel .slick-next {
+  right: -25px;
 }
 .image-carousel {
   width: 65%;

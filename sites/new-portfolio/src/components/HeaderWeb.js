@@ -50,8 +50,12 @@ export const HeaderWeb = ({ ...props }) => {
         </Col>
         <Col span={3}>
           <div style={{float:'right'}}>
-            <img src={github} width="27" alt="akvo-github" />
-            <img src={mail} width="27" alt="akvo-mail" style={{marginLeft:"0.8rem"}} />
+            <a href="#">
+              <img src={github} width="27" alt="akvo-github" />
+            </a>
+            <a href="#">
+              <img src={mail} width="27" alt="akvo-mail" style={{marginLeft:"0.8rem"}} />
+            </a>
           </div>
         </Col>
       </Row>
