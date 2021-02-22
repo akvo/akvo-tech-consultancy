@@ -16,6 +16,7 @@ export const Home = (props) => {
         return homeContent.map((x, i) => {
             let orderLeft = (x.icon_position === 'left') ? 1 : 2;
             let orderRight = (x.icon_position === 'right') ? 1 : 2;
+            let imgPadding = (i === 0) ? '5rem' : '0rem';
             return ( 
                 <Row 
                     key={i} 
@@ -23,12 +24,11 @@ export const Home = (props) => {
                     className="solution-card" 
                     justify="center" 
                     align="middle"
-                    gutter={[40, 16]}
                 >
-                    <Col align={x.icon_position} md={3} order={orderLeft} className="gutter-row">
-                        <Image height="12rem" src={x.icon} style={{transform: x.transform}}/>
+                    <Col align={x.icon_position} md={3} order={orderLeft}>
+                        <Image height="12rem" src={x.icon} style={{transform: x.transform, paddingRight: imgPadding}} preview={false} />
                     </Col>
-                    <Col align="left" md={14} order={orderRight} className="solution-card-content gutter-row">
+                    <Col align="left" md={14} order={orderRight} className="solution-card-content">
                         <div className="title">{x.title}</div>
                         <div className="description">{x.description}</div>
                         <a href={x.link}>
