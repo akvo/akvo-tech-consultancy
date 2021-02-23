@@ -820,6 +820,7 @@ class ChartController extends Controller
         return [
             "config" => [
                 "result_ids" => config('akvo-rsr.datatables.uii8_results_ids'),
+                "url" => config('akvo-rsr.endpoints.rsr_page'),
             ],
             "columns" => $data->pluck('columns'),
             "data" => $results,
@@ -1035,7 +1036,13 @@ class ChartController extends Controller
 
     public function homeInvestmentTracking(Request $request)
     {
-        return 'None';
+        $config =config('akvo-rsr');
+        $partnerships = Partnership::where('level', 'partnership')->with('rsr_project')->get();
+        $partnerships = $partnerships->whereNotNull('rsr_project')->map(function ($p) {
+            $p['project'] = collect($p['rsr_project'])->only('budget', 'funds', 'funds_needed');
+            return collect($p)->except('rsr_project');
+        })->values();
+        return $partnerships;
     }
 
     public function reportTotalActivities(Request $request)
@@ -1081,6 +1088,57 @@ class ChartController extends Controller
         // $type = "Horizontal";
         // $legends = $series->pluck('name');
         // return $this->echarts->generateBarCharts($legends, $categories, $type, $series);
+    }
+    
+    public function getRsrDatatableByUii(Request $request) {
+        $config = config('akvo-rsr');
+        $projects = \App\RsrProject::all();
+        $results = \App\RsrResult::where('rsr_project_id', $config['projects']['parent'])
+                        ->with('rsr_indicators.rsr_dimensions.rsr_dimension_values')
+                        ->with('rsr_indicators.rsr_periods.rsr_period_dimension_values')
+                        ->with(['childrens' => function ($q) {
+                            $q->with('rsr_indicators.rsr_dimensions.rsr_dimension_values');
+                            $q->with('rsr_indicators.rsr_periods.rsr_period_dimension_values');
+                            $q->with(['childrens' => function ($q) {
+                                $q->with('rsr_indicators.rsr_dimensions.rsr_dimension_values');
+                                $q->with('rsr_indicators.rsr_periods.rsr_period_dimension_values');
+                            }]);
+                        }])->orderBy('order')->get();
+        
+        $uii = $results->pluck('title');
+        $collections = collect();
+        $this->fetchChildRsrDatatableByUii($collections, $results);
+
+        return [
+            'uii' => $uii,
+            'data' => $collections,
+        ];
+    }
+
+    private function fetchChildRsrDatatableByUii($collections, $results)
+    {
+        foreach ($results as $result) {
+            // grep indicators data
+            $indicators = collect();
+            if (count($result['rsr_indicators'] > 0)) {
+                $this->fetchIndicatorRsrDatatableByUii($indicators, $result['rsr_indicators']);
+            }
+            $collections->push([
+                'uii' => $result['title'],
+                'project' => $result['project'],
+                'indicators' => $indicators,
+            ]);
+            if (count($result['childrens']) > 0) {
+                $this->fetchChildRsrDatatableByUii($collections, $result['childrens']);
+            }
+        }
+        return $collections;
+    }
+
+    private function fetchIndicatorRsrDatatableByUii($indicators, $data)
+    {
+        //
+        return;
     }
     
 }

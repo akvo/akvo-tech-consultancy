@@ -8,6 +8,7 @@ return [
         'projects' => $ROOT_API . '/project', # /param
         'updates' => $ROOT_API . '/project_update', # /param
         'results' => $ROOT_API . '/results_framework', # /param
+        'rsr_page' => 'https://rsr.akvo.org/en/project/', # project_id
     ],
     'charts' => [
         'reachreact' => [

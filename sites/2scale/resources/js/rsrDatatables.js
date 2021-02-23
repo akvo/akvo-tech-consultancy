@@ -192,7 +192,7 @@ const agregateExtras = (data) => {
     ];
 };
 
-const renderRow = (data, level=1, parentId='', childId='') => {
+const renderRow = (data, level=1, parentId='', childId='', url=false) => {
     let icon_plus = '<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus" fill="currentColor" xmlns="http://www.w3.org/2000/svg">\
         <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>\
     </svg>';
@@ -231,9 +231,13 @@ const renderRow = (data, level=1, parentId='', childId='') => {
         data.columns = tmp;
     }
 
+    url = (parentId === 8759) && 'https://rsr.akvo.org/en/project/8759';
+    url = false;
+
     let last_child = (data.childrens.length > 0) ? '' : 'last_child';
     row += '<tr '+data_id+' data-level="'+level+'" class="'+style+' level_'+level+' '+last_child+'">';
-    row += '<td class="partner" '+indent+'>'+icon_plus+' '+titleFormat(data.project)+'</td>';
+    (url) ? row += '<td class="partner" '+indent+'><span>'+icon_plus+'</span> <a target="_blank" href="'+url+'">'+titleFormat(data.project)+'</a></td>'
+          : row += '<td class="partner" '+indent+'>'+icon_plus+' '+titleFormat(data.project)+'</td>';
     data.columns.forEach(val => {
         if (val.dimensions.length > 0) {
             val.dimensions.forEach(val => {
@@ -597,21 +601,22 @@ export const renderRsrTable = (endpoint, baseurl, datatableId) => {
         html += '</thead>';
         return res;
     }).then(res => {
-        html += '<tbody>';
+        let url = res.config.url;
         let parentId = res.data.rsr_project_id;
-        html += renderRow(res.data, 1, parentId)
+        html += '<tbody>';
+        html += renderRow(res.data, 1, parentId, url+parentId);
         html += renderExtra(res.data.extras, parentId, '', true, true);
     
         if (res.data.childrens.length > 0) {
             res.data.childrens.forEach((val, index) => {
                 let childId = val.rsr_project_id;
                 let last = (res.data.childrens.length-1) !== index;
-                html += renderRow(val, 2, parentId, childId);
+                html += renderRow(val, 2, parentId, childId, url+childId);
                 html += renderExtra(val.extras, 'child-'+parentId, childId, false, last);
     
                 if (val.childrens.length > 0) {
                     val.childrens.forEach(val => {
-                        html += renderRow(val, 3, parentId, childId);
+                        html += renderRow(val, 3, parentId, childId, url+childId);
                     });
                 }
                 html += renderLastRow(val, last);

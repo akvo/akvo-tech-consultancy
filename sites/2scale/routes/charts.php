@@ -81,6 +81,7 @@ Route::get('/report/total-activities', 'Api\ChartController@reportTotalActivitie
 
 
 /**
- * Test
+ * RSR
  */
- Route::get('/rsr-datatables/{country_id}/{partnership_id}', 'Api\ChartController@getRsrDatatable');
+Route::get('/rsr-datatables/{country_id}/{partnership_id}', 'Api\ChartController@getRsrDatatable');
+Route::get('/rsr-datatables/uii/{country_id}/{partnership_id}', 'Api\ChartController@getRsrDatatableByUii');
