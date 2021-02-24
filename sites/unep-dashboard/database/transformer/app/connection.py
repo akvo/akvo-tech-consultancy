@@ -3,8 +3,8 @@ import os;
 def engine_url():
     return "mysql+pymysql://{user}:{pw}@localhost/{db}".format(
             # user = "root",
-            user = os.environ["PSQL_USER"],
-            pw = os.environ["PSQL_PWD"],
+            user = os.environ["MYSQL_USER"],
+            pw = os.environ["MYSQL_PWD"],
             db = "unep"
     )
 

@@ -43,7 +43,8 @@ const MapsOverride = (toolTip, props) => {
             top: 40,
             splitList: [
                 {start: 100000000, label:lang.moreThan + ' 100 ' + lang.million},
-                {start: 1000000, end: 100000000, label: '1 - 100 ' + lang.million},
+                {start: 50000000, end: 100000000, label: '50 ' + lang.million + ' - 100 ' + lang.million},
+                {start: 1000000, end: 50000000, label: '1 ' + lang.million+ ' - 50 ' + lang.million},
                 {start: 100000, end: 10000000, label: '100 ' + lang.thousand + ' - 1 ' + lang.million},
                 {start: 1, end: 100000, label: lang.lessThan + ' 100 ' + lang.thousand},
                 {end: 0, label:lang.noFunding}
