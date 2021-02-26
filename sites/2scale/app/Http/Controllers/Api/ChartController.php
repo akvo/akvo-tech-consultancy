@@ -1111,7 +1111,7 @@ class ChartController extends Controller
 
         return [
             'uii' => $uii,
-            'data' => $collections,
+            'data' => $collections->groupBy('uii'),
         ];
     }
 
@@ -1119,15 +1119,17 @@ class ChartController extends Controller
     {
         foreach ($results as $result) {
             // grep indicators data
-            $indicators = collect();
-            if (count($result['rsr_indicators'] > 0)) {
-                $this->fetchIndicatorRsrDatatableByUii($indicators, $result['rsr_indicators']);
+            if (count($result['rsr_indicators']) > 0) {
+                $indicators = $this->fetchIndicatorRsrDatatableByUii($result['rsr_indicators']);
             }
-            $collections->push([
+            $temp = collect([
                 'uii' => $result['title'],
                 'project' => $result['project'],
-                'indicators' => $indicators,
+                'indicators' => $indicators
             ]);
+            // $merge = $temp->merge($indicators->first())->all();
+            // $collections->push($merge);
+            $collections->push($temp);
             if (count($result['childrens']) > 0) {
                 $this->fetchChildRsrDatatableByUii($collections, $result['childrens']);
             }
@@ -1135,10 +1137,28 @@ class ChartController extends Controller
         return $collections;
     }
 
-    private function fetchIndicatorRsrDatatableByUii($indicators, $data)
+    private function fetchIndicatorRsrDatatableByUii($indicators)
     {
-        //
-        return;
+        $data = $indicators->map(function ($indicator) {
+            // populating the periods
+            $periodDimensionValues = [];
+            if (count($indicator['rsr_periods']) > 0) {
+                $periodDimensionValues = $indicator['rsr_periods']->pluck('rsr_period_dimension_values')->flatten(1);
+            }
+            // populating the dimension
+            $indicator['dimensions'] = null;
+            if ($indicator['has_dimension'] || count($indicator['rsr_dimensions']) > 0) {
+                $indicator['dimensions'] = $indicator['rsr_dimensions']->map(function ($dimension) use ($periodDimensionValues) {
+                    $dimension['values'] = $dimension['rsr_dimension_values']->map(function ($dv) use ($periodDimensionValues) {
+                        $dv['actual'] = $periodDimensionValues->where('rsr_dimension_value_id', $dv['id'])->sum();
+                        return $dv->only('name', 'value', 'actual');
+                    });
+                    return $dimension->only('name', 'values');
+                });
+            }
+            return collect($indicator)->only('title', 'baseline_year', 'baseline_value', 'target_value', 'dimensions', 'periods');
+        });
+        return $data;
     }
     
 }
