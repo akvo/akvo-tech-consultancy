@@ -1092,7 +1092,9 @@ class ChartController extends Controller
     
     public function getRsrDatatableByUii(Request $request) {
         $config = config('akvo-rsr');
-        $projects = \App\RsrProject::all();
+        $partnerships = \App\Partnership::where('level', 'partnership')->get();
+        $projects = \App\RsrProject::whereIn('partnership_id', $partnerships->pluck('id'))->get();
+        // $results = \App\RsrResult::whereIn('rsr_project_id', $projects->pluck('id'))
         $results = \App\RsrResult::where('rsr_project_id', $config['projects']['parent'])
                         ->with('rsr_indicators.rsr_dimensions.rsr_dimension_values')
                         ->with('rsr_indicators.rsr_periods.rsr_period_dimension_values')
@@ -1105,13 +1107,26 @@ class ChartController extends Controller
                             }]);
                         }])->orderBy('order')->get();
         
+        // return $results;
         $uii = $results->pluck('title');
         $collections = collect();
         $this->fetchChildRsrDatatableByUii($collections, $results);
+        $data = $collections->whereIn('id', $projects->pluck('id'))->values();
+
+        $tmp = collect();
+        foreach ($uii as $key) {
+            $values = $data->where('uii', $key)->values();
+            $test['uii'] = $key;
+            foreach ($values as $item) {
+                $test[$item['project']] = $item['indicators'];
+            }
+            $tmp->push($test);
+        }
 
         return [
             'uii' => $uii,
-            'data' => $collections->groupBy('uii'),
+            'partnership' => $projects->pluck('title'),
+            'data' => $tmp,
         ];
     }
 
@@ -1120,10 +1135,11 @@ class ChartController extends Controller
         foreach ($results as $result) {
             // grep indicators data
             if (count($result['rsr_indicators']) > 0) {
-                $indicators = $this->fetchIndicatorRsrDatatableByUii($result['rsr_indicators']);
+                $indicators = $this->fetchIndicatorRsrDatatableByUii($result['rsr_indicators'], $result);
             }
             $temp = collect([
                 'uii' => $result['title'],
+                'id' => $result['rsr_project_id'],
                 'project' => $result['project'],
                 'indicators' => $indicators
             ]);
@@ -1137,9 +1153,11 @@ class ChartController extends Controller
         return $collections;
     }
 
-    private function fetchIndicatorRsrDatatableByUii($indicators)
+    private function fetchIndicatorRsrDatatableByUii($indicators, $result)
     {
-        $data = $indicators->map(function ($indicator) {
+        $data = $indicators->map(function ($indicator) use ($result) {
+            // project name
+            $indicator['project'] = $result['project'];
             // populating the periods
             $periodDimensionValues = [];
             if (count($indicator['rsr_periods']) > 0) {
@@ -1150,13 +1168,13 @@ class ChartController extends Controller
             if ($indicator['has_dimension'] || count($indicator['rsr_dimensions']) > 0) {
                 $indicator['dimensions'] = $indicator['rsr_dimensions']->map(function ($dimension) use ($periodDimensionValues) {
                     $dimension['values'] = $dimension['rsr_dimension_values']->map(function ($dv) use ($periodDimensionValues) {
-                        $dv['actual'] = $periodDimensionValues->where('rsr_dimension_value_id', $dv['id'])->sum();
+                        $dv['actual'] = collect($periodDimensionValues)->where('rsr_dimension_value_id', $dv['id'])->sum();
                         return $dv->only('name', 'value', 'actual');
                     });
                     return $dimension->only('name', 'values');
                 });
             }
-            return collect($indicator)->only('title', 'baseline_year', 'baseline_value', 'target_value', 'dimensions', 'periods');
+            return collect($indicator)->only('project', 'title', 'baseline_year', 'baseline_value', 'target_value', 'dimensions', 'periods');
         });
         return $data;
     }
