@@ -54,4 +54,6 @@ Route::prefix('export')->group(function() {
     Route::get('projects', 'Api\PublicController@exportProjects');
     Route::get('project-actions', 'Api\PublicController@exportProjectActions');
     Route::get('project-action-details', 'Api\PublicController@exportProjectActionDetails');
+    Route::get('organization', 'Api\PublicController@organization');
+    Route::get('groups', 'Api\PublicController@exportGroups');
 });

@@ -35,13 +35,21 @@ class PublicController extends Controller
         return $actions;
     }
 
+    public function organization() {
+        $orgs = \App\Question::where('code', 43374842)->with('answers')->first()->answers;
+        $orgs = collect($orgs)->map(function($data){
+            return ['name' => $data->value];
+        });
+        return $orgs;
+    }
+
     /**
      * ---------------------------------------------
      * Public API & Documentation
      * ---------------------------------------------
      */
 
-    
+
     /**
         @OA\Get(
             path="/images/unep-erd.png",
@@ -55,7 +63,7 @@ class PublicController extends Controller
             ),
         )
     */
-    
+
     /**
         @OA\Get(
             path="/api/public/questions",
@@ -310,7 +318,7 @@ class PublicController extends Controller
                                 },
                                 "locale": {},
                             },
-                        }   
+                        }
                     )
                 }
             ),
@@ -411,7 +419,7 @@ class PublicController extends Controller
                             "prev_page_url": null,
                             "to": 15,
                             "total": 220,
-                        }   
+                        }
                     )
                 }
             ),
@@ -430,7 +438,7 @@ class PublicController extends Controller
     public function getPublicDatapoints()
     {
         $datapoints = \App\Datapoint::with([
-            'countries.country', 
+            'countries.country',
             'values.value'
         ])->paginate();
         return ($datapoints->count() > 0)
@@ -496,7 +504,7 @@ class PublicController extends Controller
                                 "countries": {},
                                 "values": {},
                             }
-                        }   
+                        }
                     )
                 }
             ),
@@ -520,11 +528,11 @@ class PublicController extends Controller
                 'keywords',
                 'info',
                 'answers',
-                'countries.country', 
+                'countries.country',
                 'values.value'
             ])->get();
-        return ($datapoint->count() > 0) 
-            ? $datapoint 
+        return ($datapoint->count() > 0)
+            ? $datapoint
             : \response('Not Found', 404);
     }
 
@@ -536,6 +544,18 @@ class PublicController extends Controller
 
     public function exportProjectActionDetails() {
         return \App\Question::with('value')->get();
+    }
+
+    public function exportGroups() {
+        $countryGroup = \App\Group::with('countries.country')->get();
+        $groups = collect();
+        $countryGroup->map(function($group) use ($groups){
+            $countries = $group->countries->map(function($country){
+                return $country->country->name;
+            });
+            $groups[$group->name] = $countries;
+        });
+        return $groups;
     }
 
     public function exportProjects() {
