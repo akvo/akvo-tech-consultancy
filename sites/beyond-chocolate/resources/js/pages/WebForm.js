@@ -515,11 +515,14 @@ const NewFormSelector = ({
                             options={
                                 available &&
                                 available.map(f => {
-                                    let title = questionnaire[f.name][
-                                        locale.active
-                                    ]
-                                        ? questionnaire[f.name][locale.active]
-                                        : f.title;
+                                    let title =
+                                        typeof questionnaire[f.name][
+                                            locale.active
+                                        ] !== "undefined"
+                                            ? questionnaire[f.name][
+                                                  locale.active
+                                              ]
+                                            : f.title;
                                     return {
                                         value: f.name,
                                         label: title
