@@ -512,14 +512,18 @@ const NewFormSelector = ({
                             isOptionDisabled={option =>
                                 submissions.includes(parseInt(option.value))
                             }
-                            options={available.map(f => {
-                                let title =
-                                    questionnaire[f.name][locale.active];
-                                return {
-                                    value: f.name,
-                                    label: title
-                                };
-                            })}
+                            options={
+                                available &&
+                                available.map(f => {
+                                    let title = questionnaire[f.name]
+                                        ? questionnaire[f.name][locale.active]
+                                        : f.title;
+                                    return {
+                                        value: f.name,
+                                        label: title
+                                    };
+                                })
+                            }
                             formatOptionLabel={formatLabel}
                         />
                         {alert ? (
