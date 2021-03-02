@@ -57,6 +57,10 @@ const questionnaire = {
         en: "D - Standard setting organisations - Beyond Chocolate",
         de: "D - Standardsetzende Organisationen - Beyond Chocolate",
     },
+    "105320142": {
+        en: "Survey Tests Example Survey",
+        de: "Survey Tests Example Survey",
+    },
 }
 
 export { useLocale, langs, questionnaire }
