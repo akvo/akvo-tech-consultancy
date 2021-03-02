@@ -515,7 +515,9 @@ const NewFormSelector = ({
                             options={
                                 available &&
                                 available.map(f => {
-                                    let title = questionnaire[f.name]
+                                    let title = questionnaire[f.name][
+                                        locale.active
+                                    ]
                                         ? questionnaire[f.name][locale.active]
                                         : f.title;
                                     return {
