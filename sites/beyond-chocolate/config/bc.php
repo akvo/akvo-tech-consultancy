@@ -108,9 +108,9 @@ return [
             "name" => "D-bis-Standard setters BC"
         ],
         [
-            "surveyGroupId" => "107720127",
-            "surveyId" => "105320142",
-            "name" => "Survey Tests Example Survey"
+            "surveyGroupId" => "137180055",
+            "surveyId" => "150981538",
+            "name" => "Pilot-Monitoring des Forum Nachhaltiger Kakao"
         ],
 
     ],
