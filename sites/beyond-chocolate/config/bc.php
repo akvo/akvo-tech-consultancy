@@ -44,6 +44,7 @@ return [
         '143340791' => 'C - Retail - Beyond Chocolate',
         '150700609' => 'D - Civil Society (NGOs) - Beyond Chocolate',
         '148430590' => 'D - Standard setting organisations - Beyond Chocolate',
+        '150981538' => 'Pilot-Monitoring des Forum Nachhaltiger Kakao',
     ],
 
     'form_url' => 'https://tech-consultancy.akvotest.org/akvo-flow-web/idh/',
@@ -106,6 +107,12 @@ return [
             "surveyId" => "148430590",
             "name" => "D-bis-Standard setters BC"
         ],
+        [
+            "surveyGroupId" => "137180055",
+            "surveyId" => "150981538",
+            "name" => "Pilot-Monitoring des Forum Nachhaltiger Kakao"
+        ],
+
     ],
 
     'flow_data_form_instance_url' => $flowDataURL.'form-instances/idh/' # survey_group_id / survey_id

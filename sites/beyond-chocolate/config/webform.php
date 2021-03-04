@@ -3,7 +3,7 @@
 return [
     "forms" => [
         "project" => [
-            "fids" => ["111510043", "143215090"],
+            "fids" => ["111510043", "143215090", "150981538"],
             "max_submission" => null,
         ],
         "industry" => [
@@ -36,6 +36,6 @@ return [
                     "comment" => 124750055
                 ]
             ],
-        ]   
+        ]
     ]
 ];
