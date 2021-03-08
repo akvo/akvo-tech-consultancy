@@ -823,12 +823,12 @@ const WebForm = ({ setFormLoaded, webForm, setWebForm }) => {
                         locale={locale}
                         data={dsc}
                     />
-                    <NewProjectSurveyInfoModal
+               {/*     <NewProjectSurveyInfoModal
                         text={text}
                         show={showProjectInfo}
                         onHide={onClosedProjectInfo}
                         content={content.newProjectPopupText}
-                    />
+                    />*/}
                     {/* <SubmissionInfoModal
                         text={text}
                         show={showSubmissionInfo}
