@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import { Alert } from 'react-bootstrap';
 
 export const wfc = (handleShow, activeForm=null) => {
+
     return {
         en: {
             dataSecurityText: <Fragment><a onClick={handleShow} href="#">Data security provisions</a> for the data that will be submitted as part of this survey.</Fragment>,
