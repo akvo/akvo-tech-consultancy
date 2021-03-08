@@ -557,53 +557,6 @@ const NewFormSelector = ({
     );
 };
 
-const NewProjectSurveyInfoModal = ({ text, show, onHide, content }) => {
-    return (
-        <Modal size="lg" scrollable={true} show={show} onHide={onHide}>
-            <Modal.Header closeButton>
-                <Modal.Title>{text.modalNewProject}</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                <div className="ml-4 mr-4">
-                    <p>{content.section}</p>
-                    <ul className="ml-4">
-                        {content.list.map((x, i) => (
-                            <li key={i}>{x}</li>
-                        ))}
-                    </ul>
-                </div>
-            </Modal.Body>
-            <Modal.Footer>
-                <Button variant="secondary" onClick={onHide}>
-                    {text.btnOk}
-                </Button>
-            </Modal.Footer>
-        </Modal>
-    );
-};
-
-const SubmissionInfoModal = ({ text, show, onHide, submissionInfo }) => {
-    let content = "";
-    if (typeof submissionInfo !== "undefined") {
-        const { submissions, users } = submissionInfo;
-        let status = submissions[0]["submitted"] ? "Submitted" : "Saved";
-        content = status + " by " + users[0]["name"];
-    }
-    return (
-        <Modal size="md" scrollable={true} show={show} onHide={onHide}>
-            <Modal.Header closeButton>
-                <Modal.Title>Maximum Submission</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>{text.valOptionNewFormDisabledInfo}</Modal.Body>
-            <Modal.Footer>
-                <Button variant="secondary" onClick={onHide}>
-                    {text.btnClose}
-                </Button>
-            </Modal.Footer>
-        </Modal>
-    );
-};
-
 const WebForm = ({ setFormLoaded, webForm, setWebForm }) => {
     const { user } = useAuth();
     const { locale } = useLocale();
@@ -823,18 +776,6 @@ const WebForm = ({ setFormLoaded, webForm, setWebForm }) => {
                         locale={locale}
                         data={dsc}
                     />
-               {/*     <NewProjectSurveyInfoModal
-                        text={text}
-                        show={showProjectInfo}
-                        onHide={onClosedProjectInfo}
-                        content={content.newProjectPopupText}
-                    />*/}
-                    {/* <SubmissionInfoModal
-                        text={text}
-                        show={showSubmissionInfo}
-                        onHide={e => setShowSubmissionInfo(false)}
-                        submissionInfo={submissionInfo}
-                    /> */}
                     <SaveFormModal
                         text={text}
                         show={formLoaded && showSavePrompt}
