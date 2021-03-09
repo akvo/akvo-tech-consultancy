@@ -58,7 +58,7 @@ const questionnaire = {
         de: "D - Standardsetzende Organisationen - Beyond Chocolate"
     },
     "150981538": {
-        en: "Pilot-monitoring of the forum for sustainable cocoa",
+        en: "Pilot-monitoring of the German initiative for sustainable cocoa",
         de: "Pilot-Monitoring des Forum Nachhaltiger Kakao"
     }
 };
