@@ -10,7 +10,7 @@ sudo chown "${USER}:" . -R
 
 echo "Deploying site..."
 
-if [["${TRAVIS_BRANCH}" != "sites/beyond-chocolate" && "${TRAVIS_BRANCH}" != "sites/beyond-chocolate-test"]]; then
+if [[ "${TRAVIS_BRANCH}" != "sites/beyond-chocolate" && "${TRAVIS_BRANCH}" != "sites/beyond-chocolate-test" ]]; then
     exit 0
 fi
 

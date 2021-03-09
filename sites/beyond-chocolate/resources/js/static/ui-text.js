@@ -71,7 +71,6 @@ export const uiText = {
         tbRowNoRecords: "There are no records to display.",
         // Modal
         modalDataSecurity: "Data Security Provisions",
-        modalNewProject: "New projects questionnaire information",
         modalSaveForm: "Save Form Data",
         modalWarning: "Warning",
         // Validation & Message
@@ -184,7 +183,6 @@ export const uiText = {
         tbRowNoRecords: "Keine Daten vorhanden.",
         // Modal
         modalDataSecurity: "Datensicherheitsmaßnahmen",
-        modalNewProject: "Information zur Eröffnung eines neuen Projekt-Fragebogens",
         modalSaveForm: "Daten speichern",
         modalWarning: "Warnung",
         // Validation & Message
