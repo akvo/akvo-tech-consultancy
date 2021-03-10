@@ -10,7 +10,7 @@
         <a class="nav-link" href="/">Home</a>
         <?php Session::forget('status'); ?>
       </li>
-      
+
       <li class="nav-item {{Route::is('dashboard') ? 'active' : '' }}">
           <a class="nav-link" href="/dashboard">Impact</a>
       </li>

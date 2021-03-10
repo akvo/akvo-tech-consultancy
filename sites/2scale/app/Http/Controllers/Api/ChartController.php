@@ -452,7 +452,7 @@ class ChartController extends Controller
             $datapoints_id = $this->filterQuery($request);
             $all = $all->whereIn('datapoint_id',$datapoints_id);
         }
-        $all = collect($all->get())->map(function($dt, $key) 
+        $all = collect($all->get())->map(function($dt, $key)
             use ($femaleold, $femaleyoung, $maleold, $maleyoung ){
                 $dt->answer = (int) $dt->answer;
                 if (collect($femaleold)->contains($dt->question_id)){
@@ -697,7 +697,7 @@ class ChartController extends Controller
                         }]);
                     }]);
                 }])->first();
-        
+
         $this->collections = collect();
         $data = $data['rsr_results']->transform(function ($res) {
             $res['parent_project'] = null;
@@ -723,7 +723,7 @@ class ChartController extends Controller
                     'title' => '# of '.Str::after($res['title'], ': '),
                     'subtitle' => $subtitles,
                 ];
-            } 
+            }
             if (count($res['rsr_dimensions']) > 0 && $res['rsr_indicators_count'] === 1) {
                 # UII 8 : As in RSR
                 $subtitles = collect();
@@ -858,9 +858,9 @@ class ChartController extends Controller
         }
         if (count($res['rsr_dimensions']) > 0 && count($res['childrens']) !== 0) {
             // aggregate dimension value
-            $res['rsr_dimensions'] = $res['rsr_dimensions']->transform(function ($dim) 
+            $res['rsr_dimensions'] = $res['rsr_dimensions']->transform(function ($dim)
                 use ($collections) {
-                $dim['rsr_dimension_values'] = $dim['rsr_dimension_values']->transform(function ($dimVal) 
+                $dim['rsr_dimension_values'] = $dim['rsr_dimension_values']->transform(function ($dimVal)
                     use ($collections) {
                     $values = $collections->flatten(1)->where('parent_dimension_value', $dimVal['id']);
                     if ($dimVal['value'] == 0) {
@@ -890,9 +890,9 @@ class ChartController extends Controller
                     return $per['rsr_period_dimension_values'];
                 })->flatten(1);
                 // aggregate dimension value
-                $ind['rsr_dimensions'] = $ind['rsr_dimensions']->transform(function ($dim) 
+                $ind['rsr_dimensions'] = $ind['rsr_dimensions']->transform(function ($dim)
                     use ($periodDimensionValues) {
-                    $dim['rsr_dimension_values'] = $dim['rsr_dimension_values']->transform(function ($dimVal) 
+                    $dim['rsr_dimension_values'] = $dim['rsr_dimension_values']->transform(function ($dimVal)
                         use ($periodDimensionValues) {
                         $dimVal['total_actual_value'] = $periodDimensionValues
                                                         ->where('rsr_dimension_value_id', $dimVal['id'])
@@ -1089,7 +1089,7 @@ class ChartController extends Controller
         // $legends = $series->pluck('name');
         // return $this->echarts->generateBarCharts($legends, $categories, $type, $series);
     }
-    
+
     public function getRsrDatatableByUii(Request $request) {
         $config = config('akvo-rsr');
         $partnerships = \App\Partnership::where('level', 'partnership')->get();
@@ -1106,7 +1106,7 @@ class ChartController extends Controller
                                 $q->with('rsr_indicators.rsr_periods.rsr_period_dimension_values');
                             }]);
                         }])->orderBy('order')->get();
-        
+
         // return $results;
         $uii = $results->pluck('title');
         $collections = collect();
@@ -1178,5 +1178,5 @@ class ChartController extends Controller
         });
         return $data;
     }
-    
+
 }

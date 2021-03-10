@@ -251,7 +251,7 @@ class SyncController extends Controller
     }
 
     private function updateOrCreateQuestionOptions($forms, $questions)
-    {   
+    {
         $forms = collect($forms)->map(function($form){
             if (Arr::has($form, 'question')) {
                 return [$form['question']];
@@ -324,7 +324,7 @@ class SyncController extends Controller
         // generate report
         $success = $forms->map(function ($form) {
             $countdps = $this->success->filter(function ($value) use ($form) {
-                 return $value['form_id'] === $form['form_id']; 
+                 return $value['form_id'] === $form['form_id'];
             });
             return [
                 'survey_id' => $form['survey_id'],
@@ -418,7 +418,7 @@ class SyncController extends Controller
                                 $this->repeat_temp[$question_id] = 1;
                             }
                             $repeat_index = $this->repeat_temp[$question_id];
-                            
+
                             $check = $answerData->keys();
                             $qids = Question::where('question_group_id', $qgroup['id'])->pluck('question_id');
                             $diff = $qids->diff($check);
@@ -493,7 +493,7 @@ class SyncController extends Controller
                             'answers' => $group,
                         )
                     );
-                }        
+                }
             }
         });
 
@@ -578,13 +578,13 @@ class SyncController extends Controller
         }
         if ($status === 'success') {
             $thead .= '<th>Datapoints count</th>';
-        }  
+        }
         if ($status === 'error') {
             $thead .= '<th>Instance id</th>';
-        }               
+        }
         $thead .= '</tr>';
-        
-        
+
+
         $tbody = '';
         foreach ($formData as $key => $x) {
             $tbody .= '<tr>';
@@ -609,7 +609,7 @@ class SyncController extends Controller
                 <thead>'.$thead.'</thead>
                 <tbody>'.$tbody.'</tbody>
             </table>';
-        
+
         return $table;
     }
 
@@ -640,7 +640,7 @@ class SyncController extends Controller
     }
 
     public function syncData(
-        FlowApi $flowApi, FlowAuth0 $flow, Sync $syncs, Form $forms, 
+        FlowApi $flowApi, FlowAuth0 $flow, Sync $syncs, Form $forms,
         Partnership $partnerships, Datapoint $datapoints, Answer $answers, Question $questions,
         $syncUrl=false
     )
@@ -671,13 +671,13 @@ class SyncController extends Controller
                 $updatedFlowApi = $flowApi->questions($form['id'], $update = true);
 
                 // updateOrCreate partnership table
-                $partner_qids = collect(config('surveys.forms'))->map(function ($item) { 
-                    return $item['list']; 
+                $partner_qids = collect(config('surveys.forms'))->map(function ($item) {
+                    return $item['list'];
                 })->flatten(1)->pluck('partner_qid');
                 // get the partnership questions
                 $isObject = Arr::isAssoc($updatedFlowApi['questionGroup']);
                 if ($isObject) {
-                    $partner_qs = collect($updatedFlowApi['questionGroup']['question'])->map(function ($q) { 
+                    $partner_qs = collect($updatedFlowApi['questionGroup']['question'])->map(function ($q) {
                         $q['id'] = (int) $q['id'];
                         return $q;
                     })->reject(function ($item) use ($partner_qids) {
@@ -686,9 +686,9 @@ class SyncController extends Controller
                 }
                 if (!$isObject) {
                     $partner_qs = collect($updatedFlowApi['questionGroup'])->map(function ($qgroup) use ($partner_qids) {
-                        $qs = collect($qgroup['question'])->map(function ($q) { 
+                        $qs = collect($qgroup['question'])->map(function ($q) {
                             $q['id'] = (int) $q['id'];
-                            return $q; 
+                            return $q;
                         });
                         return $qs->whereIn('id', $partner_qids);
                     })->reject(function ($item) {
@@ -719,7 +719,7 @@ class SyncController extends Controller
 
                 // collect questions
                 $this->collections->push($updatedFlowApi['questionGroup']);
-                
+
                 return [
                     'partnershipUpdated' => $partnerUpdated,
                     'formUpdated' => $formUpdated,
@@ -752,7 +752,7 @@ class SyncController extends Controller
             $dpsChanged = $this->oldData->map(function ($data_point) use ($datapoints, $answers) {
                 $data_points = collect($data_point)->except('answers')->toArray();
                 $dp = $datapoints->updateOrCreate(
-                    ['datapoint_id' => $data_points['datapoint_id']], 
+                    ['datapoint_id' => $data_points['datapoint_id']],
                     $data_points
                 );
                 $answer = collect($data_point["answers"])->map(function ($answer) use ($dp, $answers) {
@@ -762,12 +762,12 @@ class SyncController extends Controller
                         [
                             'datapoint_id' => $answer['datapoint_id'],
                             'question_id' => $answer['question_id'],
-                        ], 
+                        ],
                         [
                             'text' => $answer['text'],
                             'value' => $answer['value'],
                             'options' => $answer['options'],
-                        ], 
+                        ],
                     );
                     return $answer;
                 });
@@ -791,7 +791,7 @@ class SyncController extends Controller
         if (count($syncData['changes']['formInstanceDeleted']) !== 0 || count($syncData['changes']['dataPointDeleted']) !== 0) {
             $datapointDeleted = collect($syncData['changes']['dataPointDeleted'])->map(function ($item) { return (int) $item; });
             $dpsDeleted = $datapoints->whereIn('datapoint_id', $datapointDeleted)->delete();
-        
+
             $this->dpsDeleted = $this->dpsDeleted + $dpsDeleted;
         }
 
@@ -800,12 +800,12 @@ class SyncController extends Controller
             $postSync = new Sync(['url' => $syncData['nextSyncUrl']]);
             $postSync->save();
             $forms = new Form();
-            $this->syncData($flowApi, $flow, $syncs, $forms, 
+            $this->syncData($flowApi, $flow, $syncs, $forms,
                             $partnerships, $datapoints, $answers, $questions,
                             $syncData['nextSyncUrl']
                         );
         }
-        
+
         return "Done";
     }
 }

@@ -1,0 +1,30 @@
+FROM php:7.4-fpm
+
+ARG USER_ID
+
+RUN set -eux; \
+    addgroup akvo; \
+    adduser --uid $USER_ID --disabled-password --home /home/akvo --shell /bin/bash --ingroup akvo --gecos "" akvo
+
+RUN set -eux; \
+    mkdir -p /var/www/html; \
+    chown akvo:akvo /var/www/html
+
+WORKDIR /var/www/html
+
+RUN set -eux; \
+    apt-get update && apt-get install -y \
+        wait-for-it \
+        libfreetype6-dev \
+        libjpeg62-turbo-dev \
+        libpng-dev \
+        zip \
+        unzip; \
+    docker-php-ext-configure gd --with-freetype --with-jpeg; \
+    docker-php-ext-install -j$(nproc) gd pdo_mysql; \
+    pecl install xdebug; \
+    docker-php-ext-enable xdebug
+
+COPY --from=composer:1.10.20 /usr/bin/composer /usr/bin/composer
+
+USER akvo

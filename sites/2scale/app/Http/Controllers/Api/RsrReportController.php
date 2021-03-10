@@ -23,7 +23,7 @@ class RsrReportController extends Controller
                             $query->with('rsr_indicators.rsr_dimensions.rsr_dimension_values');
                             $query->with('rsr_indicators.rsr_periods.rsr_period_dimension_values');
                         }])->first();
-        
+
         // capitalize
         $rsrProject['subtitle'] = $this->capitalizeAfterDelimiters($rsrProject['subtitle'], ['.', '. ']);
         $rsrProject['project_plan_summary'] = $this->capitalizeAfterDelimiters($rsrProject['project_plan_summary'], ['.', '. ']);
@@ -41,9 +41,9 @@ class RsrReportController extends Controller
                         return $per['rsr_period_dimension_values'];
                     })->flatten(1);
                     // aggregate dimension value
-                    $ind['rsr_dimensions'] = $ind['rsr_dimensions']->map(function ($dim) 
+                    $ind['rsr_dimensions'] = $ind['rsr_dimensions']->map(function ($dim)
                         use ($periodDimensionValues) {
-                        $dim['rsr_dimension_values'] = $dim['rsr_dimension_values']->map(function ($dimVal) 
+                        $dim['rsr_dimension_values'] = $dim['rsr_dimension_values']->map(function ($dimVal)
                             use ($periodDimensionValues) {
                             $dimVal['period_actual_sum'] = $periodDimensionValues->where('rsr_dimension_value_id', $dimVal['id'])
                                     ->pluck('value')
@@ -101,7 +101,7 @@ class RsrReportController extends Controller
         foreach ($delimiters as $delimiter) {
             $temp = explode($delimiter, $string);
             array_walk($temp, function (&$value) { $value = ucfirst($value); });
-            $string = implode($temp, $delimiter);
+            $string = implode($delimiter, $temp);
         }
         if (empty($string) || $string == "​" || $string == null) {
             return $string;

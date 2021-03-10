@@ -18,7 +18,7 @@ if [[ "${TRAVIS_PULL_REQUEST}" != "false" ]]; then
     exit 0
 fi
 
-FOLDER="2scale-test" 
+FOLDER="2scale-test"
 
 if [[ "${TRAVIS_BRANCH}" == "master" ]]; then
 	FOLDER="2scale"
@@ -72,4 +72,5 @@ ssh -i "${SITES_SSH_KEY}" -o BatchMode=yes \
     -o StrictHostKeyChecking=no \
     u7-nnfq7m4dqfyx@35.214.170.100 "cd www/tc.akvo.org/public_html/${FOLDER}/ && /usr/local/bin/composer dump-autoload"
 
-echo "Done"
+echo "===================================================="
+echo "Done deploying ${FOLDER}"
