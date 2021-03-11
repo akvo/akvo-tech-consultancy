@@ -7,9 +7,10 @@ use Illuminate\Support\Collection;
 class Echarts
 {
     public function __construct(){
-        $this->pallete = array(
-            '#ff4444','#ffbb33', '#00C851', '#33b5e5', '#2BBBAD','#4285F4',  '#aa66cc', '#ff7043','#b2dfdb', '#b3e5fc', '#8d6e63','#f78bba','#231fa1'
-        );
+        // $this->pallete = array(
+        //     '#ff4444','#ffbb33', '#00C851', '#33b5e5', '#2BBBAD','#4285F4',  '#aa66cc', '#ff7043','#b2dfdb', '#b3e5fc', '#8d6e63','#f78bba','#231fa1'
+        // );
+        $this->pallete = array('#a43332', '#333433', '#609ba7', '#C9CDC0');
     }
     private function generateLegend($legend, $textStyle, $orient = 'horizontal', $x = 'center', $y = 'top') {
         return array(
@@ -384,6 +385,7 @@ class Echarts
                 'right' => 0,
             ),
             'series' => [[
+                'color' => $this->pallete,
                 'name' => $name,
                 'type' => 'treemap',
                 'visibleMin' => 300,

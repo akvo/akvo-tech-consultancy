@@ -49,7 +49,7 @@ Route::get('/partnership/countries-total/{country_id}/{partnership_id}', 'Api\Ch
 Route::get('/partnership/project-total/{country_id}/{partnership_id}', 'Api\ChartController@partnershipCommodityCharts');
 
 /*
-| Partnership with date filter 
+| Partnership with date filter
 */
 
 Route::get('/partnership/top-three/{country_id}/{partnership_id}/{start}/{end}','Api\ChartController@topThree');
@@ -75,7 +75,7 @@ Route::get('/home/investment-tracking', 'Api\ChartController@homeInvestmentTrack
 
 
 /**
- * Reports tab (new update) 
+ * Reports tab (new update)
  */
 Route::get('/report/total-activities', 'Api\ChartController@reportTotalActivities'); // Total number of activities captured filtered by country and partnership
 
