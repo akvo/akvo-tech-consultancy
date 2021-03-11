@@ -27,7 +27,7 @@ class Value extends Model
 
     public function childrens()
     {
-        return $this->hasMany('App\Value', 'parent_id', 'id')->with(['childrens','locale']);
+        return $this->hasMany('App\Value', 'parent_id', 'id')->with(['childrens','locale'])->where('name','!=','All of the above');
     }
 
     public function parents()
