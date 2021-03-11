@@ -35,7 +35,7 @@ class Echarts
             'fontSize' => 14,
         );
         return array (
-          'color' => $this->pallete, 
+          'color' => $this->pallete,
           'tooltip' => array ( 'trigger' => 'item'),
           'toolbox' => array (
             'show' => true,
@@ -53,37 +53,37 @@ class Echarts
               'type' => 'pie',
               'radius' => array ( '40%', '70%'),
               'avoidLabelOverlap' => false,
-              'label' => 
+              'label' =>
               array (
-                'normal' => 
+                'normal' =>
                 array (
                     'show' => true,
                     'position' => 'inside'
                 ),
-                'emphasis' => 
+                'emphasis' =>
                 array (
                   'show' => true,
-                  'textStyle' => 
+                  'textStyle' =>
                   array (
                     'fontSize' => '20',
                     'fontWeight' => 'bold',
                   ),
                 ),
               ),
-              'labelLine' => 
+              'labelLine' =>
               array (
-                'normal' => 
+                'normal' =>
                 array (
                   'show' => false,
                 ),
               ),
-              'data' => $data 
+              'data' => $data
             ),
           ),
         );
     }
-    
-    public function generateSimpleBarCharts($categories, $values, $showLabel=false, $yAxisLabel=false) 
+
+    public function generateSimpleBarCharts($categories, $values, $showLabel=false, $yAxisLabel=false)
 	{
         $categories = collect($categories)->map(function($l) {
             return $this->titler($l);
@@ -118,7 +118,7 @@ class Echarts
 				"type" => "value",
 			],
 			"series" => [[
-            	'color' => $this->pallete, 
+            	'color' => $this->pallete,
 				"data" => $values,
 				"type" => "bar"
 			]]
@@ -165,7 +165,7 @@ class Echarts
         });
         $yAxis = array(
             'type' => 'value',
-            'axisLabel' => $textStyle 
+            'axisLabel' => $textStyle
         );
         $xAxis = array(
             'type' => 'category',
@@ -182,11 +182,11 @@ class Echarts
             );
             $xAxis = array(
                 'type' => 'value',
-                'axisLabel' => $textStyle 
+                'axisLabel' => $textStyle
             );
         }
         return [
-            'color' => $this->pallete, 
+            'color' => $this->pallete,
             'dataZoom' => array(
                 'type' => 'inside',
                 'yAxisIndex' => [0]
@@ -205,11 +205,11 @@ class Echarts
             'legend' => $this->generateLegend($legend, $legendStyle, 'horizontal', 'left', 'bottom'),
             'toolbox' => array(
                 'show' => true,
-                'feature' => array( 
+                'feature' => array(
                     'saveAsImage' => array( 'show' =>  true, 'title' => 'Save')
                 ),
-                'bottom' => 0, 
-                'right' => 0, 
+                'bottom' => 0,
+                'right' => 0,
             ),
             'series' => $series,
             'xAxis' => $xAxis,
@@ -242,7 +242,7 @@ class Echarts
                     'shadowColor' => 'rgba(0, 0, 0, .7)',
 				)
 			);
-            return $dt; 
+            return $dt;
         })->toArray();
         return array (
           'visualMap' => array (
@@ -277,7 +277,7 @@ class Echarts
               'room' => true,
               'aspectScale' => 1,
               'map' => 'africa',
-              'data' => $data, 
+              'data' => $data,
             ),
           ),
         );
@@ -287,7 +287,7 @@ class Echarts
         return ucwords(str_replace('_',' ', strtolower($name)));
     }
 
-    public function generateBarLineCharts() 
+    public function generateBarLineCharts()
 	{
 		return [
 			'tooltip' => array (
@@ -377,11 +377,11 @@ class Echarts
         return [
             'toolbox' => array(
                 'show' => true,
-                'feature' => array( 
+                'feature' => array(
                     'saveAsImage' => array( 'show' =>  true, 'title' => 'Save')
                 ),
-                'bottom' => 0, 
-                'right' => 0, 
+                'bottom' => 0,
+                'right' => 0,
             ),
             'series' => [[
                 'name' => $name,
