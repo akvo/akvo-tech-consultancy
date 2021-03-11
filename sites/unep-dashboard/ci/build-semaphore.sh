@@ -9,14 +9,14 @@ docker run \
        --volume "$(pwd):/home/tcakvo/public_html/unep-dashboard" \
        --workdir /home/tcakvo/public_html/unep-dashboard \
        --entrypoint /bin/sh \
-       composer -c 'composer install'
+       composer:2.0.7 -c 'composer install'
 
 docker run \
        --rm \
        --volume "$(pwd):/home/tcakvo/public_html/unep-dashboard" \
        --workdir /home/tcakvo/public_html/unep-dashboard \
        --entrypoint /bin/sh \
-       composer -c 'composer dump-autoload'
+       composer:2.0.7 -c 'composer dump-autoload'
 
 echo 'MIX_PUBLIC_URL="https://unep.tc.akvo.org"' > .env
 
