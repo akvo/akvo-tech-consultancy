@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# FOLDER="2scale-test" 
+# FOLDER="2scale-test"
 FOLDER="2scale"
 
 rsync \
@@ -9,6 +9,7 @@ rsync \
     --progress \
     --exclude=ci \
     --exclude=node_modules \
+    --exclude=.docker/sql \
     . siteground:/home/customer/www/tc.akvo.org/public_html/$FOLDER/
 
 echo "Fixing permissions..."

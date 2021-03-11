@@ -9,14 +9,14 @@ docker run \
        --volume "$(pwd):/home/tcakvo/public_html/2scale" \
        --workdir /home/tcakvo/public_html/2scale \
        --entrypoint /bin/sh \
-       composer -c 'composer install'
+       composer:1.10.20 -c 'composer install'
 
 docker run \
        --rm \
        --volume "$(pwd):/home/tcakvo/public_html/2scale" \
        --workdir /home/tcakvo/public_html/2scale \
        --entrypoint /bin/sh \
-       composer -c 'composer dump-autoload'
+       composer:1.10.20 -c 'composer dump-autoload'
 
 docker run \
        --rm \
