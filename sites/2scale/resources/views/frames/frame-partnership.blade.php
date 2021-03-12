@@ -33,7 +33,7 @@ body{
     position:absolute;
     top: 45%;
 }
-.view.view-cascade.gradient-card-header{
+.view.view-cascade {
     border-radius: 3px;
     margin: 5px;
 }
@@ -44,7 +44,7 @@ body{
 
 <body>
     <!-- Jumbotron -->
-    <div class="text-white text-center py-2 px-4">
+    <div class="text-center py-2 px-4">
         <div id="jumbotron" class="row"></div>
     </div>
     <!-- Jumbotron -->

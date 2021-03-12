@@ -118,7 +118,7 @@
             <!--Grid row-->
             <div class="row d-fleax h-100 justify-content-conter">
               <div class="text-title-page col-md-6 mb-4 text-left">
-                <img src="/images/2scale_logo_white.png" height=40>
+                <img src="/images/2scale_logo_white.png" height=40px>
                 <h2>Data Portal</h2>
               </div>
             </div>
@@ -148,7 +148,7 @@
             <div class="row d-flex h-100 p-3 justify-content-center align-items-center wow fadeIn" style="margin-top: 25vh" id="zero-row">
               <div class="col-md-12">
                 <div class="card">
-                  <div class="card-header">
+                  <div class="card-header 2scale-brand">
                     2SCALE Partnership	
                   </div>
                   <div class="card-body">
@@ -158,7 +158,7 @@
               </div>
             </div>
 
-            <div class="cover-container d-flex h-100 p-3 mx-auto flex-column text-white" style="z-index: 999">
+            <div class="cover-container d-flex h-100 p-3 mx-auto flex-column" style="z-index: 999">
               <main role="main" class="inner cover">
               </main>
             </div>

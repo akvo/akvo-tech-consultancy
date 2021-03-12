@@ -62,8 +62,16 @@ body {
 }
 .navbar {
     padding: 0;
+    background: white;
 }
-
+.nav-item a {
+    color: black !important;
+    font-weight:700;
+}
+.nav-item a:hover {
+    color: #a43332 !important;
+    font-weight:700;
+}
 .nav-scroller {
     position: relative;
     z-index: 2;
@@ -233,4 +241,10 @@ button.btn.dropdown-toggle.btn-pink.bs-placeholder {
 
 .hidden {
     display:none!important;
+}
+.card-header.2scale-brand {
+    padding: .75rem 1.25rem;
+    margin-bottom: 0;
+    background-color:#C9CDC0 !important;
+    border-bottom: 1px solid rgba(0,0,0,.125);
 }

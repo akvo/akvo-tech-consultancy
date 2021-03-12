@@ -33,7 +33,7 @@ body{
     position:absolute;
     top: 45%;
 }
-.view.view-cascade.gradient-card-header{
+.view.view-cascade {
     border-radius: 3px;
     margin: 5px;
 }
@@ -43,14 +43,14 @@ body{
 </style>
 <body>
     <!-- Jumbotron -->
-  <div class="text-white text-center py-2 px-4">
+  <div class="text-center py-2 px-4">
 	<div id="jumbotron" class="row"></div>
   </div>
-  <div class="text-white text-center py-2 px-4">
+  <div class="text-center py-2 px-4">
 	<div class="row" id="zero-row">
 	<div class="col-md-6">
 		<div class="card">
-			<div class="card-header peach-gradient">
+			<div class="card-header">
 			    2SCALE Programs	
   			</div>
 			<div class="card-body mask rgba-blue-slight">
@@ -61,7 +61,7 @@ body{
   	</div>
   </div>
     <!-- Jumbotron -->
-    <div class="cover-container d-flex h-100 p-3 mx-auto flex-column text-white">
+    <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
       <main role="main" class="inner cover">
       </main>
     </div>

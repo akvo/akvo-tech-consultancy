@@ -24,7 +24,7 @@ body{
 	margin:auto;
     font-family: 'Montsterrat', sans-serif;
 }
-.view.view-cascade.gradient-card-header{
+.view.view-cascade {
     border-radius: 3px;
     margin: 5px;
 }

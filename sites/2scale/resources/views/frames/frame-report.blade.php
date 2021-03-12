@@ -33,7 +33,7 @@ body{
     position:absolute;
     top: 45%;
 }
-.view.view-cascade.gradient-card-header{
+.view.view-cascade {
     border-radius: 3px;
     margin: 5px;
 }
@@ -45,7 +45,7 @@ body{
     </div>
   
     <!-- Jumbotron -->
-    <div class="cover-container d-flex h-100 p-3 mx-auto flex-column text-white">
+    <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
         <main role="main" class="inner cover"></main>
     </div>
 
