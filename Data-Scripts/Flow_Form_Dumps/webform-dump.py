@@ -13,15 +13,15 @@ qtrans = "q-" + lang["name"]
 qotrans = "o-" + lang["name"]
 qttrans = "t-" + lang["name"]
 
-if len(sys.argv) < 2:
+if 'INSTANCE' not in os.environ or 'FID' not in os.environ:
     print("Wrong Input")
-    print("Example: dump.py <instance_name> <form_id>")
+    print("Example: -e INSTANCE=<instance_name> -e FID=<form_id>")
     exit(0)
 
 
 questions = []
-form_instance = sys.argv[1]
-form_id = sys.argv[2]
+form_instance = os.environ['INSTANCE']
+form_id = os.environ['FID']
 
 api = "https://tech-consultancy.akvo.org/akvo-flow-web-api"
 form = r.get("{}/{}/{}/update".format(api,form_instance,form_id))
@@ -178,4 +178,3 @@ form = pd.DataFrame(questions).sort_values(by=['order','option_id']).fillna(" - 
 ).first()
 
 form.to_excel("{}/{}_form_{}.xlsx".format(os.getcwd(),form_instance,form_id))
-
