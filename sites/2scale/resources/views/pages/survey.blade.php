@@ -5,7 +5,7 @@
 <div class="bg-white shadow-sm selector-bar">
 @if(!isset($saved_survey))
 	<nav class="nav">
-        <select data-url="{{ $surveys['url'] }}" id="select-survey" class="selectpicker" data-style="btn-pink" data-live-search="true">
+        <select data-url="{{ $surveys['url'] }}" id="select-survey" class="selectpicker" data-style="" data-live-search="true">
 		  <option>Select Survey</option>
             @foreach ($surveys['forms'] as $form)
               <optgroup label="{{ $form['name'] }}">

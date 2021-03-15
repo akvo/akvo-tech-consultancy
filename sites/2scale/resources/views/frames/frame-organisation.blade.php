@@ -66,7 +66,7 @@ button.btn.dropdown-toggle.btn-pink.bs-placeholder {
 
 <div class="bg-white flex-display selector-bar" style="padding-top:30px;">
 	<nav class="text-center">
-    <select id="select-country-survey" class="selectpicker" data-style="btn-pink" data-live-search="true">
+    <select id="select-country-survey" class="selectpicker" data-style="" data-live-search="true">
       <option value="">Select Country</option>
         @foreach($surveys["countries"] as $country)
         <option 

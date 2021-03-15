@@ -35,8 +35,8 @@
 		</select>
 	</nav>
 	<nav class="nav nav-md-6 nav-selector">
-        <span class="btn dropdown-toggle btn-pink daterange"> Select Date :</span>
-        <input type="text" class="btn dropdown-toggle btn-pink datarange-picker" name="daterange" value="01/01/2019 - 01/15/2010" />
+        <span class="btn dropdown-toggle daterange"> Select Date :</span>
+        <input type="text" class="btn dropdown-toggle datarange-picker" name="daterange" value="01/01/2019 - 01/15/2010" />
 	</nav>
 	<nav class="nav nav-md-4 align-right">
         <div class="btn-group">

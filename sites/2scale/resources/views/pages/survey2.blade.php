@@ -5,7 +5,7 @@
 <div class="bg-white shadow-sm flex-display selector-bar">
 @if(!isset($saved_survey))
 	<nav class="nav nav-md-6 nav-selector">
-        <select id="survey-parent" class="selectpicker" data-style="btn-pink" data-live-search="true">
+        <select id="survey-parent" class="selectpicker" data-live-search="true">
 		  <option value="select-init">Select Category</option>
             @foreach($surveys['forms'] as $index => $form)
             <option
@@ -16,7 +16,7 @@
 		</select>
 	</nav>
 	<nav class="nav nav-md-6 nav-selector">
-        <select data-url="{{ $surveys['url'] }}" id="select-survey" class="selectpicker" data-style="btn-pink" data-live-search="true">
+        <select data-url="{{ $surveys['url'] }}" id="select-survey" class="selectpicker" data-live-search="true">
             <option id="survey-init" value="survey-init">Select Questionnaire</option>
             @php
                 $childrens = collect();
