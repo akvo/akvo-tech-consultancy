@@ -12,14 +12,19 @@ table, table.dataTable {
     width: 100%!important;
 } */
 
+.table .thead-dark th {
+    color: #fff;
+    background-color: #333433;
+    border-color: #454d55;
+}
 tr.level_1 {
-    background: #E2E3E5;
+    background: #C9CDC0;
 }
 tr.level_1>td {
     font-weight: bold;
 }
 tr.level_2 {
-    background: #f2f2f2;
+    background: #F9F9F9;
 }
 tr.level_2>td {
     font-weight: bold;
@@ -33,7 +38,7 @@ tr.last_child>td {
 }
 
 tr.extras {
-    background: darkslategray;
+    background: #609ba7;
 }
 tr.extras > td {
     font-weight: bold;
@@ -44,13 +49,13 @@ tr.extras > td.name {
 }
 
 table.dataTable>tbody>tr.child:hover {
-    background: #f2f2f2!important;
+    background: #F9F9F9!important;
 }
 table.dataTable>tbody>tr.child.level_3:hover {
     background: white!important;
 }
 table.dataTable>tbody>tr.extras.child:hover {
-    background: darkslategray!important;
+    background: #609ba7!important;
 }
 
 td.text-right {
@@ -69,11 +74,17 @@ table.dataTable > tbody > tr > td.partner {
     padding-left: 10px;
 }
 
+/* btn copy & print */
+.btn-secondary {
+    color: #fff;
+    background-color:#4285f4!important;
+}
+
 @media print {
     body {
         background: white;
         -webkit-print-color-adjust: exact;
-        margin: 0px!important; 
+        margin: 0px!important;
     }
     @page {
         size: 23.4in 16.5in!important;
@@ -81,12 +92,12 @@ table.dataTable > tbody > tr > td.partner {
     }
 
     table.dataTable > thead > tr > th {
-        background-color: #343A40!important;
+        background-color: #333433!important;
         -webkit-print-color-adjust: exact!important;
         font-size: 12px;
     }
     table > tbody > tr.extras > td {
-        background-color: darkslategray!important;
+        background-color: #609ba7!important;
         -webkit-print-color-adjust: exact!important;
         font-weight: bolder;
         color: white!important;
@@ -94,12 +105,12 @@ table.dataTable > tbody > tr > td.partner {
     }
     table > tbody > tr.level_1 > td {
         -webkit-print-color-adjust: exact!important;
-        background-color: #E2E3E5!important;
+        background-color: #C9CDC0!important;
         font-size: 12px;
     }
     table > tbody > tr.level_2 > td {
         -webkit-print-color-adjust: exact!important;
-        background-color: #f2f2f2!important;
+        background-color: #F9F9F9!important;
         font-size: 12px;
     }
     table > tbody > tr.level_3 > td {
@@ -132,7 +143,7 @@ table.dataTable > tbody > tr > td.partner {
         display: block!important;
         page-break-before: always!important;
     }
-    
+
     table.dataTable > thead > tr > th.partner.sorting_disabled,
     table > tbody > tr.level_1 > td.partner,
     table > tbody > tr.level_2 > td.partner,

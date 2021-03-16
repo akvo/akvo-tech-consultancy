@@ -10,6 +10,12 @@ return [
         'results' => $ROOT_API . '/results_framework', # /param
         'rsr_page' => 'https://rsr.akvo.org/en/project/', # project_id
     ],
+    'home_charts' => [
+        'investment_tracking' => [
+            'amount_of_co_financing' => 148, # title id based on result, indicator title id 157
+            '2scale_contribution' => 149, # title id based on result, indicator title id 158
+        ],
+    ],
     'charts' => [
         'reachreact' => [
             'form_id' => 20020001,
@@ -98,7 +104,7 @@ return [
                     'KE29' => 9332,
                 ],
             ], # Kenya
-            
+
             'ML' => [ # Mali
                 'parent' => 8807,
                 'childs' => [
@@ -109,7 +115,7 @@ return [
                     'ML24' => 9346,
                 ],
             ], # Mali
-            
+
             'NE' => [ # Niger
                 'parent' => 8809,
                 'childs' => [
@@ -122,7 +128,7 @@ return [
                     'NE27' => 9356,
                 ],
             ], # Niger
-            
+
             'BF' => [ # Burkina Faso
                 'parent' => 8760,
                 'childs' => [

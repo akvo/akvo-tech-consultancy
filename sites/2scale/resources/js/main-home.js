@@ -20,3 +20,7 @@ getCharts(
     "6",
     "morpheus-den"
 );
+
+/* Second Row */
+// $("main").append("<div class='row' id='second-row'></div>");
+// getCharts("home/investment-tracking", "second-row", info, "12", "blue");

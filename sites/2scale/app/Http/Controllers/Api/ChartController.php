@@ -1036,13 +1036,48 @@ class ChartController extends Controller
 
     public function homeInvestmentTracking(Request $request)
     {
-        $config =config('akvo-rsr');
-        $partnerships = Partnership::where('level', 'partnership')->with('rsr_project')->get();
-        $partnerships = $partnerships->whereNotNull('rsr_project')->map(function ($p) {
-            $p['project'] = collect($p['rsr_project'])->only('budget', 'funds', 'funds_needed');
-            return collect($p)->except('rsr_project');
+        $config = config('akvo-rsr');
+        $programId = $config['projects']['parent'];
+        $investment = collect($config['home_charts']['investment_tracking']);
+        $results = $investment->map(function ($item) {
+            return \App\RsrTitleable::where('rsr_title_id', $item)->get()->pluck('rsr_titleable_id');
+        })->map(function ($item, $key) use ($programId) {
+            $results = \App\RsrResult::whereIn('id', $item)->with('rsr_indicators')->get();
+            $program = $results->where('rsr_project_id', $programId)->pluck('rsr_indicators')->flatten(1);
+            $partnerships = $results->where('rsr_project_id', '!=', $programId)->pluck('rsr_indicators')->flatten(1)->sum('baseline_value');
+            return [
+                "name" => $program->first()['title'],
+                "target" => $program->sum('target_value'),
+                "toGo" => $program->sum('target_value') - $partnerships,
+                "achieved" => $partnerships,
+            ];
         })->values();
-        return $partnerships;
+        $legend = ["Fund to date (%)", "Fund to go (%)"];
+        $categories = $results->pluck('name');
+        $series = [
+            [
+                "name" => "Fund to date (%)",
+                "type" => "bar",
+                "stack" => "investment",
+                "label" => [
+                    "show" => true,
+                    "position" => "insideRight",
+                ],
+                "data" => $results->pluck('achieved'),
+            ],
+            [
+                "name" => "Fund to go (%)",
+                "type" => "bar",
+                "stack" => "investment",
+                "label" => [
+                    "show" => true,
+                    "position" => "insideRight",
+                ],
+                "data" => $results->pluck('toGo'),
+            ]
+        ];
+        $xMax = $results->pluck('target')->max();
+        return $this->echarts->generateBarCharts($legend, $categories, "Horizontal", $series, $xMax);
     }
 
     public function reportTotalActivities(Request $request)

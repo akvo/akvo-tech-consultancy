@@ -149,7 +149,7 @@
               <div class="col-md-12">
                 <div class="card">
                   <div class="card-header 2scale-brand">
-                    2SCALE Partnership	
+                    2SCALE Partnership
                   </div>
                   <div class="card-body">
                     <div id="maps"></div>

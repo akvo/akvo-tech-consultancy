@@ -132,7 +132,7 @@ class Echarts
         return $option;
     }
 
-    public function generateBarCharts($legend, $categories, $type, $series)
+    public function generateBarCharts($legend, $categories, $type, $series, $xMax = false)
     {
         $legend = collect($legend)->map(function($l) {
             return $this->titler($l);
@@ -185,6 +185,9 @@ class Echarts
                 'type' => 'value',
                 'axisLabel' => $textStyle
             );
+            if ($xMax) {
+                $xAxis['max'] = $xMax;
+            }
         }
         return [
             'color' => $this->pallete,
