@@ -203,7 +203,7 @@ class Echarts
             'axisPointer' => array ('type' => 'shadow'),
         );
         $option = [
-            'color' => $this->pallete,
+            'color' => ($xMax) ? ['#609CA7', '#C9CDC0'] : $this->pallete,
             'dataZoom' => array(
                 'type' => 'inside',
                 'yAxisIndex' => [0]

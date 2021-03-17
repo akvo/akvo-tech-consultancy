@@ -1053,8 +1053,9 @@ class ChartController extends Controller
             $results = \App\RsrResult::whereIn('id', $item)->with('rsr_indicators')->get();
             $program = $results->where('rsr_project_id', $programId)->pluck('rsr_indicators')->flatten(1);
             $partnerships = $results->where('rsr_project_id', '!=', $programId)->pluck('rsr_indicators')->flatten(1)->sum('baseline_value');
+            $name = $program->first();
             return [
-                "name" => $program->first()['title'],
+                "name" => (!$name['description']) ? $name['title'] : $name['description'],
                 "target" => $program->sum('target_value'),
                 "toGo" => $program->sum('target_value') - $partnerships,
                 "achieved" => $partnerships,
@@ -1088,7 +1089,8 @@ class ChartController extends Controller
                 "stack" => "investment",
                 "label" => [
                     "show" => true,
-                    "position" => "insideRight",
+                    "fontWeight" => "bold",
+                    "position" => "insideBottomRight",
                     "formatter" => "{@p_achieved}%"
                 ],
                 // "data" => $results->pluck('achieved'),
@@ -1103,7 +1105,9 @@ class ChartController extends Controller
                 "stack" => "investment",
                 "label" => [
                     "show" => true,
-                    "position" => "insideRight",
+                    "color" => "#000000",
+                    "fontWeight" => "bold",
+                    "position" => "insideBottomRight",
                     "formatter" => "{@p_togo}%"
                 ],
                 // "data" => $results->pluck('toGo'),
