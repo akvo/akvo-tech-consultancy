@@ -792,7 +792,9 @@ class ChartController extends Controller
             return $res;
         });
 
-        $parents = $this->collections->where('level', 1)->values();
+        // $parents = $this->collections->where('level', 1)->values();
+        // filter not to show contribution value
+        $parents = $this->collections->where('level', 1)->values()->filter(function ($item) { return !Str::contains($item['title'], 'Amount of co-financing') && !Str::contains($item['title'], "2SCALE's Contribution"); })->values();
         $results = $parents->first()->only('rsr_project_id', 'project');
         $results['columns'] = $parents;
 
@@ -801,14 +803,18 @@ class ChartController extends Controller
         if (count($results['childrens']) > 0) {
             $results['childrens'] = $results['childrens']->transform(function ($child) use ($childs) {
                 $child = $child->only('rsr_project_id', 'project');
-                $child['columns'] = $childs->where('rsr_project_id', $child['rsr_project_id'])->values();
+                // $child['columns'] = $childs->where('rsr_project_id', $child['rsr_project_id'])->values();
+                // filter not to show contribution value
+                $child['columns'] = $childs->where('rsr_project_id', $child['rsr_project_id'])->values()->filter(function ($item) { return !Str::contains($item['title'], 'Amount of co-financing') && !Str::contains($item['title'], "2SCALE's Contribution"); })->values();
 
                 $childs = $this->collections->where('parent_project', $child['rsr_project_id']);
                 $child['childrens'] = $childs->unique('project')->values();
                 if (count($child['childrens']) > 0) {
                     $child['childrens'] = $child['childrens']->transform(function ($child) use ($childs) {
                         $child = $child->only('rsr_project_id', 'project');
-                        $child['columns'] = $childs->where('rsr_project_id', $child['rsr_project_id'])->values();
+                        // $child['columns'] = $childs->where('rsr_project_id', $child['rsr_project_id'])->values();
+                        // filter not to show contribution value
+                        $child['columns'] = $childs->where('rsr_project_id', $child['rsr_project_id'])->values()->filter(function ($item) { return !Str::contains($item['title'], 'Amount of co-financing') && !Str::contains($item['title'], "2SCALE's Contribution"); })->values();
                         return $child;
                     });
                 }
@@ -822,7 +828,9 @@ class ChartController extends Controller
                 "result_ids" => config('akvo-rsr.datatables.uii8_results_ids'),
                 "url" => config('akvo-rsr.endpoints.rsr_page'),
             ],
-            "columns" => $data->pluck('columns'),
+            // "columns" => $data->pluck('columns'),
+            // filter not to show contribution value
+            "columns" => $data->pluck('columns')->filter(function ($item) { return !Str::contains($item['title'], 'Amount of co-financing') && !Str::contains($item['title'], "2SCALE's Contribution"); })->values(),
             "data" => $results,
         ];
     }
@@ -1052,32 +1060,61 @@ class ChartController extends Controller
                 "achieved" => $partnerships,
             ];
         })->values();
-        $legend = ["Fund to date (%)", "Fund to go (%)"];
+        $legend = ["Fund to date", "Fund to go"];
         $categories = $results->pluck('name');
-        $series = [
+        $dataset = [
+            ["p_achieved", "p_togo", "achieved", "togo", "target", "name"],
             [
-                "name" => "Fund to date (%)",
-                "type" => "bar",
-                "stack" => "investment",
-                "label" => [
-                    "show" => true,
-                    "position" => "insideRight",
-                ],
-                "data" => $results->pluck('achieved'),
+                round(($results[0]["achieved"] / $results[0]["target"]) * 100, 3),
+                round(($results[0]["toGo"] / $results[0]["target"]) * 100, 3),
+                $results[0]["achieved"],
+                $results[0]["toGo"],
+                $results[0]["target"],
+                $results[0]["name"]
             ],
             [
-                "name" => "Fund to go (%)",
+                round(($results[1]["achieved"] / $results[1]["target"]) * 100, 3),
+                round(($results[1]["toGo"] / $results[1]["target"]) * 100, 3),
+                $results[1]["achieved"],
+                $results[1]["toGo"],
+                $results[1]["target"],
+                $results[1]["name"]
+            ]
+        ];
+        $series = [
+            [
+                "name" => "Fund to date",
                 "type" => "bar",
                 "stack" => "investment",
                 "label" => [
                     "show" => true,
                     "position" => "insideRight",
+                    "formatter" => "{@p_achieved}%"
                 ],
-                "data" => $results->pluck('toGo'),
+                // "data" => $results->pluck('achieved'),
+                "encode" => [
+                    "x" => "achieved",
+                    "y" => "name",
+                ]
+            ],
+            [
+                "name" => "Fund to go",
+                "type" => "bar",
+                "stack" => "investment",
+                "label" => [
+                    "show" => true,
+                    "position" => "insideRight",
+                    "formatter" => "{@p_togo}%"
+                ],
+                // "data" => $results->pluck('toGo'),
+                "encode" => [
+                    "x" => "togo",
+                    "y" => "name",
+                ]
             ]
         ];
         $xMax = $results->pluck('target')->max();
-        return $this->echarts->generateBarCharts($legend, $categories, "Horizontal", $series, $xMax);
+        return $this->echarts->generateBarCharts($legend, $categories, "Horizontal", $series, $xMax, $dataset);
     }
 
     public function reportTotalActivities(Request $request)

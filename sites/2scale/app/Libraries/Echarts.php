@@ -132,7 +132,7 @@ class Echarts
         return $option;
     }
 
-    public function generateBarCharts($legend, $categories, $type, $series, $xMax = false)
+    public function generateBarCharts($legend, $categories, $type, $series, $xMax = false, $dataset = [])
     {
         $legend = collect($legend)->map(function($l) {
             return $this->titler($l);
@@ -159,11 +159,13 @@ class Echarts
                 'position' => 'inside',
             )
         );
-        $series = collect($series)->map(function($data) use ($labels) {
-            $data['label'] = $labels;
-            $data['type'] = 'bar';
-			return $data;
-        });
+        if (!$xMax) { // if series not custom stack bar
+            $series = collect($series)->map(function($data) use ($labels) {
+                $data['label'] = $labels;
+                $data['type'] = 'bar';
+                return $data;
+            });
+        }
         $yAxis = array(
             'type' => 'value',
             'axisLabel' => $textStyle
@@ -181,24 +183,32 @@ class Echarts
                 'axisLabel' => $textStyle,
                 'axisTick' => array( 'show' => false)
             );
+            if (count($dataset) > 0) {
+                $yAxis = array(
+                    'type' => 'category',
+                    'axisLabel' => $textStyle,
+                    'axisTick' => array( 'show' => false)
+                );
+            }
             $xAxis = array(
                 'type' => 'value',
                 'axisLabel' => $textStyle
             );
-            if ($xMax) {
-                $xAxis['max'] = $xMax;
-            }
+            // if ($xMax) {
+            //     $xAxis['max'] = $xMax;
+            // }
         }
-        return [
+        $tooltip = array (
+            'trigger' => 'axis',
+            'axisPointer' => array ('type' => 'shadow'),
+        );
+        $option = [
             'color' => $this->pallete,
             'dataZoom' => array(
                 'type' => 'inside',
                 'yAxisIndex' => [0]
             ),
-			'tooltip' => array (
-				'trigger' => 'axis',
-				'axisPointer' => array ('type' => 'shadow'),
-			),
+			'tooltip' => $tooltip,
 			'grid' => array(
 				'left' => '3%',
 				'bottom' => '30.5%',
@@ -219,6 +229,13 @@ class Echarts
             'xAxis' => $xAxis,
             'yAxis' => $yAxis
         ];
+        if (count($dataset) > 0) { // if series custom stack bar
+            // dataset source
+            $option['dataset'] = [
+                'source' => $dataset
+            ];
+        }
+        return $option;
     }
     public function generateMapCharts($data, $min, $max){
         $data = collect($data)->map(function($dt){

@@ -17,7 +17,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.1/axios.min.js" type="text/javascript"></script>
   <link href="{{ asset('vendor/font-awesome-5/css/fontawesome-all.min.css') }}" rel="stylesheet" media="all">
   <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
-  <style>
+
+  {{-- Old --}}
+  {{-- <style>
     .view,body,html{height:100%}@media (max-width:740px){.full-page-intro{height:1000px}}.carousel{height:50%}.carousel .carousel-inner,.carousel .carousel-inner .active,.carousel .carousel-inner .carousel-item{height:100%}@media (max-width:776px){.carousel{height:100%}}.navbar{background-color:rgba(0,0,0,.2)}.page-footer,.top-nav-collapse{background-color:#1C2331}@media only screen and (max-width:768px){.navbar{background-color:#1C2331}}
     .text-title-page h2 {
         font-weight: 300,
@@ -99,10 +101,32 @@
     #maps {
       height: 500px;
     }
-  </style>
+  </style> --}}
+  {{-- End Old --}}
+
+  <style>
+    html,
+    body{
+        width:95%;
+      margin:auto;
+        font-family: 'Montsterrat', sans-serif;
+    }
+    .loader-spinner {
+        position:absolute;
+        top: 45%;
+    }
+    .view.view-cascade {
+        border-radius: 3px;
+        margin: 5px;
+    }
+    #maps {
+      height: 500px;
+    }
+    </style>
 </head>
 <body class="text-center">
-  <header style="height: 100%">
+  {{-- Old --}}
+  {{-- <header style="height: 100%">
       <!-- Full Page Intro -->
       <div class="view full-page-intro">
 
@@ -121,7 +145,7 @@
                 <img src="/images/2scale_logo_white.png" height=40px>
                 <h2>Data Portal</h2>
               </div>
-            </div>
+            </div> --}}
 
             {{-- <div class="row d-flex h-100 justify-content-center align-items-center wow fadeIn" style="margin-top: 50vh">
               <!--Grid column-->
@@ -144,7 +168,7 @@
             </div> --}}
 
 
-            <!-- New home visual -->
+            {{-- <!-- New home visual -->
             <div class="row d-flex h-100 p-3 justify-content-center align-items-center wow fadeIn" style="margin-top: 25vh" id="zero-row">
               <div class="col-md-12">
                 <div class="card">
@@ -172,8 +196,26 @@
         <!-- Mask & flexbox options-->
       </div>
       <!-- Full Page Intro -->
-  </header>
+  </header> --}}
+  {{-- End Old --}}
 
+  <div class="text-center py-2 px-4 mt-3">
+    <div class="row" id="zero-row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header 2scale-brand">
+            2SCALE Partnership
+          </div>
+          <div class="card-body mask">
+            <div id="maps"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
+    <main role="main" class="inner cover"></main>
+  </div>
 
   <!-- Global Dependencies -->
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>

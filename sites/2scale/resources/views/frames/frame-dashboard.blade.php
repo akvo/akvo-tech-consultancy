@@ -46,12 +46,13 @@ body{
   <div class="text-center py-2 px-4">
 	<div id="jumbotron" class="row"></div>
   </div>
+
   <div class="text-center py-2 px-4">
 	<div class="row" id="zero-row">
 	<div class="col-md-6">
 		<div class="card">
 			<div class="card-header">
-			    2SCALE Programs	
+			    2SCALE Programs
   			</div>
 			<div class="card-body mask rgba-blue-slight">
 			<div id="maps"></div>

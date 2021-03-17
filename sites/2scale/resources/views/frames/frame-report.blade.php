@@ -43,7 +43,7 @@ body{
     <div class="text-white text-center py-2 px-4">
         <div id="jumbotron" class="row"></div>
     </div>
-  
+
     <!-- Jumbotron -->
     <div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
         <main role="main" class="inner cover"></main>

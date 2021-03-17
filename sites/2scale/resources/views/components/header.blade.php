@@ -12,19 +12,19 @@
       </li>
 
       <li class="nav-item {{Route::is('dashboard') ? 'active' : '' }}">
-          <a class="nav-link" href="/dashboard">Impact</a>
+          <a class="nav-link" href="/dashboard">Impact and Reach</a>
       </li>
       <li class="nav-item {{Route::is('partnership') ? 'active' : '' }}">
           <a class="nav-link" href="/partnership">Partnership</a>
       </li>
-      <li class="nav-item {{Route::is('reachreact') ? 'active' : '' }}">
+      {{-- <li class="nav-item {{Route::is('reachreact') ? 'active' : '' }}">
           <a class="nav-link" href="/reach-and-react">Reach and Reaction</a>
-      </li>
+      </li> --}}
       <li class="nav-item {{Route::is('organisation') ? 'active' : '' }}">
         <a class="nav-link" href="/organisation">Partners</a>
       </li>
       <li class="nav-item {{Route::is('report') ? 'active' : '' }}">
-        <a class="nav-link" href="/report">Report</a>
+        <a class="nav-link" href="/report">Reports</a>
       </li>
 
       @if (Auth::check())

@@ -17,7 +17,7 @@ const info = {
     content: "Lorem Ipsum Dolor Sit Amet for Footer"
 };
 
-getCards("partnership/top-three/" + endpoints);
+// getCards("partnership/top-three/" + endpoints);
 
 /* First Row */
 $("main").append("<div class='row' id='first-row'></div>");
@@ -29,7 +29,7 @@ getCharts("partnership/countries-total/" + endpoints, "second-row", info, "6");
 getCharts("partnership/project-total/" + endpoints, "second-row", info, "6");
 
 // Table container
-// renderRsrTableTemplate("datatables", "160%");
+renderRsrTableTemplate("datatables", "142%");
 
 // put a div (hidden) to store the charts for pdf report
 $("main").append(
@@ -68,4 +68,4 @@ getCharts(
     "age-category"
 );
 
-// renderRsrTable([country_id, partnership_id].join('/'), baseurl, 'datatables');
+renderRsrTable([country_id, partnership_id].join("/"), baseurl, "datatables");
