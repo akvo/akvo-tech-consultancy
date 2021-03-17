@@ -31,7 +31,7 @@ return [
             'sid' => 110530001,
             'fid' => 88820001,
             'file' => $path . 'file.csv', // need to change this path later
-            'kind' => 'Rice',
+            'kind' => 'Tea',
             'country' => 'Tanzania',
             'company' => 'Rubutco Tea',
             'cascade' => [
