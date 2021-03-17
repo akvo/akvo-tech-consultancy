@@ -30,10 +30,21 @@ return [
         [
             'sid' => 110530001,
             'fid' => 88820001,
-            'file' => $path . '2020-11-17_DD_UI_Input_egranary.csv', // need to change this path later
-            'kind' => 'Tea',
+            'file' => $path . 'file.csv', // need to change this path later
+            'kind' => 'Rice',
             'country' => 'Tanzania',
             'company' => 'Rubutco Tea',
+            'cascade' => [
+                'name' => 'pi_location_cascade_county',
+            ]
+        ],
+        [
+            'sid' => 147070008,
+            'fid' => 143920001,
+            'file' => $path . 'file.csv', // need to change this path later
+            'kind' => 'Beans',
+            'country' => 'Kenya',
+            'company' => 'Smart Logistics',
             'cascade' => [
                 'name' => 'pi_location_cascade_county',
             ]
