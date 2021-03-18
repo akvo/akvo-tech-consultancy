@@ -89,3 +89,14 @@ Route::post('/rsr-report', 'Api\RsrReportController@generateReport');
 Route::get('/seed-rsr', 'Api\RsrSeedController@seedRsr');
 Route::get('/seed-rsr-projects', 'Api\RsrSeedController@seedRsrProjects');
 Route::get('/seed-rsr-results', 'Api\RsrSeedController@seedRsrResults');
+
+
+/** TESTING */
+Route::get('/test', function (Request $request) {
+    $config = config('akvo-rsr');
+    $uii = \App\RsrResult::where('rsr_project_id', $config['projects']['parent'])->orderBy('order')
+            // ->with('rsr_indicators.rsr_dimensions.rsr_dimension_values')
+            // ->with('rsr_indicators.rsr_periods.rsr_period_dimension_values')
+            ->get();
+    return $uii;
+});

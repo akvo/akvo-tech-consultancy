@@ -995,7 +995,7 @@ class ChartController extends Controller
             ->transform(function($d){
                 return array (
                     'name' => $d->name,
-                    'value' => $d->childrens->count()
+                    'value' => $d->childrens->count(),
                 );
             });
         $min = collect($data)->min('value');
@@ -1047,15 +1047,22 @@ class ChartController extends Controller
         $config = config('akvo-rsr');
         $programId = $config['projects']['parent'];
         $investment = collect($config['home_charts']['investment_tracking']);
+        $partnershipIds = \App\Partnership::where('level', 'partnership')->pluck('id');
+        $partnerLevel = \App\RsrProject::whereIn('partnership_id', $partnershipIds)->pluck('id');
         $results = $investment->map(function ($item) {
-            return \App\RsrTitleable::where('rsr_title_id', $item)->get()->pluck('rsr_titleable_id');
-        })->map(function ($item, $key) use ($programId) {
-            $results = \App\RsrResult::whereIn('id', $item)->with('rsr_indicators')->get();
-            $program = $results->where('rsr_project_id', $programId)->pluck('rsr_indicators')->flatten(1);
-            $partnerships = $results->where('rsr_project_id', '!=', $programId)->pluck('rsr_indicators')->flatten(1)->sum('baseline_value');
-            $name = $program->first();
+            // return \App\RsrTitleable::where('rsr_title_id', $item['id'])->get()->pluck('rsr_titleable_id'); // using title id from config give a risk when we reseed the db (can be change)
+            $titleId = \App\RsrTitleable::where('rsr_titleable_id', $item['id'])->where('rsr_titleable_type', 'App\RsrResult')->get()->pluck('rsr_title_id');
             return [
-                "name" => (!$name['description']) ? $name['title'] : $name['description'],
+                'name' => $item['name'],
+                'titleables' => \App\RsrTitleable::whereIn('rsr_title_id', $titleId)->get()->pluck('rsr_titleable_id'),
+            ];
+        })->map(function ($item) use ($programId, $partnerLevel) {
+            $results = \App\RsrResult::whereIn('id', $item['titleables'])->with('rsr_indicators')->get();
+            $program = $results->where('rsr_project_id', $programId)->pluck('rsr_indicators')->flatten(1);
+            // $partnerships = $results->where('rsr_project_id', '!=', $programId)->pluck('rsr_indicators')->flatten(1)->sum('baseline_value'); // include country
+            $partnerships = $results->where('rsr_project_id', '!=', $programId)->whereIn('rsr_project_id', $partnerLevel)->pluck('rsr_indicators')->flatten(1)->sum('baseline_value'); // partnership only
+            return [
+                "name" => $item['name'],
                 "target" => $program->sum('target_value'),
                 "toGo" => $program->sum('target_value') - $partnerships,
                 "achieved" => $partnerships,
@@ -1063,25 +1070,20 @@ class ChartController extends Controller
         })->values();
         $legend = ["Fund to date", "Fund to go"];
         $categories = $results->pluck('name');
-        $dataset = [
-            ["p_achieved", "p_togo", "achieved", "togo", "target", "name"],
-            [
-                round(($results[0]["achieved"] / $results[0]["target"]) * 100, 3),
-                round(($results[0]["toGo"] / $results[0]["target"]) * 100, 3),
-                $results[0]["achieved"],
-                $results[0]["toGo"],
-                $results[0]["target"],
-                $results[0]["name"]
-            ],
-            [
-                round(($results[1]["achieved"] / $results[1]["target"]) * 100, 3),
-                round(($results[1]["toGo"] / $results[1]["target"]) * 100, 3),
-                $results[1]["achieved"],
-                $results[1]["toGo"],
-                $results[1]["target"],
-                $results[1]["name"]
-            ]
-        ];
+        $dataset = collect();
+        $dataset->push(["p_achieved", "p_togo", "achieved", "togo", "target", "name"]);
+        foreach ($results as $key => $value) {
+            $dataset->push(
+                [
+                    round(($value["achieved"] / $value["target"]) * 100, 3),
+                    round(($value["toGo"] / $value["target"]) * 100, 3),
+                    $value["achieved"],
+                    $value["toGo"],
+                    $value["target"],
+                    $value["name"]
+                ],
+            );
+        }
         $series = [
             [
                 "name" => "Fund to date",
@@ -1093,7 +1095,6 @@ class ChartController extends Controller
                     "position" => "insideBottomRight",
                     "formatter" => "{@p_achieved}%"
                 ],
-                // "data" => $results->pluck('achieved'),
                 "encode" => [
                     "x" => "achieved",
                     "y" => "name",
@@ -1110,7 +1111,6 @@ class ChartController extends Controller
                     "position" => "insideBottomRight",
                     "formatter" => "{@p_togo}%"
                 ],
-                // "data" => $results->pluck('toGo'),
                 "encode" => [
                     "x" => "togo",
                     "y" => "name",
@@ -1168,6 +1168,7 @@ class ChartController extends Controller
 
     public function getRsrDatatableByUii(Request $request) {
         $config = config('akvo-rsr');
+        // $partnerships = \App\Partnership::get();
         $partnerships = \App\Partnership::where('level', 'partnership')->get();
         $projects = \App\RsrProject::whereIn('partnership_id', $partnerships->pluck('id'))->get();
         // $results = \App\RsrResult::whereIn('rsr_project_id', $projects->pluck('id'))
@@ -1188,6 +1189,7 @@ class ChartController extends Controller
         $collections = collect();
         $this->fetchChildRsrDatatableByUii($collections, $results);
         $data = $collections->whereIn('id', $projects->pluck('id'))->values();
+        // return $data;
 
         $tmp = collect();
         foreach ($uii as $key) {

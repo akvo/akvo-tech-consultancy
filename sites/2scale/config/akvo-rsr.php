@@ -11,9 +11,65 @@ return [
         'rsr_page' => 'https://rsr.akvo.org/en/project/', # project_id
     ],
     'home_charts' => [
+        # using program rsr result id
         'investment_tracking' => [
-            'amount_of_co_financing' => 148, # title id based on result, indicator title id 157
-            '2scale_contribution' => 149, # title id based on result, indicator title id 158
+            'amount_of_co_financing' => [
+                'id' => 48191,
+                'name' => 'Private contribution',
+            ], # title_id 148, # title id based on result, indicator title id 157 # parent result of this value 48191
+            '2scale_contribution' => [
+                'id' => 48259,
+                'name' => '2SCALE contribution',
+            ], # title_id 149, # title id based on result, indicator title id 158 # parent result of this value 48259
+        ],
+    ],
+    'impact_react_charts' => [
+        # using program rsr result id
+        'food_nutrition_security' => [
+            'uii1' => [
+                'id' => 42401,
+                'name' => 'UII1 - BoP',
+            ],
+            'uii2' => [
+                'id' => 42865,
+                'name' => 'UII2 - SHF',
+            ],
+            'uii3' => [
+                'id' => 42698,
+                'name' => 'UII3 - EEP',
+            ],
+        ],
+        'private_sector_development' => [
+            'uii4' => [
+                'id' => 42804,
+                'name' => 'UII4 - SME',
+            ],
+            'uii5' => [
+                'id' => 42825,
+                'name' => 'UII5 - NONFE',
+            ],
+            'uii6' => [
+                'id' => 42835,
+                'name' => 'UII6 - MSME',
+            ],
+            'uii7' => [
+                'id' => 42845,
+                'name' => 'UII7 - INNO',
+            ],
+        ],
+        'private_sector_development' => [
+            'uii8' => [
+                'id' => 42855,
+                'name' => 'UII8 - FSERV',
+            ],
+            'amount_of_co_financing' => [
+                'id' => 48191,
+                'name' => 'Private contribution',
+            ],
+            '2scale_contribution' => [
+                'id' => 48259,
+                'name' => '2SCALE contribution',
+            ],
         ],
     ],
     'charts' => [
