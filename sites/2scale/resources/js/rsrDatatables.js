@@ -27,7 +27,7 @@ const fetchData = endpoint => {
 };
 
 // load from dixie if exist
-const loadData = async endpoint => {
+export const loadData = async endpoint => {
     // console.log(endpoint);
     const res = await table.get({ name: endpoint });
     if (res === undefined) {
@@ -466,7 +466,7 @@ let legend =
     "F : Female</li>\
 </ul>";
 
-const datatableOptions = (id, res, baseurl) => {
+export const datatableOptions = (id, res, baseurl) => {
     let dtoptions = {
         ordering: false,
         dom: "Birftp",
@@ -863,7 +863,7 @@ export const renderRsrTable = (endpoint, baseurl, datatableId) => {
             // html += '<td>&nbsp;</td>';
             html += '<td colspan="' + footerColspan + '">' + legend + "</td>";
             html += "</tr></tfoot>";
-            $("#datatables").append(html);
+            $("#" + datatableId).append(html);
             return res;
         })
         .then(res => {
@@ -930,14 +930,15 @@ export const renderRsrTable = (endpoint, baseurl, datatableId) => {
         });
 };
 
-export const renderRsrTableTemplate = (datatableId, position) => {
+export const renderRsrTableTemplate = (datatableId, position, title = null) => {
+    title = title ? title : tableTitle;
     return $("main").append(
         '<hr>\
         <div class="row">\
             <div class="col-md-12">\
                 <div class="card">\
                     <div class="card-header" style="color:black;">' +
-            tableTitle +
+            title +
             '</div>\
                 </div>\
             </div>\

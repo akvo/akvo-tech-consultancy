@@ -22,6 +22,23 @@ $("main").append("<div class='row' id='first-row'></div>");
 // getCards('home/top-three');
 getMaps("maps", "home/map");
 
+/* UII Row */
+// getCharts(
+//     "reachreact/food-nutrition-and-security/0/0",
+//     "uii-row",
+//     info,
+//     "4",
+//     "blue"
+// );
+// getCharts(
+//     "reachreact/private-sector-development/0/0",
+//     "uii-row",
+//     info,
+//     "4",
+//     "blue"
+// );
+// getCharts("reachreact/input-adittionality/0/0", "uii-row", info, "4", "blue");
+
 /* Zero Row */
 getCharts("reachreact/country-total/0/0", "zero-row", info, "6", "purple");
 

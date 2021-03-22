@@ -47,6 +47,11 @@ body{
 	<div id="jumbotron" class="row"></div>
   </div>
 
+  {{-- template for uii result row --}}
+  {{-- <div class="text-center py-2 px-4 mb-2">
+	<div id="uii-row" class="row"></div>
+  </div> --}}
+
   <div class="text-center py-2 px-4">
 	<div class="row" id="zero-row">
 	<div class="col-md-6">

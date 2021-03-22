@@ -1042,14 +1042,12 @@ class ChartController extends Controller
         return $this->echarts->generateDonutCharts($data->pluck('name'), $data);
     }
 
-    public function homeInvestmentTracking(Request $request)
+    private function getUiiValueByConfig($config, $charts)
     {
-        $config = config('akvo-rsr');
         $programId = $config['projects']['parent'];
-        $investment = collect($config['home_charts']['investment_tracking']);
         $partnershipIds = \App\Partnership::where('level', 'partnership')->pluck('id');
         $partnerLevel = \App\RsrProject::whereIn('partnership_id', $partnershipIds)->pluck('id');
-        $results = $investment->map(function ($item) {
+        $results = $charts->map(function ($item) {
             // return \App\RsrTitleable::where('rsr_title_id', $item['id'])->get()->pluck('rsr_titleable_id'); // using title id from config give a risk when we reseed the db (can be change)
             $titleId = \App\RsrTitleable::where('rsr_titleable_id', $item['id'])->where('rsr_titleable_type', 'App\RsrResult')->get()->pluck('rsr_title_id');
             return [
@@ -1068,6 +1066,14 @@ class ChartController extends Controller
                 "achieved" => $partnerships,
             ];
         })->values();
+        return $results;
+    }
+
+    public function homeInvestmentTracking(Request $request)
+    {
+        $config = config('akvo-rsr');
+        $investment = collect($config['home_charts']['investment_tracking']);
+        $results = $this->getUiiValueByConfig($config, $investment);
         $legend = ["Fund to date", "Fund to go"];
         $categories = $results->pluck('name');
         $dataset = collect();
@@ -1113,6 +1119,61 @@ class ChartController extends Controller
                 ],
                 "encode" => [
                     "x" => "togo",
+                    "y" => "name",
+                ]
+            ]
+        ];
+        $xMax = $results->pluck('target')->max();
+        return $this->echarts->generateBarCharts($legend, $categories, "Horizontal", $series, $xMax, $dataset);
+    }
+
+    public function foodNutritionAndSecurity(Request $request)
+    {
+        $config = config('akvo-rsr');
+        switch ($request->type) {
+            case 'food-nutrition-and-security':
+                $type = 'food_nutrition_security';
+                break;
+            case 'private-sector-development':
+                $type = 'private_sector_development';
+                break;
+            case 'input-adittionality':
+                $type = 'input_adittionality';
+                break;
+            default:
+                $type = '';
+                break;
+        }
+        $charts = collect($config['impact_react_charts'][$type]);
+        $results = $this->getUiiValueByConfig($config, $charts)->sortByDesc(['name']);
+        $legend = ["Achieved"];
+        $categories = $results->pluck('name');
+        $dataset = collect();
+        $dataset->push(["p_achieved", "p_togo", "achieved", "togo", "target", "name"]);
+        foreach ($results as $key => $value) {
+            $dataset->push(
+                [
+                    round(($value["achieved"] / $value["target"]) * 100, 3),
+                    round(($value["toGo"] / $value["target"]) * 100, 3),
+                    $value["achieved"],
+                    $value["toGo"],
+                    $value["target"],
+                    $value["name"]
+                ],
+            );
+        }
+        $series = [
+            [
+                "name" => "Achieved",
+                "type" => "bar",
+                "label" => [
+                    "show" => true,
+                    "fontWeight" => "bold",
+                    "position" => "insideBottomRight",
+                    "formatter" => "{@p_achieved}%"
+                ],
+                "encode" => [
+                    "x" => "achieved",
                     "y" => "name",
                 ]
             ]
@@ -1203,7 +1264,7 @@ class ChartController extends Controller
 
         return [
             'uii' => $uii,
-            'partnership' => $projects->pluck('title'),
+            'partnership' => $projects->pluck('title')->sort()->values()->all(),
             'data' => $tmp,
         ];
     }

@@ -27,6 +27,7 @@ Route::get('/reachreact/gender/{country_id}/{partnership_id}', 'Api\ChartControl
 Route::get('/reachreact/gender-total/{country_id}/{partnership_id}', 'Api\ChartController@genderTotal');
 Route::get('/reachreact/country-total/{country_id}/{partnership_id}', 'Api\ChartController@countryTotal');
 Route::get('/reachreact/top-three/{country_id}/{partnership_id}','Api\ChartController@topThree');
+Route::get('/reachreact/{type}/{country_id}/{partnership_id}','Api\ChartController@foodNutritionAndSecurity');
 
 /*
 | Reach and React With Date Filter

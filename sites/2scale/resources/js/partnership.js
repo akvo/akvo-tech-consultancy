@@ -2,9 +2,10 @@ import { db, storeDB } from "./dexie";
 const axios = window.axios;
 import { getCharts, getCards, getSingleCards } from "./charts.js";
 import { renderRsrTableTemplate, renderRsrTable } from "./rsrDatatables.js";
-const baseurl = $("meta[name=path]").attr("content");
+import { rsrRenderUiiTable } from "./test.js";
 
 /* Static */
+const baseurl = $("meta[name=path]").attr("content");
 const country_id = $("meta[name='country']").attr("content");
 const partnership_id = $("meta[name='partnership']").attr("content");
 const start_date = $("meta[name='start-date']").attr("content");
@@ -69,3 +70,6 @@ getCharts(
 );
 
 renderRsrTable([country_id, partnership_id].join("/"), baseurl, "datatables");
+
+// table by UII
+// rsrRenderUiiTable("", baseurl, "datatables");
