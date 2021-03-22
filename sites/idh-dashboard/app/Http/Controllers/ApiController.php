@@ -86,7 +86,7 @@ class ApiController extends Controller
         return [
             Cards::create($maps, 'MAPS', "Household Surveyed", 4, false, 1),
             Cards::create(Utils::getValues($id, 'farmer_sample'), 'PIE', "Was the farmer surveyed part of the sample?", 4, false, 2),
-            
+
             Cards::create($total, 'NUM', "Of the farmers are included in the analysis", 4, false, 3),
             // Cards::create($main_percentage, 'PERCENT', "Of the farmers main crop was ".$first_crop['name'], 4, false, 4),
             Cards::create($farm_size_avg, 'NUM', "Acres is the average farm size", 4, false, 5),
@@ -216,8 +216,8 @@ class ApiController extends Controller
             $head_gender_tmp["rows"] = $head_gender->map(function ($item) {
                 return [
                     "name" => strtolower($item['name']) === 'male' ? 'Male headed household' : 'Female headed household',
-                    "male" => $item['gender']->where('name', 'Male')->first()['value'], 
-                    "female" => $item['gender']->where('name', 'Female')->first()['value'], 
+                    "male" => $item['gender']->where('name', 'Male')->first()['value'],
+                    "female" => $item['gender']->where('name', 'Female')->first()['value'],
                 ];
             });
 
@@ -256,7 +256,7 @@ class ApiController extends Controller
                 // Cards::create($hhSize, 'UNSORTED HORIZONTAL BAR', "Household Size", 6)
             ]);
             // $hhGenderAvg->each(function($avg) use ($hhGenderAvg, $hhProfile){
-            //     $title = " is the average of HH size (" . Str::title($avg['name']) . ")"; 
+            //     $title = " is the average of HH size (" . Str::title($avg['name']) . ")";
             //     $colSize = 6 / count($hhGenderAvg);
             //     $hhProfile->push(
             //         Cards::create(
@@ -280,7 +280,7 @@ class ApiController extends Controller
             ];
         }
 
-        if ($request->tab === "farmer-profile") {            
+        if ($request->tab === "farmer-profile") {
             $age = Utils::getValues($id, 'hh_age_farmer', false);
             $genderAge = Utils::mergeValues($age, 'hh_gender_farmer');
             // $landownership = Utils::getValues($id, 'f_ownership');
@@ -305,7 +305,7 @@ class ApiController extends Controller
 
         if ($request->tab === "farm-practices") {
             $f_harvests = Utils::getValues($id, 'f_harvests');
-            
+
             $f_lost_kg = Utils::getValues($id, 'f_lost (kilograms)', false);
             $lost_kg = Utils::mergeValues($f_lost_kg, 'f_first_crop', strtolower($form->kind));
 
@@ -338,7 +338,7 @@ class ApiController extends Controller
             // $avgProducedCrops = $producedCrops['data'][0]['avg'];
             // $avgSoldCrops = $soldCrops['data'][0]['avg'];
             // $livestock = collect(Utils::getValues($id, 'f_livestock'))->reject(function($data){
-            //         return Str::contains($data['name'],"No"); 
+            //         return Str::contains($data['name'],"No");
             // })->values();
 
             $farmpractices = [
@@ -365,7 +365,7 @@ class ApiController extends Controller
 
         if ($request->tab === "farm-characteristics") {
             $farm_size = Utils::getValues($id, 'f_size (acre)');
-            
+
             $fsdmId = Variable::where('name', 'f_sdm_size (acre)')->first();
             $farm_sizes = Utils::getValues($id, 'f_size (acre)', false)->map(function ($item) use ($fsdmId) {
                 $fsdmVal = Answer::where('form_instance_id', $item['form_instance_id'])
@@ -381,18 +381,18 @@ class ApiController extends Controller
             $farm_sizes = collect(Utils::mergeValues($farm_sizes, 'f_first_crop'));
             $total_farm_sizes = $farm_sizes['data']->max('total');
             $only_farm_sizes = $farm_sizes['data']->where('name', strtolower($form->kind))->first();
-            
+
             $second_crop = collect(Utils::getValues($id, 'f_second_crop'));
             $total_second_crop = $second_crop->reject(function ($item) {
                 return strtolower($item['name']) === strtolower("No Second Crop");
             })->pluck('value')->sum();
 
             $livestock = collect(Utils::getValues($id, 'f_livestock'))->reject(function($data){
-                return Str::contains($data['name'],"No"); 
+                return Str::contains($data['name'],"No");
             })->values();
             $livestock = Utils::setPercentValue($livestock);
             $max_livestock = $livestock->sortByDesc('value')->values()->first();
-            
+
             $crops = collect(Utils::getValues($id, 'f_crops'))->reject(function ($item) {
                 return $item['value'] < 10;
             })->values();
@@ -460,7 +460,7 @@ class ApiController extends Controller
         if ($request->tab === "download") {
             $sources = collect(config('data.sources'));
             $source = $sources->where('fid', $form->fid)->first();
-            
+
             return [
                 'summary' => [$total, $form->kind, $form->country, $form->company],
                 'tabs' => [[
@@ -470,7 +470,7 @@ class ApiController extends Controller
                 ]]
             ];
         }
-    
+
     }
 
 }

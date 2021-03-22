@@ -38,21 +38,38 @@ return [
             'report_url' => '/files/Data-delivery-Egranary.html',
         ],
         [
-            'sid' => 110530001,
-            'fid' => 88820001,
-            'file' => $path . '2020-11-17_DD_UI_Input_egranary.csv', // need to change this path later
-            'kind' => 'Rice',
-            'country' => 'Tanzania',
-            'company' => 'Rubutco Tea',
+            'sid' => 147070008,
+            'fid' => 143920001,
+            'file' => $path . '2021-03-19_smart_logistics_anom.csv',
+            'kind' => 'Beans',
+            'country' => 'Kenya',
+            'company' => 'Smart Logistics',
             'case_number' => null,
             'cascade' => [
                 'name' => 'pi_location_cascade_county',
             ],
             'files' => [
-                ["type" => "raw", "text" => "Analyzed Farmer Data", "to" => ".xlsx" ],
+                ["type" => "raw", "text" => "Analyzed Smart Logistics Data", "to" => ".xlsx" ],
             ],
-            'report_url' => '/files/Data-delivery-Rubutco.html',
+            // 'report_url' => '/files/Data-delivery-Rubutco.html',
+            'report_url' => '',
         ],
+        // [
+        //     'sid' => 110530001,
+        //     'fid' => 88820001,
+        //     'file' => $path . '2020-11-17_DD_UI_Input_egranary.csv', // need to change this path later
+        //     'kind' => 'Tea',
+        //     'country' => 'Tanzania',
+        //     'company' => 'Rubutco Tea',
+        //     'case_number' => null,
+        //     'cascade' => [
+        //         'name' => 'pi_location_cascade_county',
+        //     ],
+        //     'files' => [
+        //         ["type" => "raw", "text" => "Analyzed Farmer Data", "to" => ".xlsx" ],
+        //     ],
+        //     'report_url' => '/files/Data-delivery-Rubutco.html',
+        // ],
     ],
     'relations' => [
         [

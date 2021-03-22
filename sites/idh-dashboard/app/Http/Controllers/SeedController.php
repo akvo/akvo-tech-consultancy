@@ -8,8 +8,9 @@ use League\Csv\Writer;
 
 class SeedController extends Controller
 {
-    public function seed() 
+    public function seed()
     {
+        ini_set('max_execution_time', 600);
         $sources = config('data.sources');
         echo("Seeding Forms".PHP_EOL);
         foreach ($sources as $data) {
@@ -18,7 +19,7 @@ class SeedController extends Controller
         return "finish";
     }
 
-    private function createForm($data) 
+    private function createForm($data)
     {
         $form = \App\Models\Form::updateOrCreate([
             'fid' => $data['fid'],
@@ -56,8 +57,9 @@ class SeedController extends Controller
                 $value = null;
                 $variable_id = $variables[$header['name']];
                 $input = $record[$header['name']];
+                // echo $input;
                 if ($header['type'] === 'number') {
-                    $value = $input === "NA" ? null : (float) $input;
+                    $value = ($input === "NA" || $input === null || $input === '') ? null : (float) $input;
                 }
                 $answer = \App\Models\Answer::updateOrCreate([
                     'variable_id' => $variable_id,
