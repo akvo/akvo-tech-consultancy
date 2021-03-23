@@ -150,15 +150,17 @@ class ApiController extends Controller
             $first_crop_total = $first_crop->pluck('value')->sum();
             $first_crop_value = $first_crop->max('value');
             $first_crop_name = $first_crop->where('value', $first_crop_value)->first()['name'];
+            $first_crop_card = Cards::create(strval(round($first_crop_value/$first_crop_total, 2)*100).'%', 'NUM', 'Of the farmers’ main crop was '.$first_crop_name);
+            if ($isVariableChange) {
+                $first_crop_card = Cards::create(strval(round($first_crop_value/$first_crop_total, 2)*100).'%', 'NUM', 'Of the farmers’ second largest crop was '.$first_crop_name);
+            }
 
             $overview = [
                 // Cards::create(Utils::getValues($id, 'f_first_crop'), 'BAR', "Farmer First Crop"),
                 Cards::create([
                     Cards::create($submission_month.' month ago', 'MONTH', 'In '.Carbon::parse($submission)->format('M Y'), 12, 'Survey conducted')
                 ], 'CARDS', false, 6),
-                Cards::create([
-                    Cards::create(strval(round($first_crop_value/$first_crop_total, 2)*100).'%', 'NUM', 'Of the farmers’ main crop was '.$first_crop_name)
-                ], 'CARDS', false, 6),
+                Cards::create([$first_crop_card], 'CARDS', false, 6),
                 Cards::create($maps, 'MAPS', "Household Surveyed", 6),
                 Cards::create(Utils::getValues($id, 'farmer_sample'), 'PIE', "The farmer surveyed part of the sample", 6),
                 // Cards::create([
@@ -326,6 +328,7 @@ class ApiController extends Controller
             $f_lost_kg = Utils::getValues($id, $variables['f_lost (kilograms)'], false);
             $f_crop_tmp = ($isVariableChange) ? 'f_second_crop' : 'f_first_crop';
             $lost_kg = Utils::mergeValues($f_lost_kg, $variables[$f_crop_tmp], strtolower($form->kind));
+            // $lost_kg = Utils::mergeValues($f_lost_kg, $variables['f_first_crop']);
 
             $farmpractices = collect([
                 // Cards::create($crops, 'BAR', 'Crops'),
