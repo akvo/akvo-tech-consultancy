@@ -1,17 +1,27 @@
-import { Color, Easing, Legend, TextStyle, ToolBox, ToolBoxMaps, backgroundColor, splitTitle, dataZoom } from "../chart-options.js";
+import {
+    Color,
+    Easing,
+    Legend,
+    TextStyle,
+    ToolBox,
+    ToolBoxMaps,
+    backgroundColor,
+    splitTitle,
+    dataZoom
+} from "../chart-options.js";
 import maxBy from "lodash/maxBy";
 import minBy from "lodash/minBy";
 
-const Maps = (title, data, compare=false) => {
+const Maps = (title, data, compare = false) => {
     const world = require("../" + data.maps + ".js");
     let records = data.records;
     let option = {
         title: {
-            show: (compare) ? false : true,
+            show: compare ? false : true,
             text: splitTitle(title),
             right: "center",
             top: "30px",
-            ...TextStyle,
+            ...TextStyle
         },
         tooltip: {
             trigger: "item",
@@ -20,13 +30,18 @@ const Maps = (title, data, compare=false) => {
             formatter: function(params) {
                 if (params.value) {
                     var value = (params.value + "").split(".");
-                    value = value[0].replace(/(\d{1,3})(?=(?:\d{3})+(?!\d))/g, "$1,");
-                    return params.seriesName + "<br/>" + params.name + ": " + value;
+                    value = value[0].replace(
+                        /(\d{1,3})(?=(?:\d{3})+(?!\d))/g,
+                        "$1,"
+                    );
+                    return (
+                        params.seriesName + "<br/>" + params.name + ": " + value
+                    );
                 }
                 return params.name + ": No Data";
             },
             backgroundColor: "#ffffff",
-            ...TextStyle,
+            ...TextStyle
         },
         visualMap: {
             bottom: "40px",
@@ -35,16 +50,19 @@ const Maps = (title, data, compare=false) => {
             itemHeight: "200px",
             itemWidth: "9px",
             min: records.length > 1 ? minBy(records, "value").value : 0,
-            max: records.length > 1 ? maxBy(records, "value").value : records[0]["value"],
+            max:
+                records.length > 1
+                    ? maxBy(records, "value").value
+                    : records[0]["value"],
             text: ["Max", "Min"],
             realtime: false,
             calculable: true,
             inRange: {
-                color: ["#c4ddf4", Color.color[0]],
-            },
+                color: ["#c4ddf4", Color.color[0]]
+            }
         },
         toolbox: {
-            ...ToolBox.toolbox,
+            ...ToolBox.toolbox
         },
         series: [
             {
@@ -55,8 +73,8 @@ const Maps = (title, data, compare=false) => {
                 aspectScale: 1,
                 emphasis: {
                     label: {
-                        show: false,
-                    },
+                        show: false
+                    }
                 },
                 zoom: 1,
                 itemStyle: {
@@ -64,22 +82,22 @@ const Maps = (title, data, compare=false) => {
                     emphasis: {
                         areaColor: "#ffc107",
                         shadowColor: "rgba(0, 0, 0, 0.5)",
-                        shadowBlur: 10,
-                    },
+                        shadowBlur: 10
+                    }
                 },
-                data: records,
-            },
+                data: records
+            }
         ],
         backgroundColor: "#FFFFFF",
         ...Color,
-        ...Easing,
+        ...Easing
     };
 
     if (data.override) {
         option = {
             ...option,
             ...data.override
-        }
+        };
     }
     return option;
 };

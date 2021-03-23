@@ -22,7 +22,7 @@ class Utils {
         ];
     }
 
-    public static function getValues($form_id, $variable_name, $pluck=true, $withGender=false, $percent=true)
+    public static function getValues($form_id, $variable_name, $pluck=true, $withGender=false, $percent=true, $variables=null)
     {
         $var = Variable::where('name',$variable_name)->first();
         $data = self::getVarValue($form_id, $var);
@@ -39,7 +39,7 @@ class Utils {
             return $data;
         }
         if ($var->type === 'option' && $withGender) {
-            $genderVar = Variable::where('name', 'hh_gender_farmer')->first();
+            $genderVar = Variable::where('name', $variables['hh_gender_farmer'])->first();
             $data = $data->transform(function ($item) use ($genderVar) {
                 $item['gender'] = Answer::where([
                     ['form_instance_id', $item->form_instance_id],

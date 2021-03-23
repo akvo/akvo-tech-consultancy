@@ -36,9 +36,13 @@ class SeedController extends Controller
             return $value === 'identifier';
         })->values();
         $headers = $headers->map(function($header) use ($samplerec) {
+            $type = is_numeric($samplerec[$header]) ? 'number' : 'option';
+            if (collect(config('variable.number_type'))->contains($header)) {
+                $type = 'number';
+            }
             return [
                 'name' => $header,
-                'type' => is_numeric($samplerec[$header]) ? 'number' : 'option',
+                'type' => $type,
             ];
         })->toArray();
         $variables = collect();
@@ -59,7 +63,7 @@ class SeedController extends Controller
                 $input = $record[$header['name']];
                 // echo $input;
                 if ($header['type'] === 'number') {
-                    $value = ($input === "NA" || $input === null || $input === '') ? null : (float) $input;
+                    $value = ($input === "NA" || $input === null || $input === '' || empty($input)) ? null : (float) $input;
                 }
                 $answer = \App\Models\Answer::updateOrCreate([
                     'variable_id' => $variable_id,
