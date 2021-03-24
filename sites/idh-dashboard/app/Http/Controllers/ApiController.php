@@ -162,7 +162,7 @@ class ApiController extends Controller
                 ], 'CARDS', false, 6),
                 Cards::create([$first_crop_card], 'CARDS', false, 6),
                 Cards::create($maps, 'MAPS', "Household Surveyed", 6),
-                Cards::create(Utils::getValues($id, 'farmer_sample'), 'PIE', "The farmer surveyed part of the sample", 6),
+                Cards::create(Utils::getValues($id, $variables['farmer_sample']), 'PIE', "The farmer surveyed part of the sample", 6),
                 // Cards::create([
                 //     Cards::create(round(collect($farm_size)->avg(), 2), 'NUM', 'Acres is the average farm size')
                 // ], 'CARDS', false),
@@ -301,6 +301,13 @@ class ApiController extends Controller
 
         if ($request->tab === "farmer-profile") {
             $age = Utils::getValues($id, $variables['hh_age_farmer'], false);
+            // return value into age instead using year
+            if ($isVariableChange && $age->first()->value > 1000) {
+                $age = $age->map(function ($item) {
+                    $item['value'] = date('Y') - $item['value'];
+                    return $item;
+                });
+            }
             $genderAge = Utils::mergeValues($age, $variables['hh_gender_farmer']);
             // $landownership = Utils::getValues($id, 'f_ownership');
             // $owned_land = collect($landownership)->where('name','I Own All The Land')->first();
@@ -326,9 +333,32 @@ class ApiController extends Controller
             $f_harvests = Utils::getValues($id, $variables['f_harvests']);
 
             $f_lost_kg = Utils::getValues($id, $variables['f_lost (kilograms)'], false);
-            $f_crop_tmp = ($isVariableChange) ? 'f_second_crop' : 'f_first_crop';
-            $lost_kg = Utils::mergeValues($f_lost_kg, $variables[$f_crop_tmp], strtolower($form->kind));
-            // $lost_kg = Utils::mergeValues($f_lost_kg, $variables['f_first_crop']);
+            // $f_crop_tmp = ($isVariableChange) ? 'f_second_crop' : 'f_first_crop';
+            // $lost_kg = Utils::mergeValues($f_lost_kg, $variables['f_first_crop'], strtolower($form->kind));
+            if (!$isVariableChange) {
+                $lost_kg = Utils::mergeValues($f_lost_kg, $variables['f_first_crop']);
+            }
+            if ($isVariableChange) {
+                $lossTmp = collect();
+                foreach (['f_first_crop', 'f_second_crop']   as $key => $value) {
+                    $lossTmp->push(Utils::mergeValues($f_lost_kg, $variables[$value])['data']);
+                }
+                $lost_kg['data'] = $lossTmp->flatten(1)->groupBy('name')->map(function ($item, $key) {
+                    if (count($item) > 1) {
+                        $item = [[
+                            'name' => $key,
+                            'data' => $item->pluck('data')->flatten(1),
+                            'total' => $item->first()['total'],
+                            'count' => $item->sum('count'),
+                            'avg' => $item->first()['total'] / $item->sum('count'),
+                        ]];
+                    }
+                    return $item;
+                })->values()->flatten(1)->map(function ($item) {
+                    $item['name'] = $item['name'] === '' ? 'NA' : $item['name'];
+                    return $item;
+                });
+            }
 
             $farmpractices = collect([
                 // Cards::create($crops, 'BAR', 'Crops'),

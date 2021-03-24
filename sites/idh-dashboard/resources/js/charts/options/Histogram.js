@@ -1,19 +1,28 @@
-import { Color, Easing, Legend, TextStyle, ToolBox, backgroundColor, splitTitle, dataZoom } from "../chart-options.js";
+import {
+    Color,
+    Easing,
+    Legend,
+    TextStyle,
+    ToolBox,
+    backgroundColor,
+    splitTitle,
+    dataZoom
+} from "../chart-options.js";
 import maxBy from "lodash/maxBy";
 
 export const Histogram = (title, data) => {
-    let legend = data.data.map((x) => x.name);
+    let legend = data.data.map(x => x.name);
     let tableData = [];
-    data.data.map((x) => {
-        return x.data.map((d) => {
+    data.data.map(x => {
+        return x.data.map(d => {
             tableData.push([x.name, d[0], d[1]]);
         });
     });
     tableData = {
         header: ["Category", title, "Count"],
-        data: tableData,
+        data: tableData
     };
-    let values = data.data.map((x) => {
+    let values = data.data.map(x => {
         return {
             name: x.name,
             type: "bar",
@@ -21,11 +30,11 @@ export const Histogram = (title, data) => {
             markPoint: {
                 data: [
                     { type: "max", name: "min" },
-                    { type: "min", name: "max" },
+                    { type: "min", name: "max" }
                 ],
-                symbolSize: 30,
+                symbolSize: 30
             },
-            barMaxWidth: 5,
+            barMaxWidth: 1
         };
     });
     return {
@@ -33,7 +42,7 @@ export const Histogram = (title, data) => {
             text: splitTitle(title),
             right: "center",
             top: "30px",
-            ...TextStyle,
+            ...TextStyle
         },
         grid: {
             top: 100,
@@ -42,41 +51,41 @@ export const Histogram = (title, data) => {
             show: true,
             label: {
                 color: "#222",
-                ...TextStyle,
-            },
+                ...TextStyle
+            }
         },
         tooltip: {
             trigger: "axis",
             axisPointer: {
                 type: "cross",
                 crossStyle: {
-                    color: "#999",
-                },
-            },
+                    color: "#999"
+                }
+            }
         },
         legend: {
             data: legend,
-            ...Legend,
+            ...Legend
         },
         xAxis: {
             logBase: 10,
             axisPointer: {
-                type: "shadow",
-            },
+                type: "shadow"
+            }
         },
         yAxis: {
             type: "value",
             name: "Count",
             axisLabel: {
-                ...TextStyle,
-            },
+                ...TextStyle
+            }
         },
         series: values,
         data: tableData,
         ...Color,
         ...Easing,
         ...backgroundColor,
-        ...ToolBox,
+        ...ToolBox
     };
 };
 

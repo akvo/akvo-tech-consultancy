@@ -26,6 +26,7 @@ $old_variable = [
     'g_education' => 'g_education',
     'g_reprod_activities' => 'g_reprod_activities',
     'pi_location_cascade_county' => 'pi_location_cascade_county',
+    'farmer_sample' => 'farmer_sample',
 ];
 
 $new_variable = [
@@ -58,6 +59,7 @@ $new_variable = [
     'g_education' => 'g_education',
     'g_reprod_activities' => 'g_reprod_activities',
     'pi_location_cascade_county' => 'pi_location_cascade_county',
+    'farmer_sample' => 'farmer_sample',
 ];
 
 return [
