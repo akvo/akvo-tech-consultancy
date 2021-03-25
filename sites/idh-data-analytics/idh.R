@@ -26,7 +26,7 @@ function(filename) {
   file <- list.files(pattern=filename)
   print(file)
   readBin(file, "raw", n = file.info(file)$size)
-} 
+}
 
 #* R run script for IDH
 #* @param survey_id as the id of survey
@@ -56,7 +56,7 @@ idh_scripts <- function(survey_id) {
   outlier_detection <- function(x){
     ifelse(
       x > (mean(x, na.rm=TRUE) + sd(x, na.rm=TRUE)*3) |
-        x < (mean(x, na.rm=TRUE) - sd(x, na.rm=TRUE)*3), 
+        x < (mean(x, na.rm=TRUE) - sd(x, na.rm=TRUE)*3),
       9997,
       x
     )
@@ -112,7 +112,7 @@ idh_scripts <- function(survey_id) {
     df <- survey$forms$questionGroups[[1]]$questions[[i]]
     df['section'] <- str_trim(survey$forms$questionGroups[[1]]$name[[i]])
     df['section_id'] <- str_trim(survey$forms$questionGroups[[1]]$id[[i]])
-    
+
     survey_info <- rbind(survey_info, df)
   }
 
@@ -144,17 +144,17 @@ idh_scripts <- function(survey_id) {
 
   # For annual crop
   if(crop_type == "annual"){
-    
+
     repeated_data <- read_csv(repeated_file)
     colnames(repeated_data) <- sapply(colnames(repeated_data), function(x) unlist(strsplit(x, "\\|"))[1])
-    
+
     colnames_repeated_data <- lapply(colnames(repeated_data), function(x){
       ifelse(grepl("[0-9]", x, perl = T), survey_info[survey_info$id == x, "variableName"],x)})
     colnames(repeated_data) <- colnames_repeated_data
     colnames(repeated_data)[duplicated(colnames(repeated_data))] <- make.unique(
       paste0(
         colnames(repeated_data)[duplicated(colnames(repeated_data))], "_other"))
-    
+
     # Get version for to make alternations
     raw_data <- data %>% left_join(repeated_data)
   }
@@ -164,7 +164,7 @@ idh_scripts <- function(survey_id) {
 
   # SURVEY ADJUSTMENTS
 
-  survey_questions <- survey_info %>% 
+  survey_questions <- survey_info %>%
     # Trim trailing spaces
     mutate_if(is.character, str_trim) %>%
     # All variables to lowercase
@@ -180,58 +180,58 @@ idh_scripts <- function(survey_id) {
     select("variableName") %>% pull()
 
   # Changes to data set:
-  data <- data %>% 
-    
+  data <- data %>%
+
     # Set the date to date format
     dplyr::rename(submission_date = Submission) %>%
-    mutate(submission_date = as.Date(submission_date, format="%d-%m-%y")) %>% 
-    
-    # EGRANARY: Add the county based on submission date 
+    mutate(submission_date = as.Date(submission_date, format="%d-%m-%y")) %>%
+
+    # EGRANARY: Add the county based on submission date
     # mutate(pi_location_cascade_county = ifelse(`Submission Date`< "2020-01-27", "Meru", "Trans Nzoia")) %>%
-    
+
     # Remove irrelevant columns
     select(-c(Display, Device, Instance,
               Submitter, Form, Duration)) %>%
     select(-contains("--option--")) %>%
-    
+
     # All column names to lowercase
     rename_all(funs(tolower)) %>%
-    
+
     # All variables to lowercase
     mutate_all(tolower) %>%
-    
+
     # EGRANARY
     # rename(ic_informed_consent = informed_consent) %>%
-    
+
     # Remove to farmers that didn't participate
     filter(ic_informed_consent == "accepted to participate") %>%
-    
+
     # trailing spaces
-    mutate_if(is.character, str_trim) %>% 
-    
+    mutate_if(is.character, str_trim) %>%
+
     # Text changes
-    mutate_all(funs(gsub("labour","labor",.))) %>% 
-    rename_all(funs(gsub("_1","",.))) %>% 
-    
+    mutate_all(funs(gsub("labour","labor",.))) %>%
+    rename_all(funs(gsub("_1","",.))) %>%
+
     # Rename columns containing the crop type in the name -> changes when there are two crops!
     rename_at(vars(contains(sdm_crop)), funs(sub(paste("_", sdm_crop, sep=""), '', .))) %>%
-    
+
     # farm size columns to numeric
     mutate_at(c("f_size", "f_sdm_size"), factor_to_int) %>%
-    
+
     # Numerical columns to numeric data type
     # mutate_at(vars(numerical_columns), funs(as.numeric)) %>%
-    
+
     # All variables that are 9999/"i don't know" or 9998/"i prefer not to say" are set to NA
     mutate_if(is.numeric, list(~na_if(., 9999))) %>%
     mutate_if(is.numeric, list(~na_if(., 9998))) %>%
     mutate_if(is.character, list(~na_if(., "i don't know"))) %>%
     mutate_if(is.character, list(~na_if(., "i prefer not to say"))) %>%
-    
-    # Set measurement of farm size to acres 
+
+    # Set measurement of farm size to acres
     mutate(f_size = ifelse(f_unit_land == "hectares", f_size*2.471, f_size)) %>%
     mutate(f_sdm_size = ifelse(f_unit_land == "hectares", f_sdm_size*2.471, f_sdm_size)) %>%
-    
+
     # Rename the columns that changed values to indicate changes:
     dplyr::rename("f_size (acre)" = "f_size",
           "f_sdm_size (acre)" = "f_sdm_size")
@@ -239,72 +239,72 @@ idh_scripts <- function(survey_id) {
   # Change columns data type remove missing and change different measurements to one
   if(crop_type == "annual"){
     repeated_data <- repeated_data %>%
-      
-      select(-c("Display Name", 
+
+      select(-c("Display Name",
                 "Device Identifier",
-                "Instance", 
-                "Submission Date", 
-                "Submitter", 
-                "Duration", 
+                "Instance",
+                "Submission Date",
+                "Submitter",
+                "Duration",
                 "Form Version")) %>%
-      
+
       select(-contains("--option--")) %>%
-      
+
       # All column names to lowercase
       rename_all(funs(tolower)) %>%
-      
+
       # All variables to lowercase
       mutate_all(tolower) %>%
-      
+
       # trailing spaces
-      mutate_if(is.character, str_trim) %>% 
-      
+      mutate_if(is.character, str_trim) %>%
+
       # Text changes
-      mutate_all(funs(gsub("labour","labor",.))) %>% 
-      rename_all(funs(gsub("_1","",.))) %>% 
-      
+      mutate_all(funs(gsub("labour","labor",.))) %>%
+      rename_all(funs(gsub("_1","",.))) %>%
+
       # Rename columns containing the crop type in the name -> changes when there are two crops!
-      rename_at(vars(contains(sdm_crop)), 
+      rename_at(vars(contains(sdm_crop)),
                 funs(sub(paste("_", sdm_crop, sep=""), '', .))) %>%
-      
+
       # From factor to numeric
-      mutate_at(c("f_produced", "f_sold", 
+      mutate_at(c("f_produced", "f_sold",
                   "f_own_consumption", "f_lost"), factor_to_int) %>%
-      
+
       # All variables that are 9999/"i don't know" or 9998/"i prefer not to say" are set to NA
       mutate_if(is.numeric, list(~na_if(., 9999))) %>%
       mutate_if(is.numeric, list(~na_if(., 9998))) %>%
       mutate_if(is.character, list(~na_if(., "i don't know"))) %>%
       mutate_if(is.character, list(~na_if(., "i prefer not to say"))) %>%
-      
+
       # PRODUCED
       unite("f_produced_measurement", contains("f_produced_measurement"), na.rm = TRUE, remove = FALSE, sep=" ") %>%
       mutate(f_produced_measurement = parse_number(f_produced_measurement, na="NA")) %>%
       mutate(`f_produced (kilograms)` = f_produced*f_produced_measurement) %>%
-      
+
       # SOLD
       unite("f_sold_measurement", contains("f_sold_measurement"), na.rm = TRUE, remove = FALSE, sep=" ") %>%
-      mutate(f_sold_measurement = replace(f_sold_measurement, 
+      mutate(f_sold_measurement = replace(f_sold_measurement,
                                           f_sold_measurement == "i didn't sell anything this season", "0 kilograms")) %>%
       mutate(f_sold_measurement = parse_number(f_sold_measurement, na="NA")) %>%
       mutate(`f_sold (kilograms)` = f_sold*f_sold_measurement) %>%
-      
+
       # LOST
       unite("f_lost_measurement", contains("f_lost_measurement"), na.rm = TRUE, remove = FALSE, sep=" ") %>%
       mutate(f_lost_measurement = replace(f_lost_measurement, f_lost_measurement == "i didn't lose any of the sdm crop", 0)) %>%
       mutate(f_lost_measurement = parse_number(f_lost_measurement, na="NA")) %>%
       mutate(`f_lost (kilograms)` = f_lost*f_lost_measurement) %>%
-      
+
       # OWN CONSUMPTION
       unite("f_own_consumption_measurement", contains("f_own_consumption_measurement"), na.rm = TRUE, remove = FALSE, sep=" ") %>%
-      mutate(f_own_consumption_measurement = replace(f_own_consumption_measurement, 
+      mutate(f_own_consumption_measurement = replace(f_own_consumption_measurement,
                                                     f_own_consumption_measurement == "i didn't use any for my own consumption", 0)) %>%
       mutate(f_own_consumption_measurement = parse_number(f_own_consumption_measurement, na="NA")) %>%
       mutate(`f_own_consumption (kilograms)` = f_own_consumption*f_own_consumption_measurement)
-    
+
     ## ---- repeated groups ----
 
-    repeated_data <- repeated_data %>% 
+    repeated_data <- repeated_data %>%
       group_by(identifier) %>%
       summarise(f_harvest_number = max(f_harvest_number, na.rm=TRUE),
                 f_price = mean(f_price, na.rm=TRUE),
@@ -320,39 +320,39 @@ idh_scripts <- function(survey_id) {
                 `f_own_consumption (kilograms)` = sum(`f_own_consumption (kilograms)`, na.rm=TRUE),
                 f_own_consumption = sum(f_own_consumption, na.rm=TRUE),
                 f_own_consumption_measurement = sum(f_own_consumption_measurement, na.rm=TRUE))
-    
-    data <- data %>% 
-      left_join(repeated_data)
-    
-  }else{
-    
+
     data <- data %>%
-  
+      left_join(repeated_data)
+
+  }else{
+
+    data <- data %>%
+
       # PRODUCED
       unite("f_produced_measurement", contains("f_produced_measurement"), na.rm = TRUE, remove = FALSE, sep=" ") %>%
       mutate(f_produced_measurement = parse_number(f_produced_measurement, na="NA")) %>%
       mutate(`f_produced (kilograms)` = f_produced*f_produced_measurement) %>%
-      
+
       # SOLD
       unite("f_sold_measurement", contains("f_sold_measurement"), na.rm = TRUE, remove = FALSE, sep=" ") %>%
-      mutate(f_sold_measurement = replace(f_sold_measurement, 
+      mutate(f_sold_measurement = replace(f_sold_measurement,
                                           f_sold_measurement == "i didn't sell anything this season", "0 kilograms")) %>%
       mutate(f_sold_measurement = parse_number(f_sold_measurement, na="NA")) %>%
       mutate(`f_sold (kilograms)` = f_sold*f_sold_measurement) %>%
-      
+
       # LOST
       unite("f_lost_measurement", contains("f_lost_measurement"), na.rm = TRUE, remove = FALSE, sep=" ") %>%
       mutate(f_lost_measurement = replace(f_lost_measurement, f_lost_measurement == "i didn't lose any of the sdm crop", 0)) %>%
       mutate(f_lost_measurement = parse_number(f_lost_measurement, na="NA")) %>%
       mutate(`f_lost (kilograms)` = f_lost*f_lost_measurement) %>%
-      
+
       # OWN CONSUMPTION
       unite("f_own_consumption_measurement", contains("f_own_consumption_measurement"), na.rm = TRUE, remove = FALSE, sep=" ") %>%
-      mutate(f_own_consumption_measurement = replace(f_own_consumption_measurement, 
+      mutate(f_own_consumption_measurement = replace(f_own_consumption_measurement,
                                                     f_own_consumption_measurement == "i didn't use any for my own consumption", 0)) %>%
       mutate(f_own_consumption_measurement = parse_number(f_own_consumption_measurement, na="NA")) %>%
       mutate(`f_own_consumption (kilograms)` = f_own_consumption*f_own_consumption_measurement)
-    
+
   }
 
   # remove lines without variable name
@@ -374,10 +374,10 @@ idh_scripts <- function(survey_id) {
 
   numerical_columns <- gsub(paste("_", tolower(sdm_crop), sep=""), "", numerical_columns)
   numerical_columns <- str_replace(
-    numerical_columns, 
-    c("f_size", "f_sdm_size", "f_produced", "f_sold", "f_own_consumption", "f_lost"), 
-    c("f_size (acre)","f_sdm_size (acre)", "f_produced (kilograms)", 
-      "f_sold (kilograms)", "f_own_consumption (kilograms)", 
+    numerical_columns,
+    c("f_size", "f_sdm_size", "f_produced", "f_sold", "f_own_consumption", "f_lost"),
+    c("f_size (acre)","f_sdm_size (acre)", "f_produced (kilograms)",
+      "f_sold (kilograms)", "f_own_consumption (kilograms)",
       "f_lost (kilograms)"))
 
   # OUTLIER detection
@@ -401,28 +401,28 @@ idh_scripts <- function(survey_id) {
     filter(`f_size (acre)` < 10)
 
   # CROPS
-  # Data <- Data %>% 
-  #   
+  # Data <- Data %>%
+  #
   #   # Rename for Egranary
   #   # rename(f_livestock = f_other_crop_livestock,
   #   #        hh_size_male = hh_male,
   #   #        hh_gender_farmer = hh_gender,
   #   #        hh_age_farmer = hh_age) %>%
-  #   
+  #
   #   # Rename for Mwea
   #   rename(hh_size_male = hh_male) %>%
-  #   
+  #
   #   # Farmer birth year to age
   #   mutate(hh_age_farmer = 2020 - hh_age_farmer) %>%
-  #   
-  #   # Farmer sample 
+  #
+  #   # Farmer sample
   #   mutate(farmer_sample = ifelse(!farmer_sample %in% c("yes", "no"), "no", farmer_sample)) %>%
-  #   
+  #
   #   # First crop
   #   mutate(f_first_crop = ifelse(f_first_crop == "other", NA, f_first_crop)) %>%
   #   unite("f_first_crop", c(f_first_crop, f_first_crop_other),
   #         na.rm = TRUE, remove = TRUE, sep=" ") %>%
-  #   
+  #
   #   # Second crop
   #   mutate(f_second_crop = ifelse(f_second_crop == "other", NA, f_second_crop)) %>%
   #   unite("f_second_crop", c(f_second_crop, f_second_crop_other),
@@ -437,7 +437,7 @@ idh_scripts <- function(survey_id) {
   #                                "i don't have a third main crop",
   #                                f_third_crop)) %>%
   #   # Combine crops with pipe
-  #   mutate(f_crops = paste(f_first_crop, f_second_crop, f_third_crop, sep="|")) %>% 
+  #   mutate(f_crops = paste(f_first_crop, f_second_crop, f_third_crop, sep="|")) %>%
   #   mutate(f_crops = gsub("\\|i don't have a second main crop|\\|i don't have a third main crop", "", f_crops))
 
   nr_participants_fsize <- length(unique(Data$identifier))
@@ -459,30 +459,30 @@ idh_scripts <- function(survey_id) {
   names(NA_values) <- c("missing due to skip logic", "variable")
   rownames(NA_values) <- NULL
 
-  missings_raw <- missing_9999 %>% 
+  missings_raw <- missing_9999 %>%
     left_join(missing_9998) %>%
     left_join(NA_values) %>%
     filter(!variable %like% "*option*") %>%
-    filter(!variable %in% 
-            c("identifier", "duration", 
-              "sdm_farmer", "informed_consent")) 
+    filter(!variable %in%
+            c("identifier", "duration",
+              "sdm_farmer", "informed_consent"))
 
   missings_raw <- missings_raw %>%
     filter(!is.na(variable)) %>%
     filter(!variable %like% "other") %>%
     rename(variableName = variable) %>%
     left_join(survey_questions, by="variableName") %>%
-    select("section", "name", "variableName", 
-          "missing due to skip logic", "i don't know", 
+    select("section", "name", "variableName",
+          "missing due to skip logic", "i don't know",
           "i prefer not to say")
 
   # REMOVE PRIVACY COLUMNS -> ALWAYS CHECK!
 
-  ## MWEA: Somehow survey variable names do not 100% match with data 
+  ## MWEA: Somehow survey variable names do not 100% match with data
 
   # Select variables with private information
-  private_info <- survey_questions %>% 
-    filter(section %like% "confidential") %>% 
+  private_info <- survey_questions %>%
+    filter(section %like% "confidential") %>%
     filter(!variableName %like% "cascade") %>%
     filter(!variableName %like% "geolocation") %>%
     pull(variableName)
@@ -499,30 +499,30 @@ idh_scripts <- function(survey_id) {
   numerical_means <- Data %>%
     group_by(hh_gender_farmer) %>%
     select_if(is.numeric) %>%
-    summarise_each(funs(round(mean(., na.rm = TRUE),2))) 
+    summarise_each(funs(round(mean(., na.rm = TRUE),2)))
 
-  numerical_sds <- Data %>% 
+  numerical_sds <- Data %>%
     group_by(hh_gender_farmer) %>%
     select_if(is.numeric) %>%
-    summarise_each(funs(round(sd(., na.rm = TRUE),2))) 
+    summarise_each(funs(round(sd(., na.rm = TRUE),2)))
 
-  numerical_minus <- Data %>% 
+  numerical_minus <- Data %>%
     group_by(hh_gender_farmer) %>%
     select_if(is.numeric) %>%
-    summarise_each(funs(min(., na.rm = TRUE))) 
+    summarise_each(funs(min(., na.rm = TRUE)))
 
-  numerical_max <- Data %>% 
+  numerical_max <- Data %>%
     group_by(hh_gender_farmer) %>%
     select_if(is.numeric) %>%
-    summarise_each(funs(round(max(., na.rm = TRUE),2))) 
+    summarise_each(funs(round(max(., na.rm = TRUE),2)))
 
-  numerical_freq <- Data %>% 
+  numerical_freq <- Data %>%
     group_by(hh_gender_farmer) %>%
     select_if(is.numeric) %>%
-    summarise_each(funs(count_n)) 
+    summarise_each(funs(count_n))
 
-  numerical_descriptives <- reshape2::melt(numerical_freq, value.name="n") %>% 
-    left_join(melt(numerical_means, value.name="mean")) %>% 
+  numerical_descriptives <- reshape2::melt(numerical_freq, value.name="n") %>%
+    left_join(melt(numerical_means, value.name="mean")) %>%
     left_join(melt(numerical_sds, value.name="sd")) %>%
     left_join(melt(numerical_minus, value.name="min")) %>%
     left_join(melt(numerical_max, value.name="max")) %>%
@@ -534,7 +534,7 @@ idh_scripts <- function(survey_id) {
     filter(!is.na(question))
 
   # if(country %in% c("kenya", "nigeria")){
-  #   numerical_descriptives <- numerical_descriptives %>% 
+  #   numerical_descriptives <- numerical_descriptives %>%
   #     full_join(ppi_var)
   # }
 
@@ -582,7 +582,7 @@ idh_scripts <- function(survey_id) {
   categorical_descriptives <- education_var %>% full_join(foodshortage_var)
 
   ## FS months
-  fs_shortage_months_var <- Data %>% 
+  fs_shortage_months_var <- Data %>%
     cSplit("fs_shortage_months","|") %>%
     dplyr::select(hh_gender_farmer, starts_with("fs_shortage_months")) %>%
     gather(position, answer, -hh_gender_farmer) %>%
@@ -599,7 +599,7 @@ idh_scripts <- function(survey_id) {
     mutate(percentage =  round((frequency/count)*100,1)) %>%
     mutate(variable = "fs_shortage_months") %>%
     dplyr::select(-count) %>%
-    arrange(gender, desc(percentage)) 
+    arrange(gender, desc(percentage))
 
   categorical_descriptives <- education_var %>% full_join(fs_shortage_months_var)
 
@@ -634,7 +634,7 @@ idh_scripts <- function(survey_id) {
   categorical_descriptives <- categorical_descriptives %>% full_join(mobile_money_var)
 
   ## Mobile functionality
-  mobile_function_var <- Data %>% 
+  mobile_function_var <- Data %>%
     cSplit("hh_phone_functionality","|") %>%
     dplyr::select(hh_gender_farmer, starts_with("hh_phone_functionality")) %>%
     gather(position, answer, -hh_gender_farmer) %>%
@@ -651,60 +651,60 @@ idh_scripts <- function(survey_id) {
     mutate(percentage =  round((frequency/count)*100,1)) %>%
     mutate(variable = "hh_phone_functionality") %>%
     dplyr::select(-count) %>%
-    arrange(gender, desc(percentage)) 
+    arrange(gender, desc(percentage))
 
-  categorical_descriptives <- categorical_descriptives %>% 
+  categorical_descriptives <- categorical_descriptives %>%
     full_join(mobile_function_var)
 
   ## LOANS
 
   if(company_type == "FSP"){
-    loan_var <- Data %>% 
+    loan_var <- Data %>%
       cSplit("hh_loan_presence","|") %>%
       dplyr::select(hh_gender_farmer, starts_with("hh_loan_presence")) %>%
       gather(position, answer, -hh_gender_farmer) %>%
       select("hh_gender_farmer", "answer")
-    
+
     loan_var <- melt(
       table(loan_var[,c("hh_gender_farmer", "answer")]),
       value.name="frequency",
       varnames=c("gender", "answer"))
-    
+
     loan_var <- loan_var %>%
       left_join(gender_var[,c("gender","count")]) %>%
       mutate_at(vars(c("count", "frequency")), as.numeric) %>%
       mutate(percentage =  round((frequency/count)*100,1)) %>%
       mutate(variable = "hh_loan_presence") %>%
       dplyr::select(-count) %>%
-      arrange(gender, desc(percentage)) 
-    
-    categorical_descriptives <- categorical_descriptives %>% 
+      arrange(gender, desc(percentage))
+
+    categorical_descriptives <- categorical_descriptives %>%
       full_join(loan_var)
   }
 
   ## Loan Source
 
   if(company_type == "FSP"){
-    loan_source_var <- Data %>% 
+    loan_source_var <- Data %>%
       cSplit("hh_loan_source","|") %>%
       dplyr::select(hh_gender_farmer, starts_with("hh_loan_source")) %>%
       gather(position, answer, -hh_gender_farmer) %>%
       select("hh_gender_farmer", "answer")
-    
+
     loan_source_var <- melt(
       table(loan_source_var[,c("hh_gender_farmer", "answer")]),
       value.name="frequency",
       varnames=c("gender", "answer"))
-    
+
     loan_source_var <- loan_source_var %>%
       left_join(gender_var[,c("gender","count")]) %>%
       mutate_at(vars(c("count", "frequency")), as.numeric) %>%
       mutate(percentage =  round((frequency/count)*100,1)) %>%
       mutate(variable = "hh_loan_source") %>%
       dplyr::select(-count) %>%
-      arrange(gender, desc(percentage)) 
-    
-    categorical_descriptives <- categorical_descriptives %>% 
+      arrange(gender, desc(percentage))
+
+    categorical_descriptives <- categorical_descriptives %>%
       full_join(loan_source_var)
   }
 
@@ -717,12 +717,12 @@ idh_scripts <- function(survey_id) {
       dplyr::select(hh_gender_farmer, starts_with("hh_loan_use")) %>%
       gather(position, answer, -hh_gender_farmer) %>%
       select("hh_gender_farmer", "answer")
-    
+
     loan_use_var <- melt(
       table(loan_use_var[,c("hh_gender_farmer", "answer")]),
       value.name="frequency",
       varnames=c("gender", "answer"))
-    
+
     loan_use_var <- loan_use_var %>%
       left_join(gender_var[,c("gender","count")]) %>%
       mutate_at(vars(c("count", "frequency")), as.numeric) %>%
@@ -730,7 +730,7 @@ idh_scripts <- function(survey_id) {
       mutate(variable = "hh_loan_use") %>%
       dplyr::select(-count) %>%
       arrange(gender, desc(percentage))
-    
+
     categorical_descriptives <- categorical_descriptives %>%
       full_join(loan_use_var)
   }
@@ -739,7 +739,7 @@ idh_scripts <- function(survey_id) {
   Data$cf_shortage <- as.character(Data$cf_shortage)
 
   cashflow_var <- melt(table(Data[,c("hh_gender_farmer","cf_shortage")]))
-  cashflow_var <- cashflow_var %>% 
+  cashflow_var <- cashflow_var %>%
     rename(gender=hh_gender_farmer, answer=cf_shortage, frequency=value) %>%
     left_join(gender_var[,c("gender","count")]) %>%
     mutate(percentage = round((frequency/count)*100,1)) %>%
@@ -750,7 +750,7 @@ idh_scripts <- function(survey_id) {
     full_join(cashflow_var)
 
   ##  CASHFLOW MONTHS
-  cashflow_months <- Data %>% 
+  cashflow_months <- Data %>%
     cSplit("cf_shortage_months","|") %>%
     dplyr::select(hh_gender_farmer, starts_with("cf_shortage_months")) %>%
     gather(position, answer, -hh_gender_farmer) %>%
@@ -770,11 +770,11 @@ idh_scripts <- function(survey_id) {
     arrange(gender, desc(percentage)) %>%
     filter(answer != "i don't know")
 
-  categorical_descriptives <- categorical_descriptives %>% 
+  categorical_descriptives <- categorical_descriptives %>%
     full_join(cashflow_months)
 
   # MAIN CROP -> FIRST
-  first_crop_var <- Data %>% 
+  first_crop_var <- Data %>%
     unite("f_first_crop", c(f_first_crop, f_first_crop_other),
           na.rm = TRUE, remove = FALSE, sep=" ") %>%
     select(hh_gender_farmer, f_first_crop) %>%
@@ -792,13 +792,13 @@ idh_scripts <- function(survey_id) {
     mutate(percentage =  round((frequency/count)*100,1)) %>%
     mutate(variable = "f_first_crop") %>%
     dplyr::select(-count) %>%
-    arrange(gender, desc(percentage)) 
+    arrange(gender, desc(percentage))
 
-  categorical_descriptives <- categorical_descriptives %>% 
+  categorical_descriptives <- categorical_descriptives %>%
     full_join(first_crop_var)
 
   # MAIN CROP -> SECOND
-  second_crop_var <- Data %>% 
+  second_crop_var <- Data %>%
     unite("f_second_crop", c(f_second_crop, f_second_crop_other),na.rm = TRUE, remove = FALSE, sep=" ") %>%
     select(hh_gender_farmer, f_second_crop) %>%
     gather(position, answer, -hh_gender_farmer) %>%
@@ -818,11 +818,11 @@ idh_scripts <- function(survey_id) {
     arrange(gender, desc(percentage)) %>%
     mutate(answer = replace(answer, answer=="", "no second crop"))
 
-  categorical_descriptives <- categorical_descriptives %>% 
+  categorical_descriptives <- categorical_descriptives %>%
     full_join(second_crop_var)
 
   # MAIN CROP -> THIRD
-  third_crop_var <- Data %>% 
+  third_crop_var <- Data %>%
     unite("f_third_crop", c(f_third_crop, f_third_crop_other), na.rm = TRUE, remove = FALSE, sep=" ") %>%
     select(hh_gender_farmer, f_third_crop) %>%
     gather(position, answer, -hh_gender_farmer) %>%
@@ -842,11 +842,11 @@ idh_scripts <- function(survey_id) {
     arrange(gender, desc(percentage)) %>%
     mutate(answer = replace(answer, answer=="", "no third crop"))
 
-  categorical_descriptives <- categorical_descriptives %>% 
+  categorical_descriptives <- categorical_descriptives %>%
     full_join(third_crop_var)
 
   ## INPUTS
-  inputs_var <- Data %>% 
+  inputs_var <- Data %>%
     cSplit("f_inputs_usage","|") %>%
     dplyr::select(hh_gender_farmer, starts_with("f_inputs_usage")) %>%
     gather(position, answer, -hh_gender_farmer) %>%
@@ -863,13 +863,13 @@ idh_scripts <- function(survey_id) {
     mutate(percentage =  round((frequency/count)*100,1)) %>%
     mutate(variable = "f_inputs_usage") %>%
     dplyr::select(-count) %>%
-    arrange(gender, desc(percentage)) 
+    arrange(gender, desc(percentage))
 
-  categorical_descriptives <- categorical_descriptives %>% 
+  categorical_descriptives <- categorical_descriptives %>%
     full_join(inputs_var)
 
   ## INPUTS Challenges
-  input_challenges_var <- Data %>% 
+  input_challenges_var <- Data %>%
     cSplit("f_inputs_challenges_types","|") %>%
     dplyr::select(hh_gender_farmer, starts_with("f_inputs_challenges_types")) %>%
     gather(position, answer, -hh_gender_farmer) %>%
@@ -886,16 +886,16 @@ idh_scripts <- function(survey_id) {
     mutate(percentage =  round((frequency/count)*100,1)) %>%
     mutate(variable = "f_inputs_challenges_types") %>%
     dplyr::select(-count) %>%
-    arrange(gender, desc(percentage)) 
+    arrange(gender, desc(percentage))
 
-  categorical_descriptives <- categorical_descriptives %>% 
+  categorical_descriptives <- categorical_descriptives %>%
     full_join(input_challenges_var)
 
   ## EQUIPMENT
 
-  equipment_var <- Data %>% 
+  equipment_var <- Data %>%
     unite("f_equipment_usage", c(f_equipment_usage, f_equipment_other), na.rm = TRUE, remove = FALSE, sep="|") %>%
-    cSplit("f_equipment_usage","|") %>% 
+    cSplit("f_equipment_usage","|") %>%
     dplyr::select(hh_gender_farmer, starts_with("f_equipment_usage")) %>%
     gather(position, answer, -hh_gender_farmer) %>%
     select("hh_gender_farmer", "answer")
@@ -911,13 +911,13 @@ idh_scripts <- function(survey_id) {
     mutate(percentage =  round((frequency/count)*100,1)) %>%
     mutate(variable = "f_equipment_usage") %>%
     dplyr::select(-count) %>%
-    arrange(gender, desc(percentage)) 
+    arrange(gender, desc(percentage))
 
-  categorical_descriptives <- categorical_descriptives %>% 
+  categorical_descriptives <- categorical_descriptives %>%
     full_join(equipment_var)
 
-  ## CLIMATE ISSUES 
-  climate_var <- Data %>% 
+  ## CLIMATE ISSUES
+  climate_var <- Data %>%
     cSplit("cl_extreme_weather","|") %>%
     dplyr::select(hh_gender_farmer, starts_with("cl_extreme_weather")) %>%
     gather(position, answer, -hh_gender_farmer) %>%
@@ -934,13 +934,13 @@ idh_scripts <- function(survey_id) {
     mutate(percentage =  round((frequency/count)*100,1)) %>%
     mutate(variable = "cl_extreme_weather") %>%
     dplyr::select(-count) %>%
-    arrange(gender, desc(percentage)) 
+    arrange(gender, desc(percentage))
 
-  categorical_descriptives <- categorical_descriptives %>% 
+  categorical_descriptives <- categorical_descriptives %>%
     full_join(climate_var)
 
   ## CLIMATE MITIGATION
-  mitigation_var <- Data %>% 
+  mitigation_var <- Data %>%
     unite("cl_coping_mechanisms", c(cl_coping_mechanisms, `cl_coping_mechanisms_other`), na.rm = TRUE, remove = FALSE, sep="|") %>%
     cSplit("cl_coping_mechanisms","|") %>%
     dplyr::select(hh_gender_farmer, starts_with("cl_coping_mechanisms")) %>%
@@ -958,9 +958,9 @@ idh_scripts <- function(survey_id) {
     mutate(percentage =  round((frequency/count)*100,1)) %>%
     mutate(variable = "cl_coping_mechanisms") %>%
     dplyr::select(-count) %>%
-    arrange(gender, desc(percentage)) 
+    arrange(gender, desc(percentage))
 
-  categorical_descriptives <- categorical_descriptives %>% 
+  categorical_descriptives <- categorical_descriptives %>%
     full_join(mitigation_var)
 
   ## GENDER
@@ -981,7 +981,7 @@ idh_scripts <- function(survey_id) {
     dplyr::select(-count) %>%
     arrange(gender, desc(percentage))
 
-  categorical_descriptives <- categorical_descriptives %>% 
+  categorical_descriptives <- categorical_descriptives %>%
     full_join(g_informed_consent)
 
   # Education of female primary dec. mak.
@@ -998,11 +998,11 @@ idh_scripts <- function(survey_id) {
     dplyr::select(-count) %>%
     arrange(gender, desc(percentage))
 
-  categorical_descriptives <- categorical_descriptives %>% 
+  categorical_descriptives <- categorical_descriptives %>%
     full_join(g_education)
 
   # Decision making in HH
-  g_reproductive_var <- Data %>% 
+  g_reproductive_var <- Data %>%
     cSplit("g_reprod_activities","|") %>%
     dplyr::select(hh_gender_farmer, starts_with("g_reprod_activities")) %>%
     gather(position, answer, -hh_gender_farmer) %>%
@@ -1019,13 +1019,13 @@ idh_scripts <- function(survey_id) {
     mutate(percentage =  round((frequency/count)*100,1)) %>%
     mutate(variable = "g_reprod_activities") %>%
     dplyr::select(-count) %>%
-    arrange(gender, desc(percentage)) 
+    arrange(gender, desc(percentage))
 
-  categorical_descriptives <- categorical_descriptives %>% 
+  categorical_descriptives <- categorical_descriptives %>%
     full_join(g_reproductive_var)
 
   ## DECISION MAKING HH  --> PRODUCTIVE
-  g_productive_var <- Data %>% 
+  g_productive_var <- Data %>%
     cSplit("g_prod_activities","|") %>%
     dplyr::select(hh_gender_farmer, starts_with("g_prod_activities")) %>%
     gather(position, answer, -hh_gender_farmer) %>%
@@ -1042,9 +1042,9 @@ idh_scripts <- function(survey_id) {
     mutate(percentage =  round((frequency/count)*100,1)) %>%
     mutate(variable = "g_prod_activities") %>%
     dplyr::select(-count) %>%
-    arrange(gender, desc(percentage)) 
+    arrange(gender, desc(percentage))
 
-  categorical_descriptives <- categorical_descriptives %>% 
+  categorical_descriptives <- categorical_descriptives %>%
     full_join(g_productive_var)
 
   ## DECISION MAKING ACTIVITIES HH FARM -- Reproductive
@@ -1058,15 +1058,15 @@ idh_scripts <- function(survey_id) {
     left_join(gender_var[,c("gender","count")])
   g_reproductive_input$percentage <- round(
     (g_reproductive_input$frequency/g_reproductive_input$count)*100,1)
-  g_reproductive_input <- g_reproductive_input %>% 
+  g_reproductive_input <- g_reproductive_input %>%
     dplyr::select(-count) %>%
     arrange(gender, desc(percentage))
 
-  categorical_descriptives <- categorical_descriptives %>% 
+  categorical_descriptives <- categorical_descriptives %>%
     full_join(g_reproductive_input)
 
   # Decision making reproductive
-  g_reproductive_decision <- Data %>% 
+  g_reproductive_decision <- Data %>%
     dplyr::select(hh_gender_farmer, "g_reprod_resp_decision") %>%
     cSplit("g_reprod_resp_decision","|") %>%
     gather(position, answer, -hh_gender_farmer) %>%
@@ -1083,19 +1083,19 @@ idh_scripts <- function(survey_id) {
     mutate(percentage =  round((frequency/count)*100,1)) %>%
     mutate(variable = "g_reprod_resp_decision") %>%
     dplyr::select(-count) %>%
-    arrange(gender, desc(percentage)) 
+    arrange(gender, desc(percentage))
 
-  categorical_descriptives <- categorical_descriptives %>% 
+  categorical_descriptives <- categorical_descriptives %>%
     full_join(g_reproductive_decision)
 
-  ## DECISION MAKING ACTIVITIES HH FARM 
-  g_productive_input <- Data %>% 
-    dplyr::select(hh_gender_farmer, 
-                  starts_with("g_prod_input"), 
+  ## DECISION MAKING ACTIVITIES HH FARM
+  g_productive_input <- Data %>%
+    dplyr::select(hh_gender_farmer,
+                  starts_with("g_prod_input"),
                   -contains("household")) %>%
     gather(position, answer, -hh_gender_farmer) #%>%
   # mutate(position = gsub("g_prod_input_", "input into ", position)) %>%
-  # mutate(position = gsub('_', " ", position)) 
+  # mutate(position = gsub('_', " ", position))
 
   g_productive_input <- melt(
     table(g_productive_input),
@@ -1107,14 +1107,14 @@ idh_scripts <- function(survey_id) {
     mutate_at(vars(c("count", "frequency")), as.numeric) %>%
     mutate(percentage =  round((frequency/count)*100,1)) %>%
     dplyr::select(-count) %>%
-    arrange(gender, desc(percentage)) 
+    arrange(gender, desc(percentage))
 
-  categorical_descriptives <- categorical_descriptives %>% 
+  categorical_descriptives <- categorical_descriptives %>%
     full_join(g_productive_input)
 
   # Decision making productive
-  g_productive_decision <- Data %>% 
-    dplyr::select(hh_gender_farmer, 
+  g_productive_decision <- Data %>%
+    dplyr::select(hh_gender_farmer,
                   starts_with("g_prod_decision")) %>%
     cSplit(2:8,"|") %>%
     gather(position, answer, -hh_gender_farmer) %>%
@@ -1135,11 +1135,11 @@ idh_scripts <- function(survey_id) {
     arrange(gender, desc(percentage)) %>%
     filter(frequency != 0)
 
-  categorical_descriptives <- categorical_descriptives %>% 
+  categorical_descriptives <- categorical_descriptives %>%
     full_join(g_productive_decision)
 
   ## CUSTOMER SATISFACTION
-  customer_var <- Data %>% 
+  customer_var <- Data %>%
     cSplit("cs_sdm_company_services","|") %>%
     dplyr::select(hh_gender_farmer, starts_with("cs_sdm_company_services")) %>%
     gather(position, answer, -hh_gender_farmer) %>%
@@ -1156,13 +1156,13 @@ idh_scripts <- function(survey_id) {
     mutate(percentage =  round((frequency/count)*100,1)) %>%
     mutate(variable = "cs_sdm_company_services") %>%
     dplyr::select(-count) %>%
-    arrange(gender, desc(percentage)) 
+    arrange(gender, desc(percentage))
 
-  categorical_descriptives <- categorical_descriptives %>% 
+  categorical_descriptives <- categorical_descriptives %>%
     full_join(customer_var)
 
-  ## RECOMMENDATIONS 
-  recommendations_var <- Data %>% 
+  ## RECOMMENDATIONS
+  recommendations_var <- Data %>%
     cSplit("cs_recommendation","|") %>%
     dplyr::select(hh_gender_farmer, starts_with("cs_recommendation")) %>%
     gather(position, answer, -hh_gender_farmer) %>%
@@ -1179,13 +1179,13 @@ idh_scripts <- function(survey_id) {
     mutate(percentage =  round((frequency/count)*100,1)) %>%
     mutate(variable = "cs_recommendation") %>%
     dplyr::select(-count) %>%
-    arrange(gender, desc(percentage)) 
+    arrange(gender, desc(percentage))
 
-  categorical_descriptives <- categorical_descriptives %>% 
+  categorical_descriptives <- categorical_descriptives %>%
     full_join(recommendations_var)
 
   ## LIVESTOCK
-  livestock_var <- Data %>% 
+  livestock_var <- Data %>%
     cSplit("f_other_crop_livestock","|") %>%
     dplyr::select(hh_gender_farmer, starts_with("f_other_crop_livestock")) %>%
     gather(position, answer, -hh_gender_farmer) %>%
@@ -1202,13 +1202,13 @@ idh_scripts <- function(survey_id) {
     mutate(percentage =  round((frequency/count)*100,1)) %>%
     mutate(variable = "f_other_crop_livestock") %>%
     dplyr::select(-count) %>%
-    arrange(gender, desc(percentage)) 
+    arrange(gender, desc(percentage))
 
-  categorical_descriptives <- categorical_descriptives %>% 
+  categorical_descriptives <- categorical_descriptives %>%
     full_join(livestock_var)
 
   ## OFF -FARM INCOME
-  off_farm_var <- Data %>% 
+  off_farm_var <- Data %>%
     cSplit("f_offfarm_otherincome","|") %>%
     dplyr::select(hh_gender_farmer, starts_with("f_offfarm_otherincome")) %>%
     gather(position, answer, -hh_gender_farmer) %>%
@@ -1225,13 +1225,13 @@ idh_scripts <- function(survey_id) {
     mutate(percentage =  round((frequency/count)*100,1)) %>%
     mutate(variable = "f_offfarm_otherincome") %>%
     dplyr::select(-count) %>%
-    arrange(gender, desc(percentage)) 
+    arrange(gender, desc(percentage))
 
-  categorical_descriptives <- categorical_descriptives %>% 
+  categorical_descriptives <- categorical_descriptives %>%
     full_join(off_farm_var)
 
   # LAND OWNERSHIP
-  land_ownership_var <- Data %>% 
+  land_ownership_var <- Data %>%
     cSplit("f_ownership","|") %>%
     dplyr::select(hh_gender_farmer, starts_with("f_ownership")) %>%
     gather(position, answer, -hh_gender_farmer) %>%
@@ -1248,9 +1248,9 @@ idh_scripts <- function(survey_id) {
     mutate(percentage =  round((frequency/count)*100,1)) %>%
     mutate(variable = "f_ownership") %>%
     dplyr::select(-count) %>%
-    arrange(gender, desc(percentage)) 
+    arrange(gender, desc(percentage))
 
-  categorical_descriptives <- categorical_descriptives %>% 
+  categorical_descriptives <- categorical_descriptives %>%
     full_join(land_ownership_var)
 
   # Food Security addition Rubutco
@@ -1260,7 +1260,7 @@ idh_scripts <- function(survey_id) {
       table(Data[,c("hh_gender_farmer", "fs_stunting")]),
       value.name="frequency",
       varnames=c("gender", "answer"))
-    
+
     fs_stunting <- fs_stunting %>%
       left_join(gender_var[,c("gender","count")]) %>%
       mutate_at(vars(c("count", "frequency")), as.numeric) %>%
@@ -1268,16 +1268,16 @@ idh_scripts <- function(survey_id) {
       mutate(variable = "fs_stunting") %>%
       dplyr::select(-count) %>%
       arrange(gender, desc(percentage))
-    
-    categorical_descriptives <- categorical_descriptives %>% 
+
+    categorical_descriptives <- categorical_descriptives %>%
       full_join(fs_stunting)
-    
+
     # Malnutrition
     fs_malnutrition <- melt(
       table(Data[,c("hh_gender_farmer", "fs_malnutrition")]),
       value.name="frequency",
       varnames=c("gender", "answer"))
-    
+
     fs_malnutrition <- fs_malnutrition %>%
       left_join(gender_var[,c("gender","count")]) %>%
       mutate_at(vars(c("count", "frequency")), as.numeric) %>%
@@ -1285,16 +1285,16 @@ idh_scripts <- function(survey_id) {
       mutate(variable = "fs_malnutrition") %>%
       dplyr::select(-count) %>%
       arrange(gender, desc(percentage))
-    
-    categorical_descriptives <- categorical_descriptives %>% 
+
+    categorical_descriptives <- categorical_descriptives %>%
       full_join(fs_malnutrition)
-    
+
     # Malnutrition family
     fs_family_malnutrition <- melt(
       table(Data[,c("hh_gender_farmer", "fs_family_malnutrition")]),
       value.name="frequency",
       varnames=c("gender", "answer"))
-    
+
     fs_family_malnutrition <- fs_family_malnutrition %>%
       left_join(gender_var[,c("gender","count")]) %>%
       mutate_at(vars(c("count", "frequency")), as.numeric) %>%
@@ -1302,21 +1302,21 @@ idh_scripts <- function(survey_id) {
       mutate(variable = "fs_family_malnutrition") %>%
       dplyr::select(-count) %>%
       arrange(gender, desc(percentage))
-    
-    categorical_descriptives <- categorical_descriptives %>% 
+
+    categorical_descriptives <- categorical_descriptives %>%
       full_join(fs_family_malnutrition)
   }
 
   # Add n to categorical descriptives
-  cat_desc_n <-categorical_descriptives %>% 
-    group_by(gender, variable) %>% 
+  cat_desc_n <-categorical_descriptives %>%
+    group_by(gender, variable) %>%
     summarise(n = sum(frequency))
 
-  categorical_descriptives <- categorical_descriptives %>% 
+  categorical_descriptives <- categorical_descriptives %>%
     left_join(cat_desc_n) %>%
     rename(variableName = variable) %>%
     left_join(survey_questions %>% select(section, name, variableName)) %>%
-    select("section", "name", "variableName", "gender", 
+    select("section", "name", "variableName", "gender",
           "n", "answer","frequency", "percentage")
 
   ## ---- write ----
