@@ -27,8 +27,9 @@ class ApiController extends Controller
                 $date = Utils::getLastSubmissionDate($item['id']);
                 $item['submission'] = Carbon::parse($date)->format('M Y');
                 $item['case_number'] = $source['case_number'];
+                $item['date'] = Carbon::parse($date)->format('Y-m-d');
                 return $item;
-            });
+            })->sortBy('date')->values();
             return [
                 'name' => $key,
                 'childrens' => $list->makeHidden('country')
@@ -497,7 +498,7 @@ class ApiController extends Controller
                 })->values();
                 $crops = Utils::setPercentValue($crops);
                 $crop_names = $crops->pluck('name');
-                $crops_text = sjoin(', ', $crop_names->toArray());
+                $crops_text = join(', ', $crop_names->toArray());
                 $farmcharacteristics->push(Cards::create($crops, 'BAR', $crops_text.' are the most grow crops by the surveyed farmers', 6));
                 $farmcharacteristics->push(Cards::create($livestock, 'BAR','Of the farmers that own livestock the largest part own '.$max_livestock['name'].': '.$max_livestock['value'].'%'));
             }

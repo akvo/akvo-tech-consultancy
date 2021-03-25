@@ -182,7 +182,7 @@ class Home extends Component {
                                                     target="_blank"
                                                     href={
                                                         "/country/" +
-                                                        x.country +
+                                                        x.country.toLowerCase() +
                                                         "/" +
                                                         x.id +
                                                         "/overview"

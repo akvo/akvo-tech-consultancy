@@ -1,6 +1,6 @@
-import React, { Component, Fragment } from 'react';
-import { connect } from 'react-redux';
-import { mapStateToProps, mapDispatchToProps } from '../reducers/actions';
+import React, { Component, Fragment } from "react";
+import { connect } from "react-redux";
+import { mapStateToProps, mapDispatchToProps } from "../reducers/actions";
 import { Redirect } from "react-router-dom";
 import {
     Row,
@@ -10,19 +10,18 @@ import {
     Card,
     Form,
     FormControl,
-    Button,
-} from 'react-bootstrap';
-import Charts from '../components/Charts.js';
-import Cards from '../components/Cards.js';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { queueApi, getApi } from '../data/api.js';
-import { flatFilters, randomVal } from '../data/utils.js';
+    Button
+} from "react-bootstrap";
+import Charts from "../components/Charts.js";
+import Cards from "../components/Cards.js";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { queueApi, getApi } from "../data/api.js";
+import { flatFilters, randomVal } from "../data/utils.js";
 import { generateData } from "../charts/chart-generator.js";
 import intersectionBy from "lodash/intersectionBy";
 import { auth } from "../data/api.js";
 
 class Compare extends Component {
-
     constructor(props) {
         super(props);
         this.renderIndicator = this.renderIndicator.bind(this);
@@ -41,7 +40,7 @@ class Compare extends Component {
             autocomplete: false,
             searched: [],
             excluded: [1],
-            redirect: false,
+            redirect: false
         };
     }
 
@@ -51,7 +50,7 @@ class Compare extends Component {
 
     toggleDropDown() {
         if (this.state.searched.length > 0) {
-            this.setState({searched: []});
+            this.setState({ searched: [] });
             return;
         }
         let source = flatFilters(this.props.value.page.filters);
@@ -60,36 +59,35 @@ class Compare extends Component {
             name: x.name + " - " + x.company
         }));
         let access = this.props.value.user.forms;
-            access = access.map(x => {
-                return {...x, id: x.form_id};
-            });
-            source = intersectionBy(source, access, 'id');
-        this.setState({searched: source});
+        access = access.map(x => {
+            return { ...x, id: x.form_id };
+        });
+        source = intersectionBy(source, access, "id");
+        this.setState({ searched: source });
         return;
     }
 
     toggleAutoComplete(bool) {
-        this.setState({autocomplete:true});
+        this.setState({ autocomplete: true });
     }
 
-
     removeDropDown() {
-        this.setState({searched:[]})
+        this.setState({ searched: [] });
     }
 
     changeSearchItem(e) {
-        this.setState({searched:[]})
-        let keywords = e.target.value.toLowerCase().split(' ');
+        this.setState({ searched: [] });
+        let keywords = e.target.value.toLowerCase().split(" ");
         let source = flatFilters(this.props.value.page.filters);
         source = source.map(x => ({
             ...x,
             name: x.name + " - " + x.company
         }));
         let access = this.props.value.user.forms;
-            access = access.map(x => {
-                return {...x, id: x.form_id};
-            });
-            source = intersectionBy(source, access, 'id');
+        access = access.map(x => {
+            return { ...x, id: x.form_id };
+        });
+        source = intersectionBy(source, access, "id");
         let selected = this.props.value.page.compare.items;
         if (selected.length > 0) {
             selected = selected.map(x => x.id);
@@ -98,51 +96,50 @@ class Compare extends Component {
         let results = source.map(x => {
             let score = 0;
             let names = x.name.toLowerCase();
-            names = names.split(' ');
+            names = names.split(" ");
             names.forEach(x => {
                 keywords.forEach(k => {
                     score += x.startsWith(k) ? 1 : 0;
-                })
+                });
             });
             return {
                 ...x,
                 score: score
-            }
+            };
         });
         results = results.filter(x => x.score > 0);
-        this.setState({searched: results});
+        this.setState({ searched: results });
         return;
     }
 
     appendChart(data, id) {
         let charts = this.state.charts;
-            charts = charts.filter(x => x.id !== id);
-        charts = [
-            ...charts,
-            {id:id, data:data}
-        ];
-        let isAvailable = this.props.value.page.compare.items.find(x => x.id === id);
+        charts = charts.filter(x => x.id !== id);
+        charts = [...charts, { id: id, data: data }];
+        let isAvailable = this.props.value.page.compare.items.find(
+            x => x.id === id
+        );
         if (!isAvailable) {
             this.props.page.compare.additem(id);
         }
-        this.setState({charts:charts});
+        this.setState({ charts: charts });
         this.props.page.loading(false);
     }
 
     saveChart(id) {
         this.props.page.loading(true);
-        this.setState({searched:[], autocomplete: false});
+        this.setState({ searched: [], autocomplete: false });
         let params = [id];
-        let urls = ['compare-data/' + id];
-        this.setState({loading:true});
-        queueApi(0, urls, 1, this.appendChart ,params);
+        let urls = ["compare-data/" + id];
+        this.setState({ loading: true });
+        queueApi(0, urls, 1, this.appendChart, params);
         return;
     }
 
     removeChart(id) {
         this.props.page.compare.removeitem(id);
         let charts = this.state.charts.filter(x => x.id !== id);
-        this.setState({charts:charts});
+        this.setState({ charts: charts });
     }
 
     renderSearchItem() {
@@ -154,11 +151,12 @@ class Compare extends Component {
                 <div
                     onClick={e => this.saveChart(x.id)}
                     className="search-suggest"
-                    key={'item-' + x.id}>
+                    key={"item-" + x.id}
+                >
                     {x.name}
                 </div>
-            )
-        })
+            );
+        });
     }
 
     renderTableHeader() {
@@ -166,16 +164,22 @@ class Compare extends Component {
         // let width = 'calc(100% / ' + this.state.charts.length  + ')';
         let source = flatFilters(this.props.value.page.filters);
         // let width = 75/source.length+'%';
-        let width = 75/this.state.charts.length;
+        let width = 75 / this.state.charts.length;
         return items.map((x, i) => {
-            return(
-                <td width={width} className="first-column header-country" align="center" key={'head-' + x.id}>
+            return (
+                <td
+                    width={width}
+                    className="first-column header-country"
+                    align="center"
+                    key={"head-" + x.id}
+                >
                     <Card className="card-compare">
                         <FontAwesomeIcon
                             onClick={e => this.removeChart(x.id)}
                             className="fas-corner fas-delete"
                             color="red"
-                            icon={["fas", "times-circle"]} />
+                            icon={["fas", "times-circle"]}
+                        />
                         <Card.Body className="card-compare text-center">
                             <h5>{x.name}</h5>
                         </Card.Body>
@@ -194,7 +198,7 @@ class Compare extends Component {
                 //         </Card.Body>
                 //     </Card>
                 // </div>
-            )
+            );
         });
     }
 
@@ -202,14 +206,14 @@ class Compare extends Component {
         const token = localStorage.getItem("access_token");
         if (token === null) {
             this.props.user.logout();
-            this.setState({redirect:true});
+            this.setState({ redirect: true });
         }
         if (token) {
             auth(token).then(res => {
                 const { status, message } = res;
                 if (status === 401) {
                     this.props.user.logout();
-                    this.setState({redirect:true});
+                    this.setState({ redirect: true });
                 }
                 return res;
             });
@@ -227,7 +231,7 @@ class Compare extends Component {
         let source = flatFilters(this.props.value.page.filters);
         // let width = 75/source.length+'%';
         // let col = 12/source.length;
-        let col = 12/this.state.charts.length;
+        let col = 12 / this.state.charts.length;
         return this.state.charts.map((c, i) => {
             // let chartlist = c.data.map((x, ix) => {
             //     let cardtype = x.kind === "CARDS" || x.kind === "NUM" || x.kind === "PERCENT";
@@ -258,12 +262,15 @@ class Compare extends Component {
             let cards = ["CARDS", "NUM", "PERCENT"];
             let chartlist = c.data.find(x => x.id === id);
             let cardtype = cards.includes(chartlist.kind);
-            
+
             if (cardtype) {
-                let percent = (chartlist.kind === "PERCENT") ? "%" : "";
+                let percent = chartlist.kind === "PERCENT" ? "%" : "";
                 let text = chartlist.data + percent;
                 tmp.push(
-                    <td key={'tdcards-' + c.id + '-' + i} className={"chart-display text-center"}>
+                    <td
+                        key={"tdcards-" + c.id + "-" + i}
+                        className={"chart-display text-center"}
+                    >
                         {/* <Cards
                             title={chartlist.title}
                             key={'card-' + c.id + '-' + i}
@@ -276,17 +283,20 @@ class Compare extends Component {
                 );
             } else {
                 tmp.push(
-                        <td key={'tdcharts-' + c.id + '-' + i} className={"chart-display"}>
-                            <Charts
-                                title={chartlist.title}
-                                key={'chart-' + c.id + '-' + i}
-                                dataset={chartlist.data}
-                                kind={chartlist.kind}
-                                config={generateData(col, false, "50vh")}
-                                compare={true}
-                            />
-                        </td>
-                ); 
+                    <td
+                        key={"tdcharts-" + c.id + "-" + i}
+                        className={"chart-display"}
+                    >
+                        <Charts
+                            title={chartlist.title}
+                            key={"chart-" + c.id + "-" + i}
+                            dataset={chartlist.data}
+                            kind={chartlist.kind}
+                            config={generateData(col, false, "50vh")}
+                            compare={true}
+                        />
+                    </td>
+                );
             }
             return tmp;
         });
@@ -298,18 +308,19 @@ class Compare extends Component {
         }
         let chartlist = this.state.charts[0].data.map((x, ix) => {
             return (
-                <tr key={'row-' + ix}>
+                <tr key={"row-" + ix}>
                     <td className="first-column align-middle">{x.title}</td>
                     {this.renderChart(x.id)}
                 </tr>
-            ); 
+            );
         });
         return chartlist.map(x => x);
     }
 
     render() {
         let source = flatFilters(this.props.value.page.filters);
-        let searchEnabled = this.props.value.page.compare.items.length !== source.length;
+        let searchEnabled =
+            this.props.value.page.compare.items.length !== source.length;
 
         if (this.state.redirect) {
             return <Redirect to="/login" />;
@@ -322,41 +333,61 @@ class Compare extends Component {
                     <Row>
                         <Col md={12}>
                             <Form className="form-relative">
-                            <InputGroup>
-                                <FormControl
-                                    onClick={e => this.toggleDropDown()}
-                                    disabled={!searchEnabled}
-                                    onChange={this.changeSearchItem}
-                                    type="text"
-                                    placeholder="Type Keywords (e.g. Kenya)"
-                                />
-                                <InputGroup.Append>
-                                    <InputGroup.Text
+                                <InputGroup>
+                                    <FormControl
                                         onClick={e => this.toggleDropDown()}
-                                        className={this.state.searched.length > 0
-                                        ? "dropdown-select close"
-                                        : "dropdown-select"
-                                    }>
-                                    <FontAwesomeIcon
-                                        color={this.state.searched.length > 0 ? "red" : "grey"}
-                                        icon={["fas", this.state.searched.length > 0 && searchEnabled
-                                            ? "times-circle"
-                                            : "chevron-circle-down"
-                                        ]} />
-                                    </InputGroup.Text>
-                                </InputGroup.Append>
-                            </InputGroup>
-                            {this.state.searched.length !== 0 && searchEnabled ? (
-                                <div className="search-item-bar">{this.renderSearchItem()}</div>
-                            ) : ""}
-                        </Form>
+                                        disabled={!searchEnabled}
+                                        onChange={this.changeSearchItem}
+                                        type="text"
+                                        placeholder="Type Keywords (e.g. Kenya)"
+                                    />
+                                    <InputGroup.Append>
+                                        <InputGroup.Text
+                                            onClick={e => this.toggleDropDown()}
+                                            className={
+                                                this.state.searched.length > 0
+                                                    ? "dropdown-select close"
+                                                    : "dropdown-select"
+                                            }
+                                        >
+                                            <FontAwesomeIcon
+                                                color={
+                                                    this.state.searched.length >
+                                                    0
+                                                        ? "red"
+                                                        : "grey"
+                                                }
+                                                icon={[
+                                                    "fas",
+                                                    this.state.searched.length >
+                                                        0 && searchEnabled
+                                                        ? "times-circle"
+                                                        : "chevron-circle-down"
+                                                ]}
+                                            />
+                                        </InputGroup.Text>
+                                    </InputGroup.Append>
+                                </InputGroup>
+                                {this.state.searched.length !== 0 &&
+                                searchEnabled ? (
+                                    <div className="search-item-bar">
+                                        {this.renderSearchItem()}
+                                    </div>
+                                ) : (
+                                    ""
+                                )}
+                            </Form>
                         </Col>
                         <Col md={12}>
                             <div className="table-wrapper-fixed">
                                 <table width={"100%"} className="table-compare">
                                     <thead>
                                         <tr>
-                                            <td align="left" width={"20%"} className="first-column"></td>
+                                            <td
+                                                align="left"
+                                                width={"20%"}
+                                                className="first-column"
+                                            ></td>
                                             {this.renderTableHeader()}
                                         </tr>
                                     </thead>

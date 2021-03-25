@@ -253,6 +253,10 @@ a.dropdown-toggle.nav-link div {
     border-bottom: #ddd solid 1px;
     border-radius: 10px;
     margin-bottom: 10px;
+    height: 130px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .card-info h2 {
