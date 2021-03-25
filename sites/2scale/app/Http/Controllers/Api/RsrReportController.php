@@ -145,7 +145,11 @@ class RsrReportController extends Controller
         }
         $datapoints_answers = $partnership_answers->pluck('datapoint_id');
         $type_answers = \App\Answer::where('question_id', $typeQid)
-                            ->whereIn('datapoint_id', $datapoints_answers)->get();
+                            ->whereIn('datapoint_id', $datapoints_answers)
+                            ->get()->map(function ($item) {
+                                $item['text'] = trim($item['text']);
+                                return $item;
+                            });
         return $type_answers;
     }
 }
