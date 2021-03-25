@@ -90,6 +90,22 @@ return [
             'title' => 'Target Audience(s)'
         ],
     ],
+    'organization_form' => [
+        'abc_names' => [
+            'fid' => 30160001,
+            'qids' => [
+                'partnership_qid' => 20150001,
+                'cluster_qid' => 14180001,
+            ],
+        ],
+        'other_main_partners' => [ // Enterprise Information Form
+            'fid' => 30200004,
+            'qids' => [
+                'partnership_qid' => 36120005,
+                'enterprise_qid' => 38120005,
+            ],
+        ],
+    ],
     'datatables' => [
         // uii 8 & IP-A (Immediate outcome) - ET06_Indigenous Oilseeds_Tsehay MFCU
         'uii8_results_ids' => [42855, 44813, 44856, 43825, 4286, 42861, 42862, 42859, 42856, 42857, 42860, 43951],

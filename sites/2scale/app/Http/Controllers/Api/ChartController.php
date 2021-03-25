@@ -118,13 +118,13 @@ class ChartController extends Controller
         }
         if ($hasCountry) {
             $all = $all->with('datapoints.partnership')->get()->transform(function($dt){
-                $dt->country = $dt->datapoints->partnership->name;
+                $dt->country = ($dt->datapoints->partnership === null) ? "NA" : $dt->datapoints->partnership->name;
                 return $dt->makeHidden('datapoints');
             });
         }
         if (!$hasCountry) {
             $all = $all->with('datapoints.country')->get()->transform(function($dt){
-                $dt->country = $dt->datapoints->country->name;
+                $dt->country = ($dt->datapoints->country->name === null) ? "NA" : $dt->datapoints->country->name;
                 return $dt->makeHidden('datapoints');
             });
         }

@@ -17,6 +17,13 @@ class RsrReportController extends Controller
         if ($r->input('partnership_id') === "0") {
             $partnershipId = null;
         }
+
+        // get ABC cluster & other partner
+        $abc_clusters = $this->getAbcAndEnterpriseFormData($partnershipId, 'abc_names');
+        $other_main_partners = $this->getAbcAndEnterpriseFormData($partnershipId, 'other_main_partners');
+        // END of get ABC cluster & other partner
+
+
         $rsrProject = RsrProject::where('partnership_id', $partnershipId)
                         ->with(['rsr_results' => function($query) {
                             $query->orderBy('order');
@@ -63,6 +70,8 @@ class RsrReportController extends Controller
         });
         // return $rsrProject;
         $cards = explode('|', $r->card);
+        $rsrProject['abc_names'] = $abc_clusters->pluck('text')->unique()->values()->all();
+        $rsrProject['other_main_partners'] = $other_main_partners->pluck('text')->unique()->values()->all();
         $data = [
             "filename" => $r->input('filename'),
             "project" => $rsrProject,
@@ -107,5 +116,36 @@ class RsrReportController extends Controller
             return $string;
         }
         return (Str::endsWith($string, '.')) ? $string : $string.'.';
+    }
+
+    private function getAbcAndEnterpriseFormData($partnershipId, $type)
+    {
+        $config = config('akvo-rsr.organization_form');
+        $config = $config[$type];
+        switch ($type) {
+            case 'abc_names':
+                $partnershipQid = $config['qids']['partnership_qid'];
+                $typeQid = $config['qids']['cluster_qid'];
+                break;
+            case 'other_main_partners':
+                $partnershipQid = $config['qids']['partnership_qid'];
+                $typeQid = $config['qids']['enterprise_qid'];
+                break;
+            default:
+                $partnershipQid = null;
+                $typeQid = null;
+                break;
+        }
+        $partnership_answers = \App\Answer::where('question_id', $partnershipQid)->get();
+        if ($partnershipId) {
+            $partnership = \App\Partnership::find($partnershipId);
+            $partnership_answers = $partnership_answers->filter(function ($answer) use ($partnership) {
+                return str_contains(strtolower($answer['text']), strtolower($partnership->name));
+            });
+        }
+        $datapoints_answers = $partnership_answers->pluck('datapoint_id');
+        $type_answers = \App\Answer::where('question_id', $typeQid)
+                            ->whereIn('datapoint_id', $datapoints_answers)->get();
+        return $type_answers;
     }
 }

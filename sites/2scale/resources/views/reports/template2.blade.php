@@ -93,7 +93,7 @@
     </style>
 </head>
 <body onload="window.print()">
-    @php 
+    @php
         $project = $data['project'];
         $updates = $data['updates'];
         $results = $data['project']['rsr_results'];
@@ -222,7 +222,7 @@
         {{-- PROJECT SUMMARY --}}
         <div class="row mt-4">
             <div class="col-md-12 mt-4">
-                <p class="title font-weight-bold">PARTNERSHIP SUMMARY</p>
+                <p class="title font-weight-bold">PROJECT SUMMARY</p>
                 <div class="title-line"></div>
                 @if ($project['project_plan_summary'] || $project['project_plan_summary'] !== "")
                     <p class="text-justify">{{ $project['project_plan_summary'] }}</p>
@@ -268,6 +268,30 @@
             </div>
         </div>
         <div class="page-break"></div>
+        <div class="row">
+            <div class="col-md-12 mt-4">
+                <p class="title font-weight-bold">AGRI-BUSINESS CLUSTER NAMES</p>
+                <div class="title-line"></div>
+                @if (count($project['abc_names']) !== 0)
+                    <p class="text-justify">{{ implode(', ', $project['abc_names']) }}</p>
+                @else
+                    <p class="text-muted font-italic">No Data</p>
+                @endif
+            </div>
+        </div>
+        <div class="page-break"></div>
+        <div class="row">
+            <div class="col-md-12 mt-4">
+                <p class="title font-weight-bold">OTHER MAIN PARTNERS</p>
+                <div class="title-line"></div>
+                @if (count($project['other_main_partners']) !== 0)
+                    <p class="text-justify">{{ implode(', ', $project['other_main_partners']) }}</p>
+                @else
+                    <p class="text-muted font-italic">No Data</p>
+                @endif
+            </div>
+        </div>
+        <div class="page-break"></div>
         {{-- EOL Project Summary --}}
 
 
@@ -285,7 +309,7 @@
                 <tbody>
                     @foreach ($updates as $item)
                     @php
-                        $photo = $item['photo']; 
+                        $photo = $item['photo'];
                         if ($item['photo'] === null) {
                             $photo = "https://via.placeholder.com/300";
                         }
@@ -300,7 +324,7 @@
                         <td>
                             <p>{{ $item['text'] }}</p>
                         </td>
-                    </tr>    
+                    </tr>
                     @endforeach
                 </tbody>
             </table>
@@ -322,7 +346,7 @@
                     <tr>
                         <td style="padding:0px!important;">
                             <div class="font-weight-bolder">{{ $item['title'] }}</div>
-                            @if (empty($item['description']) || $item['description'] == "​" || $item['description'] == null)    
+                            @if (empty($item['description']) || $item['description'] == "​" || $item['description'] == null)
                                 <p class="text-muted font-italic" style="margin-bottom: 0px!important;">No Description</p>
                             @else
                                 <p style="margin-bottom: 0px!important;">{{  $item['description'] }}</p>
@@ -334,7 +358,7 @@
                     @foreach ($item['rsr_indicators'] as $indicator)
                         <table class="table table-sm table-bordered p-results">
                             <tbody>
-                            @if ($indicator['target_value'] !== 0)    
+                            @if ($indicator['target_value'] !== 0)
                                 <tr class="page-break">
                                     <td colspan="4" class="title-column first-title">
                                         Indicator
@@ -352,7 +376,7 @@
                                 </tr>
                                 <tr class="page-break">
                                     <td colspan="4">
-                                        @if (empty($indicator['description']) || $indicator['description'] == "​" || $item['description'] == null)    
+                                        @if (empty($indicator['description']) || $indicator['description'] == "​" || $item['description'] == null)
                                             <div class="text-muted font-italic">No Description</div>
                                         @else
                                             <div>{{  $indicator['description'] }}</div>
@@ -415,7 +439,7 @@
                                         <tr class="page-break">
                                             <td colspan="3">
                                                 {{ date_format(date_create($period['period_start']),"F j, Y") }}
-                                                 - 
+                                                 -
                                                 {{ date_format(date_create($period['period_end']),"F j, Y") }}
                                             </td>
                                             {{-- <td class="text-right">{{ $period['target_value'] }}</td> --}}
@@ -442,7 +466,7 @@
                         <tbody>
                             <tr class="page-break">
                                 <td colspan="3" class="text-center font-italic">No indicators</td>
-                            </tr>       
+                            </tr>
                         </tbody>
                     </table>
                 @endif
