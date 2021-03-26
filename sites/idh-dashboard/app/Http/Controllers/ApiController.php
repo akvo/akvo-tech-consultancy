@@ -488,8 +488,8 @@ class ApiController extends Controller
                 if ($type->count() > 0) {
                     $max_type = $type->sortByDesc('value')->values()->first();
                     $type_percent = round(($max_type['value']/$type->pluck('value')->sum())*100, 2);
+                    $farmcharacteristics->push(Cards::create($type, 'PIE', $type_percent.'% of the farmers grow '.$max_type['name'].' '.$form->kind, 6));
                 }
-                $farmcharacteristics->push(Cards::create($type, 'PIE', $type_percent.'% of the farmers grow '.$max_type['name'].' '.$form->kind, 6));
             }
 
             if (!is_array($variables['f_crops'])) {

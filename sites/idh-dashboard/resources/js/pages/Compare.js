@@ -40,7 +40,8 @@ class Compare extends Component {
             autocomplete: false,
             searched: [],
             excluded: [1],
-            redirect: false
+            redirect: false,
+            windowWidth: 0
         };
     }
 
@@ -164,11 +165,11 @@ class Compare extends Component {
         // let width = 'calc(100% / ' + this.state.charts.length  + ')';
         let source = flatFilters(this.props.value.page.filters);
         // let width = 75/source.length+'%';
-        let width = 75 / this.state.charts.length;
+        let width = 92 / this.state.charts.length;
         return items.map((x, i) => {
             return (
                 <td
-                    width={width}
+                    width={width + "%"}
                     className="first-column header-country"
                     align="center"
                     key={"head-" + x.id}
@@ -203,6 +204,8 @@ class Compare extends Component {
     }
 
     componentDidMount() {
+        const { innerHeight, innerWidth } = window;
+        this.setState({ windowWidth: innerWidth });
         const token = localStorage.getItem("access_token");
         if (token === null) {
             this.props.user.logout();
@@ -231,7 +234,10 @@ class Compare extends Component {
         let source = flatFilters(this.props.value.page.filters);
         // let width = 75/source.length+'%';
         // let col = 12/source.length;
-        let col = 12 / this.state.charts.length;
+        let col =
+            this.state.charts.length === 1
+                ? 12
+                : 12 / this.state.charts.length + 5;
         return this.state.charts.map((c, i) => {
             // let chartlist = c.data.map((x, ix) => {
             //     let cardtype = x.kind === "CARDS" || x.kind === "NUM" || x.kind === "PERCENT";
@@ -385,7 +391,7 @@ class Compare extends Component {
                                         <tr>
                                             <td
                                                 align="left"
-                                                width={"20%"}
+                                                width={"8%"}
                                                 className="first-column"
                                             ></td>
                                             {this.renderTableHeader()}

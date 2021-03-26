@@ -565,6 +565,8 @@ span.span-link{
     -webkit-line-clamp: 1;
     -webkit-box-orient: horizontal;
     padding-top:20px;
+    padding-bottom:20px;
+    padding-right: 7px;
 }
 /* .table-compare tbody tr td.expand-row{
     cursor:pointer;

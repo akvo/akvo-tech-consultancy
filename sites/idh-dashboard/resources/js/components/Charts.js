@@ -21,10 +21,15 @@ class Charts extends Component {
     }
 
     render() {
-        let options = generateOptions(this.props.kind, this.props.title, this.props.dataset, this.props.compare);
+        let options = generateOptions(
+            this.props.kind,
+            this.props.title,
+            this.props.dataset,
+            this.props.compare
+        );
         let onEvents = {
-            'click': this.clickEvent,
-        }
+            click: this.clickEvent
+        };
         if (this.props.config.column === 0) {
             return (
                 <ReactEcharts
@@ -34,7 +39,6 @@ class Charts extends Component {
                     onEvents={onEvents}
                     style={this.props.config.style}
                 />
-
             );
         }
         return (
@@ -45,7 +49,8 @@ class Charts extends Component {
                         notMerge={true}
                         lazyUpdate={true}
                         style={this.props.config.style}
-                        onEvents={onEvents}/>
+                        onEvents={onEvents}
+                    />
                     {this.props.config.line ? <hr /> : ""}
                 </div>
             </Col>

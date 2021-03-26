@@ -12,12 +12,12 @@ export const generateData = (col, line, height) => {
         style: {
             height: height,
             maxWidth: "100%",
-            width: "100%",
-        },
+            width: "100%"
+        }
     };
 };
 
-export const generateOptions = (type, title, data, compare=false) => {
+export const generateOptions = (type, title, data, compare = false) => {
     switch (type) {
         case "MAPS":
             return Maps(title, data, compare);
