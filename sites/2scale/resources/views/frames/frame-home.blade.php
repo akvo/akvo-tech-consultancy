@@ -204,7 +204,7 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header 2scale-brand">
-            2SCALE Partnership
+            Incubating Inclusive Agribusiness
           </div>
           <div class="card-body mask">
             <div id="maps"></div>

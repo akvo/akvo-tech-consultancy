@@ -1039,7 +1039,7 @@ class ChartController extends Controller
                 'value' => $d->childrens->count()
             );
         });
-        return $this->echarts->generateDonutCharts($data->pluck('name'), $data);
+        return $this->echarts->generateDonutCharts($data->pluck('name'), $data, true);
     }
 
     private function getUiiValueByConfig($config, $charts)

@@ -23,9 +23,6 @@
       <li class="nav-item {{Route::is('organisation') ? 'active' : '' }}">
         <a class="nav-link" href="/organisation">Partners</a>
       </li>
-      <li class="nav-item {{Route::is('report') ? 'active' : '' }}">
-        <a class="nav-link" href="/report">Reports</a>
-      </li>
 
       @if (Auth::check())
         <li class="nav-item {{Route::is('database') ? 'active' : '' }}">
@@ -33,6 +30,9 @@
         </li>
         <li class="nav-item {{Route::is('survey') ? 'active' : '' }}">
             <a class="nav-link" href="/survey">Forms</a>
+        </li>
+        <li class="nav-item {{Route::is('report') ? 'active' : '' }}">
+          <a class="nav-link" href="/report">Reports</a>
         </li>
         <li class="nav-item {{Route::is('support') ? 'active' : '' }}">
             <a class="nav-link" href="/support">Support</a>

@@ -22,7 +22,7 @@ class Echarts
             'icon' => 'circle',
         );
     }
-    public function generateDonutCharts($legend, $data){
+    public function generateDonutCharts($legend, $data, $titleShow = false){
         $legend = collect($legend)->map(function($l){
             return $this->titler($l);
         });
@@ -35,7 +35,17 @@ class Echarts
             'fontWeight' => 200,
             'fontSize' => 14,
         );
+        $total = $data->sum('value');
+        $left = ($total >= 10000)
+                    ? "46%"
+                    : (($total >= 1000) ? "47%" : "48%");
         return array (
+          'title' => [
+              'show' => $titleShow,
+              'text' => $total,
+              'top' => '47%',
+              'left' => $left,
+          ],
           'color' => $this->pallete,
           'tooltip' => array ( 'trigger' => 'item'),
           'toolbox' => array (
@@ -58,7 +68,7 @@ class Echarts
               array (
                 'normal' =>
                 array (
-                    'show' => true,
+                    'show' => false,
                     'position' => 'inside'
                 ),
                 'emphasis' =>
