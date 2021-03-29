@@ -105,6 +105,13 @@ return [
                 'enterprise_qid' => 38120005,
             ],
         ],
+        'producer_organization' => [
+            'fid' => 14170009,
+            'qids' => [
+                'partnership_qid' => 36100005,
+                'producer_organization_qid' => 38140006,
+            ],
+        ],
     ],
     'datatables' => [
         // uii 8 & IP-A (Immediate outcome) - ET06_Indigenous Oilseeds_Tsehay MFCU

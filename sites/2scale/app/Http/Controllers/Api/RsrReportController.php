@@ -23,6 +23,9 @@ class RsrReportController extends Controller
         $other_main_partners = $this->getAbcAndEnterpriseFormData($partnershipId, 'other_main_partners');
         // END of get ABC cluster & other partner
 
+        // producer organization
+        $producer_organizations = $this->getAbcAndEnterpriseFormData($partnershipId, 'producer_organization');
+
 
         $rsrProject = RsrProject::where('partnership_id', $partnershipId)
                         ->with(['rsr_results' => function($query) {
@@ -72,6 +75,7 @@ class RsrReportController extends Controller
         $cards = explode('|', $r->card);
         $rsrProject['abc_names'] = $abc_clusters->pluck('text')->unique()->values()->all();
         $rsrProject['other_main_partners'] = $other_main_partners->pluck('text')->unique()->values()->all();
+        $rsrProject['producer_organization'] = count($producer_organizations->pluck('text')->unique()->values()->all());
         $data = [
             "filename" => $r->input('filename'),
             "project" => $rsrProject,
@@ -130,6 +134,10 @@ class RsrReportController extends Controller
             case 'other_main_partners':
                 $partnershipQid = $config['qids']['partnership_qid'];
                 $typeQid = $config['qids']['enterprise_qid'];
+                break;
+            case 'producer_organization':
+                $partnershipQid = $config['qids']['partnership_qid'];
+                $typeQid = $config['qids']['producer_organization_qid'];
                 break;
             default:
                 $partnershipQid = null;

@@ -25,6 +25,7 @@
         /*# sourceMappingURL=bootstrap.min.css.map */
     </style>
 
+    {{-- Custom CSS --}}
     <style>
         body {
             visibility: hidden;
@@ -81,6 +82,14 @@
         .card-header{
             background-color: #515d70!important;
             color: #fff!important;
+        }
+        table.table.table-org td.title {
+            font-weight: 600;
+            border-left: none;
+            vertical-align: middle;
+        }
+        table.table.table-org td.text {
+            border-right: none;
         }
         @media print {
             body {
@@ -268,7 +277,7 @@
             </div>
         </div>
         <div class="page-break"></div>
-        <div class="row">
+        {{-- <div class="row">
             <div class="col-md-12 mt-4">
                 <p class="title font-weight-bold">AGRI-BUSINESS CLUSTER NAMES</p>
                 <div class="title-line"></div>
@@ -292,7 +301,96 @@
             </div>
         </div>
         <div class="page-break"></div>
+        <div class="row">
+            <div class="col-md-12 mt-4">
+                <p class="title font-weight-bold">PRODUCER ORGANIZATION</p>
+                <div class="title-line"></div>
+                <p class="text-justify">{{ $project['producer_organization'] }}</p>
+            </div>
+        </div>
+        <div class="page-break"></div> --}}
         {{-- EOL Project Summary --}}
+
+
+        {{-- Organisation --}}
+        {{-- <div class="next-page"></div> --}}
+        <div class="row mt-4">
+            <div class="col-md-12 mt-4">
+                <p class="title font-weight-bold">ORGANIZATION DATA</p>
+                <div class="title-line"></div>
+            </div>
+        </div>
+        <table class="table table-org">
+            <tbody>
+                {{-- <tr class="page-break">
+                    <td class="title">PROJECT SUMMARY</td>
+                    <td class="text">
+                        @if ($project['project_plan_summary'] || $project['project_plan_summary'] !== "")
+                            <p class="text-justify">{{ $project['project_plan_summary'] }}</p>
+                        @else
+                            <p class="text-muted font-italic">No Description</p>
+                        @endif
+                    </td>
+                </tr>
+                <tr class="page-break">
+                    <td class="title">GOALS OVERVIEW</td>
+                    <td class="text">
+                        @if ($project['goals_overview'] !== "")
+                            <p class="text-justify">{{ $project['goals_overview'] }}</p>
+                        @else
+                            <p class="text-muted font-italic">No Description</p>
+                        @endif
+                    </td>
+                </tr>
+                <tr class="page-break">
+                    <td class="title">BACKGROUND</td>
+                    <td class="text">
+                        @if ($project['background'] !== "")
+                            <p class="text-justify">{{ $project['background'] }}</p>
+                        @else
+                            <p class="text-muted font-italic">No Description</p>
+                        @endif
+                    </td>
+                </tr>
+                <tr class="page-break">
+                    <td class="title">SUSTAINABILITY</td>
+                    <td class="text">
+                        @if ($project['sustainability'] !== "")
+                            <p class="text-justify">{{ $project['sustainability'] }}</p>
+                        @else
+                            <p class="text-muted font-italic">No Description</p>
+                        @endif
+                    </td>
+                </tr> --}}
+                <tr class="page-break">
+                    <td class="title">AGRI-BUSINESS CLUSTER NAMES</td>
+                    <td class="text">
+                        @if (count($project['abc_names']) !== 0)
+                            <p>{{ implode(', ', $project['abc_names']) }}</p>
+                        @else
+                            <p class="text-muted font-italic">No Data</p>
+                        @endif
+                    </td>
+                </tr>
+                <tr>
+                    <td class="title">OTHER MAIN PARTNERS</td>
+                    <td class="text">
+                        @if (count($project['other_main_partners']) !== 0)
+                            <p>{{ implode(', ', $project['other_main_partners']) }}</p>
+                        @else
+                            <p class="text-muted font-italic">No Data</p>
+                        @endif
+                    </td>
+                </tr>
+                <tr>
+                    <td class="title">PRODUCER ORGANIZATION</td>
+                    <td class="text">
+                        <p>{{ $project['producer_organization'] }}</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        {{-- End of Organisation --}}
 
 
         {{-- PROJECT UPDATE & RESULTS --}}
