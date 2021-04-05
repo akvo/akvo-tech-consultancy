@@ -53,7 +53,9 @@ const Maps = (title, data, compare = false) => {
             max:
                 records.length > 1
                     ? maxBy(records, "value").value
-                    : records[0]["value"],
+                    : records[0]?.value
+                    ? records[0]?.value
+                    : 1,
             text: ["Max", "Min"],
             realtime: false,
             calculable: true,

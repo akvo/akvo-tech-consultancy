@@ -51,9 +51,42 @@ return [
             'files' => [
                 ["type" => "raw", "text" => "Analyzed Smart Logistics Data", "to" => ".xlsx" ],
             ],
-            // 'report_url' => '/files/Data-delivery-Rubutco.html',
             'report_url' => '',
         ],
+        [
+            'sid' => 158095822,
+            'fid' => 145035285,
+            'file' => $path . '2021-04-01_syngenta_potatoes_anom.csv',
+            'kind' => 'Potatoes',
+            'country' => 'Kenya',
+            'company' => 'Syngenta Potatoes',
+            'case_number' => null,
+            'cascade' => [
+                'name' => 'pi_location_cascade_county',
+            ],
+            'files' => [
+                ["type" => "raw", "text" => "Analyzed Syngenta Potatoes Data", "to" => ".xlsx" ],
+            ],
+            'report_url' => '',
+        ],
+        [
+            'sid' => 131442923,
+            'fid' => 139002776,
+            'file' => $path . '2021-04-02_syngenta_tomatoes_anom.csv',
+            'kind' => 'Tomatoes',
+            'country' => 'Kenya',
+            'company' => 'Syngenta Tomatoes',
+            'case_number' => null,
+            'cascade' => [
+                'name' => 'pi_location_cascade_county',
+            ],
+            'files' => [
+                ["type" => "raw", "text" => "Analyzed Syngenta Tomatoes Data", "to" => ".xlsx" ],
+            ],
+            'report_url' => '',
+        ],
+
+        // Not Onboard
         // [
         //     'sid' => 110530001,
         //     'fid' => 88820001,
