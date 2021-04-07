@@ -148,11 +148,11 @@ class ApiController extends Controller
             ];
 
             $first_crop = collect(Utils::getValues($id, $variables['f_first_crop']));
+            $first_crop_total = $first_crop->pluck('value')->sum();
             if ($isVariableChange) {
                 // filter value where name = "" available
                 $first_crop = $first_crop->where('name', '!=', '');
             }
-            $first_crop_total = $first_crop->pluck('value')->sum();
             $first_crop_value = $first_crop->max('value');
             $first_crop_name = $first_crop->where('value', $first_crop_value)->first()['name'];
             $first_crop_card = Cards::create(strval(round($first_crop_value/$first_crop_total, 2)*100).'%', 'NUM', 'Of the farmers’ main crop was '.$first_crop_name);
