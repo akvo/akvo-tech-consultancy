@@ -148,6 +148,10 @@ class ApiController extends Controller
             ];
 
             $first_crop = collect(Utils::getValues($id, $variables['f_first_crop']));
+            if ($isVariableChange) {
+                // filter value where name = "" available
+                $first_crop = $first_crop->where('name', '!=', '');
+            }
             $first_crop_total = $first_crop->pluck('value')->sum();
             $first_crop_value = $first_crop->max('value');
             $first_crop_name = $first_crop->where('value', $first_crop_value)->first()['name'];
@@ -156,6 +160,13 @@ class ApiController extends Controller
                 $first_crop_card = Cards::create(strval(round($first_crop_value/$first_crop_total, 2)*100).'%', 'NUM', 'Of the farmers’ second largest crop was '.$first_crop_name);
             }
 
+            $farmer_sample = Utils::getValues($id, $variables['farmer_sample'])->map(function ($item) {
+                if ($item['name'] === "No Heshe Is An Alternative For A Sample Farmer That Was Unavailable") {
+                    $item['name'] = "Alternative";
+                }
+                return $item;
+            });
+
             $overview = [
                 // Cards::create(Utils::getValues($id, 'f_first_crop'), 'BAR', "Farmer First Crop"),
                 Cards::create([
@@ -163,7 +174,7 @@ class ApiController extends Controller
                 ], 'CARDS', false, 6),
                 Cards::create([$first_crop_card], 'CARDS', false, 6),
                 Cards::create($maps, 'MAPS', "Household Surveyed", 6),
-                Cards::create(Utils::getValues($id, $variables['farmer_sample']), 'PIE', "The farmer surveyed part of the sample", 6),
+                Cards::create($farmer_sample, 'PIE', "The farmer surveyed part of the sample", 6),
                 // Cards::create([
                 //     Cards::create(round(collect($farm_size)->avg(), 2), 'NUM', 'Acres is the average farm size')
                 // ], 'CARDS', false),
