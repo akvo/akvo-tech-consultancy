@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useLocation } from 'react-router-dom'
 import { Navbar, Nav, NavDropdown, Form, FormControl } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -15,12 +16,22 @@ import { useLocale, langs } from "../lib/locale-context";
 import { uiText } from "../static/ui-text";
 import { SaveFormModal } from "./Modal";
 
+const hideNavBarMenu = (routes, pathname) => {
+    const noNavMenuRoutes = new Set();
+    noNavMenuRoutes.add(routes.login);
+    noNavMenuRoutes.add(routes.register);
+    noNavMenuRoutes.add(routes.resetPassword);
+    noNavMenuRoutes.add(routes.forgotPassword);
+    return noNavMenuRoutes.has(pathname);
+}
+
 const Navigation = ({formLoaded, setFormLoaded}) => {
     const { user, logout } = useAuth();
     const { locale, update } = useLocale();
+    const location = useLocation();
     const [showSavePrompt, setShowSavePrompt] = useState(false);
-    const host = window.location.hostname.split('.')[0];
-
+    const showNavBarMenu = !hideNavBarMenu(config.routes, location.pathname);
+    
     let text = uiText[locale.active];
 
     const endSession = async () => {
@@ -35,10 +46,12 @@ const Navigation = ({formLoaded, setFormLoaded}) => {
 
     return (
         <Navbar expand="lg">
-            <Navbar.Brand as={Link} to={config.routes.home}>
-                Gisco
-            </Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            {showNavBarMenu &&
+              <Navbar.Brand as={Link} to={config.routes.home}>
+                { text.navHome }
+              </Navbar.Brand>
+            }
+            <Navbar.Toggle aria-controls="basiqc-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
                     {user?.verified && (
@@ -55,9 +68,11 @@ const Navigation = ({formLoaded, setFormLoaded}) => {
                             </Nav.Link>
                         </>
                     )}
-                    <Nav.Link as={NavLink} to={config.routes.definition}>
-                        { text.navDefinitions }
-                    </Nav.Link>
+                    {showNavBarMenu &&
+                        <Nav.Link as={NavLink} to={config.routes.definition}>
+                          { text.navDefinitions }
+                        </Nav.Link>
+                    }
                     {user?.verified && (
                         <>
                             <Nav.Link as={NavLink} to={config.routes.feedback}>

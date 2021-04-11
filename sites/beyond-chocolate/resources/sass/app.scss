@@ -254,20 +254,6 @@ header {
         text-transform: uppercase;
         background-color: white;
         box-shadow: 0 0.3rem 0.3rem rgba(0, 0, 0, 0.2);
-        .navbar-brand {
-            margin: 1rem 1rem 0 0;
-            text-transform: uppercase;
-            color: #789922;
-            text-indent: -9999px;
-            background-image: url(/images/GiscoLogo.jpg?61d6ec5…);
-            background-repeat: no-repeat;
-            background-size: 94%;
-            width: 16rem;
-            height: 6rem;
-            &:hover {
-                color: $color-tertiary;
-            }
-        }
         .navbar-light {
             .navbar-toggler {
                 color: rgba($color-secondary, 1);
