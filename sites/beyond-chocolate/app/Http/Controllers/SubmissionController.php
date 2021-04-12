@@ -13,6 +13,7 @@ use League\Csv\Writer;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\FlowDataSeedController;
 use App\Http\Controllers\FlowDataSyncController;
+use Illuminate\Support\Facades\Log;
 
 class SubmissionController extends Controller
 {
@@ -56,25 +57,25 @@ class SubmissionController extends Controller
     {
         # TODO :: check if uuid has been on database
         $form_instance = FormInstance::where('identifier', $request->uuid)->first();
-        error_log($form_instance);
+        Log::error($form_instance);
         if (!is_null($form_instance)) {
             # Download data, use downloadData function
-            error_log('not null ... calling downloadData');
+            Log::error('not null ... calling downloadData');
             return $this->downloadData($request->form_id, $form_instance->id, $request->filename);
         }
 
         # TODO :: if uuid not found, then run sync first, then download the data
         // $sync = $flowData->seedFlowData(false, $request->form_id); # using seed to sync
         $sync = $syncData->syncData(false, $request->uuid); # using flow sync api
-        error_log($sync);
+        Log::error($sync);
         if ($sync !== true) {
-            error_log('Sync failed');
+            Log::error('Sync failed');
             return \response('Sync failed', 204);
         }
         $form_instance = FormInstance::where('identifier', $request->uuid)->first();
-        error_log($form_instance);
+        Log::error($form_instance);
         if (is_null($form_instance)) {
-            error_log('No Content');
+            Log::error('No Content');
             return \response('No Content', 204);
         }
         return $this->downloadData($request->form_id, $form_instance->id, $request->filename);
