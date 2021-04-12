@@ -57,7 +57,7 @@ class SubmissionController extends Controller
     {
         # TODO :: check if uuid has been on database
         $form_instance = FormInstance::where('identifier', $request->uuid)->first();
-        Log::error('ey!', $form_instance);
+        Log::error('ey!', [$form_instance, $request->uuid]);
         if (!is_null($form_instance)) {
             # Download data, use downloadData function
             Log::error('not null ... calling downloadData');
