@@ -41,6 +41,7 @@ const Navigation = ({formLoaded, setFormLoaded}) => {
     };
 
     const handleLocale = eventKey => {
+        console.log(eventKey);
         update({ ...locale, active: eventKey });
     };
 
@@ -87,6 +88,7 @@ const Navigation = ({formLoaded, setFormLoaded}) => {
                         </>
                     )}
                 </Nav>
+                
 
                 <Nav activeKey={locale.active} onSelect={handleLocale}>
                     {false && (

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import HeaderPanel from "./components/HeaderPanel";
 import Navigation from "./components/Navigation";
+import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -60,12 +61,13 @@ const Main = () => {
             e.preventDefault();
             e.returnValue = '';
         }
-    }
+    };
     return (
         <BrowserRouter>
             <AuthProvider>
                 <header>
-                    <Navigation formLoaded={formLoaded} setFormLoaded={setFormLoaded} />
+            <Header formLoaded={formLoaded} setFormLoaded={setFormLoaded} />
+                    {/* <Navigation formLoaded={formLoaded} setFormLoaded={setFormLoaded} /> */}
                     <HeaderPanel />
                 </header>
                 <main>
