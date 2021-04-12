@@ -82,7 +82,7 @@ const Header = ({ formLoaded, setFormLoaded }) => {
                             className="mr-2"
                             icon={faUser}
                         />
-                        user.name
+                            { user.name }
                         </>
                     }
                 >
