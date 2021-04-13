@@ -35,7 +35,7 @@ const Login2 = () => {
     };
 
     return (
-        <Container className="loginPg2">
+        <Container className="authPg">
             <Row className="justify-content-md-center align-items-center" style={{'marginTop': '150px'}}>
                 <Col md={6}>
                     <h2>{ text.welcome2 }</h2>

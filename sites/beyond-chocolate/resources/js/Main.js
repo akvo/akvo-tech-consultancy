@@ -6,6 +6,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Login2 from "./pages/Login2";
 import Register from "./pages/Register";
+import Register2 from "./pages/Register2";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Users from "./pages/Users";
@@ -136,7 +137,7 @@ const Main = () => {
                         <PublicOnlyRoute
                             exact
                             path={config.routes.register}
-                            component={Register}
+                            component={Register2}
                         />
                         <PublicOnlyRoute
                             exact
