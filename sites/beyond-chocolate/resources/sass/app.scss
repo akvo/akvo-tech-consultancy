@@ -264,9 +264,10 @@ header {
             }
         }
         .navbar-nav {
+            margin-top: 2px;
             .nav-link {
                 color: black;
-                padding: 0.2rem;
+                // padding: 0.2rem;
                 font-size: 0.9rem;
                 font-weight: 400;
                 &:not(:last-child) {
@@ -281,6 +282,17 @@ header {
                     color: white;
                 }
             }
+        }
+        span.locale {
+          cursor: pointer; 
+          a {
+            font-weight: 100;
+            color: #ccc;
+          }
+          a.active {
+            font-weight: 500;
+            color: #111;
+          }
         }
     }
 }
