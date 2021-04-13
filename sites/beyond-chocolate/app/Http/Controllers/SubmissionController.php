@@ -231,7 +231,7 @@ class SubmissionController extends Controller
             return Storage::disk('public')->url($filename);
         }
         if($older_reports){
-            $writer = Writer::createFromPath('../publi/uploads/idh/'.$filename, 'w+'); // path-local:'./uploads/idh/'
+            $writer = Writer::createFromPath('../public/uploads/idh/'.$filename, 'w+'); // path-local:'./uploads/idh/'
         } else {
             $writer = Writer::createFromPath('../public/uploads/'.$filename, 'w+');
         }
