@@ -13,6 +13,7 @@ use League\Csv\Writer;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\FlowDataSeedController;
 use App\Http\Controllers\FlowDataSyncController;
+use Illuminate\Support\Facades\Log;
 
 class SubmissionController extends Controller
 {
@@ -36,7 +37,7 @@ class SubmissionController extends Controller
             $wf['form_name'] = $questionnaires[$wf['form_id']].$display_name;
             return collect($wf)->only('uuid', 'org_name', 'submitter_name', 'form_name', 'form_id', 'updated_at');
         });
-        
+
         return $webforms;
 
         // $form_instances = FormInstance::whereIn('identifier', $webforms->pluck('uuid'))
@@ -58,96 +59,132 @@ class SubmissionController extends Controller
         $form_instance = FormInstance::where('identifier', $request->uuid)->first();
         if (!is_null($form_instance)) {
             # Download data, use downloadData function
-            return $this->downloadData($request->form_id, $form_instance->id, $request->filename);
+            Log::error('not null ... calling downloadData');
+            return $this->downloadData($request->form_id, $form_instance->id, $request->filename, false);
         }
 
         # TODO :: if uuid not found, then run sync first, then download the data
         // $sync = $flowData->seedFlowData(false, $request->form_id); # using seed to sync
         $sync = $syncData->syncData(false, $request->uuid); # using flow sync api
         if ($sync !== true) {
+            Log::error('Sync failed');
             return \response('Sync failed', 204);
         }
         $form_instance = FormInstance::where('identifier', $request->uuid)->first();
         if (is_null($form_instance)) {
+            Log::error('No Content');
             return \response('No Content', 204);
         }
-        return $this->downloadData($request->form_id, $form_instance->id, $request->filename);
+        return $this->downloadData($request->form_id, $form_instance->id, $request->filename, false);
     }
 
-    public function downloadData($form_id, $instance_id, $filename)
+    protected function trim($s)
+    {
+        return str_replace(' ', '', $s);
+    }
+
+
+    public function allCsv(Request $request, FlowDataSeedController $flowData, FlowDataSyncController $syncData)
+    {
+        $config = config('bc');
+        $credentials = $config['credentials'];
+        if ($request->password !== $credentials['api']) {
+            throw new NotFoundHttpException();
+        }
+        $questionnaires = config('bc.questionnaires');
+        $webforms = WebForm::where([
+            ['submitted', true]
+        ])->with('organization', 'user')->get()->map(function ($wf) use ($questionnaires) {
+            $wf['submitter_name'] = (is_null($wf['user'])) ? 'not-found-user' : $wf['user']['name'];
+            $display_name = (is_null($wf['display_name'])) ? '' : ' - '.$wf['display_name'];
+            $wf['form_name'] = $questionnaires[$wf['form_id']].$display_name;
+            $wf['download_url'] = $this->trim(str_replace(' - ', '-', $wf['form_name'])).'-'.$this->trim($wf['submitter_name']);
+            $wf['file'] =  $this->downloadData($wf['form_id'], $wf['form_instance_id'], $wf['download_url'], true);
+            return collect($wf)->only('download_url', 'form_id', 'form_instance_id', 'file');
+        });
+        return $webforms;
+    }
+
+
+    public function downloadData($form_id, $instance_id, $filename, $older_reports)
     // public function downloadData(Request $request)
     {
-        $headers = ["gid", "groupName", "repeat", "qid", "question", "answer"];
-        // $qGroups = QuestionGroup::where('form_id', $request->form_id)->with('questions')->get();
-        // $answers = Answer::where('form_instance_id', $request->instance_id)->with('option.option', 'cascade.cascade')->get();
-        $qGroups = QuestionGroup::where('form_id', $form_id)->with('questions')->get();
-        $answers = Answer::where('form_instance_id', $instance_id)->with('option.option', 'cascade.cascade')->get();
-        $records = collect();
-        $results = $qGroups->map(function ($qg, $qgIndex) use ($answers, $records) {
-            foreach ($qg['questions'] as $qIndex => $q) {
-                $gid = null;
-                $groupName = null;
-                $repeat = null;
-                if ($qIndex === 0) {
-                    $gid = $qgIndex + 1;
-                    $groupName = $qg['name'];
-                }
-                $qid = $qIndex + 1;
-                $question = $q['name'];
-                $answer = $answers->where('question_id', $q['id'])->values();
-                # TODO:: Repeat question-answer values
-                $repeat = 1;
-                if ($qg['repeat']) {
-                    foreach ($answer as $key => $value) {
+        try {
+            $headers = ["gid", "groupName", "repeat", "qid", "question", "answer"];
+            // $qGroups = QuestionGroup::where('form_id', $request->form_id)->with('questions')->get();
+            // $answers = Answer::where('form_instance_id', $request->instance_id)->with('option.option', 'cascade.cascade')->get();
+            $qGroups = QuestionGroup::where('form_id', $form_id)->with('questions')->get();
+            $answers = Answer::where('form_instance_id', $instance_id)->with('option.option', 'cascade.cascade')->get();
+            $records = collect();
+            $results = $qGroups->map(function ($qg, $qgIndex) use ($answers, $records) {
+                foreach ($qg['questions'] as $qIndex => $q) {
+                    $gid = null;
+                    $groupName = null;
+                    $repeat = null;
+                    if ($qIndex === 0) {
+                        $gid = $qgIndex + 1;
+                        $groupName = $qg['name'];
+                    }
+                    $qid = $qIndex + 1;
+                    $question = $q['name'];
+                    $answer = $answers->where('question_id', $q['id'])->values();
+                    # TODO:: Repeat question-answer values
+                    $repeat = 1;
+                    if ($qg['repeat']) {
+                        foreach ($answer as $key => $value) {
+                            $repeatValue = ($qIndex === 0) ? $repeat : null;
+                            $answerValue = $this->fetchAnswer($q['type'], $answer->first());
+                            // $records->push([$gid, $groupName, $repeatValue, $qid, $question, $answerValue]);
+                            $records->push([
+                                'gid' => $qgIndex + 1,
+                                'groupName' => $groupName,
+                                'repeat' => $repeat,
+                                'qid' => $qid,
+                                'question' => $question,
+                                'answer' => $answerValue
+                            ]);
+                            $repeat++;
+                        }
+                    }
+                    # END:: Repeat question-answer values
+
+                    # TODO:: Non repeat question-answer values
+                    if (!$qg['repeat']) {
                         $repeatValue = ($qIndex === 0) ? $repeat : null;
                         $answerValue = $this->fetchAnswer($q['type'], $answer->first());
                         // $records->push([$gid, $groupName, $repeatValue, $qid, $question, $answerValue]);
                         $records->push([
-                            'gid' => $qgIndex + 1, 
-                            'groupName' => $groupName, 
-                            'repeat' => $repeat, 
-                            'qid' => $qid, 
-                            'question' => $question, 
+                            'gid' => $qgIndex + 1,
+                            'groupName' => $groupName,
+                            'repeat' => $repeat,
+                            'qid' => $qid,
+                            'question' => $question,
                             'answer' => $answerValue
                         ]);
-                        $repeat++;
                     }
                 }
-                # END:: Repeat question-answer values
-                
-                # TODO:: Non repeat question-answer values
-                if (!$qg['repeat']) {
-                    $repeatValue = ($qIndex === 0) ? $repeat : null;
-                    $answerValue = $this->fetchAnswer($q['type'], $answer->first());
-                    // $records->push([$gid, $groupName, $repeatValue, $qid, $question, $answerValue]);
-                    $records->push([
-                        'gid' => $qgIndex + 1, 
-                        'groupName' => $groupName, 
-                        'repeat' => $repeat, 
-                        'qid' => $qid, 
-                        'question' => $question, 
-                        'answer' => $answerValue
-                    ]);
+            });
+            // $results = ["headers" => $headers, "records" => $records];
+            $groupRecords = $records->groupBy(['gid', 'repeat'])->values()->flatten(1);
+            $remapRecords = collect();
+            foreach ($groupRecords as $gIndex => $gValue) {
+                foreach ($gValue as $itemIndex => $item) {
+                    $gid = ($item['groupName'] !== null) ? $item['gid'] : null;
+                    $groupName = ($item['groupName'] !== null) ? $item['groupName'] : null;
+                    $repeat = ($item['groupName'] !== null) ? $item['repeat'] : null;
+                    $qid = $item['qid'];
+                    $question = $item['question'];
+                    $answer = $item['answer'];
+                    $remapRecords->push([$gid, $groupName, $repeat, $qid, $question, $answer]);
                 }
             }
-        });
-        // $results = ["headers" => $headers, "records" => $records];
-        $groupRecords = $records->groupBy(['gid', 'repeat'])->values()->flatten(1);
-        $remapRecords = collect();
-        foreach ($groupRecords as $gIndex => $gValue) {
-            foreach ($gValue as $itemIndex => $item) {
-                $gid = ($item['groupName'] !== null) ? $item['gid'] : null;
-                $groupName = ($item['groupName'] !== null) ? $item['groupName'] : null;
-                $repeat = ($item['groupName'] !== null) ? $item['repeat'] : null;
-                $qid = $item['qid'];
-                $question = $item['question'];
-                $answer = $item['answer'];
-                $remapRecords->push([$gid, $groupName, $repeat, $qid, $question, $answer]);
-            }
-        }
-        $results = ["headers" => $headers, "records" => $remapRecords];
-        // return ["link" => $this->writeCsv($results, $request->filename)];
-        return ["link" => $this->writeCsv($results, $filename)];
+            $results = ["headers" => $headers, "records" => $remapRecords];
+
+            return ["link" => $this->writeCsv($results, $filename, $older_reports)];
+        } catch (\Exception $exception) {
+            return $exception->getMessage();
+        };
+
     }
 
     private function fetchAnswer($qtype, $answer)
@@ -184,14 +221,19 @@ class SubmissionController extends Controller
         return $answer;
     }
 
-    private function writeCsv($data, $filename)
+    private function writeCsv($data, $filename, $older_reports)
     {
         $filename .= ".csv";
         if (count($data) === 0) {
             return Storage::disk('public')->url($filename);
         }
+        if($older_reports){
+            $writer = Writer::createFromPath('../public/uploads/idh/'.$filename, 'w+'); // path-local:'./uploads/idh/'
+        } else {
+            $writer = Writer::createFromPath('../public/uploads/'.$filename, 'w+');
+        }
 
-        $writer = Writer::createFromPath('../public/uploads/'.$filename, 'w+');
+
         $writer->insertOne(collect($data['headers'])->toArray());
         $writer->insertAll(collect($data['records'])->toArray());
 

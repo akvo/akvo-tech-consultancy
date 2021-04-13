@@ -185,3 +185,6 @@ Route::middleware(['auth:sanctum'])->get('/submissions/sync-download/{form_id}/{
 # Flow Data
 Route::get('/flow/initial-seed/{password}', [FlowDataSeedController::class, 'initialSeed']); # INITIAL SEEDER FLOW DATA
 Route::get('/flow/sync', [FlowDataSyncController::class, 'syncData']); # SYNC DATA USING FLOW SYNC API
+
+
+Route::get('/flow/all-csv/{password}', [SubmissionController::class, 'allCsv']); # generate-all-csvs
