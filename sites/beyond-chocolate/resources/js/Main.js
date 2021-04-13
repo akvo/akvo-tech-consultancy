@@ -4,7 +4,7 @@ import HeaderPanel from "./components/HeaderPanel";
 import Navigation from "./components/Navigation";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import Login from "./pages/Login";
+import Login2 from "./pages/Login2";
 import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
@@ -131,7 +131,7 @@ const Main = () => {
                         <PublicOnlyRoute
                             exact
                             path={config.routes.login}
-                            component={Login}
+                            component={Login2}
                         />
                         <PublicOnlyRoute
                             exact
