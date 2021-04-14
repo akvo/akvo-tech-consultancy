@@ -66,7 +66,7 @@ const Main = () => {
         <BrowserRouter>
             <AuthProvider>
                 <header>
-            <Header formLoaded={formLoaded} setFormLoaded={setFormLoaded} />
+                    <Header formLoaded={formLoaded} setFormLoaded={setFormLoaded} />
                     {/* <Navigation formLoaded={formLoaded} setFormLoaded={setFormLoaded} /> */}
                     <HeaderPanel />
                 </header>
