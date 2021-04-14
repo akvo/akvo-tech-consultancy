@@ -385,11 +385,6 @@ return [
         ],
         [
             "code" => null,
-            "name" => "staff SWISSCO secretariat",
-            "active" => true,
-        ],
-        [
-            "code" => null,
             "name" => "staff Beyond Chocolate Secretariat",
             "active" => true,
         ],
