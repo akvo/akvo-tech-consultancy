@@ -17,8 +17,6 @@ import Locale from "./Locale.js";
 import { SaveFormModal } from "./Modal";
 
 const hideNavBarMenu = (routes, pathname) => {
-    console.log('@hideNavBarMenu');
-    console.log(pathname);
     const noNavMenuRoutes = new Set();
     noNavMenuRoutes.add(routes.login);
     noNavMenuRoutes.add(routes.register);
