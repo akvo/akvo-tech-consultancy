@@ -68,7 +68,7 @@ const RegisterForm = ({ text, content, setRegistered, organizations }) => {
                     </Col>
                 </Row>
 
-                <Form noValidate onSubmit={onSubmit}>
+                <Form noValidate onSubmit={handleSubmit(onSubmit)}>
 
             <Form.Group controlId="formBasicFulltName">
                 <Form.Control
@@ -161,7 +161,7 @@ const RegisterForm = ({ text, content, setRegistered, organizations }) => {
             <Button type="submit" block>
                 { text.formRegister }
             </Button>
-        </Form>
+                </Form>
             </Col>
         </Row>
     );
