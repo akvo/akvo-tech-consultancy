@@ -4,7 +4,7 @@ export const uiText = {
     en: {
         welcome: <Fragment>Welcome<br/>to the GISCO Monitoring Pilot<br/>for 2019 data</Fragment>,
         welcome2: "Monitoring for 2019-2020 data",
-        welcome3: <Fragment>Welcome<br/>to the Monitoring for<br/> 2020 data</Fragment>,
+        welcome3: <Fragment>Welcome<br/>to the Cocoa Monitoring<br/> for 2020 data</Fragment>,
         // Navigation
         navSurvey: "Survey",
         navDefinitions: "Definitions",
