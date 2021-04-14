@@ -10,6 +10,7 @@ import { dsc } from "../static/data-security-content";
 import { uiText } from "../static/ui-text";
 import { useLocale } from "../lib/locale-context";
 import { wfc } from "../static/webform-content";
+import AuthBrand from "../components/AuthBrand.js";
 
 
 const RegisterForm = ({ text, content, setRegistered, organizations }) => {
@@ -198,17 +199,7 @@ const Register2 = () => {
     return (
         <Container className="authPg">
             <Row className="justify-content-md-center align-items-center" style={{'marginTop': '150px'}}>
-                <Col md={6}>
-                    <h2>{ text.welcome2 }</h2>
-                    <Row className="align-items-center">
-                        <Col md={6}>
-                            <img src="/images/beyond.jpg" alt="Beyond Chocolate" />
-                        </Col>
-                        <Col md={6}>
-                            <img src="/images/gisco.jpg" alt="German Initiative on Sustainable Cocoa" />
-                        </Col>
-                    </Row>
-                </Col>
+                <AuthBrand text={text} />
                 <Col md={6}>
                     {registered ? (
                         <RegisteredBanner text={text} />

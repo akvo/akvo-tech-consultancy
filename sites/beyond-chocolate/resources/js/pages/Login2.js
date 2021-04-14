@@ -5,6 +5,7 @@ import { uiText } from "../static/ui-text";
 import { useLocale } from "../lib/locale-context";
 import { useAuth } from "../components/auth-context";
 import useForm from "../lib/use-form";
+import AuthBrand from "../components/AuthBrand.js";
 
 const Login2 = () => {
     const { locale } = useLocale();
@@ -37,23 +38,11 @@ const Login2 = () => {
     return (
         <Container className="authPg">
             <Row className="justify-content-md-center align-items-center" style={{'marginTop': '150px'}}>
+                <AuthBrand text={text}/>
                 <Col md={6}>
-                    <h2>{ text.welcome2 }</h2>
-                    <Row className="align-items-center">
-                        <Col md={6}>
-                            <img src="/images/beyond.jpg" alt="Beyond Chocolate" />
-                        </Col>
-                        <Col md={6}>
-                            <img src="/images/gisco.jpg" alt="German Initiative on Sustainable Cocoa" />
-                        </Col>
-                    </Row>
-                </Col>
-                <Col md={6}
-               >
-                    <Row className="justify-content-md-end" style={{'fontSize': '0.9rem'}}
-                    >
+                    <Row className="justify-content-md-end" style={{'fontSize': '0.9rem'}}>
                         <Col md={3}>
-                            Log in
+                            { text.formLogin }
                         </Col>
                         <Col md={7} style={{'textAlign': 'right'}}>
                             { text.formDontHaveAccount }&nbsp;<Link to="/register" >{ text.formRegister }</Link>

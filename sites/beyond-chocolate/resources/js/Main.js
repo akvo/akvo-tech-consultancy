@@ -5,10 +5,9 @@ import Navigation from "./components/Navigation";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Login2 from "./pages/Login2";
-import Register from "./pages/Register";
 import Register2 from "./pages/Register2";
-import ForgotPassword from "./pages/ForgotPassword";
-import ResetPassword from "./pages/ResetPassword";
+import ForgotPassword2 from "./pages/ForgotPassword2";
+import ResetPassword2 from "./pages/ResetPassword2";
 import Users from "./pages/Users";
 import WebForm from "./pages/WebForm";
 import Definition from "./pages/Definition";
@@ -142,12 +141,12 @@ const Main = () => {
                         <PublicOnlyRoute
                             exact
                             path={config.routes.resetPassword}
-                            component={ResetPassword}
+                            component={ResetPassword2}
                         />
                         <PublicOnlyRoute
                             exact
                             pages={config.routes.forgotPassword}
-                            component={ForgotPassword}
+                            component={ForgotPassword2}
                         />
                     </Switch>
                 </main>
