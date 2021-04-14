@@ -15,7 +15,7 @@ class EmailController extends Controller
 {
     public function sendFeedback(Request $request, Mails $mails)
     {
-        $footer = "GISCO Monitoring Pilot for 2019 data"; 
+        $footer = "Cocoa Monitoring";
         $recipients = config('mail.mailing.list');
         $recipients = collect($recipients)->map(function($address){
             return [
@@ -29,7 +29,7 @@ class EmailController extends Controller
                 <br/>";
         $text = "Feedback from: $request->email";
         $response = $mails->sendEmail($recipients, false, $subject, $body, $text);
-        
+
         return response([
             'message' => 'Your feedback has been sent!', 'mails' => $response
         ]);
@@ -42,7 +42,7 @@ class EmailController extends Controller
         $questionnaires = array_map(function($q){return '<li>' . $q . '</li>';}, $request->questionnaires);
         $questionnaires = implode("\n", $questionnaires);
         $body = "Dear Mr./Ms. $request->name<br/><br/>
-                $request->adminName from $request->adminOrg has assigned you the following surveys in the GISCO monitoring pilot for 2019 data portal for your input:
+                $request->adminName from $request->adminOrg has assigned you the following surveys in the Cocoa monitoring for 2020 data portal for your input:
                 <ul>
                 $questionnaires
                 </ul>
@@ -88,7 +88,7 @@ class EmailController extends Controller
 
                 <strong>Bitte besuchen Sie die Seite <a href='".env('APP_URL')."'>".env('APP_URL')."</a> und loggen sich ein, um Ihre Daten einzugeben.</strong><br/>
                 Falls Sie Schwierigkeiten haben, können Sie $request->adminName kontaktieren oder das Feedback-Formular im Portal nutzen.<br/>";
-        $text = "$request->adminName from $request->adminOrg has assigned surveys in the GISCO monitoring pilot for 2019 data portal for your input";
+        $text = "$request->adminName from $request->adminOrg has assigned surveys in the Cocoa monitoring data portal for your input";
         $response = $mails->sendEmail($recipients, false, $subject, $body, $text);
 
         return response([

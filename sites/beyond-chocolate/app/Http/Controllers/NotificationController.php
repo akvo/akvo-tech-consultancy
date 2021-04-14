@@ -101,7 +101,7 @@ class NotificationController extends Controller
         $recipients = collect();
         $recipients->push($emailData->get('recipients'));
         $subject = 'Notification';
-        $footer = "GISCO Monitoring Pilot for 2019 data"; 
+        $footer = "Cocoa Monitoring";
         $body = "Test notification <br/><br/>
                 ".$emailData->get('comment')." <hr/>
                 <strong>SENT VIA <a href='".env('APP_URL')."'>".$footer."</a></strong>
@@ -122,7 +122,7 @@ class NotificationController extends Controller
         return $data;
     }
 
-    public function checkSurvey(Request $request, Auth $auth) 
+    public function checkSurvey(Request $request, Auth $auth)
     {
         $endpoint = env('AKVOFLOW_API_URL');
         $endpoint .= '/'.env('AKVOFLOW_INSTANCE').'/surveys/'.$request->survey_id;

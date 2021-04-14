@@ -83,20 +83,20 @@ class ApiController extends Controller
                     </p>
 
                     <p> You can now view and data to the saved project in your
-                    \"previously saved forms\" section in the GISCO portal.
+                    \"previously saved forms\" section in the portal.
                     </p>
 
                     <p>Please contact us via the feedback form in case you face any issues.</p>
-                    
+
                     <hr />
 
                     Liebe/r $user->name<br/><br/>
-                    <p> $assigningUser->name von $assigningOrg->name 
+                    <p> $assigningUser->name von $assigningOrg->name
                     hat Ihre Organisation als Partner für das Projekt $project_title registriert.
                     </p>
 
-                    <p> Der gespeicherte Projekt-Fragebogen erscheint nun im Monitoringportal in Ihrem Menu 
-                    \"Auswahl eines zuvor gespeicherten Fragebogens\" (oben links). 
+                    <p> Der gespeicherte Projekt-Fragebogen erscheint nun im Monitoringportal in Ihrem Menu
+                    \"Auswahl eines zuvor gespeicherten Fragebogens\" (oben links).
                     Sie können Ihn ansehen und bearbeiten.
                     </p>
 
@@ -208,7 +208,7 @@ class ApiController extends Controller
         $exception = $config['exception'];
         $industry = $config['forms']['industry'];
         $project = $config['forms']['project'];
-        
+
         // if organization was on exception
         $falseValue = [
             "counts" => false,
@@ -233,7 +233,7 @@ class ApiController extends Controller
         $users = User::select(['name', 'organization_id', 'email'])
                     ->whereIn('id', $submissions->pluck('user_id'))
                     ->get();
-        
+
         if (collect($project['fids'])->contains($formId)) {
             return [
                 "counts" => $counts,
@@ -242,7 +242,7 @@ class ApiController extends Controller
                 "users" => $users,
             ];
         };
-        
+
         if (collect($industry['fids'])->contains($formId)) {
             return [
                 "counts" => $counts,

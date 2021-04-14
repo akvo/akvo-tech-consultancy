@@ -33,7 +33,7 @@ class SendEmailUserSavedNotification
             ];
         });
         $subject = 'New User Registration';
-        $footer = "GISCO Monitoring Pilot for 2019 data"; 
+        $footer = "Cocoa Monitoring";
         $body = "User: ".$event->user->name."<br/>
                 Organization: ".$event->user->organization->name."<br/>
                 <hr/>
