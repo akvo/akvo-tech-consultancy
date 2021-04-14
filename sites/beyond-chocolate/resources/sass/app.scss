@@ -214,7 +214,8 @@
 
 $color-primary: rgb(103, 48, 22); /*Brown*/
 $color-secondary: rgb(234, 236, 236); /*Grey*/
-$color-tertiary: rgb(120, 153, 34); /*Green*/
+$color-tertiary: rgb(103, 48, 22); /*Green*/
+$color-greeen: rgb(120, 153, 34); /*Green*/
 $color-yellow: rgb(250, 187, 0);
 $color-red: rgb(155, 19, 53);
 
@@ -284,7 +285,7 @@ header {
             }
         }
         span.locale {
-          cursor: pointer; 
+          cursor: pointer;
           a {
             font-weight: 100;
             color: #ccc;
@@ -309,6 +310,13 @@ main {
             background-color: rgba($color-tertiary, 0.8);
             color: white;
         }
+    }
+    .authPg {
+        img {
+            max-width: 100%;
+            height: auto;
+            padding: 20px
+            }
     }
     .homeLanding {
         position: relative;

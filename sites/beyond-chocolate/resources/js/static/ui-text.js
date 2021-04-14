@@ -3,6 +3,7 @@ import React, { Fragment } from "react";
 export const uiText = {
     en: {
         welcome: <Fragment>Welcome<br/>to the GISCO Monitoring Pilot<br/>for 2019 data</Fragment>,
+        welcome2: "Monitoring for 2019-2020 data",
         // Navigation
         navSurvey: "Survey",
         navDefinitions: "Definitions",
@@ -116,6 +117,7 @@ export const uiText = {
 
     de: {
         welcome: <Fragment>Willkommen<br/>zum Pilotmonitoring des Forum nachhaltiger Kakao<br/>für das Berichtsjahr 2019!</Fragment>,
+        welcome2: "Monitoring for 2019-2020 data",
         // Navigation
         navSurvey: "Umfrage",
         navDefinitions: "Definitionen",
