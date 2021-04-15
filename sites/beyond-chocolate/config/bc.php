@@ -52,6 +52,17 @@ return [
     'saved_form_endpoint' => 'https://tech-consultancy.akvotest.org/akvo-flow-web-api/saved-forms',
 
     'form_url_no_instance' => 'https://tech-consultancy.akvotest.org/akvo-flow-web/',
+    'idh_forms' => [111510043,
+                    113130042,
+                    105640815,
+                    111890828,
+                    134210832,
+                    143215090,
+                    130990814,
+                    143340791,
+                    150700609,
+                    148430590,
+                    150981538],
 
     
     ## CONFIG for submission uuid scripts

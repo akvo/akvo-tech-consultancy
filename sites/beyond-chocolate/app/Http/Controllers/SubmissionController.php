@@ -55,13 +55,18 @@ class SubmissionController extends Controller
 
     public function syncAndDownloadData(Request $request, FlowDataSeedController $flowData, FlowDataSyncController $syncData)
     {
+        $idh_forms = config('bc.idh_forms');
         # TODO :: check if uuid has been on database
         $form_instance = FormInstance::where('identifier', $request->uuid)->first();
         Log::error('ey!', [$form_instance, $request->uuid]);
         if (!is_null($form_instance)) {
             # Download data, use downloadData function
             Log::error('not null ... calling downloadData');
-            return $this->downloadData($request->form_id, $form_instance->id, $request->filename, false);
+            if(in_array($form_instance['form_id'], $idh_forms)){
+                return ["link" => "uploads/idh/".$request->filename.".csv"];
+            } else {
+                return $this->downloadData($request->form_id, $form_instance->id, $request->filename, false);
+            }
         }
 
         # TODO :: if uuid not found, then run sync first, then download the data
