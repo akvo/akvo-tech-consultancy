@@ -63,7 +63,7 @@ class SubmissionController extends Controller
             # Download data, use downloadData function
             Log::error('not null ... calling downloadData');
             if(in_array($form_instance['form_id'], $idh_forms)){
-                return ["link" => "uploads/idh/".$request->filename.".csv"];
+                return ["link" => "uploads/idh/".$this->trim($request->filename).".csv"];
             } else {
                 return $this->downloadData($request->form_id, $form_instance->id, $request->filename, false);
             }
