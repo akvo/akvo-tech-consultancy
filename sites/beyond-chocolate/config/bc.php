@@ -114,7 +114,7 @@ return [
         ],
 
     ],
-    'flow_survey_group_id' => env('AKVOFLOW_SURVEY_GROUP_ID'),
+    'flow_projects_survey_group_id' => env('AKVOFLOW_PROJECTS_SURVEY_GROUP_ID'),
     'flow_data_form_instance_url' => $flowDataURL.'form-instances/'.env('AKVOFLOW_INSTANCE').'/' # survey_group_id / survey_id
     ## END OF CONFIG for submission uuid scripts
 
