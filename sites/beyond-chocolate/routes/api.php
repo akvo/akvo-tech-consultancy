@@ -157,6 +157,7 @@ Route::post('/auth/forgot-password', [Auth::class, 'forgotPassword']);
 Route::post('/auth/reset-password', [Auth::class, 'resetPassword']);
 Route::middleware(['auth:sanctum'])->post('/user/update', [Auth::class, 'update']);
 Route::get('/organizations', [Api::class, 'getOrganizations']);
+Route::get('/secretariats', [Api::class, 'getSecretariat']);
 Route::get('/config', [Api::class, 'getConfig']);
 Route::post('/submission', [Api::class, 'postWebForm']);
 Route::patch('/submission', [Api::class, 'updateWebForm']);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Organization;
+use App\Models\Secretariat;
 use App\Models\User;
 use App\Models\WebForm;
 use App\Models\Collaborator;
@@ -12,7 +13,19 @@ use Carbon\Carbon;
 
 class ApiController extends Controller
 {
+    public function getSecretariat()
+    {
+        $secretariat = Secretariat::all();
+        return $secretariat;
+    }
+
     public function getOrganizations()
+    {
+        $secretariat = Secretariat::find(1);
+        return $secretariat->organizations()->get();
+    }
+
+    public function getOrganizationsOFF()
     {
         $orgs = Organization::where([['level', 1], ['active', true]])->with('parents')->get();
         $orgs = $orgs->transform(function ($org) {
