@@ -47,7 +47,7 @@ return [
         '150981538' => 'Pilot-Monitoring des Forum Nachhaltiger Kakao',
     ],
 
-    'form_url' => 'https://tech-consultancy.akvotest.org/akvo-flow-web/idh/',
+    'form_url' => 'https://tech-consultancy.akvotest.org/akvo-flow-web/'.env('AKVOFLOW_INSTANCE').'/',
 
     'saved_form_endpoint' => 'https://tech-consultancy.akvotest.org/akvo-flow-web-api/saved-forms',
 
@@ -114,8 +114,8 @@ return [
         ],
 
     ],
-
-    'flow_data_form_instance_url' => $flowDataURL.'form-instances/idh/' # survey_group_id / survey_id
+    'flow_survey_group_id' => env('AKVOFLOW_SURVEY_GROUP_ID'),
+    'flow_data_form_instance_url' => $flowDataURL.'form-instances/'.env('AKVOFLOW_INSTANCE').'/' # survey_group_id / survey_id
     ## END OF CONFIG for submission uuid scripts
 
 ];
