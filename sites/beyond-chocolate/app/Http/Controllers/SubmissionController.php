@@ -20,6 +20,9 @@ class SubmissionController extends Controller
     public function getSubmittedData(Request $request, StatefulGuard $guard)
     {
         $questionnaires = config('bc.questionnaires');
+        foreach(config('bc.idh_questionnaires') as $property => $value){
+            $questionnaires[$property] = $value;
+        }
         $user = $request->user();
         $collaboratorForms = Collaborator::where('organization_id', $user->organization_id)->get()->pluck('web_form_id');
         $webforms = WebForm::where([
