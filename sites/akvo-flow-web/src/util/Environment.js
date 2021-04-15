@@ -16,6 +16,15 @@ export const SAVE_FEATURES = [
         skipMandatories: false
     },
     {
+        instance:"isco",
+        save: true,
+        api: "gisco-pilot.tc.akvo.org/api",
+        demoApi: "gisco-demo.tc.akvo.org/api",
+        formEndpoint: false,
+        skipPassword: true,
+        skipMandatories: ["120190025"],
+    },
+    {
         instance:"idh",
         save: true,
         api: "gisco-pilot.tc.akvo.org/api",
