@@ -613,7 +613,8 @@ const WebForm = ({ setFormLoaded, webForm, setWebForm }) => {
         if (type == "111510043" || user.project_fids.includes(type)) {
             // new project form
             setShowProjectInfo(true);
-            setDelayedActiveForm(url);
+          setDelayedActiveForm(url);
+          openForm(url);
             // always show collaborators
             // setWebForm({ web_form_id: null, submission_name: null, new_questionnaire: true, show_collaborator: true, fid: parseInt(type)});
         } else {
