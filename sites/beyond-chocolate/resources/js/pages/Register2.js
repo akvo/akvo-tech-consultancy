@@ -31,10 +31,16 @@ const RegisterForm = ({ text, content, setRegistered, organizations, secretariat
     const [orgs, setOrgs] = useState(organizations);
     const [selectedOrgs, setSelectedOrgs] = useState({value:false, label:"", error: false});
 
-
     useEffect(() => {
         setOrgs(_.filter(organizations, child => _.some(child.secretariats, x => x.pivot.secretariat_id === selectedSecretariat.value )));
     }, [selectedSecretariat]);
+
+    useEffect(() => {
+        if (!Array.isArray(orgs) || !orgs.lenght) {
+            setOrgs(organizations);
+        }
+    }, [organizations]);
+
 
     const onSubmit = async data => {
         if (!selectedOrgs.value) {
@@ -56,8 +62,10 @@ const RegisterForm = ({ text, content, setRegistered, organizations, secretariat
     };
 
     const renderOrganizations = organizations => {
-        return organizations.map(x => {
-            return { value: x.id, label: x.name };
+        return organizations.map(org => {
+            return { value: org.id,
+                     label: org.name
+                   };
         });
     };
 
@@ -151,7 +159,7 @@ const RegisterForm = ({ text, content, setRegistered, organizations, secretariat
                         <Select
                             onChange={opt => setSelectedSecretariat(opt)}
                             options={renderSecretariats(secretariats)}
-                            placeholder={ 'Secretariats' }
+                            placeholder={ 'Secretariat' }
                         />
                         { selectedOrgs.error ? (
                             <Form.Text className="text-danger">
