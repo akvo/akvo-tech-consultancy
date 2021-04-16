@@ -39,13 +39,16 @@ class ApiController extends Controller
 
     public function getOrganizations2(Request $request)
     {
-        if ($request->has('secretariat')) {
+        if ($request->has('secretariat'))
+        {
             $secretariat_id = $request->query('secretariat');
-            $secretariat = Secretariat::find($secretariat_id);
-            $orgs = $secretariat->organizations()->get();
+            $orgs = Secretariat::find($secretariat_id)
+                  ->organizations()
+                  ->with('parents');
         } else {
-            $orgs = Organization::where([['level', 1], ['active', true]])->with('parents')->get();
+            $orgs = Organization::with('secretariats', 'parents');
         }
+        $orgs = $orgs->where([['level', 1], ['active', true]])->get();
         return $this->tidyOrgs($orgs);
     }
 
