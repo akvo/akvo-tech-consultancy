@@ -96,11 +96,13 @@ const Submission = () => {
         }
         return submissions.map((x, i) => {
             let delay = checkDataDelay(x.updated_at);
+            const year =  x.updated_at ? new Date(x.updated_at).getFullYear() : "Loading";
             return (
                 <tr key={'submission-'+i}>
                     <td className="pl-3">{x.org_name}</td>
                     <td className="pl-3">{x.submitter_name}</td>
                     <td className="pl-3">{x.form_name}</td>
+                    <td className="pl-3">{year}</td>
                     <td className="pl-3">
                         <Button
                             key={'btnDownload-'+i} 
@@ -164,6 +166,7 @@ const Submission = () => {
                                 <th className="pl-3">{ text.tbColOrganization }</th>
                                 <th className="pl-3">{ text.tbColSubmitter }</th>
                                 <th className="pl-3">{ text.tbColForm }</th>
+                                <th className="pl-3">{ text.tbColYear }</th>
                                 <th className="pl-3">{ text.tbColAction }</th>
                             </tr>
                         </thead>

@@ -70,6 +70,7 @@ export const uiText = {
         tbColSurveys: "Surveys",
         tbColSubmitter: "Submitter",
         tbColForm: "Form",
+        tbColYear: "Year",
         tbColAction: "Action",
         tbRowNoRecords: "There are no records to display.",
         // Modal
@@ -185,6 +186,7 @@ export const uiText = {
         tbColSurveys: "Umfragen",
         tbColSubmitter: "Submitter",
         tbColForm: "Form",
+        tbColYear: "Jahr",
         tbColAction: "Action",
         tbRowNoRecords: "Keine Daten vorhanden.",
         // Modal
