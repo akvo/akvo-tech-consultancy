@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Select from "react-select";
 import { Container, Row, Col, Button, Form, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { filter, some } from "lodash";
 import authApi from "../services/auth";
 import config from "../config";
 import useForm from "../lib/use-form";
@@ -13,7 +14,7 @@ import { wfc } from "../static/webform-content";
 import AuthBrand from "../components/AuthBrand.js";
 
 
-const RegisterForm = ({ text, content, setRegistered, organizations }) => {
+const RegisterForm = ({ text, content, setRegistered, organizations, secretariats }) => {
     const {
         register,
         handleSubmit,
@@ -23,9 +24,23 @@ const RegisterForm = ({ text, content, setRegistered, organizations }) => {
         watch
     } = useForm();
 
-    const [selectedOrgs, setSelectedOrgs] = useState({value:false, label:"", error: false});
     const password = useRef({});
     password.current = watch("password", "");
+    const [selectedSecretariat, setSelectedSecretariat] = useState({value: false, label:"", error: false});
+
+    const [orgs, setOrgs] = useState(organizations);
+    const [selectedOrgs, setSelectedOrgs] = useState({value:false, label:"", error: false});
+
+    useEffect(() => {
+        setOrgs(_.filter(organizations, child => _.some(child.secretariats, x => x.pivot.secretariat_id === selectedSecretariat.value )));
+    }, [selectedSecretariat]);
+
+    useEffect(() => {
+        if (!Array.isArray(orgs) || !orgs.lenght) {
+            setOrgs(organizations);
+        }
+    }, [organizations]);
+
 
     const onSubmit = async data => {
         if (!selectedOrgs.value) {
@@ -47,8 +62,19 @@ const RegisterForm = ({ text, content, setRegistered, organizations }) => {
     };
 
     const renderOrganizations = organizations => {
-        return organizations.map(x => {
-            return { value: x.id, label: x.name };
+        return organizations.map(org => {
+            return { value: org.id,
+                     label: org.name
+                   };
+        });
+    };
+
+    const renderSecretariats = secretariats => {
+        return secretariats.map(secretariat => {
+            return {
+                value: secretariat.id,
+                label: secretariat.name
+            };
         });
     };
 
@@ -70,97 +96,109 @@ const RegisterForm = ({ text, content, setRegistered, organizations }) => {
 
                 <Form noValidate onSubmit={handleSubmit(onSubmit)}>
 
-            <Form.Group controlId="formBasicFulltName">
-                <Form.Control
-                    type="text"
-                    name="name"
-                    placeholder={ text.formFullName }
-                    isInvalid={!!errors.name}
-                    ref={register({
-                        required: text.valFullName
-                    })}
-                />
-                <Form.Control.Feedback type="invalid">
-                    {!!errors.name && errors.name.message}
-                </Form.Control.Feedback>
-            </Form.Group>
-            <Form.Group controlId="formBasicEmail">
-                <Form.Control
-                    type="email"
-                    name="email"
-                    placeholder={ text.formEmail }
-                    isInvalid={!!errors.email}
-                    ref={register({
-                        required: text.valEmail
-                    })}
-                />
-                <Form.Control.Feedback type="invalid">
-                    {!!errors.email && errors.email.message}
-                </Form.Control.Feedback>
-            </Form.Group>
-            <Form.Group controlId="formBasicPassword">
-                <Form.Control
-                    type="password"
-                    name="password"
-                    placeholder={ text.formPwd }
-                    isInvalid={!!errors.password}
-                    ref={register({
-                        required: text.valPwd
-                    })}
-                />
-                <Form.Control.Feedback type="invalid">
-                    {!!errors.password && errors.password.message}
-                </Form.Control.Feedback>
-            </Form.Group>
-            <Form.Group controlId="formBasicConfirmPassword">
-                <Form.Control
-                    type="password"
-                    name="password_confirmation"
-                    placeholder={ text.formConfirmPwd }
-                    isInvalid={!!errors.password_confirmation}
-                    ref={register({
-                        validate: value =>
-                            value === password.current ||
-                            text.valPwdNotMatch
-                    })}
-                />
-                <Form.Control.Feedback type="invalid">
-                    {!!errors.password_confirmation &&
-                        errors.password_confirmation.message}
-                </Form.Control.Feedback>
-            </Form.Group>
-            <Form.Group controlId="formBasicOrganization">
-                <Select
-                    onChange={opt => setSelectedOrgs(opt)}
-                    options={renderOrganizations(organizations)}
-                    placeholder={ text.tbColOrganization }
-                />
-                { selectedOrgs.error ? (
-                    <Form.Text className="text-danger">
-                        { text.valOrganization }
-                    </Form.Text>
-                    ) : ""}
-            </Form.Group>
-            <Form.Group controlId="formBasicCheckbox">
-                <Form.Check
-                    type="checkbox"
-                    name="agreement"
-                    label={ content.registerCheckBoxText }
-                    // isInvalid={!!errors.agreement}
-                    ref={register({
-                        required: text.valRegisterCheckBox
-                    })}
-                />
-                {!!errors.agreement &&
-                        errors.agreement.message ?
-                            <Form.Text className="text-danger" style={{paddingLeft:"1.2rem"}}>
-                                {errors.agreement.message}
+                    <Form.Group controlId="formBasicFulltName">
+                        <Form.Control
+                            type="text"
+                            name="name"
+                            placeholder={ text.formFullName }
+                            isInvalid={!!errors.name}
+                            ref={register({
+                                required: text.valFullName
+                            })}
+                        />
+                        <Form.Control.Feedback type="invalid">
+                            {!!errors.name && errors.name.message}
+                        </Form.Control.Feedback>
+                    </Form.Group>
+                    <Form.Group controlId="formBasicEmail">
+                        <Form.Control
+                            type="email"
+                            name="email"
+                            placeholder={ text.formEmail }
+                            isInvalid={!!errors.email}
+                            ref={register({
+                                required: text.valEmail
+                            })}
+                        />
+                        <Form.Control.Feedback type="invalid">
+                            {!!errors.email && errors.email.message}
+                        </Form.Control.Feedback>
+                    </Form.Group>
+                    <Form.Group controlId="formBasicPassword">
+                        <Form.Control
+                            type="password"
+                            name="password"
+                            placeholder={ text.formPwd }
+                            isInvalid={!!errors.password}
+                            ref={register({
+                                required: text.valPwd
+                            })}
+                        />
+                        <Form.Control.Feedback type="invalid">
+                            {!!errors.password && errors.password.message}
+                        </Form.Control.Feedback>
+                    </Form.Group>
+                    <Form.Group controlId="formBasicConfirmPassword">
+                        <Form.Control
+                            type="password"
+                            name="password_confirmation"
+                            placeholder={ text.formConfirmPwd }
+                            isInvalid={!!errors.password_confirmation}
+                            ref={register({
+                                validate: value =>
+                                value === password.current ||
+                                    text.valPwdNotMatch
+                            })}
+                        />
+                        <Form.Control.Feedback type="invalid">
+                            {!!errors.password_confirmation &&
+                             errors.password_confirmation.message}
+                        </Form.Control.Feedback>
+                    </Form.Group>
+                    <Form.Group controlId="formBasicSecretariats">
+                        <Select
+                            onChange={opt => setSelectedSecretariat(opt)}
+                            options={renderSecretariats(secretariats)}
+                            placeholder={ 'Secretariat' }
+                        />
+                        { selectedOrgs.error ? (
+                            <Form.Text className="text-danger">
+                                { text.valOrganization }
                             </Form.Text>
-                        : ""}
-            </Form.Group>
-            <Button type="submit" block>
-                { text.formRegister }
-            </Button>
+                        ) : ""}
+                    </Form.Group>
+                    <Form.Group controlId="formBasicOrganization">
+                        <Select
+                            onChange={opt => setSelectedOrgs(opt)}
+                            options={renderOrganizations(orgs)}
+                            placeholder={ text.tbColOrganization }
+                        />
+                        { selectedOrgs.error ? (
+                            <Form.Text className="text-danger">
+                                { text.valOrganization }
+                            </Form.Text>
+                        ) : ""}
+                    </Form.Group>
+                    <Form.Group controlId="formBasicCheckbox">
+                        <Form.Check
+                            type="checkbox"
+                            name="agreement"
+                            label={ content.registerCheckBoxText }
+        // isInvalid={!!errors.agreement}
+                            ref={register({
+                                required: text.valRegisterCheckBox
+                            })}
+                        />
+                        {!!errors.agreement &&
+                         errors.agreement.message ?
+                         <Form.Text className="text-danger" style={{paddingLeft:"1.2rem"}}>
+                             {errors.agreement.message}
+                         </Form.Text>
+                         : ""}
+                    </Form.Group>
+                    <Button type="submit" block>
+                        { text.formRegister }
+                    </Button>
                 </Form>
             </Col>
         </Row>
@@ -177,8 +215,8 @@ const RegisteredBanner = ({ text }) => {
 
 const Register2 = () => {
     const [registered, setRegistered] = useState(false);
+    const [secretariats, setSecretariats] = useState([]);
     const [orgs, setOrgs] = useState([]);
-
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -189,12 +227,23 @@ const Register2 = () => {
 
     useEffect(async () => {
         try {
+            let res = await authApi.getSecretariats();
+            setSecretariats(res.data);
+        } catch (e) {
+            throw e;
+        }
+    }, []);
+
+    useEffect(async () => {
+        try {
             let res = await authApi.getOrganizations();
             setOrgs(res.data);
         } catch (e) {
             throw e;
         }
     }, []);
+
+
 
     return (
         <Container className="authPg">
@@ -208,7 +257,9 @@ const Register2 = () => {
                             text={text}
                             content={content}
                             setRegistered={setRegistered}
-                            organizations={orgs} />
+                            secretariats={secretariats}
+                            organizations={orgs}
+                        />
                     )}
                 </Col>
             </Row>

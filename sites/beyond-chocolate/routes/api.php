@@ -77,7 +77,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
         // return User::paginate(10);
         $check = $auth->checkLastActivity($request, $guard);
         $res['last_activity'] = $check;
-        $res ['data'] = User::with('organization.parents')->paginate(10);
+        $res ['data'] = User::with(['organization.parents', 'organization.secretariats'])->paginate(10);
         return $res;
     })->middleware('can:viewAny,App\Models\User');
 

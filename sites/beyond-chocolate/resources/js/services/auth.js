@@ -48,6 +48,10 @@ const getOrganizations = async data => {
     return await request().get("/api/organizations");
 };
 
+const getSecretariats = async data => {
+    return await request().get("/api/secretariats");
+};
+
 export default {
     login,
     logout,
@@ -57,5 +61,6 @@ export default {
     resetPassword,
     resendVerificationEmail,
     updatePassword,
-    getOrganizations
+    getOrganizations,
+    getSecretariats
 };
