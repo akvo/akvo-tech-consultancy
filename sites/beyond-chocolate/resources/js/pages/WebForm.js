@@ -610,7 +610,7 @@ const WebForm = ({ setFormLoaded, webForm, setWebForm }) => {
         );
         setIsSpinner(true);
         setIsWebFormLoaded(null);
-        if (type == "111510043" || user.project_fids.includes(type)) {
+        if (type == "111510043" ) {
             // new project form
             setShowProjectInfo(true);
           setDelayedActiveForm(url);
