@@ -29,10 +29,11 @@ const RegisterForm = ({ text, content, setRegistered, organizations, secretariat
     const [selectedSecretariat, setSelectedSecretariat] = useState({value: false, label:"", error: false});
 
     const [orgs, setOrgs] = useState(organizations);
+    const [secretariatOrgs, setSecretariatOrgs] = useState([]);
     const [selectedOrgs, setSelectedOrgs] = useState({value:false, label:"", error: false});
 
     useEffect(() => {
-        setOrgs(_.filter(organizations, child => _.some(child.secretariats, x => x.pivot.secretariat_id === selectedSecretariat.value )));
+        setSecretariatOrgs(_.filter(organizations, child => _.some(child.secretariats, x => x.pivot.secretariat_id === selectedSecretariat.value )));
     }, [selectedSecretariat]);
 
     useEffect(() => {
@@ -43,6 +44,10 @@ const RegisterForm = ({ text, content, setRegistered, organizations, secretariat
 
 
     const onSubmit = async data => {
+        if (!selectedSecretariat.value) {
+            setSelectedSecretariat({ ...selectedSecretariat, error: true});
+            return;
+        }
         if (!selectedOrgs.value) {
             setSelectedOrgs({ ...selectedOrgs, error: true});
             return;
@@ -77,7 +82,6 @@ const RegisterForm = ({ text, content, setRegistered, organizations, secretariat
             };
         });
     };
-
     return (
         <Row className="justify-content-md-end"
         >
@@ -161,16 +165,16 @@ const RegisterForm = ({ text, content, setRegistered, organizations, secretariat
                             options={renderSecretariats(secretariats)}
                             placeholder={ 'Secretariat' }
                         />
-                        { selectedOrgs.error ? (
+                        { selectedSecretariat.error ? (
                             <Form.Text className="text-danger">
-                                { text.valOrganization }
+                                { text.valSecretariat }
                             </Form.Text>
                         ) : ""}
                     </Form.Group>
-                    <Form.Group controlId="formBasicOrganization">
+        {selectedSecretariat.value && <Form.Group controlId="formBasicOrganization">
                         <Select
                             onChange={opt => setSelectedOrgs(opt)}
-                            options={renderOrganizations(orgs)}
+                            options={renderOrganizations(secretariatOrgs)}
                             placeholder={ text.tbColOrganization }
                         />
                         { selectedOrgs.error ? (
@@ -178,7 +182,7 @@ const RegisterForm = ({ text, content, setRegistered, organizations, secretariat
                                 { text.valOrganization }
                             </Form.Text>
                         ) : ""}
-                    </Form.Group>
+         </Form.Group> }
                     <Form.Group controlId="formBasicCheckbox">
                         <Form.Check
                             type="checkbox"
@@ -196,7 +200,7 @@ const RegisterForm = ({ text, content, setRegistered, organizations, secretariat
                          </Form.Text>
                          : ""}
                     </Form.Group>
-                    <Button type="submit" block>
+        <Button type="submit" block >
                         { text.formRegister }
                     </Button>
                 </Form>
