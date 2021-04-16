@@ -614,7 +614,7 @@ const WebForm = ({ setFormLoaded, webForm, setWebForm }) => {
             // new project form
             setShowProjectInfo(true);
           setDelayedActiveForm(url);
-          openForm(url);
+//          openForm(url);
             // always show collaborators
             // setWebForm({ web_form_id: null, submission_name: null, new_questionnaire: true, show_collaborator: true, fid: parseInt(type)});
         } else {
