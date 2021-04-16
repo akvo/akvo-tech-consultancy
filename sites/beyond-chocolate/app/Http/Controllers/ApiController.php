@@ -13,21 +13,7 @@ use Carbon\Carbon;
 
 class ApiController extends Controller
 {
-    public function getSecretariat()
-    {
-        $secretariat = Secretariat::all();
-        return $secretariat;
-    }
-
-    public function getOrganizations()
-    {
-        $secretariat = Secretariat::find(1);
-        return $secretariat->organizations()->get();
-    }
-
-    public function getOrganizationsOFF()
-    {
-        $orgs = Organization::where([['level', 1], ['active', true]])->with('parents')->get();
+    function tidyOrgs($orgs) {
         $orgs = $orgs->transform(function ($org) {
             if ($org['parents'] !== null) {
                 $org['name'] = $org['name'] . " ("  .$org['parents']['name'] .")";
@@ -37,6 +23,30 @@ class ApiController extends Controller
         });
 
         return $orgs;
+    }
+
+    public function getSecretariat()
+    {
+        $secretariat = Secretariat::all();
+        return $secretariat;
+    }
+
+    public function getOrganizations()
+    {
+        $orgs = Organization::where([['level', 1], ['active', true]])->with('parents')->get();
+        return $this->tidyOrgs($orgs);
+    }
+
+    public function getOrganizations2(Request $request)
+    {
+        if ($request->has('secretariat')) {
+            $secretariat_id = $request->query('secretariat');
+            $secretariat = Secretariat::find($secretariat_id);
+            $orgs = $secretariat->organizations()->get();
+        } else {
+            $orgs = Organization::where([['level', 1], ['active', true]])->with('parents')->get();
+        }
+        return $this->tidyOrgs($orgs);
     }
 
     public function getCollaboratorAssignments(Request $request)
