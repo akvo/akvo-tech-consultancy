@@ -15,6 +15,9 @@ class UserSavedFormsController
     {
         $config = config('bc');
         $qs = $config['questionnaires'];
+        foreach(config('bc.idh_questionnaires') as $property => $value){
+            $qs[$property] = $value;
+        }
         $url = $config['form_url_no_instance'];
         $user = $request->user();
         $check = $auth->checkLastActivity($request, $guard);
