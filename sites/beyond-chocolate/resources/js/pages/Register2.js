@@ -25,8 +25,12 @@ const RegisterForm = ({ text, content, setRegistered, organizations, secretariat
 
     const password = useRef({});
     password.current = watch("password", "");
-    const [selectedOrgs, setSelectedOrgs] = useState({value:false, label:"", error: false});
     const [selectedSecretariat, setSelectedSecretariat] = useState({value: false, label:"", error: false});
+    const [selectedOrgs, setSelectedOrgs] = useState({value:false, label:"", error: false});
+
+    useEffect(() => {
+        console.log('Update org list');
+    }, [selectedSecretariat]);
 
     const onSubmit = async data => {
         if (!selectedOrgs.value) {
