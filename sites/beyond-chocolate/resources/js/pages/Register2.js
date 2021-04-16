@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Select from "react-select";
 import { Container, Row, Col, Button, Form, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { filter, some } from "lodash";
 import authApi from "../services/auth";
 import config from "../config";
 import useForm from "../lib/use-form";
@@ -26,10 +27,13 @@ const RegisterForm = ({ text, content, setRegistered, organizations, secretariat
     const password = useRef({});
     password.current = watch("password", "");
     const [selectedSecretariat, setSelectedSecretariat] = useState({value: false, label:"", error: false});
+
+    const [orgs, setOrgs] = useState(organizations);
     const [selectedOrgs, setSelectedOrgs] = useState({value:false, label:"", error: false});
 
+
     useEffect(() => {
-        console.log('Update org list');
+        setOrgs(_.filter(organizations, child => _.some(child.secretariats, x => x.pivot.secretariat_id === selectedSecretariat.value )));
     }, [selectedSecretariat]);
 
     const onSubmit = async data => {
@@ -145,7 +149,6 @@ const RegisterForm = ({ text, content, setRegistered, organizations, secretariat
                     </Form.Group>
                     <Form.Group controlId="formBasicSecretariats">
                         <Select
-        // onChange={opt => setSelectedOrgs(opt)}
                             onChange={opt => setSelectedSecretariat(opt)}
                             options={renderSecretariats(secretariats)}
                             placeholder={ 'Secretariats' }
@@ -159,7 +162,7 @@ const RegisterForm = ({ text, content, setRegistered, organizations, secretariat
                     <Form.Group controlId="formBasicOrganization">
                         <Select
                             onChange={opt => setSelectedOrgs(opt)}
-                            options={renderOrganizations(organizations)}
+                            options={renderOrganizations(orgs)}
                             placeholder={ text.tbColOrganization }
                         />
                         { selectedOrgs.error ? (
