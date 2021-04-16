@@ -15,12 +15,12 @@ class Organization extends Model
     public function childrens()
     {
         return $this->hasMany('\App\Models\Organization','parent_id','id');
-    } 
+    }
 
     public function parents()
     {
         return $this->belongsTo('\App\Models\Organization','parent_id','id');
-    } 
+    }
 
     public function user()
     {
@@ -30,5 +30,10 @@ class Organization extends Model
     public function webforms()
     {
         return $this->hasMany('\App\Models\WebForm');
+    }
+
+    public function secretariats()
+    {
+        return $this->belongsToMany(Secretariat::class);
     }
 }

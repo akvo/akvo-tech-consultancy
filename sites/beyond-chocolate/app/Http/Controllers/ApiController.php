@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Organization;
+use App\Models\Secretariat;
 use App\Models\User;
 use App\Models\WebForm;
 use App\Models\Collaborator;
@@ -12,9 +13,7 @@ use Carbon\Carbon;
 
 class ApiController extends Controller
 {
-    public function getOrganizations()
-    {
-        $orgs = Organization::where([['level', 1], ['active', true]])->with('parents')->get();
+    function tidyOrgs($orgs) {
         $orgs = $orgs->transform(function ($org) {
             if ($org['parents'] !== null) {
                 $org['name'] = $org['name'] . " ("  .$org['parents']['name'] .")";
@@ -24,6 +23,33 @@ class ApiController extends Controller
         });
 
         return $orgs;
+    }
+
+    public function getSecretariat()
+    {
+        $secretariat = Secretariat::all();
+        return $secretariat;
+    }
+
+    public function getOrganizations()
+    {
+        $orgs = Organization::where([['level', 1], ['active', true]])->with('parents')->get();
+        return $this->tidyOrgs($orgs);
+    }
+
+    public function getOrganizations2(Request $request)
+    {
+        if ($request->has('secretariat'))
+        {
+            $secretariat_id = $request->query('secretariat');
+            $orgs = Secretariat::find($secretariat_id)
+                  ->organizations()
+                  ->with('parents');
+        } else {
+            $orgs = Organization::with('secretariats', 'parents');
+        }
+        $orgs = $orgs->where([['level', 1], ['active', true]])->get();
+        return $this->tidyOrgs($orgs);
     }
 
     public function getCollaboratorAssignments(Request $request)
