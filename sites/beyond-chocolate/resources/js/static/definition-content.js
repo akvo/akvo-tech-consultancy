@@ -139,7 +139,7 @@ const defs = {
         {
             i: "MT-BE",
             t: "MT-BE",
-            d: 'MT-BE steht für "metrische Tonnen an Bohnenäquivalenten". Die Umrechnung in MT-BE von Kakao, der in verschiedenen Formen bezogen wird, soll mit Hilfe der ICCO-Umrechnungsfaktoren erfolgen; 1,33 für Kakaobutter (1804), 1,25 für Kakaomasse/Likör (18031) und 1,18 für Kakaopulver und Kuchen (1805, 18032)'
+            d: 'MT-BE steht für "metrische Tonnen an Bohnenäquivalenten". Die Umrechnung in MT-BE von Kakao, der in verschiedenen Formen bezogen wird, soll mit Hilfe der ICCO-Umrechnungsfaktoren erfolgen; 1,33 für Kakaobutter (1804), 1,25 für Kakaomasse/Likör (18031) und 1,18 für Kakaopulver und Kuchen (1805, 18032).'
         }, {
             i: "Farming household",
             t: "Bäuerlicher Haushalt",
@@ -147,7 +147,7 @@ const defs = {
         }, {
             i: "Reached (farming households reached)",
             t: 'erreicht" ("erreichte bäuerliche Haushalte")',
-            d: 'Der Begriff "erreicht" ("erreichte bäuerliche Haushalte") ist kontextabhängig, er könnte " involviert in ", "profitieren" usw. bedeuten. Jede Datensammlung für "Anzahl der erreichten landwirtschaftlichen Haushalte" wird so weit wie möglich mit einer Aktivität, einem Output oder einem Ergebnis des Kakao-Nachhaltigkeitsprojekts oder der Kakao-Nachhaltigkeitsinitiative verknüpft; eine solche Verknüpfung kontextualisiert somit die Auswirkungen und/oder Vorteile für den betreffenden landwirtschaftlichen Haushalt.'
+            d: 'Der Begriff "erreicht" ("erreichte bäuerliche Haushalte") ist kontextabhängig, er könnte "involviert in", "profitieren" usw. bedeuten. Jede Datensammlung für "Anzahl der erreichten landwirtschaftlichen Haushalte" wird so weit wie möglich mit einer Aktivität, einem Output oder einem Ergebnis des Kakao-Nachhaltigkeitsprojekts oder der Kakao-Nachhaltigkeitsinitiative verknüpft; eine solche Verknüpfung kontextualisiert somit die Auswirkungen und/oder Vorteile für den betreffenden landwirtschaftlichen Haushalt.'
         }, {
             i: 'Farming land',
             t: 'Anbaufläche',
@@ -189,8 +189,8 @@ const defs = {
             d: 'Kakao, der beschafft wurde, ohne den Rückverfolgbarkeitsanforderungen "Mengenausgleich", "segregated" oder "identity preserved" zu entsprechen - bitte beziehen Sie sich auf die entsprechenden Definitionen.'
         }, {
             i: 'Mass balance (traceability level 1)',
-            t: 'Mass balance (traceability level 1)',
-            d: 'Der Mengenausgleich (mass balance) überwacht administrativ den Handel (Transaktion) von konformen Kakao über die gesamte Lieferkette. Das Mengenausgleichssystem erfordert eine transparente Dokumentation und Nachweise über Herkunft und Menge des vom Erstkäufer gekauften konformen Kakaos (= zertifizierter oder unabhängig verifizierter Kakao). Das Mengenausgleichssystem ermöglicht das Mischen von konformem und nicht konformem Kakao in den nachfolgenden Stufen der Liefer- und Wertschöpfungskette (z.B. Transport, Verarbeitung, Herstellung). Die Akteure der Kakaolieferkette können eine bestimmte Masse an konformem Kakao oder ein äquivalentes Volumen konformer kakaohaltiger Produkte verkaufen, sofern die tatsächlichen Verkaufsmengen konformer Produkte über die gesamte Lieferkette verfolgt und geprüft werden und diese Mengen die Kakaobohnenäquivalente des im Ursprung gekauften konformen Kakaos nicht übersteigen. (Definition wurde unter Verwendung von Elementen erstellt, die von ISO-CEN und Fairtrade übernommen wurden)'
+            t: 'Mass balance (Rückverfolgbarkeitslevel 1)',
+            d: 'Der Mengenausgleich (mass balance) überwacht administrativ den Handel (Transaktion) von konformem Kakao über die gesamte Lieferkette. Das Mengenausgleichssystem erfordert eine transparente Dokumentation und Nachweise über Herkunft und Menge des vom Erstkäufer gekauften konformen Kakaos (= zertifizierter oder unabhängig verifizierter Kakao). Das Mengenausgleichssystem ermöglicht das Mischen von konformem und nicht konformem Kakao in den nachfolgenden Stufen der Liefer- und Wertschöpfungskette (z.B. Transport, Verarbeitung, Herstellung). Die Akteure der Kakaolieferkette können eine bestimmte Masse an konformem Kakao oder ein äquivalentes Volumen konformer kakaohaltiger Produkte verkaufen, sofern die tatsächlichen Verkaufsmengen konformer Produkte über die gesamte Lieferkette verfolgt und geprüft werden und diese Mengen die Kakaobohnenäquivalente des im Ursprung gekauften konformen Kakaos nicht übersteigen. (Definition wurde unter Verwendung von Elementen erstellt, die von ISO-CEN und Fairtrade übernommen wurden)'
         }, {
             i: 'Segregated (traceability level 2)',
             t: 'Segregiert (Rückverfolgbarkeitslevel 2)',
@@ -198,7 +198,7 @@ const defs = {
         }, {
             i: 'Identity preserved (traceability level 3)',
             t: '"Identity preserved" (Rückverfolgbarkeitslevel 3)',
-            d: '"Identity preserved" ist die höchste Art der Rückverfolgbarkeit. Es gibt keine Vermischung von Kakao, weder mit nicht-konformem Kakao, noch mit Kakao anderer Herkunft. Wenn der "einzige Ursprung" auf Kooperativenebene oder in einem Kakaoanbaugebiet (das verschiedene Kooperativen zusammenfasst) festgelegt wird, dann kann konformer Kakao aus diesem breiteren Ursprung kombiniert werden. Mit anderen Worten, das "identity preserved" System erfüllt alle Anforderungen an "seggregierten Kakao", erlaubt aber nicht das Mischen von Kakao aus verschiedenen Ursprüngen. '
+            d: '"Identity preserved" ist die höchste Art der Rückverfolgbarkeit. Es gibt keine Vermischung von Kakao, weder mit nicht-konformem Kakaonoch mit Kakao anderer Herkunft. Wenn der "einzige Ursprung" auf Kooperativenebene oder in einem Kakaoanbaugebiet (das verschiedene Kooperativen zusammenfasst) festgelegt wird, dann kann konformer Kakao aus diesem breiteren Ursprung kombiniert werden. Mit anderen Worten, das "identity preserved" System erfüllt alle Anforderungen an "segregierten Kakao", erlaubt aber nicht das Mischen von Kakao aus verschiedenen Ursprüngen. '
         }, {
             i: 'Certified or independently verified cocoa',
             t: 'Zertifizierter oder unabhängig verifizierter Kakao',
