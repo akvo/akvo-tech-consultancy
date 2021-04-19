@@ -18,7 +18,7 @@ export const SAVE_FEATURES = [
     {
         instance:"isco",
         save: true,
-        api: "gisco-pilot.tc.akvo.org/api",
+        api: "cocoamonitoring.net/api",
         demoApi: "gisco-demo.tc.akvo.org/api",
         formEndpoint: false,
         skipPassword: true,
