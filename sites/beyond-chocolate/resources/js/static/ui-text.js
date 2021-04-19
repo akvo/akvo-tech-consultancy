@@ -116,6 +116,7 @@ export const uiText = {
         btnCollaborators: "Add Collaborators",
         infoNoSubmittedData: "No Submitted Data",
         textInfoSubmission: "There's maybe a slight delay between a submission made and data being ready to download.",
+        dwnLOfSubmissions: "Download of submissions",
     },
 
     de: {
@@ -186,10 +187,10 @@ export const uiText = {
         tbColSecretariats: "Sekretariate",
         tbColRole: "Rolle",
         tbColSurveys: "Umfragen",
-        tbColSubmitter: "Submitter",
-        tbColForm: "Form",
+        tbColSubmitter: "Nutzerin/Nutzer",
+        tbColForm: "Formular",
         tbColYear: "Jahr",
-        tbColAction: "Action",
+        tbColAction: "Aktion",
         tbRowNoRecords: "Keine Daten vorhanden.",
         // Modal
         modalDataSecurity: "Datensicherheitsmaßnahmen",
@@ -232,6 +233,8 @@ export const uiText = {
         // collaborators
         btnCollaborators: "Partner hinzufügen",
         infoNoSubmittedData: "No Submitted Data",
-        textInfoSubmission: "There's maybe a slight delay between a submission made and data being ready to download.",
+        // Download
+        textInfoSubmission: "Es kann zu einer leichten Verzögerung kommen, bis die eingereichten Daten zum Download bereitstehen.",
+        dwnLOfSubmissions: "Download der eingereichten Daten",
     },
 };

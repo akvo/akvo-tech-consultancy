@@ -31,7 +31,7 @@ const Navigation = ({formLoaded, setFormLoaded}) => {
     const location = useLocation();
     const [showSavePrompt, setShowSavePrompt] = useState(false);
     const showNavBarMenu = !hideNavBarMenu(config.routes, location.pathname);
-    
+
     let text = uiText[locale.active];
 
     const endSession = async () => {
@@ -65,7 +65,7 @@ const Navigation = ({formLoaded, setFormLoaded}) => {
                             </Nav.Link>
 
                             <Nav.Link as={NavLink} to={config.routes.submission}>
-                                { text.navSubmission }
+                                { text.btnDownload }
                             </Nav.Link>
                         </>
                     )}
@@ -88,7 +88,7 @@ const Navigation = ({formLoaded, setFormLoaded}) => {
                         </>
                     )}
                 </Nav>
-                
+
 
                 <Nav activeKey={locale.active} onSelect={handleLocale}>
                     {false && (

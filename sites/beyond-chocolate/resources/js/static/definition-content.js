@@ -13,7 +13,7 @@ const defs = {
         }, {
             i: "Reached (farming households reached)",
             t: "Reached (farming households reached)",
-            d: 'The term “reached” (in "farming housholds reached") is contextual, it could mean "engaged in", "benefiting", etc. Each datacollection, for "# of farming households reached", shall to the extent possible be linked to an activity, output or outcome of the cocoa sustainability project or initiative; such linking thus contextualises the implication of and/or benefits for the concerned farming household.'
+            d: 'The term “reached” (in "farming households reached") is contextual, it could mean "engaged in", "benefiting", etc. Each data collection, for "# of farming households reached", shall to the extent possible be linked to an activity, output or outcome of the cocoa sustainability project or initiative; such linking thus contextualizes the implication of and/or benefits for the concerned farming household.'
         }, {
             i: 'Farming land',
             t: 'Farming land',
@@ -25,7 +25,7 @@ const defs = {
         }, {
             i: 'Sustainability project',
             t: 'Sustainability project',
-            d: 'A cocoa sustainability project is defined as a programme, project or initiative targeting (aspects of) sustainability in cocoa production, processing and/or supply chains.'
+            d: 'A cocoa sustainability project is defined as a program, project or initiative targeting (aspects of) sustainability in cocoa production, processing and/or supply chains.'
         }, {
             i: 'Lesson learned',
             t: 'Lesson learned',
@@ -35,7 +35,7 @@ const defs = {
             t: 'Supply origin transparency level',
             d: <Fragment>
                 The "supply origin transparency level" is about the extent that detailed information on the origin of cocoa is being documented at the initial stages of the sourcing process, with such information remaining available at later stages of the supply chain.<br/>
-                Distinction is made between the follwing supply origin transparency levels:<br/><br/>
+                Distinction is made between the following supply origin transparency levels:<br/><br/>
                 <table>
                     <tbody>
                     <tr><td width="20%"><b>Score 1</b></td><td>origin unknown or only country of origin known </td></tr>
@@ -51,7 +51,7 @@ const defs = {
         }, {
             i: 'Direct supply',
             t: 'Direct supply',
-            d: 'For cocoa to be categorised as “cocoa soured through a direct supply chain”, there shall be a relative stable partnership and collaboration, conceived to span at least 3 years, between the cocoa sourcing company and the cocoa producer. Such partnership and collaboration may cover issues such as price, quality, good agricultural practices, social, human rights and environmental issues, certification requirements, etc. This partnership and collaboration between the cocoa sourcing company and the producers (cocoa farming households) may be conducted through cooperatives, farmer organisations and/or other intermediaries embedded within the direct supply chain.'
+            d: 'Damit Kakao als "über eine direkte Lieferkette bezogener Kakao" kategorisiert werden kann, muss eine relativ stabile Partnerschaft bzw. Zusammenarbeit zwischen dem Unternehmen und den Kakaoproduzenten bestehen, die sich über mindestens 3 Jahre erstrecken soll. Diese Partnerschaft bzw. Zusammenarbeit kann sich auf Themen wie Preis, Qualität, gute landwirtschaftliche Praktiken, soziale, menschenrechtliche und ökologische Fragen, Zertifizierungsanforderungen usw. beziehen. Diese Partnerschaft bzw. Zusammenarbeit zwischen dem Unternehmen und den Erzeugern (kakaoanbauenden Haushalten) kann über Kooperativen, Bauernorganisationen und/oder andere in die direkte Lieferkette eingebettete Vermittler erfolgen.'
         }, {
             i: 'Conventional (traceability level 0)',
             t: 'Conventional (traceability level 0)',
@@ -88,7 +88,7 @@ const defs = {
         }, {
             i: 'Strategy to promote diversified and sustainable farming systems, as a contribution to environmental sustainability',
             t: 'Strategy to promote diversified and sustainable farming systems, as a contribution to environmental sustainability',
-            d: 'Having a "strategy to promote diversified and sustainable farming systems, as a contribution to environmental sustainability", implies that the cocoa sustainability project (programme/ project/ initiative) targets changes in farming practices or systems used by cocoa farming households. Such strategy may target (a) reducing or mitigating the adverse environmental effects of existing farming partices or systems or (b) the adoption by the farming households reached of other farming practicies and systems that have positive effects for the environment. This may include targets with respect the usage of natural ressources, soil quality, pesticides, biodiversity, climate resilience, forest coverage, etc. Such strategy  should be somehow documented and explicit, but it does not have to be a seperate specific stragegic doucment on these topics. The strategy may be part of a project document, a project\'s theory of change, etc.'
+            d: 'Having a "strategy to promote diversified and sustainable farming systems, as a contribution to environmental sustainability", implies that the cocoa sustainability project (program/ project/ initiative) targets changes in farming practices or systems used by cocoa farming households. Such strategy may target (a) reducing or mitigating the adverse environmental effects of existing farming practices or systems or (b) the adoption by the farming households reached of other farming practices and systems that have positive effects for the environment. This may include targets with respect the usage of natural resources, soil quality, pesticides, biodiversity, climate resilience, forest coverage, etc. Such strategy  should be somehow documented and explicit, but it does not have to be a separate specific strategic document on these topics. The strategy may be part of a project document, a project\'s theory of change, etc.'
         }, {
             i: 'AGROFORESTRY System for Cocoa Production  (Description)',
             t: 'AGROFORESTRY System for Cocoa Production  (Description)',
@@ -104,7 +104,7 @@ const defs = {
             t: 'Categories for Cocoa AGROFORESTRY systems',
             d: <Fragment>
                 <b>Entry level for AGROFORESTRY (1):</b> <br/><br/>
-                At least 16 (non cocoa) trees per ha with a minimum of 3 different tree species, that are preferably native<br/>
+                At least 16 (non-cocoa) trees per ha with a minimum of 3 different tree species, that are preferably native<br/>
                 Description: This entry level for AGROFORESTRY systems corresponds to CFI and WCF indicators on AGROFORESTRY<br/><hr/>
                 <b>Basic Category for AGROFERSTRY (2):</b><br/><br/>
                 At least 40% shade canopy cover with a minimum of 5 different native tree species. This category for AGROFORESTRY is in accordance with Rainforest Alliance’s shade coverage and species diversity reference parameters. <br/><hr/>
@@ -117,7 +117,7 @@ const defs = {
                 </ul>
                 In this category a special focus is given to the landscape approach on AGROFORESTRY. This category is alignment with the recommendations of the VOICE Network.<br/><hr/>
                 <b>Dynamic AGROFORESTRY Systems (4):</b><br/><br/>
-                These systems are characterized by a very high density of trees per hectare. There is an abundance of different tree species, high biodiversity, plant communities with different life cycles that serve different purposes (CO2, income sources, food etc). They grow in different stories (strata) without competition  There are at least 3 different stories (strata), regernative practices are used, and food security and income sources outside of cocoa are guaranteed.  This system mimics the natural habitat of cacao in a highly developed cultivation system. Chocolats Halba's Dynamic AGROFORESTRY Projects are seen as a model for this category.
+                These systems are characterized by a very high density of trees per hectare. There is an abundance of different tree species, high biodiversity, plant communities with different life cycles that serve different purposes (CO2, income sources, food etc). They grow in different stories (strata) without competition. There are at least 3 different stories (strata), regenerative practices are used, and food security and income sources outside of cocoa are guaranteed.  This system mimics the natural habitat of cacao in a highly developed cultivation system. Chocolats Halba's Dynamic AGROFORESTRY Projects are seen as a model for this category.
             </Fragment>
         }, {
             i: "Hazardous Pesticides",
@@ -130,9 +130,8 @@ const defs = {
                     <li>are identified by UN-GHS as substances with <b>chronic toxicity</b>.</li>
                 </ol><br/>
                 In addition, specifically for cocoa cultivation, they include pesticides that are not permitted for use in export goods to EU countries.<br/><br/>
-                (The definition is currently under revision, <i>Nov. 2020</i> )
+                (The definition is currently under revision, <i>Nov. 2020</i>)
             </Fragment>
-
         }
     ],
 
@@ -183,10 +182,10 @@ const defs = {
         }, {
             i: 'Direct supply',
             t: 'Direct supply',
-            d: 'For cocoa to be categorised as “cocoa soured through a direct supply chain”, there shall be a relative stable partnership and collaboration, conceived to span at least 3 years, between the cocoa sourcing company and the cocoa producer. Such partnership and collaboration may cover issues such as price, quality, good agricultural practices, social, human rights and environmental issues, certification requirements, etc. This partnership and collaboration between the cocoa sourcing company and the producers (cocoa farming households) may be conducted through cooperatives, farmer organisations and/or other intermediaries embedded within the direct supply chain.'
+            d: 'For cocoa to be categorized as “cocoa soured through a direct supply chain”, there shall be a relative stable partnership and collaboration, conceived to span at least 3 years, between the cocoa sourcing company and the cocoa producer. Such partnership and collaboration may cover issues such as price, quality, good agricultural practices, social, human rights and environmental issues, certification requirements, etc. This partnership and collaboration between the cocoa sourcing company and the producers (cocoa farming households) may be conducted through cooperatives, farmer organizations and/or other intermediaries embedded within the direct supply chain.'
         }, {
             i: 'Conventional (traceability level 0)',
-            t: 'Konventionell',
+            t: 'Konventionell (Rückverfolgbarkeitslevel 0)',
             d: 'Kakao, der beschafft wurde, ohne den Rückverfolgbarkeitsanforderungen "Mengenausgleich", "segregated" oder "identity preserved" zu entsprechen - bitte beziehen Sie sich auf die entsprechenden Definitionen.'
         }, {
             i: 'Mass balance (traceability level 1)',
@@ -202,15 +201,15 @@ const defs = {
             d: '"Identity preserved" ist die höchste Art der Rückverfolgbarkeit. Es gibt keine Vermischung von Kakao, weder mit nicht-konformem Kakao, noch mit Kakao anderer Herkunft. Wenn der "einzige Ursprung" auf Kooperativenebene oder in einem Kakaoanbaugebiet (das verschiedene Kooperativen zusammenfasst) festgelegt wird, dann kann konformer Kakao aus diesem breiteren Ursprung kombiniert werden. Mit anderen Worten, das "identity preserved" System erfüllt alle Anforderungen an "seggregierten Kakao", erlaubt aber nicht das Mischen von Kakao aus verschiedenen Ursprüngen. '
         }, {
             i: 'Certified or independently verified cocoa',
-            t: 'Zertfizierter oder unabhängig verifizierter Kakao',
+            t: 'Zertifizierter oder unabhängig verifizierter Kakao',
             d: <Fragment>
                 Kakao, der in Übereinstimmung mit den Anforderungen anerkannter Zertifizierungsstandards oder unabhängig verifizierter Unternehmensprogramme für nachhaltigen Kakao, produziert wird.
                 <br/>Die Liste der anerkannten Zertifizierungsstandards und unabhängig verifizierten Unternehmensprogramme umfasst derzeit die folgenden:
                 <ul style={{marginLeft:"25px"}}>
-                    <li>UTZ / Rainforest Alliance</li>
+                    <li>UTZ/Rainforest Alliance</li>
                     <li>Fairtrade</li>
                     <li>Bio</li>
-                    <li>Firmenprogramme (zu spezifieren)</li>
+                    <li>Firmenprogramme (zu spezifizieren)</li>
                 </ul>
             </Fragment>
         }, {
@@ -247,7 +246,7 @@ const defs = {
                 </ul>
                 <p>In dieser Kategorie wird ein besonderer Fokus auf den landschaftlichen Ansatz der Agroforstwirtschaft gelegt. Diese Kategorie orientiert sich an den Empfehlungen des VOICE-Netzwerks.</p><hr/>
                 <b>Dynamische AGROFORSTSYSTEME (4):</b><br/><br/>
-                <p>Diese Systeme zeichnen sich durch eine sehr hohe Baumdichte pro Hektar aus. Es gibt einen Reichtum an verschiedenen Baumarten, hohe Biodiversität, Pflanzengemeinschaften mit unterschiedlichen Lebenszyklen, die unterschiedliche Zwecke erfüllen (CO2, Einkommensquellen, Nahrung etc). Sie wachsen dabei in verschiedenen Baumschichten ohne Konkurrenz zueinander. <br/>Es gibt mindestens 3 verschiedene Stockwerke (Strata), es werden regernative Praktiken angewendet und Nahrungssicherheit und Einkommensquellen außerhalb des Kakaos sind gewährleistet.  Dieses System ahmt den natürlichen Lebensraum des Kakaos in einem hoch entwickelten Anbausystem nach, wobei die Dynamischen Agroforstprojekte von Chocolats Halba als Vorbild gelten.</p>
+                <p>Diese Systeme zeichnen sich durch eine sehr hohe Baumdichte pro Hektar aus. Es gibt einen Reichtum an verschiedenen Baumarten, hohe Biodiversität, Pflanzengemeinschaften mit unterschiedlichen Lebenszyklen, die unterschiedliche Zwecke erfüllen (CO2, Einkommensquellen, Nahrung etc.). Sie wachsen dabei in verschiedenen Baumschichten ohne Konkurrenz zueinander. <br/>Es gibt mindestens 3 verschiedene Stockwerke (Strata), es werden regenerative Praktiken angewendet und Nahrungssicherheit und Einkommensquellen außerhalb des Kakaos sind gewährleistet.  Dieses System ahmt den natürlichen Lebensraum des Kakaos in einem hoch entwickelten Anbausystem nach, wobei die Dynamischen Agroforstprojekte von Chocolats Halba als Vorbild gelten.</p>
             </Fragment>
         }, {
             i: 'Hazardous Pesticides',
@@ -260,8 +259,8 @@ const defs = {
                     <li>auf der Liste der <b><i>Dirty Dozen</i></b> der PAN geführt sind, oder die</li>
                     <li>im UN-GHS als Substanzen mit <b><i>Chronic Toxicity</i></b> ausgewiesen werden.</li>
                 </ol>
-                ausgewiesen werden. Zudem spezifisch für den Kakaoanbau solche Pestizide, deren Verwendung für Exportgut in
-                EU-Staaten nicht zugelassen sind.<br/><br/> (Die Definition ist derzeit in Überarbeitung, <i>Nov.2020</i> )
+                Zudem spezifisch für den Kakaoanbau solche Pestizide, deren Verwendung für Exportgut in
+                EU-Staaten nicht zugelassen sind.<br/><br/> (Die Definition ist derzeit in Überarbeitung, <i>Nov.2020</i>.)
 
             </Fragment>
         }
