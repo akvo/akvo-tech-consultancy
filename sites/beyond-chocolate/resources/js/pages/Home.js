@@ -19,8 +19,8 @@ const Home = () => {
         content = content[locale.active];
     let gsContent = content.gettingStarted;
     let text = uiText[locale.active];
-    const host = window.location.hostname.split('.')[0];
-    
+    const host = window.location.hostname.split('.').slice(-2)[0];
+
     const renderGsParagraph = (texts) => {
         return texts.map((x, i) => {
             return <p key={"p-"+i}>{x}</p>;
@@ -49,19 +49,19 @@ const Home = () => {
             </Row>
         </Container>
 
-        { (host === "gisco-pilot") ? "" : (
+        { (host === "cocoamonitoring") ? "" : (
             <Container fluid className="mt-5 gettingStarted">
                 <Row className="mt-5">
                     <Col md="12" className="mt-5 text-center gsText">
                         <h1>{gsContent.h}</h1>
                         {renderGsParagraph(gsContent.p1)}
-                        <iframe 
+                        <iframe
                             className="mt-3 mb-3"
-                            src={youtubeLink} 
-                            width="700px" 
+                            src={youtubeLink}
+                            width="700px"
                             height="400px"
-                            frameBorder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                             allowFullScreen></iframe>
                         {renderGsParagraph(gsContent.p2)}
                     </Col>

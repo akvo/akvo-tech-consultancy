@@ -593,7 +593,9 @@ const WebForm = ({ setFormLoaded, webForm, setWebForm }) => {
     const openForm = (url, cache = 0) => {
         setFormLoading(false);
         setIframeKey(iframeKey + 1);
-        const isDemo = location.hostname.startsWith("gisco-pilot") ? 0 : 1;
+        const host = window.location.hostname.split('.').slice(-2)[0];
+        const isDemo = (host === "cocoamonitoring") ? 0 :1;
+
         let endpoint =
             url === null
                 ? url
@@ -656,8 +658,9 @@ const WebForm = ({ setFormLoaded, webForm, setWebForm }) => {
     }, [activeForm, delayedActiveForm, isIndexDB]);
 
     useEffect(() => {
-        // open form from previous session
-        const isDemo = location.hostname.startsWith("gisco-pilot") ? 0 : 1;
+      // open form from previous session
+        const host = window.location.hostname.split('.').slice(-2)[0];
+        const isDemo = (host === "cocoamonitoring") ? 0 :1;
         const form = localStorage.getItem(`active-form:${user.id}`);
         let endpoint =
             form === null
