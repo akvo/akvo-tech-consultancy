@@ -594,7 +594,7 @@ const WebForm = ({ setFormLoaded, webForm, setWebForm }) => {
         setFormLoading(false);
         setIframeKey(iframeKey + 1);
         const host = window.location.hostname.split('.').slice(-2)[0];
-        const isDemo = (host === "cocoamonitoring") ? 0 :1;
+        const isDemo = (host === "veva") ? 0 :1;
 
         let endpoint =
             url === null
@@ -660,7 +660,7 @@ const WebForm = ({ setFormLoaded, webForm, setWebForm }) => {
     useEffect(() => {
       // open form from previous session
         const host = window.location.hostname.split('.').slice(-2)[0];
-        const isDemo = (host === "cocoamonitoring") ? 0 :1;
+        const isDemo = (host === "veva") ? 0 :1;
         const form = localStorage.getItem(`active-form:${user.id}`);
         let endpoint =
             form === null

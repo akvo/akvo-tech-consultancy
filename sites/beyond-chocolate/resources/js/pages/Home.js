@@ -49,7 +49,7 @@ const Home = () => {
             </Row>
         </Container>
 
-        { (host === "cocoamonitoring") ? "" : (
+        { (host === "veva") ? "" : (
             <Container fluid className="mt-5 gettingStarted">
                 <Row className="mt-5">
                     <Col md="12" className="mt-5 text-center gsText">
