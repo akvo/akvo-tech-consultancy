@@ -19,7 +19,7 @@ export const SAVE_FEATURES = [
         instance:"isco",
         save: true,
         api: "veva.io/api",
-        demoApi: "gisco-demo.tc.akvo.org/api",
+        demoApi: "veva.io/api",
         formEndpoint: false,
         skipPassword: true,
         skipMandatories: ["120190025"],
