@@ -58,7 +58,7 @@ const Header = ({ formLoaded, setFormLoaded }) => {
                                 </Nav.Link>
 
                                 <Nav.Link as={NavLink} to={config.routes.submission}>
-                                    { text.navSubmission }
+                                    { text.btnDownload }
                                 </Nav.Link>
                             </>
                         )}

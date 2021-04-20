@@ -1,0 +1,31 @@
+#+PROPERTY: header-args:sql     :exports both
+#+PROPERTY: header-args:sql+    :engine mysql
+#+PROPERTY: header-args:sql+    :dbhost 127.0.0.1
+#+PROPERTY: header-args:sql+    :dbuser akvo
+#+PROPERTY: header-args:sql+    :dbpassword secret
+#+PROPERTY: header-args:sql+    :database akvo
+#+STARTUP: showall
+
+#+begin_src sql
+select * from users where email like '%@akvo.org';
+#+end_src
+
+
+#+begin_src sql
+select * from users where email like '%@akvo.org';
+#+end_src
+
+
+
+#+begin_src sql
+  update users
+  set email_verified_at=NOW()
+  where email like '%l@akvo.org' and email_verified_at IS NULL;
+#+end_src
+
+
+#+begin_src sql
+  update users
+  set role='admin'
+  where email='daniel@akvo.org'; 1
+#+end_src

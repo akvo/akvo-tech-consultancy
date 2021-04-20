@@ -26,7 +26,7 @@ export const uiText = {
         formNewPwd: "New Password",
         formConfirmNewPwd: "Confirm New Password",
         formQuestionnaire: "Questionnaire",
-        formFeedbackTitle: "Please provide your feedback. It is highly valuable to improve the system",
+        formFeedbackTitle: "Please provide your feedback. It is highly valuable to improve the system.",
         formTitle: "Title",
         formFeedback: "Feedback",
         formCaptcha: "Insert captcha value",
@@ -116,6 +116,7 @@ export const uiText = {
         btnCollaborators: "Add Collaborators",
         infoNoSubmittedData: "No Submitted Data",
         textInfoSubmission: "There's maybe a slight delay between a submission made and data being ready to download.",
+        dwnLOfSubmissions: "Download of submissions",
     },
 
     de: {
@@ -143,7 +144,7 @@ export const uiText = {
         formNewPwd: "Neues Passwort",
         formConfirmNewPwd: "Neues Passwort bestätigen",
         formQuestionnaire: "Fragebogen",
-        formFeedbackTitle: "Bitte geben Sie uns Ihr Feedback. Dieses hilft uns, das Monitoringsystem zu verbessern",
+        formFeedbackTitle: "Bitte geben Sie uns Feedback. Dieses hilft uns, das Monitoringsystem zu verbessern.",
         formTitle: "Titel",
         formFeedback: "Feedback",
         formCaptcha: "Bitte tragen die den Wert/die Werte ein",
@@ -186,10 +187,10 @@ export const uiText = {
         tbColSecretariats: "Sekretariate",
         tbColRole: "Rolle",
         tbColSurveys: "Umfragen",
-        tbColSubmitter: "Submitter",
-        tbColForm: "Form",
+        tbColSubmitter: "Nutzerin/Nutzer",
+        tbColForm: "Formular",
         tbColYear: "Jahr",
-        tbColAction: "Action",
+        tbColAction: "Aktion",
         tbRowNoRecords: "Keine Daten vorhanden.",
         // Modal
         modalDataSecurity: "Datensicherheitsmaßnahmen",
@@ -232,6 +233,8 @@ export const uiText = {
         // collaborators
         btnCollaborators: "Partner hinzufügen",
         infoNoSubmittedData: "No Submitted Data",
-        textInfoSubmission: "There's maybe a slight delay between a submission made and data being ready to download.",
+        // Download
+        textInfoSubmission: "Es kann zu einer leichten Verzögerung kommen, bis die eingereichten Daten zum Download bereitstehen.",
+        dwnLOfSubmissions: "Download der eingereichten Daten",
     },
 };
