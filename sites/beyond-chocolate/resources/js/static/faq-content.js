@@ -3,57 +3,57 @@ import { Accordion, Card } from "react-bootstrap";
 
 const faqEn = [
     {
-        h: "Access to data - Who can view or access the data that I enter via a questionnaire ?",
+        h: "Access to data - Who can view or access the data that I enter via a questionnaire?",
         c:
         <Fragment>
             <p>The data that is entered via the questionnaires can be accessed by:</p>
             <ol className="ml-2" type="a">
-                <li>The colleagues from your own organisation who are added as users to the portal, depending on the type of access provided to them (member questionnaire, project questionnaires, or both). As long as the questionnaire is not submitted, they can access and edit data of the questionnaire.</li>
-                <li>For project questionnaires, colleagues from selected project partner organisations, that are also Members of GISCO, with authorised access to project questionnaires, will have the same access to data of the questionnaire for the project in which their own organisation is participating as a partner.</li>
-                <li>Once the questionnaire is submitted, a limited number of staff designated by the GISCO Secretariat, listed in the Data Security Provisions and having signed corresponding nondisclosure declarations, will have access to individual questionnaire data, as needed to check the validity and consistency of data and/or check whether the conclusions from analysis on anonymised and/or aggregated data makes sense.</li>
-                <li>Authorised staff of AKVO, being the contracted IT service provider / data processors for the system. Their role is limited to intervening when IT issues occur and providing data processing support. </li>
+                <li>The colleagues from your own organization who are added as users to the portal, depending on the type of access provided to them (member questionnaire, project questionnaires, or both). As long as the questionnaire is not submitted, they can access and edit data of the questionnaire.</li>
+                <li>For project questionnaires, colleagues from selected project partner organizations, that are also Members of GISCO, with authorized access to project questionnaires, will have the same access to data of the questionnaire for the project in which their own organization is participating as a partner.</li>
+                <li>Once the questionnaire is submitted, a limited number of staff designated by the GISCO Secretariat, listed in the Data Security Provisions and having signed corresponding nondisclosure declarations, will have access to individual questionnaire data, as needed to check the validity and consistency of data and/or check whether the conclusions from analysis on anonymized and/or aggregated data makes sense.</li>
+                <li>Authorized staff of AKVO, being the contracted IT service provider/data processors for the system. Their role is limited to intervening when IT issues occur and providing data processing support.</li>
             </ol><br/>
             <p>Other users of the platform or other organisations do not have any access to the data that you enter.</p>
-            <p>Please also check on <b>How is the confidentiality of our data preserved ?</b></p>
+            <p>Please also check on <b>How is the confidentiality of our data preserved?</b></p>
         </Fragment>
     }, {
-        h: <Fragment>Decimals - Why can I not enter numbers with decimals <b>(,)</b> ?</Fragment>,
+        h: <Fragment>Decimals - Why can I not enter numbers with decimals <b>(,)</b>?</Fragment>,
         c:
         <Fragment>
             <p>Please use a <b>dot (.)</b>, instead of a <b>comma (,)</b>!</p>
             <p>The <b>dot (.)</b> is the only decimal separator supported by the system.</p>
         </Fragment>
     }, {
-        h: "Double counting – How is double counting of cocoa supplied to the German market being avoided ?",
+        h: "Double counting – How is double counting of cocoa supplied to the German market being avoided?",
         c:
         <Fragment>
-            <p>For the question groups, <b>Origin Transparency and Traceability</b> and <b>Certified or Independently Verified Cocoa</b>, GISCO reporting is focussing on cocoa contained in consumer end products supplied to the German market.</p>
+            <p>For the question groups, <b>Origin Transparency and Traceability</b> and <b>Certified or Independently Verified Cocoa</b>, GISCO reporting is focusing on cocoa contained in consumer end products supplied to the German market.</p>
             <p>To avoid double counting, the corresponding volume of cocoa (expressed in MT-BE or metric tons – bean equivalents), is to be reported by the consumer brands; with retailers reporting for their own labels in the same way as consumer brands.</p>
             <p>At this stage, GISCO Members are not asked to report on the volume of cocoa sourced for processing and/or producing intermediary or end consumer products in Germany. If such data was to be reported in a later stage, such data on cocoa processing would be accounted for separately; thus, still avoiding double counting.</p>
         </Fragment>
     }, {
-        h: "Double counting – How is double counting of project data and other data being avoided ?",
+        h: "Double counting – How is double counting of project data and other data being avoided?",
         c:
         <Fragment>
             <p>Members can report on all their cocoa sustainability projects/ programs, without requiring a link with the German market. However, each such project/ program shall be reported only once. Projects/ programs implemented jointly by several GISCO members will be registered and reported on only once.</p>
-            <p>The transition towards a joint reporting tool for the different European platforms ensures that companies and other organisations, who are a member of multiple (or all) European platforms, will have to report on the same data only once. This single reporting contributes to avoiding double counting.</p>
+            <p>The transition towards a joint reporting tool for the different European platforms ensures that companies and other organizations, who are a member of multiple (or all) European platforms, will have to report on the same data only once. This single reporting contributes to avoiding double counting.</p>
             <p>Cocoa sustainability projects/ program managers are encouraged to avoid double counting within their own reporting to GISCO and to the other platforms.</p>
             <p>However, at this stage it may for example not be excluded that a same farming household is reported as <b>reached</b> by more than one project. Further analysis will demonstrate whether such double counting is occurring at a significant rate and if so, what approach is to be used to correct for that double counting.</p>
         </Fragment>
     }, {
-        h: "Downloading - Can I download/extract my data ?",
+        h: "Downloading - Can I download/extract my data?",
         c:
         <Fragment>
-            <p>You can indeed download the data of a (fully / partially) completed questionnaire. You can do this to allow for off-line review and/or contribution by a colleague, before submitting the questionnaire.</p>
+            <p>You can indeed download the data of a (fully/partially) completed questionnaire. You can do this to allow for off-line review and/or contribution by a colleague, before submitting the questionnaire.</p>
             <img height="400px" className="img img-shadows" src={require('../../images/faq-download-form.png')}/><br/><br/>
             <p>To activate such download, please first click the <b>Overviews</b> button at the left side of your screen (above the question group navigation menu in the left column of the screen).</p>
             <p>Before submitting your completed questionnaire, you are also advised to download a version for your own records.</p>
         </Fragment>
     }, {
-        h: "German market – To what extent is data to be reported specifically linked to the German market ? ",
+        h: "German market – To what extent is data to be reported specifically linked to the German market?",
         c:
         <Fragment>
-            <p>Reporting is first linked to the reporting organisation’s membership of GISCO and to the Member’s efforts and results in pursuing a more sustainable cocoa sector.</p>
+            <p>Reporting is first linked to the reporting organization’s membership of GISCO and to the Member’s efforts and results in pursuing a more sustainable cocoa sector.</p>
             <p>Only 2 question groups, <b>Origin Transparency and Traceability</b> and <b>Certified or Independently Verified Cocoa</b>, refer to cocoa contained in the end consumer products that the reporting organisations supplied to the German market.</p>
             <ul>
                 <li>It should be noted that the volume of cocoa contained in consumer end products supplied to the national market in Europe (in this case being the German market) is to be reported by the consumer brands. This volume is expressed in MT-BE (metric tons – bean equivalents). For their own labels (brands), retailers are expected to report in the same way as the consumer brands. Of course, where required, these brands will rely on the corresponding information obtained from their suppliers.</li>
