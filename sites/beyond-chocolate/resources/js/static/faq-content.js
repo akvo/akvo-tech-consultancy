@@ -213,57 +213,56 @@ const faqDe = [
         h: "Mehrfachauswahl - Warum kann ich nicht mehr als ein Element aus einer Liste auswählen?",
         c:
         <Fragment>
-            <p>In vielen Fällen, z.B für Themen, können Sie im Fragebogen mehrere Optionen aus einer Liste auswählen.</p>
-            <p>Bei anderen Fragen können Sie im Fragebogen jeweils nur eine Auswahl treffen. Auf diese Weise können Sie zusätzliche Informationen zu dieser Auswahl bereitstellen. <b>Wiederholungsgruppen (<i>Repeat Group</i>)</b> können verwendet werden, um auch andere Auswahlmöglichkeiten (einzeln) auszuwählen und die entsprechenden Daten bereitzustellen. Weitere Informationen finden Sie im FAQ-Punkt <b>Wie funktioniert die„ Wiederholungsgruppe?</b></p>
+            <p>In vielen Fällen, z.B. für Themen, können Sie im Fragebogen mehrere Optionen aus einer Liste auswählen.</p>
+            <p>Bei anderen Fragen können Sie im Fragebogen jeweils nur eine Auswahl treffen. Auf diese Weise können Sie zusätzliche Informationen zu dieser Auswahl bereitstellen. <b>Wiederholungsgruppen (<i>,,repeat groups</i>)</b> können verwendet werden, um auch andere Auswahlmöglichkeiten (einzeln) auszuwählen und die entsprechenden Daten bereitzustellen. Weitere Informationen finden Sie im FAQ-Punkt <b>Wie funktionieren „repeat groups?</b></p>
         </Fragment>,
     }, {
-        h: <Fragment>Wiederholungsgruppe - Was ist eine <b>Wiederholungsgruppe (<i>Repeat Group</i>)</b> und wie funktioniert sie?</Fragment>,
+        h: <Fragment>Repeat Group (Wiederholungsgruppe) - Was ist eine <b>Wiederholungsgruppe (<i>Repeat Group</i>)</b> und wie funktioniert sie?</Fragment>,
         c:
         <Fragment>
-            <p>In einigen Abschnitten der Fragebögen können Sie mehr als ein Ereignis separat melden. In solchen Abschnitten wird oben rechts die Schaltfläche <b>Gruppe wiederholen (<i>Repeat Group + </i>)</b> angezeigt.</p>
-            <p>Mit jeder <b>Wiederholungsgruppe</b> können Sie nur über eine Initiative / ein Land / eine Lektion / einen Projektpartner usw. berichten.</p>
-            <p>Um weitere Aussagen in Ihrer Antwort auf eine Frage zu treffen, fügen Sie bitte eine weitere Wiederholungsgruppe hinzu, indem Sie oben rechts auf dem Bildschirm auf die blaue Schaltfläche <b>Wiederholungsgruppe (<i>Repeat Group+ </i>) </b>klicken.</p>
+            <p>In einigen Abschnitten der Fragebögen können Sie mehr als ein Ereignis separat melden. In solchen Abschnitten wird oben rechts die Schaltfläche <b>Gruppe wiederholen (<i>Repeat Group +</i>)</b> angezeigt.</p>
+            <p>Mit jeder <b>Wiederholungsgruppe</b> können Sie nur über eine Initiative/ein Land/eine Lektion/einen Projektpartner usw. berichten.</p>
+            <p>Um weitere Aussagen in Ihrer Antwort auf eine Frage zu treffen, fügen Sie bitte eine weitere Wiederholungsgruppe hinzu, indem Sie oben rechts auf dem Bildschirm auf die blaue Schaltfläche <b>Wiederholungsgruppe (<i>Repeat Group+</i>) </b>klicken.</p>
             <img height="120px" className="img img-shadows" src={require('../../images/faq-repeat-group.png')}/><br/><br/>
             <p>Um zu erfahren, wie dies für bestimmte Fragen gilt, klicken Sie bitte auf die Schaltfläche <b>Weitere Informationen (<i>More Info</i>)</b>, die mit diesen Fragen angezeigt wird.</p>
             <p>Beispiele für Wiederholungsgruppen finden Sie bei der Berichterstattung über Länder, Projektpartner, Multi-Stakeholder- und Richtlinieninitiativen usw.</p>
         </Fragment>,
     }, {
-        h: "Berichterstattung durch Projektmanager*innen - Kann ich die Berichterstattung über unsere Projekte / Programme an Projekt- / Programmmanager*innen innerhalb oder außerhalb meiner Organisation delegieren?",
+        h: "Berichterstattung durch Projektmanager und/oder Projektmanagerinnen - Kann ich die Berichterstattung über unsere Projekte/Programme an Projekt-/rogrammmanager bzw. -Managerinnen innerhalb oder außerhalb meiner Organisation delegieren?",
         c:
         <ol type="1">
-            <li>Kollegen aus Ihrer eigenen Organisation, die als Benutzer mit der Berechtigung zum Erstellen / Bearbeiten von Projektfragebögen zum Portal hinzugefügt werden, können Daten der Projektfragebögen Ihrer Organisation einsehen und bearbeiten. Sie sollten sich unter Kollegen derselben Organisation darauf einigen, wer die Projektdaten ausfüllen / überprüfen wird, bevor Sie den ausgefüllten Fragebogen einreichen.</li>
-            <li>Für ein Kakao-Nachhaltigkeitsprojekt / -programm, das von verschiedenen Kakaoforums-Mitgliedsorganizationen gemeinsam durchgeführt wird, sollte nur ein Fragebogen erstellt werden. Dies muss von dem Kakaoforums-Mitglied durchgeführt werden, das als koordinierender oder federführender Partner für dieses Projekt bestimmt ist.</li>
-            <li>Der Zugriff auf den entsprechenden Projektfragebogen wird allen Kollegen der ausgewählten Projektpartnerorganizationen gewährt, die als Benutzer der Plattform mit autorisiertem Zugriff auf Projektfragebögen registriert sind. Weitere Erläuterungen zum Gewähren des Zugriffs auf einen bestimmten Projektfragebogen für Partnerorganizationen finden Sie im FAQ-Thema <b>Hinzufügen von Mitarbeitern</b>. Bitte beachten Sie, dass Sie unter den Kollegen der verschiedenen Projektpartnerorganizationen vereinbaren sollten, wer die Projektdaten ausfüllen / überprüfen soll, bevor Sie den ausgefüllten Fragebogen einreichen.</li>
-            <li>Es besteht auch die Möglichkeit, die Daten eines (vollständig / teilweise) ausgefüllten Fragebogens herunterzuladen, um eine Offline-Überprüfung und / oder einen Beitrag eines Kollegen zu ermöglichen, bevor der Fragebogen eingereicht wird. Um einen solchen Download zu aktivieren, klicken Sie zunächst links auf dem Bildschirm auf die Schaltfläche „Übersicht“ (über dem Navigationsmenü der Fragengruppe in der linken Spalte des Bildschirms).</li>
+            <li>Kolleginnen und Kollegen aus Ihrer eigenen Organisation, die als Benutzende mit der Berechtigung zum Erstellen/Bearbeiten von Projektfragebögen zum Portal hinzugefügt werden, können Daten der Projektfragebögen Ihrer Organisation einsehen und bearbeiten. Sie sollten sich unter Kolleginnen und Kollegen derselben Organisation darauf einigen, wer die Projektdaten ausfüllen/überprüfen wird, bevor Sie den ausgefüllten Fragebogen einreichen.</li>
+            <li>Für ein Kakao-Nachhaltigkeitsprojekt/-programm, das von verschiedenen Kakaoforums-Mitgliedsorganizationen gemeinsam durchgeführt wird, sollte nur ein Fragebogen erstellt werden. Dies muss von dem Kakaoforums-Mitglied durchgeführt werden, das als koordinierender oder federführender Partner für dieses Projekt bestimmt ist.</li>
+            <li>Der Zugriff auf den entsprechenden Projektfragebogen wird allen Kolleginnen und Kollegen der ausgewählten Projektpartnerorganizationen gewährt, die als Benutzer der Plattform mit autorisiertem Zugriff auf Projektfragebögen registriert sind. Weitere Erläuterungen zum Gewähren des Zugriffs auf einen bestimmten Projektfragebogen für Partnerorganizationen finden Sie im FAQ-Thema <b>Hinzufügen von Mitarbeitern</b>. Bitte beachten Sie, dass Sie unter den Kolleginnen und Kollegen der verschiedenen Projektpartnerorganizationen vereinbaren sollten, wer die Projektdaten ausfüllen/überprüfen soll, bevor Sie den ausgefüllten Fragebogen einreichen.</li>
+            <li>Es besteht auch die Möglichkeit, die Daten eines (vollständig/teilweise) ausgefüllten Fragebogens herunterzuladen, um eine Offline-Überprüfung und/oder eines Kollegen oder einer Kollegin Beitrag eines Kollegen zu ermöglichen, bevor der Fragebogen eingereicht wird. Um einen solchen Download zu aktivieren, klicken Sie zunächst links auf dem Bildschirm auf die Schaltfläche „Übersicht“ (über dem Navigationsmenü der Fragengruppe in der linken Spalte des Bildschirms).</li>
         </ol>
     }, {
         h: "Gleichzeitige Beiträge - Können mehrere Kollegen an demselben Fragebogen arbeiten?",
         c:
         <Fragment>
-            <p>Kollegen aus Ihrer eigenen Organisation oder aus Projektpartnerorganizationen (für den Projektfragebogen) können denselben Fragebogen einsehen und bearbeiten. (Siehe auch FAQ-Themen <b>Zugriff auf Daten</b> und <b>Berichterstattung durch Projektmanager</b>.</p>
+            <p>Kolleginnen und/oder Kollegen aus Ihrer eigenen Organisation oder aus Projektpartnerorganizationen (für den Projektfragebogen) können denselben Fragebogen einsehen und bearbeiten. (Siehe auch FAQ-Themen <b>Zugriff auf Daten</b> und <b>Berichterstattung durch Projektmanager</b>.</p>
             <p>Es wird jedoch empfohlen, dies auf koordinierte Weise zu tun. Die gleichzeitige Bearbeitung desselben Fragebogens wird nicht empfohlen, da die zuletzt gespeicherten Daten möglicherweise versehentlich die zuvor gespeicherten Daten überschreiben.</p>
         </Fragment>
     }, {
         h: "Zeitrahmen - Für welchen Zeitraum soll ich die Daten melden?",
         c:
         <ol type="1">
-            <li>Das Berichtsjahr ist normalerweise das vorherige Kalenderjahr - z. Berichterstattung über 2020 von April bis Mai 2021; Berichterstattung über 2021 soll von April bis Mai 2022 erfolgen.</li>
-            <li>Für die Pilot-Berichterstattung ist das Berichtsjahr grundsätzlich das Kalenderjahr 2019.</li>
+            <li>Das Berichtsjahr ist normalerweise das vorherige Kalenderjahr - z.h. Berichterstattung über 2020 von April bis Mai 2021; Berichterstattung über 2021 soll von April bis Mai 2022 erfolgen.</li>
             <li>Wenn die Mitgliedsorganization einen vom Kalenderjahr abweichenden Berichtszyklus und ein Rechnungsjahr verwendet, das vom Kalenderjahr abweicht und die Berichterstattung pro Kalenderjahr die Berichtslast erheblich erhöhen würde, kann dieses Mitglied systematisch über das letzte Rechnungsjahr berichten, für das Daten im Zeitraum April bis Mai vorliegen.</li>
             <li>Im Allgemeinen ist der Zeitrahmen für alle Daten das Berichtsjahr. Bei einigen Fragen (z. B. Daten zum Haushaltseinkommen) werden Daten möglicherweise nur alle paar Jahre erhoben. Die entsprechenden Fragen berücksichtigen dies speziell, indem sie fragen, wann die letzte Umfrage / Studie durchgeführt wurde.</li>
-            <li>Wenn für einige andere Fragen nur ältere Daten verfügbar sind, geben Sie diese bitte an und geben Sie dies im Kommentarfeld an. Dies soll jedoch nicht für Fragen zu den im jeweiligen Berichtsjahr durchgeführten Anstrengungen oder Ergebnissen gelten.</li>
+            <li>Wenn für einige andere Fragen nur ältere Daten verfügbar sind, geben Sie diese bitte an und geben Sie dies im Kommentarfeld an. Dies soll jedoch nicht für Fragen zu den im jeweiligen Berichtsjahr durchgeführten Aktivitäten oder erzielten gelten.</li>
         </ol>
     }, {
-        h:"Hinzufügen von Mitarbeitern - Wie kann ich Projektpartnerorganizationen als Mitarbeiter zu einem Projektfragebogen hinzufügen?",
+        h:"Hinzufügen von Mitarbeitenden - Wie kann ich Projektpartnerorganizationen als Mitarbeitende(r) zu einem Projektfragebogen hinzufügen?",
         c:
         <Fragment>
-            <p>Mit den unten beschriebenen Schritten können Sie Kollegen ausgewählter Projektpartnerorganizationen Zugriff auf den entsprechenden Projektfragebogen gewähren.</p>
-            <p>Zunächst müssen Sie einen Projektfragebogen öffnen, die erste Frage <b>Bitte geben Sie die Identifikation - den Namen - des Nachhaltigkeitsprojekts (/ -programms) an</b> beantworten und den Fragebogen speichern.</p>
+            <p>Mit den unten beschriebenen Schritten können Sie Kolleginnen bzw. Kollegen ausgewählter Projektpartnerorganizationen Zugriff auf den entsprechenden Projektfragebogen gewähren.</p>
+            <p>Zunächst müssen Sie einen Projektfragebogen öffnen, die erste Frage: <b>Bitte geben Sie die Identifikation - den Namen - des Nachhaltigkeitsprojekts (/-programms) an,</b> beantworten und den Fragebogen speichern.</p>
             <p>Anschließend können Sie die blaue Schaltfläche <b>Mitarbeiter hinzufügen</b> verwenden. Stellen Sie jedoch zunächst sicher, dass Sie den richtigen Projektfragebogen aus der Dropdown-Liste im Menü <b>Wählen Sie ein zuvor gespeichertes Formular</b> oben auf Ihrem Bildschirm auswählen.</p>
             <p>Wenn Sie dies getan haben, wird ein zusätzliches Menü angezeigt, in dem Sie eine <b>beitragende Organisation</b> aus einer Dropdown-Liste auswählen können.</p>
-            <p>Bitte wählen Sie Ihre Partnerorganizationen aus und klicken Sie auf die blaue Schaltfläche <b>Hinzufügen</b>. Die hinzugefügte Organisation wird angezeigt. Die autorisierten Plattformbenutzer dieser Organisation, die über Benutzerrechte für Projektfragebögen verfügen, werden nun automatisch per E-Mail darüber informiert, dass sie aufgefordert werden, zum Ausfüllen und / oder Überprüfen des Entwurfs des Projektfragebogens für Ihr gemeinsames Kakao-Nachhaltigkeitsprojekt / -programm beizutragen.</p>
-            <p>Bitte beachten Sie, dass Sie unter den Kollegen der verschiedenen Projektpartnerorganizationen vereinbaren sollten, wer die Projektdaten ausfüllen / überprüfen soll, bevor Sie den ausgefüllten Fragebogen einreichen.</p>
-            <p>Bitte beachten Sie auch, dass Sie die zuvor hinzugefügte <b>beitragende Organisation</b> weiterhin entfernen können. Klicken Sie dazu auf das <b>x</b> neben dem Namen der beitragenden Organisation.</p>
+            <p>Bitte wählen Sie Ihre Partnerorganizationen aus und klicken Sie auf die blaue Schaltfläche <b>Hinzufügen</b>. Die hinzugefügte Organisation wird angezeigt. Die autorisierten Plattformbenutzer dieser Organisation, die über Benutzerrechte für Projektfragebögen verfügen, werden nun automatisch per E-Mail darüber informiert, dass sie aufgefordert werden, zum Ausfüllen und/oder Überprüfen des Entwurfs des Projektfragebogens für Ihr gemeinsames Kakao-Nachhaltigkeitsprojekt/-programm beizutragen.</p>
+            <p>Bitte beachten Sie, dass Sie unter den Kolleginnen und Kollegen der verschiedenen Projektpartnerorganizationen vereinbaren sollten, wer die Projektdaten ausfüllen/überprüfen soll, bevor Sie den ausgefüllten Fragebogen einreichen.</p>
+            <p>Bitte beachten Sie auch, dass Sie die zuvor hinzugefügte <b>beitragende Organisation</b> wieder entfernen können. Klicken Sie dazu auf das <b>x</b> neben dem Namen der beitragenden Organisation.</p>
         </Fragment>
     }
 ]
