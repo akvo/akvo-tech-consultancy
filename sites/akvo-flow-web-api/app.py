@@ -35,7 +35,7 @@ users = {
 
 instance_list = './data/flow-survey-amazon-aws.csv'
 FLOW_SERVICE_URL = os.environ['FLOW_SERVICE_URL']
-AUTH0_URL = "{}/token".format(os.environ['AUTH0_URL'])
+AUTH0_URL = "{}/oauth/token".format(os.environ['AUTH0_URL'])
 BASE_URL = "{}/upload".format(FLOW_SERVICE_URL)
 PASSWORD = "2SCALE"
 DEVEL = False
