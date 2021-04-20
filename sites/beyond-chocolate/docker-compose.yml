@@ -7,10 +7,12 @@ services:
     expose:
       - "80"
       - "8080"
+      - "3306"
     ports:
       - 80:80       # Nginx
       - 8080:8080   # React HMR
       - 8025:8025   # Mailhog UI
+      - 3306:3306   # MySql
   nginx:
     image: nginx:1.19-alpine
     restart: unless-stopped

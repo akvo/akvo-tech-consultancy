@@ -214,7 +214,8 @@
 
 $color-primary: rgb(103, 48, 22); /*Brown*/
 $color-secondary: rgb(234, 236, 236); /*Grey*/
-$color-tertiary: rgb(120, 153, 34); /*Green*/
+$color-tertiary: rgb(103, 48, 22); /*Green*/
+$color-greeen: rgb(120, 153, 34); /*Green*/
 $color-yellow: rgb(250, 187, 0);
 $color-red: rgb(155, 19, 53);
 
@@ -254,20 +255,6 @@ header {
         text-transform: uppercase;
         background-color: white;
         box-shadow: 0 0.3rem 0.3rem rgba(0, 0, 0, 0.2);
-        .navbar-brand {
-            margin: 1rem 1rem 0 0;
-            text-transform: uppercase;
-            color: #789922;
-            text-indent: -9999px;
-            background-image: url(/images/GiscoLogo.jpg?61d6ec5…);
-            background-repeat: no-repeat;
-            background-size: 94%;
-            width: 16rem;
-            height: 6rem;
-            &:hover {
-                color: $color-tertiary;
-            }
-        }
         .navbar-light {
             .navbar-toggler {
                 color: rgba($color-secondary, 1);
@@ -278,9 +265,10 @@ header {
             }
         }
         .navbar-nav {
+            margin-top: 2px;
             .nav-link {
                 color: black;
-                padding: 0.2rem;
+                // padding: 0.2rem;
                 font-size: 0.9rem;
                 font-weight: 400;
                 &:not(:last-child) {
@@ -295,6 +283,17 @@ header {
                     color: white;
                 }
             }
+        }
+        span.locale {
+          cursor: pointer;
+          a {
+            font-weight: 100;
+            color: #ccc;
+          }
+          a.active {
+            font-weight: 500;
+            color: #111;
+          }
         }
     }
 }
@@ -311,6 +310,13 @@ main {
             background-color: rgba($color-tertiary, 0.8);
             color: white;
         }
+    }
+    .authPg {
+        img {
+            max-width: 100%;
+            height: auto;
+            padding: 20px
+            }
     }
     .homeLanding {
         position: relative;
@@ -672,6 +678,9 @@ footer {
 }
 .copyRights {
     margin: 2rem auto 0;
+}
+.secretariat {
+    padding-bottom: 10px;
 }
 
 .definitionList {

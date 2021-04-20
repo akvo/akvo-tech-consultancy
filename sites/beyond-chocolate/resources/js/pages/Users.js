@@ -291,6 +291,7 @@ const Users = () => {
                                 <th>{ text.tbColName }</th>
                                 <th>{ text.tbColEmail }</th>
                                 <th>{ text.tbColVerifiedOn }</th>
+                                <th>{ text.tbColSecretariats }</th>
                                 <th>{ text.tbColOrganization }</th>
                                 <th>{ text.tbColRole }</th>
                                 <th>{ text.tbColSurveys }</th>
@@ -299,6 +300,8 @@ const Users = () => {
                         <tbody>
                             {users &&
                                 users.map(user => {
+
+                                    let secretariats = user.organization.secretariats.map(x => { return (<div class='secretariat'>{x.name}</div>);});
                                     let orgSuffix = (user.organization.parents !== null)
                                         ? " (" + user.organization.parents.name + ")"
                                         : "";
@@ -318,6 +321,7 @@ const Users = () => {
                                             <td>{user.name}</td>
                                             <td>{user.email}</td>
                                             <td>{verifiedOn}</td>
+                                            <td>{secretariats}</td>
                                             <td>{user.organization.name + orgSuffix}</td>
                                             <td>{user.role?.name}</td>
                                             <td className="text-right">
@@ -340,7 +344,7 @@ const Users = () => {
                 <Col md={4}>
                     {selected && (
                         <Form onSubmit={handleSubmit(saveUser)}>
-                            <Card>
+                        <Card style={{backgroundColor: "white"}}>
                                 <Card.Body>
                                     <div className="d-flex">
                                         <Button

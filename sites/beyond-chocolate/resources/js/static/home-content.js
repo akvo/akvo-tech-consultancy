@@ -3,7 +3,7 @@ import React, { Component, Fragment } from "react";
 const hc = (handleShow, youtubeLink, slideLink) => {
     return {
         en: {
-            h: "Welcome to the GISCO Monitoring Pilot!",
+            h: "Welcome to the Cocoa Monitoring!",
             p1: "Dear Participants, ",
             p2: <Fragment>
                     Thank you for participating in this pilot of our new monitoring system. Your comments on the monitoring system are very valuable for us – you can give them in the feedback section (menu above) or in the comment fields in the questionnaires. <br/>
@@ -24,7 +24,7 @@ const hc = (handleShow, youtubeLink, slideLink) => {
         },
 
         de: {
-            h: "Willkommen beim GISCO Pilot-Monitoring!",
+            h: "Willkommen beim Kakao-Monitoring!",
             p1: "Liebe Teilnehmerinnen und Teilnehmer, ",
             p2: <Fragment>
                     vielen Dank für Ihre Teilnahme an der Pilot-Anwendung unseres neuen Monitoringsystems. Ihre Kommentare zum Monitoringsystem sind für uns sehr wertvoll – Sie können diese im Feedbackformular (im Menu oben) oder in den Kommentarfeldern der Fragebögen machen. <br/>

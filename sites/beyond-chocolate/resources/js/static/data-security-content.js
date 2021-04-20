@@ -4,7 +4,7 @@ const dsc = {
     en: <Fragment>
             <h4>Data ownership and procedures</h4>
             <p className="text-justify">
-                The tool developer Akvo does not claim any data ownership. All data that will be collected through the system, will be legally owned by the organisations that enter the data. All rights remain with the organisations to whom the data belong. Akvo systems allow the administration of specified roles and permissions; with corresponding access to data and/or functionalities in the system. 
+                The tool developer Akvo does not claim any data ownership. All data that will be collected through the system, will be legally owned by the organisations that enter the data. All rights remain with the organisations to whom the data belong. Akvo systems allow the administration of specified roles and permissions; with corresponding access to data and/or functionalities in the system.
             </p>
             <p className="text-justify">
                 Considering the potential broadening of the system over time, we envisage separate meetings to clarify roles and responsibilities across various stakeholders and clear guidelines and data procedures to administer and implement these roles and corresponding access to data and/or functionalities in the system.
@@ -22,13 +22,13 @@ const dsc = {
                 Akvo software ensures that all data is properly secured when in transit and at rest. For data at rest, Akvo relies on the capabilities of Amazon S3 and Google Datastore, which provide one of the highest security standards in the whole industry. Data is backed-up regularly and stored securely on Google Cloud Storage. For data in transit, all communications between different parts of Akvo’s systems (Browser apps, mobile app, backend services, databases) are encrypted using TLS.
             </p>
             <p className="text-justify">
-                Any communication to Akvo’s backend service is properly authenticated and authorized. Akvo software gives administrators the control on what permissions a user has on the platform at a very fine level. All Akvo’s servers are managed by Google which are ISO certified, comply with US and EU regulations and provide round-the-clock security maintenance and essential upgrades for the best level of security. Akvo’s tools are continuously monitored for uptime. 
+                Any communication to Akvo’s backend service is properly authenticated and authorized. Akvo software gives administrators the control on what permissions a user has on the platform at a very fine level. All Akvo’s servers are managed by Google which are ISO certified, comply with US and EU regulations and provide round-the-clock security maintenance and essential upgrades for the best level of security. Akvo’s tools are continuously monitored for uptime.
             </p>
             <p className="text-justify">
-                For data <b>at rest</b>, Akvo relies on the capabilities of Google Cloud SQL, which provides one of the highest security standards in the industry. Data is backed-up regularly and stored securely. 
+                For data <b>at rest</b>, Akvo relies on the capabilities of Google Cloud SQL, which provides one of the highest security standards in the industry. Data is backed-up regularly and stored securely.
             </p>
             <p className="text-justify">
-                For data <b>in transit</b>, all communications between different parts of Akvo’s systems (Browser apps, mobile app, backend services, databases) are encrypted using TLS. Any communication to Akvo’s backend service is properly authenticated and authorised. 
+                For data <b>in transit</b>, all communications between different parts of Akvo’s systems (Browser apps, mobile app, backend services, databases) are encrypted using TLS. Any communication to Akvo’s backend service is properly authenticated and authorised.
             </p>
             <p className="text-justify">
                 All Akvo’s servers are <b>hosted in Belgium</b> and managed by Google Cloud Platform which meets ISO 27018, ISO 27017, ISO 27001, comply with US and EU regulations and provide round-the-clock security maintenance and essential upgrades for the best level of security. See <a href="https://cloud.google.com/security/compliance">https://cloud.google.com/security/compliance</a>.
@@ -46,10 +46,10 @@ const dsc = {
 
             <h4>Roles and permissions</h4>
             <p className="text-justify">
-                The platform secretariats of Beyond Chocolate, SWISSCO and GISCO will follow a roles and permissions model, allowing for administrator level and also granular access control to data. Access to questions and attendant response data will be restricted to a user’s specific and defined role and the permissions assigned to that role. A strict permissions model ensures that sensitive data is not accessible nor visible to other users of the platforms.
+                The platform secretariats of Beyond Chocolate and GISCO will follow a roles and permissions model, allowing for administrator level and also granular access control to data. Access to questions and attendant response data will be restricted to a user’s specific and defined role and the permissions assigned to that role. A strict permissions model ensures that sensitive data is not accessible nor visible to other users of the platforms.
             </p>
             <p className="text-justify">
-                Unless explicitly agreed upon otherwise by the owner of the data, collected data must be entirely anonymized and aggregated before they may be shared with other Members of the platforms and/or rendered public. Any data shared and/or displayed at a disaggregated level internally (e.g. to staff of the secretariats, the platform working groups that accompany the monitoring incl. data evaluation) will be entirely anonymized. 
+                Unless explicitly agreed upon otherwise by the owner of the data, collected data must be entirely anonymized and aggregated before they may be shared with other Members of the platforms and/or rendered public. Any data shared and/or displayed at a disaggregated level internally (e.g. to staff of the secretariats, the platform working groups that accompany the monitoring incl. data evaluation) will be entirely anonymized.
             </p>
             <p className="text-justify">
                 Before publishing (anonymized and aggregated) findings or insights arising from the analysis of collected data, the platform secretariats will still ensure that this does not indirectly disclose sensitive information with respect to a particular Member.
@@ -79,14 +79,6 @@ const dsc = {
                 <li>Patrick Stoop, C-Lever.org</li>
                 <li>Hilde Geens, C-Lever.org</li>
             </ul>
-
-            <p className="text-justify">
-                <u>For SWISSCO:</u>
-            </p>
-            <ul className="pl-5">
-                <li>Christine Müller</li>
-                <li>Simone Benguerel</li>
-            </ul>
             <p className="text-justify">
                 Each of the named persons above is required to sign a confidentiality agreement before getting access to the data of the corresponding platform members. Any new personnel at the secretariats or at C-Lever.org that needs to be granted access will have to have signed the confidentiality agreement before getting such access.
             </p>
@@ -105,7 +97,7 @@ const dsc = {
 
             <h4>Agreement to and visibility of these data security provisions</h4>
             <p className="text-justify">
-                When registering, the users are asked to agree to their data being processed according to the above data security provisions by clicking a box. Also, the link to the data security provisions is shown at the top of each survey at all times. 
+                When registering, the users are asked to agree to their data being processed according to the above data security provisions by clicking a box. Also, the link to the data security provisions is shown at the top of each survey at all times.
             </p>
         </Fragment>
     ,
@@ -113,10 +105,10 @@ const dsc = {
     de: <Fragment>
             <h4>Dateneigentum und -verfahren</h4>
             <p className="text-justify">
-                Der Tool-Entwickler Akvo beansprucht kein Dateneigentum. Alle Daten, die über das System erfasst werden, sind rechtlich Eigentum der Organisationen, die die Daten eingeben. Alle Rechte verbleiben bei den Organisationen, denen die Daten gehören. Akvo-Systeme ermöglichen die Verwaltung bestimmter Rollen und Berechtigungen mit entsprechendem Zugriff auf Daten und / oder Funktionen im System. 
+                Der Tool-Entwickler Akvo beansprucht kein Dateneigentum. Alle Daten, die über das System erfasst werden, sind rechtlich Eigentum der Organisationen, die die Daten eingeben. Alle Rechte verbleiben bei den Organisationen, denen die Daten gehören. Akvo-Systeme ermöglichen die Verwaltung bestimmter Rollen und Berechtigungen mit entsprechendem Zugriff auf Daten und / oder Funktionen im System.
             </p>
             <p className="text-justify">
-                Angesichts der möglichen Erweiterung des Systems im Laufe der Zeit planen wir separate Besprechungen, um die Rollen und Verantwortlichkeiten verschiedener Interessengruppen zu klären und Richtlinien und Datenverfahren für die Verwaltung und Implementierung dieser Rollen ,sowie den entsprechenden Zugriff auf Daten und / oder Funktionen im System festzulegen. 
+                Angesichts der möglichen Erweiterung des Systems im Laufe der Zeit planen wir separate Besprechungen, um die Rollen und Verantwortlichkeiten verschiedener Interessengruppen zu klären und Richtlinien und Datenverfahren für die Verwaltung und Implementierung dieser Rollen ,sowie den entsprechenden Zugriff auf Daten und / oder Funktionen im System festzulegen.
             </p>
             <br/>
 
@@ -155,7 +147,7 @@ const dsc = {
 
             <h4>Rollen und Berechtigungen</h4>
             <p className="text-justify">
-                Die Plattformsekretariate von Beyond Chocolate, SWISSCO und dem Forum Nachhaltiger Kakao folgen einem Rollen- und Berechtigungsmodell, das eine Administratorebene-, sowohl eine detaillierte Zugriffskontrolle auf Daten ermöglicht. Der Zugriff auf Fragen und zugehörige Antwortsdaten ist auf die spezifische und definierte Rolle eines/r Benutzers/in und die dieser Rolle zugewiesenen Berechtigungen beschränkt. Ein striktes Berechtigungsmodell stellt sicher, dass vertrauliche Daten für andere Benutzer der Plattformen weder zugänglich noch sichtbar sind.
+                Die Plattformsekretariate von Beyond Chocolate und dem Forum Nachhaltiger Kakao folgen einem Rollen- und Berechtigungsmodell, das eine Administratorebene-, sowohl eine detaillierte Zugriffskontrolle auf Daten ermöglicht. Der Zugriff auf Fragen und zugehörige Antwortsdaten ist auf die spezifische und definierte Rolle eines/r Benutzers/in und die dieser Rolle zugewiesenen Berechtigungen beschränkt. Ein striktes Berechtigungsmodell stellt sicher, dass vertrauliche Daten für andere Benutzer der Plattformen weder zugänglich noch sichtbar sind.
             </p>
             <p className="text-justify">
                 Sofern mit dem/r Eigentümer/in der Daten nicht ausdrücklich anders vereinbart, müssen die gesammelten Daten vollständig anonymisiert und aggregiert werden, bevor sie mit anderen Mitgliedern der Plattformen geteilt und / oder veröffentlicht werden können. Alle Daten, die intern auf disaggregierter Ebene geteilt und / oder angezeigt werden (z. B. mit den Mitarbeitern/innen der Sekretariate oder den Plattformarbeitsgruppen, die das Monitoring begleiten, einschließlich der Datenauswertung), werden vollständig anonymisiert.
@@ -190,17 +182,10 @@ const dsc = {
             </ul>
 
             <p className="text-justify">
-                <u>Für SWISSCO:</u>
-            </p>
-            <ul className="pl-5">
-                <li>Christine Müller</li>
-                <li>Simone Benguerel</li>
-            </ul>
-            <p className="text-justify">
                 Jede der oben genannten Personen muss eine Vertraulichkeitsvereinbarung unterzeichnen, bevor sie auf Daten der jeweiligen Plattformmitglieder zugreifen kann. Jede/r neue Mitarbeiter/in in den Sekretariaten oder auf C-Lever.org, dem/der Zugang gewährt wird, muss die Vertraulichkeitsvereinbarung unterzeichnet haben, bevor er/sie Zugang erhält.
             </p>
             <br/>
-            
+
             <h4>Umgang mit sensiblen Daten nach der Anonymisierung und Aggregierung erhobener Daten</h4>
             <p className="text-justify">
                 Wann immer Daten, die mit dem Monitoringtool erhoben wurden, weitergegeben oder bekanntgemacht werden sollen, werden passende Vorkehrungen getroffen um sicherzustellen, dass aufgrund der Natur der Daten keine Rückschlüsse auf Mitglieder getroffen werden können. Dafür werden durch die Sekretariate die folgenden Prinzipien eingehalten:

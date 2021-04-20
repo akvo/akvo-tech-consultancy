@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Organization;
+use App\Models\Secretariat;
 use App\Models\User;
 use App\Models\WebForm;
 use App\Models\Collaborator;
@@ -12,9 +13,7 @@ use Carbon\Carbon;
 
 class ApiController extends Controller
 {
-    public function getOrganizations()
-    {
-        $orgs = Organization::where([['level', 1], ['active', true]])->with('parents')->get();
+    function tidyOrgs($orgs) {
         $orgs = $orgs->transform(function ($org) {
             if ($org['parents'] !== null) {
                 $org['name'] = $org['name'] . " ("  .$org['parents']['name'] .")";
@@ -24,6 +23,33 @@ class ApiController extends Controller
         });
 
         return $orgs;
+    }
+
+    public function getSecretariat()
+    {
+        $secretariat = Secretariat::all();
+        return $secretariat;
+    }
+
+    public function getOrganizations()
+    {
+        $orgs = Organization::where([['level', 1], ['active', true]])->with('parents')->get();
+        return $this->tidyOrgs($orgs);
+    }
+
+    public function getOrganizations2(Request $request)
+    {
+        if ($request->has('secretariat'))
+        {
+            $secretariat_id = $request->query('secretariat');
+            $orgs = Secretariat::find($secretariat_id)
+                  ->organizations()
+                  ->with('parents');
+        } else {
+            $orgs = Organization::with('secretariats', 'parents');
+        }
+        $orgs = $orgs->where([['level', 1], ['active', true]])->get();
+        return $this->tidyOrgs($orgs);
     }
 
     public function getCollaboratorAssignments(Request $request)
@@ -83,20 +109,20 @@ class ApiController extends Controller
                     </p>
 
                     <p> You can now view and data to the saved project in your
-                    \"previously saved forms\" section in the GISCO portal.
+                    \"previously saved forms\" section in the portal.
                     </p>
 
                     <p>Please contact us via the feedback form in case you face any issues.</p>
-                    
+
                     <hr />
 
                     Liebe/r $user->name<br/><br/>
-                    <p> $assigningUser->name von $assigningOrg->name 
+                    <p> $assigningUser->name von $assigningOrg->name
                     hat Ihre Organisation als Partner für das Projekt $project_title registriert.
                     </p>
 
-                    <p> Der gespeicherte Projekt-Fragebogen erscheint nun im Monitoringportal in Ihrem Menu 
-                    \"Auswahl eines zuvor gespeicherten Fragebogens\" (oben links). 
+                    <p> Der gespeicherte Projekt-Fragebogen erscheint nun im Monitoringportal in Ihrem Menu
+                    \"Auswahl eines zuvor gespeicherten Fragebogens\" (oben links).
                     Sie können Ihn ansehen und bearbeiten.
                     </p>
 
@@ -208,7 +234,7 @@ class ApiController extends Controller
         $exception = $config['exception'];
         $industry = $config['forms']['industry'];
         $project = $config['forms']['project'];
-        
+
         // if organization was on exception
         $falseValue = [
             "counts" => false,
@@ -233,7 +259,7 @@ class ApiController extends Controller
         $users = User::select(['name', 'organization_id', 'email'])
                     ->whereIn('id', $submissions->pluck('user_id'))
                     ->get();
-        
+
         if (collect($project['fids'])->contains($formId)) {
             return [
                 "counts" => $counts,
@@ -242,7 +268,7 @@ class ApiController extends Controller
                 "users" => $users,
             ];
         };
-        
+
         if (collect($industry['fids'])->contains($formId)) {
             return [
                 "counts" => $counts,

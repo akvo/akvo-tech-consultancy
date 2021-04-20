@@ -85,7 +85,7 @@ const Submission = () => {
         let status = interval <= 60;
         return status;
     };
-    
+
     const renderSubmissions = () => {
         if (submissions.length === 0) {
             return (
@@ -96,15 +96,17 @@ const Submission = () => {
         }
         return submissions.map((x, i) => {
             let delay = checkDataDelay(x.updated_at);
+            const year =  x.updated_at ? new Date(x.updated_at).getFullYear() : "Loading";
             return (
                 <tr key={'submission-'+i}>
                     <td className="pl-3">{x.org_name}</td>
                     <td className="pl-3">{x.submitter_name}</td>
                     <td className="pl-3">{x.form_name}</td>
+                    <td className="pl-3">{year}</td>
                     <td className="pl-3">
                         <Button
-                            key={'btnDownload-'+i} 
-                            variant="primary" 
+                            key={'btnDownload-'+i}
+                            variant="primary"
                             size="sm"
                             disabled={(delay && isDelay) ? true : x.isLoading}
                             onClick={!x.isLoading ? () => handleDownload(x) : null}
@@ -130,8 +132,8 @@ const Submission = () => {
     const renderAlert = () => {
         const { show, msg } = isError;
         return show && (
-            <Alert 
-                key={msg} 
+            <Alert
+                key={msg}
                 variant='warning'
                 onClose={() => setIsError({show: false, msg: null})}
                 dismissible
@@ -144,7 +146,7 @@ const Submission = () => {
     };
 
     useEffect(() => {
-        isError.show ? 
+        isError.show ?
             setTimeout(() => {
                 setIsError({show: false, msg: null});
             }, 5000) : "";
@@ -154,7 +156,7 @@ const Submission = () => {
         <Container fluid>
             <Row className="justify-content-center">
                 <Col className="mx-auto" md="10">
-                    <h3>{ text.navSubmission }</h3>
+                    <h3>{ text.dwnLOfSubmissions }</h3>
                     <p>{ text.textInfoSubmission }</p>
                     <hr/>
                     { renderAlert() }
@@ -164,6 +166,7 @@ const Submission = () => {
                                 <th className="pl-3">{ text.tbColOrganization }</th>
                                 <th className="pl-3">{ text.tbColSubmitter }</th>
                                 <th className="pl-3">{ text.tbColForm }</th>
+                                <th className="pl-3">{ text.tbColYear }</th>
                                 <th className="pl-3">{ text.tbColAction }</th>
                             </tr>
                         </thead>

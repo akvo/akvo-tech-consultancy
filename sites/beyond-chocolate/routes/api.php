@@ -77,7 +77,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
         // return User::paginate(10);
         $check = $auth->checkLastActivity($request, $guard);
         $res['last_activity'] = $check;
-        $res ['data'] = User::with('organization.parents')->paginate(10);
+        $res ['data'] = User::with(['organization.parents', 'organization.secretariats'])->paginate(10);
         return $res;
     })->middleware('can:viewAny,App\Models\User');
 
@@ -156,7 +156,8 @@ Route::get('/flow-submitter/{id}', function (Request $request, Auth $auth) {
 Route::post('/auth/forgot-password', [Auth::class, 'forgotPassword']);
 Route::post('/auth/reset-password', [Auth::class, 'resetPassword']);
 Route::middleware(['auth:sanctum'])->post('/user/update', [Auth::class, 'update']);
-Route::get('/organizations', [Api::class, 'getOrganizations']);
+Route::get('/secretariats', [Api::class, 'getSecretariat']);
+Route::get('/organizations', [Api::class, 'getOrganizations2']);
 Route::get('/config', [Api::class, 'getConfig']);
 Route::post('/submission', [Api::class, 'postWebForm']);
 Route::patch('/submission', [Api::class, 'updateWebForm']);

@@ -49,8 +49,8 @@ class FlowDataSeedController extends Controller
         $init_sync = $endpoint.'/sync?initial=true';
         $sync_url = $api->fetch($init_sync);
         // survey_id not affect the sync_url
-        $sync = Sync::create(['survey_id' => 116680069, 'url' => $sync_url['nextSyncUrl']]);
-        
+        $sync = Sync::create(['survey_id' => $config['flow_projects_survey_group_id'], 'url' => $sync_url['nextSyncUrl']]);
+
         # Filter surveys by form_id
         if (!is_null($form_id)) {
             $surveys = $surveys->where('surveyId', $form_id)->values();

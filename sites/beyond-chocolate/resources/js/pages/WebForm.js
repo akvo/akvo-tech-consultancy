@@ -593,7 +593,9 @@ const WebForm = ({ setFormLoaded, webForm, setWebForm }) => {
     const openForm = (url, cache = 0) => {
         setFormLoading(false);
         setIframeKey(iframeKey + 1);
-        const isDemo = location.hostname.startsWith("gisco-pilot") ? 0 : 1;
+        const host = window.location.hostname.split('.').slice(-2)[0];
+        const isDemo = (host === "veva") ? 0 :1;
+
         let endpoint =
             url === null
                 ? url
@@ -610,10 +612,11 @@ const WebForm = ({ setFormLoaded, webForm, setWebForm }) => {
         );
         setIsSpinner(true);
         setIsWebFormLoaded(null);
-        if (type == "111510043" || user.project_fids.includes(type)) {
+        if (type == "111510043" ) {
             // new project form
             setShowProjectInfo(true);
-            setDelayedActiveForm(url);
+          setDelayedActiveForm(url);
+//          openForm(url);
             // always show collaborators
             // setWebForm({ web_form_id: null, submission_name: null, new_questionnaire: true, show_collaborator: true, fid: parseInt(type)});
         } else {
@@ -655,8 +658,9 @@ const WebForm = ({ setFormLoaded, webForm, setWebForm }) => {
     }, [activeForm, delayedActiveForm, isIndexDB]);
 
     useEffect(() => {
-        // open form from previous session
-        const isDemo = location.hostname.startsWith("gisco-pilot") ? 0 : 1;
+      // open form from previous session
+        const host = window.location.hostname.split('.').slice(-2)[0];
+        const isDemo = (host === "veva") ? 0 :1;
         const form = localStorage.getItem(`active-form:${user.id}`);
         let endpoint =
             form === null

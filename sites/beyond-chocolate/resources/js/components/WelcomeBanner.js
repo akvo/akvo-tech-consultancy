@@ -6,10 +6,10 @@ import { useLocale } from "../lib/locale-context";
 const WelcomeBanner = () => {
     const { locale } = useLocale();
     let text = uiText[locale.active];
-    
+
     return (
         <Jumbotron className="hero">
-            <h1>{ text.welcome }</h1>
+            <h1>{ text.welcome3 }</h1>
             <div className="colourBg1"></div>
             <div className="colourBg2"></div>
         </Jumbotron>

@@ -20,6 +20,9 @@ class SubmissionController extends Controller
     public function getSubmittedData(Request $request, StatefulGuard $guard)
     {
         $questionnaires = config('bc.questionnaires');
+        foreach(config('bc.idh_questionnaires') as $property => $value){
+            $questionnaires[$property] = $value;
+        }
         $user = $request->user();
         $collaboratorForms = Collaborator::where('organization_id', $user->organization_id)->get()->pluck('web_form_id');
         $webforms = WebForm::where([
@@ -55,22 +58,30 @@ class SubmissionController extends Controller
 
     public function syncAndDownloadData(Request $request, FlowDataSeedController $flowData, FlowDataSyncController $syncData)
     {
+        $idh_forms = config('bc.idh_forms');
         # TODO :: check if uuid has been on database
         $form_instance = FormInstance::where('identifier', $request->uuid)->first();
+        Log::error('ey!', [$form_instance, $request->uuid]);
         if (!is_null($form_instance)) {
             # Download data, use downloadData function
             Log::error('not null ... calling downloadData');
-            return $this->downloadData($request->form_id, $form_instance->id, $request->filename, false);
+            if(in_array($form_instance['form_id'], $idh_forms)){
+                return ["link" => "uploads/idh/".$this->trim($request->filename).".csv"];
+            } else {
+                return $this->downloadData($request->form_id, $form_instance->id, $request->filename, false);
+            }
         }
 
         # TODO :: if uuid not found, then run sync first, then download the data
         // $sync = $flowData->seedFlowData(false, $request->form_id); # using seed to sync
         $sync = $syncData->syncData(false, $request->uuid); # using flow sync api
+        Log::error($sync);
         if ($sync !== true) {
             Log::error('Sync failed');
             return \response('Sync failed', 204);
         }
         $form_instance = FormInstance::where('identifier', $request->uuid)->first();
+        Log::error($form_instance);
         if (is_null($form_instance)) {
             Log::error('No Content');
             return \response('No Content', 204);

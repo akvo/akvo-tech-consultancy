@@ -3,6 +3,8 @@ import React, { Fragment } from "react";
 export const uiText = {
     en: {
         welcome: <Fragment>Welcome<br/>to the GISCO Monitoring Pilot<br/>for 2019 data</Fragment>,
+        welcome2: "Monitoring for 2019-2020 data",
+        welcome3: <Fragment>Welcome<br/>to the Cocoa Monitoring<br/> for 2020 data</Fragment>,
         // Navigation
         navSurvey: "Survey",
         navDefinitions: "Definitions",
@@ -13,6 +15,7 @@ export const uiText = {
         navSearch: "Search",
         navGettingStarted: "Getting Started",
         navSubmission: "Submission",
+        navHome: "Home",
         // Form
         formChangePwd: "Change Password",
         formEmail: "Email Address",
@@ -23,7 +26,7 @@ export const uiText = {
         formNewPwd: "New Password",
         formConfirmNewPwd: "Confirm New Password",
         formQuestionnaire: "Questionnaire",
-        formFeedbackTitle: "Please provide your feedback. It is highly valuable to improve the system",
+        formFeedbackTitle: "Please provide your feedback. It is highly valuable to improve the system.",
         formTitle: "Title",
         formFeedback: "Feedback",
         formCaptcha: "Insert captcha value",
@@ -63,10 +66,12 @@ export const uiText = {
         tbColName: "Name",
         tbColEmail: "Email",
         tbColOrganization: "Organization",
+        tbColSecretariats: "Secretariats",
         tbColRole: "Role",
         tbColSurveys: "Surveys",
         tbColSubmitter: "Submitter",
         tbColForm: "Form",
+        tbColYear: "Year",
         tbColAction: "Action",
         tbRowNoRecords: "There are no records to display.",
         // Modal
@@ -103,7 +108,7 @@ export const uiText = {
         textFooterImpressum: "Impressum",
         textFooterFaq: "FAQ",
         // assignment panel
-        textAssignmentPanel: "Thank you for completing your registration. The GISCO secretariat will verify your credentials and assign you the appropriate surveys. You will be notified via email.",
+        textAssignmentPanel: "Thank you for completing your registration. We will verify your credentials and assign you the appropriate surveys. You will be notified via email.",
         textUntitledProject: "Untitled Project",
         textUnsavedChanges: "You have unsaved changes for user ",
         textEmailNotVerifiedYet: <Fragment>is not verified yet.<br/><hr/>The user can only be informed about the assignment to questionnaires after he/she has verified his/her email address.</Fragment>,
@@ -111,10 +116,13 @@ export const uiText = {
         btnCollaborators: "Add Collaborators",
         infoNoSubmittedData: "No Submitted Data",
         textInfoSubmission: "There's maybe a slight delay between a submission made and data being ready to download.",
+        dwnLOfSubmissions: "Download of submissions",
     },
 
     de: {
         welcome: <Fragment>Willkommen<br/>zum Pilotmonitoring des Forum nachhaltiger Kakao<br/>für das Berichtsjahr 2019!</Fragment>,
+        welcome2: "Monitoring for 2019-2020 data",
+        welcome3: <Fragment>Willkommen<br/>zum Monitoring für das Berichtsjahr<br/>2020 data</Fragment>,
         // Navigation
         navSurvey: "Umfrage",
         navDefinitions: "Definitionen",
@@ -125,6 +133,7 @@ export const uiText = {
         navSearch: "Suchen",
         navGettingStarted: "Getting Started",
         navSubmission: "Submission",
+        navHome: "Home",
         // Form
         formChangePwd: "Passwort ändern",
         formEmail: "Emailadresse",
@@ -135,7 +144,7 @@ export const uiText = {
         formNewPwd: "Neues Passwort",
         formConfirmNewPwd: "Neues Passwort bestätigen",
         formQuestionnaire: "Fragebogen",
-        formFeedbackTitle: "Bitte geben Sie uns Ihr Feedback. Dieses hilft uns, das Monitoringsystem zu verbessern",
+        formFeedbackTitle: "Bitte geben Sie uns Feedback. Dieses hilft uns, das Monitoringsystem zu verbessern.",
         formTitle: "Titel",
         formFeedback: "Feedback",
         formCaptcha: "Bitte tragen die den Wert/die Werte ein",
@@ -175,11 +184,13 @@ export const uiText = {
         tbColName: "Name",
         tbColEmail: "Email",
         tbColOrganization: "Organisation",
+        tbColSecretariats: "Sekretariate",
         tbColRole: "Rolle",
         tbColSurveys: "Umfragen",
-        tbColSubmitter: "Submitter",
-        tbColForm: "Form",
-        tbColAction: "Action",
+        tbColSubmitter: "Nutzerin/Nutzer",
+        tbColForm: "Formular",
+        tbColYear: "Jahr",
+        tbColAction: "Aktion",
         tbRowNoRecords: "Keine Daten vorhanden.",
         // Modal
         modalDataSecurity: "Datensicherheitsmaßnahmen",
@@ -215,13 +226,15 @@ export const uiText = {
         textFooterImpressum: "Impressum",
         textFooterFaq: "FAQ",
         // assignment panel
-        textAssignmentPanel: "Vielen Dank, dass Sie sich registriert haben. Die Geschäftsstelle des Forum Nachhaltiger Kakao wird Ihre Kontaktdaten verifizieren und Ihnen die für Ihre Mitgliedsgruppe passenden Fragebögen freischalten. Sie werden per Email informiert, sobald Sie freigeschaltet wurden.",
+        textAssignmentPanel: "Vielen Dank, dass Sie sich registriert haben. Wir werden Ihre Kontaktdaten verifizieren und Ihnen die für Ihre Mitgliedsgruppe passenden Fragebögen freischalten. Sie werden per Email informiert, sobald Sie freigeschaltet wurden.",
         textUntitledProject: "Untitled Project",
         textUnsavedChanges: "Sie haben ungespeicherte Änderungen für den Nutzer/die Nutzerin ",
         textEmailNotVerifiedYet: <Fragment>wurde noch nicht verifiziert. <br/><hr/>Der Nutzer/die Nutzerin kann nur über seine/ihre Freischaltung von Fragebögen informiert werden, nachdem er seine/ sie ihre Emailadresse verifiziert hat.</Fragment>,
         // collaborators
         btnCollaborators: "Partner hinzufügen",
         infoNoSubmittedData: "No Submitted Data",
-        textInfoSubmission: "There's maybe a slight delay between a submission made and data being ready to download.",
+        // Download
+        textInfoSubmission: "Es kann zu einer leichten Verzögerung kommen, bis die eingereichten Daten zum Download bereitstehen.",
+        dwnLOfSubmissions: "Download der eingereichten Daten",
     },
 };
