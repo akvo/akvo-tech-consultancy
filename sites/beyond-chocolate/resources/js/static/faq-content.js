@@ -141,16 +141,16 @@ const faqDe = [
         <Fragment>
             <p>Auf die Daten, die über die Fragebögen eingegeben werden, kann zugegriffen werden durch:</p>
             <ol className="ml-2" type="a">
-                <li>Die Kolleg*innen aus Ihrer eigenen Organisation, die je nach Art des Zugriffs (Mitgliederfragebogen, Projektfragebogen oder beides) als Nutzer*innen zum Portal hinzugefügt werden. Solange der Fragebogen noch nicht eingereicht ist, können sie auf Daten des Fragebogens zugreifen und diese bearbeiten.</li>
-                <li>Bei Projektfragebögen haben Kolleg*innen ausgewählter Projektpartnerorganizationen, die auch Mitglieder des Kakaoforums sind und über autorisierten Zugriff auf Projektfragebögen verfügen, denselben Zugriff auf die Daten des Fragebogens für das Projekt, an dem Ihre eigene Organisation als Partner teilnimmt.</li>
-                <li>Sobald der Fragebogen eingereicht wurde, hat eine begrenzte Anzahl von Mitarbeitenden, die von der Geschäftsstelle des Kakaoforums ausgewählt wurden, und die in den Datenschutzbestimmungen aufgeführt sind und entsprechende Vertraulichkeits-Erklärungen unterzeichnet haben, Zugriff auf einzelne Fragebogendaten, um die Gültigkeit und die Konsistenz der Daten zu überprüfen und / oder um zu überprüfen, ob die Schlussfolgerungen aus der Analyse anonymisierter und / oder aggregierter Daten schlüssig sind.</li>
-                <li>Autorisierte Mitarbeitende von AKVO als beauftragter IT-Dienstleister / Datenverarbeiter für das System. Ihre Rolle beschränkt sich darauf, bei IT-Problemen einzugreifen und Unterstützung für die Datenverarbeitung bereitzustellen.</li>
+                <li>Die Kolleginnen und Kollegen aus Ihrer eigenen Organisation, die je nach Art des Zugriffs (Mitgliederfragebogen, Projektfragebogen oder beides) als Nutzende zum Portal hinzugefügt werden. Solange der Fragebogen noch nicht eingereicht ist, können sie auf Daten des Fragebogens zugreifen und diese bearbeiten.</li>
+                <li>Bei Projektfragebögen haben Kolleginnen und Kollegen ausgewählter Projektpartnerorganizationen, die auch Mitglieder des Kakaoforums sind und über autorisierten Zugriff auf Projektfragebögen verfügen, denselben Zugriff auf die Daten des Fragebogens für das Projekt, an dem Ihre eigene Organisation als Partner teilnimmt.</li>
+                <li>Sobald der Fragebogen eingereicht wurde, hat eine begrenzte Anzahl von Mitarbeitenden, die von der Geschäftsstelle des Kakaoforums ausgewählt wurden, und die in den Datenschutzbestimmungen aufgeführt sind und entsprechende Vertraulichkeits-Erklärungen unterzeichnet haben, Zugriff auf einzelne Fragebogendaten, um die Gültigkeit und die Konsistenz der Daten zu überprüfen und/oder um zu überprüfen, ob die Schlussfolgerungen aus der Analyse anonymisierter und/oder aggregierter Daten schlüssig sind.</li>
+                <li>Autorisierte Mitarbeitende von AKVO als beauftragter IT-Dienstleister/Datenverarbeiter für das System. Ihre Rolle beschränkt sich darauf, bei IT-Problemen einzugreifen und Unterstützung für die Datenverarbeitung bereitzustellen.</li>
             </ol>
-            <p>Andere Nutzer*innen der Plattform oder andere Organisationen haben keinen Zugriff auf die von Ihnen eingegebenen Daten.</p>
+            <p>Andere Nutzende der Plattform oder andere Organisationen haben keinen Zugriff auf die von Ihnen eingegebenen Daten.</p>
             <p>Bitte schauen Sie auch bei <b>Wie wird die Vertraulichkeit unserer Daten gewahrt?</b></p>
         </Fragment>
     }, {
-        h: <Fragment>Dezimalstellen - Warum kann ich keine Zahlen mit Dezimalstellen <b>,</b> eingeben?</Fragment>,
+        h: <Fragment>Dezimalstellen - Warum kann ich keine Zahlen mit Dezimalstellen<b>,</b> eingeben?</Fragment>,
         c:
         <Fragment>
             <p>Verwenden Sie bitte einen <b>Punkt (.)</b>, anstelle eines <b>Kommas (,)</b>!</p>
@@ -160,16 +160,16 @@ const faqDe = [
         h: "Doppelzählung - Wie wird eine Doppelzählung des an den deutschen Markt gelieferten Kakaos vermieden?",
         c:
         <Fragment>
-            <p>Für die Fragengruppen <b>Transparenz und Rückverfolgbarkeit der Herkunft</b> und <b>Zertifizierter oder unabhängig verifizierter Kakao</b> konzentriert sich die Berichterstattung des Kakaoforums auf Kakao in Endprodukten für Verbraucher, die an den deutschen Markt geliefert werden.</p>
+            <p>Für die Fragengruppen <b>Transparenz und Rückverfolgbarkeit der Herkunft</b> und <b>Zertifizierter oder unabhängig verifizierter Kakao</b> konzentriert sich die Berichterstattung des Kakaoforums auf Kakao in Endprodukten für Verbrauchende, die an den deutschen Markt geliefert werden.</p>
             <p>Um Doppelzählungen zu vermeiden, ist das entsprechende Kakaovolumen (ausgedrückt in MT-BE bzw. Tonnen - Bohnenäquivalente) von den Verbrauchermarken anzugeben; Einzelhändler berichten auf die gleiche Weise wie Verbrauchermarken für ihre eigenen Labels.</p>
-            <p>Derzeit werden die Mitglieder des Kakaoforums nicht gebeten, über die Menge an Kakao zu berichten, die zur Verarbeitung und / oder Herstellung von Zwischen- oder Endverbraucherprodukten in Deutschland bezogen wird. Wenn zu solchen Daten zu einem späteren Zeitpunkt berichtet werden sollte, würden diese Daten zur Kakaoverarbeitung separat erfasst werden. So wird immer noch eine Doppelzählung vermieden.</p>
+            <p>Derzeit werden die Mitglieder des Kakaoforums nicht gebeten, über die Menge an Kakao zu berichten, die zur Verarbeitung und/oder Herstellung von Zwischen- oder Endverbraucherprodukten in Deutschland bezogen wird. Wenn zu solchen Daten zu einem späteren Zeitpunkt berichtet werden sollte, würden diese Daten zur Kakaoverarbeitung separat erfasst werden. So wird immer noch eine Doppelzählung vermieden.</p>
         </Fragment>
     }, {
         h: "Doppelzählung - Wie wird eine Doppelzählung von Projektdaten und anderen Daten vermieden?",
         c:
         <Fragment>
-            <p>Mitglieder können über alle ihre Kakao-Nachhaltigkeitsprojekte / -programme berichten, ohne eine Verbindung zum deutschen Markt zu benötigen. Jedes dieser Projekte / Programme wird jedoch nur einmal gemeldet. Projekte / Programme, die von mehreren Forums-Mitgliedern gemeinsam durchgeführt werden, werden nur einmal registriert und rapportiert.</p>
-            <p>Der Übergang zu einem gemeinsamen Berichtstool für die verschiedenen europäischen Plattformen stellt sicher, dass Unternehmen und andere Organisationen, die Mitglied mehrerer (oder aller) europäischer Plattformen sind, nur einmal über dieselben Daten berichten müssen. Diese Einzelberichterstattung trägt dazu bei, Doppelzählungen zu vermeiden.</p>
+            <p>Mitglieder können über alle ihre Kakao-Nachhaltigkeitsprojekte/-programme berichten, ohne eine Verbindung zum deutschen Markt zu benötigen. Jedes dieser Projekte/Programme wird jedoch nur einmal gemeldet. Projekte / Programme, die von mehreren Forums-Mitgliedern gemeinsam durchgeführt werden, werden nur einmal registriert und berichtet.</p>
+            <p>Der Übergang zu einem gemeinsamen Berichtstool für die verschiedenen europäischen Plattformen stellt sicher, dass Unternehmen und andere Organisationen, die Mitglied mehrerer (oder aller) europäischer Plattformen sind, nur einmal über dieselben Daten berichten müssen. Dies trägt dazu bei, Doppelzählungen zu vermeiden.</p>
             <p>Kakao-Nachhaltigkeitsprojekt-/ Programmmanager*innen werden aufgefordert, Doppelzählungen innerhalb ihrer eigenen Berichterstattung an das Kakaoforum und an die anderen Plattformen zu vermeiden.</p>
             <p>Zum jetzigen Zeitpunkt kann jedoch beispielsweise nicht ausgeschlossen werden, dass ein bäuerlicher Haushalt von mehr als einem Projekt als „erreicht“ gemeldet wird. Weitere Analysen werden zeigen, ob eine solche Doppelzählung mit einer signifikanten Rate auftritt und wenn ja, welcher Ansatz zur Korrektur dieser Doppelzählung verwendet werden sollte.</p>
         </Fragment>
@@ -177,10 +177,10 @@ const faqDe = [
         h: "Herunterladen - Kann ich meine Daten herunterladen / extrahieren?",
         c:
         <Fragment>
-            <p>Sie können in der Tat die Daten eines (vollständig / teilweise) ausgefüllten Fragebogens herunterladen. Sie können dies tun, um eine Offline-Überprüfung und / oder einen Beitrag eines Kollegen zu ermöglichen, bevor Sie den Fragebogen einreichen.</p>
+            <p>Sie können in der Tat die Daten eines (vollständig/teilweise) ausgefüllten Fragebogens herunterladen. Sie können dies tun, um eine Offline-Überprüfung und / oder einen Beitrag eines Kollegen oder einer Kollegin zu ermöglichen, bevor Sie den Fragebogen einreichen.</p>
             <img height="400px" className="img img-shadows" src={require('../../images/faq-download-form.png')}/><br/><br/>
             <p>Um einen solchen Download zu aktivieren, klicken Sie zunächst auf die Schaltfläche <b>Übersichten (<i>Overviews</i>)</b> auf der linken Seite Ihres Bildschirms (über dem Navigationsmenü der Fragengruppe in der linken Spalte des Bildschirms).</p>
-            <p>Bevor Sie Ihren ausgefüllten Fragebogen einreichen, sollten Sie auch eine Version für Ihre eigenen Unterlagen herunterladen.</p>
+            <p>Bevor Sie Ihren ausgefüllten Fragebogen einreichen, können Sie eine Version für Ihre eigenen Unterlagen herunterladen.</p>
         </Fragment>
     }, {
         h: "Deutscher Markt - Inwieweit sind die zu meldenden Daten spezifisch mit dem deutschen Markt verknüpft?",
@@ -189,7 +189,7 @@ const faqDe = [
             <p>Die Berichterstattung hängt zunächst mit der Mitgliedschaft der berichtenden Organisation im Kakaoforum sowie mit den Bemühungen und Ergebnissen des Mitglieds bei der Verfolgung eines nachhaltigeren Kakaosektors zusammen.</p>
             <p>Nur zwei Fragengruppen, <b>Transparenz und Rückverfolgbarkeit der Herkunft</b> und <b>Zertifizierter oder unabhängig verifizierter Kakao</b>, beziehen sich auf Kakao in den Endverbraucherprodukten, die die berichtenden Organisationen an den deutschen Markt geliefert haben.</p>
             <ul>
-                <li>Es ist zu beachten, dass das Kakaovolumen in Endprodukten für Verbraucher, die an den nationalen Markt in Europa (in diesem Fall den deutschen Markt) geliefert werden, von den Verbrauchermarken zu melden ist. Dieses Volumen wird in MT-BE (Tonnen - Bohnen Äquivalente) ausgedrückt. Von Einzelhändlern wird erwartet, dass sie für ihre eigenen Marken (Marken) auf die gleiche Weise wie die Verbrauchermarken berichten. Natürlich verlassen sich diese Marken bei Bedarf auf die entsprechenden Informationen ihrer Lieferanten.</li>
+                <li>Es ist zu beachten, dass das Kakaovolumen in Endprodukten für Verbrauchende, die an den nationalen Markt in Europa (in diesem Fall den deutschen Markt) geliefert werden, von den Verbrauchermarken zu melden ist. Dieses Volumen wird in MT-BE (Tonnen - Bohnen Äquivalente) ausgedrückt. Von Einzelhändlern wird erwartet, dass sie für ihre eigenen Marken (Marken) auf die gleiche Weise wie die Verbrauchermarken berichten. Natürlich verlassen sich diese Marken bei Bedarf auf die entsprechenden Informationen ihrer Liefernden.</li>
                 <li>Soweit solche Informationen nach Bestimmungsmarkt (in diesem Fall Deutschland) aufgeschlüsselt werden können, ist der unter diesen beiden Fragengruppen zu meldende Prozentsatz spezifisch für den deutschen Markt. Andernfalls geben die berichtenden Organisationen den Prozentsatz an, der ihrer globalen Beschaffung entspricht.</li>
                 <li>Solche %, die ihrer globalen Beschaffung entsprechen, können selbst dann bereitgestellt werden, wenn die berichtende Organisation keine Endverbraucherprodukte an den deutschen Markt liefert.</li>
             </ul>
@@ -197,7 +197,7 @@ const faqDe = [
         </Fragment>
     }, {
         h: "Probleme - Wie melde ich ein Problem / fordere ich Unterstützung an?",
-        c: <p>Die Portaladministratoren können über das Feedback-Formular kontaktiert werden. Um zu diesem Formular zu gelangen, wählen Sie bitte <b>Feedback</b> im Menü oben links / in der Mitte des Bildschirms. Sobald Sie ein Problem / eine Anfrage eingereicht haben, werden sich die Portaladministratoren so schnell wie möglich mit Ihnen in Verbindung setzen.</p>
+        c: <p>Die Portaladministrierenden können über das Feedback-Formular kontaktiert werden. Um zu diesem Formular zu gelangen, wählen Sie bitte <b>Feedback</b> im Menü oben links/in der Mitte des Bildschirms. Sobald Sie ein Problem/eine Anfrage eingereicht haben, werden sich die Portaladministrierenden so schnell wie möglich mit Ihnen in Verbindung setzen.</p>
     }, {
         h: "Obligatorische Fragen - Kann ich einen Fragebogen einreichen, ohne alle obligatorischen Fragen auszufüllen?",
         c:
