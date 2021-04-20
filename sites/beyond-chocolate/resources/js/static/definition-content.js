@@ -168,15 +168,15 @@ const defs = {
             i: 'Supply origin transparency level',
             t: 'Supply origin transparency level',
             d: <Fragment>
-                Beim supply origin transparency level ("Beschaffungsursprungs-Transparenz Stufe") geht es darum, inwieweit detaillierte Informationen über die Herkunft des Kakaos in den ersten Phasen des Beschaffungsprozesses dokumentiert werden, wobei diese Informationen in späteren Stufen der Lieferkette verfügbar bleiben.
+                Beim supply origin transparency level (Level der Herkunftstransparenz) geht es darum, inwieweit detaillierte Informationen über die Herkunft des Kakaos in den ersten Phasen des Beschaffungsprozesses dokumentiert werden, wobei diese Informationen in späteren Stufen der Lieferkette verfügbar bleiben.
                 <ul className="list-unstyled">
                     <li>Stufe 1: Ursprung unbekannt oder nur Anbauland bekannt</li>
-                    <li>Stufe 2: Anbauland und Anbauregion bekanntg</li>
+                    <li>Stufe 2: Anbauland und Anbauregion bekannt</li>
                     <li>Stufe 3: Land, Region und Gemeinde/Ursprungskooperative bekannt </li>
                     <li>Stufe 4: Betrieb bekannt, zusätzlich zu Land, Region und Gemeinde/Ursprungskooperative</li>
-                    <li>Stufe 5: Betrieb bekannt mit Punktkoordinaten des landwirtschaftlichen Betriebs (Betriebskartierung)g</li>
-                    <li>Stufe 5+: Betrieb bekannt mit Polygongrenzen des landwirtschaftlichen Betriebs.</li>
-                    <li>Stufe 6: Betrieb bekannt, die Polygongrenzen des Betriebs und der Felder des Betriebs wurden verifiziert und liegen nachweislich nicht in einem geschützten Wald und nicht auf Land, das seit 2018 abgeholzt wurde</li>
+                    <li>Stufe 5: Betrieb bekannt mit Punktkoordinaten des landwirtschaftlichen Betriebs (Betriebskartierung)</li>
+                    <li>Stufe 5+: Betrieb bekannt mit Polygongrenzen des landwirtschaftlichen Betriebs</li>
+                    <li>Stufe 6: Betrieb bekannt, die Polygongrenzen des Betriebs und der Felder des Betriebs wurden verifiziert und liegen nachweislich nicht in einem geschützten Wald und nicht auf Land, das seit 2018 abgeholzt wurde.</li>
                 </ul>
             </Fragment>
         }, {
@@ -219,7 +219,7 @@ const defs = {
         }, {
             i: 'Strategy to promote diversified and sustainable farming systems, as a contribution to environmental sustainability',
             t: 'Strategie zur Förderung diversifizierter und nachhaltiger Anbausysteme als Beitrag zur ökologischen Nachhaltigkeit',
-            d: 'Eine "Strategie zur Förderung diversifizierter und nachhaltiger Anbausysteme als Beitrag zur ökologischen Nachhaltigkeit" bedeutet, dass das Kakao-Nachhaltigkeitsprojekt (Programm/Projekt/Initiative) auf Veränderungen der Anbaupraktiken oder -systeme abzielt, die von kakaoanbauenden Haushalten verwendet werden.Eine solche Strategie kann darauf abzielen, (a) die negativen Umweltauswirkungen bestehender Anbaupraktiken oder -systeme zu verringern oder abzuschwächen oder (b) die Verwendung anderer Anbaupraktiken und -systeme, die positive Auswirkungen auf die Umwelt haben durch die bäuerlichen Haushalte zu erreichen.  Dies kann Ziele in Bezug auf die Nutzung natürlicher Ressourcen, Bodenqualität, Pestizide, biologische Vielfalt, Klimaresistenz, Waldbedeckung usw. beinhalten. Eine solche Strategie sollte in irgendeiner Weise dokumentiert und explizit ausformuliert sein, aber es muss sich dabei nicht um ein separates, spezifisches strategisches Doucment zu diesen Themen handeln. Die Strategie kann Teil eines Projektdokuments, der Veränderungstheorie eines Projekts usw. sein.'
+            d: 'Eine "Strategie zur Förderung diversifizierter und nachhaltiger Anbausysteme als Beitrag zur ökologischen Nachhaltigkeit" bedeutet, dass das Kakao-Nachhaltigkeitsprojekt (Programm/Projekt/Initiative) auf Veränderungen der Anbaupraktiken oder -systeme abzielt, die von kakaoanbauenden Haushalten verwendet werden. Eine solche Strategie kann darauf abzielen, (a) die negativen Umweltauswirkungen bestehender Anbaupraktiken oder -systeme zu verringern oder abzuschwächen oder (b) die Verwendung anderer Anbaupraktiken und -systeme, die positive Auswirkungen auf die Umwelt haben durch die bäuerlichen Haushalte zu erreichen.  Dies kann Ziele in Bezug auf die Nutzung natürlicher Ressourcen, Bodenqualität, Pestizide, biologische Vielfalt, Klimaresistenz, Waldbedeckung usw. beinhalten. Eine solche Strategie sollte in irgendeiner Weise dokumentiert und explizit ausformuliert sein, aber es muss sich dabei nicht um ein separates, spezifisches strategisches Dokument zu diesen Themen handeln. Die Strategie kann Teil eines Projektdokuments, der Veränderungstheorie eines Projekts usw. sein.'
         }, {
             i: 'AGROFORESTRY System for Cocoa Production  (Description)',
             t: 'AGROFORSTSYSTEM für Kakao (Beschreibung)',
