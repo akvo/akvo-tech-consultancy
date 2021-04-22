@@ -27,7 +27,7 @@ class ApiController extends Controller
 
     public function getSecretariat()
     {
-        $secretariat = Secretariat::all();
+        $secretariat = Secretariat::orderBy('name', 'ASC')->get();
         return $secretariat;
     }
 
@@ -48,7 +48,7 @@ class ApiController extends Controller
         } else {
             $orgs = Organization::with('secretariats', 'parents');
         }
-        $orgs = $orgs->where([['level', 1], ['active', true]])->get();
+        $orgs = $orgs->where([['level', 1], ['active', true]])->orderBy('name', 'ASC')->get();
         return $this->tidyOrgs($orgs);
     }
 
