@@ -58,7 +58,7 @@ class SubmissionController extends Controller
 
     public function syncAndDownloadData(Request $request, FlowDataSeedController $flowData, FlowDataSyncController $syncData)
     {
-        $idh_forms = config('bc.idh_forms');
+        $idh_forms = config('bc.idh_questionnaires');
         # TODO :: check if uuid has been on database
         $form_instance = FormInstance::where('identifier', $request->uuid)->first();
         Log::error('ey!', [$form_instance, $request->uuid]);
