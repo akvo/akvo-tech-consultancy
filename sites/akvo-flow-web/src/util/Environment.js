@@ -18,8 +18,8 @@ export const SAVE_FEATURES = [
     {
         instance:"isco",
         save: true,
-        api: "veva.io/api",
-        demoApi: "veva.io/api",
+        api: "cocoamonitoring.net/api",
+        demoApi: "cocoamonitoring.net/api",
         formEndpoint: false,
         skipPassword: true,
         skipMandatories: ["120190025"],
