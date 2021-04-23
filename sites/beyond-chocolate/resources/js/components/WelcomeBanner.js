@@ -9,7 +9,7 @@ const WelcomeBanner = () => {
 
     return (
         <Jumbotron className="hero">
-            <h1>{ text.welcome3 }</h1>
+            <h1></h1>
             <div className="colourBg1"></div>
             <div className="colourBg2"></div>
         </Jumbotron>
