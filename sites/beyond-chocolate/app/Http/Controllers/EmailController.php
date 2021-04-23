@@ -50,12 +50,14 @@ class EmailController extends Controller
                 <p>Please note that the projects' questionnaire applies only to
                 you if you implement a cocoa sustainability project/ program in
                 a country of origin. If you do not implement any projects, you
-                can ignore the projects' questionnaire. </p>
+                can ignore the projects' questionnaire. For Beyond Chocolate members,
+                the project questionnaire is only obligatory for sustainability programs
+                and standards. </p>
 
                 <p>If you are partner to a joint project by two or more platform
                 members, please note that this project should be reported only
-                once. If you are not the coordinating partner who will report on
-                that project, you will be informed automatically via email once
+                once. If you are not the coordinating partner the partner assigned
+                to report on that project, you will be informed automatically via email once
                 you were added by the coordinating partner as a partner to that
                 particular project. This will allow all partners to be involved
                 in a single reporting of a joint cocoa sustainability project/
@@ -74,15 +76,17 @@ class EmailController extends Controller
                 relevant für Sie ist, falls Sie ein
                 Kakao-Nachhaltigkeits-Projekt/-Programm in einem Ursprungsland
                 durchführen oder daran beteiligt sind. Wenn Sie keine Projekte
-                haben, können Sie diesen Fragebogen ignorieren. </p>
+                haben, können Sie diesen Fragebogen ignorieren.
+                Für Beyond Chocolate Mitglieder ist der Projektfragebogen nur
+                für Nachhaltigkeitsprogramme und – standards relevant.</p>
 
                 <p>Falls Sie Partner eines gemeinsamen Projektes von zwei oder
                 mehr Mitgliedern der Kakaoplattform sind, beachten Sie bitte,
-                dass über dieses Projekt nur einmal berichtet werden soll. Falls
+                dass über jedes Projekt nur einmal berichtet werden soll. Falls
                 Sie nicht der koordinierende Partner für dieses Projekt sind,
-                der über dieses Projekt berichtet, werden Sie automatisch per
-                Email informiert, sobald Sie von dem koordinierenden Partner als
-                Projektpartner hinzugefügt wurden. Dies erlaubt es allen
+                bzw. den Auftrag haben, über das Projekt zu berichten, werden Sie
+                automatisch per Email informiert, sobald Sie von dem koordinierenden
+                Partner als Projektpartner hinzugefügt wurden. Dies erlaubt es allen
                 Projektpartnern, an der Berichterstattung zu einem gemeinsamen
                 Kakao-Nachhaltigkeitsprojekt (/-programm) mitzuwirken.</p>
 
