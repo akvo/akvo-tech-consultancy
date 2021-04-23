@@ -38,4 +38,4 @@ Route::post('/user/update', [Auth::class, 'update'])->middleware('auth:api');
 Route::post('/user/list', [Auth::class, 'list'])->middleware('auth:api');
 Route::post('/user/access', [Auth::class, 'access'])->middleware('auth:api');
 
-Route::get('/syncData', [Seed::class, 'seed']);
+Route::get('/syncData/{form_id}', [Seed::class, 'seed']);

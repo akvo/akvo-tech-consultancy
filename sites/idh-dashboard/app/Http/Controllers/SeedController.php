@@ -8,11 +8,14 @@ use League\Csv\Writer;
 
 class SeedController extends Controller
 {
-    public function seed()
+    public function seed(Request $request)
     {
         ini_set('max_execution_time', 600);
+        echo("Seeding Forms fid: ".$request->form_id.PHP_EOL);
         $sources = config('data.sources');
-        echo("Seeding Forms".PHP_EOL);
+        if ($request->form_id !== 'all') {
+            $sources = collect($sources)->where('fid', $request->form_id)->values();
+        }
         foreach ($sources as $data) {
             $this->createForm($data);
         }
