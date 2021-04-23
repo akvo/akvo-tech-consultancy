@@ -49,8 +49,8 @@ const defs = {
                 </table>
                 </Fragment>
         }, {
-            i: 'Direct supply',
-            t: 'Direct supply',
+            i: 'Direkte Lieferkette',
+            t: 'Direkte Lieferkette',
             d: 'Damit Kakao als "über eine direkte Lieferkette bezogener Kakao" kategorisiert werden kann, muss eine relativ stabile Partnerschaft bzw. Zusammenarbeit zwischen dem Unternehmen und den Kakaoproduzenten bestehen, die sich über mindestens 3 Jahre erstrecken soll. Diese Partnerschaft bzw. Zusammenarbeit kann sich auf Themen wie Preis, Qualität, gute landwirtschaftliche Praktiken, soziale, menschenrechtliche und ökologische Fragen, Zertifizierungsanforderungen usw. beziehen. Diese Partnerschaft bzw. Zusammenarbeit zwischen dem Unternehmen und den Erzeugern (kakaoanbauenden Haushalten) kann über Kooperativen, Bauernorganisationen und/oder andere in die direkte Lieferkette eingebettete Vermittler erfolgen.'
         }, {
             i: 'Conventional (traceability level 0)',
