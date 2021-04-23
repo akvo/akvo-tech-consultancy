@@ -12,7 +12,7 @@ import { uiText } from "../static/ui-text";
 import { useLocale } from "../lib/locale-context";
 import { wfc } from "../static/webform-content";
 import AuthBrand from "../components/AuthBrand.js";
-
+import WelcomeBanner from "../components/WelcomeBanner";
 
 const RegisterForm = ({ text, content, setRegistered, organizations, secretariats }) => {
     const {
@@ -78,7 +78,10 @@ const RegisterForm = ({ text, content, setRegistered, organizations, secretariat
         });
     };
 
-    return (
+  return (
+          <>
+      <WelcomeBanner />
+
         <Row className="justify-content-md-end"
         >
             <Col md={10}>
@@ -202,6 +205,7 @@ const RegisterForm = ({ text, content, setRegistered, organizations, secretariat
                 </Form>
             </Col>
         </Row>
+   </>
     );
 };
 
