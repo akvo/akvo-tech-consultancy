@@ -79,8 +79,6 @@ const RegisterForm = ({ text, content, setRegistered, organizations, secretariat
     };
 
   return (
-          <>
-      <WelcomeBanner />
 
         <Row className="justify-content-md-end"
         >
@@ -205,7 +203,6 @@ const RegisterForm = ({ text, content, setRegistered, organizations, secretariat
                 </Form>
             </Col>
         </Row>
-   </>
     );
 };
 
@@ -250,8 +247,11 @@ const Register2 = () => {
 
 
     return (
+          <>
+      <WelcomeBanner />
+
         <Container className="authPg">
-            <Row className="justify-content-md-center align-items-center" style={{'marginTop': '150px'}}>
+            <Row className="justify-content-md-center align-items-center" style={{'marginTop': '100px'}}>
                 <AuthBrand text={text} />
                 <Col md={6}>
                     {registered ? (
@@ -275,6 +275,7 @@ const Register2 = () => {
                 data={dsc}
             />
         </Container>
+      </>
     );
 };
 
