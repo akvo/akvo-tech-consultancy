@@ -22,7 +22,9 @@ export const SAVE_FEATURES = [
         demoApi: "cocoamonitoring.net/api",
         formEndpoint: false,
         skipPassword: true,
-      skipMandatories: ["120190025", "122170164"],
+      skipMandatories: ["114380434","122170164", "114380235", "110440021", "118270247", "110470073",
+                        "120260091", "126180526", "108490561"
+                       ],
     },
     {
         instance:"idh",
