@@ -20,9 +20,41 @@ const questionnaire = {
         en: "Internal dev form",
         de: "interne Entwicklungsform"
     },
-    "122170164": {
-        en: "Member_Beyond Chocolate_Industry en",
-        de: "Member_Beyond Chocolate_Industry de"
+    "114380434": {
+        en: "Master_Beyond Chocolate_Standard setting organisations",
+        de: "Master_Beyond Chocolate_Standard setting organisations"
+    },
+  "122170164": {
+        en: "Member_Beyond Chocolate_Industry",
+        de: "Member_Beyond Chocolate_Industry"
+    },
+  "114380235": {
+        en: "Member_Beyond Chocolate_Retail",
+        de: "Member_Beyond Chocolate_Retail"
+    },
+  "110440021": {
+        en: "Member_GISCO_Industry",
+        de: "Member_GISCO_Industry"
+    },
+  "118270247": {
+        en: "Member_GISCO_NGO",
+        de: "Member_GISCO_NGO"
+    },
+  "110470073": {
+        en: "Member_GISCO_Retail",
+        de: "Member_GISCO_Retail"
+    },
+  "120260091": {
+        en: "Member_GISCO_Beyond Chocolate_Industry",
+        de: "Member_GISCO_Beyond Chocolate_Industry"
+    },
+  "126180526": {
+        en: "Member_GISCO_Beyond Chocolate_Retail",
+        de: "Member_GISCO_Beyond Chocolate_Retail"
+    },
+  "108490561": {
+        en: "Member_GISCO_Beyond Chocolate_Standard setting organisation",
+        de: "Member_GISCO_Beyond Chocolate_Standard setting organisation"
     },
     "111510043": {
         en: "Projects - GISCO",
