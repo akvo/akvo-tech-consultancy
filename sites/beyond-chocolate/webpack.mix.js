@@ -10,25 +10,37 @@ require('laravel-mix-transpile-node-modules');
  | file for the application as well as bundling up all the JS files.
  |
  */
-
-mix.react("resources/js/app.js", "public/js")
-    .babel(["public/js/app.js"], 'public/js/app.js')
-    .sass("resources/sass/app.scss","public/css")
-    .polyfill({
-        enabled: true,
-        useBuiltIns: "usage",
-        targets: "firefox 50, IE 11"
-    });
-
-mix.sourceMaps(); // Enable sourcemaps
-mix.copyDirectory("resources/images", "public/images");
-
 if (mix.inProduction()) {
     mix.transpileNodeModules();
 }
 
+mix.react("resources/js/app.js", "public/js")
+    .babel(["public/js/app.js"], 'public/js/app.js')
+    .sass("resources/sass/app.scss","public/css")
+    .sourceMaps()
+    .polyfill({
+        enabled: true,
+        useBuiltIns: "usage",
+        targets: {"ie": 11}
+    });
+
+// mix.sourceMaps(); // Enable sourcemaps
+mix.copyDirectory("resources/images", "public/images");
+
 mix.webpackConfig({
     devServer: {
         host: "0.0.0.0"
+    },
+    module: {
+        rules: [{
+            test: /\.jsx?$/,
+            exclude: /(bower_components)/,
+            use: [
+                {
+                    loader: 'babel-loader',
+                    options: mix.config.babel()
+                },
+            ],
+        }],
     }
 });
