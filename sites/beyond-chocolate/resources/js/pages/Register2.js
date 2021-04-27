@@ -26,13 +26,17 @@ const RegisterForm = ({ text, content, setRegistered, organizations, secretariat
 
     const password = useRef({});
     password.current = watch("password", "");
-    const [selectedSecretariat, setSelectedSecretariat] = useState({value: false, label:"", error: false});
+    const [selectedSecretariat, setSelectedSecretariat] = useState(null);
 
     const [orgs, setOrgs] = useState(organizations);
     const [selectedOrgs, setSelectedOrgs] = useState({value:false, label:"", error: false});
 
     useEffect(() => {
-        setOrgs(_.filter(organizations, child => _.some(child.secretariats, x => x.pivot.secretariat_id === selectedSecretariat.value )));
+        if (selectedSecretariat == null) {
+            setOrgs(organizations);
+        } else {
+            setOrgs(_.filter(organizations, child => _.some(child.secretariats, x => x.pivot.secretariat_id === selectedSecretariat.value )));
+        }
     }, [selectedSecretariat]);
 
     useEffect(() => {
@@ -160,7 +164,9 @@ const RegisterForm = ({ text, content, setRegistered, organizations, secretariat
                         <Select
                             onChange={opt => setSelectedSecretariat(opt)}
                             options={renderSecretariats(secretariats)}
-                            placeholder={ 'Secretariat' }
+                            placeholder={ text.registerFilterOrganizationsBy }
+                            isClearable={ true }
+                            value={selectedSecretariat}
                         />
                         { selectedOrgs.error ? (
                             <Form.Text className="text-danger">

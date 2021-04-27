@@ -117,6 +117,8 @@ export const uiText = {
         infoNoSubmittedData: "No Submitted Data",
         textInfoSubmission: "There's maybe a slight delay between a submission made and data being ready to download.",
         dwnLOfSubmissions: "Download of submissions",
+        // Register
+        registerFilterOrganizationsBy: "Filter organizations by",
     },
 
     de: {
@@ -236,5 +238,7 @@ export const uiText = {
         // Download
         textInfoSubmission: "Es kann zu einer leichten Verzögerung kommen, bis die eingereichten Daten zum Download bereitstehen.",
         dwnLOfSubmissions: "Download der eingereichten Daten",
+        // Register
+        registerFilterOrganizationsBy: "Filtern Sie Organisationen nach",
     },
 };
