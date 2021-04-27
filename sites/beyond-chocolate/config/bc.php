@@ -48,15 +48,17 @@ return [
     ],
 
     'questionnaires' => [
-        '114380434' => 'Master_Beyond Chocolate_Standard setting organisations',
-        '122170164' => 'Member_Beyond Chocolate_Industry',
-        '114380235' => 'Member_Beyond Chocolate_Retail',
-        '110440021' => 'Member_GISCO_Industry',
-        '118270247' => 'Member_GISCO_NGO',
-        '110470073' => 'Member_GISCO_Retail',
-        '120260091' => 'Member_GISCO_Beyond Chocolate_Industry',
-        '126180526' => 'Member_GISCO_Beyond Chocolate_Retail',
-        '108490561' => 'Member_GISCO_Beyond Chocolate_Standard setting organisation',
+        '102420261' => 'Projects',
+        '114380434' => 'Master Beyond Chocolate Standard setting organisations',
+        '122170164' => 'Member Beyond Chocolate Industry',
+        '114380235' => 'Member Beyond Chocolate Retail',
+        '110440021' => 'Member GISCO Industry',
+        '118270247' => 'Member GISCO NGO',
+        '110470073' => 'Member GISCO Retail',
+        '104340413' => 'Member GISCO Standard setting organisation',
+        '120260091' => 'Member GISCO Beyond Chocolate Industry',
+        '126180526' => 'Member GISCO Beyond Chocolate Retail',
+        '108490561' => 'Member GISCO Beyond Chocolate Standard setting organisation',
     ],
 
     'form_url' => 'https://tech-consultancy.akvotest.org/akvo-flow-web/'.env('AKVOFLOW_INSTANCE').'/',
@@ -78,17 +80,18 @@ return [
                     150981538],
 
     'forms' => [
-        // [
-        //     "surveyGroupId" => "130120028",
-        //     "surveyId" => "120190025",
-        //     "name" => "internal development form"
-        // ],
+        // PROJECTS
+        [
+            "surveyGroupId" => "112160321",
+            "surveyId" => "102420261",
+            "name" => "Projects"
+        ],
 
         // BEYOND CHOCOLATE
         [
             "surveyGroupId" => "120270432",
             "surveyId" => "114380434",
-            "name" => "Master_Beyond Chocolate_Standard setting organisations"
+            "name" => "Member_Beyond Chocolate_Standard setting organisations"
         ],
         [
             "surveyGroupId" => "130170212",
@@ -100,7 +103,6 @@ return [
             "surveyId" => "114380235",
             "name" => "Member_Beyond Chocolate_Retail"
         ],
-        // TODO: ADD Member_Beyond Chocolate_Standard setting organisation
         // GISCO
         [
             "surveyGroupId" => "106130008",
@@ -117,16 +119,18 @@ return [
             "surveyId" => "110470073",
             "name" => "Member_GISCO_Retail"
         ],
-        // TODO: ADD Member_GISCO_Standard setting organisation
+        [
+            "surveyGroupId" => "118300316",
+            "surveyId" => "104340413",
+            "name" => "Member_GISCO_Standard setting organisation"
+        ],
 
         // GISCO && BC
-        // TODO: ADD Member_GISCO - Beyond Chocolate_Standard setting organisation
         [
             "surveyGroupId" => "118290120",
             "surveyId" => "120260091",
             "name" => "Member_GISCO_Beyond Chocolate_Industry"
         ],
-        // TODO: CHECK DUPLICATED Member_GISCO_Beyond Chocolate_Retail
         [
             "surveyGroupId" => "104350552",
             "surveyId" => "126180526",

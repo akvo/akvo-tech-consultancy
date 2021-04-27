@@ -20,41 +20,49 @@ const questionnaire = {
         en: "Internal dev form",
         de: "interne Entwicklungsform"
     },
+    "102420261": {
+        en: "Projects",
+        de: "Projects"
+    },
     "114380434": {
-        en: "Master_Beyond Chocolate_Standard setting organisations",
-        de: "Master_Beyond Chocolate_Standard setting organisations"
+        en: "Member Beyond Chocolate Standard setting organisations",
+        de: "Member Beyond Chocolate Standard setting organisations"
     },
   "122170164": {
-        en: "Member_Beyond Chocolate_Industry",
-        de: "Member_Beyond Chocolate_Industry"
+        en: "Member Beyond Chocolate Industry",
+        de: "Member Beyond Chocolate Industry"
     },
   "114380235": {
-        en: "Member_Beyond Chocolate_Retail",
-        de: "Member_Beyond Chocolate_Retail"
+        en: "Member Beyond Chocolate Retail",
+        de: "Member Beyond Chocolate Retail"
     },
   "110440021": {
-        en: "Member_GISCO_Industry",
-        de: "Member_GISCO_Industry"
+        en: "Member GISCO Industry",
+        de: "Member GISCO Industry"
     },
   "118270247": {
-        en: "Member_GISCO_NGO",
-        de: "Member_GISCO_NGO"
+        en: "Member GISCO NGO",
+        de: "Member GISCO NGO"
     },
   "110470073": {
-        en: "Member_GISCO_Retail",
-        de: "Member_GISCO_Retail"
+        en: "Member GISCO Retail",
+        de: "Member GISCO Retail"
+    },
+  "104340413": {
+        en: "Member GISCO Standard setting organisation",
+        de: "Member GISCO Standard setting organisation"
     },
   "120260091": {
-        en: "Member_GISCO_Beyond Chocolate_Industry",
-        de: "Member_GISCO_Beyond Chocolate_Industry"
+        en: "Member GISCO Beyond Chocolate Industry",
+        de: "Member GISCO Beyond Chocolate Industry"
     },
   "126180526": {
-        en: "Member_GISCO_Beyond Chocolate_Retail",
-        de: "Member_GISCO_Beyond Chocolate_Retail"
+        en: "Member GISCO Beyond Chocolate Retail",
+        de: "Member GISCO Beyond Chocolate Retail"
     },
   "108490561": {
-        en: "Member_GISCO_Beyond Chocolate_Standard setting organisation",
-        de: "Member_GISCO_Beyond Chocolate_Standard setting organisation"
+        en: "Member GISCO Beyond Chocolate Standard setting organisation",
+        de: "Member GISCO Beyond Chocolate Standard setting organisation"
     },
     "111510043": {
         en: "Projects - GISCO",
