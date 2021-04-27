@@ -21,6 +21,7 @@
         "lodash": "^4.17.20",
         "luxon": "^1.25.0",
         "laravel-mix-polyfill": "3.0.0",
+        "react-app-polyfill": "2.0.0",
         "query-string": "^7.0.0",
         "react": "^17.0.1",
         "react-bootstrap": "^1.4.0",
