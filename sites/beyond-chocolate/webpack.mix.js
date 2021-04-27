@@ -1,4 +1,5 @@
 const mix = require("laravel-mix");
+
 require('laravel-mix-polyfill');
 
 /*
@@ -12,13 +13,15 @@ require('laravel-mix-polyfill');
  |
  */
 
-mix.react("resources/js/app.js", "public/js").sass(
+mix.react("resources/js/app.js", "public/js")
+  .sass(
     "resources/sass/app.scss",
-    "public/css"
-).polyfill({
+    "public/css")
+  .polyfill({
       enabled: true,
       useBuiltIns: "usage",
-      targets: "firefox 50, IE 11"
+    targets: {"firefox": "38",
+              "ie": "11"}
    });
 mix.sourceMaps(); // Enable sourcemaps
 mix.copyDirectory("resources/images", "public/images");
