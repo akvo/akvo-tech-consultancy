@@ -42,7 +42,7 @@ class EmailController extends Controller
         $questionnaires = array_map(function($q){return '<li>' . $q . '</li>';}, $request->questionnaires);
         $questionnaires = implode("\n", $questionnaires);
         $body = "Dear Mr./Ms. $request->name<br/><br/>
-                $request->adminName from $request->adminOrg has assigned you the following surveys in the Cocoa monitoring for 2020 data portal for your input:
+                $request->adminName from $request->adminOrg has assigned you the following surveys in the European Initiatives for Sustainable Cocoa Monitoring for 2020 data portal for your input:
                 <ul>
                 $questionnaires
                 </ul>
@@ -67,7 +67,7 @@ class EmailController extends Controller
                 In case of any issue please contact $request->adminName directly or use the feedback form on the portal.<br/>
                 <hr />
                 Liebe/r Herr/ Frau $request->name<br/><br/>
-                $request->adminName von $request->adminOrg hat im Pilot-Monitoring Portal die folgenden Fragebögen für Sie freigeschaltet:
+                $request->adminName von $request->adminOrg hat im  Daten-Portal für das Monitoring für 2020 der Europäischen Initiativen für Nachhaltigen Kakao die folgenden Fragebögen für Sie freigeschaltet:
                 <ul>
                 $questionnaires
                 </ul>
