@@ -20,8 +20,7 @@ mix.react("resources/js/app.js", "public/js")
   .polyfill({
       enabled: true,
       useBuiltIns: "usage",
-    targets: {"firefox": "38",
-              "ie": "11"}
+      targets: "firefox 50, IE 11"
    });
 mix.sourceMaps(); // Enable sourcemaps
 mix.copyDirectory("resources/images", "public/images");
