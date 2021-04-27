@@ -14,7 +14,7 @@ const faqEn = [
                 <li>Authorized staff of AKVO, being the contracted IT service provider/data processors for the system. Their role is limited to intervening when IT issues occur and providing data processing support.</li>
             </ol><br/>
             <p>Other users of the platform or other organizations do not have any access to the data that you enter.</p>
-            <p>Please also check on <b>How is the confidentiality of our data preserved?</b></p>
+            <p>Please also check on the Impressum tab under &quot;Responsible for the technical realization&quot;.</p>
         </Fragment>
     }, {
         h: <Fragment>Decimals - Why can I not enter numbers with decimals <b>(,)</b>?</Fragment>,
@@ -147,7 +147,7 @@ const faqDe = [
                 <li>Autorisierte Mitarbeitende von AKVO als beauftragter IT-Dienstleister/Datenverarbeiter für das System. Ihre Rolle beschränkt sich darauf, bei IT-Problemen einzugreifen und Unterstützung für die Datenverarbeitung bereitzustellen.</li>
             </ol>
             <p>Andere Nutzende der Plattform oder andere Organisationen haben keinen Zugriff auf die von Ihnen eingegebenen Daten.</p>
-            <p>Bitte schauen Sie auch bei <b>Wie wird die Vertraulichkeit unserer Daten gewahrt?</b></p>
+            <p>Bitte prüfen Sie auch unter der Registerkarte Impressum den Punkt „Verantwortlich für die technische Umsetzung&quot;.</p>
         </Fragment>
     }, {
         h: <Fragment>Dezimalstellen - Warum kann ich keine Zahlen mit Dezimalstellen<b>,</b> eingeben?</Fragment>,
