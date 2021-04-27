@@ -20,7 +20,7 @@
         "laravel-mix": "^5.0.1",
         "lodash": "^4.17.20",
         "luxon": "^1.25.0",
-        "query-string": "5.0.0",
+        "query-string": "^7.0.0",
         "react": "^17.0.1",
         "react-bootstrap": "^1.4.0",
         "react-dom": "^17.0.1",
@@ -30,6 +30,7 @@
         "resolve-url-loader": "^3.1.0",
         "sass": "^1.29.0",
         "sass-loader": "^8.0.2",
+        "laravel-mix-polyfill": "^3.0.0",
         "styled-components": "^5.2.1"
     }
 }
