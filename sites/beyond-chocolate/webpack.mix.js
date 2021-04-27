@@ -11,15 +11,16 @@ require('laravel-mix-transpile-node-modules');
  |
  */
 
-if (mix.inProduction()) {
-    mix.transpileNodeModules()
-}
-
 mix.react("resources/js/app.js", "public/js")
-    .babel(["public/js/app.js"], 'public/js.app.es5.js')
+    .babel(["public/js/app.js"], 'public/js/app.js')
     .sass("resources/sass/app.scss","public/css");
+
 mix.sourceMaps(); // Enable sourcemaps
 mix.copyDirectory("resources/images", "public/images");
+
+if (mix.inProduction()) {
+    mix.transpileNodeModules();
+}
 
 mix.webpackConfig({
     devServer: {
