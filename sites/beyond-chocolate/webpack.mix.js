@@ -1,5 +1,5 @@
 const mix = require("laravel-mix");
-
+require('laravel-mix-transpile-node-modules');
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -10,6 +10,10 @@ const mix = require("laravel-mix");
  | file for the application as well as bundling up all the JS files.
  |
  */
+
+if (mix.inProduction()) {
+    mix.transpileNodeModules()
+}
 
 mix.react("resources/js/app.js", "public/js")
     .babel(["public/js/app.js"], 'public/js.app.es5.js')

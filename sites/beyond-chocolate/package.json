@@ -44,5 +44,8 @@
             "last 1 firefox version",
             "last 1 safari version"
         ]
+    },
+    "dependencies": {
+        "laravel-mix-transpile-node-modules": "^2.0.1"
     }
 }
