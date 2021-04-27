@@ -10,7 +10,22 @@
 
         <title>{{ config('app.name', 'Beyond Chocolate') }}</title>
         <link href="{{mix('/css/app.css')}}" rel="stylesheet">
-        <link rel="icon" type="image/png" href="{{asset('/images/favico.png')}}">
+
+
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+
+        {{-- <link rel="icon" type="image/svg+xml" href="{{asset('/images/cocoa.svg')}}"> --}}
+        {{-- <link rel=”mask-icon” href="{{asset('/images/cocoa.svg')}}" color="#000000"> --}}
+        {{-- <link rel="icon" type="image/png" href="{{asset('/images/favico.png')}}"> --}}
+
+
+
+
     </head>
     <body>
         <div id="app"></div>
