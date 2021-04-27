@@ -38,31 +38,31 @@ const questionnaire = {
     },
   "110440021": {
         en: "Member GISCO Industry",
-        de: "Member GISCO Industry"
+        de: "Forum Nachhaltiger Kakao - Industrie"
     },
   "118270247": {
         en: "Member GISCO NGO",
-        de: "Member GISCO NGO"
+        de: "Forum Nachhaltiger Kakao - Nichtregierungsorganisationen (NGOs) und andere Mitglieder"
     },
   "110470073": {
         en: "Member GISCO Retail",
-        de: "Member GISCO Retail"
+        de: "Forum Nachhaltiger Kakao - Einzelhandel"
     },
   "104340413": {
         en: "Member GISCO Standard setting organisation",
-        de: "Member GISCO Standard setting organisation"
+        de: "Forum Nachhaltiger Kakao - Standardsetzende Organisationen"
     },
   "120260091": {
         en: "Member GISCO Beyond Chocolate Industry",
-        de: "Member GISCO Beyond Chocolate Industry"
+        de: "Beyond Chocolate & Forum Nachhaltiger Kakao - Industrie"
     },
   "126180526": {
         en: "Member GISCO Beyond Chocolate Retail",
-        de: "Member GISCO Beyond Chocolate Retail"
+        de: "Beyond Chocolate & Forum Nachhaltiger Kakao - Einzelhandel"
     },
   "108490561": {
         en: "Member GISCO Beyond Chocolate Standard setting organisation",
-        de: "Member GISCO Beyond Chocolate Standard setting organisation"
+        de: "Beyond Chocolate & Forum Nachhaltiger Kakao - Standardsetzende Organisationen"
     },
     "111510043": {
         en: "Projects - GISCO",
