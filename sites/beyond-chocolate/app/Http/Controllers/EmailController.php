@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use \Mailjet\Resources;
 use \Mailjet\LaravelMailjet\Facades\Mailjet;
 use App\Helpers\Mails;
+use App\Models\User;
+use App\Models\Organization;
+use App\Models\Secretariat;
 
 /**
  * Need to change this email into new mail helpers
@@ -37,6 +40,13 @@ class EmailController extends Controller
     //
     public function informUser(Request $request, Mails $mails)
     {
+        $user = User::where('email', $request->email)->first();
+        $secretariats = array();
+        foreach($user->organization->secretariats as $s){
+            $secretariats[] = ($s->id == 1 ? 'Julia Jawtusch' : 'Marloes Humbeeck');
+        }
+        $signed_en = (count($secretariats) > 0 ? implode ( " or ", $secretariats) : $request->adminName);
+        $signed_de = (count($secretariats) > 0 ? implode ( " oder ", $secretariats) : $request->adminName);
         $recipients = [['Email' => $request->email, 'Name' => $request->name]];
         $subject = config('app.name').": ".$request->subject;
         $questionnaires = array_map(function($q){return '<li>' . $q . '</li>';}, $request->questionnaires);
@@ -64,7 +74,7 @@ class EmailController extends Controller
                 program.</p>
 
                 <strong>Please visit <a href='".env('APP_URL')."'>".env('APP_URL')."</a> and log in to fill in your data.</strong><br/>
-                In case of any issue please contact $request->adminName directly or use the feedback form on the portal.<br/>
+                In case of any issue please contact $signed_en directly or use the feedback form on the portal.<br/>
                 <hr />
                 Liebe/r Herr/ Frau $request->name<br/><br/>
                 $request->adminName von $request->adminOrg hat im  Daten-Portal für das Monitoring für 2020 der Europäischen Initiativen für Nachhaltigen Kakao die folgenden Fragebögen für Sie freigeschaltet:
@@ -90,8 +100,8 @@ class EmailController extends Controller
                 Projektpartnern, an der Berichterstattung zu einem gemeinsamen
                 Kakao-Nachhaltigkeitsprojekt (/-programm) mitzuwirken.</p>
 
-                <strong>Bitte besuchen Sie die Seite <a href='".env('APP_URL')."'>".env('APP_URL')."</a> und loggen sich ein, um Ihre Daten einzugeben.</strong><br/>
-                Falls Sie Schwierigkeiten haben, können Sie $request->adminName kontaktieren oder das Feedback-Formular im Portal nutzen.<br/>";
+                <strong>Bitte besuchen Sie die Seite  <a href='".env('APP_URL')."'>".env('APP_URL')."</a> und loggen sich dort ein, um Ihre Daten einzugeben.</strong><br/>
+Falls Sie Schwierigkeiten haben, können Sie $signed_de kontaktieren oder das Feedback-Formular auf der Webseite nutzen.<br/>";
         $text = "$request->adminName from $request->adminOrg has assigned surveys in the Cocoa monitoring data portal for your input";
         $response = $mails->sendEmail($recipients, false, $subject, $body, $text);
 
