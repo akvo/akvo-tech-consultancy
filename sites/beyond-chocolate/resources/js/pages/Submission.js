@@ -57,9 +57,7 @@ const Submission = () => {
         // # TODO :: change this api link to sync data
         // const { id, form_id, form_name, submitter_name } = item;
         // setLoading(id, true);
-      const { uuid, form_id, submitter_name } = item;
-      let title = questionnaire[form_id];
-      const form_name = title[locale];
+        const { uuid, form_id, form_name, submitter_name } = item;
         setLoading(uuid, true);
         const filename = form_name.replace(' - ', '-').replace(' ', '') + '-' + submitter_name.replace(' ', '');
         // const { data, status } = await request().get(`/api/submissions/download/${form_id}/${id}/${filename}`);
@@ -96,17 +94,19 @@ const Submission = () => {
                 </tr>
             );
         }
-        return submissions.map((x, i) => {
+      return submissions.map((x, i) => {
+        console.log(questionnaire, locale.active, x);
             let delay = checkDataDelay(x.updated_at);
-          const year =  x.updated_at ? new Date(x.updated_at).getFullYear() : "Loading";
-                let title = questionnaire[x.form_id];
-          const form_name = title[locale];
-
+        const year =  x.updated_at ? new Date(x.updated_at).getFullYear() : "Loading";
+        let title = x.form_name;
+        if(x.form_id){
+          title = questionnaire[x.form_id][locale.active];
+        }
             return (
                 <tr key={'submission-'+i}>
                     <td className="pl-3">{x.org_name}</td>
                     <td className="pl-3">{x.submitter_name}</td>
-                <td className="pl-3">{form_name} ---- {title}</td>
+                    <td className="pl-3">{title}</td>
                     <td className="pl-3">{year}</td>
                     <td className="pl-3">
                         <Button
