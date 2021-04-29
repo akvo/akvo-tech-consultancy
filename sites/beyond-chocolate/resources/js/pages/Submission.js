@@ -52,7 +52,7 @@ const Submission = () => {
         setSubmissions(updateSubmissions);
         return;
     };
-  const { locale } = useLocale();
+
     const handleDownload = async (item) => {
         // # TODO :: change this api link to sync data
         // const { id, form_id, form_name, submitter_name } = item;
