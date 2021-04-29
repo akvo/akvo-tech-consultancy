@@ -113,7 +113,7 @@ export const uiText = {
         textUnsavedChanges: "You have unsaved changes for user ",
         textEmailNotVerifiedYet: <Fragment>is not verified yet.<br/><hr/>The user can only be informed about the assignment to questionnaires after he/she has verified his/her email address.</Fragment>,
         // collaborators
-        btnCollaborators: "Add Collaborators",
+        btnCollaborators: "Add collaborator for joint projects",
         infoNoSubmittedData: "No Submitted Data",
         textInfoSubmission: "There's maybe a slight delay between a submission made and data being ready to download.",
         dwnLOfSubmissions: "Download of submissions",
@@ -233,7 +233,7 @@ export const uiText = {
         textUnsavedChanges: "Sie haben ungespeicherte Änderungen für den Nutzer/die Nutzerin ",
         textEmailNotVerifiedYet: <Fragment>wurde noch nicht verifiziert. <br/><hr/>Der Nutzer/die Nutzerin kann nur über seine/ihre Freischaltung von Fragebögen informiert werden, nachdem er seine/ sie ihre Emailadresse verifiziert hat.</Fragment>,
         // collaborators
-        btnCollaborators: "Partner hinzufügen",
+        btnCollaborators: "Partner für gemeinsame Projekte hinzufügen",
         infoNoSubmittedData: "No Submitted Data",
         // Download
         textInfoSubmission: "Es kann zu einer leichten Verzögerung kommen, bis die eingereichten Daten zum Download bereitstehen.",
