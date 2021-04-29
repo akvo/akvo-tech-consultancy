@@ -1,6 +1,5 @@
 import React, { useEffect, Fragment, useState } from "react";
 import { Container, Row, Col, Table, Button, Spinner, Alert } from "react-bootstrap";
-import { useLocale } from "../lib/locale-context";
 import request from "../lib/request";
 import { uiText } from "../static/ui-text";
 import { useLocale, questionnaire } from "../lib/locale-context";
