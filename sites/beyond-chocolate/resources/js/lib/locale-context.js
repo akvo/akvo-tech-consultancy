@@ -26,15 +26,15 @@ const questionnaire = {
     },
     "114380434": {
         en: "Member Beyond Chocolate Standard setting organisations",
-        de: "Member Beyond Chocolate Standard setting organisations"
+        de: "Beyond Chocolate - Standardsetzende Organisatione"
     },
   "122170164": {
         en: "Member Beyond Chocolate Industry including Brands",
-        de: "Member Beyond Chocolate Industry including Brands"
+        de: "Beyond Chocolate - Industrie"
     },
   "114380235": {
         en: "Member Beyond Chocolate Retail",
-        de: "Member Beyond Chocolate Retail"
+        de: "Beyond Chocolate Einzelhandel"
     },
   "110440021": {
         en: "Member GISCO Industry including Brands",
