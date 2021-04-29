@@ -1,8 +1,8 @@
 import React, { useEffect, Fragment, useState } from "react";
 import { Container, Row, Col, Table, Button, Spinner, Alert } from "react-bootstrap";
+import { useLocale } from "../lib/locale-context";
 import request from "../lib/request";
 import { uiText } from "../static/ui-text";
-import { useLocale, questionnaire } from "../lib/locale-context";
 
 const defData = [
     {
@@ -94,19 +94,14 @@ const Submission = () => {
                 </tr>
             );
         }
-      return submissions.map((x, i) => {
-        console.log(questionnaire, locale.active, x);
+        return submissions.map((x, i) => {
             let delay = checkDataDelay(x.updated_at);
-        const year =  x.updated_at ? new Date(x.updated_at).getFullYear() : "Loading";
-        let title = x.form_name;
-        if(x.form_id){
-          title = questionnaire[x.form_id][locale.active];
-        }
+            const year =  x.updated_at ? new Date(x.updated_at).getFullYear() : "Loading";
             return (
                 <tr key={'submission-'+i}>
                     <td className="pl-3">{x.org_name}</td>
                     <td className="pl-3">{x.submitter_name}</td>
-                    <td className="pl-3">{title}</td>
+                    <td className="pl-3">{x.form_name}</td>
                     <td className="pl-3">{year}</td>
                     <td className="pl-3">
                         <Button
