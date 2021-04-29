@@ -1,5 +1,3 @@
-import 'react-app-polyfill/stable';
-import 'react-app-polyfill/ie11';
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import HeaderPanel from "./components/HeaderPanel";
