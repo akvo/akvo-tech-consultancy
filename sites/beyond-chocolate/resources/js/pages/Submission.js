@@ -98,12 +98,15 @@ const Submission = () => {
         }
         return submissions.map((x, i) => {
             let delay = checkDataDelay(x.updated_at);
-            const year =  x.updated_at ? new Date(x.updated_at).getFullYear() : "Loading";
+          const year =  x.updated_at ? new Date(x.updated_at).getFullYear() : "Loading";
+                let title = questionnaire[x.form_id];
+          const form_name = title[locale];
+
             return (
                 <tr key={'submission-'+i}>
                     <td className="pl-3">{x.org_name}</td>
                     <td className="pl-3">{x.submitter_name}</td>
-                    <td className="pl-3">{x.form_name}</td>
+                    <td className="pl-3">{form_name}</td>
                     <td className="pl-3">{year}</td>
                     <td className="pl-3">
                         <Button
