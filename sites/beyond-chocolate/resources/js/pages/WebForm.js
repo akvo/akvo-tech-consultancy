@@ -228,7 +228,7 @@ const SavedFormsSelector = ({
                                 {text.btnOpen}
                             </Button>
                             <Button
-                                style={{ float: "right" }}
+      style={{ float: "right", width: "150px", fontSize: "0.7rem" }}
                                 className="ml-2 mb-2"
                                 onClick={promptSave}
                                 disabled={disableBtnCollaborator}
