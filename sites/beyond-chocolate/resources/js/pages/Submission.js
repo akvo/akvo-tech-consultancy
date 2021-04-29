@@ -3,6 +3,7 @@ import { Container, Row, Col, Table, Button, Spinner, Alert } from "react-bootst
 import { useLocale } from "../lib/locale-context";
 import request from "../lib/request";
 import { uiText } from "../static/ui-text";
+import { useLocale, questionnaire } from "../lib/locale-context";
 
 const defData = [
     {
@@ -52,12 +53,14 @@ const Submission = () => {
         setSubmissions(updateSubmissions);
         return;
     };
-
+  const { locale } = useLocale();
     const handleDownload = async (item) => {
         // # TODO :: change this api link to sync data
         // const { id, form_id, form_name, submitter_name } = item;
         // setLoading(id, true);
-        const { uuid, form_id, form_name, submitter_name } = item;
+      const { uuid, form_id, submitter_name } = item;
+      let title = questionnaire[form_id];
+      const form_name = title[locale];
         setLoading(uuid, true);
         const filename = form_name.replace(' - ', '-').replace(' ', '') + '-' + submitter_name.replace(' ', '');
         // const { data, status } = await request().get(`/api/submissions/download/${form_id}/${id}/${filename}`);
