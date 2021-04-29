@@ -29,19 +29,19 @@ const questionnaire = {
         de: "Member Beyond Chocolate Standard setting organisations"
     },
   "122170164": {
-        en: "Member Beyond Chocolate Industry",
-        de: "Member Beyond Chocolate Industry"
+        en: "Member Beyond Chocolate Industry including Brands",
+        de: "Member Beyond Chocolate Industry including Brands"
     },
   "114380235": {
         en: "Member Beyond Chocolate Retail",
         de: "Member Beyond Chocolate Retail"
     },
   "110440021": {
-        en: "Member GISCO Industry",
+        en: "Member GISCO Industry including Brands",
         de: "Forum Nachhaltiger Kakao - Industrie"
     },
   "118270247": {
-        en: "Member GISCO NGO",
+        en: "Member GISCO NGOs and other member types",
         de: "Forum Nachhaltiger Kakao - Nichtregierungsorganisationen (NGOs) und andere Mitglieder"
     },
   "110470073": {
@@ -53,7 +53,7 @@ const questionnaire = {
         de: "Forum Nachhaltiger Kakao - Standardsetzende Organisationen"
     },
   "120260091": {
-        en: "Member GISCO Beyond Chocolate Industry",
+        en: "Member GISCO Beyond Chocolate Industry including Brands",
         de: "Beyond Chocolate & Forum Nachhaltiger Kakao - Industrie"
     },
   "126180526": {

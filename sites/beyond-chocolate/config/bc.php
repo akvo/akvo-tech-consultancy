@@ -50,13 +50,13 @@ return [
     'questionnaires' => [
         '102420261' => 'Projects',
         '114380434' => 'Master Beyond Chocolate Standard setting organisations',
-        '122170164' => 'Member Beyond Chocolate Industry',
+        '122170164' => 'Member Beyond Chocolate Industry including Brands',
         '114380235' => 'Member Beyond Chocolate Retail',
-        '110440021' => 'Member GISCO Industry',
-        '118270247' => 'Member GISCO NGO',
+        '110440021' => 'Member GISCO Industry including Brands',
+        '118270247' => 'Member GISCO NGOs and other member types',
         '110470073' => 'Member GISCO Retail',
         '104340413' => 'Member GISCO Standard setting organisation',
-        '120260091' => 'Member GISCO Beyond Chocolate Industry',
+        '120260091' => 'Member GISCO Beyond Chocolate Industry including Brands',
         '126180526' => 'Member GISCO Beyond Chocolate Retail',
         '108490561' => 'Member GISCO Beyond Chocolate Standard setting organisation',
     ],
@@ -91,55 +91,55 @@ return [
         [
             "surveyGroupId" => "120270432",
             "surveyId" => "114380434",
-            "name" => "Member_Beyond Chocolate_Standard setting organisations"
+            "name" => "Member Beyond Chocolate Standard setting organisations"
         ],
         [
             "surveyGroupId" => "130170212",
             "surveyId" => "122170164",
-            "name" => "Member_Beyond Chocolate_Industry"
+            "name" => "Member Beyond Chocolate Industry including Brands"
         ],
         [
             "surveyGroupId" => "124330225",
             "surveyId" => "114380235",
-            "name" => "Member_Beyond Chocolate_Retail"
+            "name" => "Member Beyond Chocolate Retail"
         ],
         // GISCO
         [
             "surveyGroupId" => "106130008",
             "surveyId" => "110440021",
-            "name" => "Member_GISCO_Industry"
+            "name" => "Member GISCO Industry including Brands"
         ],
         [
             "surveyGroupId" => "118310283",
             "surveyId" => "118270247",
-            "name" => "Member_GISCO_NGO"
+            "name" => "Member GISCO NGOs and other member types"
         ],
         [
             "surveyGroupId" => "124320060",
             "surveyId" => "110470073",
-            "name" => "Member_GISCO_Retail"
+            "name" => "Member GISCO Retail"
         ],
         [
             "surveyGroupId" => "118300316",
             "surveyId" => "104340413",
-            "name" => "Member_GISCO_Standard setting organisation"
+            "name" => "Member GISCO Standard setting organisation"
         ],
 
         // GISCO && BC
         [
             "surveyGroupId" => "118290120",
             "surveyId" => "120260091",
-            "name" => "Member_GISCO_Beyond Chocolate_Industry"
+            "name" => "Member GISCO Beyond Chocolate Industry including Brands"
         ],
         [
             "surveyGroupId" => "104350552",
             "surveyId" => "126180526",
-            "name" => "Member_GISCO_Beyond Chocolate_Retail"
+            "name" => "Member GISCO Beyond Chocolate Retail"
         ],
         [
             "surveyGroupId" => "124310405",
             "surveyId" => "108490561",
-            "name" => "Member_GISCO_Beyond Chocolate_Standard setting organisation"
+            "name" => "Member GISCO Beyond Chocolate Standard setting organisation"
         ],
 
         // [
