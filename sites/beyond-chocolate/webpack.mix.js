@@ -1,7 +1,5 @@
 const mix = require("laravel-mix");
 
-require('laravel-mix-polyfill');
-
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -13,16 +11,10 @@ require('laravel-mix-polyfill');
  |
  */
 
-mix.react("resources/js/app.js", "public/js")
-  .sass(
+mix.react("resources/js/app.js", "public/js").sass(
     "resources/sass/app.scss",
-    "public/css")
-  .polyfill({
-    enabled: true,
-    useBuiltIns: "usage",
-    targets: {"firefox": "38",
-              "ie": "11"}
-   });
+    "public/css"
+);
 mix.sourceMaps(); // Enable sourcemaps
 mix.copyDirectory("resources/images", "public/images");
 
