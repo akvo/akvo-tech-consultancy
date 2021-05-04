@@ -57,11 +57,11 @@ const Submission = () => {
         // # TODO :: change this api link to sync data
         // const { id, form_id, form_name, submitter_name } = item;
         // setLoading(id, true);
-        const { uuid, form_id, form_name, submitter_name } = item;
+      const { uuid, form_id, form_name, submitter_name, id } = item;
         setLoading(uuid, true);
         const filename = form_name.replace(' - ', '-').replace(' ', '') + '-' + submitter_name.replace(' ', '');
         // const { data, status } = await request().get(`/api/submissions/download/${form_id}/${id}/${filename}`);
-        const { data, status } = await request().get(`/api/submissions/sync-download/${form_id}/${uuid}/${filename}`);
+        const { data, status } = await request().get(`/api/submissions/sync-download/${id}/${form_id}/${uuid}/${filename}`);
         if (status === 200) {
             const link = document.createElement('a');
             link.href = data.link;
