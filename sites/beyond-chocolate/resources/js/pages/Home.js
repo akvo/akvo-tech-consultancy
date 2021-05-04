@@ -49,20 +49,22 @@ const Home = () => {
             </Row>
         </Container>
 
-        { (host === "veva") ? "" : (
+          { (host === "cocoamonitoring") ? "" : (
             <Container fluid className="mt-5 gettingStarted">
                 <Row className="mt-5">
                     <Col md="12" className="mt-5 text-center gsText">
                         <h1>{gsContent.h}</h1>
                         {renderGsParagraph(gsContent.p1)}
-                        <iframe
-                            className="mt-3 mb-3"
-                            src={youtubeLink}
-                            width="700px"
-                            height="400px"
-                            frameBorder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowFullScreen></iframe>
+                        {false && (
+                            <iframe
+                                className="mt-3 mb-3"
+                                src={youtubeLink}
+                                width="700px"
+                                height="400px"
+                                frameBorder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen></iframe>
+                        )}
                         {renderGsParagraph(gsContent.p2)}
                     </Col>
                 </Row>

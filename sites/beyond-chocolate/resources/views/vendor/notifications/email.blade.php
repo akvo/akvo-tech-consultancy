@@ -51,6 +51,7 @@
 
 {{-- Override --}}
 <br>Guten Tag!</br><br/>
+Vielen Dank für Ihre Registrierung für das Monitoring für das Berichtsjahr 2020.
 Bitte klicken Sie auf dieses Feld um Ihre Emailadresse zu bestätigen.<br/>
 
 {{-- Action Button --}}

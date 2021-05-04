@@ -2,7 +2,6 @@
 
 ## Development
 
-
 To startup the application stack, run
 
 ```

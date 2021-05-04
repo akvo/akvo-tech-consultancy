@@ -9,6 +9,7 @@ use Akvo\Models\Sync;
 use App\Seeds\DataPointSeeder;
 use App\Seeds\FormSeeder;
 use App\Models\WebForm;
+use Illuminate\Support\Facades\Log;
 
 class FlowDataSyncController extends Controller
 {
@@ -34,6 +35,7 @@ class FlowDataSyncController extends Controller
         $sync_url = Sync::all()->last()['url'];
         $auth = new Auth();
         $token = $auth->getToken();
+        Log::error('token', [$token, $sync_url]);
         if (!$token) {
             return "Invalid Access";
         }

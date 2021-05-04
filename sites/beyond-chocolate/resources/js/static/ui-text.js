@@ -2,8 +2,8 @@ import React, { Fragment } from "react";
 
 export const uiText = {
     en: {
-        welcome: <Fragment>Welcome<br/>to the GISCO Monitoring Pilot<br/>for 2019 data</Fragment>,
-        welcome2: "Monitoring for 2019-2020 data",
+        welcome: <Fragment>Welcome<br/>to the GISCO Monitoring Pilot<br/>for 2020 data</Fragment>,
+        welcome2: "Monitoring for 2020 data",
         welcome3: <Fragment>Welcome<br/>to the Cocoa Monitoring<br/> for 2020 data</Fragment>,
         // Navigation
         navSurvey: "Survey",
@@ -113,15 +113,17 @@ export const uiText = {
         textUnsavedChanges: "You have unsaved changes for user ",
         textEmailNotVerifiedYet: <Fragment>is not verified yet.<br/><hr/>The user can only be informed about the assignment to questionnaires after he/she has verified his/her email address.</Fragment>,
         // collaborators
-        btnCollaborators: "Add Collaborators",
+        btnCollaborators: "Add collaborator for joint projects",
         infoNoSubmittedData: "No Submitted Data",
         textInfoSubmission: "There's maybe a slight delay between a submission made and data being ready to download.",
         dwnLOfSubmissions: "Download of submissions",
+        // Register
+        registerFilterOrganizationsBy: "Filter organizations by",
     },
 
     de: {
-        welcome: <Fragment>Willkommen<br/>zum Pilotmonitoring des Forum nachhaltiger Kakao<br/>für das Berichtsjahr 2019!</Fragment>,
-        welcome2: "Monitoring for 2019-2020 data",
+        welcome: <Fragment>Willkommen<br/>zum Pilotmonitoring des Forum nachhaltiger Kakao<br/>für das Berichtsjahr 2020!</Fragment>,
+        welcome2: "Monitoring for 2020 data",
         welcome3: <Fragment>Willkommen<br/>zum Monitoring für das Berichtsjahr<br/>2020 data</Fragment>,
         // Navigation
         navSurvey: "Umfrage",
@@ -231,10 +233,12 @@ export const uiText = {
         textUnsavedChanges: "Sie haben ungespeicherte Änderungen für den Nutzer/die Nutzerin ",
         textEmailNotVerifiedYet: <Fragment>wurde noch nicht verifiziert. <br/><hr/>Der Nutzer/die Nutzerin kann nur über seine/ihre Freischaltung von Fragebögen informiert werden, nachdem er seine/ sie ihre Emailadresse verifiziert hat.</Fragment>,
         // collaborators
-        btnCollaborators: "Partner hinzufügen",
+        btnCollaborators: "Partner für gemeinsame Projekte hinzufügen",
         infoNoSubmittedData: "No Submitted Data",
         // Download
         textInfoSubmission: "Es kann zu einer leichten Verzögerung kommen, bis die eingereichten Daten zum Download bereitstehen.",
         dwnLOfSubmissions: "Download der eingereichten Daten",
+        // Register
+        registerFilterOrganizationsBy: "Filtern Sie Organisationen nach",
     },
 };

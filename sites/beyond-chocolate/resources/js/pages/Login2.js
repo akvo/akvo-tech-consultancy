@@ -2,6 +2,7 @@ import React from "react";
 import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import { uiText } from "../static/ui-text";
+import WelcomeBanner from "../components/WelcomeBanner";
 import { useLocale } from "../lib/locale-context";
 import { useAuth } from "../components/auth-context";
 import useForm from "../lib/use-form";
@@ -35,9 +36,11 @@ const Login2 = () => {
         }
     };
 
-    return (
-        <Container className="authPg">
-            <Row className="justify-content-md-center align-items-center" style={{'marginTop': '150px'}}>
+  return (
+      <>
+      <WelcomeBanner />
+      <Container className="authPg">
+            <Row className="justify-content-md-center align-items-center" style={{'marginTop': '100px'}}>
                 <AuthBrand text={text}/>
                 <Col md={6}>
                     <Row className="justify-content-md-end" style={{'fontSize': '0.9rem'}}>
@@ -105,7 +108,8 @@ const Login2 = () => {
                     </Row>
                 </Col>
             </Row>
-        </Container>
+      </Container>
+      </>
     );
 };
 

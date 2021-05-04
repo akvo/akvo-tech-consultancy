@@ -20,6 +20,50 @@ const questionnaire = {
         en: "Internal dev form en",
         de: "interne Entwicklungsform de"
     },
+    "102420261": {
+        en: "Projects",
+        de: "Projects"
+    },
+    "114380434": {
+        en: "Member Beyond Chocolate Standard setting organisations",
+        de: "Beyond Chocolate - Standardsetzende Organisatione"
+    },
+  "122170164": {
+        en: "Member Beyond Chocolate Industry including Brands",
+        de: "Beyond Chocolate Industrie inklusive Eigenmarken"
+    },
+  "114380235": {
+        en: "Member Beyond Chocolate Retail",
+        de: "Beyond Chocolate Einzelhandel"
+    },
+  "110440021": {
+        en: "Member GISCO Industry including Brands",
+        de: "Forum Nachhaltiger Kakao - Industrie inklusive Eigenmarken"
+    },
+  "118270247": {
+        en: "Member GISCO NGOs and other member types",
+        de: "Forum Nachhaltiger Kakao - Nichtregierungsorganisationen (NGOs) und andere Mitglieder"
+    },
+  "110470073": {
+        en: "Member GISCO Retail",
+        de: "Forum Nachhaltiger Kakao - Einzelhandel"
+    },
+  "104340413": {
+        en: "Member GISCO Standard setting organisation",
+        de: "Forum Nachhaltiger Kakao - Standardsetzende Organisationen"
+    },
+  "120260091": {
+        en: "Member GISCO Beyond Chocolate Industry including Brands",
+        de: "Beyond Chocolate & Forum Nachhaltiger Kakao - Industrie inklusive Eigenmarken"
+    },
+  "126180526": {
+        en: "Member GISCO Beyond Chocolate Retail",
+        de: "Beyond Chocolate & Forum Nachhaltiger Kakao - Einzelhandel"
+    },
+  "108490561": {
+        en: "Member GISCO Beyond Chocolate Standard setting organisation",
+        de: "Beyond Chocolate & Forum Nachhaltiger Kakao - Standardsetzende Organisationen"
+    },
     "111510043": {
         en: "Projects - GISCO",
         de: "Projects - GISCO"

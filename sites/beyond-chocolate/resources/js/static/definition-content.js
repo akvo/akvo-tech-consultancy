@@ -51,7 +51,7 @@ const defs = {
         }, {
             i: 'Direct supply',
             t: 'Direct supply',
-            d: 'Damit Kakao als "über eine direkte Lieferkette bezogener Kakao" kategorisiert werden kann, muss eine relativ stabile Partnerschaft bzw. Zusammenarbeit zwischen dem Unternehmen und den Kakaoproduzenten bestehen, die sich über mindestens 3 Jahre erstrecken soll. Diese Partnerschaft bzw. Zusammenarbeit kann sich auf Themen wie Preis, Qualität, gute landwirtschaftliche Praktiken, soziale, menschenrechtliche und ökologische Fragen, Zertifizierungsanforderungen usw. beziehen. Diese Partnerschaft bzw. Zusammenarbeit zwischen dem Unternehmen und den Erzeugern (kakaoanbauenden Haushalten) kann über Kooperativen, Bauernorganisationen und/oder andere in die direkte Lieferkette eingebettete Vermittler erfolgen.'
+            d: 'For cocoa to be categorized as “cocoa soured through a direct supply chain”, there shall be a relative stable partnership and collaboration, conceived to span at least 3 years, between the cocoa sourcing company and the cocoa producer. Such partnership and collaboration may cover issues such as price, quality, good agricultural practices, social, human rights and environmental issues, certification requirements, etc. This partnership and collaboration between the cocoa sourcing company and the producers (cocoa farming households) may be conducted through cooperatives, farmer organizations and/or other intermediaries embedded within the direct supply chain.'
         }, {
             i: 'Conventional (traceability level 0)',
             t: 'Conventional (traceability level 0)',
@@ -180,10 +180,10 @@ const defs = {
                 </ul>
             </Fragment>
         }, {
-            i: 'Direct supply',
-            t: 'Direct supply',
-            d: 'For cocoa to be categorized as “cocoa soured through a direct supply chain”, there shall be a relative stable partnership and collaboration, conceived to span at least 3 years, between the cocoa sourcing company and the cocoa producer. Such partnership and collaboration may cover issues such as price, quality, good agricultural practices, social, human rights and environmental issues, certification requirements, etc. This partnership and collaboration between the cocoa sourcing company and the producers (cocoa farming households) may be conducted through cooperatives, farmer organizations and/or other intermediaries embedded within the direct supply chain.'
-        }, {
+            i: 'Direkte Lieferkette',
+            t: 'Direkte Lieferkette',
+            d: 'Damit Kakao als "über eine direkte Lieferkette bezogener Kakao" kategorisiert werden kann, muss eine relativ stabile Partnerschaft bzw. Zusammenarbeit zwischen dem Unternehmen und den Kakaoproduzenten bestehen, die sich über mindestens 3 Jahre erstrecken soll. Diese Partnerschaft bzw. Zusammenarbeit kann sich auf Themen wie Preis, Qualität, gute landwirtschaftliche Praktiken, soziale, menschenrechtliche und ökologische Fragen, Zertifizierungsanforderungen usw. beziehen. Diese Partnerschaft bzw. Zusammenarbeit zwischen dem Unternehmen und den Erzeugern (kakaoanbauenden Haushalten) kann über Kooperativen, Bauernorganisationen und/oder andere in die direkte Lieferkette eingebettete Vermittler erfolgen.'
+}, {
             i: 'Conventional (traceability level 0)',
             t: 'Konventionell (Rückverfolgbarkeitslevel 0)',
             d: 'Kakao, der beschafft wurde, ohne den Rückverfolgbarkeitsanforderungen "Mengenausgleich", "segregated" oder "identity preserved" zu entsprechen - bitte beziehen Sie sich auf die entsprechenden Definitionen.'

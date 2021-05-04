@@ -71,8 +71,11 @@ const ForgotPassword2 = () => {
     let text = uiText[locale.active];
 
     return (
+      <>
+      <WelcomeBanner />
+
         <Container className="authPg">
-            <Row className="justify-content-md-center align-items-center" style={{'marginTop': '150px'}}>
+            <Row className="justify-content-md-center align-items-center" style={{'marginTop': '100px'}}>
                 <AuthBrand text={text}/>
                 <Col md={6}>
                     {success === undefined ? (
@@ -104,6 +107,7 @@ const ForgotPassword2 = () => {
                 </Col>
             </Row>
         </Container>
+      </>
     );
 };
 

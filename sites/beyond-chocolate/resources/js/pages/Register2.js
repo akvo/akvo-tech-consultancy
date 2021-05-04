@@ -12,7 +12,7 @@ import { uiText } from "../static/ui-text";
 import { useLocale } from "../lib/locale-context";
 import { wfc } from "../static/webform-content";
 import AuthBrand from "../components/AuthBrand.js";
-
+import WelcomeBanner from "../components/WelcomeBanner";
 
 const RegisterForm = ({ text, content, setRegistered, organizations, secretariats }) => {
     const {
@@ -26,13 +26,17 @@ const RegisterForm = ({ text, content, setRegistered, organizations, secretariat
 
     const password = useRef({});
     password.current = watch("password", "");
-    const [selectedSecretariat, setSelectedSecretariat] = useState({value: false, label:"", error: false});
+    const [selectedSecretariat, setSelectedSecretariat] = useState(null);
 
     const [orgs, setOrgs] = useState(organizations);
     const [selectedOrgs, setSelectedOrgs] = useState({value:false, label:"", error: false});
 
     useEffect(() => {
-        setOrgs(_.filter(organizations, child => _.some(child.secretariats, x => x.pivot.secretariat_id === selectedSecretariat.value )));
+        if (selectedSecretariat == null) {
+            setOrgs(organizations);
+        } else {
+            setOrgs(_.filter(organizations, child => _.some(child.secretariats, x => x.pivot.secretariat_id === selectedSecretariat.value )));
+        }
     }, [selectedSecretariat]);
 
     useEffect(() => {
@@ -78,7 +82,8 @@ const RegisterForm = ({ text, content, setRegistered, organizations, secretariat
         });
     };
 
-    return (
+  return (
+
         <Row className="justify-content-md-end"
         >
             <Col md={10}>
@@ -159,7 +164,9 @@ const RegisterForm = ({ text, content, setRegistered, organizations, secretariat
                         <Select
                             onChange={opt => setSelectedSecretariat(opt)}
                             options={renderSecretariats(secretariats)}
-                            placeholder={ 'Secretariat' }
+                            placeholder={ text.registerFilterOrganizationsBy }
+                            isClearable={ true }
+                            value={selectedSecretariat}
                         />
                         { selectedOrgs.error ? (
                             <Form.Text className="text-danger">
@@ -246,8 +253,11 @@ const Register2 = () => {
 
 
     return (
+          <>
+      <WelcomeBanner />
+
         <Container className="authPg">
-            <Row className="justify-content-md-center align-items-center" style={{'marginTop': '150px'}}>
+            <Row className="justify-content-md-center align-items-center" style={{'marginTop': '100px'}}>
                 <AuthBrand text={text} />
                 <Col md={6}>
                     {registered ? (
@@ -271,6 +281,7 @@ const Register2 = () => {
                 data={dsc}
             />
         </Container>
+      </>
     );
 };
 
