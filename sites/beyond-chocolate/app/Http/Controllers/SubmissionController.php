@@ -61,7 +61,7 @@ class SubmissionController extends Controller
         $idh_forms = config('bc.idh_forms');
         # TODO :: check if uuid has been on database
 
-        Log::error('webform_id', $request->webform_id);
+        Log::error('webform_id', [$request->webform_id]);
         $form_instance = FormInstance::where('identifier', $request->uuid)->first();
         Log::error('ey!', [$form_instance, $request->uuid]);
         if (!is_null($form_instance)) {
