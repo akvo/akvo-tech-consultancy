@@ -109,7 +109,7 @@ const Submission = () => {
                 <tr key={'submission-'+i}>
                     <td className="pl-3">{x.org_name}</td>
                     <td className="pl-3">{x.submitter_name}</td>
-                    <td className="pl-3">{title}</td>
+                    <td className="pl-3">{x.form_name}</td>
                     <td className="pl-3">{year}</td>
                     <td className="pl-3">
                         <Button
