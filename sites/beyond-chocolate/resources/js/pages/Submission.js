@@ -85,7 +85,7 @@ const Submission = () => {
         let status = interval <= 60;
         return status;
     };
-
+    const d2019 = new Date('2020-04-28T00:00:00.000000Z');
     const renderSubmissions = () => {
         if (submissions.length === 0) {
             return (
@@ -94,14 +94,17 @@ const Submission = () => {
                 </tr>
             );
         }
-      return submissions.map((x, i) => {
-        console.log(questionnaire, locale.active, x);
-            let delay = checkDataDelay(x.updated_at);
-        const year =  x.updated_at ? new Date(x.updated_at).getFullYear() : "Loading";
-        let title = x.form_name;
-        if(x.form_id){
-          title = questionnaire[x.form_id][locale.active];
-        }
+        return submissions.map((x, i) => {
+          let delay = checkDataDelay(x.updated_at);
+          const calculateYear = (x) => {
+            const dx = new Date(x);
+            if (d2019 > dx) {
+              return 2019;
+            } else{
+              return dx.getFullYear();
+            }
+          };
+          const year =  x.updated_at ? calculateYear(x.updated_at) : "Loading";
             return (
                 <tr key={'submission-'+i}>
                     <td className="pl-3">{x.org_name}</td>
