@@ -62,6 +62,10 @@ class SubmissionController extends Controller
         # TODO :: check if uuid has been on database
 
         Log::error('webform_id', [$request->webform_id]);
+        $webform = WebForm::where(['id', $request->webform_id])->first();
+        if (!is_null($webform) && $webform->form_instance_id == 'idh' ){
+            return ["link" => "uploads/idh/".$this->trim($request->filename).".csv"];
+        }
         $form_instance = FormInstance::where('identifier', $request->uuid)->first();
         Log::error('ey!', [$form_instance, $request->uuid]);
         if (!is_null($form_instance)) {
