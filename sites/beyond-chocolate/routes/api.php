@@ -181,7 +181,7 @@ Route::get('/scripts/fetch-submission-uuid', [FetchSubmissionUuidController::cla
 # Submitted Data
 Route::middleware(['auth:sanctum'])->get('/submissions/submitted', [SubmissionController::class, 'getSubmittedData']);
 // Route::middleware(['auth:sanctum'])->get('/submissions/download/{form_id}/{instance_id}/{filename}', [SubmissionController::class, 'downloadData']); # TO::DELETE
-Route::middleware(['auth:sanctum'])->get('/submissions/sync-download/{form_id}/{uuid}/{filename}', [SubmissionController::class, 'syncAndDownloadData']);
+Route::middleware(['auth:sanctum'])->get('/submissions/sync-download/{webform_id}/{form_id}/{uuid}/{filename}', [SubmissionController::class, 'syncAndDownloadData']);
 
 # Flow Data
 Route::get('/flow/initial-seed/{password}', [FlowDataSeedController::class, 'initialSeed']); # INITIAL SEEDER FLOW DATA

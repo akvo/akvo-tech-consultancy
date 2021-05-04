@@ -17,8 +17,8 @@ const langs = {
 
 const questionnaire = {
     "120190025": {
-        en: "Internal dev form",
-        de: "interne Entwicklungsform"
+        en: "Internal dev form en",
+        de: "interne Entwicklungsform de"
     },
     "102420261": {
         en: "Projects",

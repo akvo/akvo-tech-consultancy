@@ -1,8 +1,8 @@
 import React, { useEffect, Fragment, useState } from "react";
 import { Container, Row, Col, Table, Button, Spinner, Alert } from "react-bootstrap";
-import { useLocale } from "../lib/locale-context";
 import request from "../lib/request";
 import { uiText } from "../static/ui-text";
+import { useLocale, questionnaire } from "../lib/locale-context";
 
 const defData = [
     {
@@ -57,11 +57,11 @@ const Submission = () => {
         // # TODO :: change this api link to sync data
         // const { id, form_id, form_name, submitter_name } = item;
         // setLoading(id, true);
-        const { uuid, form_id, form_name, submitter_name } = item;
+      const { uuid, form_id, form_name, submitter_name, id } = item;
         setLoading(uuid, true);
         const filename = form_name.replace(' - ', '-').replace(' ', '') + '-' + submitter_name.replace(' ', '');
         // const { data, status } = await request().get(`/api/submissions/download/${form_id}/${id}/${filename}`);
-        const { data, status } = await request().get(`/api/submissions/sync-download/${form_id}/${uuid}/${filename}`);
+        const { data, status } = await request().get(`/api/submissions/sync-download/${id}/${form_id}/${uuid}/${filename}`);
         if (status === 200) {
             const link = document.createElement('a');
             link.href = data.link;
@@ -85,7 +85,7 @@ const Submission = () => {
         let status = interval <= 60;
         return status;
     };
-
+    const d2019 = new Date('2020-04-28T00:00:00.000000Z');
     const renderSubmissions = () => {
         if (submissions.length === 0) {
             return (
@@ -95,8 +95,16 @@ const Submission = () => {
             );
         }
         return submissions.map((x, i) => {
-            let delay = checkDataDelay(x.updated_at);
-            const year =  x.updated_at ? new Date(x.updated_at).getFullYear() : "Loading";
+          let delay = checkDataDelay(x.updated_at);
+          const calculateYear = (x) => {
+            const dx = new Date(x);
+            if (d2019 > dx) {
+              return 2019;
+            } else{
+              return dx.getFullYear();
+            }
+          };
+          const year =  x.updated_at ? calculateYear(x.updated_at) : "Loading";
             return (
                 <tr key={'submission-'+i}>
                     <td className="pl-3">{x.org_name}</td>

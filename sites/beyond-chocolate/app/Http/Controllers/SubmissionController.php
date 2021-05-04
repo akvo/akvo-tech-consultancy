@@ -38,7 +38,7 @@ class SubmissionController extends Controller
             $wf['submitter_name'] = $wf['user']['name'];
             $display_name = (is_null($wf['display_name'])) ? '' : ' - '.$wf['display_name'];
             $wf['form_name'] = $questionnaires[$wf['form_id']].$display_name;
-            return collect($wf)->only('uuid', 'org_name', 'submitter_name', 'form_name', 'form_id', 'updated_at');
+            return collect($wf)->only('id', 'uuid', 'org_name', 'submitter_name', 'form_name', 'form_id', 'updated_at');
         });
 
         return $webforms;
@@ -60,6 +60,12 @@ class SubmissionController extends Controller
     {
         $idh_forms = config('bc.idh_forms');
         # TODO :: check if uuid has been on database
+
+        Log::error('webform_id', [$request->webform_id]);
+        $webform = WebForm::where('id', $request->webform_id)->first();
+        if (!is_null($webform) && $webform->form_instance_id == 'idh' ){
+            return ["link" => "uploads/idh/".$this->trim($request->filename).".csv"];
+        }
         $form_instance = FormInstance::where('identifier', $request->uuid)->first();
         Log::error('ey!', [$form_instance, $request->uuid]);
         if (!is_null($form_instance)) {
