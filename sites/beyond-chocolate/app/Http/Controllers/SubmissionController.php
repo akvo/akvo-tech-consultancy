@@ -110,12 +110,13 @@ class SubmissionController extends Controller
         }
         $questionnaires = config('bc.questionnaires');
         $webforms = WebForm::where([
+            ['form_instance_id', 'idh'],
             ['submitted', true]
         ])->with('organization', 'user')->get()->map(function ($wf) use ($questionnaires) {
             $wf['submitter_name'] = (is_null($wf['user'])) ? 'not-found-user' : $wf['user']['name'];
             $display_name = (is_null($wf['display_name'])) ? '' : ' - '.$wf['display_name'];
             $wf['form_name'] = $questionnaires[$wf['form_id']].$display_name;
-            $wf['download_url'] = $this->trim(str_replace(' - ', '-', $wf['form_name'])).'-'.$this->trim($wf['submitter_name']);
+            $wf['download_url'] = $wf['id']."-".$this->trim(str_replace(' - ', '-', $wf['form_name'])).'-'.$this->trim($wf['submitter_name']);
             $wf['file'] =  $this->downloadData($wf['form_id'], $wf['form_instance_id'], $wf['download_url'], true);
             return collect($wf)->only('download_url', 'form_id', 'form_instance_id', 'file');
         });
