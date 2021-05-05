@@ -108,7 +108,7 @@ class SubmissionController extends Controller
         if ($request->password !== $credentials['api']) {
             throw new NotFoundHttpException();
         }
-        $questionnaires = config('bc.questionnaires');
+        $questionnaires = config('bc.idh_questionnaires');
         $webforms = WebForm::where([
             ['form_instance_id', 'idh'],
             ['submitted', true]
