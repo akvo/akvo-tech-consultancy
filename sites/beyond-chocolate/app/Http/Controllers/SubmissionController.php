@@ -28,6 +28,9 @@ class SubmissionController extends Controller
         $webforms = WebForm::where([
             ['user_id', $user->id],
             ['submitted', true]
+        ])->orWhere([
+            ['organization_id', $user->organization_id],
+            ['submitted', true]
         ])->orWhere(function ($query) use ($collaboratorForms) {
             $query->where('submitted', true)
                   ->whereIn('id', $collaboratorForms);
