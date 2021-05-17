@@ -62,9 +62,12 @@ $new_variable = [
     'farmer_sample' => 'farmer_sample',
 ];
 
+$new_variable_with_diff_county = $new_variable;
+$new_variable_with_diff_county['pi_location_cascade_county'] = 'pi_location_cascade_region';
+
 return [
     'old_variable' => $old_variable,
-    'fids' => [143920001, 145035285, 139002776],
+    'fids' => [143920001, 145035285, 139002776, 150980836],
     'mapping' => [
         // Smart logistics - Beans
         [
@@ -80,6 +83,11 @@ return [
         [
             'fid' => 139002776,
             'variable' => $new_variable,
+        ],
+        // USSL Tanzania - Maize
+        [
+            'fid' => 150980836,
+            'variable' => $new_variable_with_diff_county,
         ],
     ],
     'number_type' => [
