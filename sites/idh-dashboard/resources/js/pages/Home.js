@@ -133,6 +133,16 @@ class Home extends Component {
             }
             return { ...x, link: link };
         });
+
+        // overide tanzania
+        if (data) {
+            data = data.map(x => {
+                if (x.name.toLowerCase() === "tanzania") {
+                    x.name = "United Republic of Tanzania";
+                }
+                return x;
+            });
+        }
         let maps = {
             title: "",
             data: {
