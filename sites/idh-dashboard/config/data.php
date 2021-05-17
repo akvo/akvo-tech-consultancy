@@ -88,18 +88,18 @@ return [
         [
             'sid' => 93551183,
             'fid' => 150980836,
-            'file' => $path . '',
+            'file' => $path . '2021-05-13_ussl_maize_anom.csv',
             'kind' => 'Maize',
             'country' => 'Tanzania',
             'company' => 'USSL',
             'case_number' => null,
             'cascade' => [
-                'name' => 'pi_location_cascade_county',
+                'name' => 'pi_location_cascade_region',
             ],
             'files' => [
                 ["type" => "raw", "text" => "Analyzed USSL Data", "to" => ".xlsx" ],
             ],
-            'report_url' => '',
+            'report_url' => '/files/Data-delivery-USSL.html',
         ],
 
         // Not Onboard

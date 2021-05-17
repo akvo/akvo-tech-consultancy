@@ -155,14 +155,27 @@ class ApiController extends Controller
             }
             $first_crop_value = $first_crop->max('value');
             $first_crop_name = $first_crop->where('value', $first_crop_value)->first()['name'];
-            $first_crop_card = Cards::create(strval(round($first_crop_value/$first_crop_total, 2)*100).'%', 'NUM', 'Of the farmers’ main crop was '.$first_crop_name);
+
+            $first_crop_card_value = 0;
+            if ($first_crop_total !== 0) {
+                $first_crop_card = $first_crop_value/$first_crop_total;
+            }
+            $first_crop_card = Cards::create(strval(round($first_crop_card_value, 2)*100).'%', 'NUM', 'Of the farmers’ main crop was '.$first_crop_name);
+
             if ($isVariableChange) {
                 $first_crop_card = Cards::create(strval(round($first_crop_value/$first_crop_total, 2)*100).'%', 'NUM', 'Of the farmers’ second largest crop was '.$first_crop_name);
             }
 
-            $farmer_sample = Utils::getValues($id, $variables['farmer_sample'])->map(function ($item) {
-                if ($item['name'] === "No Heshe Is An Alternative For A Sample Farmer That Was Unavailable") {
+            $alternatives = [
+                strtolower("No Heshe Is An Alternative For A Sample Farmer That Was Unavailable"),
+                strtolower("No, He/She Is An Alternative For A (Sample) Farmer That Was Unavailable")
+            ];
+            $farmer_sample = Utils::getValues($id, $variables['farmer_sample'])->map(function ($item) use ($alternatives) {
+                if (in_array(strtolower($item['name']), $alternatives)) {
                     $item['name'] = "Alternative";
+                }
+                if ($item['name'] === "" || $item['name'] === "-" || $item['name'] === "_") {
+                    $item['name'] = "NA";
                 }
                 return $item;
             });
