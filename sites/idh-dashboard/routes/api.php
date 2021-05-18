@@ -37,5 +37,6 @@ Route::post('/logs', [Auth::class,'logs'])->middleware('auth:api');
 Route::post('/user/update', [Auth::class, 'update'])->middleware('auth:api');
 Route::post('/user/list', [Auth::class, 'list'])->middleware('auth:api');
 Route::post('/user/access', [Auth::class, 'access'])->middleware('auth:api');
+Route::post('/user/delete', [Auth::class, 'delete'])->middleware('auth:api');
 
 Route::get('/syncData/{form_id}', [Seed::class, 'seed']);

@@ -19,7 +19,7 @@ class AuthController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'regex:/[a-z]/', 'regex:/[A-Z]/', 'regex:/[0-9]/', 'confirmed'],
         ]);
-        $token = Str::random(60); 
+        $token = Str::random(60);
         $role= 'guest';
         foreach(config('mail.members') as $domain) {
             $role = Str::contains($request->email, $domain) ? 'staff' : $role;
@@ -132,7 +132,7 @@ class AuthController extends Controller
 
     public function info(Request $request)
     {
-        // check last user activity 
+        // check last user activity
         // (change this if personal access token expired in auth provider change)
         $auth = Auth::user()->tokens->first();
         $updated_at = $auth->updated_at;
@@ -263,5 +263,22 @@ class AuthController extends Controller
             ];
         });
         return $logs;
+    }
+
+    public function delete(Request $request)
+    {
+        $user = \App\Models\User::where('email', $request->email)->first();
+        if (!$user) {
+            return response(['message' => 'user not found'], 401);
+        }
+        $userName = $user->name;
+        $authUser = Auth::user();
+        if ($authUser->role !== "admin") {
+            return response(['message' => "You doesn't have an access to delete a user!"], 403);
+        }
+        $delete = $user->delete();
+        return [
+            'message' => 'User '.$userName.'  has been deleted.'
+        ];
     }
 }
