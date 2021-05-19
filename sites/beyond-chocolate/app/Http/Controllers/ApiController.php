@@ -188,14 +188,18 @@ class ApiController extends Controller
             return $res;
         }
         $post = WebForm::create($input);
+        if($request->submitted){
+            $w = WebForm::find($post->id);
+            $this->notifySubmission($w);
+        }
         return $post;
     }
 
 
-    public function notifySubmission()
+    public function notifySubmission($webform)
     {
         $mails = new Mails();
-        $webform = WebForm::find(186);
+
         $questionnaires = config('bc.questionnaires');
 
         $userName =  $webform->user->name;
@@ -203,13 +207,13 @@ class ApiController extends Controller
 
         $formName = $questionnaires[$webform->form_id];
 
-        $users = collect(['juan@akvo.org']);
+        $users = collect(['juan@akvo.org', 'daniel@akvo.org']);
         $subject = "Form submitted";
         $users->map(function($email) use ($userName, $orgName, $formName, $subject, $mails ) {
             $recipients = [['Email' => $email]];
             $subject = config('app.name').": ".$subject;
-            $body = "User". $userName." of organization". $orgName ." has sent form". $formName;
-            $text = "User". $userName." of organization". $orgName ." has sent form". $formName;
+            $body = "User: ". $userName.", of organization: ". $orgName ." has sent the form". $formName;
+            $text = "User: ". $userName.", of organization: ". $orgName ." has sent the form". $formName;
             error_log($body);
             $mails->sendEmail($recipients, false, $subject, $body, $text);
         });

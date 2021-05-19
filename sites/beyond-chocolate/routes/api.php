@@ -161,7 +161,6 @@ Route::get('/organizations', [Api::class, 'getOrganizations2']);
 Route::get('/config', [Api::class, 'getConfig']);
 Route::post('/submission', [Api::class, 'postWebForm']);
 Route::patch('/submission', [Api::class, 'updateWebForm']);
-Route::get('/testw', [Api::class, 'notifySubmission']);
 Route::get('/submission/{organization_id}', [Api::class, 'getWebForm']);
 Route::get('/submission/check/{organization_id}', [Api::class, 'checkWebFormOnLoad']);
 Route::get('/submission/check/{organization_id}/{form_id}', [Api::class, 'checkWebForm']);
