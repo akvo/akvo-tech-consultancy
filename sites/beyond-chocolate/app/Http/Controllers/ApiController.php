@@ -209,8 +209,7 @@ class ApiController extends Controller
         $orgName = $webform->organization->name;
 
         $formName = $questionnaires[$webform->form_id];
-
-        $users = collect(['juan@akvo.org', 'daniel@akvo.org']);
+        $users = collect(explode(',', config('bc.notification_submission_emails')));
         $subject = "Form submitted";
         $users->map(function($email) use ($userName, $orgName, $formName, $subject, $mails ) {
             $recipients = [['Email' => $email]];

@@ -60,7 +60,7 @@ return [
         '126180526' => 'Member GISCO Beyond Chocolate Retail',
         '108490561' => 'Member GISCO Beyond Chocolate Standard setting organisation',
     ],
-
+    'notification_submission_emails' => env('NOTIFICATION_SUBMISSION_EMAILS'),
     'form_url' => 'https://tech-consultancy.akvotest.org/akvo-flow-web/'.env('AKVOFLOW_INSTANCE').'/',
 
     'saved_form_endpoint' => 'https://tech-consultancy.akvotest.org/akvo-flow-web-api/saved-forms',
