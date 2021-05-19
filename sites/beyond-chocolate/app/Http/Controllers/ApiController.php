@@ -10,6 +10,7 @@ use App\Models\WebForm;
 use App\Models\Collaborator;
 use App\Helpers\Mails;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class ApiController extends Controller
 {
@@ -188,6 +189,7 @@ class ApiController extends Controller
             return $res;
         }
         $post = WebForm::create($input);
+        Log::error('post', [$post, $request->submitted]);
         if($request->submitted){
             $w = WebForm::find($post->id);
             $this->notifySubmission($w);
@@ -198,6 +200,7 @@ class ApiController extends Controller
 
     public function notifySubmission($webform)
     {
+        Log::error('notifySubmission', [$webform]);
         $mails = new Mails();
 
         $questionnaires = config('bc.questionnaires');
