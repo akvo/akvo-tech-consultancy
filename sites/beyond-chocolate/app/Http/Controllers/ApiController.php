@@ -200,7 +200,7 @@ class ApiController extends Controller
         $userName =  $webform->user->name;
         $orgName = $webform->organization->name;
 
-        $formName = $questionnaires[$w->form_id];
+        $formName = $questionnaires[$webform->form_id];
 
         $users = collect(['juan@akvo.org']);
         $subject = "Form submitted";
