@@ -191,6 +191,34 @@ class ApiController extends Controller
         return $post;
     }
 
+
+    public function notifySubmission()
+    {
+        $webform = WebForm::find(186);
+        $questionnaires = config('bc.questionnaires');
+
+        $userName =  $webform->user->name;
+        $orgName = $webform->organization->name;
+
+        $formName = $questionnaires[$w->form_id];
+
+        $users = collect(['juan@akvo.org']);
+        $subject = "Form submitted";
+        $users->map(function($email) use ($userName, $orgName, $formName, $subject ) {
+            $recipients = [['Email' => $email]];
+            $subject = config('app.name').": ".$subject;
+            $body = "User". $userName." of organization". $orgName ." has sent form". $formName;
+            $text = "User". $userName." of organization". $orgName ." has sent form". $formName;
+            error_log($body);
+            $mails->sendEmail($recipients, false, $subject, $body, $text);
+        });
+
+        return response([
+            'message' => 'Internal notification done', 'mails' => []
+        ]);
+    }
+
+
     /**
      * Update the submission submitted status
      */
