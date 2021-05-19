@@ -194,6 +194,7 @@ class ApiController extends Controller
 
     public function notifySubmission()
     {
+        $mails = new Mails();
         $webform = WebForm::find(186);
         $questionnaires = config('bc.questionnaires');
 
