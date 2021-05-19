@@ -213,7 +213,7 @@ class ApiController extends Controller
         $subject = "Form submitted";
         $users->map(function($email) use ($userName, $orgName, $formName, $subject, $mails ) {
             $recipients = [['Email' => $email]];
-            $subject = config('app.name').": ".$subject;
+            $subject = config('app.name').": ".$subject.":".$formName;
             $body = "User: ". $userName.", of organization: ". $orgName ." has sent the form". $formName;
             $text = "User: ". $userName.", of organization: ". $orgName ." has sent the form". $formName;
             error_log($body);
