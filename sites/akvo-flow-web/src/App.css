@@ -97,7 +97,7 @@ button.btn-repeatable{
 }
 
 .fixed-container {
-    height: calc(100% - 130px);
+    height: calc(90% - 130px);
     min-height:0px;
     overflow-y: scroll;
     min-height: 0;
