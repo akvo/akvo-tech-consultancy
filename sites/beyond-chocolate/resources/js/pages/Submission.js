@@ -85,6 +85,8 @@ const Submission = () => {
         let status = interval <= 60;
         return status;
     };
+    const d201921s = new Date('2021-01-01T00:00:00.000000Z');
+    const d201921e = new Date('2021-03-01T00:00:00.000000Z');
     const d2019 = new Date('2020-04-28T00:00:00.000000Z');
     const renderSubmissions = () => {
         if (submissions.length === 0) {
@@ -98,7 +100,9 @@ const Submission = () => {
           let delay = checkDataDelay(x.updated_at);
           const calculateYear = (x) => {
             const dx = new Date(x);
-            if (d2019 > dx) {
+            if (dx > d201921s && dx < d201921e) {
+              return 2019;
+            } else if (d2019 > dx) {
               return 2019;
             } else{
               return dx.getFullYear();
