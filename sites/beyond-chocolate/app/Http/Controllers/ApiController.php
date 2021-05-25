@@ -258,8 +258,7 @@ class ApiController extends Controller
                           'organizations.name as org_name',
                           'secretariats.name as secretariat',
                           'forms.name as form_name',
-                          'web_forms.created_at'
-                 )
+                          'web_forms.created_at')
                  ->leftJoin('users', 'users.id', '=', 'web_forms.user_id')
                  ->leftJoin('organizations', 'organizations.id', '=', 'web_forms.organization_id')
                  ->leftJoin('organization_secretariat', 'organization_secretariat.organization_id', '=', 'web_forms.organization_id')
@@ -271,7 +270,6 @@ class ApiController extends Controller
                  ])
                  ->orderBy('web_forms.created_at')
                  ->get();
-        Log::info($updates);
         return $updates;
     }
 
