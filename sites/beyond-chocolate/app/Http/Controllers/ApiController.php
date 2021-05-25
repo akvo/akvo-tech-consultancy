@@ -11,6 +11,7 @@ use App\Models\Collaborator;
 use App\Helpers\Mails;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class ApiController extends Controller
 {
@@ -247,6 +248,34 @@ class ApiController extends Controller
     }
 
     /**
+     * Get a submission update data ( all )
+     */
+    public function getSubmissionUpdate(Request $request)
+    {
+        $updates = DB::Table('web_forms')
+                 ->select('users.name as user_name',
+                          'users.email',
+                          'organizations.name as org_name',
+                          'secretariats.name as secretariat',
+                          'forms.name as form_name',
+                          'web_forms.created_at'
+                 )
+                 ->leftJoin('users', 'users.id', '=', 'web_forms.user_id')
+                 ->leftJoin('organizations', 'organizations.id', '=', 'web_forms.organization_id')
+                 ->leftJoin('organization_secretariat', 'organization_secretariat.organization_id', '=', 'web_forms.organization_id')
+                 ->leftJoin('secretariats', 'organization_secretariat.secretariat_id', '=', 'secretariats.id')
+                 ->leftJoin('forms', 'forms.id', '=', 'web_forms.form_id')
+                 ->where([
+                     ['submitted', '=', 0],
+                     ['web_forms.created_at', '>', '2021-04-28 09:30:00'],
+                 ])
+                 ->orderBy('web_forms.created_at')
+                 ->get();
+        Log::info($updates);
+        return $updates;
+    }
+
+    /**
      * Get the submission data ( all / by organization )
      */
     public function getWebForm(Request $request)
@@ -314,6 +343,8 @@ class ApiController extends Controller
         };
         return;
     }
+
+
 
     public function checkWebFormOnLoad(Request $request)
     {
