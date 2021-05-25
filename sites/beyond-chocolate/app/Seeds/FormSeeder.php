@@ -27,7 +27,7 @@ class FormSeeder
         return;
     }
 
-    private function seedQuestionGroups($form, $formId)
+    public function seedQuestionGroups($form, $formId)
     {
         if (isset($form['questionGroup']['heading'])) {
             $repeat = isset($form['questionGroup']['repeatable']) 
