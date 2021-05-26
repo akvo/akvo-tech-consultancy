@@ -11,6 +11,7 @@ use App\Models\Collaborator;
 use App\Helpers\Mails;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class ApiController extends Controller
 {
@@ -173,6 +174,14 @@ class ApiController extends Controller
             'submitted' => 'required|boolean',
             'uuid' => ''
         ]);
+
+        $myString = $input['form_instance_url'];
+        $contains = Str::contains($myString, 'null');
+        Log::error('null-datapoint?', [$myString, $contains]);
+        if ($contains){
+            abort(404, "Datapoint wasn't found");
+        }
+
         // update user last activity
         $user = User::find($input['user_id']);
         $user->last_activity = now();
