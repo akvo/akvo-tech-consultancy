@@ -9,7 +9,7 @@ import {
     Pagination,
     Card,
     Form,
-    Button
+    Button,
 } from "react-bootstrap";
 import Select from "react-select";
 import * as qs from "query-string";
@@ -25,7 +25,7 @@ import { DateTime } from "luxon";
 
 const PAGINATION_OFFSET = 4;
 
-const pagesNumbers = config => {
+const pagesNumbers = (config) => {
     if (!config.to) {
         return [];
     }
@@ -49,9 +49,9 @@ const mapQuestionnaireToOption = (qs) => {
     if (qs.length === 0) {
         return [];
     }
-    let res = qs.map(q => {
+    let res = qs.map((q) => {
         let title = questionnaire[q.name];
-        return { value: q.name, label: title }
+        return { value: q.name, label: title };
     });
     return res;
 };
@@ -59,7 +59,7 @@ const mapQuestionnaireToOption = (qs) => {
 const Paging = ({ onChangePage, ...config }) => {
     const pages = pagesNumbers(config);
 
-    const goToPage = page => {
+    const goToPage = (page) => {
         return () => {
             onChangePage(page);
         };
@@ -75,7 +75,7 @@ const Paging = ({ onChangePage, ...config }) => {
                 disabled={1 === config.currentPage}
                 onClick={goToPage(config.currentPage - 1)}
             />
-            {pages.map(num => (
+            {pages.map((num) => (
                 <Pagination.Item
                     key={num}
                     active={config.currentPage === num}
@@ -111,18 +111,22 @@ const Users = () => {
         lastPage: 1,
         perPage: 5,
         to: 1,
-        total: 1
+        total: 1,
     });
     const [orgs, setOrgs] = useState([]);
     const [emailSent, setEmailSent] = useState(false);
-    const [selectedOrgs, setSelectedOrgs] = useState({value:false, label:"", error: false});
+    const [selectedOrgs, setSelectedOrgs] = useState({
+        value: false,
+        label: "",
+        error: false,
+    });
     const {
         register,
         control,
         handleSubmit,
         errors,
         setServerErrors,
-        formState: { isDirty }
+        formState: { isDirty },
     } = useForm();
     const { user: admin } = useAuth();
 
@@ -130,15 +134,17 @@ const Users = () => {
     let text = uiText[locale.active];
 
     useEffect(() => {
-        setSelectedOrgs({value:selected?.organization_id || false, error: false})
+        setSelectedOrgs({
+            value: selected?.organization_id || false,
+            error: false,
+        });
         setEmailSent(false);
     }, [selected]);
 
-
-    const fetchUsers = async page => {
+    const fetchUsers = async (page) => {
         const url = qs.stringifyUrl({
             url: "/api/users",
-            query: { page: page }
+            query: { page: page },
         });
         const response = await request().get(url);
         // check user last activity
@@ -154,7 +160,7 @@ const Users = () => {
             lastPage: parseInt(data.last_page),
             perPage: parseInt(data.per_page),
             to: parseInt(data.to),
-            total: parseInt(data.total)
+            total: parseInt(data.total),
         };
         if (pagination.currentPage > pagination.lastPage) {
             return await fetchUsers(pagination.lastPage);
@@ -172,16 +178,18 @@ const Users = () => {
         const { data } = await request().get("/api/questionnaires");
         setQuestionnaires(mapQuestionnaireToOption(data));
     };
-    const setPage = page => {
+    const setPage = (page) => {
         fetchUsers(page);
     };
 
-    const onSelectUser = user => {
+    const onSelectUser = (user) => {
         if (isDirty) {
-            setModalContent(`${text.textUnsavedChanges}: ${selected.name} (${selected.email})`);
+            setModalContent(
+                `${text.textUnsavedChanges}: ${selected.name} (${selected.email})`
+            );
             showModal(true);
             return;
-        };
+        }
         setSelected(null);
         setTimeout(() => {
             setSelected(user);
@@ -190,24 +198,26 @@ const Users = () => {
 
     const hideModal = () => {
         showModal(false);
-    }
+    };
 
     const saveUser = async ({ id, ...data }) => {
         if (!selectedOrgs.value) {
-            setSelectedOrgs({ ...selectedOrgs, error: true});
+            setSelectedOrgs({ ...selectedOrgs, error: true });
             return;
         }
         data = { ...data, organization_id: selectedOrgs.value };
         const questionnaires = data.questionnaires?.length
-            ? data.questionnaires.map(q => q.value)
+            ? data.questionnaires.map((q) => q.value)
             : null;
         try {
             await request().patch(`/api/users/${id}`, {
                 ...data,
-                questionnaires
+                questionnaires,
             });
-            fetchUsers(pagination.currentPage).then(res => {
-                const current = res.data.data.data.find(x => x.id === selected.id);
+            fetchUsers(pagination.currentPage).then((res) => {
+                const current = res.data.data.data.find(
+                    (x) => x.id === selected.id
+                );
                 setSelected(current);
             });
         } catch (e) {
@@ -218,16 +228,18 @@ const Users = () => {
             }
         }
     };
-    const deleteUser = async user => {
+    const deleteUser = async (user) => {
         await request().delete(`/api/users/${user.id}`);
         fetchUsers(pagination.currentPage);
         setSelected(null);
     };
-    const informUser = async user => {
-        const subject = 'Surveys assigned';
-        const questionnaires = user.questionnaires.map(q => q.title)
+    const informUser = async (user) => {
+        const subject = "Surveys assigned";
+        const questionnaires = user.questionnaires.map((q) => q.title);
         const adminName = admin?.name;
-        const adminOrg = orgs.find(it => it.id === admin.organization_id)?.name
+        const adminOrg = orgs.find(
+            (it) => it.id === admin.organization_id
+        )?.name;
         try {
             let sendData = {
                 email: user.email,
@@ -236,7 +248,7 @@ const Users = () => {
                 subject,
                 adminName,
                 adminOrg,
-            }
+            };
             let res = await emailApi.informUser(sendData);
             if (res.status == 200) {
                 setEmailSent(true);
@@ -248,8 +260,8 @@ const Users = () => {
                 throw e;
             }
         }
-    }
-    const displayUserSurveys = user => {
+    };
+    const displayUserSurveys = (user) => {
         const count = user.questionnaires.length;
         return count >= questionnaires.length ||
             user.role.permissions.includes("manage-surveys")
@@ -260,25 +272,33 @@ const Users = () => {
     const fetchOrgs = async () => {
         let res = await authApi.getOrganizations();
         setOrgs(res.data);
-    }
+    };
 
-    const renderOrganizations = organizations => {
-        return organizations.map(x => {
+    const renderOrganizations = (organizations) => {
+        return organizations.map((x) => {
             return { value: x.id, label: x.name };
         });
     };
 
-    const renderDefaultQuestionnaire = data => {
+    const renderDefaultQuestionnaire = (data) => {
         if (data.length === 0) {
             return [];
         }
         let res = mapQuestionnaireToOption(data);
-        res = res.map(x => ({ value: x.value, label: x.label[locale.active] }));
+        res = res.map((x) => ({
+            value: x.value,
+            label: x.label[locale.active],
+        }));
         return res;
-    }
+    };
 
     useEffect(async () => {
-        await Promise.all([fetchUsers(1), fetchRoles(), fetchQuestionnaires(), fetchOrgs()]);
+        await Promise.all([
+            fetchUsers(1),
+            fetchRoles(),
+            fetchQuestionnaires(),
+            fetchOrgs(),
+        ]);
     }, []);
 
     return (
@@ -288,26 +308,42 @@ const Users = () => {
                     <Table className="users-table">
                         <thead>
                             <tr>
-                                <th>{ text.tbColName }</th>
-                                <th>{ text.tbColEmail }</th>
-                                <th>{ text.tbColVerifiedOn }</th>
-                                <th>{ text.tbColSecretariats }</th>
-                                <th>{ text.tbColOrganization }</th>
-                                <th>{ text.tbColRole }</th>
-                                <th>{ text.tbColSurveys }</th>
+                                <th>{text.tbColName}</th>
+                                <th>{text.tbColEmail}</th>
+                                <th>{text.tbColVerifiedOn}</th>
+                                <th>{text.tbColSecretariats}</th>
+                                <th>{text.tbColOrganization}</th>
+                                <th>{text.tbColRole}</th>
+                                <th>{text.tbColSurveys}</th>
                             </tr>
                         </thead>
                         <tbody>
                             {users &&
-                                users.map(user => {
-
-                                    let secretariats = user.organization.secretariats.map(x => { return (<div class='secretariat'>{x.name}</div>);});
-                                    let orgSuffix = (user.organization.parents !== null)
-                                        ? " (" + user.organization.parents.name + ")"
-                                        : "";
-                                    let verifiedOn = (user.email_verified_at !== null)
-                                        ? DateTime.fromISO(user.email_verified_at).toFormat("dd/LL/yyyy 'at' HH:mm")
-                                        : " - ";
+                                users.map((user) => {
+                                    let secretariats =
+                                        user.organization.secretariats.map(
+                                            (x) => {
+                                                return (
+                                                    <div class="secretariat">
+                                                        {x.name}
+                                                    </div>
+                                                );
+                                            }
+                                        );
+                                    let orgSuffix =
+                                        user.organization.parents !== null
+                                            ? " (" +
+                                              user.organization.parents.name +
+                                              ")"
+                                            : "";
+                                    let verifiedOn =
+                                        user.email_verified_at !== null
+                                            ? DateTime.fromISO(
+                                                  user.email_verified_at
+                                              ).toFormat(
+                                                  "dd/LL/yyyy 'at' HH:mm"
+                                              )
+                                            : " - ";
                                     return (
                                         <tr
                                             key={user.id}
@@ -322,7 +358,10 @@ const Users = () => {
                                             <td>{user.email}</td>
                                             <td>{verifiedOn}</td>
                                             <td>{secretariats}</td>
-                                            <td>{user.organization.name + orgSuffix}</td>
+                                            <td>
+                                                {user.organization.name +
+                                                    orgSuffix}
+                                            </td>
                                             <td>{user.role?.name}</td>
                                             <td className="text-right">
                                                 {displayUserSurveys(user)}
@@ -332,9 +371,7 @@ const Users = () => {
                                 })}
                             {users.length < 1 && (
                                 <tr>
-                                    <td colSpan={2}>
-                                        { text.tbRowNoRecords }
-                                    </td>
+                                    <td colSpan={2}>{text.tbRowNoRecords}</td>
                                 </tr>
                             )}
                         </tbody>
@@ -344,16 +381,16 @@ const Users = () => {
                 <Col md={4}>
                     {selected && (
                         <Form onSubmit={handleSubmit(saveUser)}>
-                        <Card style={{backgroundColor: "white"}}>
+                            <Card style={{ backgroundColor: "white" }}>
                                 <Card.Body>
                                     <div className="d-flex">
                                         <Button
                                             className="ml-auto p-2 close"
                                             onClick={() => setSelected(null)}
-                                        > <span>{ text.btnClose }</span>
-                                            <FontAwesomeIcon
-                                                icon={faTimes}
-                                            />
+                                        >
+                                            {" "}
+                                            <span>{text.btnClose}</span>
+                                            <FontAwesomeIcon icon={faTimes} />
                                         </Button>
                                     </div>
                                     <input
@@ -367,19 +404,21 @@ const Users = () => {
                                         controlId="formPlaintextName"
                                     >
                                         <Form.Label column sm={4}>
-                                            { text.tbColName }
+                                            {text.tbColName}
                                         </Form.Label>
                                         <Col sm={8}>
                                             <Form.Control
                                                 type="text"
-                                                name="name"isInvalid={!!errors.name}
+                                                name="name"
+                                                isInvalid={!!errors.name}
                                                 ref={register({
-                                                    required: text.valName
+                                                    required: text.valName,
                                                 })}
                                                 defaultValue={selected.name}
                                             />
                                             <Form.Control.Feedback type="invalid">
-                                                {!!errors.name && errors.name.message}
+                                                {!!errors.name &&
+                                                    errors.name.message}
                                             </Form.Control.Feedback>
                                         </Col>
                                     </Form.Group>
@@ -388,7 +427,7 @@ const Users = () => {
                                         controlId="formPlaintextEmail"
                                     >
                                         <Form.Label column sm={4}>
-                                            { text.tbColEmail }
+                                            {text.tbColEmail}
                                         </Form.Label>
                                         <Col sm={8}>
                                             <Form.Control
@@ -404,22 +443,32 @@ const Users = () => {
                                         controlId="formPlaintextOrganization"
                                     >
                                         <Form.Label column sm={4}>
-                                            { text.tbColOrganization }
+                                            {text.tbColOrganization}
                                         </Form.Label>
                                         <Col sm={8}>
                                             <Select
                                                 defaultValue={{
                                                     value: selected.organization_id,
-                                                    label: orgs.find(x => x.id === selected.organization_id)['name']
+                                                    label: orgs.find(
+                                                        (x) =>
+                                                            x.id ===
+                                                            selected.organization_id
+                                                    )["name"],
                                                 }}
-                                                onChange={opt => setSelectedOrgs(opt)}
-                                                options={renderOrganizations(orgs)}
+                                                onChange={(opt) =>
+                                                    setSelectedOrgs(opt)
+                                                }
+                                                options={renderOrganizations(
+                                                    orgs
+                                                )}
                                             />
-                                            { selectedOrgs.error ? (
+                                            {selectedOrgs.error ? (
                                                 <Form.Text className="text-danger">
-                                                    { text.valOrganization }
+                                                    {text.valOrganization}
                                                 </Form.Text>
-                                                ) : ""}
+                                            ) : (
+                                                ""
+                                            )}
                                         </Col>
                                     </Form.Group>
 
@@ -428,7 +477,7 @@ const Users = () => {
                                         controlId="formPlaintextPassword"
                                     >
                                         <Form.Label column sm={4}>
-                                            { text.tbColRole }
+                                            {text.tbColRole}
                                         </Form.Label>
                                         <Col sm={8}>
                                             <Form.Control
@@ -440,7 +489,7 @@ const Users = () => {
                                                 isInvalid={!!errors.role}
                                                 ref={register}
                                             >
-                                                {roles.map(role => (
+                                                {roles.map((role) => (
                                                     <option
                                                         key={role.key}
                                                         value={role.key}
@@ -457,14 +506,25 @@ const Users = () => {
                                     </Form.Group>
                                     <hr />
                                     <Form.Group>
-                                        <Form.Label>{ text.formQuestionnaire }</Form.Label>
+                                        <Form.Label>
+                                            {text.formQuestionnaire}
+                                        </Form.Label>
                                         <Controller
                                             as={Select}
                                             name="questionnaires"
                                             isMulti
                                             control={control}
-                                            defaultValue={renderDefaultQuestionnaire(selected.questionnaires)}
-                                            options={questionnaires.map(x => ({value: x.value, label: x.label[locale.active]}))}
+                                            defaultValue={renderDefaultQuestionnaire(
+                                                selected.questionnaires
+                                            )}
+                                            options={questionnaires.map(
+                                                (x) => ({
+                                                    value: x.value,
+                                                    label: x.label[
+                                                        locale.active
+                                                    ],
+                                                })
+                                            )}
                                         />
                                     </Form.Group>
                                 </Card.Body>
@@ -474,39 +534,60 @@ const Users = () => {
                                         variant="primary"
                                         className="mr-2"
                                     >
-                                        { text.btnSaveChanges }
+                                        {text.btnSaveChanges}
                                     </Button>
                                     <Button
                                         variant="danger"
                                         className="mr-2"
                                         onClick={() => deleteUser(selected)}
                                     >
-                                        { text.btnDeleteUser }
+                                        {text.btnDeleteUser}
                                     </Button>
                                     <Button
-                                        variant={isDirty || selected?.questionnaires?.length === 0
-                                            ? "secondary"
-                                            : "success"
+                                        variant={
+                                            isDirty ||
+                                            selected?.questionnaires?.length ===
+                                                0
+                                                ? "secondary"
+                                                : "success"
                                         }
                                         className="mr-2"
-                                        disabled={isDirty || !selected?.email_verified_at || selected?.questionnaires?.length === 0}
+                                        disabled={
+                                            isDirty ||
+                                            !selected?.email_verified_at ||
+                                            selected?.questionnaires?.length ===
+                                                0
+                                        }
                                         onClick={() => informUser(selected)}
                                     >
-                                        { text.btnInformUser }
-                                      {emailSent && <FontAwesomeIcon className="ml-2" icon={faCheck} />}
+                                        {text.btnInformUser}
+                                        {emailSent && (
+                                            <FontAwesomeIcon
+                                                className="ml-2"
+                                                icon={faCheck}
+                                            />
+                                        )}
                                     </Button>
                                 </Card.Footer>
                                 {!selected?.email_verified_at ? (
-                                <Card.Footer>
-                                    <b>{selected?.email}</b> { text.textEmailNotVerifiedYet}
-                                </Card.Footer>
-                                ) : ""}
+                                    <Card.Footer>
+                                        <b>{selected?.email}</b>{" "}
+                                        {text.textEmailNotVerifiedYet}
+                                    </Card.Footer>
+                                ) : (
+                                    ""
+                                )}
                             </Card>
                         </Form>
                     )}
                 </Col>
             </Row>
-            <ModalWarning show={modalState} text={text} content={modalContent} handleClose={hideModal}/>
+            <ModalWarning
+                show={modalState}
+                text={text}
+                content={modalContent}
+                handleClose={hideModal}
+            />
         </Container>
     );
 };

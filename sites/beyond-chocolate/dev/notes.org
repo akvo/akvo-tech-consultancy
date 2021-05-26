@@ -10,10 +10,25 @@
 select * from users where email like '%@akvo.org';
 #+end_src
 
+#+RESULTS:
+| id | organization_id | name                | email          | email_verified_at   | password                                                     | role  | questionnaires | two_factor_secret | two_factor_recovery_codes | remember_token | last_activity | created_at          | updated_at          |
+|----+-----------------+---------------------+----------------+---------------------+--------------------------------------------------------------+-------+----------------+-------------------+---------------------------+----------------+---------------+---------------------+---------------------|
+|  1 |              86 | Raquel Schulist     | joy@akvo.org   | 2021-05-26 05:44:15 | $2y$10$IyPANeDKxt3JOqr1wBLcdOehDFkE8tGJDKmTyLMxWP1yr5php8nH2 | admin | []             | NULL              | NULL                      | JDLh0wSSab     | NULL          | 2021-05-26 05:44:15 | 2021-05-26 05:44:15 |
+|  2 |              85 | Mr. London Bergnaum | deden@akvo.org | 2021-05-26 05:44:15 | $2y$10$a3YSTrrXtqAt7R7ic8ibMOSmm3W3cOcwuxlOXcfWgHe6xvV7u8IVS | admin | []             | NULL              | NULL                      | LtFwlpLyxP     | NULL          | 2021-05-26 05:44:15 | 2021-05-26 05:44:15 |
+|  3 |              60 | Asha Boyle          | galih@akvo.org | 2021-05-26 05:44:15 | $2y$10$9a73h2RyqirRVbsp0gNoS.I.VqFpOpKXrKvkoXRWNvLYd05LrYLB6 | admin | []             | NULL              | NULL                      | 3xBzB5YkzQ     | NULL          | 2021-05-26 05:44:15 | 2021-05-26 05:44:15 |
+
 
 #+begin_src sql
 select * from users where email like '%@akvo.org';
 #+end_src
+
+#+RESULTS:
+| id | organization_id | name                | email           | email_verified_at   | password                                                     | role  | questionnaires | two_factor_secret | two_factor_recovery_codes | remember_token | last_activity       | created_at          | updated_at          |
+|----+-----------------+---------------------+-----------------+---------------------+--------------------------------------------------------------+-------+----------------+-------------------+---------------------------+----------------+---------------------+---------------------+---------------------|
+|  1 |              86 | Raquel Schulist     | joy@akvo.org    | 2021-05-26 05:44:15 | $2y$10$IyPANeDKxt3JOqr1wBLcdOehDFkE8tGJDKmTyLMxWP1yr5php8nH2 | admin | []             | NULL              | NULL                      | JDLh0wSSab     | NULL                | 2021-05-26 05:44:15 | 2021-05-26 05:44:15 |
+|  2 |              85 | Mr. London Bergnaum | deden@akvo.org  | 2021-05-26 05:44:15 | $2y$10$a3YSTrrXtqAt7R7ic8ibMOSmm3W3cOcwuxlOXcfWgHe6xvV7u8IVS | admin | []             | NULL              | NULL                      | LtFwlpLyxP     | NULL                | 2021-05-26 05:44:15 | 2021-05-26 05:44:15 |
+|  3 |              60 | Asha Boyle          | galih@akvo.org  | 2021-05-26 05:44:15 | $2y$10$9a73h2RyqirRVbsp0gNoS.I.VqFpOpKXrKvkoXRWNvLYd05LrYLB6 | admin | []             | NULL              | NULL                      | 3xBzB5YkzQ     | NULL                | 2021-05-26 05:44:15 | 2021-05-26 05:44:15 |
+| 24 |              77 | Daniel              | daniel@akvo.org | 2021-05-26 05:48:56 | $2y$10$ZcHrXfkgojBl.DEndECafu0cKWDTe8bENpZYLHIv8OosZ6puDMRCa | admin | []             | NULL              | NULL                      | NULL           | 2021-05-26 05:48:51 | 2021-05-26 05:48:39 | 2021-05-26 05:48:51 |
 
 
 
@@ -23,9 +38,15 @@ select * from users where email like '%@akvo.org';
   where email like '%l@akvo.org' and email_verified_at IS NULL;
 #+end_src
 
+#+RESULTS:
+|---|
+
 
 #+begin_src sql
   update users
   set role='admin'
-  where email='daniel@akvo.org'; 1
+  where email='daniel@akvo.org';
 #+end_src
+
+#+RESULTS:
+|---|

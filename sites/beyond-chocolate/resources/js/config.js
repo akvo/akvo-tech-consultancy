@@ -6,6 +6,7 @@ export default {
         survey: "/survey",
         setting: "/setting",
         users: "/users",
+        activity: "/activity",
         login: "/login",
         register: "/register",
         resetPassword: "/reset-password/:token",
@@ -15,5 +16,5 @@ export default {
         gettingStarted: "/getting-started",
         submission: "/submission",
     },
-    userLanding: "/home"
+    userLanding: "/home",
 };

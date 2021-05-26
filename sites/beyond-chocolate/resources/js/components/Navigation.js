@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import { useLocation } from 'react-router-dom'
+import { useLocation } from "react-router-dom";
 import { Navbar, Nav, NavDropdown, Form, FormControl } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faUser,
     faCog,
     faUsers,
+    faHistory,
     faSignOutAlt,
-    faGlobeEurope
+    faGlobeEurope,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "./auth-context";
@@ -23,9 +24,9 @@ const hideNavBarMenu = (routes, pathname) => {
     noNavMenuRoutes.add(routes.resetPassword);
     noNavMenuRoutes.add(routes.forgotPassword);
     return noNavMenuRoutes.has(pathname);
-}
+};
 
-const Navigation = ({formLoaded, setFormLoaded}) => {
+const Navigation = ({ formLoaded, setFormLoaded }) => {
     const { user, logout } = useAuth();
     const { locale, update } = useLocale();
     const location = useLocation();
@@ -40,18 +41,18 @@ const Navigation = ({formLoaded, setFormLoaded}) => {
         window.location.reload();
     };
 
-    const handleLocale = eventKey => {
+    const handleLocale = (eventKey) => {
         console.log(eventKey);
         update({ ...locale, active: eventKey });
     };
 
     return (
         <Navbar expand="lg">
-            {showNavBarMenu &&
-              <Navbar.Brand as={Link} to={config.routes.home}>
-                { text.navHome }
-              </Navbar.Brand>
-            }
+            {showNavBarMenu && (
+                <Navbar.Brand as={Link} to={config.routes.home}>
+                    {text.navHome}
+                </Navbar.Brand>
+            )}
             <Navbar.Toggle aria-controls="basiqc-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
@@ -61,34 +62,36 @@ const Navigation = ({formLoaded, setFormLoaded}) => {
                                 { text.navGettingStarted }
                             </Nav.Link> */}
                             <Nav.Link as={NavLink} to={config.routes.survey}>
-                                { text.navSurvey }
+                                {text.navSurvey}
                             </Nav.Link>
 
-                            <Nav.Link as={NavLink} to={config.routes.submission}>
-                                { text.btnDownload }
+                            <Nav.Link
+                                as={NavLink}
+                                to={config.routes.submission}
+                            >
+                                {text.btnDownload}
                             </Nav.Link>
                         </>
                     )}
-                    {showNavBarMenu &&
+                    {showNavBarMenu && (
                         <Nav.Link as={NavLink} to={config.routes.definition}>
-                          { text.navDefinitions }
+                            {text.navDefinitions}
                         </Nav.Link>
-                    }
+                    )}
                     {user?.verified && (
                         <>
                             <Nav.Link as={NavLink} to={config.routes.feedback}>
-                                { text.navFeedback }
+                                {text.navFeedback}
                             </Nav.Link>
                             <Nav.Link as={NavLink} to={config.routes.impressum}>
-                                { text.textFooterImpressum }
+                                {text.textFooterImpressum}
                             </Nav.Link>
                             <Nav.Link as={NavLink} to={config.routes.faq}>
-                                { text.textFooterFaq }
+                                {text.textFooterFaq}
                             </Nav.Link>
                         </>
                     )}
                 </Nav>
-
 
                 <Nav activeKey={locale.active} onSelect={handleLocale}>
                     {false && (
@@ -142,40 +145,58 @@ const Navigation = ({formLoaded, setFormLoaded}) => {
                                             className="mr-2"
                                             icon={faCog}
                                         />
-                                        { text.navSetting }
+                                        {text.navSetting}
                                     </NavDropdown.Item>
                                     {user.can("manage-users") && (
-                                        <NavDropdown.Item
-                                            as={NavLink}
-                                            to={config.routes.users}
-                                        >
-                                            <FontAwesomeIcon
-                                                className="mr-2"
-                                                icon={faUsers}
-                                            />
-                                            { text.navManageUser }
-                                        </NavDropdown.Item>
+                                        <>
+                                            <NavDropdown.Item
+                                                as={NavLink}
+                                                to={config.routes.users}
+                                            >
+                                                <FontAwesomeIcon
+                                                    className="mr-2"
+                                                    icon={faHistory}
+                                                />
+                                                {text.navManageUser}
+                                            </NavDropdown.Item>
+                                            <NavDropdown.Item
+                                                as={NavLink}
+                                                to={config.routes.activity}
+                                            >
+                                                <FontAwesomeIcon
+                                                    className="mr-2"
+                                                    icon={faHistory}
+                                                />
+                                                {text.navManageUser}
+                                            </NavDropdown.Item>
+                                        </>
                                     )}
                                     <NavDropdown.Divider />
                                 </>
                             )}
-                            <NavDropdown.Item onClick={e => formLoaded ? setShowSavePrompt(true) : endSession() }>
+                            <NavDropdown.Item
+                                onClick={(e) =>
+                                    formLoaded
+                                        ? setShowSavePrompt(true)
+                                        : endSession()
+                                }
+                            >
                                 <FontAwesomeIcon
                                     className="mr-2"
                                     icon={faSignOutAlt}
                                 />
-                                { text.navLogout }
+                                {text.navLogout}
                             </NavDropdown.Item>
                         </NavDropdown>
                     )}
                 </Nav>
             </Navbar.Collapse>
-          <SaveFormModal
-            text={text}
-            show={showSavePrompt}
-            onHide={e => setShowSavePrompt(false)}
-            onConfirm={endSession}
-          />
+            <SaveFormModal
+                text={text}
+                show={showSavePrompt}
+                onHide={(e) => setShowSavePrompt(false)}
+                onConfirm={endSession}
+            />
         </Navbar>
     );
 };

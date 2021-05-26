@@ -250,14 +250,16 @@ class ApiController extends Controller
     /**
      * Get a submission update data ( all )
      */
-    public function getSubmissionUpdate(Request $request)
+    public function getSubmissionActivity(Request $request)
     {
         $updates = DB::Table('web_forms')
-                 ->select('users.name as user_name',
+                 ->select('web_forms.id',
+                          'users.name as user_name',
                           'users.email',
                           'organizations.name as org_name',
                           'secretariats.name as secretariat',
                           'forms.name as form_name',
+                          'web_forms.submitted',
                           'web_forms.created_at')
                  ->leftJoin('users', 'users.id', '=', 'web_forms.user_id')
                  ->leftJoin('organizations', 'organizations.id', '=', 'web_forms.organization_id')
@@ -265,10 +267,11 @@ class ApiController extends Controller
                  ->leftJoin('secretariats', 'organization_secretariat.secretariat_id', '=', 'secretariats.id')
                  ->leftJoin('forms', 'forms.id', '=', 'web_forms.form_id')
                  ->where([
-                     ['submitted', '=', 0],
+                     // ['submitted', '=', 0],
                      ['web_forms.created_at', '>', '2021-04-28 09:30:00'],
                  ])
-                 ->orderBy('web_forms.created_at')
+                 ->orderBy('web_forms.created_at', 'DESC')
+                 ->limit(100)
                  ->get();
         return $updates;
     }
