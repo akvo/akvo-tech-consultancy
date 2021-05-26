@@ -179,7 +179,7 @@ class ApiController extends Controller
         $contains = Str::contains($myString, 'null');
         Log::error('null-datapoint?', [$myString, $contains]);
         if ($contains){
-            abort(404, "Datapoint wasn't found");
+            abort(400, "Form instance id wasn't found");
         }
 
         // update user last activity
