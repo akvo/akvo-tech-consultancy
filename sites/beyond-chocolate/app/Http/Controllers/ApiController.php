@@ -175,12 +175,7 @@ class ApiController extends Controller
             'uuid' => ''
         ]);
 
-        $myString = $input['form_instance_url'];
-        $contains = Str::contains($myString, 'null');
-        Log::error('null-datapoint?', [$myString, $contains]);
-        if ($contains){
-            abort(400, "Form instance id wasn't found");
-        }
+
 
         // update user last activity
         $user = User::find($input['user_id']);
@@ -191,8 +186,14 @@ class ApiController extends Controller
         if (isset($request->display_name)) {
             $input['display_name'] = (strtolower($request->display_name) !== 'untitled') ? $request->display_name : null;
         }
-        $update = WebForm::where('form_instance_url', $input['form_instance_url'])->first();
+        $update = WebForm::where('form_instance_url', $input['form_instance_url'])->where('submitted', 0)->where('uuid', $input['uuid'])->first();
         if ($update) {
+            $formInstanceUrl = $input['form_instance_url'];
+            $contains = Str::contains($formInstanceUrl, 'null');
+            Log::error('null form instance id', [$formInstanceUrl, $contains]);
+            if ($contains){
+                abort(400, "Form instance id wasn't found");
+            }
             // do not update the organization when submission saved/submitted (because there was a collaborators rule, submission will still on assignned organization)
             $res = $update->update(collect($input)->except(['organization_id'])->toArray());
             return $res;
