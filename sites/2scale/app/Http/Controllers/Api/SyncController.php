@@ -472,7 +472,7 @@ class SyncController extends Controller
                         array(
                             'datapoint_id' => $datapoint_id,
                             'form_id' => $form['form_id'],
-                            'partnership_id' => $partnership_id['id'],
+                            'partnership_id' => $partnership_id ? $partnership_id['id'] : null,
                             'country_id' => $country_id['id'],
                             'survey_group_id' => $form['survey_group_id'],
                             'submission_date' => date('Y-m-d', strtotime($submission_date)),
@@ -486,7 +486,7 @@ class SyncController extends Controller
                         array(
                             'datapoint_id' => $datapoint_id,
                             'form_id' => $form['form_id'],
-                            'partnership_id' => $partnership_id['id'],
+                            'partnership_id' => $partnership_id ? $partnership_id['id'] : null,
                             'country_id' => $country_id['id'],
                             'survey_group_id' => $form['survey_group_id'],
                             'submission_date' => date('Y-m-d', strtotime($submission_date)),
