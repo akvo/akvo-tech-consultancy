@@ -196,6 +196,9 @@ class ApiController extends Controller
             }
             // do not update the organization when submission saved/submitted (because there was a collaborators rule, submission will still on assignned organization)
             $res = $update->update(collect($input)->except(['organization_id'])->toArray());
+            if($request->submitted){
+                $this->notifySubmission($update);
+            }
             return $res;
         }
         $post = WebForm::create($input);
