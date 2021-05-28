@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Table } from "react-bootstrap";
+import { Container, Row, Col, Table, Form } from "react-bootstrap";
 import Select from "react-select";
 import activityApi from "../services/activity";
 
@@ -12,7 +12,7 @@ const Activity = () => {
         activityApi
             .getActivities()
             .then((response) => {
-                setActivities(response.data);
+                setActivities(response.data.data);
             })
             .catch((error) => {
                 console.log(error);
@@ -25,7 +25,6 @@ const Activity = () => {
             getActivities();
         }
     });
-
     const listItems = activities.map((activity) => (
         <tr
             key={activity.secretariat + activity.id}

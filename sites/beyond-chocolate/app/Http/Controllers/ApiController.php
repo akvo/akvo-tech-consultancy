@@ -250,8 +250,9 @@ class ApiController extends Controller
     /**
      * Get a submission update data ( all )
      */
-    public function getSubmissionActivity(Request $request)
+     public function getSubmissionActivity(Request $request)
     {
+        Log::info('@getSubmissionActivity', [$request->user()->role]);
         $updates = DB::Table('web_forms')
                  ->select('web_forms.id',
                           'users.name as user_name',
@@ -267,11 +268,10 @@ class ApiController extends Controller
                  ->leftJoin('secretariats', 'organization_secretariat.secretariat_id', '=', 'secretariats.id')
                  ->leftJoin('forms', 'forms.id', '=', 'web_forms.form_id')
                  ->where([
-                     // ['submitted', '=', 0],
                      ['web_forms.created_at', '>', '2021-04-28 09:30:00'],
                  ])
                  ->orderBy('web_forms.created_at', 'DESC')
-                 ->limit(100)
+                 ->limit(200)
                  ->get();
         return $updates;
     }

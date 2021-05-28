@@ -120,6 +120,20 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('/collaborators/{web_form_id}', [Api::class, 'getCollaboratorAssignments']);
     Route::post('/collaborators/{web_form_id}/{organization_id}', [Api::class, 'addCollaboratorAssignment']);
     Route::delete('/collaborators/{web_form_id}/{organization_id}', [Api::class, 'deleteCollaboratorAssignment']);
+
+    Route::get('/submission/activity', function (Request $request, Auth $auth, StatefulGuard $guard) {
+        $roles = $request->roles;
+        Log::info('@getSubmissionActivity:roles', [$roles]);
+
+        $check = $auth->checkLastActivity($request, $guard);
+        $res['last_activity'] = $check;
+
+        $api = new Api();
+        $res ['data'] = $api->getSubmissionActivity($request);
+        return $res;
+    });
+    // })->middleware('can:viewAny,App\Models\Webforms');
+    //})->middleware('can:viewAny,App\Http\Controllers\ApiController');
 });
 
 Route::post('/send-email', [Email::class, 'sendFeedback']);
@@ -161,7 +175,6 @@ Route::get('/organizations', [Api::class, 'getOrganizations2']);
 Route::get('/config', [Api::class, 'getConfig']);
 Route::post('/submission', [Api::class, 'postWebForm']);
 Route::patch('/submission', [Api::class, 'updateWebForm']);
-Route::get('/submission/activity', [Api::class, 'getSubmissionActivity']);
 Route::get('/submission/{organization_id}', [Api::class, 'getWebForm']);
 Route::get('/submission/check/{organization_id}', [Api::class, 'checkWebFormOnLoad']);
 Route::get('/submission/check/{organization_id}/{form_id}', [Api::class, 'checkWebForm']);
