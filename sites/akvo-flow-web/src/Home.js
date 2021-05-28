@@ -69,8 +69,8 @@ class Home extends Component {
       localStorage.setItem("_submissionStart", Date.now());
       localStorage.setItem("_deviceId", "Akvo Flow Web");
       localStorage.setItem("_version", data.version);
-      localStorage.setItem("_instanceId", data.app);
     }
+    localStorage.setItem("_instanceId", data.app);
   };
 
   updateQuestions = (index) => {
@@ -88,7 +88,6 @@ class Home extends Component {
 
   getSurvey() {
     localStorage.setItem("_formId", this.surveyId);
-    localStorage.setItem("_instanceId", this.instance);
     let SURVEY_API =
       API_URL + this.instance + "/" + this.surveyId + "/" + READ_CACHE;
     axios
