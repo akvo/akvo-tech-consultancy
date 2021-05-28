@@ -334,21 +334,18 @@ class SyncController extends Controller
             ];
         });
 
-        $success_table = $this->generateTable($success, 'success');
+        // $success_table = $this->generateTable($success, 'success');
         $error_table = $this->generateTable($this->error, 'error');
 
-        $html = '<html>
-            <body>
-                <h4>Success</h4>
-                '.$success_table.'
-                <br/>
-                <h4>Error</h4>
-                '.$error_table.'
-            </body>
-        </html>';
+        $html = '<html><body>';
+        // $html += '<h4>Success</h4>'.$success_table.'<br/>';
+        $html += '<h4>Error</h4>'.$error_table.'';
+        $html += '</body></html>';
 
         // send email
-        // $this->sendEmail('Report Sync Datapoints', $html);
+        if (count($this->error) > 0) {
+            $this->sendEmail('Report Sync Datapoints', $html);
+        }
         return $datapoints->with('answers')->get();
     }
 
@@ -444,8 +441,8 @@ class SyncController extends Controller
                 $country_id = $partnerships->where('name', $partner['country'])->first();
                 $partnership_id = $partnerships->where('code', $partnership_part)->first();
                 $dt = DataPoint::where('datapoint_id', $datapoint_id)->first();
-                // if ($country_id === null || $partnership_id === null) {
-                if ($country_id === null && $partnership_id === null) {
+                // check error & success
+                if ($country_id === null || $partnership_id === null) {
                     $this->error->push(
                         array(
                             'survey_id' => $form['survey_id'],
@@ -455,8 +452,7 @@ class SyncController extends Controller
                         )
                     );
                 }
-                // if ($country_id !== null && $partnership_id !== null) {
-                if ($country_id !== null || $partnership_id !== null) {
+                if ($country_id !== null && $partnership_id !== null) {
                     $this->success->push(
                         array(
                             'form_id' => $form['form_id'],
@@ -464,15 +460,15 @@ class SyncController extends Controller
                         )
                     );
                 }
-                // if (($dt === null || $sync) && $country_id !== null && $partnership_id !== null) {
-                // if ($dt === null || $sync) {
+                // eol check error & success
+
                 // new data
-                if ($dt === null) {
+                if ($dt === null && $country_id !== null && $partnership_id !== null) {
                     $this->collections->push(
                         array(
                             'datapoint_id' => $datapoint_id,
                             'form_id' => $form['form_id'],
-                            'partnership_id' => $partnership_id ? $partnership_id['id'] : null,
+                            'partnership_id' => $partnership_id['id'],
                             'country_id' => $country_id['id'],
                             'survey_group_id' => $form['survey_group_id'],
                             'submission_date' => date('Y-m-d', strtotime($submission_date)),
@@ -481,12 +477,12 @@ class SyncController extends Controller
                     );
                 }
                 // old data to update
-                if ($dt !== null && $sync) {
+                if ($dt !== null && $sync && $country_id !== null && $partnership_id !== null) {
                     $this->oldData->push(
                         array(
                             'datapoint_id' => $datapoint_id,
                             'form_id' => $form['form_id'],
-                            'partnership_id' => $partnership_id ? $partnership_id['id'] : null,
+                            'partnership_id' => $partnership_id['id'],
                             'country_id' => $country_id['id'],
                             'survey_group_id' => $form['survey_group_id'],
                             'submission_date' => date('Y-m-d', strtotime($submission_date)),
