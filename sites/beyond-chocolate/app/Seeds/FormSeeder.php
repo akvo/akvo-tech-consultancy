@@ -9,6 +9,7 @@ use Akvo\Models\Question;
 use Akvo\Models\Cascade;
 use Akvo\Models\Variable;
 use Akvo\Models\Option;
+use Illuminate\Support\Facades\Log;
 
 class FormSeeder
 {
@@ -29,6 +30,7 @@ class FormSeeder
 
     public function seedQuestionGroups($form, $formId)
     {
+        Log::error('seedQuestionGroups', [$formId]);
         if (isset($form['questionGroup']['heading'])) {
             $repeat = isset($form['questionGroup']['repeatable']) 
                 ? $form['questionGroup']['repeatable']
@@ -64,7 +66,9 @@ class FormSeeder
 
     private function seedQuestions($questionGroup, $questions)
     {
+        Log::error('seedQuestions', [$questionGroup]);
         foreach($questions as $question) {
+        Log::error('seedQuestion', [$question]);
             $type = $question['type'];
             if (isset($question['validationRule'])) {
                 $type = $question['validationRule']['validationType'] === 'numeric' ? 'numeric' : false;

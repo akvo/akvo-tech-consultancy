@@ -64,7 +64,7 @@ class FlowDataSeedController extends Controller
         return true;
     }
 
-    private function seedAllFlowData($api, $endpoint, $id)
+    public function seedAllFlowData($api, $endpoint, $id)
     {
         $new_endpoint = $endpoint.'/surveys/'.$id;
         $data = $api->fetch($new_endpoint);
