@@ -92,7 +92,7 @@ class Submission
                 $dataPointName->push($dpname);
 			}
             $qid = (string) $val->question_id;
-			$data->put($qid.'-k', $val->input);
+			$data->put($qid.'-k', Str::contains($val->input, '/') ? stripslashes($val->input) : $val->input);
             return strtoupper($val->type);
 		})->toArray();
 		$data['answerType'] = join(",",$answerType);

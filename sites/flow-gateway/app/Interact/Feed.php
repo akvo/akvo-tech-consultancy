@@ -114,7 +114,7 @@ class Feed
                 if ($depend) {
                     $checkDepend = $depend->filter(function($item) use ($next) {
                         if ($item['question_id'] == $next->dependency && $item['answer'] == $next->dependency_answer) {
-                            return $item;   
+                            return $item;
                         }
                     });
                 }
@@ -232,7 +232,7 @@ class Feed
                     $question,
                     $version,
                     $question['altText']['language'],
-                    $question['altText']['text'] 
+                    $question['altText']['text']
                 );
             }
             if (!$isObject) {
@@ -241,7 +241,7 @@ class Feed
                         $question,
                         $version,
                         $lang['language'],
-                        $lang['text'] 
+                        $lang['text']
                     );
                 });
             }
@@ -311,13 +311,13 @@ class Feed
             $response .= trans('text.ask.continue')."\n";
         }
         if ($lang) {
-            $response .= "Select language:";   
+            $response .= "Select language:";
         }
         if ($options) {
             $i = 0;
             $response .= "\n";
             do {
-                $id = $i + 1; 
+                $id = $i + 1;
                 $text = ($lang) ? config('localizations.'.$options[$i].'').' ('.$options[$i].')' : $options[$i];
                 $response .= $id.". ".$text."\n";
                 $i++;

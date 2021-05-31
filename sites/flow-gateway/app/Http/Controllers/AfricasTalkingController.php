@@ -54,7 +54,7 @@ class AfricasTalkingController extends Controller
             ->where('complete', false)
             ->first();
         $session = $survey_sessions->fetch_lang($session);
-        
+
         // lang
         $avaLang = $feed->mapLanguage($session);
         if ($avaLang->isNotEmpty() && (int)$request->answer && Cache::get('select_language_'.$session['id'])) {
