@@ -104,17 +104,18 @@ class FormSeeder
             }
             $dependency = isset($question['dependency']) ? (int) $question['dependency']['question'] : null;
             $dependency_answer = isset($question['dependency']) ? (string) $question['dependency']['answer-value'] : null;
-            $question = Question::updateOrCreate([
-                'id' => (int) $question['id'],
-                'form_id' => $questionGroup->form_id,
-                'question_group_id' => $questionGroup->id,
-                'name' => $question['text'],
-                'dependency' => $dependency,
-                'dependency_answer' => $dependency_answer,
-                'type' => $type,
-                'cascade_id' => $cascadeId,
-                'variable_id' => $variableId
-            ]);
+            $question = Question::updateOrCreate(
+                ['id' => (int) $question['id']],
+                [
+                    'form_id' => $questionGroup->form_id,
+                    'question_group_id' => $questionGroup->id,
+                    'name' => $question['text'],
+                    'dependency' => $dependency,
+                    'dependency_answer' => $dependency_answer,
+                    'type' => $type,
+                    'cascade_id' => $cascadeId,
+                    'variable_id' => $variableId
+                ]);
             if ($options) {
                 if (isset($options['text'])) {
                     Option::updateOrCreate([
