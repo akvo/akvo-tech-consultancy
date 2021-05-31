@@ -22,7 +22,7 @@ class FormSeeder
         $forms = ($init) ? Form::doesntHave('questionGroups')->get('id') : $formValues;
         foreach($forms as $form) {
             $id = $form->id;
-            $form = $this->api->fetch($this->api->formurl . $id . '/fetch', 'web');
+            $form = $this->api->fetch($this->api->formurl . $id . '/update', 'web');
             $this->seedQuestionGroups($form, $id);
         }
         return;
