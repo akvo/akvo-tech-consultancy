@@ -678,15 +678,17 @@ const WebForm = ({ setFormLoaded, webForm, setWebForm }) => {
     window.addEventListener('message', function(e) {
       // Get the sent data
       const data = e.data;
-      if (data && (typeof data === "string") && data.indexOf("akvo.webform") > -1) {
-        console.log(data);
-        const splitted = data.split(":");
-        if(data.indexOf("submitted") > -1){
-          console.log('data submitted', splitted[1], splitted[2]);
+      try {
+        const message = JSON.parse(data);
+        if (message.origin === 'akvo.webform' && message.action === 'submitted'){
+          console.log('submission', message);
         }
-        if(data.indexOf("saved") > -1){
-          console.log('data saved', splitted[1], splitted[2]);
+        if (message.origin === 'akvo.webform' && message.action === 'saved'){
+          console.log('saved', message);
         }
+
+      } catch (error) {
+        console.log(error);
       }
     });
     return () => {
