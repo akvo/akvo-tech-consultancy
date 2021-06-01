@@ -142,7 +142,16 @@ class Submit extends Component {
         })
         .then((res) => {
           console.log(res);
-          window.parent.postMessage(`akvo.webform.saved:${saveData.form_instance_id}:${saveData.form_id}`, '*');
+
+          const message = JSON.stringify({
+            origin: 'akvo.webform',
+            action: 'saved',
+            form_id: saveData.form_id,
+            form_instance_id: saveData.form_instance_id,
+            date: Date.now(),
+          });
+
+          window.parent && window.parent.postMessage(message, '*');
         })
         .catch((e) => {
           console.log(e);
@@ -321,7 +330,14 @@ class Submit extends Component {
                           localStorage.setItem("_username", username);
                           that.endSurvey();
                         });
-                        window.parent.postMessage(`akvo.webform.submitted:${this.props.value.instanceName}:${formInstance.formId}`, '*');
+                        const message = JSON.stringify({
+                          origin: 'akvo.webform',
+                          action: 'submitted',
+                          form_id: this.props.value.instanceName,
+                          form_instance_id: formInstance.formId,
+                          date: Date.now(),
+                        });
+                        window.parent && window.parent.postMessage(message, '*');
                       })
                       .catch((e) => {
                         console.error(e);
