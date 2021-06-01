@@ -142,6 +142,7 @@ class Submit extends Component {
         })
         .then((res) => {
           console.log(res);
+          window.parent.postMessage(`akvo.webform.saved:${saveData.form_instance_id}:${saveData.form_id}`, '*');
         })
         .catch((e) => {
           console.log(e);
@@ -320,6 +321,7 @@ class Submit extends Component {
                           localStorage.setItem("_username", username);
                           that.endSurvey();
                         });
+                        window.parent.postMessage(`akvo.webform.submitted:${this.props.value.instanceName}:${formInstance.formId}`, '*');
                       })
                       .catch((e) => {
                         console.error(e);
