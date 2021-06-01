@@ -20,9 +20,10 @@ class FormSeeder
     public function seed($init = true, $formValues = [])
     {
         $forms = ($init) ? Form::doesntHave('questionGroups')->get('id') : $formValues;
+        $method = env('AKVOFLOW_METHOD', 'update');
         foreach($forms as $form) {
-            $id = $form->id;
-            $form = $this->api->fetch($this->api->formurl . $id . '/fetch', 'web');
+            $id = $form['id'];
+            $form = $this->api->fetch($this->api->formurl . $id . '/' . $method, 'web');
             $this->seedQuestionGroups($form, $id);
         }
         return;
@@ -32,7 +33,7 @@ class FormSeeder
     {
         Log::error('seedQuestionGroups', [$formId]);
         if (isset($form['questionGroup']['heading'])) {
-            $repeat = isset($form['questionGroup']['repeatable']) 
+            $repeat = isset($form['questionGroup']['repeatable'])
                 ? $form['questionGroup']['repeatable']
                 : false;
             $questions = isset($form['questionGroup']['question']['text'])
@@ -49,7 +50,7 @@ class FormSeeder
                 $questions = isset($questionGroup['question']['text'])
                     ? [$questionGroup['question']]
                     : $questionGroup['question'];
-                $repeat = isset($questionGroup['repeatable']) 
+                $repeat = isset($questionGroup['repeatable'])
                     ? $questionGroup['repeatable']
                     : false;
                 $questionGroup = QuestionGroup::updateOrCreate([
