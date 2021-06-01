@@ -25,7 +25,7 @@ https://akvoflow-137.s3.amazonaws.com/surveys/,smartseeds
 https://akvoflow-140.s3.amazonaws.com/surveys/,watershed
 https://akvoflow-142.s3.amazonaws.com/surveys/,lacprogram
 https://akvoflow-145.s3.amazonaws.com/surveys/,malaria
-https://akvoflow-214.s3.amazonaws.com/surveys/,cwsa
+https://akvoflow-14.s3.amazonaws.com/surveys/,cwsa
 https://akvoflow-152.s3.amazonaws.com/surveys/,agriml021
 https://akvoflow-153.s3.amazonaws.com/surveys/,sustharvintl
 https://akvoflow-154.s3.amazonaws.com/surveys/,labosomagep
@@ -70,8 +70,8 @@ https://akvoflow-203.s3.amazonaws.com/surveys/,greendeal
 https://akvoflow-204.s3.amazonaws.com/surveys/,uncdf-bf
 https://akvoflow-205.s3.amazonaws.com/surveys/,mdi
 https://akvoflow-206.s3.amazonaws.com/surveys/,johannas
-https://akvoflow-218.s3.amazonaws.com/surveys/,whh
-https://akvoflow-219.s3.amazonaws.com/surveys/,snape
+https://akvoflow-23.s3.amazonaws.com/surveys/,welthungerhilfe
+https://akvoflow-27.s3.amazonaws.com/surveys/,snape
 https://akvoflow-35.s3.amazonaws.com/surveys/,maep-old
 https://akvoflow-37.s3.amazonaws.com/surveys/,ssh4a
 https://akvoflow-40.s3.amazonaws.com/surveys/,nlrc
@@ -89,7 +89,7 @@ https://akvoflow-71.s3.amazonaws.com/surveys/,sustineo
 https://akvoflow-72.s3.amazonaws.com/surveys/,theadventureproject
 https://akvoflow-73.s3.amazonaws.com/surveys/,lifewater
 https://akvoflow-76.s3.amazonaws.com/surveys/,sendacow
-https://akvoflow-217.s3.amazonaws.com/surveys/,wai
+https://akvoflow-7.s3.amazonaws.com/surveys/,wai
 https://akvoflow-85.s3.amazonaws.com/surveys/,charitywater
 https://akvoflow-87.s3.amazonaws.com/surveys/,dnhmali
 https://akvoflow-88.s3.amazonaws.com/surveys/,iccoindia
@@ -113,6 +113,7 @@ https://akvoflowsandbox.s3.amazonaws.com/surveys/,akvoflowsandbox
 https://akvoflow-uat1.s3.amazonaws.com/surveys/,uat1
 https://akvoflow-uat2.s3.amazonaws.com/surveys/,uat2
 https://flowaglimmerofhope.s3.amazonaws.com/surveys/,flowaglimmerofhope
-https://akvoflow-215.s3.amazonaws.com/surveys/,liberia
-https://akvoflow-216.s3.amazonaws.com/surveys/,wfp
+https://flowliberia.s3.amazonaws.com/surveys/,liberia
+https://waterforpeople.s3.amazonaws.com/surveys/,wfp
 https://akvoflow-213.s3.amazonaws.com/surveys/,isco
+https://akvoflow-220.s3.amazonaws.com/surveys/,verstegen
