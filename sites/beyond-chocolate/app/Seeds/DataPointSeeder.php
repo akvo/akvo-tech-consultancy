@@ -12,6 +12,7 @@ use Akvo\Models\Option;
 use Akvo\Models\Cascade;
 use Akvo\Models\AnswerOption;
 use Akvo\Models\AnswerCascade;
+use Illuminate\Support\Facades\Log;
 
 class DataPointSeeder
 {
@@ -45,9 +46,9 @@ class DataPointSeeder
                 ? $dataPoint['latitude'].'|'.$dataPoint['longitude']
                 : null;
             $dataPointId = (int) $dataPoint['id'];
-            DataPoint::updateOrCreate([
-                'id' => (int) $dataPoint['id'],
-                'survey_id' => ($fetch) ? $this->surveyId : (int) $surveyId,
+            DataPoint::updateOrCreate(
+                ['id' => (int) $dataPoint['id']],
+                ['survey_id' => ($fetch) ? $this->surveyId : (int) $surveyId,
                 'display_name' => $dataPoint['displayName'],
                 'position' => $position,
                 'created_at' => Carbon::parse($dataPoint['createdAt'])

@@ -86,7 +86,7 @@ const Submission = () => {
         return status;
     };
     const d201921s = new Date('2021-01-01T00:00:00.000000Z');
-    const d201921e = new Date('2021-03-01T00:00:00.000000Z');
+    const d201921e = new Date('2021-02-01T00:00:00.000000Z');
     const d2019 = new Date('2020-04-28T00:00:00.000000Z');
     const renderSubmissions = () => {
         if (submissions.length === 0) {

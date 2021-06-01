@@ -10,6 +10,8 @@ use App\Models\WebForm;
 use App\Models\Collaborator;
 use App\Helpers\Mails;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class ApiController extends Controller
 {
@@ -172,6 +174,9 @@ class ApiController extends Controller
             'submitted' => 'required|boolean',
             'uuid' => ''
         ]);
+
+
+
         // update user last activity
         $user = User::find($input['user_id']);
         $user->last_activity = now();
@@ -181,15 +186,58 @@ class ApiController extends Controller
         if (isset($request->display_name)) {
             $input['display_name'] = (strtolower($request->display_name) !== 'untitled') ? $request->display_name : null;
         }
-        $update = WebForm::where('form_instance_url', $input['form_instance_url'])->first();
+        $update = WebForm::where('form_instance_url', $input['form_instance_url'])->where('submitted', 0)->where('uuid', $input['uuid'])->first();
         if ($update) {
+            $formInstanceUrl = $input['form_instance_url'];
+            $contains = Str::contains($formInstanceUrl, 'null');
+            Log::error('null form instance id', [$formInstanceUrl, $contains]);
+            if ($contains){
+                abort(400, "Form instance id wasn't found");
+            }
             // do not update the organization when submission saved/submitted (because there was a collaborators rule, submission will still on assignned organization)
             $res = $update->update(collect($input)->except(['organization_id'])->toArray());
+            if($request->submitted){
+                $this->notifySubmission($update);
+            }
             return $res;
         }
         $post = WebForm::create($input);
+        Log::error('post', [$post, $request->submitted]);
+        if($request->submitted){
+            $w = WebForm::find($post->id);
+            $this->notifySubmission($w);
+        }
         return $post;
     }
+
+
+    public function notifySubmission($webform)
+    {
+        Log::error('notifySubmission', [$webform]);
+        $mails = new Mails();
+
+        $questionnaires = config('bc.questionnaires');
+
+        $userName =  $webform->user->name;
+        $orgName = $webform->organization->name;
+
+        $formName = $questionnaires[$webform->form_id];
+        $users = collect(explode(',', config('bc.notification_submission_emails')));
+        $subject = "Form submitted";
+        $users->map(function($email) use ($userName, $orgName, $formName, $subject, $mails ) {
+            $recipients = [['Email' => $email]];
+            $subject = config('app.name').": ".$subject.":".$formName;
+            $body = "User: ". $userName.", of organization: ". $orgName ." has sent the form". $formName;
+            $text = "User: ". $userName.", of organization: ". $orgName ." has sent the form". $formName;
+            error_log($body);
+            $mails->sendEmail($recipients, false, $subject, $body, $text);
+        });
+
+        return response([
+            'message' => 'Internal notification done', 'mails' => []
+        ]);
+    }
+
 
     /**
      * Update the submission submitted status

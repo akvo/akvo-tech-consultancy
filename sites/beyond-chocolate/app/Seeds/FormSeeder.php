@@ -9,6 +9,7 @@ use Akvo\Models\Question;
 use Akvo\Models\Cascade;
 use Akvo\Models\Variable;
 use Akvo\Models\Option;
+use Illuminate\Support\Facades\Log;
 
 class FormSeeder
 {
@@ -19,18 +20,20 @@ class FormSeeder
     public function seed($init = true, $formValues = [])
     {
         $forms = ($init) ? Form::doesntHave('questionGroups')->get('id') : $formValues;
+        $method = env('AKVOFLOW_METHOD', 'update');
         foreach($forms as $form) {
-            $id = $form->id;
-            $form = $this->api->fetch($this->api->formurl . $id . '/fetch', 'web');
+            $id = $form['id'];
+            $form = $this->api->fetch($this->api->formurl . $id . '/' . $method, 'web');
             $this->seedQuestionGroups($form, $id);
         }
         return;
     }
 
-    private function seedQuestionGroups($form, $formId)
+    public function seedQuestionGroups($form, $formId)
     {
+        Log::error('seedQuestionGroups', [$formId]);
         if (isset($form['questionGroup']['heading'])) {
-            $repeat = isset($form['questionGroup']['repeatable']) 
+            $repeat = isset($form['questionGroup']['repeatable'])
                 ? $form['questionGroup']['repeatable']
                 : false;
             $questions = isset($form['questionGroup']['question']['text'])
@@ -47,7 +50,7 @@ class FormSeeder
                 $questions = isset($questionGroup['question']['text'])
                     ? [$questionGroup['question']]
                     : $questionGroup['question'];
-                $repeat = isset($questionGroup['repeatable']) 
+                $repeat = isset($questionGroup['repeatable'])
                     ? $questionGroup['repeatable']
                     : false;
                 $questionGroup = QuestionGroup::updateOrCreate([
@@ -64,7 +67,9 @@ class FormSeeder
 
     private function seedQuestions($questionGroup, $questions)
     {
+        Log::error('seedQuestions', [$questionGroup]);
         foreach($questions as $question) {
+        Log::error('seedQuestion', [$question]);
             $type = $question['type'];
             if (isset($question['validationRule'])) {
                 $type = $question['validationRule']['validationType'] === 'numeric' ? 'numeric' : false;
@@ -104,17 +109,18 @@ class FormSeeder
             }
             $dependency = isset($question['dependency']) ? (int) $question['dependency']['question'] : null;
             $dependency_answer = isset($question['dependency']) ? (string) $question['dependency']['answer-value'] : null;
-            $question = Question::updateOrCreate([
-                'id' => (int) $question['id'],
-                'form_id' => $questionGroup->form_id,
-                'question_group_id' => $questionGroup->id,
-                'name' => $question['text'],
-                'dependency' => $dependency,
-                'dependency_answer' => $dependency_answer,
-                'type' => $type,
-                'cascade_id' => $cascadeId,
-                'variable_id' => $variableId
-            ]);
+            $question = Question::updateOrCreate(
+                ['id' => (int) $question['id']],
+                [
+                    'form_id' => $questionGroup->form_id,
+                    'question_group_id' => $questionGroup->id,
+                    'name' => $question['text'],
+                    'dependency' => $dependency,
+                    'dependency_answer' => $dependency_answer,
+                    'type' => $type,
+                    'cascade_id' => $cascadeId,
+                    'variable_id' => $variableId
+                ]);
             if ($options) {
                 if (isset($options['text'])) {
                     Option::updateOrCreate([

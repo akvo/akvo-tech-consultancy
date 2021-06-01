@@ -28,6 +28,9 @@ class SubmissionController extends Controller
         $webforms = WebForm::where([
             ['user_id', $user->id],
             ['submitted', true]
+        ])->orWhere([
+            ['organization_id', $user->organization_id],
+            ['submitted', true]
         ])->orWhere(function ($query) use ($collaboratorForms) {
             $query->where('submitted', true)
                   ->whereIn('id', $collaboratorForms);
@@ -64,7 +67,7 @@ class SubmissionController extends Controller
         Log::error('webform_id', [$request->webform_id]);
         $webform = WebForm::where('id', $request->webform_id)->first();
         if (!is_null($webform) && $webform->form_instance_id == 'idh' ){
-            return ["link" => "uploads/idh/".$this->trim($request->filename).".csv"];
+            return ["link" => "uploads/idh/".$request->webform_id.'-'.$this->trim($request->filename).".csv"];
         }
         $form_instance = FormInstance::where('identifier', $request->uuid)->first();
         Log::error('ey!', [$form_instance, $request->uuid]);
@@ -108,16 +111,24 @@ class SubmissionController extends Controller
         if ($request->password !== $credentials['api']) {
             throw new NotFoundHttpException();
         }
-        $questionnaires = config('bc.questionnaires');
+        $questionnaires = config('bc.idh_questionnaires');
         $webforms = WebForm::where([
+            ['form_instance_id', 'idh'],
             ['submitted', true]
         ])->with('organization', 'user')->get()->map(function ($wf) use ($questionnaires) {
             $wf['submitter_name'] = (is_null($wf['user'])) ? 'not-found-user' : $wf['user']['name'];
             $display_name = (is_null($wf['display_name'])) ? '' : ' - '.$wf['display_name'];
             $wf['form_name'] = $questionnaires[$wf['form_id']].$display_name;
             $wf['download_url'] = $this->trim(str_replace(' - ', '-', $wf['form_name'])).'-'.$this->trim($wf['submitter_name']);
-            $wf['file'] =  $this->downloadData($wf['form_id'], $wf['form_instance_id'], $wf['download_url'], true);
-            return collect($wf)->only('download_url', 'form_id', 'form_instance_id', 'file');
+
+            $formInstance = FormInstance::where([['form_id', $wf['form_id']], ['identifier',  $wf['uuid']]])->first();
+            if($formInstance){
+                $form_instance_id = $formInstance->id;
+            } else {
+                $form_instance_id = $wf['form_id'];
+            }
+            $wf['file'] =  $this->downloadData($wf['form_id'], $form_instance_id,  $wf['id'].'-'.$wf['download_url'], true);
+            return collect($wf)->only('download_url', 'form_id', 'id', 'file');
         });
         return $webforms;
     }
