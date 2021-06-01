@@ -673,7 +673,27 @@ const WebForm = ({ setFormLoaded, webForm, setWebForm }) => {
         // let endpoint = (formUrl === null) ? "" : formUrl + '&locale=' + locale.active;
         // setActiveForm(endpoint);
     }, [locale]);
-
+  useEffect(() => {
+    console.log('adding message event listener');
+    window.addEventListener('message', function(e) {
+      // Get the sent data
+      const data = e.data;
+      if (data && (typeof data === "string") && data.indexOf("akvo.webform") > -1) {
+        console.log(data);
+        const splitted = data.split(":");
+        if(data.indexOf("submitted") > -1){
+          console.log('data submitted', splitted[1], splitted[2]);
+        }
+        if(data.indexOf("saved") > -1){
+          console.log('data saved', splitted[1], splitted[2]);
+        }
+      }
+    });
+    return () => {
+      console.log('removing message event listener');
+      window.removeEventListener('message', () => {});
+    };
+  }, []);
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
