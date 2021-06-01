@@ -56,6 +56,10 @@ class AkvoFlowSeed extends Command
             'AKVOFLOW_USERNAME',
         ];
         $this->info("Checking environment");
+        if (env('AKVOFLOW_METHOD') === NULL) {
+            $this->info('AKVOFLOW_METHOD is not defined, using update environment');
+            $this->info('Method allowed for AKVOFLOW_METHOD are fetch / update');
+        }
         foreach($environments as $environ) {
             $env = $this->checkEnv($environ);
             if (!$env) {
