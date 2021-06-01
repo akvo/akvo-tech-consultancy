@@ -24,7 +24,6 @@ class FormSeeder
         foreach($forms as $form) {
             $id = $form['id'];
             $form = $this->api->fetch($this->api->formurl . $id . '/' . $method, 'web');
-            dd($form);
             $this->seedQuestionGroups($form, $id);
         }
         return;
