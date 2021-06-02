@@ -449,6 +449,31 @@ const NewFormSelector = ({
         setSubmissions(data);
     };
 
+    useEffect(() => {
+      // console.log('adding message event listener');
+      window.addEventListener('message', function(e) {
+      const data = e.data;
+      try {
+        const message = JSON.parse(data);
+        if (message.origin === 'akvo.webform' && message.action === 'submitted'){
+          // console.log('submission', message);
+          checkSubmissionOnLoad();
+        }
+        if (message.origin === 'akvo.webform' && message.action === 'saved'){
+          // console.log('saved', message);
+        }
+
+      } catch (error) {
+        console.log(error);
+      }
+    });
+    return () => {
+      // console.log('removing message event listener');
+      window.removeEventListener('message', () => {});
+    };
+  }, []);
+
+
     const formatLabel = option => {
         let disabled = submissions.includes(parseInt(option.value));
         let info = disabled ? (
@@ -673,7 +698,6 @@ const WebForm = ({ setFormLoaded, webForm, setWebForm }) => {
         // let endpoint = (formUrl === null) ? "" : formUrl + '&locale=' + locale.active;
         // setActiveForm(endpoint);
     }, [locale]);
-
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
