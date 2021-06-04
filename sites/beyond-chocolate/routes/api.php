@@ -122,9 +122,9 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::delete('/collaborators/{web_form_id}/{organization_id}', [Api::class, 'deleteCollaboratorAssignment']);
 
     Route::get('/submission/activity', function (Request $request, Auth $auth, StatefulGuard $guard) {
-        $roles = $request->roles;
-        Log::info('@getSubmissionActivity:roles', [$roles]);
-
+        if ('admin' != $request->user()->role->key) {
+            return \response('Only admins can view latest activity', 403);
+        }
         $check = $auth->checkLastActivity($request, $guard);
         $res['last_activity'] = $check;
 
@@ -132,8 +132,6 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
         $res ['data'] = $api->getSubmissionActivity($request);
         return $res;
     });
-    // })->middleware('can:viewAny,App\Models\Webforms');
-    //})->middleware('can:viewAny,App\Http\Controllers\ApiController');
 });
 
 Route::post('/send-email', [Email::class, 'sendFeedback']);

@@ -252,7 +252,6 @@ class ApiController extends Controller
      */
      public function getSubmissionActivity(Request $request)
     {
-        Log::info('@getSubmissionActivity', [$request->user()->role]);
         $updates = DB::Table('web_forms')
                  ->select('web_forms.id',
                           'users.name as user_name',

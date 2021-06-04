@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Table, Form } from "react-bootstrap";
+import { Container, Row, Col, Table, Form, Spinner } from "react-bootstrap";
 import Select from "react-select";
 import activityApi from "../services/activity";
 
@@ -15,8 +15,7 @@ const Activity = () => {
                 setActivities(response.data.data);
             })
             .catch((error) => {
-                console.log(error);
-                setLoadError(error.message);
+                setLoadError(error.data);
             });
     };
 
@@ -45,23 +44,30 @@ const Activity = () => {
                 <h1>Recent activity (last 100 submissions)</h1>
             </Row>
             {loading ? (
-                <p>Loading</p>
+                <Spinner animation="border" role="status">
+                    <span className="sr-only">Loading...</span>
+                </Spinner>
             ) : (
                 <Row>
-                    <Table className="activity-table">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Org</th>
-                                <th>Form</th>
-                                <th>Secreteriat</th>
-                                <th>Status</th>
-                                <th>User</th>
-                                <th>Email</th>
-                            </tr>
-                        </thead>
-                        <tbody>{listItems}</tbody>
-                    </Table>
+                {loadError != null ? (
+                     <p>{loadError}</p>
+                 ) : (
+                     <Table className="activity-table">
+                         <thead>
+                             <tr>
+                                 <th>Date</th>
+                                 <th>Org</th>
+                                 <th>Form</th>
+                                 <th>Secreteriat</th>
+                                 <th>Status</th>
+                                 <th>User</th>
+                                 <th>Email</th>
+                             </tr>
+                         </thead>
+                         <tbody>{listItems}</tbody>
+                     </Table>
+                 )}
+
                 </Row>
             )}
         </Container>
