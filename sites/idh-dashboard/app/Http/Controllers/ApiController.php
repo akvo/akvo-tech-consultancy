@@ -520,7 +520,7 @@ class ApiController extends Controller
                     Cards::create(round(collect($farm_size)->avg(), 2), 'NUM', 'Acres is the average farm size')
                 ], 'CARDS', false, 3),
                 Cards::create([
-                    Cards::create(round($only_farm_sizes['total']/$total_farm_sizes, 2)*100, 'PERCENT', 'Of the farm is on average dedicated to '.$only_farm_sizes['name'])
+                    Cards::create(strval(round($only_farm_sizes['total']/$total_farm_sizes, 2)*100), 'PERCENT', 'Of the farm is on average dedicated to '.$only_farm_sizes['name'])
                 ], 'CARDS', false, 3),
                 Cards::create([
                     Cards::create(round($total_second_crop/$total, 2)*100, 'PERCENT', 'Of the farmers had more than one crop')

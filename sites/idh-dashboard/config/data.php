@@ -104,7 +104,7 @@ return [
         [
             'sid' => 135931326,
             'fid' => 151280148,
-            'file' => $path . '2021-05-26_EU_Tea_Tanzania_anom_Njombe_Ikanga_farmers.csv',
+            'file' => $path . '2021-06-08_EU_Tea_Tanzania_anom_Njombe_Ikanga_farmers.csv',
             'kind' => 'Tea',
             'country' => 'Tanzania',
             'company' => 'EU Tanzania Tea Ikanga',
@@ -120,7 +120,7 @@ return [
         [
             'sid' => 135931326,
             'fid' => 151280148,
-            'file' => $path . '2021-06-02_EU_Tea_Tanzania_anom_Njombe_nonIkanga_farmers.csv',
+            'file' => $path . '2021-06-08_EU_Tea_Tanzania_anom_Njombe_nonIkanga_farmers.csv',
             'kind' => 'Tea',
             'country' => 'Tanzania',
             'company' => 'EU Tanzania Tea Non Ikanga',

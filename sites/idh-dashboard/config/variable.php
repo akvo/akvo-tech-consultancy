@@ -65,8 +65,8 @@ $new_variable = [
 $new_variable_with_diff_county = $new_variable;
 $new_variable_with_diff_county['pi_location_cascade_county'] = 'pi_location_cascade_region';
 
-$new_variable_wit_diff_hh_age_farmer = $new_variable;
-$new_variable_wit_diff_hh_age_farmer['hh_age_farmer'] = 'cal_hh_farmer_age';
+$new_variable_wit_diff_county_and_hh_age_farmer = $new_variable_with_diff_county;
+$new_variable_wit_diff_county_and_hh_age_farmer['hh_age_farmer'] = 'cal_hh_farmer_age';
 
 return [
     'old_variable' => $old_variable,
@@ -95,7 +95,7 @@ return [
         // EU Tanzania Tea - Ikanga / non Ikanga
         [
             'fid' => 151280148,
-            'variable' => $new_variable_wit_diff_hh_age_farmer,
+            'variable' => $new_variable_wit_diff_county_and_hh_age_farmer,
         ],
     ],
     'number_type' => [
