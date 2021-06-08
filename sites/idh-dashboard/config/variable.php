@@ -65,9 +65,12 @@ $new_variable = [
 $new_variable_with_diff_county = $new_variable;
 $new_variable_with_diff_county['pi_location_cascade_county'] = 'pi_location_cascade_region';
 
+$new_variable_wit_diff_hh_age_farmer = $new_variable;
+$new_variable_wit_diff_hh_age_farmer['hh_age_farmer'] = 'cal_hh_farmer_age';
+
 return [
     'old_variable' => $old_variable,
-    'fids' => [143920001, 145035285, 139002776, 150980836],
+    'fids' => [143920001, 145035285, 139002776, 150980836, 151280148],
     'mapping' => [
         // Smart logistics - Beans
         [
@@ -88,6 +91,11 @@ return [
         [
             'fid' => 150980836,
             'variable' => $new_variable_with_diff_county,
+        ],
+        // EU Tanzania Tea - Ikanga / non Ikanga
+        [
+            'fid' => 151280148,
+            'variable' => $new_variable_wit_diff_hh_age_farmer,
         ],
     ],
     'number_type' => [
@@ -183,6 +191,5 @@ return [
         'cs_sdm_company_services_years',
         'cs_sdm_company_yrs_selling',
         'cs_sdm_company_contract_durations',
-
     ],
 ];
