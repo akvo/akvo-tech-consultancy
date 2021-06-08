@@ -173,12 +173,12 @@ class ApiController extends Controller
 
             $first_crop_card_value = 0;
             if ($first_crop_total !== 0) {
-                $first_crop_card = $first_crop_value/$first_crop_total;
+                $first_crop_card_value = $first_crop_value/$first_crop_total;
             }
             $first_crop_card = Cards::create(strval(round($first_crop_card_value, 2)*100).'%', 'NUM', 'Of the farmers’ main crop was '.$first_crop_name);
 
             if ($isVariableChange) {
-                $first_crop_card = Cards::create(strval(round($first_crop_value/$first_crop_total, 2)*100).'%', 'NUM', 'Of the farmers’ second largest crop was '.$first_crop_name);
+                $first_crop_card = Cards::create(strval(round($first_crop_card_value, 2)*100).'%', 'NUM', 'Of the farmers’ second largest crop was '.$first_crop_name);
             }
 
             $alternatives = [
