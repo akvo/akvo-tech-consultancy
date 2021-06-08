@@ -93,9 +93,24 @@ class ApiController extends Controller
         //     Cards::create($landownership, 'BAR', "Farmers' land ownership status", 5),
         //     Cards::create($livestock, 'BAR', "Livestock' land ownership status", 5),
         // ];
+
+        $alternatives = [
+            strtolower("No Heshe Is An Alternative For A Sample Farmer That Was Unavailable"),
+            strtolower("No, He/She Is An Alternative For A (Sample) Farmer That Was Unavailable")
+        ];
+        $farmer_sample = Utils::getValues($id, $variables['farmer_sample'])->map(function ($item) use ($alternatives) {
+            if (in_array(strtolower($item['name']), $alternatives)) {
+                $item['name'] = "Alternative";
+            }
+            if ($item['name'] === "" || $item['name'] === "-" || $item['name'] === "_") {
+                $item['name'] = "NA";
+            }
+            return $item;
+        });
+
         return [
             Cards::create($maps, 'MAPS', "Household Surveyed", 4, false, 1),
-            Cards::create(Utils::getValues($id, 'farmer_sample'), 'PIE', "Was the farmer surveyed part of the sample?", 4, false, 2),
+            Cards::create($farmer_sample, 'PIE', "Was the farmer surveyed part of the sample?", 4, false, 2),
 
             Cards::create($total, 'NUM', "Of the farmers are included in the analysis", 4, false, 3),
             // Cards::create($main_percentage, 'PERCENT', "Of the farmers main crop was ".$first_crop['name'], 4, false, 4),
@@ -258,10 +273,12 @@ class ApiController extends Controller
                 ]
             ];
             $head_gender_tmp["rows"] = $head_gender->map(function ($item) {
+                $male = $item['gender']->where('name', 'Male')->first()['value'];
+                $female = $item['gender']->where('name', 'Female')->first()['value'];
                 return [
                     "name" => strtolower($item['name']) === 'male' ? 'Male headed household' : 'Female headed household',
-                    "male" => $item['gender']->where('name', 'Male')->first()['value'],
-                    "female" => $item['gender']->where('name', 'Female')->first()['value'],
+                    "male" => $male ? $male : 0,
+                    "female" => $female ? $female : 0,
                 ];
             });
 
@@ -327,13 +344,17 @@ class ApiController extends Controller
         if ($request->tab === "farmer-profile") {
             $age = Utils::getValues($id, $variables['hh_age_farmer'], false);
             // return value into age instead using year
-            if ($isVariableChange && $age->first()->value > 1000) {
+            if ($isVariableChange && count($age) > 0 && $age->first()->value > 1000) {
                 $age = $age->map(function ($item) {
                     $item['value'] = date('Y') - $item['value'];
                     return $item;
                 });
             }
-            $genderAge = Utils::mergeValues($age, $variables['hh_gender_farmer']);
+
+            $genderAge = ["data" => []];
+            if (count($age) > 0) {
+                $genderAge = Utils::mergeValues($age, $variables['hh_gender_farmer']);
+            }
             // $landownership = Utils::getValues($id, 'f_ownership');
             // $owned_land = collect($landownership)->where('name','I Own All The Land')->first();
             // $owned_land = round(($owned_land['value'] / $total) * 100, 0);
@@ -392,9 +413,11 @@ class ApiController extends Controller
                 // Cards::create([Cards::create($avgProducedCrops, 'NUM', 'is the average Productivity')], 'CARDS',false, 6),
                 // Cards::create([Cards::create($avgSoldCrops, 'NUM', 'is the average Sold Crops')], 'CARDS',false, 6),
                 // Cards::create($livestock, 'BAR','Livestock'),
-
-                Cards::create([Cards::create($f_harvests->median(), 'NUM', 'Median number of harvests')], 'CARDS',false, 12)
             ]);
+            $median_harvest = $f_harvests->median();
+            if ($median_harvest) {
+                $farmpractices->push(Cards::create([Cards::create($median_harvest, 'NUM', 'Median number of harvests')], 'CARDS',false, 12));
+            }
 
             if ($variables['f_third_crop']) {
                 $income_by_third_crop = collect(Utils::mergeValues(Utils::getValues($id, $variables['f_other_crop_income'], false), $variables['f_third_crop']));
