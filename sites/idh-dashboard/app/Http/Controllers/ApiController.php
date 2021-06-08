@@ -505,15 +505,19 @@ class ApiController extends Controller
             $only_farm_sizes = $farm_sizes['data']->where('name', strtolower($form->kind))->first();
 
             $second_crop = collect(Utils::getValues($id, $variables['f_second_crop']));
+            $total_second_crop_no_filter = $second_crop->pluck('value')->sum();
             $total_second_crop = $second_crop->reject(function ($item) {
-                return strtolower($item['name']) === strtolower("No Second Crop");
-            })->pluck('value')->sum();
+                return strtolower($item['name']) === strtolower("No Second Crop") || $item['name'] == "";
+            })->values()->pluck('value')->sum();
 
-            $livestock = collect(Utils::getValues($id, $variables['f_livestock']))->reject(function($data){
-                return Str::contains($data['name'],"No");
+            $livestock_data = collect(Utils::getValues($id, $variables['f_livestock']));
+            $total_livestock_data = $livestock_data->pluck('value')->sum();
+            $livestock_filter = $livestock_data->reject(function($item){
+                return Str::contains($item['name'], "No") || $item['name'] == "" || strtolower($item['name']) === strtolower("I Dont Have Additional Income From Livestock Or Poultry");
             })->values();
-            $livestock = Utils::setPercentValue($livestock);
-            $max_livestock = $livestock->sortByDesc('value')->values()->first();
+            $total_livestock_filter = $livestock_filter->pluck('value')->sum();
+            $livestock = Utils::setPercentValue($livestock_filter);
+            $max_livestock = $livestock_filter->sortByDesc('value')->values()->first();
 
             $farmcharacteristics = collect([
                 Cards::create([
@@ -523,10 +527,10 @@ class ApiController extends Controller
                     Cards::create(strval(round($only_farm_sizes['total']/$total_farm_sizes, 2)*100), 'PERCENT', 'Of the farm is on average dedicated to '.$only_farm_sizes['name'])
                 ], 'CARDS', false, 3),
                 Cards::create([
-                    Cards::create(round($total_second_crop/$total, 2)*100, 'PERCENT', 'Of the farmers had more than one crop')
+                    Cards::create(round($total_second_crop/$total_second_crop_no_filter, 2)*100, 'PERCENT', 'Of the farmers had more than one crop')
                 ], 'CARDS', false, 3),
                 Cards::create([
-                    Cards::create(round($livestock->pluck('value')->sum()/$total, 2)*100, 'PERCENT', 'Of the farmers have livestock')
+                    Cards::create(round($total_livestock_filter/$total_livestock_data, 2)*100, 'PERCENT', 'Of the farmers have livestock')
                 ], 'CARDS', false, 3),
             ]);
 
