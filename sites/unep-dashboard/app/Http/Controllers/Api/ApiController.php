@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use App\Datapoint;
 use App\Value;
 use App\Country;
@@ -20,22 +21,37 @@ class ApiController extends Controller
 
     public function filterlist(Value $values)
     {
+        $cache = Cache::store('file')->get('filter-cache');
+        if ($cache) {
+            return $cache;
+        }
         $filters = $values
             ->whereNull('parent_id')
             ->has('childrens')
             ->with('childrens')
             ->with('locale')
             ->get();
+        Cache::store('file')->put('filter-cache', $filters, 1440);
         return $filters;
     }
 
     public function countrylist(Country $countries)
     {
-        return $countries->with('groups.locale')->with('locale')->get();
+        $cache = Cache::store('file')->get('countries-cache');
+        if ($cache) {
+            return $cache;
+        }
+        $countries = $countries->with('groups.locale')->with('locale')->get();
+        Cache::store('file')->put('countries-cache', $countries, 1440);
+        return $countries;
     }
 
     public function data(Datapoint $datapoints)
     {
+        $cache = Cache::store('file')->get('data-cache');
+        if ($cache) {
+            return $cache;
+        }
         $datapoints = $datapoints
             ->has('countries')
             ->with(['countries', 'values', 'title'])
@@ -101,10 +117,12 @@ class ApiController extends Controller
                 'c' => $d['contrib'],
             ];
         });
-        return [
+        $data = [
             'data' => $activities,
             'datapoints' => $datapoints
         ];
+        Cache::store('file')->put('data-cache', $data, 1440);
+        return $data;
     }
 
     private function fillIndicators($parent, $indicators)
