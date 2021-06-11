@@ -35,7 +35,7 @@ class SubmissionController extends Controller
             $query->where('submitted', true)
                   ->whereIn('id', $collaboratorForms);
         })->with('organization', 'user')->get()->map(function ($wf) use ($questionnaires) {
-            Log::error('debug', [$wf, $user]);
+            Log::error('debug', [$wf]);
             Log::error('debug', [$wf['organization']]);
             Log::error('debug', [$wf['user']]);
             $wf['org_name'] = $wf['organization']['name'];
