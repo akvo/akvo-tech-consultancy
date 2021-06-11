@@ -336,11 +336,7 @@ class SyncController extends Controller
 
         // $success_table = $this->generateTable($success, 'success');
         $error_table = $this->generateTable($this->error, 'error');
-
-        $html = '<html><body>';
-        // $html += '<h4>Success</h4>'.$success_table.'<br/>';
-        $html += '<h4>Error</h4>'.$error_table.'';
-        $html += '</body></html>';
+        $html = '<html><body><h4>Error</h4>'.$error_table.'</body></html>';
 
         // send email
         if (count($this->error) > 0) {

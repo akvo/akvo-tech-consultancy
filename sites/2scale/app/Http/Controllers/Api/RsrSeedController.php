@@ -31,8 +31,8 @@ class RsrSeedController extends Controller
     }
 
     public function seedRsr(
-        Partnership $partnership, RsrProject $project, RsrResult $result, RsrIndicator $indicator, 
-        RsrPeriod $period, RsrDimension $dimension, RsrDimensionValue $dimensionValue, 
+        Partnership $partnership, RsrProject $project, RsrResult $result, RsrIndicator $indicator,
+        RsrPeriod $period, RsrDimension $dimension, RsrDimensionValue $dimensionValue,
         RsrPeriodDimensionValue $periodDimensionValue, RsrPeriodData $periodData
     )
     {
@@ -48,7 +48,7 @@ class RsrSeedController extends Controller
         $parent = $this->getProject($parentId);
         $parent['partnership_id'] = null;
         $this->collections->push($parent);
-        
+
         $partnership->with('parents')->get()->each(function ($val) {
             $config = $val['code'].'.parent';
             if ($val['parent_id'] !== null) {
@@ -70,7 +70,7 @@ class RsrSeedController extends Controller
             return $project->updateOrCreate(
                 ['id' => $val['id']],
                 [
-                    'id' => $val['id'], 
+                    'id' => $val['id'],
                     'partnership_id' => $val['partnership_id'],
                     'title' => $val['title'],
                     'subtitle' => $val['subtitle'],
@@ -105,7 +105,7 @@ class RsrSeedController extends Controller
     }
 
     public function seedRsrResults(
-        RsrProject $project, RsrResult $result, RsrIndicator $indicator, 
+        RsrProject $project, RsrResult $result, RsrIndicator $indicator,
         RsrPeriod $period, RsrDimension $dimension, RsrDimensionValue $dimensionValue,
         RsrPeriodDimensionValue $periodDimensionValue, RsrPeriodData $periodData
     )
@@ -140,7 +140,7 @@ class RsrSeedController extends Controller
             $this->seedRsrTitleable($val, 'App\RsrResult');
             return $results;
         });
-        
+
         $indicatorTable = $this->collections->flatten(1)->map(function ($val) use ($indicator) {
             $this->periods->push($val['periods']);
             $has_dimension = false;
@@ -217,9 +217,9 @@ class RsrSeedController extends Controller
 
         $this->collections = collect();
         $periodTable = $this->periods->flatten(1)->map(function ($val) use ($period) {
-            if (count($val['disaggregations']) > 0) {
-                $val['disaggregations']['period'] = $val['id'];
-                $this->collections->push($val['disaggregations']); // dimension value updated per period
+            if (count($val['disaggregation_targets']) > 0) {
+                $val['disaggregation_targets']['period'] = $val['id'];
+                $this->collections->push($val['disaggregation_targets']); // dimension value updated per period
             }
             if (count($val['data']) > 0) {
                 $this->periodData->push($val['data']);
@@ -288,7 +288,7 @@ class RsrSeedController extends Controller
         $title = RsrTitle::where('title', $titles['title'])->first();
         if (!$title) {
             $title = RsrTitle::updateOrCreate($titles, $titles);
-        } 
+        }
 
         // seed Titleable
         $titleable = [];

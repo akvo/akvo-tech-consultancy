@@ -794,7 +794,11 @@ class ChartController extends Controller
 
         // $parents = $this->collections->where('level', 1)->values();
         // filter not to show contribution value
-        $parents = $this->collections->where('level', 1)->values()->filter(function ($item) { return !Str::contains($item['title'], 'Amount of co-financing') && !Str::contains($item['title'], "2SCALE's Contribution"); })->values();
+        $parents = $this->collections->where('level', 1)->values()->filter(function ($item) {
+            return !Str::contains($item['title'], 'Amount of co-financing') &&
+                    !Str::contains($item['title'], "2SCALE's Contribution") &&
+                    !Str::contains($item['title'], "Private sector contribution");
+        })->values();
         $results = $parents->first()->only('rsr_project_id', 'project');
         $results['columns'] = $parents;
 
@@ -805,7 +809,11 @@ class ChartController extends Controller
                 $child = $child->only('rsr_project_id', 'project');
                 // $child['columns'] = $childs->where('rsr_project_id', $child['rsr_project_id'])->values();
                 // filter not to show contribution value
-                $child['columns'] = $childs->where('rsr_project_id', $child['rsr_project_id'])->values()->filter(function ($item) { return !Str::contains($item['title'], 'Amount of co-financing') && !Str::contains($item['title'], "2SCALE's Contribution"); })->values();
+                $child['columns'] = $childs->where('rsr_project_id', $child['rsr_project_id'])->values()->filter(function ($item) {
+                    return !Str::contains($item['title'], 'Amount of co-financing') &&
+                            !Str::contains($item['title'], "2SCALE's Contribution") &&
+                            !Str::contains($item['title'], "Private sector contribution");
+                })->values();
 
                 $childs = $this->collections->where('parent_project', $child['rsr_project_id']);
                 $child['childrens'] = $childs->unique('project')->values();
@@ -814,7 +822,11 @@ class ChartController extends Controller
                         $child = $child->only('rsr_project_id', 'project');
                         // $child['columns'] = $childs->where('rsr_project_id', $child['rsr_project_id'])->values();
                         // filter not to show contribution value
-                        $child['columns'] = $childs->where('rsr_project_id', $child['rsr_project_id'])->values()->filter(function ($item) { return !Str::contains($item['title'], 'Amount of co-financing') && !Str::contains($item['title'], "2SCALE's Contribution"); })->values();
+                        $child['columns'] = $childs->where('rsr_project_id', $child['rsr_project_id'])->values()->filter(function ($item) {
+                            return !Str::contains($item['title'], 'Amount of co-financing') &&
+                                    !Str::contains($item['title'], "2SCALE's Contribution") &&
+                                    !Str::contains($item['title'], "Private sector contribution");
+                        })->values();
                         return $child;
                     });
                 }
@@ -830,7 +842,11 @@ class ChartController extends Controller
             ],
             // "columns" => $data->pluck('columns'),
             // filter not to show contribution value
-            "columns" => $data->pluck('columns')->filter(function ($item) { return !Str::contains($item['title'], 'Amount of co-financing') && !Str::contains($item['title'], "2SCALE's Contribution"); })->values(),
+            "columns" => $data->pluck('columns')->filter(function ($item) {
+                            return !Str::contains($item['title'], 'Amount of co-financing') &&
+                                    !Str::contains($item['title'], "2SCALE's Contribution") &&
+                                    !Str::contains($item['title'], "Private sector contribution");
+                        })->values(),
             "data" => $results,
         ];
     }
