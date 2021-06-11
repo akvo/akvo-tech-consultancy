@@ -108,7 +108,7 @@ const Submission = () => {
               return dx.getFullYear();
             }
           };
-          const year =  x.updated_at ? calculateYear(x.updated_at) : "Loading";
+          const year =  x.updated_at ? x.form_instance_id==='idh' ? 2019 : calculateYear(x.updated_at) : "Loading";
             return (
                 <tr key={'submission-'+i}>
                     <td className="pl-3">{x.org_name}</td>
