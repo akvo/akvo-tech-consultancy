@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
-import { mapStateToProps, mapDispatchToProps } from '../reducers/actions.js'
+import { connect } from 'react-redux';
+import { mapStateToProps, mapDispatchToProps } from '../reducers/actions.js';
+import { translate } from  "../util/Languages";
 
 class OverviewButton extends Component {
     constructor(props) {
@@ -22,7 +23,7 @@ class OverviewButton extends Component {
                     onClick={e => { this.showOverview(); }}
                     className={activeClass}
                 >
-                    <span className="question-group-button">Overviews</span>
+            <span className="btn btn-block btn-outline-primary">{translate(this.props.value.lang.active, 'overviews')}</span>
                 </div>
             </div>
         );

@@ -742,6 +742,10 @@ export const Locale = {
         en: "Confirm",
         de: "Bestätigen"
     },
+    overviews: {
+        en: "Overview and Download",
+        de: "Überblick und Download"
+    },
     warning: {
         en: "Warning",
         de: "Warnung"
@@ -759,5 +763,7 @@ export const Locale = {
         de: "Bitte beachten Sie, dass der folgende Fragenblock in einem Wiederholungsmodus bereitgestellt wird. Mit jeder <b>Wiederholungsgruppe</b> können Sie nur für eine Initiative/ ein Land/ eine <i>Lesson learned</i>/ einen Projektpartner usw. berichten. Um eine weitere Wiederholungsgruppe hinzuzufügen, klicken Sie oben rechts auf dem Bildschirm auf die blaue Schaltfläche <b><i>Repeat group +</i></b> . Bitte klicken Sie auf <b><i>more info</b>,</i>, um zu erfahren, wie dies für die folgenden Fragen gilt."
     }
 }
+
+export const translate = (active_lang, i18n_key) => Locale[i18n_key][(active_lang && active_lang[0]) || 'en'];
 
 export default isoLangs;
