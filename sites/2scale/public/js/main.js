@@ -7619,7 +7619,7 @@ module.exports = JSON.parse("{\"countries\":[{\"country\":\"Ethiopia\",\"desc\":
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /var/www/html/resources/js/main.js */"./resources/js/main.js");
+module.exports = __webpack_require__(/*! /home/wgprtm/Sites/akvo-tech-consultancy/sites/2scale/resources/js/main.js */"./resources/js/main.js");
 
 
 /***/ })
