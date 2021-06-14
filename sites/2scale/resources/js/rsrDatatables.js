@@ -271,9 +271,35 @@ const renderRow = (
     // manage the child columns not match with children columns
     if (mainColumn.length !== data.columns.length && level !== 1) {
         let tmp = mainColumn.map(val => {
-            let find = data.columns.find(x => x.order === val.order);
+            let find = data.columns.find(x => x.title === val.title);
             if (typeof find === "undefined") {
-                return { dimensions: [], total_actual_value: 0 };
+                let dimensions = val.dimensions.map(d => {
+                    d.total_actual_value = 0;
+                    d.value = 0;
+                    return d;
+                });
+                return {
+                    ...val,
+                    dimensions: dimensions,
+                    total_actual_value: 0,
+                    total_target_value: 0
+                };
+            }
+            return find;
+        });
+        data.columns = tmp;
+    }
+
+    // there was a dimensions value not match with their parent
+    if (mainColumn.length === data.columns.length && level !== 1) {
+        let tmp = mainColumn.map(val => {
+            let find = data.columns.find(x => x.title === val.title);
+            if (val.dimensions.length !== find.dimensions.length) {
+                find.dimensions = val.dimensions.map(d => {
+                    d.total_actual_value = 0;
+                    d.value = 0;
+                    return d;
+                });
             }
             return find;
         });
