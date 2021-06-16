@@ -105,7 +105,7 @@ const Submission = () => {
             } else if (d2019 > dx) {
               return 2019;
             } else{
-              return dx.getFullYear();
+              return dx.getFullYear()-1;
             }
           };
           const year =  x.updated_at ? x.form_instance_id==='idh' ? 2019 : calculateYear(x.updated_at) : "Loading";
