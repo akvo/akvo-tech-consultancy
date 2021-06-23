@@ -17,7 +17,7 @@ export const flatFilters = filters => {
             let name = x.name + " - " + c.kind;
             let company = (c.case_number !== null) ? c.case_number + ' ' + c.company : c.company;
             // implement case number
-            source.push({ id: c.id, name: name, kind: c.kind, company: company, total: c.total, submission: c.submission, case_number: c.case_number });
+            source.push({ id: c.id, name: name, kind: c.kind, company: company, total: c.total, submission: c.submission, case_number: c.case_number, date: c.date });
             // source.push({ id: c.id, name: name, kind: c.kind, company: x.name, company: c.company, total: c.total, submission: c.submission, case_number: c.case_number });
         });
     });

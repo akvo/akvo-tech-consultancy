@@ -29,7 +29,7 @@ class ApiController extends Controller
                 $item['case_number'] = $source['case_number'];
                 $item['date'] = Carbon::parse($date)->format('Y-m-d');
                 return $item;
-            })->sortBy('date')->values();
+            })->values();
             return [
                 'name' => $key,
                 'childrens' => $list->makeHidden('country')

@@ -8,6 +8,7 @@ import { generateData } from "../charts/chart-generator.js";
 import { flatFilters } from "../data/utils.js";
 import JumbotronWelcome from "../components/JumbotronWelcome";
 import { auth } from "../data/api.js";
+import orderBy from "lodash/orderBy";
 
 const MapsOverride = (TableView, noValue) => {
     let config = {
@@ -110,6 +111,7 @@ class Home extends Component {
             };
         });
         let source = flatFilters(page.filters);
+        source = orderBy(source, ['date'], ['desc']);
         source =
             user.id === 0
                 ? []
@@ -171,6 +173,7 @@ class Home extends Component {
                             <Table bordered hover size="sm">
                                 <thead>
                                     <tr>
+                                        <th>No.</th>
                                         <th>Country</th>
                                         <th>Crop</th>
                                         <th>Company</th>
@@ -182,6 +185,7 @@ class Home extends Component {
                                 <tbody>
                                     {source.map((x, i) => (
                                         <tr key={"tbl-" + i}>
+                                            <td width="35px">{i + 1}</td>
                                             <td>{x.country}</td>
                                             <td>{x.kind}</td>
                                             <td>{x.company}</td>
