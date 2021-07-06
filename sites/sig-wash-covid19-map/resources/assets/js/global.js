@@ -53,7 +53,7 @@ const searchData = (request) => {
             if (y[x].toLowerCase().includes(request.term.toLowerCase())) {
                 y.searchKey = x;
                 y.popup = configs['popup'];
-                search.push(y);    
+                search.push(y);
             }
         });
     });
@@ -113,7 +113,7 @@ const downloadData = () => {
                     if (y.status === 'active') {
                         dwl.push(y);
                     }
-                }); 
+                });
             }
         });
     }

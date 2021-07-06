@@ -6,7 +6,7 @@ return [
     "instance" => null,
     "geolocation" => [
       "--GEOLON--|Longitude",
-      "275700981|Latitude", 
+      "275700981|Latitude",
     ], // GEO loc column name'
     "shapefile" => null, // config
     "shapename" => [
@@ -14,7 +14,7 @@ return [
       "match" => null // nama object di geoshape
     ], // data
     "center_map" => [-9.642625, 160.156290], // center lat lng of location
-    "dataset" => "DATA_CLEANING-281751019.xlsx", // filename .xls
+    "dataset" => "SI_WASH_in_HCF_267.xlsx", // filename .xls
     "join_column" => null,
   ],
 
@@ -24,7 +24,7 @@ return [
       "type" => "survey",
       "name" => "WASH in HCF",
       "parent_id" => null,
-    ], 
+    ],
 
     [
       "id" => 281751019,
@@ -34,7 +34,7 @@ return [
       "popup_name" => "Type of Hospital / Health Facility", // column name will shown on pop up
       "search" => [ // column name for search by
         "Type of Hospital / Health Facility",
-      ], 
+      ],
       "secondary_filter" => [ // column name for second filter
         [
           "question_id" => 265670992,
@@ -362,7 +362,7 @@ return [
           "order" => 2,
         ],
         // EOL Is the main water source functioning on the day of visit? (meaning water is flowing into the pipes and taps on the day of visit)
-        
+
         // Where is the HCF main water source located?
         [
           "question_id" =>  275690986,
@@ -484,7 +484,7 @@ return [
           "order" => 2,
         ],
         // EOL Does this toilet meet the needs of people with reduced mobility? (People living with disabilities)
-      
+
         // Is there water available in the delivery room at the time of the survey?
         [
           "question_id" =>  265690930,
@@ -538,7 +538,7 @@ return [
           "order" => 3,
         ],
         // EOL Is there a latrine / toilet available for use by women during and after labour and childbirth?
-        
+
         // Is that toilet/latrine functional?
         [
           "question_id" =>  285750992,
@@ -716,7 +716,7 @@ return [
           "order" => 3,
         ],
         // EOL Are the basic sterile resources required for a clean delivery available in the delivery room?
-      
+
         // Are basic standard written policies and protocols available within the facility relating to cleaning the delivery room?
         [
           "question_id" =>  281741011,
@@ -743,7 +743,7 @@ return [
           "order" => 3,
         ],
         // EOL Are basic standard written policies and protocols available within the facility relating to cleaning the delivery room?
-      
+
         // Have cleaning staff responsible for cleaning the delivery room received training in the last 24 months?
         [
           "question_id" =>  275690995,
@@ -808,7 +808,7 @@ return [
           "order" => 2,
         ],
         // EOL Are there hand hygiene stations (with water and soap or alcohol based hand rub) available in or near all the toilet?
-        
+
         // Are functioning hand washing stations (soap and water or alcohol hand rubs) available near food preparation areas?
         [
           "question_id" =>  255841045,
@@ -827,7 +827,7 @@ return [
           "order" => 2,
         ],
         // EOL Are functioning hand washing stations (soap and water or alcohol hand rubs) available near food preparation areas?
-      
+
         // Multiple Answer
         // What type of toilets does the facility have/use?
         [
@@ -878,7 +878,7 @@ return [
           "color" => "#F7944D",
           "order" => 7,
         ],
-        
+
         [
           "question_id" =>  281741006,
           "question" => "What type of toilets does the facility have/use?",
@@ -1200,7 +1200,7 @@ return [
         // EOL What type of waste management practices are being practiced in this facility?
       ],
       "template" => [
-        [ 
+        [
           "css" => "sigwashcovid",
           "js" => "sigwashcovid",
         ],

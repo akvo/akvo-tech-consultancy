@@ -7,7 +7,7 @@ docker run \
        --volume "$(pwd):/home/tcakvo/public_html/si-hcf-wash" \
        --workdir /home/tcakvo/public_html/si-hcf-wash\
        --entrypoint /bin/sh \
-       composer -c 'composer install'
+       composer:1.10.17 -c 'composer install'
 
 docker run \
        --rm \
