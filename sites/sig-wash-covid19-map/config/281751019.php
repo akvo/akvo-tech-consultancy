@@ -76,12 +76,20 @@ return [
           "order" => 3,
         ],
         [
+          "question_id" => 20210607,
+          "question" => "Access to safe drinking water",
+          "text" => "Access to safe drinking water",
+          "type" => "option",
+          "default" => 0,
+          "order" => 4,
+        ],
+        [
           "question_id" => 259791023,
           "question" => "Are these separate for men and women?",
           "text" => "Men and woman toilet separated",
           "type" => "option",
           "default" => 0,
-          "order" => 4,
+          "order" => 5,
         ],
         [
           "question_id" => 281741006,
@@ -89,7 +97,7 @@ return [
           "text" => "Type of toilets",
           "type" => "multiple",
           "default" => 0,
-          "order" => 5,
+          "order" => 6,
         ],
         [
           "question_id" => 267630980,
@@ -97,7 +105,7 @@ return [
           "text" => "Toilet functioning",
           "type" => "option",
           "default" => 0,
-          "order" => 6,
+          "order" => 7,
         ],
         [
           "question_id" => 285741007,
@@ -105,7 +113,7 @@ return [
           "text" => "Toilet provide separate bins for menstrual waste",
           "type" => "option",
           "default" => 0,
-          "order" => 7,
+          "order" => 8,
         ],
         [
           "question_id" => 263701011,
@@ -113,7 +121,7 @@ return [
           "text" => "HCF provide incinerators for menstrual waste",
           "type" => "option",
           "default" => 0,
-          "order" => 8,
+          "order" => 9,
         ],
         [
           "question_id" => 283691020,
@@ -121,7 +129,7 @@ return [
           "text" => "Toilet designated for",
           "type" => "multiple",
           "default" => 0,
-          "order" => 9,
+          "order" => 10,
         ],
         [
           "question_id" => 263721025,
@@ -129,7 +137,7 @@ return [
           "text" => "Toilet meet the needs of people with reduced mobility",
           "type" => "option",
           "default" => 0,
-          "order" => 10,
+          "order" => 11,
         ],
         [
           "question_id" => 265690930,
@@ -137,7 +145,7 @@ return [
           "text" => "Water available in the delivery room",
           "type" => "option",
           "default" => 0,
-          "order" => 11,
+          "order" => 12,
         ],
         [
           "question_id" => 263711003,
@@ -145,7 +153,7 @@ return [
           "text" => "Source of water in the delivery room",
           "type" => "multiple",
           "default" => 0,
-          "order" => 12,
+          "order" => 13,
         ],
         [
           "question_id" => 263721026,
@@ -153,7 +161,7 @@ return [
           "text" => "Latrine / toilet available for use by women during and after labour and childbirth",
           "type" => "option",
           "default" => 0,
-          "order" => 13,
+          "order" => 14,
         ],
         [
           "question_id" => 285750992,
@@ -161,7 +169,7 @@ return [
           "text" => "Toilet / latrine functional",
           "type" => "option",
           "default" => 0,
-          "order" => 14,
+          "order" => 15,
         ],
         [
           "question_id" => 253651020,
@@ -169,7 +177,7 @@ return [
           "text" => "Toilet / latrine accessible to women in labour",
           "type" => "option",
           "default" => 0,
-          "order" => 15,
+          "order" => 16,
         ],
         [
           "question_id" => 275701004,
@@ -177,7 +185,7 @@ return [
           "text" => "Functional handwashing station in the delivery room",
           "type" => "option",
           "default" => 0,
-          "order" => 16,
+          "order" => 17,
         ],
         [
           "question_id" => 277740991,
@@ -185,7 +193,7 @@ return [
           "text" => "Area for women to shower or bathe during/after labour available",
           "type" => "option",
           "default" => 0,
-          "order" => 17,
+          "order" => 18,
         ],
         [
           "question_id" => 285750995,
@@ -193,7 +201,7 @@ return [
           "text" => "Shower functional",
           "type" => "option",
           "default" => 0,
-          "order" => 18,
+          "order" => 19,
         ],
         [
           "question_id" => 281741010,
@@ -201,7 +209,7 @@ return [
           "text" => "Basic sterile resources required for a clean delivery available in the delivery room",
           "type" => "option",
           "default" => 0,
-          "order" => 19,
+          "order" => 20,
         ],
         [
           "question_id" => 281741011,
@@ -209,7 +217,7 @@ return [
           "text" => "Basic standard written policies and protocols available within the facility relating to cleaning the delivery room",
           "type" => "option",
           "default" => 0,
-          "order" => 20,
+          "order" => 21,
         ],
         [
           "question_id" => 275690995,
@@ -217,7 +225,7 @@ return [
           "text" => "Cleaning staff responsible for cleaning the delivery room received training in the last 24 months",
           "type" => "option",
           "default" => 0,
-          "order" => 21,
+          "order" => 22,
         ],
         [
           "question_id" => 263711009,
@@ -225,7 +233,7 @@ return [
           "text" => "Type of waste management practices are being practiced in this facility",
           "type" => "multiple",
           "default" => 0,
-          "order" => 22,
+          "order" => 23,
         ],
         [
           "question_id" => 259791034,
@@ -233,7 +241,7 @@ return [
           "text" => "Sharps and disposable syringes that have been used stored",
           "type" => "multiple",
           "default" => 0,
-          "order" => 23,
+          "order" => 24,
         ],
         [
           "question_id" => 285741014,
@@ -241,7 +249,7 @@ return [
           "text" => "Bins in place for safety segregation of health care waste",
           "type" => "option",
           "default" => 0,
-          "order" => 24,
+          "order" => 25,
         ],
         [
           "question_id" => 273641025,
@@ -249,7 +257,7 @@ return [
           "text" => "Hand hygiene stations available in or near all the toilet",
           "type" => "option",
           "default" => 0,
-          "order" => 25,
+          "order" => 26,
         ],
         [
           "question_id" => 255841045,
@@ -257,7 +265,7 @@ return [
           "text" => "Functioning hand washing stations available near food preparation areas",
           "type" => "option",
           "default" => 0,
-          "order" => 26,
+          "order" => 27,
         ],
         [
           "question_id" => 275691004,
@@ -265,7 +273,7 @@ return [
           "text" => "WASH training being provided",
           "type" => "option",
           "default" => 0,
-          "order" => 27,
+          "order" => 28,
         ],
         [
           "question_id" => 285741022,
@@ -273,7 +281,7 @@ return [
           "text" => "Training on infection control and prevention provided",
           "type" => "option",
           "default" => 0,
-          "order" => 28,
+          "order" => 29,
         ],
       ],
       "color" => [
@@ -1198,6 +1206,33 @@ return [
           "order" => 8,
         ],
         // EOL What type of waste management practices are being practiced in this facility?
+
+        // Access to safe drinking water
+        [
+          "question_id" =>  20210607,
+          "question" => "Access to safe drinking water",
+          "code" => "Safe",
+          "text" => null,
+          "color" => "#2EA745",
+          "order" => 1,
+        ],
+        [
+          "question_id" =>  20210607,
+          "question" => "Access to safe drinking water",
+          "code" => "Unsafe",
+          "text" => null,
+          "color" => "#DC3545",
+          "order" => 2,
+        ],
+        [
+          "question_id" =>  20210607,
+          "question" => "Access to safe drinking water",
+          "code" => "Permission not granted",
+          "text" => null,
+          "color" => "#666666",
+          "order" => 3,
+        ],
+        // EOL Access to safe drinking water
       ],
       "template" => [
         [
