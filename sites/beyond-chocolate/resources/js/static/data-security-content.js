@@ -84,6 +84,18 @@ const dsc = {
             </p>
             <br/>
 
+            <h4>Data storage locations and access</h4>
+            <p className="text-justify">
+                During data collection, the data is stored in a secure system hosted by Akvo.
+            </p>
+            <p className="text-justify">
+                During the data cleaning phase (executed by C-lever.org in consultation with the Beyond Chocolate and GISCO secretariats), the data is accessed directly in the data-storage tool made available by Akvo. Access to the tool is password protected, only the designated persons listed above have access to the data. In the storage tool each submitted data set is linked to an instance ID. The designated persons above have access to the data cleaning information linked to each instance ID.
+            </p>
+            <p className="text-justify">
+                Storage of data during evaluation by C-Lever.org: After the data has been cleaned directly in the data-storage tool, Akvo merges the individual surveys and deletes all information that makes it possible to identify the reporting member, except for the randomly assigned instance ID. Once this is done the anonymized spreadsheet of raw data is exported from the tool and transferred to C-lever.org. These anonymized raw data are password protected with access limited to the designated persons listed above and stored locally on a password-secured server at C-Lever.org.
+            </p>
+            <br/>
+
             <h4>Handling of sensitive data after anonymization and aggregation of collected data</h4>
             <p className="text-justify">
                 When reporting or sharing any data, compiled from data collected with the monitoring tool, appropriate measures will be taken to ensure that the nature of the reported data do not allow any conclusions on specific members. Therefore, the secretariats will follow the following principles:
@@ -183,6 +195,18 @@ const dsc = {
 
             <p className="text-justify">
                 Jede der oben genannten Personen muss eine Vertraulichkeitsvereinbarung unterzeichnen, bevor sie auf Daten der jeweiligen Plattformmitglieder zugreifen kann. Jede/r neue Mitarbeiter/in in den Sekretariaten oder auf C-Lever.org, dem/der Zugang gewährt wird, muss die Vertraulichkeitsvereinbarung unterzeichnet haben, bevor er/sie Zugang erhält.
+            </p>
+            <br/>
+
+            <h4>Speicherorte und Zugriff auf die Daten</h4>
+            <p className="text-justify">
+                Während der Datenerhebung werden die Daten in einem sicheren System ges-peichert, das von Akvo gehostet wird.
+            </p>
+            <p className="text-justify">
+                Während der Datenbereinigungsphase (durchgeführt von C-lever.org in Absprache mit den Sekretariaten von Beyond Chocolate und dem Forum Nachhaltiger Kakao) erfolgt der Zugriff auf die Daten direkt in dem von Akvo zur Verfügung gestellten Datenspeicherungstool. Der Zugang zum Tool ist passwortgeschützt, nur die oben genannten Personen haben Zugriff auf die Daten. Im Speicher-Tool ist jeder ein-gereichte Datensatz mit einer Instanz-ID verknüpft. Die oben genannten Personen haben Zugriff auf die Datenbereinigungsinformationen, die mit jeder Instanz-ID ver-knüpft sind.
+            </p>
+            <p className="text-justify">
+                Speicherung der Daten während der Auswertung durch C-Lever.org: Nachdem die Daten direkt im Datenspeicherungstool bereinigt wurden, führt Akvo die einzelnen Erhebungen zusammen und löscht alle Informationen, die eine Identifizierung des meldenden Mitglieds ermöglichen, mit Ausnahme der zufällig vergebenen Instanz-ID. Sobald dies geschehen ist, wird das anonymisierte Arbeitsblatt mit den Rohdaten aus dem Tool exportiert und an C-lever.org übertragen. Diese anonymisierten Roh-daten sind passwortgeschützt mit Zugriffsbeschränkung auf die oben genannten Personen und werden lokal auf einem passwortgesicherten Server bei C-Lever.org gespeichert.
             </p>
             <br/>
 
