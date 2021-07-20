@@ -383,6 +383,9 @@ def get_token():
 def aws_s3_parameters(instance):
     url = "{}/sign".format(FLOW_SERVICE_URL)
     token = get_token()
+    # FIXME: WAI TEMPORARY FIX
+    if instance == 'akvoflow-7':
+        instance = 'akvoflow-217'
     return r.get(url, params={"instance": instance}, headers={'Authorization': 'Bearer {}'.format(token)}).json()
 
 
