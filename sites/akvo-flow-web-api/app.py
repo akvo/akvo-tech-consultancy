@@ -79,6 +79,21 @@ def readxml(xmlpath):
     return response
 
 
+def download_cascade(cascade_list, ziploc, check):
+    for cascade in cascade_list:
+        cascade_file = ziploc + '/' + cascade.split('/surveys/')[1]
+        cascade_file = cascade_file.replace('.zip', '')
+        download = False
+        if check == 'update':
+            download = True
+        if not os.path.exists(cascade_file):
+            download = True
+        if download:
+            zip_url = r.get(cascade, allow_redirects=True)
+            z = ZipFile(BytesIO(zip_url.content))
+            z.extractall(ziploc)
+
+
 def make_tree(path):
     tree = dict(name=os.path.basename(path), children=[])
     try:
@@ -121,7 +136,9 @@ def survey(instance, survey_id, check):
         os.mkdir(ziploc)
     xml_path = ziploc + '/' + survey_id + '.xml'
     instances = pd.read_csv(instance_list)
-    endpoint = list(instances[instances['instances'] == instance]['names'])[0]
+    service = instances[instances['instances'] == instance]
+    endpoint = list(service['bucket'])[0]
+    endpoint = 'https://{}.s3.amazonaws.com/surveys/'.format(endpoint)
     download = False
     if check == 'update':
         download = True
@@ -144,32 +161,23 @@ def survey(instance, survey_id, check):
             questions = groups["question"]
             if type(questions) is dict:
                 if questions["type"] == "cascade":
-                    cascade_list.append(endpoint + questions["cascadeResource"] + ".zip")
+                    cascade_list.append(questions["cascadeResource"])
             if type(questions) is list:
                 for q in questions:
                     if q["type"] == "cascade":
-                        cascade_list.append(endpoint + q["cascadeResource"] + ".zip")
+                        cascade_list.append(q["cascadeResource"])
     if type(question_group) is dict:
         questions = question_group["question"]
         if type(questions) is dict:
             if questions["type"] == "cascade":
-                cascade_list.append(endpoint + questions["cascadeResource"] + ".zip")
+                cascade_list.append(questions["cascadeResource"])
         if type(questions) is list:
             for q in questions:
                 if q["type"] == "cascade":
-                    cascade_list.append(endpoint + q["cascadeResource"] + ".zip")
+                    cascade_list.append(q["cascadeResource"])
     if len(cascade_list) > 0:
-        for cascade in cascade_list:
-            cascade_file = ziploc + '/' + cascade.split('/surveys/')[1].replace('.zip', '')
-            download = False
-            if check == 'update':
-                download = True
-            if not os.path.exists(cascade_file):
-                download = True
-            if download:
-                zip_url = r.get(cascade, allow_redirects=True)
-                z = ZipFile(BytesIO(zip_url.content))
-                z.extractall(ziploc)
+        cascade_list = ['{}{}.zip'.format(endpoint, c) for c in cascade_list]
+        download_cascade(cascade_list, ziploc, check)
     return jsonify(response)
 
 
@@ -177,10 +185,11 @@ def survey(instance, survey_id, check):
 def cascade(instance, sqlite, lv):
     location = './static/xml/' + instance + '/' + sqlite
     if not os.path.exists(location):
-        return jsonify({"code":"", "id":1, "name":"ERROR", "parent":0})
+        return jsonify({"code": "", "id": 1, "name": "ERROR", "parent": 0})
     conn = sqlite3.connect(location)
     table = pd.read_sql_query("SELECT * FROM nodes;", conn)
-    result = table[table['parent'] == int(lv)].sort_values(by="name").to_dict('records')
+    result = table[table['parent'] == int(lv)]
+    result = result.sort_values(by="name").to_dict('records')
     return jsonify(result)
 
 
@@ -329,16 +338,15 @@ def send_zip(payload, _uuid, instance_id, imagelist):
         'file': (combined, open(combined, 'rb'), 'application/zip')
     }
     result = r.post(BASE_URL, files=files, data=params)
-    bucket = instance_id + '.s3.amazonaws.com'
     instances = pd.read_csv(instance_list)
-    bucket_url = 'https://' + bucket + '/surveys/'
-    dashboard = list(instances[instances['names'] == bucket_url]['instances'])[0]
+    dashboard = instances[instances['bucket'] == instance_id]
+    dashboard = list(dashboard['instances'])[0]
     params = {
         'uniqueIdentifier': uid,
         'filename': combined,
         'baseURL': dashboard,
         'appId': instance_id,
-        'uploadDomain': bucket,
+        'uploadDomain': instance_id + '.s3.amazonaws.com',
         'complete': 'true'
     }
     result = r.post(BASE_URL, data=params)
@@ -354,7 +362,9 @@ def send_zip(payload, _uuid, instance_id, imagelist):
 
 
 def check_password(rec):
-    default_pass = rec['_default_password'] if '_default_password' in rec else False
+    default_pass = False
+    if '_default_password' in rec:
+        default_pass = rec['_default_password']
     password = rec['_password'] if '_password' in rec else False
     if default_pass == DEFAULT_PASSWORD:
         return True
@@ -383,17 +393,17 @@ def get_token():
 def aws_s3_parameters(instance):
     url = "{}/sign".format(FLOW_SERVICE_URL)
     token = get_token()
-    # FIXME: WAI TEMPORARY FIX
-    if instance == 'akvoflow-7':
-        instance = 'akvoflow-217'
-    return r.get(url, params={"instance": instance}, headers={'Authorization': 'Bearer {}'.format(token)}).json()
+    headers = {'Authorization': 'Bearer {}'.format(token)}
+    return r.get(url, params={"instance": instance}, headers=headers).json()
 
 
 def upload_parameters(rec, _uuid):
     data = get_payload(rec, _uuid, True)
-    s3 = aws_s3_parameters(rec["_instanceId"])
-    return jsonify({"data": data["payload"],
-            "policy": s3})
+    service = pd.read_csv(instance_list)
+    service = service[service['bucket'] == rec['_instanceId']]
+    service = list(service['service'])[0]
+    s3 = aws_s3_parameters(service)
+    return jsonify({"data": data["payload"], "policy": s3})
 
 
 @app.route('/submit-form', methods=['POST'])
