@@ -9,12 +9,11 @@ instance_base = 'https://api-auth0.akvo.org/flow/orgs/'
 app = Flask(__name__)
 logging.basicConfig(level=logging.DEBUG)
 
-def get_headers(username, password):
+def get_headers(token):
     login = {'client_id': 'S6Pm0WF4LHONRPRKjepPXZoX1muXm1JS',
-             'username': username,
-             'password': password,
-             'grant_type':'password',
-             'scope':'openid email'}
+             'grant_type': 'refresh_token',
+             'refresh_token': token,
+             'scope': 'openid email'}
     data = r.post("https://akvofoundation.eu.auth0.com/oauth/token", data=login)
     if data.status_code == 200:
         return {
@@ -77,13 +76,10 @@ def generate_url(instance, survey_id, form_id):
 
 @app.route('/<instance>/<survey_id>/<form_id>')
 def get_page(instance, survey_id, form_id):
-    username = request.headers.get('username')
-    password = request.headers.get('password')
-    if not username:
+    token = request.headers.get('token')
+    if not token:
         return jsonify({"message": "ERROR: Unauthorized"}), 401
-    if not password:
-        return jsonify({"message": "ERROR: Unauthorized"}), 401
-    headers = get_headers(username, password)
+    headers = get_headers(token)
     if not headers:
         return jsonify({"message": "ERROR: Unauthorized"}), 401
     instance_uri = '{}{}'.format(instance_base, instance)
@@ -98,7 +94,7 @@ def get_page(instance, survey_id, form_id):
         info = {}
         for c in col:
             if c != 'responses':
-                info.update({c:col[c]})
+                info.update({c: col[c]})
             else:
                 groups = {}
                 for g in form_definition:
