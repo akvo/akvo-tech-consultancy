@@ -203,19 +203,18 @@ def get_payload(rec, _uuid, webform=False):
         "questionId": "-1",
         "value": rec['_dataPointName']
     }
-    data_point_location = "-8.6764779|115.236364|0"
     try:
         data_point_location = rec['_dataPointLocation']
+        meta_geo = {
+            "answerType": "META_GEO",
+            "iteration": 0,
+            "questionId": "-2",
+            "value": data_point_location
+        }
+        data.append(meta_geo)
     except:
         pass
-    meta_geo = {
-        "answerType": "META_GEO",
-        "iteration": 0,
-        "questionId": "-2",
-        "value": data_point_location
-    }
     data.append(meta_name)
-    data.append(meta_geo)
     images = []
     for i, ids in enumerate(question_id):
         iteration = 0
