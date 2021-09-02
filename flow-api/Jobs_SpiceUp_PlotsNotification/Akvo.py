@@ -27,5 +27,7 @@ class Flow:
             "Accept": "application/vnd.akvo.flow.v2+json",
             "Authorization": "Bearer {}".format(token)
         }
-        response = r.get(self, headers=headers).json()
-        return response
+        response = r.get(self, headers=headers)
+        if response.status_code == 200:
+            return response.json()
+        return False
