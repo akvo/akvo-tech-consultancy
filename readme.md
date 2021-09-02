@@ -1,6 +1,6 @@
 # Akvo Tech Consultancy
 
-[![Build Status](https://travis-ci.org/akvo/akvo-tech-consultancy.svg?branch=master)](https://travis-ci.org/akvo/akvo-tech-consultancy.svg?branch=master)
+[![Build Status](https://akvo.semaphoreci.com/badges/akvo-tech-consultancy/branches/master.svg)](https://akvo.semaphoreci.com/projects/akvo-tech-consultancy)
 
 This repository contains Akvo Tools custom integration pack development.
 
