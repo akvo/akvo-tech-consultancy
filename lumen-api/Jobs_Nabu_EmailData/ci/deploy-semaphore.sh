@@ -37,6 +37,6 @@ log Pushing images
 gcloud auth configure-docker
 docker push "eu.gcr.io/${PROJECT_NAME}/nabu-emaildata-notification:${TRAVIS_COMMIT}"
 
-sed -e "s/\${TRAVIS_COMMIT}/$TRAVIS_COMMIT/" ci/k8s/cronjob.yaml > cronjob.yaml.donotcommit
+sed -e "s/\${TRAVIS_COMMIT}/$TRAVIS_COMMIT/" ci/k8s/cronjob.yaml.template > cronjob.yaml.donotcommit
 
 kubectl apply -f cronjob.yaml.donotcommit
