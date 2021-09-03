@@ -529,7 +529,6 @@ class Api:
         tbl = tbl.unstack('type').unstack('country').sort_values(tbl_sort)
         tbl = tbl.groupby(level=[1,3,4,6,8],sort=False).sum().astype(int)
         tbl = pd.DataFrame(tbl['value'].to_records())
-        print(tbl)
         tbl = tbl.rename(columns={
             "('Cumulative Actual Values', 'Malawi')": "CA-MW",
             "('Cumulative Actual Values', 'Mozambique')": "CA-MZ",
