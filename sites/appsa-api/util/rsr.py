@@ -32,6 +32,28 @@ class Rsr:
             data = json.load(f)
         return data
 
+    def queue(self, endpoint, param, value):
+        self.endpoint = endpoint
+        self.param = param
+        self.value = value
+        directory = './cache/' + endpoint + '/' + param
+        filename = directory + '/' + str(value) + '.json'
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        if not os.path.exists(filename):
+            URL = PROD_URL
+            uri = '{}{}{}&{}={}'.format(URL, endpoint, FMT100, param, value)
+            print(printer.get_time() + ' :: NEW - ' + filename)
+            data = requests.get(uri, headers=headers)
+            data = data.json()
+            with open(filename, 'w') as outfile:
+                json.dump(data, outfile)
+            return data
+        with open(filename, 'r') as f:
+            print(printer.get_time() + ' :: CACHED - ' + filename)
+            data = json.load(f)
+        return data
+
     def api(self, endpoint, param, value):
         self.endpoint = endpoint
         self.param = param
