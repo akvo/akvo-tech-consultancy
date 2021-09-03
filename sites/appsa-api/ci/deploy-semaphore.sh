@@ -52,4 +52,4 @@ kubectl apply -f deployment.yaml.donotcommit
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-sh "$DIR/k8s/wait-for-k8s-deployment-to-be-ready.sh"
+$DIR/k8s/wait-for-k8s-deployment-to-be-ready.sh
