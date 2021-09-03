@@ -16,7 +16,7 @@ def process(ids, start, end):
             print('error with id')
 
 
-def split_processing(items, num_splits=4):
+def split_processing(items, num_splits=6):
     split_size = len(items) // num_splits
     threads = []
     for i in range(num_splits):
