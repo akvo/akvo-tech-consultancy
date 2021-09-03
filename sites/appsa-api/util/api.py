@@ -3,10 +3,8 @@ import json
 import os
 import numpy as np
 from util.rsr import Rsr
-from util.util import Printer
 
 rsr = Rsr()
-printer = Printer()
 
 
 def get_sibling_id(x):
@@ -154,9 +152,6 @@ class Api:
         dimension_names = []
         dimension_values = []
         data_disaggregations = []
-
-        print(printer.get_time() + ' :: FOUND ' + str(len(results_framework)) +
-              ' Results')
         t_indicators = 0
         t_periods = 0
         t_dimensions = 0
@@ -202,19 +197,6 @@ class Api:
                 del indicator['dimension_names']
                 indicators.append(indicator)
 
-        print(printer.get_time() + ' :: FOUND ' + str(t_indicators) +
-              ' Indicators')
-        print(printer.get_time() + ' :: FOUND ' + str(t_periods) + ' Periods')
-        print(printer.get_time() + ' :: FOUND ' + str(t_period_data) +
-              ' Periods Data')
-        print(printer.get_time() + ' :: FOUND ' + str(t_dimensions) +
-              ' Dimension Names')
-        print(printer.get_time() + ' :: FOUND ' + str(t_dimension_values) +
-              ' Dimension Values')
-
-        ## Update Results Framework
-        print(printer.get_time() +
-              ' :: GENERATING NEW CACHE /cache/results_framework.json')
         period_list = pd.DataFrame(periods)
         period_list['period_date'] = period_list[
             'period_start'] + ' - ' + period_list['period_end']

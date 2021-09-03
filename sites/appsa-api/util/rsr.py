@@ -27,7 +27,6 @@ class Rsr:
         self.result_framework = ['results_framework']
 
     def readcache(self, filename):
-        print(printer.get_time() + ' :: READING CACHE - ' + filename)
         with open(filename, 'r') as f:
             data = json.load(f)
         return data
@@ -65,7 +64,6 @@ class Rsr:
         if not os.path.exists(filename):
             URL = PROD_URL
             uri = '{}{}{}&{}={}'.format(URL, endpoint, FMT100, param, value)
-            print(printer.get_time() + ' :: FETCH RSR - ' + uri)
             data = requests.get(uri, headers=headers)
             data = data.json()
             with open(filename, 'w') as outfile:
@@ -81,7 +79,6 @@ class Rsr:
         else:
             uri = '{}{}{}'.format(PROD_URL, 'project_update', FMT100)
             r = requests.post(uri, data=json.dumps(data), headers=headers)
-            print("post")
         return r.json()
 
     def get_comment(self, data, validator):
@@ -94,7 +91,6 @@ class Rsr:
         self.param = param
         self.value = value
         uri = '{}{}{}&{}={}'.format(PROD_URL, endpoint, FMT100, param, value)
-        print(printer.get_time() + ' :: FETCH RSR - ' + uri)
         data = requests.get(uri, headers=headers)
         data = data.json()
         return data

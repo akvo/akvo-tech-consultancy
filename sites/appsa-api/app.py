@@ -11,8 +11,6 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-### Workspace Setup
-
 printer = Printer()
 rsr = Rsr()
 get_data = Api()
@@ -37,8 +35,11 @@ def get_datatable(rsr_id):
     if rsr_id == '7283':
        rsr_id = '7282'
        rsr_pos = 'grand_parent'
-    data = get_data.datatable(rsr_id, rsr_pos, report_type, filter_date, filter_country)
-    return jsonify(data)
+    try:
+        data = get_data.datatable(rsr_id, rsr_pos, report_type, filter_date, filter_country)
+        return jsonify(data)
+    except:
+        return "Not Found", 404
 
 @app.route('/api/postcomment', methods=['POST'])
 def generate_validator():
@@ -115,7 +116,8 @@ def get_template(project_type, project):
     html_template = project_type + "_" + project + ".html"
     return render_template(html_template)
 
-
 if __name__ == '__main__':
+    app.jinja_env.auto_reload = True
     app.config['TEMPLATES_AUTO_RELOAD'] = True
-    app.run(host= '0.0.0.0',debug=True, port=5000)
+    from waitress import serve
+    serve(app, host="0.0.0.0", port=5000)

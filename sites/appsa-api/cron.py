@@ -24,7 +24,6 @@ html_template = "./templates/" + PROJECT_TYPE + "_" + PROJECT_ID + ".html"
 
 def get_response(endpoint, param, value):
     uri = '{}{}{}&{}={}'.format(URL, endpoint, FMT100, param, value)
-    print(get_time() + ' Fetching - ' + uri)
     data = requests.get(uri, headers=headers)
     data = data.json()
     return data
@@ -317,7 +316,6 @@ project = pd.concat([dimension,project]).sort_index(axis=1).sort_index()
 project = project.astype(float).fillna(0)
 project.to_html(html_cache)
 
-print("INIT EDIT TABLE")
 with open(html_cache) as htm:
     html = htm.read()
     soup = bs4.BeautifulSoup(html, "html.parser")
