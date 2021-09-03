@@ -13,7 +13,7 @@
     "webpack-cli": "^3.3.8"
   },
   "scripts": {
-    "qc": "esling src/js",
+    "qc": "eslint src/js",
     "build": "./node_modules/.bin/webpack",
     "develop": "webpack --mode development --watch"
   },

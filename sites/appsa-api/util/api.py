@@ -59,9 +59,19 @@ def get_dimension_country(dv):
 def get_total_value(x,vtype):
     y = 0
     if x['indicator_type'] == 1:
-        y = x[vtype + '-MW'] + x[vtype + '-MZ'] + x[vtype + '-ZA']
+        y = 0
+        for a in ['MW', 'MZ', 'ZA']:
+            try:
+                y = y + x[f"{vtype}-{a}"]
+            except:
+                pass
     if x['indicator_type'] == 2:
-        y = x[vtype + '-MW'] + x[vtype + '-MZ'] + x[vtype + '-ZA']
+        y = 0
+        for a in ['MW', 'MZ', 'ZA']:
+            try:
+                y = y + x[f"{vtype}-{a}"]
+            except:
+                pass
         y = round(y / 3,1)
     return y
 
@@ -101,10 +111,22 @@ def combineList(dataType, x):
             col = "-".join(["CA",c,"D"])
         else:
             col = "-".join(["TG",c,"D"])
-        if x[col] is not None:
-            for a in x[col]:
-                res.append(a)
+        try:
+            if x[col] is not None:
+                for a in x[col]:
+                    res.append(a)
+        except:
+            pass
     return res
+
+
+def filterEndPeriod(x):
+    if x is None:
+        return False
+    if x == "":
+        return False
+    return x.split('-')[1] == '12'
+
 
 class Api:
 
@@ -281,7 +303,9 @@ class Api:
             for indicator in result_framework['indicators']:
                 indicator_id = indicator['id']
                 indicator_title = {'indicator':indicator['title']}
-                indicator_type = int(indicator['measure'])
+                indicator_type = 0
+                if indicator['measure'] != '':
+                    indicator_type = int(indicator['measure'])
                 indicator.update({'indicator_type':indicator_type})
                 for period in indicator['periods']:
                     is_yearly = get_report_type(period['period_start'],period['period_end'])
@@ -377,7 +401,11 @@ class Api:
             left_on='dimension_value',
             right_on='id',
             suffixes=('_disaggregation','_dimension_values'))
-        disaggregations_merged = disaggregations_merged.drop(columns=remove_columns)
+        for rmv in remove_columns:
+            try:
+                disaggregations_merged = disaggregations_merged.drop(columns=[rmv])
+            except:
+                pass
         disaggregations_merged = disaggregations_merged.rename(columns=rename_columns)
         disaggregations_merged = disaggregations_merged.fillna(value=fill_values)
         disaggregations_merged['value'] = disaggregations_merged['disaggregation_value'].apply(lambda x:int(float(x)))
@@ -391,7 +419,7 @@ class Api:
 
         if project_type == 'grand_parent':
             disaggregations_merged['project'] = 'APPSA Zambia'
-            disaggregations_merged['commodity'] = disaggregations_merged['commodity'].apply(lambda x: x.replace('-',' ').title())
+            disaggregations_merged['commodity'] = disaggregations_merged['commodity'].apply(lambda x: x.replace('-',' ').title() if x == x else "")
             disaggregations_merged['commodity'] = disaggregations_merged['commodity'].apply(lambda x: "Country Project" if x == "" else x)
             disaggregations_merged['country'] = disaggregations_merged.apply(fill_country, axis=1)
             disaggregations_merged = disaggregations_merged.drop(columns=['project'])
@@ -412,6 +440,8 @@ class Api:
         targets['value'] =  targets['value_target'].apply(lambda x:int(float(x)))
         targets = targets.drop(columns=['value_target'])
         integer_list = ['id','name','parent_dimension_value','result','parent_period','dimension_value','dimension_id','period']
+        for ilist in integer_list:
+            targets[ilist] = targets[ilist].fillna(0)
         targets[integer_list] = targets[integer_list].astype(int)
         rename_columns = {'value_dimension_values': 'disaggregation_name'}
         unavailable_columns = ['disaggregation_value', 'incomplete_data','dimension_value','dimension_dimension_name']
@@ -460,11 +490,11 @@ class Api:
             'period',
             'is_yearly'
         ]
-        tbl['cumulative'] = tbl['period_end'].apply(lambda x: True if x.split('-')[1] == '12' else False)
+        tbl['cumulative'] = tbl['period_end'].apply(filterEndPeriod)
         tbl = tbl[tbl['cumulative'] == True].drop(columns=['cumulative','period_end'])
         tbl = tbl.drop(columns=remove_columns)
-        if report_type== 'yearly':
-            tbl['year'] = tbl['period_date'].apply(lambda x: x.split(' - ')[0].split('-')[0])
+        if report_type == 'yearly':
+            tbl['year'] = tbl['period_date'].apply(lambda x: x.split(' - ')[0].split('-')[0] if '-' in x else None)
             tbl = tbl[tbl['year'] == filter_date].drop(columns=['year','period_date'])
         else:
             tbl = tbl[tbl['period_date'] == filter_date].drop(columns=['period_date'])
@@ -499,6 +529,7 @@ class Api:
         tbl = tbl.unstack('type').unstack('country').sort_values(tbl_sort)
         tbl = tbl.groupby(level=[1,3,4,6,8],sort=False).sum().astype(int)
         tbl = pd.DataFrame(tbl['value'].to_records())
+        print(tbl)
         tbl = tbl.rename(columns={
             "('Cumulative Actual Values', 'Malawi')": "CA-MW",
             "('Cumulative Actual Values', 'Mozambique')": "CA-MZ",
@@ -530,7 +561,7 @@ class Api:
             'target_value': x['target_value'],
             'actual_value': x['actual_value'],
         },axis=1)
-        attr['cumulative'] = attr['period_end'].apply(lambda x: True if x.split('-')[1] == '12' else False)
+        attr['cumulative'] = attr['period_end'].apply(filterEndPeriod)
         attr = attr[attr['cumulative'] == True].drop(columns=['cumulative'])
         if report_type == 'yearly':
             attr['year'] = attr['period_date'].apply(lambda x: x.split(' - ')[0].split('-')[0])
@@ -556,12 +587,30 @@ class Api:
         merged = merged.replace({np.nan: None})
         merged['CA-TTL-D'] = merged.apply(lambda x: combineList("CA", x), axis=1);
         merged['TG-TTL-D'] = merged.apply(lambda x: combineList("TG", x), axis=1);
-        merged['TG-MW-D'] = merged['TG-MW-D'].fillna(merged['CA-MW-D'])
-        merged['TG-MZ-D'] = merged['TG-MZ-D'].fillna(merged['CA-MZ-D'])
-        merged['TG-ZA-D'] = merged['TG-ZA-D'].fillna(merged['CA-ZA-D'])
-        merged['CA-MW-D'] = merged['CA-MW-D'].fillna(merged['TG-MW-D'])
-        merged['CA-MZ-D'] = merged['CA-MZ-D'].fillna(merged['TG-MZ-D'])
-        merged['CA-ZA-D'] = merged['CA-ZA-D'].fillna(merged['TG-ZA-D'])
+        try:
+            merged['TG-MW-D'] = merged['TG-MW-D'].fillna(merged['CA-MW-D'])
+        except:
+            merged['TG-MW-D'] = 0
+        try:
+            merged['TG-MZ-D'] = merged['TG-MZ-D'].fillna(merged['CA-MZ-D'])
+        except:
+            merged['TG-MZ-D'] = 0
+        try:
+            merged['TG-ZA-D'] = merged['TG-ZA-D'].fillna(merged['CA-ZA-D'])
+        except:
+            merged['TG-ZA-D'] = 0
+        try:
+            merged['CA-MW-D'] = merged['CA-MW-D'].fillna(merged['TG-MW-D'])
+        except:
+            merged['CA-MW-D'] = 0
+        try:
+            merged['CA-MZ-D'] = merged['CA-MZ-D'].fillna(merged['TG-MZ-D'])
+        except:
+            merged['CA-MZ-D'] = 0
+        try:
+            merged['CA-ZA-D'] = merged['CA-ZA-D'].fillna(merged['TG-ZA-D'])
+        except:
+            merged['CA-ZA-D'] = 0
         merged['indicator_type'] = merged['indicator_type'].apply(lambda x: '#' if x == 1 else '%')
         result_title = list(pd.DataFrame(results_framework).groupby('title').first().reset_index()['title'])
         indicator_title = list(pd.DataFrame(indicators).groupby('title').first().reset_index()['title'])

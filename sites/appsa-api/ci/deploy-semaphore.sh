@@ -44,7 +44,7 @@ fi
 log Pushing images
 gcloud auth configure-docker
 # docker push eu.gcr.io/${PROJECT_NAME}/tech-consultancy-appsa-api
-docker push eu.gcr.io/${PROJECT_NAME}/tech-consultancy-appsa-api:${TRAVIS_COMMIT}
+docker push "eu.gcr.io/${PROJECT_NAME}/tech-consultancy-appsa-api:${TRAVIS_COMMIT}"
 
 sed -e "s/\${TRAVIS_COMMIT}/$TRAVIS_COMMIT/" ci/k8s/deployment.yaml > deployment.yaml.donotcommit
 
@@ -52,4 +52,4 @@ kubectl apply -f deployment.yaml.donotcommit
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-$DIR/k8s/wait-for-k8s-deployment-to-be-ready.sh
+sh "$DIR/k8s/wait-for-k8s-deployment-to-be-ready.sh"

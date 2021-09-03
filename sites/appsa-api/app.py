@@ -4,6 +4,7 @@ import os
 from util.util import Printer
 from util.rsr import Rsr
 from util.api import Api
+import pandas as pd
 from flask import Flask, jsonify, render_template, request
 from flask_cors import CORS
 
@@ -57,7 +58,6 @@ def generate_validator():
     if content["id"]:
         methods = "patch"
         data.update({"id":int(content["id"])})
-        print(data)
         resp = rsr.send_comment(data, methods)
     else:
         methods = "post"
@@ -94,6 +94,9 @@ def index():
     for p in [7283,7950]:
         project = rsr.api('project', 'id', p)['results'][0]
         projects.append(project)
+    period_year = pd.DataFrame(period_list['Yearly'])
+    period_year = period_year.drop_duplicates(['year'])
+    period_list['Yearly'] = period_year.to_dict('records')
     return render_template('index.html',
             base_url = base_url,
             period_list = period_list,

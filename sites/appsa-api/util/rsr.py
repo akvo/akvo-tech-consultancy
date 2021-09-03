@@ -16,7 +16,7 @@ FMT100 = '/?format=json&limit=100'
 
 headers = {
     'content-type': 'application/json',
-    'Authorization': TOKEN
+    'Authorization': f"TOKEN {TOKEN}"
 }
 
 
