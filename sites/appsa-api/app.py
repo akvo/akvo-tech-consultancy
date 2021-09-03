@@ -1,14 +1,14 @@
-## Init Dependencies
-
 import os
 from util.util import Printer
 from util.rsr import Rsr
 from util.api import Api
 import pandas as pd
+import logging
 from flask import Flask, jsonify, render_template, request
 from flask_cors import CORS
 
 app = Flask(__name__)
+logging.basicConfig(level=logging.DEBUG)
 CORS(app)
 
 printer = Printer()
@@ -85,7 +85,7 @@ def index():
     project_parent = rsr.api('project', 'id', 7283)['results'][0]
     projects = []
     countries = ['Zambia','Malawi','Mozambique']
-    directory = './cache/rf/'
+    directory = './cache/rf'
     if not os.path.exists(directory):
         os.makedirs(directory)
     cache = './cache/rf/' + appsa + '.json'
