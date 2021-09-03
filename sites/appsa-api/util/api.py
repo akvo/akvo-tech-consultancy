@@ -271,12 +271,10 @@ class Api:
             json.dump(response, outfile)
         return response
 
-    def datatable(self, project_id, project_type, report_type, filter_date,
-                  filter_country):
+    def datatable(self, project_id, project_type, report_type, filter_date):
         self.project_id = project_id
         self.project_type = project_type
         self.filter_date = filter_date
-        self.filter_country = filter_country
         related_project = rsr.api('related_project', 'related_project',
                                   project_id)
         if project_type == 'parent':

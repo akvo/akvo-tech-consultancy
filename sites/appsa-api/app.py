@@ -3,6 +3,7 @@ from util.util import Printer
 from util.rsr import Rsr
 from util.api import Api
 import pandas as pd
+import json
 import logging
 from flask import Flask, jsonify, render_template, request
 from flask_cors import CORS
@@ -27,16 +28,30 @@ def live(endpoint, param, val):
 
 @app.route('/api/datatables/<rsr_id>', methods=['GET','POST'])
 def get_datatable(rsr_id):
+    directory = './cache/datatables'
+    if not os.path.exists(directory):
+        os.makedirs(directory)
     content = request.json
     filter_date = content['filter_date']
     report_type = content['report_type']
     filter_country = content['project_option']
+    directory = f"{directory}/{report_type}"
+    if not os.path.exists(directory):
+        os.makedirs(directory)
     rsr_pos = 'parent'
     if rsr_id == '7283':
        rsr_id = '7282'
        rsr_pos = 'grand_parent'
+    filename = rsr_id + "_" + filter_date.replace(" ", "_")
+    filename = f"{directory}/{filename}.json"
+    if os.path.exists(filename):
+        with open(filename, 'r') as f:
+            data = json.load(f)
+        return jsonify(data)
     try:
-        data = get_data.datatable(rsr_id, rsr_pos, report_type, filter_date, filter_country)
+        data = get_data.datatable(rsr_id, rsr_pos, report_type, filter_date)
+        with open(filename, 'w') as outfile:
+            json.dump(data, outfile)
         return jsonify(data)
     except:
         return "Not Found", 404
