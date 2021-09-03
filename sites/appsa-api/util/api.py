@@ -145,9 +145,10 @@ class Api:
         self.project_id = project_id
         results_framework = rsr.api('results_framework', 'project',
                                     project_id)['results']
-        directory = './cache/results_framework/project/' + project_id + '.json'
+        directory = './cache/results_framework/project'
         if not os.path.exists(directory):
             os.makedirs(directory)
+        directory = f"{directory}/{project_id}.json"
         indicators = []
         periods = []
         dimension_names = []
