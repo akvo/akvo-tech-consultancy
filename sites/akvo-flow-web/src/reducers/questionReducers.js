@@ -343,7 +343,7 @@ const showHideQuestions = (orig, group) => {
           if (!isNaN(b)) {
             b = parseInt(b);
           }
-          return b;
+          return b.toString();
         });
       }
       if (localStorage.getItem(dependent.question) !== null) {
@@ -364,13 +364,22 @@ const showHideQuestions = (orig, group) => {
         if (!isNaN(answer_value)) {
           answer = answer.toString();
         }
+        if (!isNaN(answer)) {
+          answer = [answer.toString()];
+        }
+        if (answer.filter((a) => answer_value.includes(a)).length > 0) {
+          show = true;
+        }
         if (answer.filter((a) => answer_value.includes(a)).length > 0) {
           show = true;
         }
         if (answer === answer_value) {
           show = true;
         }
-        if (answer.filter((a) => answer_value.includes(a)).length === 0) {
+        if (
+          answer.filter((a) => answer_value.includes(a?.toString())).length ===
+          0
+        ) {
           // localStorage.removeItem(x.id);
           show = false;
         }
