@@ -74,6 +74,7 @@ def clear_schema(engine):
 
 def repeat_marker(x):
     repeat = x.repeat_index
+    print(x.question.name, x.question.id)
     col_name = table_column_regex(x.question.name, x.question.id)
     return {col_name: x.value, 'repeat': repeat}
 
