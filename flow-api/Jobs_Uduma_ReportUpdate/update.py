@@ -156,9 +156,8 @@ if 'surveyDeleted' in sync_history:
         session.commit()
     clear = True
 
-if clear:
-    print(checktime(start_time) + ' GENERATING NEW SCHEMA')
-    schema_generator(session, engine)
-    print(checktime(start_time) + ' NEW SCHEMA IS GENERATED')
+print(checktime(start_time) + ' GENERATING NEW SCHEMA')
+schema_generator(session, engine)
+print(checktime(start_time) + ' NEW SCHEMA IS GENERATED')
 
 print(checktime(start_time) + ' JOB IS FINISHED')
