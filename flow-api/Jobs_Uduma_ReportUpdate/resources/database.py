@@ -22,9 +22,12 @@ def write_data(session, input_data, info, log):
 
 
 def table_column_regex(name, id):
-    regex = re.compile('[,-\.!?%()""]')
-    name = regex.sub('', name).lower()
-    name = ' '.join(name.split()).replace(' ', '_')
+    if name:
+        regex = re.compile('[,-\.!?%()""]')
+        name = regex.sub('', name).lower()
+        name = ' '.join(name.split()).replace(' ', '_')
+    else:
+        name = "unknown"
     return '{}_{}'.format(id, name)
 
 
@@ -74,9 +77,7 @@ def clear_schema(engine):
 
 def repeat_marker(x):
     repeat = x.repeat_index
-    col_name = f"unknown-question-{x.question.id}"
-    if x.question.name:
-        col_name = table_column_regex(x.question.name, x.question.id)
+    col_name = table_column_regex(x.question.name, x.question.id)
     return {col_name: x.value, 'repeat': repeat}
 
 
