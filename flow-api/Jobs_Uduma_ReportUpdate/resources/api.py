@@ -54,7 +54,7 @@ class flow_api():
 
     def sync_data(self, session, url, token):
         header = self.get_header(token)
-        response = r.get(url, headers=header)
+        response = r.get(url, headers=header, verify=False)
         if response.status_code == 200:
             data = response.json()
             data.update({'status':200})
