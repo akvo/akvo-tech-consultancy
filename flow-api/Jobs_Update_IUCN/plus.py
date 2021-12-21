@@ -10,45 +10,70 @@ import pprint
 
 pp = pprint.PrettyPrinter(indent=4)
 
-APIKEY='&api_key='+os.environ['CARTO_KEY']
-CARTOURL='https://akvo.cartodb.com/api/v2/sql?q='
+APIKEY = '&api_key=' + os.environ['CARTO_KEY']
+CARTOURL = 'https://akvo.cartodb.com/api/v2/sql?q='
 # DATABASEID = "test_iucn_7160001"
 DATABASEID = "iucn_7160001"
-INSTANCE='iucn'
-SURVEYID='2130003'
-FORMID='7160001'
+INSTANCE = 'iucn'
+SURVEYID = '2130003'
+FORMID = '7160001'
 
+AUTH0_URL = 'https://api-auth0.akvo.org/flow/orgs'
 
-requestURI = 'https://api-auth0.akvo.org/flow/orgs/' + INSTANCE + '/surveys/' + SURVEYID
-formURI = 'https://api-auth0.akvo.org/flow/orgs/' + INSTANCE + '/form_instances?survey_id=' + SURVEYID + '&form_id=' + FORMID
-
+requestURI = f'{AUTH0_URL}/{INSTANCE}/surveys/{SURVEYID}'
+formURI = f'{AUTH0_URL}/{INSTANCE}'
+formURI += f'/form_instances?survey_id={SURVEYID}'
+formURI += f'&form_id={FORMID}'
 
 FlowToken = Flow.getToken()
 if FlowToken == "Error":
-    print("TOKEN ERROR");
-    sys.exit(1);
+    print("TOKEN ERROR")
+    sys.exit(1)
+
 
 def getTime(x):
-    return int(datetime.strptime(x, '%Y-%m-%dT%H:%M:%SZ').strftime("%s%f")) / 1000
+    ts = int(datetime.strptime(x, '%Y-%m-%dT%H:%M:%SZ').strftime("%s%f"))
+    return ts / 1000
+
 
 def getAll(url):
     data = Flow.getResponse(url, FlowToken)
-    print(url)
+    cursor = url.split("&")[-1]
+    print(cursor)
     formInstances = data.get('formInstances')
     for dataPoint in formInstances:
         dataPoints.append(dataPoint)
     try:
-        url = data.get('nextPageUrl')
-        getAll(url)
-    except:
+        getAll(data['nextPageUrl'])
+    except KeyError:
         return "done"
 
+
 dataPoints = []
-question_columns = ['identifier','instance','submitter','collection_date','latitude','longitude']
+question_columns = [
+    'identifier', 'instance', 'submitter', 'collection_date', 'latitude',
+    'longitude'
+]
+
+
+def details(x):
+    return [{
+        'id': a['id'],
+        'name': a['name'].replace(' ', '_'),
+        'type': a['type']
+    } for a in x]
+
+
+def questions(x):
+    return [{
+        'id': a['id'],
+        'name': a['name'],
+        'questions': details(a['questions'])
+    } for a in x]
+
+
 def download():
     apiData = Flow.getResponse(requestURI, FlowToken).get('forms')
-    questions = lambda x : [{'id':a['id'],'name':a['name'],'questions':details(a['questions'])} for a in x]
-    details = lambda x : [{'id':a['id'],'name':a['name'].replace(' ','_'),'type':a['type']} for a in x]
     meta = questions(apiData[0]['questionGroups'])
     mt = pd.DataFrame(meta)
     groupID = mt['id'][0]
@@ -60,53 +85,89 @@ def download():
         qName = 'q' + str(qst['id'])
         qId = str(qst['id'])
         qType = qst['type']
-        output[qName] = output['responses'].apply(lambda x: FlowHandler(x, groupID, qId,qType))
+        output[qName] = output['responses'].apply(
+            lambda x: FlowHandler(x, groupID, qId, qType))
         if qType == 'NUMBER':
             number_columns.append(qName)
         if qType == 'GEO':
-            output['latitude'] = output[qName].apply(lambda x: x[0] if x is not None else x)
-            output['longitude'] = output[qName].apply(lambda x: x[1] if x is not None else x)
+            output['latitude'] = output[qName].apply(lambda x: x[0]
+                                                     if x is not None else x)
+            output['longitude'] = output[qName].apply(lambda x: x[1]
+                                                      if x is not None else x)
             output = output.drop([qName], axis=1)
         else:
             question_columns.append(qName)
     output['collection_date'] = output['submissionDate'].apply(getTime)
-    output = output.drop(['responses','submissionDate','id','modifiedAt','createdAt','displayName','surveyalTime','deviceIdentifier'], axis=1)
-    output = output.rename(columns={"dataPointId":"instance"})
+    output = output.drop([
+        'responses', 'submissionDate', 'id', 'modifiedAt', 'createdAt',
+        'displayName', 'surveyalTime', 'deviceIdentifier'
+    ],
+                         axis=1)
+    output = output.rename(columns={"dataPointId": "instance"})
     output = output[question_columns]
     return output
 
+
 def append_columns():
-    for q in ["q14290003", "q22270002", "q18380002", "q30000004", "q9910003", "q5930003", "q22250002", "q9770001"]:
+    for q in [
+            "q14290003", "q22270002", "q18380002", "q30000004", "q9910003",
+            "q5930003", "q22250002", "q9770001"
+    ]:
         query = "ALTER TABLE " + DATABASEID + " ADD " + q + " text;"
         newcolumn = r.get(CARTOURL + query + APIKEY)
         print(newcolumn.json())
         time.sleep(1)
 
+
 data = download()
-#data[data['q4800002'] == 'Result'].to_dict('records')
+# data[data['q4800002'] == 'Result'].to_dict('records')
+
 
 def str_list(x, column):
-    x = str(x).replace("[","").replace("]","").replace("None","null").replace("nan","null").replace('"','')
+    x = str(x).replace("[", "")
+    x = x.replace("]", "")
+    x = x.replace("None", "null")
+    x = x.replace("nan", "null")
+    x = x.replace('"', '')
     if column:
-        return x.replace("'","")
-    return x.replace("'","$$")
+        return x.replace("'", "")
+    return x.replace("'", "$$")
+
 
 column_list = str_list(question_columns, True)
-truncate = r.get(CARTOURL + "TRUNCATE TABLE " + DATABASEID + " RESTART IDENTITY;" + APIKEY)
-print(truncate.text)
+truncate = r.get(
+    f"{CARTOURL}TRUNCATE TABLE {DATABASEID} RESTART IDENTITY; {APIKEY}")
+if truncate.status_code == 200:
+    truncate = truncate.json()
+    total_rows = truncate['total_rows']
+    print(f"DATA TRUNCATED {total_rows}")
+else:
+    print("DATA TRUNCATE FAILED")
+    sys.exit(1)
 
-increment = 0
-for g in data.to_dict('split')['data']:
-    increment += 1
-    query = "INSERT INTO " + DATABASEID + " (" + column_list + ") SELECT "
-    query +=  str_list(g, False) + " WHERE NOT EXISTS (SELECT instance FROM " + DATABASEID + " WHERE instance ='" + g[1] + "');"
+for i, g in enumerate(data.to_dict('split')['data']):
+    increment = i + 1
+    gid = g[1]
+    query = f"INSERT INTO {DATABASEID} ({column_list}) SELECT "
+    query += str_list(g, False)
+    query += " WHERE NOT EXISTS "
+    query += f"(SELECT instance FROM {DATABASEID} WHERE instance = '"
+    query += g[1]
+    query += "');"
     try:
         new_row = r.get(CARTOURL + query + APIKEY)
-        print(str(increment) + '. ' + str(g[1]) + " - " + str(new_row.status_code) + str(new_row.text))
-        time.sleep(1)
-    except:
+        print(f"{new_row.status_code} - {increment}. {gid}")
+        time.sleep(.5)
+    except ValueError:
         print(str(increment) + '. ' + str(g[1]) + " - FAILED")
 
-update_geom = "UPDATE " + DATABASEID + " SET the_geom = ST_SetSRID(st_makepoint(longitude,latitude),4326)";
-update_geom = r.get(CARTOURL + update_geom + APIKEY)
-print(str(update_geom.json()).replace("{","").replace("}","").replace(":","= "))
+update_geom = f"UPDATE {DATABASEID} SET the_geom = "
+update_geom += "ST_SetSRID(st_makepoint(longitude,latitude),4326)"
+update_geom = r.get(f"{CARTOURL}{update_geom}{APIKEY}")
+if update_geom.status_code == 200:
+    update_geom = update_geom.json()
+    total_rows = update_geom['total_rows']
+    print(f"DATA TRUNCATED {total_rows}")
+else:
+    print("DATA TRUNCATE FAILED")
+    sys.exit(1)
