@@ -1,4 +1,5 @@
-FROM python:3.6.6-jessie
+FROM amancevice/pandas:0.24.2-slim
+
 WORKDIR /usr/src/app
 
 COPY requirements.txt ./
