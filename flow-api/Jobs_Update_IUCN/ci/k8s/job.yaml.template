@@ -1,0 +1,45 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: jobs-update-iucn-${TRAVIS_COMMIT}
+spec:
+  template:
+    spec:
+      containers:
+        - name: jobs-update-iucn
+          image: eu.gcr.io/akvo-lumen/jobs-update-iucn:${TRAVIS_COMMIT}
+          resources:
+              requests:
+                cpu: "50m"
+                memory: "256Mi"
+              limits:
+                cpu: "1000m"
+                memory: "768Mi"
+          env:
+            - name: AUTH0_CLIENT
+              valueFrom:
+                secretKeyRef:
+                  name: jobs-update-iucn
+                  key: auth0-client-id-prod
+            - name: AUTH0_USER
+              valueFrom:
+                secretKeyRef:
+                  name: jobs-update-iucn
+                  key: auth0-email
+            - name: AUTH0_PWD
+              valueFrom:
+                secretKeyRef:
+                  name: jobs-update-iucn
+                  key: auth0-pwd
+            - name: CARTO_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jobs-update-iucn
+                  key: carto-key
+            - name: CARTO_DB
+              valueFrom:
+                secretKeyRef:
+                  name: jobs-update-iucn
+                  key: carto-db
+      restartPolicy: Never
+  backoffLimit: 0
