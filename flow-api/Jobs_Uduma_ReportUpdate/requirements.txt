@@ -8,5 +8,5 @@ sqlalchemy-migrate==0.13.0
 SQLAlchemy-Utils==0.34.0
 GeoAlchemy2==0.6.3
 requests==2.21.0
-numpy==1.14.2
+numpy==1.22.0
 pandas==0.25.0
