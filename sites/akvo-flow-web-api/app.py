@@ -1,7 +1,9 @@
 # Travis removed
 
 from dataclasses import dataclass
-from flask import Flask, jsonify, render_template, request, make_response, send_file
+from flask import Flask, jsonify, \
+        render_template, request, \
+        make_response, send_file
 from flask_cors import CORS
 from lxml import etree
 from io import BytesIO
@@ -18,12 +20,13 @@ import ast
 import logging
 from flask_httpauth import HTTPBasicAuth
 from sqlalchemy import text
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash, \
+        check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
 app = Flask(__name__)
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(filename='debug.log', level=logging.DEBUG)
 CORS(app)
 
 auth = HTTPBasicAuth()
@@ -56,10 +59,17 @@ class FormInstance(db.Model):
     id: str
     state: str
 
-    id = db.Column(db.String, primary_key=True, server_default=text('gen_random_uuid()::varchar'))
+    id = db.Column(db.String,
+                   primary_key=True,
+                   server_default=text('gen_random_uuid()::varchar'))
     state = db.Column(db.String, nullable=False)
-    created = db.Column(db.DateTime, nullable=False, server_default=text('now()'))
-    updated = db.Column(db.DateTime, nullable=False, server_default=text('now()'))
+    created = db.Column(db.DateTime,
+                        nullable=False,
+                        server_default=text('now()'))
+    updated = db.Column(db.DateTime,
+                        nullable=False,
+                        server_default=text('now()'))
+
 
 @auth.verify_password
 def verify_password(username, password):
@@ -73,8 +83,13 @@ def readxml(xmlpath):
         encoding = etree.parse(survey)
         encoding = encoding.docinfo.encoding
     with open(xmlpath) as survey:
-        survey = xmltodict.parse(survey.read(), encoding=encoding, attr_prefix='', cdata_key='text')
-        survey = json.loads(json.dumps(survey).replace('"true"', 'true').replace('"false"', 'false'))
+        survey = xmltodict.parse(survey.read(),
+                                 encoding=encoding,
+                                 attr_prefix='',
+                                 cdata_key='text')
+        survey = json.loads(
+            json.dumps(survey).replace('"true"',
+                                       'true').replace('"false"', 'false'))
         response = survey['survey']
     return response
 
@@ -228,12 +243,21 @@ def get_payload(rec, _uuid, webform=False):
                     for rc in answers:
                         if rc["text"] == "Other Option":
                             if rec["other_" + ids]:
-                                values.append({"text": rec["other_" + ids], "isOther": True})
+                                values.append({
+                                    "text": rec["other_" + ids],
+                                    "isOther": True
+                                })
                             else:
-                                values.append({"text": "No Answer", "isOther": True})
+                                values.append({
+                                    "text": "No Answer",
+                                    "isOther": True
+                                })
                         else:
                             try:
-                                values.append({"text": rc["text"], "code": rc["code"]})
+                                values.append({
+                                    "text": rc["text"],
+                                    "code": rc["code"]
+                                })
                             except:
                                 values.append({"text": rc["text"]})
                     val = json.dumps(values)
@@ -286,8 +310,7 @@ def get_payload(rec, _uuid, webform=False):
         "username": rec['_username'],
         "uuid": _uuid
     }
-    return {"payload": payload,
-            "images": images}
+    return {"payload": payload, "images": images}
 
 
 def submit_process(rec, _uuid):
@@ -299,7 +322,8 @@ def submit_process(rec, _uuid):
 
 
 def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+    return '.' in filename and filename.rsplit(
+        '.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 def send_zip(payload, _uuid, instance_id, imagelist):
@@ -333,9 +357,7 @@ def send_zip(payload, _uuid, instance_id, imagelist):
         'resumableTotalChunks': 1
     }
 
-    files = {
-        'file': (combined, open(combined, 'rb'), 'application/zip')
-    }
+    files = {'file': (combined, open(combined, 'rb'), 'application/zip')}
     result = r.post(BASE_URL, files=files, data=params)
     instances = pd.read_csv(instance_list)
     dashboard = instances[instances['bucket'] == instance_id]
@@ -473,9 +495,11 @@ def upload_file():
             resp = delete_file(request.text)
         if method == "POST":
             resp = make_response("Success", 200)
-            resp.headers['Access-Control-Allow-Origin'] = request.headers['Origin']
+            resp.headers['Access-Control-Allow-Origin'] = request.headers[
+                'Origin']
             resp.headers['Accept'] = request.headers['Accept']
-            resp.headers['Accept-Encoding'] = request.headers['Accept-Encoding']
+            resp.headers['Accept-Encoding'] = request.headers[
+                'Accept-Encoding']
         return resp
     elif request.method == "DELETE":
         response = delete_file(request.text)
@@ -484,7 +508,9 @@ def upload_file():
         return jsonify({"message": "Failed to send"}), 400
 
 
-@app.route('/form-instance', defaults={'form_instance_id': None}, methods=['POST'])
+@app.route('/form-instance',
+           defaults={'form_instance_id': None},
+           methods=['POST'])
 @app.route('/form-instance/<form_instance_id>', methods=['GET', 'PUT'])
 def form_instance(form_instance_id):
     if request.method == 'GET':
@@ -495,21 +521,27 @@ def form_instance(form_instance_id):
     if request.method == 'POST':
         params = request.get_json()
         if params.get('_formId') is None or params.get('_dataPointId') is None:
-            return jsonify({"message": "Bad request, _formId and _dataPointId parameters are required"}), 400
-        instance = FormInstance(state=request.get_data(as_text=True));
+            return jsonify({
+                "message":
+                "Bad request, _formId and _dataPointId parameters are required"
+            }), 400
+        instance = FormInstance(state=request.get_data(as_text=True))
         db.session.add(instance)
         db.session.commit()
         return jsonify(instance)
     if request.method == 'PUT':
         instance = FormInstance.query.get(form_instance_id)
         if instance is None:
-            return jsonify({"message": "Instance {} not found".format(form_instance_id)}), 400
+            return jsonify(
+                {"message":
+                 "Instance {} not found".format(form_instance_id)}), 400
         instance.updated = datetime.now()
-        instance.state = request.get_data(as_text=True);
+        instance.state = request.get_data(as_text=True)
         db.session.add(instance)
         db.session.commit()
         return jsonify(instance)
     return jsonify({"message": "Bad request"}), 400
+
 
 if __name__ == '__main__':
     app.jinja_env.auto_reload = True
