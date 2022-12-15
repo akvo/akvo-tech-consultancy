@@ -83,7 +83,7 @@ data:
           return 200 'ok';
         }
 
-
+        # Forwards requests to other services in the kubernetes cluster
         location ~ ^/([^/]*)/(.*)$ {
             proxy_pass          http://tech-consultancy-$1.default.svc.cluster.local/$2$is_args$args;
             proxy_set_header    Host $host;

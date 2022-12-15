@@ -26,6 +26,7 @@ echo "commits content: ${COMMIT_CONTENT}"
 DIRS=$(echo "${COMMIT_CONTENT}" | grep ".*/.*/.*" | cut -f -2 -d/ | sort -u)
 
 while read -r line; do
+    echo "Checking for build and deploy scripts in: ${line}"
     if [[ -f "${line}/ci/build.sh" ]]; then
         echo "Building ${line}"
         pushd "${line}"
