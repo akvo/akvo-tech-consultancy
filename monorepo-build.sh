@@ -20,6 +20,7 @@ else
     fi
 fi
 
+set -x
 echo "commits content: ${COMMIT_CONTENT}"
 
 # Directories two level deep
