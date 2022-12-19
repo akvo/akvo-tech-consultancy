@@ -3,6 +3,9 @@ kind: Deployment
 metadata:
   name: tech-consultancy-gateway
 spec:
+  selector:
+    matchLabels:
+      run: tech-consultancy-gateway
   template:
     metadata:
       labels:
