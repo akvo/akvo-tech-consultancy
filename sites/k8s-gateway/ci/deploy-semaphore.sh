@@ -26,7 +26,7 @@ gcloud auth activate-service-account --key-file "${GCLOUD_ACCOUNT_FILE}"
 gcloud config set project akvo-lumen
 gcloud config set container/cluster europe-west1-d
 gcloud config set compute/zone europe-west1-d
-gcloud config set container/use_client_certificate True
+gcloud config set container/use_client_certificate False
 
 if [[ "${TRAVIS_BRANCH}" == "master" ]]; then
     log Environment is production
