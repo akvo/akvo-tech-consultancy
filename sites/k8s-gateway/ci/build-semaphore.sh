@@ -12,7 +12,12 @@ if [[ "${SEMAPHORE_GIT_REF_TYPE}" != "pull-request" ]]; then
     exit 0
 fi
 
-log Authentication with gcloud and kubectl
+log "Print versions"
+gcloud version
+kubectl version --client=true
+which gcloud kubectl
+
+log "Authentication with gcloud and kubectl"
 gcloud auth activate-service-account --key-file "${GCLOUD_ACCOUNT_FILE}"
 gcloud config set project akvo-lumen
 gcloud config set container/cluster europe-west1-d

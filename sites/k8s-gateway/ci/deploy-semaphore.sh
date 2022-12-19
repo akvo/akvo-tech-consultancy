@@ -16,9 +16,9 @@ if [[ "${TRAVIS_PULL_REQUEST}" != "false" ]]; then
     exit 0
 fi
 
-log Print versions
+log "Print versions"
 gcloud version
-kubectl version
+kubectl version --client=true
 which gcloud kubectl
 
 log Authentication with gcloud and kubectl
