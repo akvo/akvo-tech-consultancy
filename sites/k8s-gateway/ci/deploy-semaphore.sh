@@ -16,10 +16,9 @@ if [[ "${TRAVIS_PULL_REQUEST}" != "false" ]]; then
     exit 0
 fi
 
-log Making sure gcloud and kubectl are installed and up to date
-gcloud components install kubectl
-gcloud components update
+log "Print versions"
 gcloud version
+kubectl version
 which gcloud kubectl
 
 log Authentication with gcloud and kubectl
