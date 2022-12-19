@@ -16,7 +16,7 @@ if [[ "${TRAVIS_PULL_REQUEST}" != "false" ]]; then
     exit 0
 fi
 
-log Print versions
+log "Print versions"
 gcloud version
 kubectl version
 which gcloud kubectl
