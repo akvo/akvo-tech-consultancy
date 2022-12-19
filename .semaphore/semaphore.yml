@@ -19,7 +19,6 @@ blocks:
         - name: 'Build&Test'
           commands:
             - export AUTH0_PASSWORD=${PASSWORD}
-            - export GCLOUD_ACCOUNT_FILE=$(pwd)/akvo-lumen-a52cb7c6668a.json
             - export AUTH0_USER=${USERNAME}
             - export PATH=${HOME}/google-cloud-sdk/bin:$PATH
             - export TRAVIS_BRANCH=${SEMAPHORE_GIT_BRANCH}
