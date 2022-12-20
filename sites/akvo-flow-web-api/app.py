@@ -408,6 +408,9 @@ def get_token():
     except:
         print('FAILED: TOKEN ACCESS UNKNOWN')
         return False
+    if 'id_token' not in account:
+        print('Unexpected response: {}'.format(json.dumps(account)))
+        return False
     return account['id_token']
 
 
