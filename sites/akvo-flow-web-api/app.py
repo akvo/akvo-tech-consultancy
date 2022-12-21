@@ -1,6 +1,7 @@
 # Travis removed
 
 from dataclasses import dataclass
+from functools import lru_cache, wraps
 from flask import Flask, jsonify, \
         render_template, request, \
         make_response, send_file
@@ -8,7 +9,7 @@ from flask_cors import CORS
 from lxml import etree
 from io import BytesIO
 from zipfile import ZipFile, ZIP_DEFLATED
-from datetime import datetime
+from datetime import datetime, timedelta
 import uuid
 import pandas as pd
 import requests as r
@@ -41,6 +42,7 @@ AUTH0_URL = "{}/token".format(os.environ['AUTH0_URL'])
 BASE_URL = "{}/upload".format(FLOW_SERVICE_URL)
 PASSWORD = "2SCALE"
 DEVEL = False
+TOKEN_CACHED_SECONDS = int(os.environ.get('TOKEN_CACHED_SECONDS', 60 * 5))  # defaults to 5 minutes
 
 UPLOAD_FOLDER = './tmp/images'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
@@ -394,6 +396,25 @@ def check_password(rec):
     return False
 
 
+def timed_lru_cache(seconds, maxsize=128, typed=False):
+    def wrapper_cache(func):
+        f = lru_cache(maxsize, typed)(func)
+        f.lifetime = timedelta(seconds=seconds)
+        f.expiration = datetime.now() + f.lifetime
+
+        @wraps(f)
+        def wrapped_func(*args, **kwargs):
+            if datetime.now() >= f.expiration:
+                f.cache_clear()
+                f.expiration = datetime.now() + f.lifetime
+            return f(*args, **kwargs)
+
+        return wrapped_func
+
+    return wrapper_cache
+
+
+@timed_lru_cache(seconds=TOKEN_CACHED_SECONDS)
 def get_token():
     data = {
         'client_id': os.environ['AUTH0_CLIENT_FLOW'],
