@@ -28,6 +28,7 @@ from flask_migrate import Migrate
 
 app = Flask(__name__)
 logging.basicConfig(filename='debug.log', level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 CORS(app)
 
 auth = HTTPBasicAuth()
@@ -427,10 +428,10 @@ def get_token():
     try:
         account = account.json()
     except:
-        print('FAILED: TOKEN ACCESS UNKNOWN')
+        logger.error('FAILED: TOKEN ACCESS UNKNOWN')
         return False
     if 'id_token' not in account:
-        print('Unexpected response: {}'.format(json.dumps(account)))
+        logger.error('Unexpected response: {}'.format(json.dumps(account)))
         return False
     return account['id_token']
 
@@ -439,7 +440,12 @@ def aws_s3_parameters(instance):
     url = "{}/sign".format(FLOW_SERVICE_URL)
     token = get_token()
     headers = {'Authorization': 'Bearer {}'.format(token)}
-    return r.get(url, params={"instance": instance}, headers=headers).json()
+    response = r.get(url, params={"instance": instance}, headers=headers)
+    try:
+        return response.json()
+    except:
+        logger.error('Unexpected response: {}'.format(response.content))
+        return False
 
 
 def upload_parameters(rec, _uuid):
@@ -448,6 +454,8 @@ def upload_parameters(rec, _uuid):
     service = service[service['bucket'] == rec['_instanceId']]
     service = list(service['service'])[0]
     s3 = aws_s3_parameters(service)
+    if not s3:
+        return jsonify({"message": "Something went wrong"}), 500
     return jsonify({"data": data["payload"], "policy": s3})
 
 
